@@ -1,0 +1,25 @@
+version: 0.0.{build}
+
+platform: 
+  - x86
+  - x64
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration:
+  - Debug
+  - Release
+
+# scripts that run after cloning repository
+install:
+  - cmd: git submodule update --init
+
+# scripts to run before build
+before_build:
+  - cmd: nuget restore
+
+build:
+  # enable MSBuild parallel builds
+  parallel: true
+
+  # MSBuild verbosity level (quiet|minimal|normal|detailed)
+  verbosity: normal

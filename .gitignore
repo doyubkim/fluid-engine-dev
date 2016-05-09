@@ -1,0 +1,84 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.ilk
+*.pdb
+*.idb
+*.pyc
+*.VC.db
+*.VC.opendb
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# IDE-generated files
+*.xcuserstate
+*xcuserdata
+*.opensdf
+*.sconsign.dblite
+*swp
+*.suo
+*.sdf
+*.ipch
+*.vcxproj.user
+*.log
+*.tlog
+*.cache
+*.user
+*.g.h
+*.g.hpp
+*.g.cpp
+*.xbf
+*.pri
+*.png
+*.winmd
+*.appxrecipe
+project.lock.json
+src/**/bin/**/*
+src/**/Generated Files/**/*
+
+# Temp files
+_*
+obj
+
+# Doxygen files
+doc/html
+doc/latex
+
+# Output files
+*.csv
+*.log.*
+*.xml
+*.pdf
+output
+dist
+manual_tests_output
+unit_tests_output
+*.bat
+*.vol
+*.pos
+
+# NuGet
+packages
