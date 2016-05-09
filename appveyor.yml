@@ -1,6 +1,6 @@
 version: 0.0.{build}
 
-platform: 
+platform:
   - x86
   - x64
 
@@ -18,6 +18,8 @@ before_build:
   - cmd: nuget restore
 
 build:
+  project: main.sln
+
   # enable MSBuild parallel builds
   parallel: true
 
