@@ -1,4 +1,4 @@
-version: 0.0.{build}
+version: 0.1.0 ({build})
 
 platform:
   - x86
@@ -18,10 +18,15 @@ before_build:
   - cmd: nuget restore
 
 build:
-  project: main.sln
+  project: Jet.sln
 
   # enable MSBuild parallel builds
   parallel: true
 
   # MSBuild verbosity level (quiet|minimal|normal|detailed)
   verbosity: normal
+
+# scripts to run after build
+after_build:
+  # Run unit tests
+  - cmd: bin\unit_tests.bat

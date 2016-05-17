@@ -1,0 +1,2 @@
+#!/bin/bash
+scons run_perf_tests --perf_tests_args="--gtest_list_tests"

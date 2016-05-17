@@ -1,0 +1,15 @@
+#!/bin/bash
+rm -f unit_tests.xml
+filter="*"
+report="unit_tests.xml"
+if [ $# -gt 0 ]; then
+    filter=$1
+    if [ $# -lt 3 ]; then
+        report=$2
+    else
+        echo "Too many arguments - 1 or 2 expected, $# provided"
+        exit
+    fi
+fi
+scons run_unit_tests --unit_tests_args="--gtest_filter=$filter --gtest_output=xml:$report"
+

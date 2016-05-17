@@ -1,0 +1,62 @@
+// Copyright (c) 2016 Doyub Kim
+
+#ifndef INCLUDE_JET_CG_H_
+#define INCLUDE_JET_CG_H_
+
+#include <jet/blas.h>
+
+namespace jet {
+
+template <typename BlasType>
+struct NullCgPreconditioner final {
+    void build(const typename BlasType::MatrixType&) {}
+
+    void solve(
+        const typename BlasType::VectorType& b,
+        typename BlasType::VectorType* x) {
+        BlasType::set(b, x);
+    }
+};
+
+//!
+//! \brief conjugate gradient solver.
+//!
+template <typename BlasType>
+void cg(
+    const typename BlasType::MatrixType& A,
+    const typename BlasType::VectorType& b,
+    unsigned int maxNumberOfIterations,
+    double tolerance,
+    typename BlasType::VectorType* x,
+    typename BlasType::VectorType* r,
+    typename BlasType::VectorType* d,
+    typename BlasType::VectorType* q,
+    typename BlasType::VectorType* s,
+    unsigned int* lastNumberOfIterations,
+    double* lastResidualNorm);
+
+//!
+//! \brief Pre-conditioned conjugate gradient solver.
+//!
+template <
+    typename BlasType,
+    typename PrecondType>
+void pcg(
+    const typename BlasType::MatrixType& A,
+    const typename BlasType::VectorType& b,
+    unsigned int maxNumberOfIterations,
+    double tolerance,
+    PrecondType* M,
+    typename BlasType::VectorType* x,
+    typename BlasType::VectorType* r,
+    typename BlasType::VectorType* d,
+    typename BlasType::VectorType* q,
+    typename BlasType::VectorType* s,
+    unsigned int* lastNumberOfIterations,
+    double* lastResidualNorm);
+
+}  // namespace jet
+
+#include "detail/cg-inl.h"
+
+#endif  // INCLUDE_JET_CG_H_

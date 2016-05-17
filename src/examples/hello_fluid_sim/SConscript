@@ -1,0 +1,15 @@
+"""
+Copyright (c) 2016 Doyub Kim
+"""
+
+Import('env', 'os', 'utils')
+
+script_dir = os.path.dirname(File('SConscript').rfile().abspath)
+
+app_env = env.Clone()
+
+source = ['main.cpp']
+
+app = app_env.Program('hello_fluid_sim', source)
+
+Return('app_env', 'app')

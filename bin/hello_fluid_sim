@@ -1,0 +1,4 @@
+#!/bin/bash
+
+scons run_hello_fluid_sim
+

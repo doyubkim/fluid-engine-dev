@@ -1,0 +1,14 @@
+#!/bin/bash
+rm -f manual_tests.xml
+filter="*"
+report="manual_tests.xml"
+if [ $# -gt 0 ]; then
+    filter=$1
+    if [ $# -lt 3 ]; then
+        report=$2
+    else
+        echo "Too many arguments - 1 or 2 expected, $# provided"
+        exit
+    fi
+fi
+scons run_manual_tests --manual_tests_args="--gtest_filter=$filter --gtest_output=xml:$report"

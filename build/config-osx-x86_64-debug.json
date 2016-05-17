@@ -1,0 +1,9 @@
+{
+    "BUILDDIR" : "obj",
+    "CC" : "gcc",
+    "CXX" : "g++",
+    "CXXFLAGS" : ["-O0", "-std=c++11", "-Wall", "-Werror"],
+    "CPPDEFINES" : ["JET_DEBUG_MODE"],
+    "CPPPATH" : ["/usr/local/include"],
+    "LIBPATH" : ["/usr/local/lib"]
+}

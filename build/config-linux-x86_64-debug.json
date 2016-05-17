@@ -1,0 +1,10 @@
+{
+    "BUILDDIR" : "obj",
+    "CC" : "gcc",
+    "CXX" : "g++",
+    "CXXFLAGS" : ["-O0", "-std=c++11", "-Wall", "-Werror"],
+    "CPPDEFINES" : ["JET_DEBUG_MODE"],
+    "CPPPATH" : [],
+    "LINKFLAGS" : ["-pthread"],
+    "LIBPATH" : ["/usr/lib/x86_64-linux-gnu"]
+}

@@ -1,0 +1,26 @@
+"""
+Copyright (c) 2016 Doyub Kim
+"""
+
+Import('env', 'os', 'utils')
+
+script_dir = os.path.dirname(File('SConscript').rfile().abspath)
+
+def from_root_dir(path):
+    return os.path.join(*[script_dir, '../../..', path])
+
+def from_build_dir(path):
+    return os.path.join(app_env['BUILDDIR'], path)
+
+app_env = env.Clone()
+app_env.Append(CPPPATH = [from_root_dir('include'), from_root_dir('external/src/pystring'), script_dir])
+app_env.Append(LIBPATH = [from_build_dir('src/jet'), from_build_dir('external/src/obj'), from_build_dir('external/src/pystring')])
+app_env.Prepend(LIBS = ['jet', 'obj', 'pystring'])
+
+source_patterns = ['*.cpp']
+source = map(lambda x: os.path.relpath(x, script_dir), utils.get_all_files(script_dir, source_patterns))
+
+app = app_env.Program('hybrid_liquid_sim', source)
+
+Return('app_env', 'app')
+

@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4FE477D7-F336-4903-B956-CF67928DFCEE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>jet_vs2015</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>Jet</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\build\Common.props" />
+    <Import Project="..\..\build\Debug.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\build\Common.props" />
+    <Import Project="..\..\build\Release.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\build\Common.props" />
+    <Import Project="..\..\build\Debug.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\build\Common.props" />
+    <Import Project="..\..\build\Release.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>python $(SolutionDir)scripts\header_gen.py
+mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>python $(SolutionDir)scripts\header_gen.py
+mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>python $(SolutionDir)scripts\header_gen.py
+mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>python $(SolutionDir)scripts\header_gen.py
+mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
+xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\jet\advection_solver2.h" />
+    <ClInclude Include="..\..\include\jet\advection_solver3.h" />
+    <ClInclude Include="..\..\include\jet\animation.h" />
+    <ClInclude Include="..\..\include\jet\array.h" />
+    <ClInclude Include="..\..\include\jet\array1.h" />
+    <ClInclude Include="..\..\include\jet\array2.h" />
+    <ClInclude Include="..\..\include\jet\array3.h" />
+    <ClInclude Include="..\..\include\jet\array_accessor.h" />
+    <ClInclude Include="..\..\include\jet\array_accessor1.h" />
+    <ClInclude Include="..\..\include\jet\array_accessor2.h" />
+    <ClInclude Include="..\..\include\jet\array_accessor3.h" />
+    <ClInclude Include="..\..\include\jet\array_samplers.h" />
+    <ClInclude Include="..\..\include\jet\array_samplers1.h" />
+    <ClInclude Include="..\..\include\jet\array_samplers2.h" />
+    <ClInclude Include="..\..\include\jet\array_samplers3.h" />
+    <ClInclude Include="..\..\include\jet\array_utils.h" />
+    <ClInclude Include="..\..\include\jet\bcc_lattice_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\blas.h" />
+    <ClInclude Include="..\..\include\jet\bounding_box.h" />
+    <ClInclude Include="..\..\include\jet\bounding_box2.h" />
+    <ClInclude Include="..\..\include\jet\bounding_box3.h" />
+    <ClInclude Include="..\..\include\jet\box2.h" />
+    <ClInclude Include="..\..\include\jet\box3.h" />
+    <ClInclude Include="..\..\include\jet\cell_centered_scalar_grid2.h" />
+    <ClInclude Include="..\..\include\jet\cell_centered_scalar_grid3.h" />
+    <ClInclude Include="..\..\include\jet\cell_centered_vector_grid2.h" />
+    <ClInclude Include="..\..\include\jet\cell_centered_vector_grid3.h" />
+    <ClInclude Include="..\..\include\jet\cg.h" />
+    <ClInclude Include="..\..\include\jet\collider2.h" />
+    <ClInclude Include="..\..\include\jet\collider3.h" />
+    <ClInclude Include="..\..\include\jet\collider_set2.h" />
+    <ClInclude Include="..\..\include\jet\collider_set3.h" />
+    <ClInclude Include="..\..\include\jet\collocated_vector_grid2.h" />
+    <ClInclude Include="..\..\include\jet\collocated_vector_grid3.h" />
+    <ClInclude Include="..\..\include\jet\constants.h" />
+    <ClInclude Include="..\..\include\jet\constant_scalar_field2.h" />
+    <ClInclude Include="..\..\include\jet\constant_scalar_field3.h" />
+    <ClInclude Include="..\..\include\jet\constant_vector_field2.h" />
+    <ClInclude Include="..\..\include\jet\constant_vector_field3.h" />
+    <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian2.h" />
+    <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\custom_scalar_field2.h" />
+    <ClInclude Include="..\..\include\jet\custom_scalar_field3.h" />
+    <ClInclude Include="..\..\include\jet\custom_vector_field2.h" />
+    <ClInclude Include="..\..\include\jet\custom_vector_field3.h" />
+    <ClInclude Include="..\..\include\jet\cylinder3.h" />
+    <ClInclude Include="..\..\include\jet\detail\array1-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_accessor1-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_accessor2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_accessor3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_samplers1-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_samplers2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_samplers3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\array_utils-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\blas-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\bounding_box-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\bounding_box2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\bounding_box3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\cg-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\event-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\level_set_utils-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\math_utils-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\matrix-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\matrix2x2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\matrix3x3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\matrix4x4-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\parallel-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\pde-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\point-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\point2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\point3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\quaternion-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\ray2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\ray3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\samplers-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\serial-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\size-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\size2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\size3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\sph_kernels2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\sph_kernels3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\vector-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\vector2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\vector3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\vector4-inl.h" />
+    <ClInclude Include="..\..\include\jet\eno_level_set_solver2.h" />
+    <ClInclude Include="..\..\include\jet\eno_level_set_solver3.h" />
+    <ClInclude Include="..\..\include\jet\event.h" />
+    <ClInclude Include="..\..\include\jet\face_centered_grid2.h" />
+    <ClInclude Include="..\..\include\jet\face_centered_grid3.h" />
+    <ClInclude Include="..\..\include\jet\fcc_lattice_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\fdm_cg_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_cg_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_gauss_seidel_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_gauss_seidel_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_iccg_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_iccg_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_jacobi_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_jacobi_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_linear_system2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_linear_system3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_linear_system_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fdm_linear_system_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fdm_utils.h" />
+    <ClInclude Include="..\..\include\jet\field2.h" />
+    <ClInclude Include="..\..\include\jet\field3.h" />
+    <ClInclude Include="..\..\include\jet\flip_solver2.h" />
+    <ClInclude Include="..\..\include\jet\flip_solver3.h" />
+    <ClInclude Include="..\..\include\jet\fmm_level_set_solver2.h" />
+    <ClInclude Include="..\..\include\jet\fmm_level_set_solver3.h" />
+    <ClInclude Include="..\..\include\jet\geometry2.h" />
+    <ClInclude Include="..\..\include\jet\geometry3.h" />
+    <ClInclude Include="..\..\include\jet\grid2.h" />
+    <ClInclude Include="..\..\include\jet\grid3.h" />
+    <ClInclude Include="..\..\include\jet\grid_backward_euler_diffusion_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_backward_euler_diffusion_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_blocked_boundary_condition_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_blocked_boundary_condition_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_boundary_condition_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_boundary_condition_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_diffusion_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_diffusion_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_fluid_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_fluid_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_forward_euler_diffusion_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_forward_euler_diffusion_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_fractional_boundary_condition_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_fractional_boundary_condition_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_fractional_single_phase_pressure_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_fractional_single_phase_pressure_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_points_generator2.h" />
+    <ClInclude Include="..\..\include\jet\grid_points_generator3.h" />
+    <ClInclude Include="..\..\include\jet\grid_pressure_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_pressure_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_single_phase_pressure_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_single_phase_pressure_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_smoke_solver2.h" />
+    <ClInclude Include="..\..\include\jet\grid_smoke_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_system_data2.h" />
+    <ClInclude Include="..\..\include\jet\grid_system_data3.h" />
+    <ClInclude Include="..\..\include\jet\implicit_surface2.h" />
+    <ClInclude Include="..\..\include\jet\implicit_surface3.h" />
+    <ClInclude Include="..\..\include\jet\implicit_surface_set2.h" />
+    <ClInclude Include="..\..\include\jet\implicit_surface_set3.h" />
+    <ClInclude Include="..\..\include\jet\iterative_level_set_solver2.h" />
+    <ClInclude Include="..\..\include\jet\iterative_level_set_solver3.h" />
+    <ClInclude Include="..\..\include\jet\jet.h" />
+    <ClInclude Include="..\..\include\jet\level_set_liquid_solver2.h" />
+    <ClInclude Include="..\..\include\jet\level_set_liquid_solver3.h" />
+    <ClInclude Include="..\..\include\jet\level_set_solver2.h" />
+    <ClInclude Include="..\..\include\jet\level_set_solver3.h" />
+    <ClInclude Include="..\..\include\jet\level_set_utils.h" />
+    <ClInclude Include="..\..\include\jet\logging.h" />
+    <ClInclude Include="..\..\include\jet\macros.h" />
+    <ClInclude Include="..\..\include\jet\marching_cubes.h" />
+    <ClInclude Include="..\..\include\jet\math_utils.h" />
+    <ClInclude Include="..\..\include\jet\matrix.h" />
+    <ClInclude Include="..\..\include\jet\matrix2x2.h" />
+    <ClInclude Include="..\..\include\jet\matrix3x3.h" />
+    <ClInclude Include="..\..\include\jet\matrix4x4.h" />
+    <ClInclude Include="..\..\include\jet\not_implemented_exception.h" />
+    <ClInclude Include="..\..\include\jet\parallel.h" />
+    <ClInclude Include="..\..\include\jet\particle_emitter2.h" />
+    <ClInclude Include="..\..\include\jet\particle_emitter3.h" />
+    <ClInclude Include="..\..\include\jet\particle_system_data2.h" />
+    <ClInclude Include="..\..\include\jet\particle_system_data3.h" />
+    <ClInclude Include="..\..\include\jet\particle_system_solver2.h" />
+    <ClInclude Include="..\..\include\jet\particle_system_solver3.h" />
+    <ClInclude Include="..\..\include\jet\pci_sph_solver2.h" />
+    <ClInclude Include="..\..\include\jet\pci_sph_solver3.h" />
+    <ClInclude Include="..\..\include\jet\pde.h" />
+    <ClInclude Include="..\..\include\jet\physics_animation.h" />
+    <ClInclude Include="..\..\include\jet\pic_solver2.h" />
+    <ClInclude Include="..\..\include\jet\pic_solver3.h" />
+    <ClInclude Include="..\..\include\jet\plane2.h" />
+    <ClInclude Include="..\..\include\jet\plane3.h" />
+    <ClInclude Include="..\..\include\jet\point.h" />
+    <ClInclude Include="..\..\include\jet\point2.h" />
+    <ClInclude Include="..\..\include\jet\point3.h" />
+    <ClInclude Include="..\..\include\jet\points_generator2.h" />
+    <ClInclude Include="..\..\include\jet\points_generator3.h" />
+    <ClInclude Include="..\..\include\jet\point_hash_grid_searcher2.h" />
+    <ClInclude Include="..\..\include\jet\point_hash_grid_searcher3.h" />
+    <ClInclude Include="..\..\include\jet\point_neighbor_searcher2.h" />
+    <ClInclude Include="..\..\include\jet\point_neighbor_searcher3.h" />
+    <ClInclude Include="..\..\include\jet\point_parallel_hash_grid_searcher2.h" />
+    <ClInclude Include="..\..\include\jet\point_parallel_hash_grid_searcher3.h" />
+    <ClInclude Include="..\..\include\jet\point_particle_emitter2.h" />
+    <ClInclude Include="..\..\include\jet\point_particle_emitter3.h" />
+    <ClInclude Include="..\..\include\jet\point_simple_list_searcher2.h" />
+    <ClInclude Include="..\..\include\jet\point_simple_list_searcher3.h" />
+    <ClInclude Include="..\..\include\jet\quaternion.h" />
+    <ClInclude Include="..\..\include\jet\ray.h" />
+    <ClInclude Include="..\..\include\jet\ray2.h" />
+    <ClInclude Include="..\..\include\jet\ray3.h" />
+    <ClInclude Include="..\..\include\jet\rigid_body_collider2.h" />
+    <ClInclude Include="..\..\include\jet\rigid_body_collider3.h" />
+    <ClInclude Include="..\..\include\jet\samplers.h" />
+    <ClInclude Include="..\..\include\jet\scalar_field2.h" />
+    <ClInclude Include="..\..\include\jet\scalar_field3.h" />
+    <ClInclude Include="..\..\include\jet\scalar_grid2.h" />
+    <ClInclude Include="..\..\include\jet\scalar_grid3.h" />
+    <ClInclude Include="..\..\include\jet\semi_lagrangian2.h" />
+    <ClInclude Include="..\..\include\jet\semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\serial.h" />
+    <ClInclude Include="..\..\include\jet\size.h" />
+    <ClInclude Include="..\..\include\jet\size2.h" />
+    <ClInclude Include="..\..\include\jet\size3.h" />
+    <ClInclude Include="..\..\include\jet\sphere2.h" />
+    <ClInclude Include="..\..\include\jet\sphere3.h" />
+    <ClInclude Include="..\..\include\jet\sph_kernels2.h" />
+    <ClInclude Include="..\..\include\jet\sph_kernels3.h" />
+    <ClInclude Include="..\..\include\jet\sph_solver2.h" />
+    <ClInclude Include="..\..\include\jet\sph_solver3.h" />
+    <ClInclude Include="..\..\include\jet\sph_system_data2.h" />
+    <ClInclude Include="..\..\include\jet\sph_system_data3.h" />
+    <ClInclude Include="..\..\include\jet\surface2.h" />
+    <ClInclude Include="..\..\include\jet\surface3.h" />
+    <ClInclude Include="..\..\include\jet\surface_set2.h" />
+    <ClInclude Include="..\..\include\jet\surface_set3.h" />
+    <ClInclude Include="..\..\include\jet\surface_to_implicit2.h" />
+    <ClInclude Include="..\..\include\jet\surface_to_implicit3.h" />
+    <ClInclude Include="..\..\include\jet\timer.h" />
+    <ClInclude Include="..\..\include\jet\triangle3.h" />
+    <ClInclude Include="..\..\include\jet\triangle_mesh3.h" />
+    <ClInclude Include="..\..\include\jet\triangle_mesh_to_sdf.h" />
+    <ClInclude Include="..\..\include\jet\triangle_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\type_helpers.h" />
+    <ClInclude Include="..\..\include\jet\upwind_level_set_solver2.h" />
+    <ClInclude Include="..\..\include\jet\upwind_level_set_solver3.h" />
+    <ClInclude Include="..\..\include\jet\vector.h" />
+    <ClInclude Include="..\..\include\jet\vector2.h" />
+    <ClInclude Include="..\..\include\jet\vector3.h" />
+    <ClInclude Include="..\..\include\jet\vector4.h" />
+    <ClInclude Include="..\..\include\jet\vector_field2.h" />
+    <ClInclude Include="..\..\include\jet\vector_field3.h" />
+    <ClInclude Include="..\..\include\jet\vector_grid2.h" />
+    <ClInclude Include="..\..\include\jet\vector_grid3.h" />
+    <ClInclude Include="..\..\include\jet\vertex_centered_scalar_grid2.h" />
+    <ClInclude Include="..\..\include\jet\vertex_centered_scalar_grid3.h" />
+    <ClInclude Include="..\..\include\jet\vertex_centered_vector_grid2.h" />
+    <ClInclude Include="..\..\include\jet\vertex_centered_vector_grid3.h" />
+    <ClInclude Include="..\..\include\jet\volume_particle_emitter2.h" />
+    <ClInclude Include="..\..\include\jet\volume_particle_emitter3.h" />
+    <ClInclude Include="marching_cubes_table.h" />
+    <ClInclude Include="marching_squares_table.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="physics_helpers.h" />
+    <ClInclude Include="private_helpers.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="advection_solver2.cpp" />
+    <ClCompile Include="advection_solver3.cpp" />
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="bcc_lattice_points_generator.cpp" />
+    <ClCompile Include="box2.cpp" />
+    <ClCompile Include="box3.cpp" />
+    <ClCompile Include="cell_centered_scalar_grid2.cpp" />
+    <ClCompile Include="cell_centered_scalar_grid3.cpp" />
+    <ClCompile Include="cell_centered_vector_grid2.cpp" />
+    <ClCompile Include="cell_centered_vector_grid3.cpp" />
+    <ClCompile Include="collider2.cpp" />
+    <ClCompile Include="collider3.cpp" />
+    <ClCompile Include="collider_set2.cpp" />
+    <ClCompile Include="collider_set3.cpp" />
+    <ClCompile Include="collocated_vector_grid2.cpp" />
+    <ClCompile Include="collocated_vector_grid3.cpp" />
+    <ClCompile Include="constant_scalar_field2.cpp" />
+    <ClCompile Include="constant_scalar_field3.cpp" />
+    <ClCompile Include="constant_vector_field2.cpp" />
+    <ClCompile Include="constant_vector_field3.cpp" />
+    <ClCompile Include="cubic_semi_lagrangian2.cpp" />
+    <ClCompile Include="cubic_semi_lagrangian3.cpp" />
+    <ClCompile Include="custom_scalar_field2.cpp" />
+    <ClCompile Include="custom_scalar_field3.cpp" />
+    <ClCompile Include="custom_vector_field2.cpp" />
+    <ClCompile Include="custom_vector_field3.cpp" />
+    <ClCompile Include="cylinder3.cpp" />
+    <ClCompile Include="eno_level_set_solver2.cpp" />
+    <ClCompile Include="eno_level_set_solver3.cpp" />
+    <ClCompile Include="face_centered_grid2.cpp" />
+    <ClCompile Include="face_centered_grid3.cpp" />
+    <ClCompile Include="fcc_lattice_points_generator.cpp" />
+    <ClCompile Include="fdm_cg_solver2.cpp" />
+    <ClCompile Include="fdm_cg_solver3.cpp" />
+    <ClCompile Include="fdm_gauss_seidel_solver2.cpp" />
+    <ClCompile Include="fdm_gauss_seidel_solver3.cpp" />
+    <ClCompile Include="fdm_iccg_solver2.cpp" />
+    <ClCompile Include="fdm_iccg_solver3.cpp" />
+    <ClCompile Include="fdm_jacobi_solver2.cpp" />
+    <ClCompile Include="fdm_jacobi_solver3.cpp" />
+    <ClCompile Include="fdm_linear_system2.cpp" />
+    <ClCompile Include="fdm_linear_system3.cpp" />
+    <ClCompile Include="fdm_utils.cpp" />
+    <ClCompile Include="field2.cpp" />
+    <ClCompile Include="field3.cpp" />
+    <ClCompile Include="flip_solver2.cpp" />
+    <ClCompile Include="flip_solver3.cpp" />
+    <ClCompile Include="fmm_level_set_solver2.cpp" />
+    <ClCompile Include="fmm_level_set_solver3.cpp" />
+    <ClCompile Include="geometry2.cpp" />
+    <ClCompile Include="geometry3.cpp" />
+    <ClCompile Include="grid2.cpp" />
+    <ClCompile Include="grid3.cpp" />
+    <ClCompile Include="grid_backward_euler_diffusion_solver2.cpp" />
+    <ClCompile Include="grid_backward_euler_diffusion_solver3.cpp" />
+    <ClCompile Include="grid_blocked_boundary_condition_solver2.cpp" />
+    <ClCompile Include="grid_blocked_boundary_condition_solver3.cpp" />
+    <ClCompile Include="grid_boundary_condition_solver2.cpp" />
+    <ClCompile Include="grid_boundary_condition_solver3.cpp" />
+    <ClCompile Include="grid_diffusion_solver2.cpp" />
+    <ClCompile Include="grid_diffusion_solver3.cpp" />
+    <ClCompile Include="grid_fluid_solver2.cpp" />
+    <ClCompile Include="grid_fluid_solver3.cpp" />
+    <ClCompile Include="grid_forward_euler_diffusion_solver2.cpp" />
+    <ClCompile Include="grid_forward_euler_diffusion_solver3.cpp" />
+    <ClCompile Include="grid_fractional_boundary_condition2.cpp" />
+    <ClCompile Include="grid_fractional_boundary_condition3.cpp" />
+    <ClCompile Include="grid_fractional_single_phase_pressure_solver2.cpp" />
+    <ClCompile Include="grid_fractional_single_phase_pressure_solver3.cpp" />
+    <ClCompile Include="grid_points_generator2.cpp" />
+    <ClCompile Include="grid_points_generator3.cpp" />
+    <ClCompile Include="grid_pressure_solver2.cpp" />
+    <ClCompile Include="grid_pressure_solver3.cpp" />
+    <ClCompile Include="grid_single_phase_pressure_solver2.cpp" />
+    <ClCompile Include="grid_single_phase_pressure_solver3.cpp" />
+    <ClCompile Include="grid_smoke_solver2.cpp" />
+    <ClCompile Include="grid_smoke_solver3.cpp" />
+    <ClCompile Include="grid_system_data2.cpp" />
+    <ClCompile Include="grid_system_data3.cpp" />
+    <ClCompile Include="implicit_surface2.cpp" />
+    <ClCompile Include="implicit_surface3.cpp" />
+    <ClCompile Include="implicit_surface_set2.cpp" />
+    <ClCompile Include="implicit_surface_set3.cpp" />
+    <ClCompile Include="iterative_level_set_solver2.cpp" />
+    <ClCompile Include="iterative_level_set_solver3.cpp" />
+    <ClCompile Include="level_set_liquid_solver2.cpp" />
+    <ClCompile Include="level_set_liquid_solver3.cpp" />
+    <ClCompile Include="level_set_solver2.cpp" />
+    <ClCompile Include="level_set_solver3.cpp" />
+    <ClCompile Include="logging.cpp" />
+    <ClCompile Include="marching_cubes.cpp" />
+    <ClCompile Include="not_implemented_exception.cpp" />
+    <ClCompile Include="particle_emitter2.cpp" />
+    <ClCompile Include="particle_emitter3.cpp" />
+    <ClCompile Include="particle_system_data2.cpp" />
+    <ClCompile Include="particle_system_data3.cpp" />
+    <ClCompile Include="particle_system_solver2.cpp" />
+    <ClCompile Include="particle_system_solver3.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="pci_sph_solver2.cpp" />
+    <ClCompile Include="pci_sph_solver3.cpp" />
+    <ClCompile Include="physics_animation.cpp" />
+    <ClCompile Include="pic_solver2.cpp" />
+    <ClCompile Include="pic_solver3.cpp" />
+    <ClCompile Include="plane2.cpp" />
+    <ClCompile Include="plane3.cpp" />
+    <ClCompile Include="points_generator2.cpp" />
+    <ClCompile Include="points_generator3.cpp" />
+    <ClCompile Include="point_hash_grid_searcher2.cpp" />
+    <ClCompile Include="point_hash_grid_searcher3.cpp" />
+    <ClCompile Include="point_neighbor_searcher2.cpp" />
+    <ClCompile Include="point_neighbor_searcher3.cpp" />
+    <ClCompile Include="point_parallel_hash_grid_searcher2.cpp" />
+    <ClCompile Include="point_parallel_hash_grid_searcher3.cpp" />
+    <ClCompile Include="point_particle_emitter2.cpp" />
+    <ClCompile Include="point_particle_emitter3.cpp" />
+    <ClCompile Include="point_simple_list_searcher2.cpp" />
+    <ClCompile Include="point_simple_list_searcher3.cpp" />
+    <ClCompile Include="rigid_body_collider2.cpp" />
+    <ClCompile Include="rigid_body_collider3.cpp" />
+    <ClCompile Include="scalar_field2.cpp" />
+    <ClCompile Include="scalar_field3.cpp" />
+    <ClCompile Include="scalar_grid2.cpp" />
+    <ClCompile Include="scalar_grid3.cpp" />
+    <ClCompile Include="semi_lagrangian2.cpp" />
+    <ClCompile Include="semi_lagrangian3.cpp" />
+    <ClCompile Include="sphere2.cpp" />
+    <ClCompile Include="sphere3.cpp" />
+    <ClCompile Include="sph_solver2.cpp" />
+    <ClCompile Include="sph_solver3.cpp" />
+    <ClCompile Include="sph_system_data2.cpp" />
+    <ClCompile Include="sph_system_data3.cpp" />
+    <ClCompile Include="surface2.cpp" />
+    <ClCompile Include="surface3.cpp" />
+    <ClCompile Include="surface_set2.cpp" />
+    <ClCompile Include="surface_set3.cpp" />
+    <ClCompile Include="surface_to_implicit2.cpp" />
+    <ClCompile Include="surface_to_implicit3.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="triangle3.cpp" />
+    <ClCompile Include="triangle_mesh3.cpp" />
+    <ClCompile Include="triangle_mesh_to_sdf.cpp" />
+    <ClCompile Include="triangle_points_generator.cpp" />
+    <ClCompile Include="upwind_level_set_solver2.cpp" />
+    <ClCompile Include="upwind_level_set_solver3.cpp" />
+    <ClCompile Include="vector_field2.cpp" />
+    <ClCompile Include="vector_field3.cpp" />
+    <ClCompile Include="vector_grid2.cpp" />
+    <ClCompile Include="vector_grid3.cpp" />
+    <ClCompile Include="vertex_centered_scalar_grid2.cpp" />
+    <ClCompile Include="vertex_centered_scalar_grid3.cpp" />
+    <ClCompile Include="vertex_centered_vector_grid2.cpp" />
+    <ClCompile Include="vertex_centered_vector_grid3.cpp" />
+    <ClCompile Include="volume_particle_emitter2.cpp" />
+    <ClCompile Include="volume_particle_emitter3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\scripts\header_gen.py" />
+    <None Include="SConscript" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
