@@ -1,0 +1,4 @@
+#!/bin/bash
+arg="$@"
+scons run_particles2obj --particles2obj_args="$arg"
+

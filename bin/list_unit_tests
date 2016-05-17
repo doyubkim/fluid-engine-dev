@@ -1,0 +1,2 @@
+#!/bin/bash
+scons run_unit_tests --unit_tests_args="--gtest_list_tests"

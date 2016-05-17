@@ -1,0 +1,4 @@
+#!/bin/bash
+arg="$@"
+scons run_smoke_sim --smoke_sim_args="$arg"
+

@@ -1,0 +1,17 @@
+"""
+Copyright (c) 2016 Doyub Kim
+"""
+
+Import('env', 'os', 'utils')
+
+script_dir = os.path.dirname(File('SConscript').rfile().abspath)
+
+lib_env = env.Clone()
+lib_env.Append(CPPPATH = [os.path.join(script_dir, 'googletest/googletest/include'), os.path.join(script_dir, 'googletest/googletest'), script_dir])
+if utils.is_unix():
+    lib_env.Append(CXXFLAGS = ['-pthread'])
+
+lib = lib_env.Library('gtest', os.path.join(script_dir, 'googletest/googletest/src/gtest-all.cc'))
+
+Return('lib_env', 'lib')
+

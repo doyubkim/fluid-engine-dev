@@ -1,0 +1,199 @@
+// Copyright (c) 2016 Doyub Kim
+
+#ifndef INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_
+#define INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_
+
+#include <algorithm>
+#include <limits>
+
+namespace jet {
+
+template <typename T>
+BoundingBox<T, 2>::BoundingBox() {
+    reset();
+}
+
+template <typename T>
+BoundingBox<T, 2>::BoundingBox(
+    const Vector2<T>& point1, const Vector2<T>& point2) {
+    lowerCorner.x = std::min(point1.x, point2.x);
+    lowerCorner.y = std::min(point1.y, point2.y);
+    upperCorner.x = std::max(point1.x, point2.x);
+    upperCorner.y = std::max(point1.y, point2.y);
+}
+
+template <typename T>
+BoundingBox<T, 2>::BoundingBox(const BoundingBox& other) :
+    lowerCorner(other.lowerCorner),
+    upperCorner(other.upperCorner) {
+}
+
+template <typename T>
+T BoundingBox<T, 2>::width() const {
+    return upperCorner.x - lowerCorner.x;
+}
+
+template <typename T>
+T BoundingBox<T, 2>::height() const {
+    return upperCorner.y - lowerCorner.y;
+}
+
+template <typename T>
+T BoundingBox<T, 2>::length(std::size_t axis) {
+    return upperCorner[axis] - lowerCorner[axis];
+}
+
+template <typename T>
+bool BoundingBox<T, 2>::overlaps(const BoundingBox& other) const {
+    if (upperCorner.x < other.lowerCorner.x
+        || lowerCorner.x > other.upperCorner.x) {
+        return false;
+    }
+
+    if (upperCorner.y < other.lowerCorner.y
+        || lowerCorner.y > other.upperCorner.y) {
+        return false;
+    }
+
+    return true;
+}
+
+template <typename T>
+bool BoundingBox<T, 2>::contains(const Vector2<T>& point) const {
+    if (upperCorner.x < point.x || lowerCorner.x > point.x) {
+        return false;
+    }
+
+    if (upperCorner.y < point.y || lowerCorner.y > point.y) {
+        return false;
+    }
+
+    return true;
+}
+
+template <typename T>
+bool BoundingBox<T, 2>::intersects(const Ray2<T>& ray) const {
+    T tMin = 0;
+    T tMax = std::numeric_limits<T>::max();
+
+    const Vector2<T>& rayInvDir = ray.direction.rdiv(1);
+
+    for (int i = 0; i < 2; ++i) {
+        T tNear = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
+        T tFar = (upperCorner[i] - ray.origin[i]) * rayInvDir[i];
+
+        if (tNear > tFar) {
+            std::swap(tNear, tFar);
+        }
+
+        tMin = std::max(tNear, tMin);
+        tMax = std::min(tFar, tMax);
+
+        if (tMin > tMax) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T>
+void BoundingBox<T, 2>::getClosestIntersection(
+    const Ray2<T>& ray,
+    BoundingBoxRayIntersection2<T>* intersection) const {
+    T tMin = 0;
+    T tMax = std::numeric_limits<T>::max();
+
+    const Vector2<T>& rayInvDir = ray.direction.rdiv(1);
+
+    for (int i = 0; i < 2; ++i) {
+        T tNear = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
+        T tFar = (upperCorner[i] - ray.origin[i]) * rayInvDir[i];
+
+        if (tNear > tFar) {
+            std::swap(tNear, tFar);
+        }
+
+        tMin = std::max(tNear, tMin);
+        tMax = std::min(tFar, tMax);
+
+        if (tMin > tMax) {
+            intersection->isIntersecting = false;
+            return;
+        }
+    }
+
+    intersection->isIntersecting = true;
+    if (contains(ray.origin)) {
+        intersection->tNear = tMax;
+        intersection->tFar = std::numeric_limits<T>::max();
+    } else {
+        intersection->tNear = tMin;
+        intersection->tFar = tMax;
+    }
+}
+
+template <typename T>
+Vector2<T> BoundingBox<T, 2>::midPoint() const {
+    return (upperCorner + lowerCorner) / static_cast<T>(2);
+}
+
+template <typename T>
+T BoundingBox<T, 2>::diagonalLength() const {
+    return (upperCorner - lowerCorner).length();
+}
+
+template <typename T>
+T BoundingBox<T, 2>::diagonalLengthSquared() const {
+    return (upperCorner - lowerCorner).lengthSquared();
+}
+
+template <typename T>
+void BoundingBox<T, 2>::reset() {
+    lowerCorner.x = std::numeric_limits<T>::max();
+    lowerCorner.y = std::numeric_limits<T>::max();
+    upperCorner.x = -std::numeric_limits<T>::max();
+    upperCorner.y = -std::numeric_limits<T>::max();
+}
+
+template <typename T>
+void BoundingBox<T, 2>::merge(const Vector2<T>& point) {
+    lowerCorner.x = std::min(lowerCorner.x, point.x);
+    lowerCorner.y = std::min(lowerCorner.y, point.y);
+    upperCorner.x = std::max(upperCorner.x, point.x);
+    upperCorner.y = std::max(upperCorner.y, point.y);
+}
+
+template <typename T>
+void BoundingBox<T, 2>::merge(const BoundingBox& other) {
+    lowerCorner.x = std::min(lowerCorner.x, other.lowerCorner.x);
+    lowerCorner.y = std::min(lowerCorner.y, other.lowerCorner.y);
+    upperCorner.x = std::max(upperCorner.x, other.upperCorner.x);
+    upperCorner.y = std::max(upperCorner.y, other.upperCorner.y);
+}
+
+template <typename T>
+void BoundingBox<T, 2>::expand(T delta) {
+    lowerCorner -= delta;
+    upperCorner += delta;
+}
+
+template <typename T>
+Vector2<T> BoundingBox<T, 2>::corner(size_t idx) const {
+    Vector2<T> result;
+    if (idx & 1) {
+        result.x = upperCorner.x;
+    } else {
+        result.x = lowerCorner.x;
+    }
+    if (idx & 2) {
+        result.y = upperCorner.y;
+    } else {
+        result.y = lowerCorner.y;
+    }
+    return result;
+}
+
+}  // namespace jet
+
+#endif  // INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_

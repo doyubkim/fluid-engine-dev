@@ -1,0 +1,4 @@
+#!/bin/bash
+arg="$@"
+scons run_sph_sim --sph_sim_args="$arg"
+

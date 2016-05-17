@@ -1,0 +1,4 @@
+#!/bin/bash
+arg="$@"
+scons run_level_set_liquid_sim --level_set_liquid_sim_args="$arg"
+

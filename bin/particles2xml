@@ -1,0 +1,3 @@
+#!/bin/bash
+arg="$@"
+scons run_particles2xml --particles2xml_args="$arg"

@@ -1,0 +1,2 @@
+#!/bin/bash
+scons run_manual_tests --manual_tests_args="--gtest_list_tests"
