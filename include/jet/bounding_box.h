@@ -12,7 +12,7 @@ namespace jet {
 //! \tparam T - Real number type.
 //! \tparam N - Dimension.
 //!
-template <typename T, std::size_t N>
+template <typename T, size_t N>
 class BoundingBox {
  public:
     static_assert(

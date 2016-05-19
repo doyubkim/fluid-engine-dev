@@ -102,9 +102,9 @@ class Quaternion {
 
 
     // Getter operators
-    T& operator[](std::size_t i);
+    T& operator[](size_t i);
 
-    const T& operator[](std::size_t i) const;
+    const T& operator[](size_t i) const;
 
     bool operator==(const Quaternion& other) const;
 

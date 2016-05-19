@@ -203,13 +203,13 @@ void Vector<T, 2>::idiv(const Vector& v) {
 
 // Basic getters
 template <typename T>
-const T& Vector<T, 2>::at(std::size_t i) const {
+const T& Vector<T, 2>::at(size_t i) const {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }
 
 template <typename T>
-T& Vector<T, 2>::at(std::size_t i) {
+T& Vector<T, 2>::at(size_t i) {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }
@@ -245,12 +245,12 @@ T Vector<T, 2>::absmax() const {
 }
 
 template <typename T>
-std::size_t Vector<T, 2>::dominantAxis() const {
+size_t Vector<T, 2>::dominantAxis() const {
     return (std::fabs(x) > std::fabs(y)) ? 0 : 1;
 }
 
 template <typename T>
-std::size_t Vector<T, 2>::subminantAxis() const {
+size_t Vector<T, 2>::subminantAxis() const {
     return (std::fabs(x) < std::fabs(y)) ? 0 : 1;
 }
 
@@ -317,13 +317,13 @@ bool Vector<T, 2>::isSimilar(const Vector& other, T epsilon) const {
 
 // Operators
 template <typename T>
-T& Vector<T, 2>::operator[](std::size_t i) {
+T& Vector<T, 2>::operator[](size_t i) {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }
 
 template <typename T>
-const T& Vector<T, 2>::operator[](std::size_t i) const {
+const T& Vector<T, 2>::operator[](size_t i) const {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }

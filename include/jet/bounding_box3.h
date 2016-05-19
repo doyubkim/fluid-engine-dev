@@ -48,7 +48,7 @@ class BoundingBox<T, 3> {
     T depth() const;
 
     //! Returns length of the box in given axis.
-    T length(std::size_t axis);
+    T length(size_t axis);
 
     //! Returns true of this box and other box overlaps.
     bool overlaps(const BoundingBox& other) const;

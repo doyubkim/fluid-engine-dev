@@ -76,7 +76,7 @@ class Matrix<T, 4, 4> {
 
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(const T* arr, std::size_t n);
+    explicit Matrix(const T* arr, size_t n);
 
 
     // Basic setters
@@ -111,7 +111,7 @@ class Matrix<T, 4, 4> {
 
     //! Copies from input array.
     //! \warning Ordering of the input elements is column-major.
-    void set(const T* arr, std::size_t n);
+    void set(const T* arr, size_t n);
 
     //! Sets diagonal elements with input scalar.
     void setDiagonal(T s);
@@ -120,10 +120,10 @@ class Matrix<T, 4, 4> {
     void setOffDiagonal(T s);
 
     //! Sets i-th row with input vector.
-    void setRow(std::size_t i, const Vector4<T>& row);
+    void setRow(size_t i, const Vector4<T>& row);
 
     //! Sets i-th column with input vector.
-    void setColumn(std::size_t i, const Vector4<T>& col);
+    void setColumn(size_t i, const Vector4<T>& col);
 
 
     // Basic getters
@@ -138,10 +138,10 @@ class Matrix<T, 4, 4> {
     bool isSquare() const;
 
     //! Returns number of rows of this matrix.
-    std::size_t rows() const;
+    size_t rows() const;
 
     //! Returns number of columns of this matrix.
-    std::size_t cols() const;
+    size_t cols() const;
 
     //! Returns data pointer of this matrix.
     T* data();
@@ -326,16 +326,16 @@ class Matrix<T, 4, 4> {
 
     // Getter operators
     //! Returns reference of i-th element.
-    T& operator[](std::size_t i);
+    T& operator[](size_t i);
 
     //! Returns constant reference of i-th element.
-    const T& operator[](std::size_t i) const;
+    const T& operator[](size_t i) const;
 
     //! Returns reference of (i,j) element.
-    T& operator()(std::size_t i, std::size_t j);
+    T& operator()(size_t i, size_t j);
 
     //! Returns constant reference of (i,j) element.
-    const T& operator()(std::size_t i, std::size_t j) const;
+    const T& operator()(size_t i, size_t j) const;
 
     //! Returns true if is equal to m.
     bool operator==(const Matrix& m) const;

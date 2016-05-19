@@ -119,9 +119,9 @@ Matrix<T, 4, 4>::Matrix(const Matrix& m) {
 }
 
 template <typename T>
-Matrix<T, 4, 4>::Matrix(const T* arr, std::size_t n) {
+Matrix<T, 4, 4>::Matrix(const T* arr, size_t n) {
     memset(elements, 0, sizeof(T) * 16);
-    memcpy(elements, arr, sizeof(T)*std::min(n, std::size_t(16)));
+    memcpy(elements, arr, sizeof(T)*std::min(n, size_t(16)));
 }
 
 
@@ -182,8 +182,8 @@ void Matrix<T, 4, 4>::set(const Matrix& m) {
 }
 
 template <typename T>
-void Matrix<T, 4, 4>::set(const T* arr, std::size_t n) {
-    memcpy(elements, arr, sizeof(T)*std::min(n, std::size_t(16)));
+void Matrix<T, 4, 4>::set(const T* arr, size_t n) {
+    memcpy(elements, arr, sizeof(T)*std::min(n, size_t(16)));
 }
 
 template <typename T>
@@ -199,7 +199,7 @@ void Matrix<T, 4, 4>::setOffDiagonal(T s) {
 }
 
 template <typename T>
-void Matrix<T, 4, 4>::setRow(std::size_t i, const Vector<T, 4>& row) {
+void Matrix<T, 4, 4>::setRow(size_t i, const Vector<T, 4>& row) {
     elements[i] = row.x;
     elements[i + 4] = row.y;
     elements[i + 8] = row.z;
@@ -207,7 +207,7 @@ void Matrix<T, 4, 4>::setRow(std::size_t i, const Vector<T, 4>& row) {
 }
 
 template <typename T>
-void Matrix<T, 4, 4>::setColumn(std::size_t j, const Vector<T, 4>& col) {
+void Matrix<T, 4, 4>::setColumn(size_t j, const Vector<T, 4>& col) {
     elements[4 * j] = col.x;
     elements[4 * j + 1] = col.y;
     elements[4 * j + 2] = col.z;
@@ -243,12 +243,12 @@ bool Matrix<T, 4, 4>::isSquare() const {
 }
 
 template <typename T>
-std::size_t Matrix<T, 4, 4>::rows() const {
+size_t Matrix<T, 4, 4>::rows() const {
     return 4;
 }
 
 template <typename T>
-std::size_t Matrix<T, 4, 4>::cols() const {
+size_t Matrix<T, 4, 4>::cols() const {
     return 4;
 }
 
@@ -794,22 +794,22 @@ bool Matrix<T, 4, 4>::operator!=(const Matrix& m) const {
 
 // MARK: Getter operators
 template <typename T>
-T& Matrix<T, 4, 4>::operator[](std::size_t i) {
+T& Matrix<T, 4, 4>::operator[](size_t i) {
     return elements[i];
 }
 
 template <typename T>
-const T& Matrix<T, 4, 4>::operator[](std::size_t i) const {
+const T& Matrix<T, 4, 4>::operator[](size_t i) const {
     return elements[i];
 }
 
 template <typename T>
-T& Matrix<T, 4, 4>::operator()(std::size_t i, std::size_t j) {
+T& Matrix<T, 4, 4>::operator()(size_t i, size_t j) {
     return elements[4 * j + i];
 }
 
 template <typename T>
-const T& Matrix<T, 4, 4>::operator()(std::size_t i, std::size_t j) const {
+const T& Matrix<T, 4, 4>::operator()(size_t i, size_t j) const {
     return elements[4 * j + i];
 }
 

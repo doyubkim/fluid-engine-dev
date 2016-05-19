@@ -75,7 +75,7 @@ inline void createDirectory(const std::string& dirname) {
         template <typename T> \
         void saveData( \
             const ConstArrayAccessor1<T>& data, \
-            std::size_t size, const std::string& name) { \
+            size_t size, const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[1] = { \
                 static_cast<unsigned int>(size) \
