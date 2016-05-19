@@ -138,31 +138,25 @@ void Array<T, 1>::append(const Array& other) {
 template <typename T>
 template <typename Callback>
 void Array<T, 1>::forEach(Callback func) {
-    for (size_t i = 0; i < size(); ++i) {
-        func(at(i));
-    }
+    accessor().forEach(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 1>::forEachIndex(Callback func) const {
-    for (size_t i = 0; i < size(); ++i) {
-        func(i);
-    }
+    constAccessor().forEachIndex(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 1>::parallelForEach(Callback func) {
-    parallelFor(kZeroSize, size(), [&](size_t i) {
-        func(at(i));
-    });
+    accessor().parallelForEach(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 1>::parallelForEachIndex(Callback func) const {
-    parallelFor(kZeroSize, size(), func);
+    constAccessor().parallelForEachIndex(func);
 }
 
 template <typename T>
