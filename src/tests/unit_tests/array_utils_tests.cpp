@@ -10,6 +10,22 @@
 
 using namespace jet;
 
+TEST(ArrayUtils, SetRange1) {
+    Array1<double> array0(5);
+
+    setRange1(5, 3.4, &array0);
+
+    for (size_t i = 0; i < 5; ++i) {
+        EXPECT_EQ(3.4, array0[i]);
+    }
+
+    setRange1(2, 4, 4.2, &array0);
+
+    for (size_t i = 2; i < 4; ++i) {
+        EXPECT_EQ(4.2, array0[i]);
+    }
+}
+
 TEST(ArrayUtils, CopyRange1) {
     Array1<double> array0({1.0, 2.0, 3.0, 4.0, 5.0});
     Array1<double> array1(5);
