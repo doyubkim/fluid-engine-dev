@@ -211,41 +211,25 @@ void Array<T, 3>::swap(Array& other) {
 template <typename T>
 template <typename Callback>
 void Array<T, 3>::forEach(Callback func) {
-    for (size_t k = 0; k < _size.z; ++k) {
-        for (size_t j = 0; j < _size.y; ++j) {
-            for (size_t i = 0; i < _size.x; ++i) {
-                func(at(i, j, k));
-            }
-        }
-    }
+    accessor().forEach(func);
 }
 
 template <typename T>
-void Array<T, 3>::forEachIndex(
-    const std::function<void(size_t, size_t, size_t)>& func) const {
-    for (size_t k = 0; k < _size.z; ++k) {
-        for (size_t j = 0; j < _size.y; ++j) {
-            for (size_t i = 0; i < _size.x; ++i) {
-                func(i, j, k);
-            }
-        }
-    }
+template <typename Callback>
+void Array<T, 3>::forEachIndex(Callback func) const {
+    constAccessor().forEachIndex(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 3>::parallelForEach(Callback func) {
-    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z,
-        [&](size_t i, size_t j, size_t k) {
-            func(at(i, j, k));
-        });
+    accessor().parallelForEach(func);
 }
 
 template <typename T>
-void Array<T, 3>::parallelForEachIndex(
-    const std::function<void(size_t, size_t, size_t)>& func) const {
-    parallelFor(
-        kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z, func);
+template <typename Callback>
+void Array<T, 3>::parallelForEachIndex(Callback func) const {
+    constAccessor().parallelForEachIndex(func);
 }
 
 template <typename T>

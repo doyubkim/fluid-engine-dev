@@ -3,6 +3,8 @@
 #ifndef INCLUDE_JET_DETAIL_ARRAY_ACCESSOR3_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY_ACCESSOR3_INL_H_
 
+#include <jet/macros.h>
+#include <jet/parallel.h>
 #include <algorithm>
 
 namespace jet {
@@ -67,6 +69,26 @@ const T& ArrayAccessor<T, 3>::at(const Point3UI& pt) const {
 }
 
 template <typename T>
+T* const ArrayAccessor<T, 3>::begin() const {
+    return _data;
+}
+
+template <typename T>
+T* const ArrayAccessor<T, 3>::end() const {
+    return _data + _size.x * _size.y * _size.z;
+}
+
+template <typename T>
+T* ArrayAccessor<T, 3>::begin() {
+    return _data;
+}
+
+template <typename T>
+T* ArrayAccessor<T, 3>::end() {
+    return _data + _size.x * _size.y * _size.z;
+}
+
+template <typename T>
 T& ArrayAccessor<T, 3>::operator()(const Point3UI &pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
@@ -116,14 +138,49 @@ T* const ArrayAccessor<T, 3>::data() const {
 }
 
 template <typename T>
-void ArrayAccessor<T, 3>::setData(const T* data) {
-    _data = data;
-}
-
-template <typename T>
 void ArrayAccessor<T, 3>::swap(ArrayAccessor& other) {
     std::swap(other._data, _data);
     std::swap(other._size, _size);
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 3>::forEach(Callback func) {
+    for (size_t k = 0; k < _size.z; ++k) {
+        for (size_t j = 0; j < _size.y; ++j) {
+            for (size_t i = 0; i < _size.x; ++i) {
+                func(at(i, j, k));
+            }
+        }
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 3>::forEachIndex(Callback func) const {
+    for (size_t k = 0; k < _size.z; ++k) {
+        for (size_t j = 0; j < _size.y; ++j) {
+            for (size_t i = 0; i < _size.x; ++i) {
+                func(i, j, k);
+            }
+        }
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 3>::parallelForEach(Callback func) {
+    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z,
+        [&](size_t i, size_t j, size_t k) {
+            func(at(i, j, k));
+        });
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 3>::parallelForEachIndex(Callback func) const {
+    parallelFor(
+        kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z, func);
 }
 
 template <typename T>
@@ -216,6 +273,16 @@ const T& ConstArrayAccessor<T, 3>::at(size_t i, size_t j, size_t k) const {
 }
 
 template <typename T>
+const T* const ConstArrayAccessor<T, 3>::begin() const {
+    return _data;
+}
+
+template <typename T>
+const T* const ConstArrayAccessor<T, 3>::end() const {
+    return _data + _size.x * _size.y * _size.z;
+}
+
+template <typename T>
 Size3 ConstArrayAccessor<T, 3>::size() const {
     return _size;
 }
@@ -238,6 +305,37 @@ size_t ConstArrayAccessor<T, 3>::depth() const {
 template <typename T>
 const T* const ConstArrayAccessor<T, 3>::data() const {
     return _data;
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 3>::forEach(Callback func) const {
+    for (size_t k = 0; k < _size.z; ++k) {
+        for (size_t j = 0; j < _size.y; ++j) {
+            for (size_t i = 0; i < _size.x; ++i) {
+                func(at(i, j, k));
+            }
+        }
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 3>::forEachIndex(Callback func) const {
+    for (size_t k = 0; k < _size.z; ++k) {
+        for (size_t j = 0; j < _size.y; ++j) {
+            for (size_t i = 0; i < _size.x; ++i) {
+                func(i, j, k);
+            }
+        }
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 3>::parallelForEachIndex(Callback func) const {
+    parallelFor(
+        kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z, func);
 }
 
 template <typename T>

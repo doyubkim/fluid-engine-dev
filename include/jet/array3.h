@@ -249,12 +249,12 @@ class Array<T, 3> final {
     //! \code{.cpp}
     //! Array<int, 3> array(10, 4);
     //! array.forEachIndex([&](size_t i, size_t j, size_t k) {
-    //!     array[i] = 4.f * i + 7.f * j + 3.f * k + 1.5f;
+    //!     array(i, j, k) = 4.f * i + 7.f * j + 3.f * k + 1.5f;
     //! });
     //! \endcode
     //!
-    void forEachIndex(
-        const std::function<void(size_t, size_t, size_t)>& func) const;
+    template <typename Callback>
+    void forEachIndex(Callback func) const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index in
@@ -290,13 +290,13 @@ class Array<T, 3> final {
     //!
     //! \code{.cpp}
     //! Array<int, 3> array(100, 200, 150, 4);
-    //! array.parallelForEachIndex([](size_t i, size_t j, size_t k) {
+    //! array.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
     //!     array(i, j, k) *= 2;
     //! });
     //! \endcode
     //!
-    void parallelForEachIndex(
-        const std::function<void(size_t, size_t, size_t)>& func) const;
+    template <typename Callback>
+    void parallelForEachIndex(Callback func) const;
 
     //!
     //! \brief Serializes the content of the array to the output stream \p strm.

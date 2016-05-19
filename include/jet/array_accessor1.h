@@ -14,6 +14,8 @@ namespace jet {
 //! data read/write functions, but does not handle memory management. Thus, it
 //! is more like a random access iterator, but with multi-dimension support.
 //!
+//! \see Array1<T, 2>
+//!
 template <typename T>
 class ArrayAccessor<T, 1> final {
  public:
@@ -44,10 +46,10 @@ class ArrayAccessor<T, 1> final {
     //! Returns the end iterator of the array.
     T* const end() const;
 
-    //! Returns the begin const iterator of the array.
+    //! Returns the begin iterator of the array.
     T* begin();
 
-    //! Returns the end const iterator of the array.
+    //! Returns the end iterator of the array.
     T* end();
 
     //! Returns size of the array.
@@ -68,9 +70,9 @@ class ArrayAccessor<T, 1> final {
     //! the array. Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(10, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.forEach([](int elem) {
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ArrayAccessor<int, 1> acc(6, data);
+    //! acc.forEach([](int elem) {
     //!     printf("%d\n", elem);
     //! });
     //! \endcode
@@ -87,10 +89,10 @@ class ArrayAccessor<T, 1> final {
     //! the size of the array. Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(10, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.forEachIndex([&](size_t i) {
-    //!     array[i] = 4.f * i + 1.5f;
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ArrayAccessor<int, 1> acc(6, data);
+    //! acc.forEachIndex([&](size_t i) {
+    //!     acc[i] = 4.f * i + 1.5f;
     //! });
     //! \endcode
     //!
@@ -108,9 +110,9 @@ class ArrayAccessor<T, 1> final {
     //! Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(1000, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.parallelForEach([](int& elem) {
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ArrayAccessor<int, 1> acc(6, data);
+    //! acc.parallelForEach([](int& elem) {
     //!     elem *= 2;
     //! });
     //! \endcode
@@ -132,10 +134,10 @@ class ArrayAccessor<T, 1> final {
     //! Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(1000, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.parallelForEachIndex([](size_t i) {
-    //!     array[i] *= 2;
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ArrayAccessor<int, 1> acc(6, data);
+    //! acc.parallelForEachIndex([](size_t i) {
+    //!     acc[i] *= 2;
     //! });
     //! \endcode
     //!
@@ -160,7 +162,7 @@ template <typename T> using ArrayAccessor1 = ArrayAccessor<T, 1>;
 
 
 //!
-//! \brief 1-D array read-only accessor class.
+//! \brief 1-D read-only array accessor class.
 //!
 //! This class represents 1-D read-only array accessor. Array accessor provides
 //! array-like data read/write functions, but does not handle memory management.
@@ -206,9 +208,9 @@ class ConstArrayAccessor<T, 1> {
     //! the array. Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(10, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.forEach([](int elem) {
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ConstArrayAccessor<int, 1> acc(6, data);
+    //! acc.forEach([](int elem) {
     //!     printf("%d\n", elem);
     //! });
     //! \endcode
@@ -225,10 +227,10 @@ class ConstArrayAccessor<T, 1> {
     //! the size of the array. Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(10, 4);
-    //! auto accessor = array.accessor();
-    //! accessor.forEachIndex([&](size_t i) {
-    //!     array[i] = accessor[i] * accessor[i];
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ConstArrayAccessor<int, 1> acc(6, data);
+    //! acc.forEachIndex([&](size_t i) {
+    //!     data[i] = acc[i] * acc[i];
     //! });
     //! \endcode
     //!
@@ -246,10 +248,10 @@ class ConstArrayAccessor<T, 1> {
     //! Below is the sample usage:
     //!
     //! \code{.cpp}
-    //! Array<int, 1> array(1000, 4);
-    //! auto accessor = array.accessor();
+    //! int data = {1, 2, 3, 4, 5, 6};
+    //! ConstArrayAccessor<int, 1> acc(6, data);
     //! accessor.parallelForEachIndex([](size_t i) {
-    //!     array[i] = accessor[i] * accessor[i];
+    //!     data[i] = acc[i] * acc[i];
     //! });
     //! \endcode
     //!

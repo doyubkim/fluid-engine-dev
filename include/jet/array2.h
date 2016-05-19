@@ -226,7 +226,7 @@ class Array<T, 2> final {
     //! \code{.cpp}
     //! Array<int, 2> array(10, 20, 4);
     //! array.forEachIndex([&](size_t i, size_t j) {
-    //!     array[i] = 4.f * i + 7.f * j + 1.5f;
+    //!     array(i, j) = 4.f * i + 7.f * j + 1.5f;
     //! });
     //! \endcode
     //!
@@ -267,7 +267,7 @@ class Array<T, 2> final {
     //!
     //! \code{.cpp}
     //! Array<int, 2> array(100, 200, 4);
-    //! array.parallelForEachIndex([](size_t i, size_t j) {
+    //! array.parallelForEachIndex([&](size_t i, size_t j) {
     //!     array(i, j) *= 2;
     //! });
     //! \endcode
