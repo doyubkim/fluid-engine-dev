@@ -1,11 +1,11 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/grid_points_generator3.h>
+#include <jet/grid_point_generator3.h>
 
 namespace jet {
 
-void GridPointsGenerator3::forEachPoint(
+void GridPointGenerator3::forEachPoint(
     const BoundingBox3D& boundingBox,
     double spacing,
     const std::function<bool(const Vector3D&)>& callback) const {

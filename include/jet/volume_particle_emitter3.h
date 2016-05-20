@@ -6,7 +6,7 @@
 #include <jet/bounding_box3.h>
 #include <jet/implicit_surface3.h>
 #include <jet/particle_emitter3.h>
-#include <jet/points_generator3.h>
+#include <jet/point_generator3.h>
 #include <limits>
 #include <memory>
 #include <random>
@@ -27,7 +27,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
         const Frame& frame,
         const ParticleSystemData3Ptr& particles) override;
 
-    void setPointGenerator(const PointsGenerator3Ptr& newPointsGen);
+    void setPointGenerator(const PointGenerator3Ptr& newPointsGen);
 
     //! Returns jitter amount [0, 1].
     double jitter() const;
@@ -55,7 +55,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     BoundingBox3D _bounds;
     double _spacing;
     Vector3D _initialVel;
-    PointsGenerator3Ptr _pointsGen;
+    PointGenerator3Ptr _pointsGen;
 
     size_t _maxNumberOfParticles = std::numeric_limits<size_t>::max();
     size_t _numberOfEmittedParticles = 0;

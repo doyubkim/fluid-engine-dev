@@ -1,17 +1,17 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/points_generator2.h>
+#include <jet/point_generator2.h>
 
 namespace jet {
 
-PointsGenerator2::PointsGenerator2() {
+PointGenerator2::PointGenerator2() {
 }
 
-PointsGenerator2::~PointsGenerator2() {
+PointGenerator2::~PointGenerator2() {
 }
 
-void PointsGenerator2::generate(
+void PointGenerator2::generate(
     const BoundingBox2D& boundingBox,
     double spacing,
     Array1<Vector2D>* points) const {

@@ -198,7 +198,7 @@
     <ClInclude Include="..\..\include\jet\array3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\bcc_lattice_points_generator.h">
+    <ClInclude Include="..\..\include\jet\bcc_lattice_point_generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\blas.h">
@@ -303,7 +303,7 @@
     <ClInclude Include="..\..\include\jet\face_centered_grid3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\fcc_lattice_points_generator.h">
+    <ClInclude Include="..\..\include\jet\fcc_lattice_point_generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\fdm_cg_solver2.h">
@@ -417,10 +417,10 @@
     <ClInclude Include="..\..\include\jet\grid_fractional_single_phase_pressure_solver3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\grid_points_generator2.h">
+    <ClInclude Include="..\..\include\jet\grid_point_generator2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\grid_points_generator3.h">
+    <ClInclude Include="..\..\include\jet\grid_point_generator3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\grid_pressure_solver2.h">
@@ -600,10 +600,10 @@
     <ClInclude Include="..\..\include\jet\point3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\points_generator2.h">
+    <ClInclude Include="..\..\include\jet\point_generator2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\points_generator3.h">
+    <ClInclude Include="..\..\include\jet\point_generator3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\quaternion.h">
@@ -708,7 +708,7 @@
     <ClInclude Include="..\..\include\jet\triangle_mesh3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\triangle_points_generator.h">
+    <ClInclude Include="..\..\include\jet\triangle_point_generator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\triangle3.h">
@@ -842,10 +842,10 @@
     <ClCompile Include="point_simple_list_searcher3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="points_generator2.cpp">
+    <ClCompile Include="point_generator2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="points_generator3.cpp">
+    <ClCompile Include="point_generator3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rigid_body_collider2.cpp">
@@ -917,7 +917,7 @@
     <ClCompile Include="triangle_mesh3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="triangle_points_generator.cpp">
+    <ClCompile Include="triangle_point_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="triangle3.cpp">
@@ -968,7 +968,7 @@
     <ClCompile Include="animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bcc_lattice_points_generator.cpp">
+    <ClCompile Include="bcc_lattice_point_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="box2.cpp">
@@ -1052,7 +1052,7 @@
     <ClCompile Include="face_centered_grid3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fcc_lattice_points_generator.cpp">
+    <ClCompile Include="fcc_lattice_point_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fdm_cg_solver2.cpp">
@@ -1160,10 +1160,10 @@
     <ClCompile Include="grid_fractional_single_phase_pressure_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_points_generator2.cpp">
+    <ClCompile Include="grid_point_generator2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_points_generator3.cpp">
+    <ClCompile Include="grid_point_generator3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_pressure_solver2.cpp">

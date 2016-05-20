@@ -2,10 +2,10 @@
 
 #include <manual_tests.h>
 
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box3.h>
 #include <jet/cell_centered_scalar_grid2.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/sph_system_data2.h>
 #include <jet/sph_system_data3.h>
@@ -17,7 +17,7 @@ JET_TESTS(SphSystemData2);
 
 JET_BEGIN_TEST_F(SphSystemData2, Interpolate) {
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     BoundingBox2D bbox(
         Vector2D(0, 0),
         Vector2D(1, 1));
@@ -51,7 +51,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     BoundingBox2D bbox(
         Vector2D(0, 0),
         Vector2D(1, 1));
@@ -110,7 +110,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     BoundingBox2D bbox(
         Vector2D(0, 0),
         Vector2D(1, 1));
@@ -166,7 +166,7 @@ JET_TESTS(SphSystemData3);
 
 JET_BEGIN_TEST_F(SphSystemData3, Interpolate) {
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     BoundingBox3D bbox(
         Vector3D(0, 0, 0),
         Vector3D(1, 1, 1));
@@ -200,7 +200,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     BoundingBox3D bbox(
         Vector3D(0, 0, 0),
         Vector3D(1, 1, 1));
@@ -263,7 +263,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     BoundingBox3D bbox(
         Vector3D(0, 0, 0),
         Vector3D(1, 1, 1));

@@ -195,7 +195,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\array_samplers2.h" />
     <ClInclude Include="..\..\include\jet\array_samplers3.h" />
     <ClInclude Include="..\..\include\jet\array_utils.h" />
-    <ClInclude Include="..\..\include\jet\bcc_lattice_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\bcc_lattice_point_generator.h" />
     <ClInclude Include="..\..\include\jet\blas.h" />
     <ClInclude Include="..\..\include\jet\bounding_box.h" />
     <ClInclude Include="..\..\include\jet\bounding_box2.h" />
@@ -271,7 +271,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\event.h" />
     <ClInclude Include="..\..\include\jet\face_centered_grid2.h" />
     <ClInclude Include="..\..\include\jet\face_centered_grid3.h" />
-    <ClInclude Include="..\..\include\jet\fcc_lattice_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\fcc_lattice_point_generator.h" />
     <ClInclude Include="..\..\include\jet\fdm_cg_solver2.h" />
     <ClInclude Include="..\..\include\jet\fdm_cg_solver3.h" />
     <ClInclude Include="..\..\include\jet\fdm_gauss_seidel_solver2.h" />
@@ -311,8 +311,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\grid_fractional_boundary_condition_solver3.h" />
     <ClInclude Include="..\..\include\jet\grid_fractional_single_phase_pressure_solver2.h" />
     <ClInclude Include="..\..\include\jet\grid_fractional_single_phase_pressure_solver3.h" />
-    <ClInclude Include="..\..\include\jet\grid_points_generator2.h" />
-    <ClInclude Include="..\..\include\jet\grid_points_generator3.h" />
+    <ClInclude Include="..\..\include\jet\grid_point_generator2.h" />
+    <ClInclude Include="..\..\include\jet\grid_point_generator3.h" />
     <ClInclude Include="..\..\include\jet\grid_pressure_solver2.h" />
     <ClInclude Include="..\..\include\jet\grid_pressure_solver3.h" />
     <ClInclude Include="..\..\include\jet\grid_single_phase_pressure_solver2.h" />
@@ -360,8 +360,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\point.h" />
     <ClInclude Include="..\..\include\jet\point2.h" />
     <ClInclude Include="..\..\include\jet\point3.h" />
-    <ClInclude Include="..\..\include\jet\points_generator2.h" />
-    <ClInclude Include="..\..\include\jet\points_generator3.h" />
+    <ClInclude Include="..\..\include\jet\point_generator2.h" />
+    <ClInclude Include="..\..\include\jet\point_generator3.h" />
     <ClInclude Include="..\..\include\jet\point_hash_grid_searcher2.h" />
     <ClInclude Include="..\..\include\jet\point_hash_grid_searcher3.h" />
     <ClInclude Include="..\..\include\jet\point_neighbor_searcher2.h" />
@@ -407,7 +407,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\triangle3.h" />
     <ClInclude Include="..\..\include\jet\triangle_mesh3.h" />
     <ClInclude Include="..\..\include\jet\triangle_mesh_to_sdf.h" />
-    <ClInclude Include="..\..\include\jet\triangle_points_generator.h" />
+    <ClInclude Include="..\..\include\jet\triangle_point_generator.h" />
     <ClInclude Include="..\..\include\jet\type_helpers.h" />
     <ClInclude Include="..\..\include\jet\upwind_level_set_solver2.h" />
     <ClInclude Include="..\..\include\jet\upwind_level_set_solver3.h" />
@@ -435,7 +435,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="advection_solver2.cpp" />
     <ClCompile Include="advection_solver3.cpp" />
     <ClCompile Include="animation.cpp" />
-    <ClCompile Include="bcc_lattice_points_generator.cpp" />
+    <ClCompile Include="bcc_lattice_point_generator.cpp" />
     <ClCompile Include="box2.cpp" />
     <ClCompile Include="box3.cpp" />
     <ClCompile Include="cell_centered_scalar_grid2.cpp" />
@@ -463,7 +463,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="eno_level_set_solver3.cpp" />
     <ClCompile Include="face_centered_grid2.cpp" />
     <ClCompile Include="face_centered_grid3.cpp" />
-    <ClCompile Include="fcc_lattice_points_generator.cpp" />
+    <ClCompile Include="fcc_lattice_point_generator.cpp" />
     <ClCompile Include="fdm_cg_solver2.cpp" />
     <ClCompile Include="fdm_cg_solver3.cpp" />
     <ClCompile Include="fdm_gauss_seidel_solver2.cpp" />
@@ -501,8 +501,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="grid_fractional_boundary_condition3.cpp" />
     <ClCompile Include="grid_fractional_single_phase_pressure_solver2.cpp" />
     <ClCompile Include="grid_fractional_single_phase_pressure_solver3.cpp" />
-    <ClCompile Include="grid_points_generator2.cpp" />
-    <ClCompile Include="grid_points_generator3.cpp" />
+    <ClCompile Include="grid_point_generator2.cpp" />
+    <ClCompile Include="grid_point_generator3.cpp" />
     <ClCompile Include="grid_pressure_solver2.cpp" />
     <ClCompile Include="grid_pressure_solver3.cpp" />
     <ClCompile Include="grid_single_phase_pressure_solver2.cpp" />
@@ -547,8 +547,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="pic_solver3.cpp" />
     <ClCompile Include="plane2.cpp" />
     <ClCompile Include="plane3.cpp" />
-    <ClCompile Include="points_generator2.cpp" />
-    <ClCompile Include="points_generator3.cpp" />
+    <ClCompile Include="point_generator2.cpp" />
+    <ClCompile Include="point_generator3.cpp" />
     <ClCompile Include="point_hash_grid_searcher2.cpp" />
     <ClCompile Include="point_hash_grid_searcher3.cpp" />
     <ClCompile Include="point_neighbor_searcher2.cpp" />
@@ -583,7 +583,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="triangle3.cpp" />
     <ClCompile Include="triangle_mesh3.cpp" />
     <ClCompile Include="triangle_mesh_to_sdf.cpp" />
-    <ClCompile Include="triangle_points_generator.cpp" />
+    <ClCompile Include="triangle_point_generator.cpp" />
     <ClCompile Include="upwind_level_set_solver2.cpp" />
     <ClCompile Include="upwind_level_set_solver3.cpp" />
     <ClCompile Include="vector_field2.cpp" />

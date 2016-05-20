@@ -6,7 +6,7 @@
 // and Animation", Eurographics 2009 Tutorial
 
 #include <pch.h>
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/sph_kernels3.h>
 #include <jet/sph_system_data3.h>
@@ -231,7 +231,7 @@ void SphSystemData3::setMass(double newMass) {
 
 void SphSystemData3::computeMass() {
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     BoundingBox3D sampleBound(
         Vector3D(-1.5*_kernelRadius, -1.5*_kernelRadius, -1.5*_kernelRadius),
         Vector3D(1.5*_kernelRadius, 1.5*_kernelRadius, 1.5*_kernelRadius));

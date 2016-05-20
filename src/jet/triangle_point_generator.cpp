@@ -1,11 +1,11 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 
 using namespace jet;
 
-void TrianglePointsGenerator::forEachPoint(
+void TrianglePointGenerator::forEachPoint(
     const BoundingBox2D& boundingBox,
     double spacing,
     const std::function<bool(const Vector2D&)>& callback) const {

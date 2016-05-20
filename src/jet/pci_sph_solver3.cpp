@@ -1,7 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/pci_sph_solver3.h>
 #include <jet/sph_kernels3.h>
@@ -167,7 +167,7 @@ double PciSphSolver3::computeDelta(double timeStepInSeconds) {
     const double kernelRadius = particles->kernelRadius();
 
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     Vector3D origin;
     BoundingBox3D sampleBound(origin, origin);
     sampleBound.expand(1.5 * kernelRadius);

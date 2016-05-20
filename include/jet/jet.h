@@ -16,7 +16,7 @@
 #include <jet/array_samplers2.h>
 #include <jet/array_samplers3.h>
 #include <jet/array_utils.h>
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/blas.h>
 #include <jet/bounding_box.h>
 #include <jet/bounding_box2.h>
@@ -51,7 +51,7 @@
 #include <jet/event.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/face_centered_grid3.h>
-#include <jet/fcc_lattice_points_generator.h>
+#include <jet/fcc_lattice_point_generator.h>
 #include <jet/fdm_cg_solver2.h>
 #include <jet/fdm_cg_solver3.h>
 #include <jet/fdm_gauss_seidel_solver2.h>
@@ -91,8 +91,8 @@
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
-#include <jet/grid_points_generator2.h>
-#include <jet/grid_points_generator3.h>
+#include <jet/grid_point_generator2.h>
+#include <jet/grid_point_generator3.h>
 #include <jet/grid_pressure_solver2.h>
 #include <jet/grid_pressure_solver3.h>
 #include <jet/grid_single_phase_pressure_solver2.h>
@@ -150,8 +150,8 @@
 #include <jet/point_particle_emitter3.h>
 #include <jet/point_simple_list_searcher2.h>
 #include <jet/point_simple_list_searcher3.h>
-#include <jet/points_generator2.h>
-#include <jet/points_generator3.h>
+#include <jet/point_generator2.h>
+#include <jet/point_generator3.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
 #include <jet/ray2.h>
@@ -187,7 +187,7 @@
 #include <jet/triangle3.h>
 #include <jet/triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <jet/type_helpers.h>
 #include <jet/upwind_level_set_solver2.h>
 #include <jet/upwind_level_set_solver3.h>

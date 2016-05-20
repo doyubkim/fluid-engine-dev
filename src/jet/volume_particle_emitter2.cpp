@@ -4,7 +4,7 @@
 #include <jet/matrix2x2.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/samplers.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <jet/volume_particle_emitter2.h>
 
 using namespace jet;
@@ -20,7 +20,7 @@ VolumeParticleEmitter2::VolumeParticleEmitter2(
     _bounds(bounds),
     _spacing(spacing),
     _initialVel(initialVel) {
-    _pointsGen = std::make_shared<TrianglePointsGenerator>();
+    _pointsGen = std::make_shared<TrianglePointGenerator>();
 }
 
 void VolumeParticleEmitter2::emit(
@@ -104,7 +104,7 @@ void VolumeParticleEmitter2::emit(
 }
 
 void VolumeParticleEmitter2::setPointGenerator(
-    const PointsGenerator2Ptr& newPointsGen) {
+    const PointGenerator2Ptr& newPointsGen) {
     _pointsGen = newPointsGen;
 }
 
