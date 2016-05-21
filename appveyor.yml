@@ -1,5 +1,7 @@
 version: 0.1.0 ({build})
 
+clone_folder: c:\projects\fluid-engine-dev
+
 platform:
   - x86
   - x64
@@ -15,9 +17,9 @@ install:
 
 # scripts to run before build
 before_build:
-  - cmd: python external/styleguide/cpplint/cpplint.py --verbose=0 include/jet/*.h
-  - cmd: python external/styleguide/cpplint/cpplint.py --verbose=0 include/jet/detail/*.h
-  - cmd: python external/styleguide/cpplint/cpplint.py --verbose=0 src/jet/*
+  - cmd: python c:\projects\fluid-engine-dev\external\styleguide\cpplint\cpplint.py --verbose=0 c:\projects\fluid-engine-dev\include\jet\*.h
+  - cmd: python c:\projects\fluid-engine-dev\external\styleguide\cpplint\cpplint.py --verbose=0 c:\projects\fluid-engine-dev\include\jet\detail\*.h
+  - cmd: python c:\projects\fluid-engine-dev\external\styleguide\cpplint\cpplint.py --verbose=0 c:\projects\fluid-engine-dev\src\jet\*
   - cmd: nuget restore
 
 build:
