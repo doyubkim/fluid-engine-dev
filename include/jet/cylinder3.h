@@ -11,7 +11,7 @@ class Cylinder3 final : public Surface3 {
  public:
     Cylinder3();
 
-    explicit Cylinder3(const Vector3D& center, double radius, double height);
+    Cylinder3(const Vector3D& center, double radius, double height);
 
     Cylinder3(const Cylinder3& other);
 

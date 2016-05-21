@@ -6,6 +6,7 @@
 #include <jet/array_accessor.h>
 #include <jet/point3.h>
 #include <jet/size3.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -29,14 +30,14 @@ class ArrayAccessor<T, 3> final {
     //! Constructs an array accessor that wraps given array.
     //! \param size Size of the 3-D array.
     //! \param data Raw array pointer.
-    explicit ArrayAccessor(const Size3& size, T* const data);
+    ArrayAccessor(const Size3& size, T* const data);
 
     //! Constructs an array accessor that wraps given array.
     //! \param width Width of the 3-D array.
     //! \param height Height of the 3-D array.
     //! \param depth Depth of the 3-D array.
     //! \param data Raw array pointer.
-    explicit ArrayAccessor(
+    ArrayAccessor(
         size_t width, size_t height, size_t depth, T* const data);
 
     //! Copy constructor.
@@ -264,18 +265,18 @@ class ConstArrayAccessor<T, 3> {
     //! Constructs a read-only array accessor that wraps given array.
     //! \param size Size of the 3-D array.
     //! \param data Raw array pointer.
-    explicit ConstArrayAccessor(const Size3& size, const T* const data);
+    ConstArrayAccessor(const Size3& size, const T* const data);
 
     //! Constructs a read-only array accessor that wraps given array.
     //! \param width Width of the 3-D array.
     //! \param height Height of the 3-D array.
     //! \param depth Depth of the 3-D array.
     //! \param data Raw array pointer.
-    explicit ConstArrayAccessor(
+    ConstArrayAccessor(
         size_t width, size_t height, size_t depth, const T* const data);
 
     //! Constructs a read-only array accessor from read/write accessor.
-    ConstArrayAccessor(const ArrayAccessor<T, 3>& other);
+    explicit ConstArrayAccessor(const ArrayAccessor<T, 3>& other);
 
     //! Copy constructor.
     ConstArrayAccessor(const ConstArrayAccessor& other);

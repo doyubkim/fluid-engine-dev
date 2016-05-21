@@ -17,7 +17,8 @@ class Matrix {
         "Number of rows for static-sized matrix should be greater than zero.");
     static_assert(
         N > 0,
-        "Number of columns for static-sized matrix should be greater than zero.");
+        "Number of columns for static-sized matrix should be greater than "
+        "zero.");
     static_assert(
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");

@@ -5,6 +5,7 @@
 
 #include <jet/macros.h>
 #include <jet/math_utils.h>
+#include <algorithm>  // just make cpplint happy..
 #include <limits>
 
 namespace jet {
@@ -481,7 +482,8 @@ Vector<T, 2> max(const Vector<T, 2>& a, const Vector<T, 2>& b) {
 }
 
 template <typename T>
-Vector<T, 2> clamp(const Vector<T, 2>& v, const Vector<T, 2>& low, const Vector<T, 2>& high) {
+Vector<T, 2> clamp(
+    const Vector<T, 2>& v, const Vector<T, 2>& low, const Vector<T, 2>& high) {
     return Vector<T, 2>(clamp(v.x, low.x, high.x), clamp(v.y, low.y, high.y));
 }
 

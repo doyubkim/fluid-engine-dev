@@ -12,7 +12,7 @@ class Box3 final : public Surface3 {
  public:
     Box3();
 
-    explicit Box3(const Vector3D& lowerCorner, const Vector3D& upperCorner);
+    Box3(const Vector3D& lowerCorner, const Vector3D& upperCorner);
 
     explicit Box3(const BoundingBox3D& boundingBox);
 

@@ -36,12 +36,12 @@ class Matrix<T, 2, 2> {
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
+    Matrix(
         T m00, T m10,
         T m01, T m11);
 
     //! Constructs a matrix with four column vectors.
-    explicit Matrix(
+    Matrix(
         const Vector2<T>& col0,
         const Vector2<T>& col1);
 
@@ -50,7 +50,7 @@ class Matrix<T, 2, 2> {
 
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(const T* arr, size_t n);
+    Matrix(const T* arr, size_t n);
 
 
     // MARK: Basic setters

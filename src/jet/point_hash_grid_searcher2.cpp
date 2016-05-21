@@ -139,8 +139,12 @@ size_t PointHashGridSearcher2::getHashKeyFromBucketIndex(
     Point2I wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
-    if (wrappedIndex.x < 0) { wrappedIndex.x += _resolution.x; }
-    if (wrappedIndex.y < 0) { wrappedIndex.y += _resolution.y; }
+    if (wrappedIndex.x < 0) {
+        wrappedIndex.x += _resolution.x;
+    }
+    if (wrappedIndex.y < 0) {
+        wrappedIndex.y += _resolution.y;
+    }
     return static_cast<size_t>(wrappedIndex.y*_resolution.x + wrappedIndex.x);
 }
 
@@ -154,15 +158,19 @@ void PointHashGridSearcher2::getNearbyKeys(
     }
 
     if ((originIndex.x + 0.5f) * _gridSpacing <= position.x) {
-        nearbyBucketIndices[2].x += 1; nearbyBucketIndices[3].x += 1;
+        nearbyBucketIndices[2].x += 1;
+        nearbyBucketIndices[3].x += 1;
     } else {
-        nearbyBucketIndices[2].x -= 1; nearbyBucketIndices[3].x -= 1;
+        nearbyBucketIndices[2].x -= 1;
+        nearbyBucketIndices[3].x -= 1;
     }
 
     if ((originIndex.y + 0.5f) * _gridSpacing <= position.y) {
-        nearbyBucketIndices[1].y += 1; nearbyBucketIndices[3].y += 1;
+        nearbyBucketIndices[1].y += 1;
+        nearbyBucketIndices[3].y += 1;
     } else {
-        nearbyBucketIndices[1].y -= 1; nearbyBucketIndices[3].y -= 1;
+        nearbyBucketIndices[1].y -= 1;
+        nearbyBucketIndices[3].y -= 1;
     }
 
     for (int i = 0; i < 4; i++) {

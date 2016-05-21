@@ -5,6 +5,7 @@
 
 #include <jet/matrix.h>
 #include <jet/vector3.h>
+#include <limits>
 
 namespace jet {
 
@@ -28,13 +29,13 @@ class Matrix<T, 3, 3> {
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
+    Matrix(
         T m00, T m10, T m20,
         T m01, T m11, T m21,
         T m02, T m12, T m22);
 
     //! Constructs a matrix with three column vectors.
-    explicit Matrix(
+    Matrix(
         const Vector3<T>& col0,
         const Vector3<T>& col1,
         const Vector3<T>& col2);
@@ -44,7 +45,7 @@ class Matrix<T, 3, 3> {
 
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(const T* arr, size_t n);
+    Matrix(const T* arr, size_t n);
 
 
     // Basic setters
@@ -83,7 +84,9 @@ class Matrix<T, 3, 3> {
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool isSimilar(const Matrix& m, double tol = std::numeric_limits<double>::epsilon()) const;
+    bool isSimilar(
+        const Matrix& m,
+        double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
     bool isSquare() const;

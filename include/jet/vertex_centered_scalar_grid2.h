@@ -5,6 +5,7 @@
 
 #include <jet/array2.h>
 #include <jet/scalar_grid2.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -44,7 +45,8 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
 
     void set(const VertexCenteredScalarGrid2& other);
 
-    VertexCenteredScalarGrid2& operator=(const VertexCenteredScalarGrid2& other);
+    VertexCenteredScalarGrid2& operator=(
+        const VertexCenteredScalarGrid2& other);
 
     static ScalarGridBuilder2Ptr builder();
 };

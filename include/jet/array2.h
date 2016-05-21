@@ -6,6 +6,7 @@
 #include <jet/array.h>
 #include <jet/array_accessor2.h>
 #include <jet/size2.h>
+#include <algorithm>  // just make cpplint happy..
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -48,7 +49,7 @@ class Array<T, 2> final {
     //! \param width Initial width of the array.
     //! \param height Initial height of the array.
     //! \param initVal Initial value of each array element.
-    explicit Array(size_t width, size_t height, const T& initVal = T());
+    Array(size_t width, size_t height, const T& initVal = T());
 
     //!
     //! \brief Constructs 2-D array with given initializer list \p lst.

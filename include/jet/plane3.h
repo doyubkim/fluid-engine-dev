@@ -11,9 +11,9 @@ class Plane3 final : public Surface3 {
  public:
     Plane3();
 
-    explicit Plane3(const Vector3D& normal, const Vector3D& point);
+    Plane3(const Vector3D& normal, const Vector3D& point);
 
-    explicit Plane3(
+    Plane3(
         const Vector3D& point0,
         const Vector3D& point1,
         const Vector3D& point2);

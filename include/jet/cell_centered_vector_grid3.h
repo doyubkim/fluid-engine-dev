@@ -5,6 +5,7 @@
 
 #include <jet/array3.h>
 #include <jet/collocated_vector_grid3.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 

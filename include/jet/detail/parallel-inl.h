@@ -58,7 +58,9 @@ void merge(
     }
 
     // Copy sorted temp array into main array, a
-    parallelFor(kZeroSize, size, [&](size_t i) { a[i] = temp[i]; });
+    parallelFor(kZeroSize, size, [&](size_t i) {
+        a[i] = temp[i];
+    });
 }
 
 template <
@@ -116,7 +118,9 @@ void parallelFill(
     }
 
     size_t size = static_cast<size_t>(diff);
-    parallelFor(kZeroSize, size, [begin, value](size_t i){ begin[i] = value; });
+    parallelFor(kZeroSize, size, [begin, value](size_t i){
+        begin[i] = value;
+    });
 }
 
 // Adopted from http://ideone.com/Z7zldb

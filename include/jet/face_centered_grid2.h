@@ -6,6 +6,7 @@
 #include <jet/array2.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
+#include <algorithm>  // just make cpplint happy..
 #include <memory>
 
 namespace jet {

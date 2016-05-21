@@ -848,7 +848,8 @@ Matrix<T, 4, 4> Matrix<T, 4, 4>::makeScaleMatrix(const Vector<T, 3>& s) {
 }
 
 template <typename T>
-Matrix<T, 4, 4> Matrix<T, 4, 4>::makeRotationMatrix(const Vector<T, 3>& axis, T rad) {
+Matrix<T, 4, 4> Matrix<T, 4, 4>::makeRotationMatrix(
+    const Vector<T, 3>& axis, T rad) {
     return Matrix(
         1 + (1 - std::cos(rad))*(axis.x*axis.x - 1),
         axis.z*std::sin(rad) + (1 - std::cos(rad))*axis.x*axis.y,

@@ -1,3 +1,4 @@
+// Copyright (c) 2016 Doyub Kim
 #ifndef INCLUDE_JET_JET_H_
 #define INCLUDE_JET_JET_H_
 #include <jet/advection_solver2.h>
@@ -140,6 +141,8 @@
 #include <jet/point.h>
 #include <jet/point2.h>
 #include <jet/point3.h>
+#include <jet/point_generator2.h>
+#include <jet/point_generator3.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/point_neighbor_searcher2.h>
@@ -150,8 +153,6 @@
 #include <jet/point_particle_emitter3.h>
 #include <jet/point_simple_list_searcher2.h>
 #include <jet/point_simple_list_searcher3.h>
-#include <jet/point_generator2.h>
-#include <jet/point_generator3.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
 #include <jet/ray2.h>
@@ -205,4 +206,4 @@
 #include <jet/vertex_centered_vector_grid3.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
-#endif
+#endif  // INCLUDE_JET_JET_H_

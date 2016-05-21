@@ -5,6 +5,7 @@
 
 #include <jet/array.h>
 #include <jet/array_accessor1.h>
+#include <algorithm>  // just make cpplint happy..
 #include <fstream>
 #include <functional>
 #include <iostream>

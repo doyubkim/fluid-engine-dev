@@ -12,4 +12,4 @@ struct ScalarType {
 
 }  // namespace jet
 
-#endif // INCLUDE_JET_TYPE_HELPERS_H_
+#endif  // INCLUDE_JET_TYPE_HELPERS_H_

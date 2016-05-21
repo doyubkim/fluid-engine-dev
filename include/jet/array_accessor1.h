@@ -4,6 +4,7 @@
 #define INCLUDE_JET_ARRAY_ACCESSOR1_H_
 
 #include <jet/array_accessor.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -23,10 +24,10 @@ class ArrayAccessor<T, 1> final {
     ArrayAccessor();
 
     //! Constructs an array accessor that wraps given array.
-    explicit ArrayAccessor(size_t size, T* const data);
+    ArrayAccessor(size_t size, T* const data);
 
     //! Copy constructor.
-    ArrayAccessor(const ArrayAccessor& other);
+    explicit ArrayAccessor(const ArrayAccessor& other);
 
     //! Replaces the content with given \p other array accessor.
     void set(const ArrayAccessor& other);
@@ -176,10 +177,10 @@ class ConstArrayAccessor<T, 1> {
     ConstArrayAccessor();
 
     //! Constructs an read-only array accessor that wraps given array.
-    explicit ConstArrayAccessor(size_t size, const T* const data);
+    ConstArrayAccessor(size_t size, const T* const data);
 
     //! Constructs a read-only array accessor from read/write accessor.
-    ConstArrayAccessor(const ArrayAccessor<T, 1>& other);
+    explicit ConstArrayAccessor(const ArrayAccessor<T, 1>& other);
 
     //! Copy constructor.
     ConstArrayAccessor(const ConstArrayAccessor& other);

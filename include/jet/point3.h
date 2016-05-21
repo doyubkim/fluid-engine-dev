@@ -4,6 +4,7 @@
 #define INCLUDE_JET_POINT3_H_
 
 #include <jet/point2.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -20,8 +21,8 @@ class Point<T, 3> final {
 
     // Constructors
     Point();
-    explicit Point(T x, T y, T z);
-    explicit Point(const Point2<T>& pt, T z);
+    Point(T x, T y, T z);
+    Point(const Point2<T>& pt, T z);
     template <typename U>
     Point(const std::initializer_list<U>& lst);
     Point(const Point& v);
@@ -74,7 +75,7 @@ class Point<T, 3> final {
     size_t subminantAxis() const;
 
     template <typename U>
-    Point<U,3> castTo() const;
+    Point<U, 3> castTo() const;
 
     bool isEqual(const Point& other) const;
 

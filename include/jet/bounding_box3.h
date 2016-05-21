@@ -32,7 +32,7 @@ class BoundingBox<T, 3> {
     BoundingBox();
 
     //! Constructs a box that tightly covers two points.
-    explicit BoundingBox(const Vector3<T>& point1, const Vector3<T>& point2);
+    BoundingBox(const Vector3<T>& point1, const Vector3<T>& point2);
 
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);

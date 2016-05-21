@@ -5,6 +5,7 @@
 
 #include <jet/matrix3x3.h>
 #include <jet/vector4.h>
+#include <limits>
 
 namespace jet {
 
@@ -38,14 +39,14 @@ class Matrix<T, 4, 4> {
     //! This constructor initialize 3x3 part, and other parts are set to 0
     //! except (3,3) which will be set to 1.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
+    Matrix(
         T m00, T m10, T m20,
         T m01, T m11, T m21,
         T m02, T m12, T m22);
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
+    Matrix(
         T m00, T m10, T m20, T m30,
         T m01, T m11, T m21, T m31,
         T m02, T m12, T m22, T m32,
@@ -54,13 +55,13 @@ class Matrix<T, 4, 4> {
     //! Constructs a matrix with three column vectors.
     //! This constructor initialize 3x3 part, and other parts are set to 0
     //! except (3,3) which will be set to 1.
-    explicit Matrix(
+    Matrix(
         const Vector3<T>& col0,
         const Vector3<T>& col1,
         const Vector3<T>& col2);
 
     //! Constructs a matrix with four column vectors.
-    explicit Matrix(
+    Matrix(
         const Vector4<T>& col0,
         const Vector4<T>& col1,
         const Vector4<T>& col2,
@@ -76,7 +77,7 @@ class Matrix<T, 4, 4> {
 
     //! Constructs a matrix with input array.
     //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(const T* arr, size_t n);
+    Matrix(const T* arr, size_t n);
 
 
     // Basic setters
@@ -291,7 +292,7 @@ class Matrix<T, 4, 4> {
     Matrix inverse() const;
 
     template <typename U>
-    Matrix<U,4,4> castTo() const;
+    Matrix<U, 4, 4> castTo() const;
 
     // Setter operators
     //! Assigns input matrix.

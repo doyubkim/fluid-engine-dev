@@ -64,9 +64,21 @@ inline Vector3D grad(
     ssize_t dimx = static_cast<ssize_t>(dim.x);
     ssize_t dimy = static_cast<ssize_t>(dim.y);
     ssize_t dimz = static_cast<ssize_t>(dim.z);
-    if (i > dimx - 2) { ip = i; } else if (i == 0) { im = 0; }
-    if (j > dimy - 2) { jp = j; } else if (j == 0) { jm = 0; }
-    if (k > dimz - 2) { kp = k; } else if (k == 0) { km = 0; }
+    if (i > dimx - 2) {
+        ip = i;
+    } else if (i == 0) {
+        im = 0;
+    }
+    if (j > dimy - 2) {
+        jp = j;
+    } else if (j == 0) {
+        jm = 0;
+    }
+    if (k > dimz - 2) {
+        kp = k;
+    } else if (k == 0) {
+        km = 0;
+    }
     ret.x = 0.5f * invGridSize.x * (grid(ip, j, k) - grid(im, j, k));
     ret.y = 0.5f * invGridSize.y * (grid(i, jp, k) - grid(i, jm, k));
     ret.z = 0.5f * invGridSize.z * (grid(i, j, kp) - grid(i, j, km));

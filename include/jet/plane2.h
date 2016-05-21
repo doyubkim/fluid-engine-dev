@@ -11,9 +11,9 @@ class Plane2 final : public Surface2 {
  public:
     Plane2();
 
-    explicit Plane2(const Vector2D& normal, const Vector2D& point);
+    Plane2(const Vector2D& normal, const Vector2D& point);
 
-    explicit Plane2(
+    Plane2(
         const Vector2D& point0,
         const Vector2D& point1,
         const Vector2D& point2);

@@ -60,7 +60,10 @@ inline void Quaternion<T>::set(const Quaternion& other) {
 
 template <typename T>
 inline void Quaternion<T>::set(T newW, T newX, T newY, T newZ) {
-    w = newW; x = newX; y = newY; z = newZ;
+    w = newW;
+    x = newX;
+    y = newY;
+    z = newZ;
 }
 
 template <typename T>

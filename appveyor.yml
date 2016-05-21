@@ -15,6 +15,10 @@ install:
 
 # scripts to run before build
 before_build:
+  - cmd: pip install -r cpplint
+  - cmd: cpplint --verbose=0 include/jet/*
+  - cmd: cpplint --verbose=0 include/jet/detail/*
+  - cmd: cpplint --verbose=0 src/jet/*
   - cmd: nuget restore
 
 build:
