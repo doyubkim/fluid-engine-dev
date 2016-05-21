@@ -5,7 +5,7 @@
 
 #include <jet/array3.h>
 #include <jet/scalar_grid3.h>
-#include <algorithm>  // just make cpplint happy..
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

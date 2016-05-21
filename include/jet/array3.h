@@ -5,10 +5,10 @@
 
 #include <jet/array.h>
 #include <jet/array_accessor3.h>
-#include <algorithm>  // just make cpplint happy..
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {

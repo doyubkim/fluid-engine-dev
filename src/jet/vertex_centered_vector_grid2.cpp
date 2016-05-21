@@ -4,7 +4,7 @@
 #include <jet/array_samplers2.h>
 #include <jet/parallel.h>
 #include <jet/vertex_centered_vector_grid2.h>
-#include <algorithm>  // just make cpplint happy..
+#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 

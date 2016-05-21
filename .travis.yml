@@ -30,10 +30,9 @@ matrix:
       compiler: gcc
 
 before_install:
-  - pip install -r cpplint
-  - cpplint --verbose=0 include/jet/*
-  - cpplint --verbose=0 include/jet/detail/*
-  - cpplint --verbose=0 src/jet/*
+  - python external/styleguide/cpplint/cpplint.py --verbose=0 include/jet/*.h
+  - python external/styleguide/cpplint/cpplint.py --verbose=0 include/jet/detail/*.h
+  - python external/styleguide/cpplint/cpplint.py --verbose=0 src/jet/*
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install zlib1g-dev; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi

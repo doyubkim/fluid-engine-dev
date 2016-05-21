@@ -5,8 +5,8 @@
 
 #include <jet/size2.h>
 #include <jet/bounding_box2.h>
-#include <algorithm>  // just make cpplint happy..
 #include <functional>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

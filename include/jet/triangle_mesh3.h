@@ -8,8 +8,8 @@
 #include <jet/quaternion.h>
 #include <jet/surface3.h>
 #include <jet/triangle3.h>
-#include <algorithm>  // just make cpplint happy..
 #include <iostream>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

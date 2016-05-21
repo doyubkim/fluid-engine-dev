@@ -6,7 +6,7 @@
 #include <jet/array_accessor.h>
 #include <jet/point3.h>
 #include <jet/size3.h>
-#include <algorithm>  // just make cpplint happy..
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

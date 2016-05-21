@@ -6,8 +6,8 @@
 #include <jet/array3.h>
 #include <jet/array_samplers3.h>
 #include <jet/vector_grid3.h>
-#include <algorithm>  // just make cpplint happy..
 #include <memory>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

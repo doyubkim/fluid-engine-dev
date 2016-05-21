@@ -4,7 +4,7 @@
 #define INCLUDE_JET_ARRAY_ACCESSOR1_H_
 
 #include <jet/array_accessor.h>
-#include <algorithm>  // just make cpplint happy..
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

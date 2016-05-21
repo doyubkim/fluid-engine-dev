@@ -29,12 +29,12 @@
 #include <jet/triangle_mesh3.h>
 #include <jet/parallel.h>
 
+#include <obj/obj_parser.hpp>
+
 #include <algorithm>
 #include <limits>
 #include <string>
-
-#include <obj/obj_parser.hpp>
-
+#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 

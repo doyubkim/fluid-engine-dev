@@ -5,7 +5,7 @@
 
 #include <jet/macros.h>
 #include <jet/parallel.h>
-#include <algorithm>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
