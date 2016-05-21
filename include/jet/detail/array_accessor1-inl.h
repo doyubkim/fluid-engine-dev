@@ -129,6 +129,11 @@ ArrayAccessor<T, 1>::operator=(const ArrayAccessor& other) {
     return *this;
 }
 
+template <typename T>
+ArrayAccessor<T, 1>::operator ConstArrayAccessor<T, 1>() const {
+    return ConstArrayAccessor<T, 1>(*this);
+}
+
 
 template <typename T>
 ConstArrayAccessor<T, 1>::ConstArrayAccessor() : _size(0), _data(nullptr) {

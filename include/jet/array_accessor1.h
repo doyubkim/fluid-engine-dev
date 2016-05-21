@@ -27,7 +27,7 @@ class ArrayAccessor<T, 1> final {
     ArrayAccessor(size_t size, T* const data);
 
     //! Copy constructor.
-    explicit ArrayAccessor(const ArrayAccessor& other);
+    ArrayAccessor(const ArrayAccessor& other);
 
     //! Replaces the content with given \p other array accessor.
     void set(const ArrayAccessor& other);
@@ -153,6 +153,9 @@ class ArrayAccessor<T, 1> final {
 
     //! Copies given array accessor \p other.
     ArrayAccessor& operator=(const ArrayAccessor& other);
+
+    //! Casts type to ConstArrayAccessor.
+    operator ConstArrayAccessor<T, 1>() const;
 
  private:
     size_t _size;

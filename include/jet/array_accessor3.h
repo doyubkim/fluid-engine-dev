@@ -237,6 +237,9 @@ class ArrayAccessor<T, 3> final {
     //! Copies given array \p other to this array.
     ArrayAccessor& operator=(const ArrayAccessor& other);
 
+    //! Casts type to ConstArrayAccessor.
+    operator ConstArrayAccessor<T, 3>() const;
+
  private:
     Size3 _size;
     T* _data;

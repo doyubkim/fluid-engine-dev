@@ -212,6 +212,11 @@ ArrayAccessor<T, 2>& ArrayAccessor<T, 2>::operator=(
     return *this;
 }
 
+template <typename T>
+ArrayAccessor<T, 2>::operator ConstArrayAccessor<T, 2>() const {
+    return ConstArrayAccessor<T, 2>(*this);
+}
+
 
 template <typename T>
 ConstArrayAccessor<T, 2>::ConstArrayAccessor() : _data(nullptr) {
