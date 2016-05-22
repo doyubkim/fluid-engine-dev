@@ -7,6 +7,3 @@
 [submodule "external/src/pystring/pystring"]
 	path = external/src/pystring/pystring
 	url = https://github.com/imageworks/pystring
-[submodule "external/styleguide"]
-	path = external/styleguide
-	url = https://github.com/google/styleguide.git
