@@ -5,6 +5,7 @@
 
 #include <jet/matrix.h>
 #include <jet/vector2.h>
+#include <array>
 #include <limits>
 
 namespace jet {
@@ -12,8 +13,8 @@ namespace jet {
 //!
 //! \brief 2-D matrix class.
 //!
-//! This class is a column-major 2-D matrix class, which means each element of
-//! the matrix is stored in order of (0,0), (1, 0), (0, 1), (1, 1).
+//! This class is a row-major 2-D matrix class, which means each element of
+//! the matrix is stored in order of (0, 0), (0, 1), (1, 0) and (1, 1).
 //! \tparam T - Type of the element.
 //!
 template <typename T>
@@ -23,7 +24,7 @@ class Matrix<T, 2, 2> {
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");
 
-    T elements[4];
+    std::array<T, 4> elements;
 
     // MARK: Constructors
 
@@ -35,22 +36,37 @@ class Matrix<T, 2, 2> {
     explicit Matrix(T s);
 
     //! Constructs a matrix with input elements.
-    //! \warning Ordering of the input elements is column-major.
+    //! \warning Ordering of the input elements is row-major.
     Matrix(
-        T m00, T m10,
-        T m01, T m11);
+        T m00, T m01,
+        T m10, T m11);
 
-    //! Constructs a matrix with four column vectors.
-    Matrix(
-        const Vector2<T>& col0,
-        const Vector2<T>& col1);
+    //!
+    //! \brief Constructs a matrix with given initializer list \p lst.
+    //!
+    //! This constructor will build a matrix with given initializer list \p lst
+    //! such as
+    //!
+    //! \code{.cpp}
+    //! Matrix<int, 2, 2> arr = {
+    //!     {1, 2},
+    //!     {9, 3}
+    //! };
+    //! \endcode
+    //!
+    //! Note the initializer also has 2x2 structure.
+    //!
+    //! \param lst Initializer list that should be copy to the new matrix.
+    //!
+    template <typename U>
+    Matrix(const std::initializer_list<std::initializer_list<U>>& lst);
 
     //! Constructs a matrix with input matrix.
     Matrix(const Matrix& m);
 
     //! Constructs a matrix with input array.
-    //! \warning Ordering of the input elements is column-major.
-    Matrix(const T* arr, size_t n);
+    //! \warning Ordering of the input elements is row-major.
+    explicit Matrix(const T* arr);
 
 
     // MARK: Basic setters
@@ -59,17 +75,37 @@ class Matrix<T, 2, 2> {
     void set(T s);
 
     //! Sets this matrix with input elements.
-    //! \warning Ordering of the input elements is column-major.
+    //! \warning Ordering of the input elements is row-major.
     void set(
-        T m00, T m10,
-        T m01, T m11);
+        T m00, T m01,
+        T m10, T m11);
+
+    //!
+    //! \brief Sets this matrix with given initializer list \p lst.
+    //!
+    //! This function will fill the matrix with given initializer list \p lst
+    //! such as
+    //!
+    //! \code{.cpp}
+    //! Matrix<int, 2, 2> arr = {
+    //!     {1, 2},
+    //!     {9, 3}
+    //! };
+    //! \endcode
+    //!
+    //! Note the initializer also has 2x2 structure.
+    //!
+    //! \param lst Initializer list that should be copy to the matrix.
+    //!
+    template <typename U>
+    void set(const std::initializer_list<std::initializer_list<U>>& lst);
 
     //! Copies from input matrix.
     void set(const Matrix& m);
 
     //! Copies from input array.
-    //! \warning Ordering of the input elements is column-major.
-    void set(const T* arr, size_t n);
+    //! \warning Ordering of the input elements is row-major.
+    void set(const T* arr);
 
     //! Sets diagonal elements with input scalar.
     void setDiagonal(T s);
@@ -153,7 +189,7 @@ class Matrix<T, 2, 2> {
     //! Returns input matrix * this matrix.
     Matrix rmul(const Matrix& m) const;
 
-    //! Returns input matrix / this scalar.
+    //! Returns input scalar / this matrix.
     Matrix rdiv(T s) const;
 
 
