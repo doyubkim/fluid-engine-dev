@@ -9,7 +9,7 @@
 
 namespace jet {
 
-template <typename T, std::size_t M, std::size_t N>
+template <typename T, size_t M, size_t N>
 class Matrix {
  public:
     static_assert(
@@ -17,7 +17,8 @@ class Matrix {
         "Number of rows for static-sized matrix should be greater than zero.");
     static_assert(
         N > 0,
-        "Number of columns for static-sized matrix should be greater than zero.");
+        "Number of columns for static-sized matrix should be greater than "
+        "zero.");
     static_assert(
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");

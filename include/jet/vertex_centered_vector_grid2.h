@@ -4,6 +4,7 @@
 #define INCLUDE_JET_VERTEX_CENTERED_VECTOR_GRID2_H_
 
 #include <jet/collocated_vector_grid2.h>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
@@ -42,7 +43,8 @@ class VertexCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
 
     void set(const VertexCenteredVectorGrid2& other);
 
-    VertexCenteredVectorGrid2& operator=(const VertexCenteredVectorGrid2& other);
+    VertexCenteredVectorGrid2& operator=(
+        const VertexCenteredVectorGrid2& other);
 
     void fill(const Vector2D& value) override;
 

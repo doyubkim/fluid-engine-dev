@@ -1,11 +1,11 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/fcc_lattice_points_generator.h>
+#include <jet/fcc_lattice_point_generator.h>
 
 namespace jet {
 
-void FccLatticePointsGenerator::forEachPoint(
+void FccLatticePointGenerator::forEachPoint(
     const BoundingBox3D& boundingBox,
     double spacing,
     const std::function<bool(const Vector3D&)>& callback) const {

@@ -77,7 +77,7 @@ void FdmBlas3::mvm(
             + ((k > 0) ? m(i, j, k - 1).front * v(i, j, k - 1) : 0.0)
             + ((k + 1 < size.z) ? m(i, j, k).front * v(i, j, k + 1) : 0.0);
     });
- }
+}
 
 void FdmBlas3::residual(
     const FdmMatrix3& a,

@@ -4,7 +4,8 @@
 #define INCLUDE_JET_DETAIL_ARRAY_ACCESSOR1_INL_H_
 
 #include <jet/macros.h>
-#include <algorithm>
+#include <jet/parallel.h>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
@@ -76,14 +77,39 @@ T* const ArrayAccessor<T, 1>::data() const {
 }
 
 template <typename T>
-void ArrayAccessor<T, 1>::setData(T* const data) {
-    _data = data;
-}
-
-template <typename T>
 void ArrayAccessor<T, 1>::swap(ArrayAccessor& other) {
     std::swap(other._data, _data);
     std::swap(other._size, _size);
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 1>::forEach(Callback func) {
+    for (size_t i = 0; i < size(); ++i) {
+        func(at(i));
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 1>::forEachIndex(Callback func) const {
+    for (size_t i = 0; i < size(); ++i) {
+        func(i);
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 1>::parallelForEach(Callback func) {
+    parallelFor(kZeroSize, size(), [&](size_t i) {
+        func(at(i));
+    });
+}
+
+template <typename T>
+template <typename Callback>
+void ArrayAccessor<T, 1>::parallelForEachIndex(Callback func) const {
+    parallelFor(kZeroSize, size(), func);
 }
 
 template <typename T>
@@ -101,6 +127,11 @@ ArrayAccessor<T, 1>&
 ArrayAccessor<T, 1>::operator=(const ArrayAccessor& other) {
     set(other);
     return *this;
+}
+
+template <typename T>
+ArrayAccessor<T, 1>::operator ConstArrayAccessor<T, 1>() const {
+    return ConstArrayAccessor<T, 1>(*this);
 }
 
 
@@ -151,6 +182,28 @@ size_t ConstArrayAccessor<T, 1>::size() const {
 template <typename T>
 const T* const ConstArrayAccessor<T, 1>::data() const {
     return _data;
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 1>::forEach(Callback func) const {
+    for (size_t i = 0; i < size(); ++i) {
+        func(at(i));
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 1>::forEachIndex(Callback func) const {
+    for (size_t i = 0; i < size(); ++i) {
+        func(i);
+    }
+}
+
+template <typename T>
+template <typename Callback>
+void ConstArrayAccessor<T, 1>::parallelForEachIndex(Callback func) const {
+    parallelFor(kZeroSize, size(), func);
 }
 
 template <typename T>

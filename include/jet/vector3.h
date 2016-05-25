@@ -4,6 +4,7 @@
 #define INCLUDE_JET_VECTOR3_H_
 
 #include <jet/vector2.h>
+#include <algorithm>  // just make cpplint happy..
 #include <limits>
 #include <tuple>
 
@@ -22,8 +23,8 @@ class Vector<T, 3> final {
 
     // Constructors
     Vector();
-    explicit Vector(T x, T y, T z);
-    explicit Vector(const Vector2<T>& pt, T z);
+    Vector(T x, T y, T z);
+    Vector(const Vector2<T>& pt, T z);
     template <typename U>
     Vector(const std::initializer_list<U>& lst);
     Vector(const Vector& v);

@@ -3,14 +3,14 @@
 #include <jet/array1.h>
 #include <jet/array2.h>
 #include <jet/array3.h>
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box2.h>
 #include <jet/bounding_box3.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -91,7 +91,7 @@ TEST(PointHashGridSearcher3, ForEachNearbyPointEmpty) {
 
 TEST(PointParallelHashGridSearcher2, Build) {
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     BoundingBox2D bbox(
         Vector2D(0, 0),
         Vector2D(1, 1));
@@ -130,7 +130,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
 
 TEST(PointParallelHashGridSearcher3, Build) {
     Array1<Vector3D> points;
-    BccLatticePointsGenerator pointsGenerator;
+    BccLatticePointGenerator pointsGenerator;
     BoundingBox3D bbox(
         Vector3D(0, 0, 0),
         Vector3D(1, 1, 1));

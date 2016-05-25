@@ -4,6 +4,7 @@
 #define INCLUDE_JET_CELL_CENTERED_SCALAR_GRID3_H_
 
 #include <jet/scalar_grid3.h>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

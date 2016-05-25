@@ -12,7 +12,7 @@ class Box2 final : public Surface2 {
  public:
     Box2();
 
-    explicit Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner);
+    Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner);
 
     explicit Box2(const BoundingBox2D& boundingBox);
 

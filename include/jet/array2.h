@@ -9,6 +9,7 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -48,7 +49,7 @@ class Array<T, 2> final {
     //! \param width Initial width of the array.
     //! \param height Initial height of the array.
     //! \param initVal Initial value of each array element.
-    explicit Array(size_t width, size_t height, const T& initVal = T());
+    Array(size_t width, size_t height, const T& initVal = T());
 
     //!
     //! \brief Constructs 2-D array with given initializer list \p lst.
@@ -226,7 +227,7 @@ class Array<T, 2> final {
     //! \code{.cpp}
     //! Array<int, 2> array(10, 20, 4);
     //! array.forEachIndex([&](size_t i, size_t j) {
-    //!     array[i] = 4.f * i + 7.f * j + 1.5f;
+    //!     array(i, j) = 4.f * i + 7.f * j + 1.5f;
     //! });
     //! \endcode
     //!
@@ -267,7 +268,7 @@ class Array<T, 2> final {
     //!
     //! \code{.cpp}
     //! Array<int, 2> array(100, 200, 4);
-    //! array.parallelForEachIndex([](size_t i, size_t j) {
+    //! array.parallelForEachIndex([&](size_t i, size_t j) {
     //!     array(i, j) *= 2;
     //! });
     //! \endcode

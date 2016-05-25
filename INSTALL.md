@@ -10,9 +10,11 @@ git submodule init
 git submodule update
 ```
 
+To build the code, a compiler that supports C++11 is required. Platform-specific build instructions are described below.
+
 ### Building from Mac OS X
 
-Xcode 7 and command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run
+Jet supports Mac OS X 10.10 or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run
 
 ```
 brew install scons
@@ -68,7 +70,7 @@ This will install the header files and the static library `libjet.a` under `INST
 
 ### Building from Windows
 
-First of all, download [Visual Studio Community 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx) and install the tool. Also, install [Python](https://www.python.org/) (2.7.9 or higher) to run post-build events.
+To build the code on Windows, Visual Studio 2015 is required. Free version of the tool can be downloaded from [Visual Studio Community 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher) to run post-build events.
 
 Once installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl + Shift + B` to build the entire solution. Set `UnitTests` as a start-up project and hit `Ctrl + F5` to run the test. One built, the distributable files (`jet.lib` and the header files) will be located under `dist` directory.
 
@@ -217,3 +219,12 @@ For Mac OS X and Ubuntu platforms, the library can be installed by running
 This will install the header files and the static library `libjet.a` under `INSTALL_PATH`.
 
 For Windows, the binaries and header files will be located under `dist` directory after building the solution.
+
+
+## Coding Style
+
+Jet uses a modified version of [cpplint.py](https://github.com/google/styleguide/tree/gh-pages/cpplint) for checking the coding style. Please check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md) for the license of `cpplint.py`. Any pull requests must pass the linter. Use `bin/run_linters` (or `bin\run_linters.bat` for Windows) to test the header and source files of the library.
+
+## Continuous Integration
+
+The build quality is tracked by [Travis CI](https://travis-ci.org/doyubkim/fluid-engine-dev) for Linux and Mac. For Windows, [AppVeyor](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev) is used. Any pull requests must pass all the builds.

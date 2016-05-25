@@ -6,6 +6,7 @@
 #include <jet/macros.h>
 #include <jet/parallel.h>
 #include <algorithm>
+#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -191,36 +192,25 @@ void Array<T, 2>::swap(Array& other) {
 template <typename T>
 template <typename Callback>
 void Array<T, 2>::forEach(Callback func) {
-    for (size_t j = 0; j < _size.y; ++j) {
-        for (size_t i = 0; i < _size.x; ++i) {
-            func(at(i, j));
-        }
-    }
+    accessor().forEach(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 2>::forEachIndex(Callback func) const {
-    for (size_t j = 0; j < _size.y; ++j) {
-        for (size_t i = 0; i < _size.x; ++i) {
-            func(i, j);
-        }
-    }
+    constAccessor().forEachIndex(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 2>::parallelForEach(Callback func) {
-    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y,
-        [&](size_t i, size_t j) {
-            func(at(i, j));
-        });
+    accessor().parallelForEach(func);
 }
 
 template <typename T>
 template <typename Callback>
 void Array<T, 2>::parallelForEachIndex(Callback func) const {
-    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, func);
+    constAccessor().parallelForEachIndex(func);
 }
 
 template <typename T>

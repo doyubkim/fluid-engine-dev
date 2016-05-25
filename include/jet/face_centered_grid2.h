@@ -7,6 +7,7 @@
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
 #include <memory>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 

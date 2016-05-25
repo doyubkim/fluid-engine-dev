@@ -5,14 +5,16 @@
 
 #include <jet/matrix3x3.h>
 #include <jet/vector4.h>
+#include <array>
+#include <limits>
 
 namespace jet {
 
 //!
 //! \brief 4-D matrix class.
 //!
-//! This class is a column-major 4-D matrix class, which means each element of
-//! the matrix is stored in order of (0,0), ... , (3,0), (0,1), ... , (3,3).
+//! This class is a row-major 4-D matrix class, which means each element of
+//! the matrix is stored in order of (0,0), ... , (0,3), (1,0), ... , (3,3).
 //! Also, this 4-D matrix is speciallized for geometric transformations.
 //! \tparam T - Type of the element.
 //!
@@ -23,7 +25,7 @@ class Matrix<T, 4, 4> {
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");
 
-    T elements[16];
+    std::array<T, 16> elements;
 
     // Constructors
 
@@ -37,34 +39,41 @@ class Matrix<T, 4, 4> {
     //! Constructs a matrix with input elements.
     //! This constructor initialize 3x3 part, and other parts are set to 0
     //! except (3,3) which will be set to 1.
-    //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
-        T m00, T m10, T m20,
-        T m01, T m11, T m21,
-        T m02, T m12, T m22);
+    //! \warning Ordering of the input elements is row-major.
+    Matrix(
+        T m00, T m01, T m02,
+        T m10, T m11, T m12,
+        T m20, T m21, T m22);
 
     //! Constructs a matrix with input elements.
-    //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(
-        T m00, T m10, T m20, T m30,
-        T m01, T m11, T m21, T m31,
-        T m02, T m12, T m22, T m32,
-        T m03, T m13, T m23, T m33);
+    //! \warning Ordering of the input elements is row-major.
+    Matrix(
+        T m00, T m01, T m02, T m03,
+        T m10, T m11, T m12, T m13,
+        T m20, T m21, T m22, T m23,
+        T m30, T m31, T m32, T m33);
 
-    //! Constructs a matrix with three column vectors.
-    //! This constructor initialize 3x3 part, and other parts are set to 0
-    //! except (3,3) which will be set to 1.
-    explicit Matrix(
-        const Vector3<T>& col0,
-        const Vector3<T>& col1,
-        const Vector3<T>& col2);
-
-    //! Constructs a matrix with four column vectors.
-    explicit Matrix(
-        const Vector4<T>& col0,
-        const Vector4<T>& col1,
-        const Vector4<T>& col2,
-        const Vector4<T>& col3);
+    //!
+    //! \brief Constructs a matrix with given initializer list \p lst.
+    //!
+    //! This constructor will build a matrix with given initializer list \p lst
+    //! such as
+    //!
+    //! \code{.cpp}
+    //! Matrix<int, 4, 4> arr = {
+    //!     {1, 2, 4, 3},
+    //!     {9, 3, 5, 1},
+    //!     {4, 8, 1, 5},
+    //!     {3, 7, 2, 6}
+    //! };
+    //! \endcode
+    //!
+    //! Note the initializer also has 4x4 structure.
+    //!
+    //! \param lst Initializer list that should be copy to the new matrix.
+    //!
+    template <typename U>
+    Matrix(const std::initializer_list<std::initializer_list<U>>& lst);
 
     //! Constructs a matrix with 3x3 matrix.
     //! This constructor initialize 3x3 part, and other parts are set to 0
@@ -75,8 +84,8 @@ class Matrix<T, 4, 4> {
     Matrix(const Matrix& m);
 
     //! Constructs a matrix with input array.
-    //! \warning Ordering of the input elements is column-major.
-    explicit Matrix(const T* arr, std::size_t n);
+    //! \warning Ordering of the input elements is row-major.
+    explicit Matrix(const T* arr);
 
 
     // Basic setters
@@ -87,19 +96,40 @@ class Matrix<T, 4, 4> {
     //! Sets this matrix with input elements.
     //! This method copies 3x3 part only, and other parts are set to 0
     //! except (3,3) which is set to 1.
-    //! \warning Ordering of the input elements is column-major.
+    //! \warning Ordering of the input elements is row-major.
     void set(
-        T m00, T m10, T m20,
-        T m01, T m11, T m21,
-        T m02, T m12, T m22);
+        T m00, T m01, T m02,
+        T m10, T m11, T m12,
+        T m20, T m21, T m22);
 
     //! Sets this matrix with input elements.
-    //! \warning Ordering of the input elements is column-major.
+    //! \warning Ordering of the input elements is row-major.
     void set(
-        T m00, T m10, T m20, T m30,
-        T m01, T m11, T m21, T m31,
-        T m02, T m12, T m22, T m32,
-        T m03, T m13, T m23, T m33);
+        T m00, T m01, T m02, T m03,
+        T m10, T m11, T m12, T m13,
+        T m20, T m21, T m22, T m23,
+        T m30, T m31, T m32, T m33);
+
+    //!
+    //! \brief Sets a matrix with given initializer list \p lst.
+    //!
+    //! This function will fill the matrix with given initializer list \p lst
+    //! such as
+    //!
+    //! \code{.cpp}
+    //! Matrix<int, 3, 3> arr = {
+    //!     {1, 2, 4},
+    //!     {9, 3, 5},
+    //!     {4, 8, 1}
+    //! };
+    //! \endcode
+    //!
+    //! Note the initializer also has 3x3 structure.
+    //!
+    //! \param lst Initializer list that should be copy to the new matrix.
+    //!
+    template <typename U>
+    void set(const std::initializer_list<std::initializer_list<U>>& lst);
 
     //! Sets this matrix with input 3x3 matrix.
     //! This method copies 3x3 part only, and other parts are set to 0
@@ -110,8 +140,8 @@ class Matrix<T, 4, 4> {
     void set(const Matrix& m);
 
     //! Copies from input array.
-    //! \warning Ordering of the input elements is column-major.
-    void set(const T* arr, std::size_t n);
+    //! \warning Ordering of the input elements is row-major.
+    void set(const T* arr);
 
     //! Sets diagonal elements with input scalar.
     void setDiagonal(T s);
@@ -120,10 +150,10 @@ class Matrix<T, 4, 4> {
     void setOffDiagonal(T s);
 
     //! Sets i-th row with input vector.
-    void setRow(std::size_t i, const Vector4<T>& row);
+    void setRow(size_t i, const Vector4<T>& row);
 
     //! Sets i-th column with input vector.
-    void setColumn(std::size_t i, const Vector4<T>& col);
+    void setColumn(size_t i, const Vector4<T>& col);
 
 
     // Basic getters
@@ -138,10 +168,10 @@ class Matrix<T, 4, 4> {
     bool isSquare() const;
 
     //! Returns number of rows of this matrix.
-    std::size_t rows() const;
+    size_t rows() const;
 
     //! Returns number of columns of this matrix.
-    std::size_t cols() const;
+    size_t cols() const;
 
     //! Returns data pointer of this matrix.
     T* data();
@@ -168,9 +198,6 @@ class Matrix<T, 4, 4> {
 
     //! Returns this matrix * input scalar.
     Matrix mul(T s) const;
-
-    //! Returns this matrix * input vector.
-    Vector3<T> mul(const Vector3<T>& v) const;
 
     //! Returns this matrix * input vector.
     Vector4<T> mul(const Vector4<T>& v) const;
@@ -291,7 +318,7 @@ class Matrix<T, 4, 4> {
     Matrix inverse() const;
 
     template <typename U>
-    Matrix<U,4,4> castTo() const;
+    Matrix<U, 4, 4> castTo() const;
 
     // Setter operators
     //! Assigns input matrix.
@@ -326,16 +353,16 @@ class Matrix<T, 4, 4> {
 
     // Getter operators
     //! Returns reference of i-th element.
-    T& operator[](std::size_t i);
+    T& operator[](size_t i);
 
     //! Returns constant reference of i-th element.
-    const T& operator[](std::size_t i) const;
+    const T& operator[](size_t i) const;
 
     //! Returns reference of (i,j) element.
-    T& operator()(std::size_t i, std::size_t j);
+    T& operator()(size_t i, size_t j);
 
     //! Returns constant reference of (i,j) element.
-    const T& operator()(std::size_t i, std::size_t j) const;
+    const T& operator()(size_t i, size_t j) const;
 
     //! Returns true if is equal to m.
     bool operator==(const Matrix& m) const;

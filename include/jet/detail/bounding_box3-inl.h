@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
@@ -46,7 +47,7 @@ T BoundingBox<T, 3>::depth() const {
 }
 
 template <typename T>
-T BoundingBox<T, 3>::length(std::size_t axis) {
+T BoundingBox<T, 3>::length(size_t axis) {
     return upperCorner[axis] - lowerCorner[axis];
 }
 

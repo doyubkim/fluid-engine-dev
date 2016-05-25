@@ -9,7 +9,7 @@
 #include <jet/parallel.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_system_data2.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <algorithm>
 
 namespace jet {
@@ -231,7 +231,7 @@ void SphSystemData2::setMass(double newMass) {
 
 void SphSystemData2::computeMass() {
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     BoundingBox2D sampleBound(
         Vector2D(-1.5*_kernelRadius, -1.5*_kernelRadius),
         Vector2D(1.5*_kernelRadius, 1.5*_kernelRadius));

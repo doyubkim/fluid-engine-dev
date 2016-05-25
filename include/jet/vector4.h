@@ -4,6 +4,7 @@
 #define INCLUDE_JET_VECTOR4_H_
 
 #include <jet/vector3.h>
+#include <algorithm>  // just make cpplint happy..
 #include <limits>
 
 namespace jet {
@@ -18,8 +19,8 @@ class Vector<T, 4> final {
 
     // Constructors
     Vector();
-    explicit Vector(T x, T y, T z, T w);
-    explicit Vector(const Vector<T, 3>& pt, T w);
+    Vector(T x, T y, T z, T w);
+    Vector(const Vector<T, 3>& pt, T w);
     template <typename U>
     Vector(const std::initializer_list<U>& lst);
     Vector(const Vector& v);

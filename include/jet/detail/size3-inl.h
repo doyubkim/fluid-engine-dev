@@ -16,19 +16,19 @@ inline Size<3>::Size() :
     z(0) {
 }
 
-inline Size<3>::Size(std::size_t newX, std::size_t newY, std::size_t newZ) :
+inline Size<3>::Size(size_t newX, size_t newY, size_t newZ) :
     x(newX),
     y(newY),
     z(newZ) {
 }
 
-inline Size<3>::Size(const Size2& pt, std::size_t newZ) :
+inline Size<3>::Size(const Size2& pt, size_t newZ) :
     x(pt.x),
     y(pt.y),
     z(newZ) {
 }
 
-inline Size<3>::Size(const std::initializer_list<std::size_t>& lst) {
+inline Size<3>::Size(const std::initializer_list<size_t>& lst) {
     set(lst);
 }
 
@@ -39,19 +39,19 @@ inline Size<3>::Size(const Size& v) :
 }
 
 // Basic setters
-inline void Size<3>::set(std::size_t newX, std::size_t newY, std::size_t newZ) {
+inline void Size<3>::set(size_t newX, size_t newY, size_t newZ) {
     x = newX;
     y = newY;
     z = newZ;
 }
 
-inline void Size<3>::set(const Size2& pt, std::size_t newZ) {
+inline void Size<3>::set(const Size2& pt, size_t newZ) {
     x = pt.x;
     y = pt.y;
     z = newZ;
 }
 
-inline void Size<3>::set(const std::initializer_list<std::size_t>& lst) {
+inline void Size<3>::set(const std::initializer_list<size_t>& lst) {
     assert(lst.size() >= 3);
 
     auto inputElem = lst.begin();
@@ -71,7 +71,7 @@ inline void Size<3>::setZero() {
 }
 
 // Binary operators: new instance = this (+) v
-inline Size<3> Size<3>::add(std::size_t v) const {
+inline Size<3> Size<3>::add(size_t v) const {
     return Size(x + v, y + v, z + v);
 }
 
@@ -79,7 +79,7 @@ inline Size<3> Size<3>::add(const Size& v) const {
     return Size(x + v.x, y + v.y, z + v.z);
 }
 
-inline Size<3> Size<3>::sub(std::size_t v) const {
+inline Size<3> Size<3>::sub(size_t v) const {
     return Size(x - v, y - v, z - v);
 }
 
@@ -87,7 +87,7 @@ inline Size<3> Size<3>::sub(const Size& v) const {
     return Size(x - v.x, y - v.y, z - v.z);
 }
 
-inline Size<3> Size<3>::mul(std::size_t v) const {
+inline Size<3> Size<3>::mul(size_t v) const {
     return Size(x * v, y * v, z * v);
 }
 
@@ -95,7 +95,7 @@ inline Size<3> Size<3>::mul(const Size& v) const {
     return Size(x * v.x, y * v.y, z * v.z);
 }
 
-inline Size<3> Size<3>::div(std::size_t v) const {
+inline Size<3> Size<3>::div(size_t v) const {
     return Size(x / v, y / v, z / v);
 }
 
@@ -104,7 +104,7 @@ inline Size<3> Size<3>::div(const Size& v) const {
 }
 
 // Binary operators: new instance = v (+) this
-inline Size<3> Size<3>::radd(std::size_t v) const {
+inline Size<3> Size<3>::radd(size_t v) const {
     return Size(v + x, v + y, v + z);
 }
 
@@ -112,7 +112,7 @@ inline Size<3> Size<3>::radd(const Size& v) const {
     return Size(v.x + x, v.y + y, v.z + z);
 }
 
-inline Size<3> Size<3>::rsub(std::size_t v) const {
+inline Size<3> Size<3>::rsub(size_t v) const {
     return Size(v - x, v - y, v - z);
 }
 
@@ -120,7 +120,7 @@ inline Size<3> Size<3>::rsub(const Size& v) const {
     return Size(v.x - x, v.y - y, v.z - z);
 }
 
-inline Size<3> Size<3>::rmul(std::size_t v) const {
+inline Size<3> Size<3>::rmul(size_t v) const {
     return Size(v * x, v * y, v * z);
 }
 
@@ -128,7 +128,7 @@ inline Size<3> Size<3>::rmul(const Size& v) const {
     return Size(v.x * x, v.y * y, v.z * z);
 }
 
-inline Size<3> Size<3>::rdiv(std::size_t v) const {
+inline Size<3> Size<3>::rdiv(size_t v) const {
     return Size(v / x, v / y, v / z);
 }
 
@@ -137,7 +137,7 @@ inline Size<3> Size<3>::rdiv(const Size& v) const {
 }
 
 // Augmented operators: this (+)= v
-inline void Size<3>::iadd(std::size_t v) {
+inline void Size<3>::iadd(size_t v) {
     x += v;
     y += v;
     z += v;
@@ -149,7 +149,7 @@ inline void Size<3>::iadd(const Size& v) {
     z += v.z;
 }
 
-inline void Size<3>::isub(std::size_t v) {
+inline void Size<3>::isub(size_t v) {
     x -= v;
     y -= v;
     z -= v;
@@ -161,7 +161,7 @@ inline void Size<3>::isub(const Size& v) {
     z -= v.z;
 }
 
-inline void Size<3>::imul(std::size_t v) {
+inline void Size<3>::imul(size_t v) {
     x *= v;
     y *= v;
     z *= v;
@@ -173,7 +173,7 @@ inline void Size<3>::imul(const Size& v) {
     z *= v.z;
 }
 
-inline void Size<3>::idiv(std::size_t v) {
+inline void Size<3>::idiv(size_t v) {
     x /= v;
     y /= v;
     z /= v;
@@ -186,33 +186,33 @@ inline void Size<3>::idiv(const Size& v) {
 }
 
 // Basic getters
-inline const std::size_t& Size<3>::at(std::size_t i) const {
+inline const size_t& Size<3>::at(size_t i) const {
     assert(i < 3);
     return (&x)[i];
 }
 
-inline std::size_t& Size<3>::at(std::size_t i) {
+inline size_t& Size<3>::at(size_t i) {
     assert(i < 3);
     return (&x)[i];
 }
 
-inline std::size_t Size<3>::sum() const {
+inline size_t Size<3>::sum() const {
     return x + y + z;
 }
 
-inline std::size_t Size<3>::min() const {
+inline size_t Size<3>::min() const {
     return std::min(std::min(x, y), z);
 }
 
-inline std::size_t Size<3>::max() const {
+inline size_t Size<3>::max() const {
     return std::max(std::max(x, y), z);
 }
 
-inline std::size_t Size<3>::dominantAxis() const {
+inline size_t Size<3>::dominantAxis() const {
     return (x > y) ? ((x > z) ? 0 : 2) : ((y > z) ? 1 : 2);
 }
 
-inline std::size_t Size<3>::subminantAxis() const {
+inline size_t Size<3>::subminantAxis() const {
     return (x < y) ? ((x < z) ? 0 : 2) : ((y < z) ? 1 : 2);
 }
 
@@ -221,12 +221,12 @@ inline bool Size<3>::isEqual(const Size& other) const {
 }
 
 // Operators
-inline std::size_t& Size<3>::operator[](std::size_t i) {
+inline size_t& Size<3>::operator[](size_t i) {
     assert(i < 3);
     return (&x)[i];
 }
 
-inline const std::size_t& Size<3>::operator[](std::size_t i) const {
+inline const size_t& Size<3>::operator[](size_t i) const {
     assert(i < 3);
     return (&x)[i];
 }
@@ -236,7 +236,7 @@ inline Size<3>& Size<3>::operator=(const Size& v) {
     return (*this);
 }
 
-inline Size<3>& Size<3>::operator+=(std::size_t v) {
+inline Size<3>& Size<3>::operator+=(size_t v) {
     iadd(v);
     return (*this);
 }
@@ -246,7 +246,7 @@ inline Size<3>& Size<3>::operator+=(const Size& v) {
     return (*this);
 }
 
-inline Size<3>& Size<3>::operator-=(std::size_t v) {
+inline Size<3>& Size<3>::operator-=(size_t v) {
     isub(v);
     return (*this);
 }
@@ -256,7 +256,7 @@ inline Size<3>& Size<3>::operator-=(const Size& v) {
     return (*this);
 }
 
-inline Size<3>& Size<3>::operator*=(std::size_t v) {
+inline Size<3>& Size<3>::operator*=(size_t v) {
     imul(v);
     return (*this);
 }
@@ -266,7 +266,7 @@ inline Size<3>& Size<3>::operator*=(const Size& v) {
     return (*this);
 }
 
-inline Size<3>& Size<3>::operator/=(std::size_t v) {
+inline Size<3>& Size<3>::operator/=(size_t v) {
     idiv(v);
     return (*this);
 }
@@ -289,11 +289,11 @@ inline Size<3> operator+(const Size<3>& a) {
     return a;
 }
 
-inline Size<3> operator+(const Size<3>& a, std::size_t b) {
+inline Size<3> operator+(const Size<3>& a, size_t b) {
     return a.add(b);
 }
 
-inline Size<3> operator+(std::size_t a, const Size<3>& b) {
+inline Size<3> operator+(size_t a, const Size<3>& b) {
     return b.radd(a);
 }
 
@@ -301,11 +301,11 @@ inline Size<3> operator+(const Size<3>& a, const Size<3>& b) {
     return a.add(b);
 }
 
-inline Size<3> operator-(const Size<3>& a, std::size_t b) {
+inline Size<3> operator-(const Size<3>& a, size_t b) {
     return a.sub(b);
 }
 
-inline Size<3> operator-(std::size_t a, const Size<3>& b) {
+inline Size<3> operator-(size_t a, const Size<3>& b) {
     return b.rsub(a);
 }
 
@@ -313,11 +313,11 @@ inline Size<3> operator-(const Size<3>& a, const Size<3>& b) {
     return a.sub(b);
 }
 
-inline Size<3> operator*(const Size<3>& a, std::size_t b) {
+inline Size<3> operator*(const Size<3>& a, size_t b) {
     return a.mul(b);
 }
 
-inline Size<3> operator*(std::size_t a, const Size<3>& b) {
+inline Size<3> operator*(size_t a, const Size<3>& b) {
     return b.rmul(a);
 }
 
@@ -325,11 +325,11 @@ inline Size<3> operator*(const Size<3>& a, const Size<3>& b) {
     return a.mul(b);
 }
 
-inline Size<3> operator/(const Size<3>& a, std::size_t b) {
+inline Size<3> operator/(const Size<3>& a, size_t b) {
     return a.div(b);
 }
 
-inline Size<3> operator/(std::size_t a, const Size<3>& b) {
+inline Size<3> operator/(size_t a, const Size<3>& b) {
     return b.rdiv(a);
 }
 

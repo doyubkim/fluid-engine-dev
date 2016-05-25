@@ -4,6 +4,7 @@
 #define INCLUDE_JET_POINT2_H_
 
 #include <jet/point.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -19,7 +20,7 @@ class Point<T, 2> final {
 
     // Constructors
     Point();
-    explicit Point(T x, T y);
+    Point(T x, T y);
     template <typename U>
     Point(const std::initializer_list<U>& lst);
     Point(const Point& v);

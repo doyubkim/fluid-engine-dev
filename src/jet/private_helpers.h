@@ -24,11 +24,19 @@ inline void throwIfFailed(HRESULT hr) {
 }
 
 #ifndef IF_FAILED_CLEANUP
-#   define IF_FAILED_CLEANUP(_hr) if (FAILED(_hr)) { hr = _hr; goto Cleanup; }
+#   define IF_FAILED_CLEANUP(_hr) \
+        if (FAILED(_hr)) { \
+            hr = _hr; \
+            goto Cleanup; \
+        }
 #endif
 
 #ifndef FAIL_AND_CLEANUP
-#   define FAIL_AND_CLEANUP(_hr) { hr = _hr; goto Cleanup; }
+#   define FAIL_AND_CLEANUP(_hr) \
+        { \
+            hr = _hr; \
+            goto Cleanup; \
+        }
 #endif
 
 #endif  // JET_WINDOWS

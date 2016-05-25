@@ -4,8 +4,8 @@
 
 #include <jet/flip_solver2.h>
 #include <jet/flip_solver3.h>
-#include <jet/grid_points_generator2.h>
-#include <jet/grid_points_generator3.h>
+#include <jet/grid_point_generator2.h>
+#include <jet/grid_point_generator3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/level_set_utils.h>
@@ -39,7 +39,7 @@ JET_BEGIN_TEST_F(FlipSolver2, SteadyState) {
     double dx = 1.0 / 32.0;
     grid->resize(Size2(32, 32), Vector2D(dx, dx), Vector2D());
 
-    GridPointsGenerator2 pointsGen;
+    GridPointGenerator2 pointsGen;
     Array1<Vector2D> points;
     pointsGen.generate(
         BoundingBox2D(Vector2D(), Vector2D(1.0, 0.5)), 0.5 * dx, &points);
@@ -88,7 +88,7 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreaking) {
     double dx = 1.0 / 64.0;
     grid->resize(Size2(64, 64), Vector2D(dx, dx), Vector2D());
 
-    GridPointsGenerator2 pointsGen;
+    GridPointGenerator2 pointsGen;
     Array1<Vector2D> points;
     pointsGen.generate(
         BoundingBox2D(Vector2D(), Vector2D(0.2, 0.6)), 0.5 * dx, &points);
@@ -136,7 +136,7 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithCollider) {
     double dx = 1.0 / 100.0;
     grid->resize(Size2(100, 100), Vector2D(dx, dx), Vector2D());
 
-    GridPointsGenerator2 pointsGen;
+    GridPointGenerator2 pointsGen;
     Array1<Vector2D> points;
     pointsGen.generate(
         BoundingBox2D(Vector2D(), Vector2D(0.2, 0.8)), 0.5 * dx, &points);
@@ -182,7 +182,7 @@ JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
             domain.midPoint(), 0.15 * domain.width()));
 
     // Initialize particles
-    GridPointsGenerator3 pointsGen;
+    GridPointGenerator3 pointsGen;
     Array1<Vector3D> points;
     pointsGen.forEachPoint(
         domain,

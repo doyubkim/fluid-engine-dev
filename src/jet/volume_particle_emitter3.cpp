@@ -1,7 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/bcc_lattice_points_generator.h>
+#include <jet/bcc_lattice_point_generator.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/samplers.h>
 #include <jet/volume_particle_emitter3.h>
@@ -19,7 +19,7 @@ VolumeParticleEmitter3::VolumeParticleEmitter3(
     _bounds(bounds),
     _spacing(spacing),
     _initialVel(initialVel) {
-    _pointsGen = std::make_shared<BccLatticePointsGenerator>();
+    _pointsGen = std::make_shared<BccLatticePointGenerator>();
 }
 
 void VolumeParticleEmitter3::emit(
@@ -101,7 +101,7 @@ void VolumeParticleEmitter3::emit(
 }
 
 void VolumeParticleEmitter3::setPointGenerator(
-    const PointsGenerator3Ptr& newPointsGen) {
+    const PointGenerator3Ptr& newPointsGen) {
     _pointsGen = newPointsGen;
 }
 

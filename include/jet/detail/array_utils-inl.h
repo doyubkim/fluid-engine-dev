@@ -243,7 +243,7 @@ void convertToCsv(const ArrayType& data, std::ostream* strm) {
         for (size_t i = 0; i < size.x; ++i) {
             auto val = data(i, j);
 
-            // TODO: Hack to handle char and unsigned char
+            // TODO(doyubkim): Hack to handle char and unsigned char
             if (sizeof(decltype(val)) == 1) {
                 (*strm) << static_cast<int>(val);
             } else {

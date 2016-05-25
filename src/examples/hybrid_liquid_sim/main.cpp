@@ -123,7 +123,7 @@ void runExample1(
         domain,
         0.5 * dx,
         Vector3D());
-    emitter->setPointGenerator(std::make_shared<GridPointsGenerator3>());
+    emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
     emitter->emit(Frame(), particles);
 
     // Print simulation info
@@ -169,7 +169,7 @@ void runExample2(
         domain,
         0.5 * dx,
         Vector3D());
-    emitter->setPointGenerator(std::make_shared<GridPointsGenerator3>());
+    emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
     emitter->emit(Frame(), particles);
 
     // Print simulation info
@@ -218,7 +218,7 @@ void runExample3(
         domain,
         0.5 * dx,
         Vector3D());
-    emitter->setPointGenerator(std::make_shared<GridPointsGenerator3>());
+    emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
     emitter->emit(Frame(), particles);
 
     // Collider setting

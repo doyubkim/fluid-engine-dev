@@ -26,14 +26,15 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <pch.h>
-#include <jet/parallel.h>
 #include <jet/triangle_mesh3.h>
+#include <jet/parallel.h>
 
 #include <obj/obj_parser.hpp>
 
 #include <algorithm>
 #include <limits>
 #include <string>
+#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
@@ -595,17 +596,20 @@ bool TriangleMesh3::readObj(std::istream* strm) {
             std::cerr << lineNumber << " " << message << std::endl;
         });
 
-    parser.geometric_vertex_callback([this](obj::float_type x, obj::float_type y, obj::float_type z) {
-        addPoint({x, y, z});
-    });
+    parser.geometric_vertex_callback(
+        [this](obj::float_type x, obj::float_type y, obj::float_type z) {
+            addPoint({x, y, z});
+        });
 
-    parser.texture_vertex_callback([this](obj::float_type u, obj::float_type v) {
-        addUv({u, v});
-    });
+    parser.texture_vertex_callback(
+        [this](obj::float_type u, obj::float_type v) {
+            addUv({u, v});
+        });
 
-    parser.vertex_normal_callback([this](obj::float_type nx, obj::float_type ny, obj::float_type nz) {
-        addNormal({nx, ny, nz});
-    });
+    parser.vertex_normal_callback(
+        [this](obj::float_type nx, obj::float_type ny, obj::float_type nz) {
+            addNormal({nx, ny, nz});
+        });
 
     parser.face_callbacks(
         // triangular_face_geometric_vertices_callback_type

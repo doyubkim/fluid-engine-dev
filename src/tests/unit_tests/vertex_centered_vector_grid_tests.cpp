@@ -59,8 +59,8 @@ TEST(VertexCenteredVectorGrid2, Fill) {
     VertexCenteredVectorGrid2 grid(5, 4, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0);
     grid.fill(Vector2D(42.0, 27.0));
 
-    for (std::size_t j = 0; j < grid.dataSize().y; ++j) {
-        for (std::size_t i = 0; i < grid.dataSize().x; ++i) {
+    for (size_t j = 0; j < grid.dataSize().y; ++j) {
+        for (size_t i = 0; i < grid.dataSize().x; ++i) {
             EXPECT_DOUBLE_EQ(42.0, grid(i, j).x);
             EXPECT_DOUBLE_EQ(27.0, grid(i, j).y);
         }
@@ -75,8 +75,8 @@ TEST(VertexCenteredVectorGrid2, Fill) {
     };
     grid.fill(func);
 
-    for (std::size_t j = 0; j < grid.dataSize().y; ++j) {
-        for (std::size_t i = 0; i < grid.dataSize().x; ++i) {
+    for (size_t j = 0; j < grid.dataSize().y; ++j) {
+        for (size_t i = 0; i < grid.dataSize().x; ++i) {
             if (i < 3) {
                 EXPECT_DOUBLE_EQ(2.0, grid(i, j).x);
                 EXPECT_DOUBLE_EQ(3.0, grid(i, j).y);
@@ -93,16 +93,16 @@ TEST(VertexCenteredVectorGrid2, DivergenceAtDataPoint) {
 
     grid.fill(Vector2D(1.0, -2.0));
 
-    for (std::size_t j = 0; j < grid.resolution().y; ++j) {
-        for (std::size_t i = 0; i < grid.resolution().x; ++i) {
+    for (size_t j = 0; j < grid.resolution().y; ++j) {
+        for (size_t i = 0; i < grid.resolution().x; ++i) {
             EXPECT_DOUBLE_EQ(0.0, grid.divergenceAtDataPoint(i, j));
         }
     }
 
     grid.fill([](const Vector2D& x) { return x; });
 
-    for (std::size_t j = 1; j < grid.resolution().y - 1; ++j) {
-        for (std::size_t i = 1; i < grid.resolution().x - 1; ++i) {
+    for (size_t j = 1; j < grid.resolution().y - 1; ++j) {
+        for (size_t i = 1; i < grid.resolution().x - 1; ++i) {
             EXPECT_NEAR(2.0, grid.divergenceAtDataPoint(i, j), 1e-6);
         }
     }
@@ -113,16 +113,16 @@ TEST(VertexCenteredVectorGrid2, CurlAtDataPoint) {
 
     grid.fill(Vector2D(1.0, -2.0));
 
-    for (std::size_t j = 0; j < grid.resolution().y; ++j) {
-        for (std::size_t i = 0; i < grid.resolution().x; ++i) {
+    for (size_t j = 0; j < grid.resolution().y; ++j) {
+        for (size_t i = 0; i < grid.resolution().x; ++i) {
             EXPECT_DOUBLE_EQ(0.0, grid.curlAtDataPoint(i, j));
         }
     }
 
     grid.fill([](const Vector2D& x) { return Vector2D(-x.y, x.x); });
 
-    for (std::size_t j = 1; j < grid.resolution().y - 1; ++j) {
-        for (std::size_t i = 1; i < grid.resolution().x - 1; ++i) {
+    for (size_t j = 1; j < grid.resolution().y - 1; ++j) {
+        for (size_t i = 1; i < grid.resolution().x - 1; ++i) {
             EXPECT_NEAR(2.0, grid.curlAtDataPoint(i, j), 1e-6);
         }
     }
@@ -245,9 +245,9 @@ TEST(VertexCenteredVectorGrid3, Fill) {
         5, 4, 6, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     grid.fill(Vector3D(42.0, 27.0, 31.0));
 
-    for (std::size_t k = 0; k < grid.dataSize().z; ++k) {
-        for (std::size_t j = 0; j < grid.dataSize().y; ++j) {
-            for (std::size_t i = 0; i < grid.dataSize().x; ++i) {
+    for (size_t k = 0; k < grid.dataSize().z; ++k) {
+        for (size_t j = 0; j < grid.dataSize().y; ++j) {
+            for (size_t i = 0; i < grid.dataSize().x; ++i) {
                 EXPECT_DOUBLE_EQ(42.0, grid(i, j, k).x);
                 EXPECT_DOUBLE_EQ(27.0, grid(i, j, k).y);
                 EXPECT_DOUBLE_EQ(31.0, grid(i, j, k).z);
@@ -264,9 +264,9 @@ TEST(VertexCenteredVectorGrid3, Fill) {
     };
     grid.fill(func);
 
-    for (std::size_t k = 0; k < grid.dataSize().z; ++k) {
-        for (std::size_t j = 0; j < grid.dataSize().y; ++j) {
-            for (std::size_t i = 0; i < grid.dataSize().x; ++i) {
+    for (size_t k = 0; k < grid.dataSize().z; ++k) {
+        for (size_t j = 0; j < grid.dataSize().y; ++j) {
+            for (size_t i = 0; i < grid.dataSize().x; ++i) {
                 if (i < 3) {
                     EXPECT_DOUBLE_EQ(2.0, grid(i, j, k).x);
                     EXPECT_DOUBLE_EQ(3.0, grid(i, j, k).y);
@@ -286,9 +286,9 @@ TEST(VertexCenteredVectorGrid3, DivergenceAtDataPoint) {
 
     grid.fill(Vector3D(1.0, -2.0, 3.0));
 
-    for (std::size_t k = 0; k < grid.resolution().z; ++k) {
-        for (std::size_t j = 0; j < grid.resolution().y; ++j) {
-            for (std::size_t i = 0; i < grid.resolution().x; ++i) {
+    for (size_t k = 0; k < grid.resolution().z; ++k) {
+        for (size_t j = 0; j < grid.resolution().y; ++j) {
+            for (size_t i = 0; i < grid.resolution().x; ++i) {
                 EXPECT_DOUBLE_EQ(0.0, grid.divergenceAtDataPoint(i, j, k));
             }
         }
@@ -296,9 +296,9 @@ TEST(VertexCenteredVectorGrid3, DivergenceAtDataPoint) {
 
     grid.fill([](const Vector3D& x) { return x; });
 
-    for (std::size_t k = 1; k < grid.resolution().z - 1; ++k) {
-        for (std::size_t j = 1; j < grid.resolution().y - 1; ++j) {
-            for (std::size_t i = 1; i < grid.resolution().x - 1; ++i) {
+    for (size_t k = 1; k < grid.resolution().z - 1; ++k) {
+        for (size_t j = 1; j < grid.resolution().y - 1; ++j) {
+            for (size_t i = 1; i < grid.resolution().x - 1; ++i) {
                 EXPECT_DOUBLE_EQ(3.0, grid.divergenceAtDataPoint(i, j, k));
             }
         }
@@ -310,9 +310,9 @@ TEST(VertexCenteredVectorGrid3, CurlAtDataPoint) {
 
     grid.fill(Vector3D(1.0, -2.0, 3.0));
 
-    for (std::size_t k = 0; k < grid.resolution().z; ++k) {
-        for (std::size_t j = 0; j < grid.resolution().y; ++j) {
-            for (std::size_t i = 0; i < grid.resolution().x; ++i) {
+    for (size_t k = 0; k < grid.resolution().z; ++k) {
+        for (size_t j = 0; j < grid.resolution().y; ++j) {
+            for (size_t i = 0; i < grid.resolution().x; ++i) {
                 Vector3D curl = grid.curlAtDataPoint(i, j, k);
                 EXPECT_DOUBLE_EQ(0.0, curl.x);
                 EXPECT_DOUBLE_EQ(0.0, curl.y);
@@ -323,9 +323,9 @@ TEST(VertexCenteredVectorGrid3, CurlAtDataPoint) {
 
     grid.fill([](const Vector3D& x) { return Vector3D(x.y, x.z, x.x); });
 
-    for (std::size_t k = 1; k < grid.resolution().z - 1; ++k) {
-        for (std::size_t j = 1; j < grid.resolution().y - 1; ++j) {
-            for (std::size_t i = 1; i < grid.resolution().x - 1; ++i) {
+    for (size_t k = 1; k < grid.resolution().z - 1; ++k) {
+        for (size_t j = 1; j < grid.resolution().y - 1; ++j) {
+            for (size_t i = 1; i < grid.resolution().x - 1; ++i) {
                 Vector3D curl = grid.curlAtDataPoint(i, j, k);
                 EXPECT_DOUBLE_EQ(-1.0, curl.x);
                 EXPECT_DOUBLE_EQ(-1.0, curl.y);

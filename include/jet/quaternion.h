@@ -24,11 +24,11 @@ class Quaternion {
 
     // Constructors
     Quaternion();
-    explicit Quaternion(T newW, T newX, T newY, T newZ);
-    explicit Quaternion(const std::initializer_list<T>& lst);
-    explicit Quaternion(const Vector3<T>& axis, T angle);
-    explicit Quaternion(const Vector3<T>& from, const Vector3<T>& to);
-    explicit Quaternion(
+    Quaternion(T newW, T newX, T newY, T newZ);
+    Quaternion(const std::initializer_list<T>& lst);
+    Quaternion(const Vector3<T>& axis, T angle);
+    Quaternion(const Vector3<T>& from, const Vector3<T>& to);
+    Quaternion(
         const Vector3<T>& axis0,
         const Vector3<T>& axis1,
         const Vector3<T>& axis2);
@@ -102,9 +102,9 @@ class Quaternion {
 
 
     // Getter operators
-    T& operator[](std::size_t i);
+    T& operator[](size_t i);
 
-    const T& operator[](std::size_t i) const;
+    const T& operator[](size_t i) const;
 
     bool operator==(const Quaternion& other) const;
 

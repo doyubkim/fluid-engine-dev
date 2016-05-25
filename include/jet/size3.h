@@ -4,6 +4,7 @@
 #define INCLUDE_JET_SIZE3_H_
 
 #include <jet/size2.h>
+#include <algorithm>  // just make cpplint happy..
 
 namespace jet {
 
@@ -16,9 +17,9 @@ class Size<3> final {
 
     // Constructors
     Size();
-    explicit Size(size_t x, size_t y, size_t z);
-    explicit Size(const Size2& pt, size_t z);
-    explicit Size(const std::initializer_list<size_t>& lst);
+    Size(size_t x, size_t y, size_t z);
+    Size(const Size2& pt, size_t z);
+    Size(const std::initializer_list<size_t>& lst);
     Size(const Size& v);
 
     // Basic setters

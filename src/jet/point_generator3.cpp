@@ -1,17 +1,17 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/points_generator3.h>
+#include <jet/point_generator3.h>
 
 namespace jet {
 
-PointsGenerator3::PointsGenerator3() {
+PointGenerator3::PointGenerator3() {
 }
 
-PointsGenerator3::~PointsGenerator3() {
+PointGenerator3::~PointGenerator3() {
 }
 
-void PointsGenerator3::generate(
+void PointGenerator3::generate(
     const BoundingBox3D& boundingBox,
     double spacing,
     Array1<Vector3D>* points) const {

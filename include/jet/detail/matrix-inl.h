@@ -7,7 +7,7 @@
 
 namespace jet {
 
-template <typename T, std::size_t M, std::size_t N>
+template <typename T, size_t M, size_t N>
 Matrix<T, M, N>::Matrix() {
     for (auto& column : elements) {
         for (auto& elem : column) {

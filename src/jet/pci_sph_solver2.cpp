@@ -1,7 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
-#include <jet/triangle_points_generator.h>
+#include <jet/triangle_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/pci_sph_solver2.h>
 #include <jet/sph_kernels2.h>
@@ -167,7 +167,7 @@ double PciSphSolver2::computeDelta(double timeStepInSeconds) {
     const double kernelRadius = particles->kernelRadius();
 
     Array1<Vector2D> points;
-    TrianglePointsGenerator pointsGenerator;
+    TrianglePointGenerator pointsGenerator;
     Vector2D origin;
     BoundingBox2D sampleBound(origin, origin);
     sampleBound.expand(1.5 * kernelRadius);

@@ -6,7 +6,7 @@
 #include <jet/bounding_box2.h>
 #include <jet/implicit_surface2.h>
 #include <jet/particle_emitter2.h>
-#include <jet/points_generator2.h>
+#include <jet/point_generator2.h>
 #include <limits>
 #include <memory>
 #include <random>
@@ -27,7 +27,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
         const Frame& frame,
         const ParticleSystemData2Ptr& particles) override;
 
-    void setPointGenerator(const PointsGenerator2Ptr& newPointsGen);
+    void setPointGenerator(const PointGenerator2Ptr& newPointsGen);
 
     //! Returns jitter amount [0, 1].
     double jitter() const;
@@ -55,7 +55,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     BoundingBox2D _bounds;
     double _spacing;
     Vector2D _initialVel;
-    PointsGenerator2Ptr _pointsGen;
+    PointGenerator2Ptr _pointsGen;
 
     size_t _maxNumberOfParticles = std::numeric_limits<size_t>::max();
     size_t _numberOfEmittedParticles = 0;

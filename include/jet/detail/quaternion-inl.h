@@ -60,7 +60,10 @@ inline void Quaternion<T>::set(const Quaternion& other) {
 
 template <typename T>
 inline void Quaternion<T>::set(T newW, T newX, T newY, T newZ) {
-    w = newW; x = newX; y = newY; z = newZ;
+    w = newW;
+    x = newX;
+    y = newY;
+    z = newZ;
 }
 
 template <typename T>
@@ -376,12 +379,12 @@ inline Quaternion<T>& Quaternion<T>::operator*=(const Quaternion& other) {
 
 // Getter operators
 template <typename T>
-inline T& Quaternion<T>::operator[](std::size_t i) {
+inline T& Quaternion<T>::operator[](size_t i) {
     return (&w)[i];
 }
 
 template <typename T>
-inline const T& Quaternion<T>::operator[](std::size_t i) const {
+inline const T& Quaternion<T>::operator[](size_t i) const {
     return (&w)[i];
 }
 

@@ -241,9 +241,15 @@ size_t PointParallelHashGridSearcher3::getHashKeyFromBucketIndex(
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     wrappedIndex.z = bucketIndex.z % _resolution.z;
-    if (wrappedIndex.x < 0) { wrappedIndex.x += _resolution.x; }
-    if (wrappedIndex.y < 0) { wrappedIndex.y += _resolution.y; }
-    if (wrappedIndex.z < 0) { wrappedIndex.z += _resolution.z; }
+    if (wrappedIndex.x < 0) {
+        wrappedIndex.x += _resolution.x;
+    }
+    if (wrappedIndex.y < 0) {
+        wrappedIndex.y += _resolution.y;
+    }
+    if (wrappedIndex.z < 0) {
+        wrappedIndex.z += _resolution.z;
+    }
     return static_cast<size_t>(
         (wrappedIndex.z * _resolution.y + wrappedIndex.y) * _resolution.x
         + wrappedIndex.x);
@@ -259,27 +265,39 @@ void PointParallelHashGridSearcher3::getNearbyKeys(
     }
 
     if ((originIndex.x + 0.5f) * _gridSpacing <= position.x) {
-        nearbyBucketIndices[4].x += 1; nearbyBucketIndices[5].x += 1;
-        nearbyBucketIndices[6].x += 1; nearbyBucketIndices[7].x += 1;
+        nearbyBucketIndices[4].x += 1;
+        nearbyBucketIndices[5].x += 1;
+        nearbyBucketIndices[6].x += 1;
+        nearbyBucketIndices[7].x += 1;
     } else {
-        nearbyBucketIndices[4].x -= 1; nearbyBucketIndices[5].x -= 1;
-        nearbyBucketIndices[6].x -= 1; nearbyBucketIndices[7].x -= 1;
+        nearbyBucketIndices[4].x -= 1;
+        nearbyBucketIndices[5].x -= 1;
+        nearbyBucketIndices[6].x -= 1;
+        nearbyBucketIndices[7].x -= 1;
     }
 
     if ((originIndex.y + 0.5f) * _gridSpacing <= position.y) {
-        nearbyBucketIndices[2].y += 1; nearbyBucketIndices[3].y += 1;
-        nearbyBucketIndices[6].y += 1; nearbyBucketIndices[7].y += 1;
+        nearbyBucketIndices[2].y += 1;
+        nearbyBucketIndices[3].y += 1;
+        nearbyBucketIndices[6].y += 1;
+        nearbyBucketIndices[7].y += 1;
     } else {
-        nearbyBucketIndices[2].y -= 1; nearbyBucketIndices[3].y -= 1;
-        nearbyBucketIndices[6].y -= 1; nearbyBucketIndices[7].y -= 1;
+        nearbyBucketIndices[2].y -= 1;
+        nearbyBucketIndices[3].y -= 1;
+        nearbyBucketIndices[6].y -= 1;
+        nearbyBucketIndices[7].y -= 1;
     }
 
     if ((originIndex.z + 0.5f) * _gridSpacing <= position.z) {
-        nearbyBucketIndices[1].z += 1; nearbyBucketIndices[3].z += 1;
-        nearbyBucketIndices[5].z += 1; nearbyBucketIndices[7].z += 1;
+        nearbyBucketIndices[1].z += 1;
+        nearbyBucketIndices[3].z += 1;
+        nearbyBucketIndices[5].z += 1;
+        nearbyBucketIndices[7].z += 1;
     } else {
-        nearbyBucketIndices[1].z -= 1; nearbyBucketIndices[3].z -= 1;
-        nearbyBucketIndices[5].z -= 1; nearbyBucketIndices[7].z -= 1;
+        nearbyBucketIndices[1].z -= 1;
+        nearbyBucketIndices[3].z -= 1;
+        nearbyBucketIndices[5].z -= 1;
+        nearbyBucketIndices[7].z -= 1;
     }
 
     for (int i = 0; i < 8; i++) {
