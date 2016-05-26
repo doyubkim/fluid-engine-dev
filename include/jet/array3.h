@@ -32,6 +32,8 @@ namespace jet {
 //! }
 //! \endcode
 //!
+//! \tparam T - Type to store in the array.
+//!
 template <typename T>
 class Array<T, 3> final {
  public:

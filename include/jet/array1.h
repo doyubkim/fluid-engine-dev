@@ -20,6 +20,8 @@ namespace jet {
 //! wrapper around std::vector with some additional features such as the array
 //! accessor object, parallel for-loop and serialization.
 //!
+//! \tparam T - Type to store in the array.
+//!
 template <typename T>
 class Array<T, 1> final {
  public:

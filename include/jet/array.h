@@ -15,6 +15,9 @@ namespace jet {
 //! interface for 1, 2 or 3 dimensional arrays using template specialization
 //! only, but it cannot create any instance by itself.
 //!
+//! \tparam T - Real number type.
+//! \tparam N - Dimension.
+//!
 template <typename T, size_t N>
 class Array final {
  public:

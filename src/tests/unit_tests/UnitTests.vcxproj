@@ -29,9 +29,11 @@
     <ClCompile Include="array_samplers_tests.cpp" />
     <ClCompile Include="array_utils_tests.cpp" />
     <ClCompile Include="blas_tests.cpp" />
+    <ClCompile Include="matrix_tests.cpp" />
     <ClCompile Include="matrix2x2_tests.cpp" />
     <ClCompile Include="matrix3x3_tests.cpp" />
     <ClCompile Include="matrix4x4_tests.cpp" />
+    <ClCompile Include="bounding_box_tests.cpp" />
     <ClCompile Include="bounding_box2_tests.cpp" />
     <ClCompile Include="bounding_box3_tests.cpp" />
     <ClCompile Include="box_unit_tests.cpp" />

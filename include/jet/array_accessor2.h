@@ -21,6 +21,8 @@ namespace jet {
 //!
 //! \see Array<T, 2>
 //!
+//! \tparam T - Array value type.
+//!
 template <typename T>
 class ArrayAccessor<T, 2> final {
  public:

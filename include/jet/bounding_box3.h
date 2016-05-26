@@ -19,13 +19,17 @@ struct BoundingBoxRayIntersection3 {
 
 //!
 //! \brief 3-D axis-aligned bounding box class.
+//!
 //! \tparam T - Real number type.
 //! \tparam N - Dimension.
 //!
 template <typename T>
 class BoundingBox<T, 3> {
  public:
+    //! Upper corner of the bounding box.
     Vector3<T> lowerCorner;
+
+    //! Upper corner of the bounding box.
     Vector3<T> upperCorner;
 
     //! Default constructor.

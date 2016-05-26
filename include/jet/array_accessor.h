@@ -18,6 +18,9 @@ namespace jet {
 //! handle memory management. Thus, it is more like a random access iterator,
 //! but with multi-dimension support.
 //!
+//! \tparam T - Real number type.
+//! \tparam N - Dimension.
+//!
 template <typename T, size_t N>
 class ArrayAccessor final {
  public:

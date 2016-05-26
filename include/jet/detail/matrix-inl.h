@@ -9,10 +9,8 @@ namespace jet {
 
 template <typename T, size_t M, size_t N>
 Matrix<T, M, N>::Matrix() {
-    for (auto& column : elements) {
-        for (auto& elem : column) {
-            elem = 0;
-        }
+    for (auto& elem : elements) {
+        elem = 0;
     }
 }
 

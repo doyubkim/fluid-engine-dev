@@ -9,6 +9,7 @@ namespace jet {
 
 //!
 //! \brief Generic N-D axis-aligned bounding box class.
+//!
 //! \tparam T - Real number type.
 //! \tparam N - Dimension.
 //!
@@ -20,7 +21,10 @@ class BoundingBox {
 
     typedef Vector<T, N> VectorType;
 
+    //! Lower corner of the bounding box.
     VectorType lowerCorner;
+
+    //! Upper corner of the bounding box.
     VectorType upperCorner;
 
     //! Default constructor.

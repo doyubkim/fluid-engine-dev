@@ -30,7 +30,7 @@ class Matrix<T, 4, 4> {
     // Constructors
 
     //! Default constructor.
-    //! \warning This constructor will create identity matrix.
+    //! \warning This constructor will create zero matrix.
     Matrix();
 
     //! Constructs constant value matrix.
