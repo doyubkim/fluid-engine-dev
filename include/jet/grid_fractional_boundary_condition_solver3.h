@@ -10,7 +10,7 @@
 
 namespace jet {
 
-class GridFractionalBoundaryConditionSolver3 final
+class GridFractionalBoundaryConditionSolver3
     : public GridBoundaryConditionSolver3 {
  public:
     GridFractionalBoundaryConditionSolver3();
@@ -18,6 +18,8 @@ class GridFractionalBoundaryConditionSolver3 final
     void constrainVelocity(
         FaceCenteredGrid3* velocity,
         unsigned int extrapolationDepth = 5) override;
+
+    const CellCenteredScalarGrid3& colliderSdf() const;
 
  protected:
     void onColliderUpdated(
