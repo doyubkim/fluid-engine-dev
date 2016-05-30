@@ -87,10 +87,10 @@
     <ClCompile Include="particle_system_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pci_sph_solvers_test2.cpp">
+    <ClCompile Include="pci_sph_solver2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pci_sph_solvers_test3.cpp">
+    <ClCompile Include="pci_sph_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="iterative_level_set_solvers_tests.cpp">
