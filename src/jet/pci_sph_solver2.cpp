@@ -134,7 +134,7 @@ void PciSphSolver2::accumulatePressureForce(
         }
     }
 
-    JET_INFO << "Number of PCI iterations: " << k + 1;
+    JET_INFO << "Number of PCI iterations: " << k;
     JET_INFO << "Max density error after PCI iteration: " << maxDensityError;
     if (std::fabs(densityErrorRatio) > _maxDensityErrorRatio) {
         JET_WARN << "Max density error ratio is greater than the threshold!";
