@@ -12,7 +12,7 @@ using namespace jet;
 
 PciSphSolver2::PciSphSolver2() {
     // Heuristically chosen
-    setTimeStepLimitScale(30.0);
+    setTimeStepLimitScale(5.0);
 }
 
 PciSphSolver2::~PciSphSolver2() {
@@ -23,7 +23,7 @@ double PciSphSolver2::maxDensityErrorRatio() const {
 }
 
 void PciSphSolver2::setMaxDensityErrorRatio(double ratio) {
-    _maxDensityErrorRatio = ratio;
+    _maxDensityErrorRatio = std::max(ratio, 0.0);
 }
 
 unsigned int PciSphSolver2::maxNumberOfIterations() const {

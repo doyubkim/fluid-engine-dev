@@ -51,7 +51,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(SphSolver3, WaterDrop) {
     const double targetSpacing = 0.02;
 
-    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 0.5));
 
     // Initialize solvers
     SphSolver3 solver;
@@ -84,6 +84,10 @@ JET_BEGIN_TEST_F(SphSolver3, WaterDrop) {
     box->setIsNormalFlipped(true);
     RigidBodyCollider3Ptr collider = std::make_shared<RigidBodyCollider3>(box);
     solver.setCollider(collider);
+
+    // Make it fast, but stable
+    solver.setViscosityCoefficient(0.01);
+    solver.setTimeStepLimitScale(5.0);
 
     saveParticleDataXy(particles, 0);
 

@@ -55,6 +55,8 @@
     <ClCompile Include="particle_system_data2_tests.cpp" />
     <ClCompile Include="particle_system_data3_tests.cpp" />
     <ClCompile Include="particle_system_solvers_tests.cpp" />
+    <ClCompile Include="pci_sph_solver2_tests.cpp" />
+    <ClCompile Include="pci_sph_solver3_tests.cpp" />
     <ClCompile Include="pde_tests.cpp" />
     <ClCompile Include="pic_solvers_tests.cpp" />
     <ClCompile Include="point2_tests.cpp" />
@@ -64,6 +66,8 @@
     <ClCompile Include="point_simple_list_searcher_tests.cpp" />
     <ClCompile Include="quaternion_tests.cpp" />
     <ClCompile Include="sph_kernels_tests.cpp" />
+    <ClCompile Include="sph_solver2_tests.cpp" />
+    <ClCompile Include="sph_solver3_tests.cpp" />
     <ClCompile Include="vector2_tests.cpp" />
     <ClCompile Include="vector3_tests.cpp" />
     <ClCompile Include="vector_tests.cpp" />

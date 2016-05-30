@@ -30,6 +30,9 @@
     <ClCompile Include="sph_system_data_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sph_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="sph_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,7 +87,10 @@
     <ClCompile Include="particle_system_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pci_sph_solvers_tests.cpp">
+    <ClCompile Include="pci_sph_solvers_test2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pci_sph_solvers_test3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="iterative_level_set_solvers_tests.cpp">

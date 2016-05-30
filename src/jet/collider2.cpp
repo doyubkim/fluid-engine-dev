@@ -29,7 +29,7 @@ void Collider2::resolveCollision(
         Vector2D colliderVelAtTargetPoint = colliderPoint.velocity;
 
         // Get new candidate relative velocity from the target point.
-        Vector2D relativeVel = *newPosition - colliderVelAtTargetPoint;
+        Vector2D relativeVel = *newVelocity - colliderVelAtTargetPoint;
         double normalDotRelativeVel = targetNormal.dot(relativeVel);
         Vector2D relativeVelN = normalDotRelativeVel * targetNormal;
         Vector2D relativeVelT = relativeVel - relativeVelN;
