@@ -83,9 +83,11 @@ void runSimulation(
     size_t numberOfFrames) {
     auto sdf = solver->signedDistanceField();
     triangulateAndSave(sdf, rootDir, 0);
-    for (Frame frame; frame.index < numberOfFrames; frame.advance()) {
+
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < numberOfFrames; frame.advance()) {
         solver->update(frame);
-        triangulateAndSave(sdf, rootDir, frame.index + 1);
+        triangulateAndSave(sdf, rootDir, frame.index);
     }
 }
 

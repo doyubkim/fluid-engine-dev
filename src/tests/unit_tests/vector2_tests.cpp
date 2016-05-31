@@ -2,11 +2,11 @@
 
 #include <jet/vector3.h>
 #include <gtest/gtest.h>
+#include <algorithm>
 
 using namespace jet;
 
-TEST(Vector2, Constructors)
-{
+TEST(Vector2, Constructors) {
     Vector2F vec;
     EXPECT_FLOAT_EQ(0.f, vec.x);
     EXPECT_FLOAT_EQ(0.f, vec.y);
@@ -24,8 +24,7 @@ TEST(Vector2, Constructors)
     EXPECT_FLOAT_EQ(6.f, vec6.y);
 }
 
-TEST(Vector2, SetMethods)
-{
+TEST(Vector2, SetMethods) {
     Vector2F vec;
     vec.set(4.f, 2.f);
     EXPECT_FLOAT_EQ(4.f, vec.x);
@@ -41,8 +40,7 @@ TEST(Vector2, SetMethods)
     EXPECT_FLOAT_EQ(8.f, vec.y);
 }
 
-TEST(Vector2, BasicSetterMethods)
-{
+TEST(Vector2, BasicSetterMethods) {
     Vector2F vec(3.f, 9.f);
     vec.setZero();
     EXPECT_FLOAT_EQ(0.f, vec.x);
@@ -54,8 +52,7 @@ TEST(Vector2, BasicSetterMethods)
     EXPECT_NEAR(len, 1.f, 1e-6);
 }
 
-TEST(Vector2, BinaryOperatorMethods)
-{
+TEST(Vector2, BinaryOperatorMethods) {
     Vector2F vec(3.f, 9.f);
     vec = vec.add(4.f);
     EXPECT_FLOAT_EQ(7.f, vec.x);
@@ -96,8 +93,7 @@ TEST(Vector2, BinaryOperatorMethods)
     EXPECT_FLOAT_EQ(c, -22.f);
 }
 
-TEST(Vector2, BinaryInverseOperatorMethods)
-{
+TEST(Vector2, BinaryInverseOperatorMethods) {
     Vector2F vec(3.f, 9.f);
     vec = vec.rsub(8.f);
     EXPECT_FLOAT_EQ(5.f, vec.x);
@@ -120,8 +116,7 @@ TEST(Vector2, BinaryInverseOperatorMethods)
     EXPECT_FLOAT_EQ(c, 13.f);
 }
 
-TEST(Vector2, AugmentedOperatorMethods)
-{
+TEST(Vector2, AugmentedOperatorMethods) {
     Vector2F vec(3.f, 9.f);
     vec.iadd(4.f);
     EXPECT_FLOAT_EQ(7.f, vec.x);
@@ -156,8 +151,7 @@ TEST(Vector2, AugmentedOperatorMethods)
     EXPECT_FLOAT_EQ(3.f, vec.y);
 }
 
-TEST(Vector2, AtMethod)
-{
+TEST(Vector2, AtMethod) {
     Vector2F vec(8.f, 9.f);
     EXPECT_FLOAT_EQ(vec.at(0), 8.f);
     EXPECT_FLOAT_EQ(vec.at(1), 9.f);
@@ -168,8 +162,7 @@ TEST(Vector2, AtMethod)
     EXPECT_FLOAT_EQ(6.f, vec.y);
 }
 
-TEST(Vector2, BasicGetterMethods)
-{
+TEST(Vector2, BasicGetterMethods) {
     Vector2F vec(3.f, 7.f), vec2(-3.f, -7.f);
 
     float sum = vec.sum();
@@ -209,8 +202,7 @@ TEST(Vector2, BasicGetterMethods)
     EXPECT_NEAR(lenSqr, 4.f, eps);
 }
 
-TEST(Vector2, BracketOperator)
-{
+TEST(Vector2, BracketOperator) {
     Vector2F vec(8.f, 9.f);
     EXPECT_FLOAT_EQ(vec[0], 8.f);
     EXPECT_FLOAT_EQ(vec[1], 9.f);
@@ -221,8 +213,7 @@ TEST(Vector2, BracketOperator)
     EXPECT_FLOAT_EQ(6.f, vec.y);
 }
 
-TEST(Vector2, AssignmentOperator)
-{
+TEST(Vector2, AssignmentOperator) {
     Vector2F vec(5.f, 1.f);
     Vector2F vec2(3.f, 3.f);
     vec2 = vec;
@@ -230,8 +221,7 @@ TEST(Vector2, AssignmentOperator)
     EXPECT_FLOAT_EQ(vec2.y, 1.f);
 }
 
-TEST(Vector2, AugmentedOperators)
-{
+TEST(Vector2, AugmentedOperators) {
     Vector2F vec(3.f, 9.f);
     vec += 4.f;
     EXPECT_FLOAT_EQ(7.f, vec.x);
@@ -266,8 +256,7 @@ TEST(Vector2, AugmentedOperators)
     EXPECT_FLOAT_EQ(3.f, vec.y);
 }
 
-TEST(Vector2, EqualOperator)
-{
+TEST(Vector2, EqualOperator) {
     Vector2F vec, vec2(3.f, 7.f), vec3(3.f, 5.f), vec4(5.f, 1.f);
     vec = vec2;
     EXPECT_TRUE(vec == vec2);
@@ -277,8 +266,7 @@ TEST(Vector2, EqualOperator)
     EXPECT_TRUE(vec != vec4);
 }
 
-TEST(Vector2, MinMaxFunction)
-{
+TEST(Vector2, MinMaxFunction) {
     Vector2F vec(5.f, 1.f);
     Vector2F vec2(3.f, 3.f);
     Vector2F minVector = min(vec, vec2);
@@ -287,15 +275,13 @@ TEST(Vector2, MinMaxFunction)
     EXPECT_EQ(Vector2F(5.f, 3.f), maxVector);
 }
 
-TEST(Vector2, ClampFunction)
-{
+TEST(Vector2, ClampFunction) {
     Vector2F vec(2.f, 4.f), low(3.f, -1.f), high(5.f, 2.f);
     Vector2F clampedVec = clamp(vec, low, high);
     EXPECT_EQ(Vector2F(3.f, 2.f), clampedVec);
 }
 
-TEST(Vector2, CeilFloorFunction)
-{
+TEST(Vector2, CeilFloorFunction) {
     Vector2F vec(2.2f, 4.7f);
     Vector2F ceilVec = ceil(vec);
     EXPECT_EQ(Vector2F(3.f, 5.f), ceilVec);
@@ -304,8 +290,7 @@ TEST(Vector2, CeilFloorFunction)
     EXPECT_EQ(Vector2F(2.f, 4.f), floorVec);
 }
 
-TEST(Vector2, BinaryOperators)
-{
+TEST(Vector2, BinaryOperators) {
     Vector2F vec(3.f, 9.f);
     vec = vec + 4.f;
     EXPECT_FLOAT_EQ(7.f, vec.x);

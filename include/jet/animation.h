@@ -25,7 +25,7 @@ struct Frame final {
     Frame();
 
     //! Constructs Frame instance with given time interval.
-    explicit Frame(double newTimeIntervalInSeconds);
+    Frame(unsigned int newIndex, double newTimeIntervalInSeconds);
 
     //! Returns the elapsed time in seconds.
     double timeInSeconds() const;

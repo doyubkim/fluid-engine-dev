@@ -43,7 +43,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -53,7 +54,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -87,7 +88,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -97,7 +99,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -137,7 +139,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->setCenter(Vector2D(domain.midPoint().x, 0.75 - std::cos(t)));
         collider->setLinearVelocity(Vector2D(0, std::sin(t)));
@@ -151,7 +154,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -187,7 +190,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -197,7 +201,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -239,7 +243,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->setCenter(Vector2D(domain.midPoint().x, 0.75 - std::cos(t)));
         collider->setLinearVelocity(Vector2D(0, std::sin(t)));
@@ -253,7 +258,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -290,7 +295,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -300,7 +306,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -333,7 +339,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -343,7 +350,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -376,7 +383,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -386,7 +394,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }

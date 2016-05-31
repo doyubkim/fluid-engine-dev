@@ -27,6 +27,7 @@ inline float smoothStep(float edge0, float edge1, float x) {
     return t * t * (3.f - 2.f * t);
 }
 
+// Export density field to Mitsuba volume file.
 void saveVolume(
     const ScalarGrid3Ptr& density,
     const std::string& rootDir,
@@ -115,7 +116,7 @@ void printUsage() {
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
-        "   -e, --example: example number (between 1 and 3, default is 1)\n");
+        "   -e, --example: example number (between 1 and 5, default is 1)\n");
 }
 
 void printInfo(
@@ -136,16 +137,21 @@ void printInfo(
 
 void runSimulation(
     const std::string& rootDir,
-    const std::function<double(const Vector3D&)>& sourceFunc,
+    std::function<double(const Vector3D&)> sourceFunc,
+    std::function<double(double, const Vector3D&)> uFilterFunc,
     GridSmokeSolver3* solver,
     size_t numberOfFrames) {
     auto density = solver->smokeDensity();
     auto densityPos = density->dataPosition();
     auto temperature = solver->temperature();
     auto temperaturePos = temperature->dataPosition();
+    auto velocity = solver->velocity();
+    auto uPos = velocity->uPosition();
 
     saveVolume(solver->smokeDensity(), rootDir, 0);
-    for (Frame frame; frame.index < numberOfFrames; frame.advance()) {
+
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < numberOfFrames; frame.advance()) {
         density->parallelForEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 double current = (*density)(i, j, k);
@@ -158,10 +164,28 @@ void runSimulation(
                 (*temperature)(i, j, k)
                     = std::max(current, sourceFunc(temperaturePos(i, j, k)));
             });
+        velocity->parallelForEachUIndex(
+            [&] (size_t i, size_t j, size_t k) {
+                velocity->u(i, j, k)
+                    = uFilterFunc(velocity->u(i, j, k), uPos(i, j, k));
+            });
 
         solver->update(frame);
-        saveVolume(solver->smokeDensity(), rootDir, frame.index + 1);
+        saveVolume(solver->smokeDensity(), rootDir, frame.index);
     }
+}
+
+void runSimulation(
+    const std::string& rootDir,
+    const std::function<double(const Vector3D&)>& sourceFunc,
+    GridSmokeSolver3* solver,
+    size_t numberOfFrames) {
+    runSimulation(
+        rootDir,
+        sourceFunc,
+        [] (double u, const Vector3D&) { return u; },
+        solver,
+        numberOfFrames);
 }
 
 void runExample1(
@@ -302,6 +326,109 @@ void runExample3(
     runSimulation(rootDir, sourceFunc, &solver, numberOfFrames);
 }
 
+void runExample4(
+    const std::string& rootDir,
+    size_t resolutionX,
+    unsigned int numberOfFrames) {
+    Size3 resolution(resolutionX, 6 * resolutionX / 5, resolutionX / 2);
+    Vector3D origin;
+    double dx = 1.0 / resolutionX;
+    Vector3D gridSpacing(dx, dx, dx);
+
+    // Initialize solvers
+    GridSmokeSolver3 solver;
+    solver.setBuoyancyTemperatureFactor(2.0);
+
+    // Initialize grids
+    auto grids = solver.gridSystemData();
+    grids->resize(resolution, gridSpacing, origin);
+    BoundingBox3D domain = grids->boundingBox();
+
+    // Initialize source
+    ImplicitSurfaceSet3 surfaceSet;
+    surfaceSet.addSurface(
+        std::make_shared<Box3>(
+            Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
+    auto sourceFunc = [&] (const Vector3D& pt) {
+        // Convert SDF to density-like field
+        return 1.0 - smearedHeavisideSdf(surfaceSet.signedDistance(pt) / dx);
+    };
+
+    solver.smokeDensity()->fill(sourceFunc);
+    solver.temperature()->fill(sourceFunc);
+
+    // Print simulation info
+    printf("Running example 4 (rising smoke with cubic-spline advection)\n");
+    printInfo(resolution, domain, gridSpacing);
+
+    // Run simulation
+    runSimulation(
+        rootDir,
+        sourceFunc,
+        [&] (double u, const Vector3D& uPos) {
+            double sdf = surfaceSet.signedDistance(uPos);
+            if (sdf < 0.05) {
+                return 0.5;
+            } else {
+                return u;
+            }
+        },
+        &solver,
+        numberOfFrames);
+}
+
+void runExample5(
+    const std::string& rootDir,
+    size_t resolutionX,
+    unsigned int numberOfFrames) {
+    Size3 resolution(resolutionX, 6 * resolutionX / 5, resolutionX / 2);
+    Vector3D origin;
+    double dx = 1.0 / resolutionX;
+    Vector3D gridSpacing(dx, dx, dx);
+
+    // Initialize solvers
+    GridSmokeSolver3 solver;
+    solver.setBuoyancyTemperatureFactor(2.0);
+    solver.setAdvectionSolver(std::make_shared<SemiLagrangian3>());
+
+    // Initialize grids
+    auto grids = solver.gridSystemData();
+    grids->resize(resolution, gridSpacing, origin);
+    BoundingBox3D domain = grids->boundingBox();
+
+    // Initialize source
+    ImplicitSurfaceSet3 surfaceSet;
+    surfaceSet.addSurface(
+        std::make_shared<Box3>(
+            Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
+    auto sourceFunc = [&] (const Vector3D& pt) {
+        // Convert SDF to density-like field
+        return 1.0 - smearedHeavisideSdf(surfaceSet.signedDistance(pt) / dx);
+    };
+
+    solver.smokeDensity()->fill(sourceFunc);
+    solver.temperature()->fill(sourceFunc);
+
+    // Print simulation info
+    printf("Running example 5 (rising smoke with linear advection)\n");
+    printInfo(resolution, domain, gridSpacing);
+
+    // Run simulation
+    runSimulation(
+        rootDir,
+        sourceFunc,
+        [&] (double u, const Vector3D& uPos) {
+            double sdf = surfaceSet.signedDistance(uPos);
+            if (sdf < 0.05) {
+                return 0.5;
+            } else {
+                return u;
+            }
+        },
+        &solver,
+        numberOfFrames);
+}
+
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
     unsigned int numberOfFrames = 100;
@@ -365,6 +492,12 @@ int main(int argc, char* argv[]) {
             break;
         case 3:
             runExample3(outputDir, resolutionX, numberOfFrames);
+            break;
+        case 4:
+            runExample4(outputDir, resolutionX, numberOfFrames);
+            break;
+        case 5:
+            runExample5(outputDir, resolutionX, numberOfFrames);
             break;
         default:
             printUsage();

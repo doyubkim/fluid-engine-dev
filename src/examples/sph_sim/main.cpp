@@ -61,12 +61,13 @@ void runSimulation(
 
     saveParticlePos(particles, rootDir, 0);
 
-    for (Frame frame; frame.index < numberOfFrames; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < numberOfFrames; frame.advance()) {
         solver->update(frame);
         saveParticlePos(
             particles,
             rootDir,
-            frame.index + 1);
+            frame.index);
     }
 }
 

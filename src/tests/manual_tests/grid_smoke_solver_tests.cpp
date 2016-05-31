@@ -62,7 +62,8 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, Rising) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -72,7 +73,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, Rising) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -123,7 +124,8 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -133,7 +135,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -186,7 +188,8 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -196,7 +199,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderVariational) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -252,7 +255,8 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderAndDiffusion) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -262,7 +266,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderAndDiffusion) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }
@@ -270,6 +274,90 @@ JET_END_TEST_F
 
 
 JET_TESTS(GridSmokeSolver3);
+
+JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
+    size_t resolutionX = 50;
+    Size3 resolution(resolutionX, 6 * resolutionX / 5, resolutionX / 2);
+    Vector3D origin;
+    double dx = 1.0 / resolutionX;
+    Vector3D gridSpacing(dx, dx, dx);
+
+    // Initialize solvers
+    GridSmokeSolver3 solver;
+    solver.setBuoyancyTemperatureFactor(2.0);
+
+    // Initialize grids
+    auto grids = solver.gridSystemData();
+    grids->resize(resolution, gridSpacing, origin);
+
+    // Initialize source
+    ImplicitSurfaceSet3 surfaceSet;
+    surfaceSet.addSurface(
+        std::make_shared<Box3>(
+            Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
+    auto sourceFunc = [&] (const Vector3D& pt) {
+        // Convert SDF to density-like field
+        return 1.0 - smearedHeavisideSdf(surfaceSet.signedDistance(pt) / dx);
+    };
+
+    solver.smokeDensity()->fill(sourceFunc);
+    solver.temperature()->fill(sourceFunc);
+
+    auto density = solver.smokeDensity();
+    auto densityPos = density->dataPosition();
+    auto temperature = solver.temperature();
+    auto temperaturePos = temperature->dataPosition();
+    auto velocity = solver.velocity();
+    auto uPos = velocity->uPosition();
+
+    Array2<double> output(resolution.x, resolution.y);
+    output.set(0.0);
+    density->forEachDataPointIndex(
+        [&] (size_t i, size_t j, size_t k) {
+            output(i, j) += (*density)(i, j, k);
+        });
+    char filename[256];
+    snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
+    saveData(output.constAccessor(), filename);
+
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
+        density->parallelForEachDataPointIndex(
+            [&] (size_t i, size_t j, size_t k) {
+                double current = (*density)(i, j, k);
+                (*density)(i, j, k)
+                    = std::max(current, sourceFunc(densityPos(i, j, k)));
+            });
+        temperature->parallelForEachDataPointIndex(
+            [&] (size_t i, size_t j, size_t k) {
+                double current = (*temperature)(i, j, k);
+                (*temperature)(i, j, k)
+                    = std::max(current, sourceFunc(temperaturePos(i, j, k)));
+            });
+        velocity->parallelForEachUIndex(
+            [&] (size_t i, size_t j, size_t k) {
+                double sdf = surfaceSet.signedDistance(uPos(i, j, k));
+                if (sdf < 0.05) {
+                    velocity->u(i, j, k) = 0.5;
+                }
+            });
+
+        solver.update(frame);
+
+        output.set(0.0);
+        density->forEachDataPointIndex(
+            [&] (size_t i, size_t j, size_t k) {
+                output(i, j) += (*density)(i, j, k);
+            });
+        snprintf(
+            filename,
+            sizeof(filename),
+            "data.#grid2,%04d.npy",
+            frame.index);
+        saveData(output.constAccessor(), filename);
+    }
+}
+JET_END_TEST_F
 
 JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
     size_t resolutionX = 50;
@@ -322,7 +410,8 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         density->parallelForEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 double current = (*density)(i, j, k);
@@ -347,7 +436,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(output.constAccessor(), filename);
     }
 }

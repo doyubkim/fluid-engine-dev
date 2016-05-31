@@ -50,6 +50,22 @@ void GridSmokeSolver3::setBuoyancyTemperatureFactor(double newValue) {
     _buoyancyTemperatureFactor = newValue;
 }
 
+double GridSmokeSolver3::smokeDecayFactor() const {
+    return _smokeDecayFactor;
+}
+
+void GridSmokeSolver3::setSmokeDecayFactor(double newValue) {
+    _smokeDecayFactor = clamp(newValue, 0.0, 1.0);
+}
+
+double GridSmokeSolver3::smokeTemperatureDecayFactor() const {
+    return _temperatureDecayFactor;
+}
+
+void GridSmokeSolver3::setTemperatureDecayFactor(double newValue) {
+    _temperatureDecayFactor = clamp(newValue, 0.0, 1.0);
+}
+
 ScalarGrid3Ptr GridSmokeSolver3::smokeDensity() const {
     return gridSystemData()->advectableScalarDataAt(_smokeDensityDataId);
 }
@@ -96,6 +112,17 @@ void GridSmokeSolver3::computeDiffusion(double timeIntervalInSeconds) {
             extrapolateIntoCollider(temp.get());
         }
     }
+
+    auto den = smokeDensity();
+    den->parallelForEachDataPointIndex(
+        [&](size_t i, size_t j, size_t k) {
+            (*den)(i, j, k) *= 1.0 - _smokeDecayFactor;
+        });
+    auto temp = temperature();
+    temp->parallelForEachDataPointIndex(
+        [&](size_t i, size_t j, size_t k) {
+            (*temp)(i, j, k) *= 1.0 - _temperatureDecayFactor;
+        });
 }
 
 void GridSmokeSolver3::computeBuoyancyForce(double timeIntervalInSeconds) {

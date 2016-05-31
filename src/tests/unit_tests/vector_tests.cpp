@@ -5,8 +5,7 @@
 
 using namespace jet;
 
-TEST(Vector, Constructors)
-{
+TEST(Vector, Constructors) {
     Vector<double, 5> vec1;
 
     EXPECT_DOUBLE_EQ(0.0, vec1[0]);
@@ -32,8 +31,7 @@ TEST(Vector, Constructors)
     EXPECT_DOUBLE_EQ(5.0, vec3[4]);
 }
 
-TEST(Vector, SetMethods)
-{
+TEST(Vector, SetMethods) {
     Vector<double, 5> vec1;
 
     vec1.set({1.0, 2.0, 3.0, 4.0, 5.0});
@@ -55,8 +53,7 @@ TEST(Vector, SetMethods)
     EXPECT_DOUBLE_EQ(5.0, vec2[4]);
 }
 
-TEST(Vector, AssignmentOperators)
-{
+TEST(Vector, AssignmentOperators) {
     Vector<double, 5> vec1;
 
     vec1 = {1.0, 2.0, 3.0, 4.0, 5.0};
@@ -78,8 +75,7 @@ TEST(Vector, AssignmentOperators)
     EXPECT_DOUBLE_EQ(5.0, vec2[4]);
 }
 
-TEST(Vector, BracketOperators)
-{
+TEST(Vector, BracketOperators) {
     Vector<double, 5> vec1;
 
     vec1[0] = 1.0;

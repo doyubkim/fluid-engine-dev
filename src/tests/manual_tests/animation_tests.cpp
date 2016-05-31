@@ -42,7 +42,8 @@ JET_BEGIN_TEST_F(Animation, OnUpdateSine) {
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
     saveData(data.constAccessor(), 0, filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         sineAnim.update(frame);
 
         t[frame.index] = frame.timeInSeconds();
@@ -52,14 +53,14 @@ JET_BEGIN_TEST_F(Animation, OnUpdateSine) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(t.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(t.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(data.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(data.constAccessor(), frame.index, filename);
     }
 
     saveData(t.constAccessor(), "data.#line2,x.npy");
@@ -79,7 +80,8 @@ JET_BEGIN_TEST_F(Animation, OnUpdateSineWithDecay) {
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
     saveData(data.constAccessor(), 0, filename);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         sineWithDecayAnim.update(frame);
 
         t[frame.index] = frame.timeInSeconds();
@@ -89,14 +91,14 @@ JET_BEGIN_TEST_F(Animation, OnUpdateSineWithDecay) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(t.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(t.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(data.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(data.constAccessor(), frame.index, filename);
     }
 
     saveData(t.constAccessor(), "data.#line2,x.npy");
