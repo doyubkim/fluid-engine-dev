@@ -84,6 +84,12 @@
     <ClCompile Include="grid_pressure_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="implicit_surface_set2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="implicit_surface_set3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="level_set_liquid_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
