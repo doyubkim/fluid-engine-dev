@@ -1,11 +1,10 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <jet/array_utils.h>
 #include <jet/eno_level_set_solver3.h>
 #include <jet/fmm_level_set_solver3.h>
 #include <jet/level_set_liquid_solver3.h>
-
-#include <jet/array_utils.h>
 #include <jet/level_set_utils.h>
 #include <jet/timer.h>
 
