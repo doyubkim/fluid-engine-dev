@@ -28,10 +28,13 @@ class PhysicsAnimation : public Animation {
         double timeIntervalInSeconds) const;
 
  private:
+    Frame _currentFrame;
     bool _isUsingFixedSubTimeSteps = true;
     unsigned int _numberOfFixedSubTimeSteps = 1;
 
     void onUpdate(const Frame& frame) final;
+
+    void advanceTimeStep(double timeIntervalInSeconds);
 };
 
 typedef std::shared_ptr<PhysicsAnimation> PhysicsAnimationPtr;

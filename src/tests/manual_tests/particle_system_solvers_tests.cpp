@@ -37,11 +37,12 @@ JET_BEGIN_TEST_F(ParticleSystemSolver2, Update) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 360; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 360; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F
@@ -81,14 +82,14 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, PerfectBounce) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(x.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(x.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(y.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(y.constAccessor(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -125,14 +126,14 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounce) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(x.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(x.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(y.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(y.constAccessor(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -170,14 +171,14 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounceWithFriction) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(x.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(x.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(y.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(y.constAccessor(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -214,14 +215,14 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce) {
             filename,
             sizeof(filename),
             "data.#line2,%04d,x.npy",
-            frame.index + 1);
-        saveData(x.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(x.constAccessor(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
-            frame.index + 1);
-        saveData(y.constAccessor(), frame.index + 1, filename);
+            frame.index);
+        saveData(y.constAccessor(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -247,11 +248,12 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, Update) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 360; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 360; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F

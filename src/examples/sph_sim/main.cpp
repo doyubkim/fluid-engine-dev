@@ -61,12 +61,13 @@ void runSimulation(
 
     saveParticlePos(particles, rootDir, 0);
 
-    for (Frame frame; frame.index < numberOfFrames; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < numberOfFrames; frame.advance()) {
         solver->update(frame);
         saveParticlePos(
             particles,
             rootDir,
-            frame.index + 1);
+            frame.index);
     }
 }
 
@@ -173,7 +174,8 @@ void runExample3(
     double lz = domain.depth();
 
     // Initialize solvers
-    SphSolver3 solver;
+    PciSphSolver3 solver;
+    solver.setPseudoViscosityCoefficient(1.0);
 
     SphSystemData3Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
@@ -213,6 +215,7 @@ void runExample3(
     auto box = std::make_shared<Box3>(domain);
     box->setIsNormalFlipped(true);
     colliderSurfaceSet->addSurface(box);
+
     RigidBodyCollider3Ptr collider
         = std::make_shared<RigidBodyCollider3>(colliderSurfaceSet);
     solver.setCollider(collider);

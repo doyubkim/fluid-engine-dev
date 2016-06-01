@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <physics_helpers.h>
 #include <jet/array_utils.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/level_set_utils.h>
@@ -85,12 +86,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
             if (g.lengthSquared() > 0.0) {
                 Vector2D n = g.normalized();
                 Vector2D velr = vel - colliderVel;
-                Vector2D velt = velr.projected(n);
-                if (velt.lengthSquared() > 0) {
-                    double veln = velr.dot(n);
-                    double mu = collider()->frictionCoefficient();
-                    velt *= std::max(1 - mu * veln / velt.length(), 0.0);
-                }
+                Vector2D velt = projectAndApplyFriction(
+                    velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
                 u(i, j) = velp.x;
@@ -109,12 +106,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
             if (g.lengthSquared() > 0.0) {
                 Vector2D n = g.normalized();
                 Vector2D velr = vel - colliderVel;
-                Vector2D velt = velr.projected(n);
-                if (velt.lengthSquared() > 0) {
-                    double veln = velr.dot(n);
-                    double mu = collider()->frictionCoefficient();
-                    velt *= std::max(1 - mu * veln / velt.length(), 0.0);
-                }
+                Vector2D velt = projectAndApplyFriction(
+                    velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
                 v(i, j) = velp.y;
@@ -145,6 +138,11 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
             v(i, v.size().y - 1) = 0;
         }
     }
+}
+
+const CellCenteredScalarGrid2&
+GridFractionalBoundaryConditionSolver2::colliderSdf() const {
+    return _colliderSdf;
 }
 
 void GridFractionalBoundaryConditionSolver2::onColliderUpdated(

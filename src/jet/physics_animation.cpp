@@ -40,12 +40,24 @@ unsigned int PhysicsAnimation::numberOfSubTimeSteps(
 }
 
 void PhysicsAnimation::onUpdate(const Frame& frame) {
+    if (frame.index > _currentFrame.index) {
+        unsigned int numberOfFrames = frame.index - _currentFrame.index;
+
+        for (unsigned int i = 0; i < numberOfFrames; ++i) {
+            advanceTimeStep(frame.timeIntervalInSeconds);
+        }
+
+        _currentFrame = frame;
+    }
+}
+
+void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
     if (_isUsingFixedSubTimeSteps) {
         JET_INFO << "Using fixed sub-timesteps: " << _numberOfFixedSubTimeSteps;
 
         // Perform fixed time-stepping
         const double actualTimeInterval
-            = frame.timeIntervalInSeconds
+            = timeIntervalInSeconds
             / static_cast<double>(_numberOfFixedSubTimeSteps);
 
         for (unsigned int i = 0; i < _numberOfFixedSubTimeSteps; ++i) {
@@ -64,7 +76,7 @@ void PhysicsAnimation::onUpdate(const Frame& frame) {
         JET_INFO << "Using adaptive sub-timesteps";
 
         // Perform adaptive time-stepping
-        double remainingTime = frame.timeIntervalInSeconds;
+        double remainingTime = timeIntervalInSeconds;
         while (remainingTime > kEpsilonD) {
             unsigned int numSteps = numberOfSubTimeSteps(remainingTime);
             double actualTimeInterval

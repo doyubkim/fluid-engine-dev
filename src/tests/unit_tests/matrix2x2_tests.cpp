@@ -7,14 +7,8 @@ using namespace jet;
 
 TEST(Matrix2x2, Constructors) {
     Matrix2x2D mat;
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 2; ++j) {
-            if (i == j) {
-                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
-            } else {
-                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
-            }
-        }
+    for (double elem : mat.elements) {
+        EXPECT_DOUBLE_EQ(0.0, elem);
     }
 
     Matrix2x2D mat2(3.1);

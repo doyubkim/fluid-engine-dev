@@ -16,7 +16,8 @@ JET_TESTS(PicSolver2);
 JET_BEGIN_TEST_F(PicSolver2, Empty) {
     PicSolver2 solver;
 
-    for (Frame frame; frame.index < 1; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 1; frame.advance()) {
         solver.update(frame);
     }
 }
@@ -39,10 +40,11 @@ JET_BEGIN_TEST_F(PicSolver2, SteadyState) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 60; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 60; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 
     Array2<double> dataU(32, 32);
@@ -77,10 +79,11 @@ JET_BEGIN_TEST_F(PicSolver2, DamBreaking) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 
     Array2<double> dataU(64, 64);
@@ -122,10 +125,11 @@ JET_BEGIN_TEST_F(PicSolver2, DamBreakingWithCollider) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F

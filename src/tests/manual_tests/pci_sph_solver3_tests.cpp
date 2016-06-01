@@ -40,11 +40,12 @@ JET_BEGIN_TEST_F(PciSphSolver3, SteadyState) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 100; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 100; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F
@@ -52,7 +53,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(PciSphSolver3, WaterDrop) {
     const double targetSpacing = 0.02;
 
-    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 0.5));
 
     // Initialize solvers
     PciSphSolver3 solver;
@@ -88,11 +89,12 @@ JET_BEGIN_TEST_F(PciSphSolver3, WaterDrop) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 100; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 100; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F

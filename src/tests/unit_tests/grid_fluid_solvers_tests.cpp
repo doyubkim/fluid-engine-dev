@@ -12,7 +12,7 @@ TEST(GridFluidSolver2, MinimumResolution) {
     data->resize(Size2(1, 1), Vector2D(1.0, 1.0), Vector2D());
     data->velocity()->fill(Vector2D());
 
-    Frame frame;
+    Frame frame(1, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
     solver.update(frame);
 }
@@ -28,7 +28,7 @@ TEST(GridFluidSolver2, GravityOnly) {
     data->resize(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
     data->velocity()->fill(Vector2D());
 
-    Frame frame;
+    Frame frame(1, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
     solver.update(frame);
 
@@ -40,7 +40,7 @@ TEST(GridFluidSolver2, GravityOnly) {
         if (j == 0 || j == 3) {
             EXPECT_NEAR(0.0, data->velocity()->v(i, j), 1e-8);
         } else {
-            EXPECT_NEAR(-0.1, data->velocity()->v(i, j), 1e-8) << i << ", " << j;
+            EXPECT_NEAR(-0.1, data->velocity()->v(i, j), 1e-8);
         }
     });
 }

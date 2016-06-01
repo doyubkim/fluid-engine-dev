@@ -30,7 +30,7 @@ class Vector final {
     template <typename... Params>
     explicit Vector(Params... params);
     template <typename U>
-    explicit Vector(const std::initializer_list<U>& lst);
+    Vector(const std::initializer_list<U>& lst);
     Vector(const Vector& other);
 
     template <typename U>

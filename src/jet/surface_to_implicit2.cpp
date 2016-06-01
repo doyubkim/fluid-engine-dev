@@ -16,7 +16,7 @@ Vector2D SurfaceToImplicit2::closestPoint(
 
 Vector2D SurfaceToImplicit2::actualClosestNormal(
     const Vector2D& otherPoint) const {
-    return _surface->actualClosestNormal(otherPoint);
+    return _surface->closestNormal(otherPoint);
 }
 
 double SurfaceToImplicit2::closestDistance(

@@ -13,7 +13,7 @@ namespace jet {
 // MARK: CTOR/DTOR
 template <typename T>
 Matrix<T, 4, 4>::Matrix() {
-    set(makeIdentity());
+    set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
 template <typename T>

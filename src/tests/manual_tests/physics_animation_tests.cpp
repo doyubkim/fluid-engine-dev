@@ -184,14 +184,15 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
     saveData(y.constAccessor(), filename);
 
-    for (Frame frame; frame.index < 360; frame.advance())
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 360; frame.advance())
     {
         anim.update(frame);
         anim.exportStates(x, y);
 
-        snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy", frame.index + 1);
+        snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy", frame.index);
         saveData(x.constAccessor(), filename);
-        snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy", frame.index + 1);
+        snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy", frame.index);
         saveData(y.constAccessor(), filename);
     }
 }

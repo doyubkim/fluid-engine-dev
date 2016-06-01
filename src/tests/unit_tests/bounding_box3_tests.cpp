@@ -10,15 +10,13 @@ TEST(BoundingBox3, Constructors) {
     {
         BoundingBox3D box;
 
-        static const double maxDouble = std::numeric_limits<double>::max();
+        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.x);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.y);
+        EXPECT_DOUBLE_EQ(kMaxD, box.lowerCorner.z);
 
-        EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.x);
-        EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.y);
-        EXPECT_DOUBLE_EQ(maxDouble, box.lowerCorner.z);
-
-        EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.x);
-        EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.y);
-        EXPECT_DOUBLE_EQ(-maxDouble, box.upperCorner.z);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.x);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.y);
+        EXPECT_DOUBLE_EQ(-kMaxD, box.upperCorner.z);
     }
 
     {
@@ -45,6 +43,17 @@ TEST(BoundingBox3, Constructors) {
         EXPECT_DOUBLE_EQ(3.0, box2.upperCorner.y);
         EXPECT_DOUBLE_EQ(5.0, box2.upperCorner.z);
     }
+}
+
+TEST(BoundingBox3, BasicGetters) {
+    BoundingBox3D box(Vector3D(-2.0, 3.0, 5.0), Vector3D(4.0, -2.0, 1.0));
+
+    EXPECT_DOUBLE_EQ(6.0, box.width());
+    EXPECT_DOUBLE_EQ(5.0, box.height());
+    EXPECT_DOUBLE_EQ(4.0, box.depth());
+    EXPECT_DOUBLE_EQ(6.0, box.length(0));
+    EXPECT_DOUBLE_EQ(5.0, box.length(1));
+    EXPECT_DOUBLE_EQ(4.0, box.length(2));
 }
 
 TEST(BoundingBox3, Overlaps) {
@@ -113,6 +122,36 @@ TEST(BoundingBox3, Contains) {
 
         EXPECT_TRUE(box.contains(point));
     }
+}
+
+TEST(BoundingBox3, Intersects) {
+    BoundingBox3D box(Vector3D(-2.0, -2.0, 1.0), Vector3D(4.0, 3.0, 5.0));
+
+    Ray3D ray1(Vector3D(-3, 0, 2), Vector3D(2, 1, 1).normalized());
+    EXPECT_TRUE(box.intersects(ray1));
+
+    Ray3D ray2(Vector3D(3, -1, 3), Vector3D(-1, 2, -3).normalized());
+    EXPECT_TRUE(box.intersects(ray2));
+
+    Ray3D ray3(Vector3D(1, -5, 1), Vector3D(2, 1, 2).normalized());
+    EXPECT_FALSE(box.intersects(ray3));
+}
+
+TEST(BoundingBox3, GetClosestIntersection) {
+    BoundingBox3D box(Vector3D(-2.0, -2.0, -1.0), Vector3D(1.0, 0.0, 1.0));
+
+    Ray3D ray1(Vector3D(-4, -3, 0), Vector3D(1, 1, 0).normalized());
+    BoundingBoxRayIntersection3D intersection1;
+    box.getClosestIntersection(ray1, &intersection1);
+    EXPECT_TRUE(intersection1.isIntersecting);
+    EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).length(), intersection1.tNear);
+    EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).length(), intersection1.tFar);
+
+    Ray3D ray2(Vector3D(0, -1, 0), Vector3D(-2, 1, 1).normalized());
+    BoundingBoxRayIntersection3D intersection2;
+    box.getClosestIntersection(ray2, &intersection2);
+    EXPECT_TRUE(intersection2.isIntersecting);
+    EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).length(), intersection2.tNear);
 }
 
 TEST(BoundingBox3, MidPoint) {

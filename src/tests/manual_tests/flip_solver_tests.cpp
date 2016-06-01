@@ -26,7 +26,8 @@ JET_TESTS(FlipSolver2);
 JET_BEGIN_TEST_F(FlipSolver2, Empty) {
     FlipSolver2 solver;
 
-    for (Frame frame; frame.index < 1; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 1; frame.advance()) {
         solver.update(frame);
     }
 }
@@ -52,17 +53,18 @@ JET_BEGIN_TEST_F(FlipSolver2, SteadyState) {
     auto sdf = solver.signedDistanceField();
     saveData(sdf->constDataAccessor(), "sdf_#grid2,0000.npy");
 
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
 
         char filename[256];
         snprintf(
             filename,
             sizeof(filename),
             "sdf_#grid2,%04d.npy",
-            frame.index + 1);
+            frame.index);
         saveData(sdf->constDataAccessor(), filename);
     }
 
@@ -98,10 +100,11 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreaking) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 
     Array2<double> dataU(64, 64);
@@ -146,10 +149,11 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithCollider) {
 
     saveParticleDataXy(particles, 0);
 
-    for (Frame frame; frame.index < 240; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 240; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F
@@ -197,10 +201,11 @@ JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
     particles->addParticles(points);
 
     saveParticleDataXy(particles, 0);
-    for (Frame frame; frame.index < 120; frame.advance()) {
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
-        saveParticleDataXy(particles, frame.index + 1);
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F

@@ -29,9 +29,11 @@
     <ClCompile Include="array_samplers_tests.cpp" />
     <ClCompile Include="array_utils_tests.cpp" />
     <ClCompile Include="blas_tests.cpp" />
+    <ClCompile Include="matrix_tests.cpp" />
     <ClCompile Include="matrix2x2_tests.cpp" />
     <ClCompile Include="matrix3x3_tests.cpp" />
     <ClCompile Include="matrix4x4_tests.cpp" />
+    <ClCompile Include="bounding_box_tests.cpp" />
     <ClCompile Include="bounding_box2_tests.cpp" />
     <ClCompile Include="bounding_box3_tests.cpp" />
     <ClCompile Include="box_unit_tests.cpp" />
@@ -45,6 +47,8 @@
     <ClCompile Include="grid_diffusion_solvers_tests.cpp" />
     <ClCompile Include="grid_fluid_solvers_tests.cpp" />
     <ClCompile Include="grid_pressure_solvers_tests.cpp" />
+    <ClCompile Include="implicit_surface_set2_tests.cpp" />
+    <ClCompile Include="implicit_surface_set3_tests.cpp" />
     <ClCompile Include="level_set_liquid_solvers_tests.cpp" />
     <ClCompile Include="level_set_solvers_tests.cpp" />
     <ClCompile Include="main.cpp" />
@@ -53,6 +57,8 @@
     <ClCompile Include="particle_system_data2_tests.cpp" />
     <ClCompile Include="particle_system_data3_tests.cpp" />
     <ClCompile Include="particle_system_solvers_tests.cpp" />
+    <ClCompile Include="pci_sph_solver2_tests.cpp" />
+    <ClCompile Include="pci_sph_solver3_tests.cpp" />
     <ClCompile Include="pde_tests.cpp" />
     <ClCompile Include="pic_solvers_tests.cpp" />
     <ClCompile Include="point2_tests.cpp" />
@@ -62,6 +68,8 @@
     <ClCompile Include="point_simple_list_searcher_tests.cpp" />
     <ClCompile Include="quaternion_tests.cpp" />
     <ClCompile Include="sph_kernels_tests.cpp" />
+    <ClCompile Include="sph_solver2_tests.cpp" />
+    <ClCompile Include="sph_solver3_tests.cpp" />
     <ClCompile Include="vector2_tests.cpp" />
     <ClCompile Include="vector3_tests.cpp" />
     <ClCompile Include="vector_tests.cpp" />

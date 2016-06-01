@@ -83,9 +83,11 @@ void runSimulation(
     size_t numberOfFrames) {
     auto sdf = solver->signedDistanceField();
     triangulateAndSave(sdf, rootDir, 0);
-    for (Frame frame; frame.index < numberOfFrames; frame.advance()) {
+
+    Frame frame(1, 1.0 / 60.0);
+    for ( ; frame.index < numberOfFrames; frame.advance()) {
         solver->update(frame);
-        triangulateAndSave(sdf, rootDir, frame.index + 1);
+        triangulateAndSave(sdf, rootDir, frame.index);
     }
 }
 
@@ -194,11 +196,11 @@ void runExample3(
 
     // Initialize solvers
     LevelSetLiquidSolver3 solver;
+    solver.setViscosityCoefficient(1.0);
     solver.setIsGlobalCompensationEnabled(true);
 
     // Initialize grids
     auto grids = solver.gridSystemData();
-    solver.setViscosityCoefficient(5.0);
     grids->resize(resolution, gridSpacing, origin);
     BoundingBox3D domain = grids->boundingBox();
 
@@ -223,7 +225,7 @@ void runExample3(
     });
 
     // Print simulation info
-    printf("Running example 4 (low-viscosity)\n");
+    printf("Running example 3 (high-viscosity)\n");
     printInfo(resolution, domain, gridSpacing);
 
     // Run simulation

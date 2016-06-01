@@ -16,7 +16,7 @@ Vector3D SurfaceToImplicit3::closestPoint(
 
 Vector3D SurfaceToImplicit3::actualClosestNormal(
     const Vector3D& otherPoint) const {
-    return _surface->actualClosestNormal(otherPoint);
+    return _surface->closestNormal(otherPoint);
 }
 
 double SurfaceToImplicit3::closestDistance(

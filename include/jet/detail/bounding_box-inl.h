@@ -3,6 +3,7 @@
 #ifndef INCLUDE_JET_DETAIL_BOUNDING_BOX_INL_H_
 #define INCLUDE_JET_DETAIL_BOUNDING_BOX_INL_H_
 
+#include <jet/math_utils.h>
 #include <algorithm>
 #include <limits>
 
@@ -53,17 +54,29 @@ bool BoundingBox<T, N>::contains(const VectorType& point) const {
 
 template <typename T, size_t N>
 Vector<T, N> BoundingBox<T, N>::midPoint() const {
-    return (upperCorner + lowerCorner) / static_cast<T>(2);
+    Vector<T, N> result;
+    for (size_t i = 0; i < N; ++i) {
+        result[i] = (upperCorner[i] + lowerCorner[i]) / 2;
+    }
+    return result;
 }
 
 template <typename T, size_t N>
 T BoundingBox<T, N>::diagonalLength() const {
-    return (upperCorner - lowerCorner).length();
+    T result = 0;
+    for (size_t i = 0; i < N; ++i) {
+        result += square(upperCorner[i] - lowerCorner[i]);
+    }
+    return std::sqrt(result);
 }
 
 template <typename T, size_t N>
 T BoundingBox<T, N>::diagonalLengthSquared() const {
-    return (upperCorner - lowerCorner).lengthSquared();
+    T result = 0;
+    for (size_t i = 0; i < N; ++i) {
+        result += square(upperCorner[i] - lowerCorner[i]);
+    }
+    return result;
 }
 
 template <typename T, size_t N>

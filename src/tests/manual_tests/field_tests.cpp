@@ -36,11 +36,11 @@ JET_TESTS(ScalarField3);
 
 JET_BEGIN_TEST_F(ScalarField3, Sample) {
     MyCustomScalarField3 field;
-    Array2<double> data(20, 20);
+    Array2<double> data(50, 50);
 
-    for (int j = 0; j < 20; ++j) {
-        for (int i = 0; i < 20; ++i) {
-            Vector3D x(0.1 * kPiD * i, 0.1 * kPiD * j, kHalfPiD);
+    for (int j = 0; j < 50; ++j) {
+        for (int i = 0; i < 50; ++i) {
+            Vector3D x(0.04 * kPiD * i, 0.04 * kPiD * j, kHalfPiD);
             data(i, j) = field.sample(x);
         }
     }
@@ -70,11 +70,11 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(ScalarField3, Laplacian) {
     MyCustomScalarField3 field;
-    Array2<double> data(20, 20);
+    Array2<double> data(50, 50);
 
-    for (int j = 0; j < 20; ++j) {
-        for (int i = 0; i < 20; ++i) {
-            Vector3D x(0.1 * kPiD * i, 0.1 * kPiD * j, kHalfPiD);
+    for (int j = 0; j < 50; ++j) {
+        for (int i = 0; i < 50; ++i) {
+            Vector3D x(0.04 * kPiD * i, 0.04 * kPiD * j, kHalfPiD);
             data(i, j) = field.laplacian(x);
         }
     }
@@ -135,11 +135,11 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(VectorField3, Divergence) {
     MyCustomVectorField3 field;
-    Array2<double> data(20, 20);
+    Array2<double> data(50, 50);
 
-    for (int j = 0; j < 20; ++j) {
-        for (int i = 0; i < 20; ++i) {
-            Vector3D x(0.1 * kPiD * i, 0.1 * kPiD * j, kHalfPiD);
+    for (int j = 0; j < 50; ++j) {
+        for (int i = 0; i < 50; ++i) {
+            Vector3D x(0.04 * kPiD * i, 0.04 * kPiD * j, kHalfPiD);
             data(i, j) = field.divergence(x);
         }
     }

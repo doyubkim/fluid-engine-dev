@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <physics_helpers.h>
 #include <jet/array_utils.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/level_set_utils.h>
@@ -106,12 +107,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
-                Vector3D velt = velr.projected(n);
-                if (velt.lengthSquared() > 0) {
-                    double veln = velr.dot(n);
-                    double mu = collider()->frictionCoefficient();
-                    velt *= std::max(1 - mu * veln / velt.length(), 0.0);
-                }
+                Vector3D velt = projectAndApplyFriction(
+                    velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
                 u(i, j, k) = velp.x;
@@ -130,12 +127,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
-                Vector3D velt = velr.projected(n);
-                if (velt.lengthSquared() > 0) {
-                    double veln = velr.dot(n);
-                    double mu = collider()->frictionCoefficient();
-                    velt *= std::max(1 - mu * veln / velt.length(), 0.0);
-                }
+                Vector3D velt = projectAndApplyFriction(
+                    velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
                 v(i, j, k) = velp.y;
@@ -154,12 +147,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
-                Vector3D velt = velr.projected(n);
-                if (velt.lengthSquared() > 0) {
-                    double veln = velr.dot(n);
-                    double mu = collider()->frictionCoefficient();
-                    velt *= std::max(1 - mu * veln / velt.length(), 0.0);
-                }
+                Vector3D velt = projectAndApplyFriction(
+                    velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
                 w(i, j, k) = velp.z;
@@ -212,6 +201,11 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
             }
         }
     }
+}
+
+const CellCenteredScalarGrid3&
+GridFractionalBoundaryConditionSolver3::colliderSdf() const {
+    return _colliderSdf;
 }
 
 void GridFractionalBoundaryConditionSolver3::onColliderUpdated(

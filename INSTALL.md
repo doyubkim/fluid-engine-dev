@@ -72,7 +72,7 @@ This will install the header files and the static library `libjet.a` under `INST
 
 To build the code on Windows, Visual Studio 2015 is required. Free version of the tool can be downloaded from [Visual Studio Community 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher) to run post-build events.
 
-Once installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl + Shift + B` to build the entire solution. Set `UnitTests` as a start-up project and hit `Ctrl + F5` to run the test. One built, the distributable files (`jet.lib` and the header files) will be located under `dist` directory.
+Once installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl + Shift + B` to build the entire solution. Set `UnitTests` as a start-up project and hit `Ctrl + F5` to run the test. Once built, the distributable files (`jet.lib` and the header files) will be located under `dist` directory.
 
 ## Running Tests
 
@@ -153,7 +153,7 @@ bin/manual_tests Cubic*
 Replace `bin/manual_tests` with the `.bat` command for Windows.
 
 
-The output files will be located at `manual_tests_output/TestName/CaseName/file`. To validate the test results, you need [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as
+The test results will be located at `manual_tests_output/TestName/CaseName/file`. To validate the results, you need [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as
 
 ```
 pip install matplotlib
@@ -164,12 +164,6 @@ The modern Python versions (2.7.9 and above) comes with `pip` by default. Once M
 
 ```
 bin/render_manual_tests_output
-```
-
-This command requires [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as
-
-```
-pip install matplotlib
 ```
 
 Once renderered, the rendered image will be stored at the same directory where the test output files are located (`manual_tests_output/TestName/CaseName/file`). Also, to render the animations as mpeg movie files, [ffmpeg](https://www.ffmpeg.org/) is required for Mac OS X and Windows. For Linux, [mencoder](http://www.mplayerhq.hu/) is needed. For Mac OS X, ffmpeg can be installed via Homebrew. For Windows, the executable can be downloaded from the [website](https://www.ffmpeg.org/). For Ubuntu, you can use `apt-get`.

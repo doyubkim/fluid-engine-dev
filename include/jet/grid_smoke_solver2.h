@@ -29,6 +29,14 @@ class GridSmokeSolver2 : public GridFluidSolver2 {
 
     void setBuoyancyTemperatureFactor(double newValue);
 
+    double smokeDecayFactor() const;
+
+    void setSmokeDecayFactor(double newValue);
+
+    double smokeTemperatureDecayFactor() const;
+
+    void setTemperatureDecayFactor(double newValue);
+
     ScalarGrid2Ptr smokeDensity() const;
 
     ScalarGrid2Ptr temperature() const;
@@ -45,6 +53,8 @@ class GridSmokeSolver2 : public GridFluidSolver2 {
     double _temperatureDiffusionCoefficient = 0.0;
     double _buoyancySmokeDensityFactor = -0.000625;
     double _buoyancyTemperatureFactor = 5.0;
+    double _smokeDecayFactor = 0.001;
+    double _temperatureDecayFactor = 0.001;
 
     void computeDiffusion(double timeIntervalInSeconds);
 

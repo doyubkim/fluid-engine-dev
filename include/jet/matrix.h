@@ -9,6 +9,15 @@
 
 namespace jet {
 
+//!
+//! \brief Static-sized M x N matrix class.
+//!
+//! TODO(issue #3) : Implement statically-sized MxN matrix implementation
+//!
+//! \tparam T - Real number type.
+//! \tparam M - Number of rows.
+//! \tparam N - Number of columns.
+//!
 template <typename T, size_t M, size_t N>
 class Matrix {
  public:
@@ -23,8 +32,10 @@ class Matrix {
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");
 
-    T elements[M][N];
+    std::array<T, M * N> elements;
 
+    //! Default constructor.
+    //! \warning This constructor will create zero matrix.
     Matrix();
 };
 

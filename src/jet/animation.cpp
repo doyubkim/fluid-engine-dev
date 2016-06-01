@@ -9,8 +9,9 @@ using namespace jet;
 Frame::Frame() {
 }
 
-Frame::Frame(double newTimeIntervalInSeconds)
-    : timeIntervalInSeconds(newTimeIntervalInSeconds) {
+Frame::Frame(unsigned int newIndex, double newTimeIntervalInSeconds)
+    : index(newIndex)
+    , timeIntervalInSeconds(newTimeIntervalInSeconds) {
 }
 
 double Frame::timeInSeconds() const {

@@ -3,15 +3,14 @@
 #ifndef INCLUDE_JET_GRID_BLOCKED_BOUNDARY_CONDITION_SOLVER3_H_
 #define INCLUDE_JET_GRID_BLOCKED_BOUNDARY_CONDITION_SOLVER3_H_
 
-#include <jet/cell_centered_scalar_grid3.h>
-#include <jet/grid_boundary_condition_solver3.h>
+#include <jet/grid_fractional_boundary_condition_solver3.h>
 
 #include <memory>
 
 namespace jet {
 
 class GridBlockedBoundaryConditionSolver3 final
-    : public GridBoundaryConditionSolver3 {
+    : public GridFractionalBoundaryConditionSolver3 {
  public:
     GridBlockedBoundaryConditionSolver3();
 
@@ -29,7 +28,6 @@ class GridBlockedBoundaryConditionSolver3 final
 
  private:
     Array3<char> _marker;
-    CellCenteredScalarGrid3 _colliderSdf;
 };
 
 typedef std::shared_ptr<GridBlockedBoundaryConditionSolver3>

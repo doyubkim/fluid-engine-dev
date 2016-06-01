@@ -54,7 +54,7 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
     void setLinearSystemSolver(const FdmLinearSystemSolver3Ptr& solver);
 
  private:
-    BoundaryType _boundaryType = Dirichlet;
+    BoundaryType _boundaryType;
     FdmLinearSystem3 _system;
     FdmLinearSystemSolver3Ptr _systemSolver;
     Array3<char> _markers;

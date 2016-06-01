@@ -22,7 +22,7 @@ class Matrix<T, 3, 3> {
     // Constructors
 
     //! Default constructor.
-    //! \warning This constructor will create identity matrix.
+    //! \warning This constructor will create zero matrix.
     Matrix();
 
     //! Constructs constant value matrix.

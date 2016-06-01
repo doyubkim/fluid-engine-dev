@@ -22,20 +22,12 @@ SphSolver3::SphSolver3() {
 SphSolver3::~SphSolver3() {
 }
 
-double SphSolver3::eosScale() const {
-    return _eosScale;
-}
-
-void SphSolver3::setEosScale(double newEosScale) {
-    _eosScale = std::max(newEosScale, 0.0);
-}
-
 double SphSolver3::eosExponent() const {
     return _eosExponent;
 }
 
 void SphSolver3::setEosExponent(double newEosExponent) {
-    _eosExponent = std::max(newEosExponent, 0.0);
+    _eosExponent = std::max(newEosExponent, 1.0);
 }
 
 double SphSolver3::negativePressureScale() const {
@@ -70,7 +62,7 @@ double SphSolver3::speedOfSound() const {
 }
 
 void SphSolver3::setSpeedOfSound(double newSpeedOfSound) {
-    _speedOfSound = std::max(newSpeedOfSound, 1.0);
+    _speedOfSound = std::max(newSpeedOfSound, kEpsilonD);
 }
 
 double SphSolver3::timeStepLimitScale() const {
@@ -175,7 +167,11 @@ void SphSolver3::computePressure() {
     auto d = particles->densities();
     auto p = particles->pressures();
 
+    // See Equation 9 from
+    // http://cg.informatik.uni-freiburg.de/publications/2007_SCA_SPH.pdf
     const double targetDensity = particles->targetDensity();
+    const double eosScale
+        = targetDensity * square(_speedOfSound) / _eosExponent;
 
     parallelFor(
         kZeroSize,
@@ -184,7 +180,7 @@ void SphSolver3::computePressure() {
             p[i] = computePressureFromEos(
                 d[i],
                 targetDensity,
-                eosScale(),
+                eosScale,
                 eosExponent(),
                 negativePressureScale());
         });
