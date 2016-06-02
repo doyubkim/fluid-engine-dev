@@ -89,11 +89,11 @@ JET_BEGIN_TEST_F(FlipSolver3, DamBreakingWithCollider) {
     surfaceSet->addSurface(
         std::make_shared<Box3>(
             Vector3D(0, 0, 0),
-            Vector3D(0.5 + 0.01, 0.75 + 0.01, 0.75 * lz + 0.01)));
+            Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
     surfaceSet->addSurface(
         std::make_shared<Box3>(
-            Vector3D(2.5 - 0.01, 0, 0.25 * lz - 0.01),
-            Vector3D(3.5 + 0.01, 0.75 + 0.01, 1.5 * lz + 0.01)));
+            Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
+            Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
 
     // Initialize particles
     auto particles = solver.particleSystemData();
