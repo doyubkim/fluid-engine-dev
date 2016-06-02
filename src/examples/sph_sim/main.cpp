@@ -204,14 +204,14 @@ void runExample3(
 
     // Collider setting
     double height = 0.75;
-    auto columns = std::make_shared<ImplicitSurfaceSet3>();
-    columns->addSurface(
+    auto colliderSurfaceSet = std::make_shared<ImplicitSurfaceSet3>();
+    colliderSurfaceSet->addSurface(
         std::make_shared<Cylinder3>(
             Vector3D(1, -height / 2.0, 0.25 * lz), 0.1, height));
-    columns->addSurface(
+    colliderSurfaceSet->addSurface(
         std::make_shared<Cylinder3>(
             Vector3D(1.5, -height / 2.0, 0.5 * lz), 0.1, height));
-    columns->addSurface(
+    colliderSurfaceSet->addSurface(
         std::make_shared<Cylinder3>(
             Vector3D(2, -height / 2.0, 0.75 * lz), 0.1, height));
 
