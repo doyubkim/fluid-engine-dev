@@ -104,7 +104,7 @@ void ParticleSystemSolver2::endAdvanceTimeStep(double timeStepInSeconds) {
     parallelFor(
         kZeroSize,
         n,
-        [this, &positions, &velocities](size_t i) {
+        [&] (size_t i) {
             positions[i] = _newPositions[i];
             velocities[i] = _newVelocities[i];
         });
@@ -136,7 +136,7 @@ void ParticleSystemSolver2::resolveCollision(
         parallelFor(
             kZeroSize,
             numberOfParticles,
-            [&](size_t i) {
+            [&] (size_t i) {
                 _collider->resolveCollision(
                     radius,
                     _restitutionCoefficient,
@@ -161,7 +161,7 @@ void ParticleSystemSolver2::accumulateExternalForces() {
     parallelFor(
         kZeroSize,
         n,
-        [this, &forces, &velocities, &positions, mass](size_t i) {
+        [&] (size_t i) {
             // Gravity
             Vector2D force = mass * _gravity;
 
@@ -183,8 +183,7 @@ void ParticleSystemSolver2::timeIntegration(double timeStepInSeconds) {
     parallelFor(
         kZeroSize,
         n,
-        [this, timeStepInSeconds, &forces, &velocities, &positions, mass]
-        (size_t i) {
+        [&] (size_t i) {
             // Integrate velocity first
             Vector2D& newVelocity = _newVelocities[i];
             newVelocity = velocities[i]

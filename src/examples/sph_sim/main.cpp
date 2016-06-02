@@ -185,12 +185,12 @@ void runExample3(
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
     surfaceSet->addSurface(
         std::make_shared<Box3>(
-            Vector3D(-0.5, -0.5, -0.5 * lz),
-            Vector3D(0.5, 0.75, 0.75 * lz)));
+            Vector3D(0, 0, 0),
+            Vector3D(0.5 + 0.01, 0.75 + 0.01, 0.75 * lz + 0.01)));
     surfaceSet->addSurface(
         std::make_shared<Box3>(
-            Vector3D(2.5, -0.5, 0.25 * lz),
-            Vector3D(3.5, 0.75, 1.5 * lz)));
+            Vector3D(2.5 - 0.01, 0, 0.25 * lz - 0.01),
+            Vector3D(3.5 + 0.01, 0.75 + 0.01, 1.5 * lz + 0.01)));
 
     BoundingBox3D sourceBound(domain);
     sourceBound.expand(-targetSpacing);
@@ -203,13 +203,17 @@ void runExample3(
     emitter->emit(Frame(), particles);
 
     // Collider setting
-    auto colliderSurfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    colliderSurfaceSet->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(1, 0, 0.25 * lz), 0.1, 0.75));
-    colliderSurfaceSet->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(1.5, 0, 0.5 * lz), 0.1, 0.75));
-    colliderSurfaceSet->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(2, 0, 0.75 * lz), 0.1, 0.75));
+    double height = 0.75;
+    auto columns = std::make_shared<ImplicitSurfaceSet3>();
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(1, -height / 2.0, 0.25 * lz), 0.1, height));
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(1.5, -height / 2.0, 0.5 * lz), 0.1, height));
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(2, -height / 2.0, 0.75 * lz), 0.1, height));
 
     // Initialize boundary
     auto box = std::make_shared<Box3>(domain);

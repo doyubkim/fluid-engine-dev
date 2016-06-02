@@ -8,13 +8,15 @@
 #ifndef INCLUDE_JET_DETAIL_SPH_KERNELS2_INL_H_
 #define INCLUDE_JET_DETAIL_SPH_KERNELS2_INL_H_
 
+#include <jet/constants.h>
+
 namespace jet {
 
 inline SphStdKernel2::SphStdKernel2()
     : h(0), h2(0), h3(0), h4(0) {}
 
 inline SphStdKernel2::SphStdKernel2(double h_)
-    : h(h_), h2(h*h), h3(h2*h), h4(h2*h2) {}
+    : h(h_), h2(h * h), h3(h2 * h), h4(h2 * h2) {}
 
 inline SphStdKernel2::SphStdKernel2(const SphStdKernel2& other)
     : h(other.h), h2(other.h2), h3(other.h3), h4(other.h4) {}
@@ -26,7 +28,7 @@ inline double SphStdKernel2::operator()(double distance) const {
         return 0.0;
     } else {
         double x = 1.0 - distanceSquared / h2;
-        return 4.0 / (pi<double>()*h2)*x*x*x;
+        return 4.0 / (kPiD * h2) * x * x * x;
     }
 }
 
@@ -35,7 +37,7 @@ inline double SphStdKernel2::firstDerivative(double distance) const {
         return 0.0;
     } else {
         double x = 1.0 - distance * distance / h2;
-        return -24.0*distance / (pi<double>()*h4)*x*x;
+        return -24.0 * distance / (kPiD * h4) * x * x;
     }
 }
 
@@ -52,7 +54,7 @@ inline double SphStdKernel2::secondDerivative(double distance) const {
         return 0.0;
     } else {
         double x = distanceSquared / h2;
-        return 24.0 / (pi<double>()*h4)*(1 - x)*(5 * x - 1);
+        return 24.0 / (kPiD * h4) * (1 - x) * (5 * x - 1);
     }
 }
 
@@ -61,7 +63,7 @@ inline SphSpikyKernel2::SphSpikyKernel2()
     : h(0), h2(0), h3(0), h4(0), h5(0) {}
 
 inline SphSpikyKernel2::SphSpikyKernel2(double h_)
-    : h(h_), h2(h*h), h3(h2*h), h4(h2*h2), h5(h3*h2) {}
+    : h(h_), h2(h * h), h3(h2 * h), h4(h2 * h2), h5(h3 * h2) {}
 
 inline SphSpikyKernel2::SphSpikyKernel2(const SphSpikyKernel2& other)
     : h(other.h), h2(other.h2), h3(other.h3), h4(other.h4), h5(other.h5) {}
@@ -71,7 +73,7 @@ inline double SphSpikyKernel2::operator()(double distance) const {
         return 0.0;
     } else {
         double x = 1.0 - distance / h;
-        return 10.0 / (pi<double>()*h2) * x * x * x;
+        return 10.0 / (kPiD * h2) * x * x * x;
     }
 }
 
@@ -80,7 +82,7 @@ inline double SphSpikyKernel2::firstDerivative(double distance) const {
         return 0.0;
     } else {
         double x = 1.0 - distance / h;
-        return -30.0 / (pi<double>()*h3) * x * x;
+        return -30.0 / (kPiD * h3) * x * x;
     }
 }
 
@@ -95,7 +97,7 @@ inline double SphSpikyKernel2::secondDerivative(double distance) const {
         return 0.0;
     } else {
         double x = 1.0 - distance / h;
-        return 60.0 / (pi<double>()*h4) * x;
+        return 60.0 / (kPiD * h4) * x;
     }
 }
 

@@ -23,7 +23,8 @@
     <ClCompile Include="animation_tests.cpp" />
     <ClCompile Include="array_utils_tests.cpp" />
     <ClCompile Include="field_tests.cpp" />
-    <ClCompile Include="flip_solver_tests.cpp" />
+    <ClCompile Include="flip_solver2_tests.cpp" />
+    <ClCompile Include="flip_solver3_tests.cpp" />
     <ClCompile Include="fmm_level_set_solvers_tests.cpp" />
     <ClCompile Include="grid_boundary_condition_solvers_tests.cpp" />
     <ClCompile Include="grid_diffusion_solvers_tests.cpp" />
@@ -34,11 +35,13 @@
     <ClCompile Include="hello_fluid_sim.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="marching_cubes_tests.cpp" />
-    <ClCompile Include="particle_system_solvers_tests.cpp" />
+    <ClCompile Include="particle_system_solver2_tests.cpp" />
+    <ClCompile Include="particle_system_solver3_tests.cpp" />
     <ClCompile Include="pci_sph_solver2_tests.cpp" />
     <ClCompile Include="pci_sph_solver3_tests.cpp" />
     <ClCompile Include="physics_animation_tests.cpp" />
-    <ClCompile Include="pic_solver_tests.cpp" />
+    <ClCompile Include="pic_solver2_tests.cpp" />
+    <ClCompile Include="pic_solver3_tests.cpp" />
     <ClCompile Include="point_hash_grid_searchers_tests.cpp" />
     <ClCompile Include="sph_kernels_tests.cpp" />
     <ClCompile Include="sph_system_data_tests.cpp" />
