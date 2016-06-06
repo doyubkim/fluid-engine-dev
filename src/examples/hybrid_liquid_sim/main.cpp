@@ -46,7 +46,7 @@ void printUsage() {
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
-        "   -e, --example: example number (between 1 and 3, default is 1)\n");
+        "   -e, --example: example number (between 1 and 4, default is 1)\n");
 }
 
 void printInfo(
@@ -182,7 +182,7 @@ void runExample2(
         resolution, gridSpacing, origin, rootDir, &solver, numberOfFrames);
 }
 
-// Dam-breaking example
+// Dam-breaking example (FLIP)
 void runExample3(
     const std::string& rootDir,
     size_t resolutionX,
@@ -205,12 +205,12 @@ void runExample3(
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
     surfaceSet->addSurface(
         std::make_shared<Box3>(
-            Vector3D(-0.5, -0.5, -0.5 * lz),
-            Vector3D(0.5, 0.75, 0.75 * lz)));
+            Vector3D(0, 0, 0),
+            Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
     surfaceSet->addSurface(
         std::make_shared<Box3>(
-            Vector3D(2.5, -0.5, 0.25 * lz),
-            Vector3D(3.5, 0.75, 1.5 * lz)));
+            Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
+            Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
 
     // Initialize particles
     auto particles = solver.particleSystemData();
@@ -223,18 +223,86 @@ void runExample3(
     emitter->emit(Frame(), particles);
 
     // Collider setting
+    double height = 0.75;
     auto columns = std::make_shared<ImplicitSurfaceSet3>();
     columns->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(1, 0, 0.25 * lz), 0.1, 0.75));
+        std::make_shared<Cylinder3>(
+            Vector3D(1, height / 2.0, 0.25 * lz), 0.1, height));
     columns->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(1.5, 0, 0.5 * lz), 0.1, 0.75));
+        std::make_shared<Cylinder3>(
+            Vector3D(1.5, height / 2.0, 0.5 * lz), 0.1, height));
     columns->addSurface(
-        std::make_shared<Cylinder3>(Vector3D(2, 0, 0.75 * lz), 0.1, 0.75));
+        std::make_shared<Cylinder3>(
+            Vector3D(2, height / 2.0, 0.75 * lz), 0.1, height));
     auto collider = std::make_shared<RigidBodyCollider3>(columns);
     solver.setCollider(collider);
 
     // Print simulation info
-    printf("Running example 3 (dam-breaking)\n");
+    printf("Running example 3 (dam-breaking with FLIP)\n");
+    printInfo(resolution, domain, gridSpacing, particles->numberOfParticles());
+
+    // Run simulation
+    runSimulation(
+        resolution, gridSpacing, origin, rootDir, &solver, numberOfFrames);
+}
+
+// Dam-breaking example (PIC)
+void runExample4(
+    const std::string& rootDir,
+    size_t resolutionX,
+    unsigned int numberOfFrames) {
+    Size3 resolution(3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2);
+    Vector3D origin;
+    double dx = 1.0 / resolutionX;
+    Vector3D gridSpacing(dx, dx, dx);
+
+    // Initialize solvers
+    PicSolver3 solver;
+
+    // Initialize grids
+    auto grids = solver.gridSystemData();
+    grids->resize(resolution, gridSpacing, origin);
+    BoundingBox3D domain = grids->boundingBox();
+    double lz = domain.depth();
+
+    // Initialize source
+    ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
+    surfaceSet->addSurface(
+        std::make_shared<Box3>(
+            Vector3D(0, 0, 0),
+            Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
+    surfaceSet->addSurface(
+        std::make_shared<Box3>(
+            Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
+            Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
+
+    // Initialize particles
+    auto particles = solver.particleSystemData();
+    auto emitter = std::make_shared<VolumeParticleEmitter3>(
+        surfaceSet,
+        domain,
+        0.5 * dx,
+        Vector3D());
+    emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
+    emitter->emit(Frame(), particles);
+
+    // Collider setting
+    double height = 0.75;
+    auto columns = std::make_shared<ImplicitSurfaceSet3>();
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(1, height / 2.0, 0.25 * lz), 0.1, height));
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(1.5, height / 2.0, 0.5 * lz), 0.1, height));
+    columns->addSurface(
+        std::make_shared<Cylinder3>(
+            Vector3D(2, height / 2.0, 0.75 * lz), 0.1, height));
+    auto collider = std::make_shared<RigidBodyCollider3>(columns);
+    solver.setCollider(collider);
+
+    // Print simulation info
+    printf("Running example 3 (dam-breaking with FLIP)\n");
     printInfo(resolution, domain, gridSpacing, particles->numberOfParticles());
 
     // Run simulation
@@ -305,6 +373,9 @@ int main(int argc, char* argv[]) {
             break;
         case 3:
             runExample3(outputDir, resolutionX, numberOfFrames);
+            break;
+        case 4:
+            runExample4(outputDir, resolutionX, numberOfFrames);
             break;
         default:
             printUsage();

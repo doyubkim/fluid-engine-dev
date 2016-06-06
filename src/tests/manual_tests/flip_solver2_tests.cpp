@@ -3,21 +3,13 @@
 #include <manual_tests.h>
 
 #include <jet/flip_solver2.h>
-#include <jet/flip_solver3.h>
 #include <jet/grid_point_generator2.h>
-#include <jet/grid_point_generator3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
-#include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/level_set_utils.h>
 #include <jet/implicit_surface_set2.h>
-#include <jet/implicit_surface_set3.h>
-#include <jet/plane3.h>
 #include <jet/rigid_body_collider2.h>
-#include <jet/rigid_body_collider3.h>
 #include <jet/sphere2.h>
-#include <jet/sphere3.h>
 #include <jet/surface_to_implicit2.h>
-#include <jet/surface_to_implicit3.h>
 
 using namespace jet;
 
@@ -151,58 +143,6 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithCollider) {
 
     Frame frame(1, 1.0 / 60.0);
     for ( ; frame.index < 240; frame.advance()) {
-        solver.update(frame);
-
-        saveParticleDataXy(particles, frame.index);
-    }
-}
-JET_END_TEST_F
-
-
-JET_TESTS(FlipSolver3);
-
-JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
-    size_t resolutionX = 32;
-    Size3 resolution(resolutionX, 2 * resolutionX, resolutionX);
-    Vector3D origin;
-    double dx = 1.0 / resolutionX;
-    Vector3D gridSpacing(dx, dx, dx);
-
-    // Initialize solvers
-    FlipSolver3 solver;
-
-    // Initialize grids
-    auto grids = solver.gridSystemData();
-    grids->resize(resolution, gridSpacing, origin);
-    BoundingBox3D domain = grids->boundingBox();
-
-    // Initialize source
-    ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
-        std::make_shared<Plane3>(
-            Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet.addSurface(
-        std::make_shared<Sphere3>(
-            domain.midPoint(), 0.15 * domain.width()));
-
-    // Initialize particles
-    GridPointGenerator3 pointsGen;
-    Array1<Vector3D> points;
-    pointsGen.forEachPoint(
-        domain,
-        0.5 * dx,
-        [&](const Vector3D& pt) {
-            if (isInsideSdf(surfaceSet.signedDistance(pt))) {
-                points.append(pt);
-            }
-            return true;
-        });
-    auto particles = solver.particleSystemData();
-    particles->addParticles(points);
-
-    saveParticleDataXy(particles, 0);
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
