@@ -19,19 +19,13 @@ Vector2D SurfaceToImplicit2::actualClosestNormal(
     return _surface->closestNormal(otherPoint);
 }
 
-double SurfaceToImplicit2::closestDistance(
-    const Vector2D& otherPoint) const {
-    return _surface->closestDistance(otherPoint);
-}
-
 bool SurfaceToImplicit2::intersects(const Ray2D& ray) const {
     return _surface->intersects(ray);
 }
 
-void SurfaceToImplicit2::getClosestIntersection(
-    const Ray2D& ray,
-    SurfaceRayIntersection2* intersection) const {
-    _surface->getClosestIntersection(ray, intersection);
+SurfaceRayIntersection2 SurfaceToImplicit2::closestIntersection(
+    const Ray2D& ray) const {
+    return _surface->closestIntersection(ray);
 }
 
 BoundingBox2D SurfaceToImplicit2::boundingBox() const {

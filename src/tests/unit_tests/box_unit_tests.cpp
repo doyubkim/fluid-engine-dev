@@ -147,23 +147,20 @@ TEST(Box2, Intersects) {
 TEST(Box2, GetClosestIntersection) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 
-    SurfaceRayIntersection2 result0;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()), &result0);
+    SurfaceRayIntersection2 result0 = box.closestIntersection(
+        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(2), result0.t);
     EXPECT_EQ(Vector2D(0, 3), result0.point);
 
-    SurfaceRayIntersection2 result1;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()), &result1);
+    SurfaceRayIntersection2 result1 = box.closestIntersection(
+        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.t);
     EXPECT_EQ(Vector2D(0.5, 2), result1.point);
 
-    SurfaceRayIntersection2 result2;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()), &result2);
+    SurfaceRayIntersection2 result2 = box.closestIntersection(
+        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
     EXPECT_FALSE(result2.isIntersecting);
 }
 

@@ -34,7 +34,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, SteadyState) {
     emitter->setJitter(0.0);
 
     Box2Ptr box = std::make_shared<Box2>(Vector2D(), Vector2D(1, 1));
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
     RigidBodyCollider2Ptr collider = std::make_shared<RigidBodyCollider2>(box);
     solver.setCollider(collider);
 
@@ -83,7 +83,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, WaterDrop) {
 
     // Initialize boundary
     Box2Ptr box = std::make_shared<Box2>(domain);
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
     RigidBodyCollider2Ptr collider = std::make_shared<RigidBodyCollider2>(box);
     solver.setCollider(collider);
 

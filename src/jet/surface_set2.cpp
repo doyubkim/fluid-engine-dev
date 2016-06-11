@@ -83,20 +83,22 @@ bool SurfaceSet2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-void SurfaceSet2::getClosestIntersection(
-    const Ray2D& ray,
-    SurfaceRayIntersection2* intersection) const {
-    double tMin = std::numeric_limits<double>::max();
+SurfaceRayIntersection2 SurfaceSet2::closestIntersection(
+    const Ray2D& ray) const {
+    SurfaceRayIntersection2 intersection;
+    double tMin = kMaxD;
 
     for (const auto& surface : _surfaces) {
         SurfaceRayIntersection2 localResult;
-        surface->getClosestIntersection(ray, &localResult);
+        localResult = surface->closestIntersection(ray);
 
         if (localResult.isIntersecting && localResult.t < tMin) {
-            *intersection = localResult;
+            intersection = localResult;
             tMin = localResult.t;
         }
     }
+
+    return intersection;
 }
 
 BoundingBox2D SurfaceSet2::boundingBox() const {
