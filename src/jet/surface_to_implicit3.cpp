@@ -28,10 +28,9 @@ bool SurfaceToImplicit3::intersects(const Ray3D& ray) const {
     return _surface->intersects(ray);
 }
 
-void SurfaceToImplicit3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
-    _surface->getClosestIntersection(ray, intersection);
+SurfaceRayIntersection3 SurfaceToImplicit3::closestIntersection(
+    const Ray3D& ray) const {
+    return _surface->closestIntersection(ray);
 }
 
 BoundingBox3D SurfaceToImplicit3::boundingBox() const {

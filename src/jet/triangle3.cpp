@@ -159,43 +159,43 @@ bool Triangle3::intersects(const Ray3D& ray) const {
     return true;
 }
 
-void Triangle3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
+SurfaceRayIntersection3 Triangle3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection;
     Vector3D n = faceNormal();
     double nd = n.dot(ray.direction);
 
     if (nd < std::numeric_limits<double>::epsilon()) {
-        intersection->isIntersecting = false;
-        return;
+        intersection.isIntersecting = false;
+        return intersection;
     }
 
     double d = n.dot(points[0]);
     double t = (d - n.dot(ray.origin)) / nd;
 
     if (t < 0.0) {
-        intersection->isIntersecting = false;
-        return;
+        intersection.isIntersecting = false;
+        return intersection;
     }
 
     Vector3D q = ray.pointAt(t);
 
     Vector3D q01 = (points[1] - points[0]).cross(q - points[0]);
     if (n.dot(q01)) {
-        intersection->isIntersecting = false;
-        return;
+        intersection.isIntersecting = false;
+        return intersection;
     }
 
     Vector3D q12 = (points[2] - points[1]).cross(q - points[1]);
     if (n.dot(q12)) {
-        intersection->isIntersecting = false;
-        return;
+        intersection.isIntersecting = false;
+        return intersection;
     }
 
     Vector3D q02 = (points[0] - points[2]).cross(q - points[2]);
     if (n.dot(q02)) {
-        intersection->isIntersecting = false;
-        return;
+        intersection.isIntersecting = false;
+        return intersection;
     }
 
     double a = area();
@@ -205,10 +205,12 @@ void Triangle3::getClosestIntersection(
 
     Vector3D normal = b0 * normals[0] + b1 * normals[1] + b2 * normals[2];
 
-    intersection->isIntersecting = true;
-    intersection->t = t;
-    intersection->point = q;
-    intersection->normal = normal.normalized();
+    intersection.isIntersecting = true;
+    intersection.t = t;
+    intersection.point = q;
+    intersection.normal = normal.normalized();
+
+    return intersection;
 }
 
 BoundingBox3D Triangle3::boundingBox() const {
@@ -234,16 +236,6 @@ void Triangle3::getBarycentricCoords(
     *b0 = 0.5 * q12.length() / a;
     *b1 = 0.5 * q02.length() / a;
     *b2 = 0.5 * q01.length() / a;
-}
-
-void Triangle3::sample(double u1, double u2, Vector3D* pt, Vector3D* n) const {
-    double su1 = std::sqrt(u1);
-    u1 = 1.0 - su1;
-    u2 = u2 * su1;
-    double u0 = 1.0 - u1 - u2;
-    *pt = u0 * points[0] + u1 * points[1] + u2 * points[2];
-    *n = u0 * normals[0] + u1 * normals[1] + u2 * normals[2];
-    n->normalize();
 }
 
 Vector3D Triangle3::faceNormal() const {

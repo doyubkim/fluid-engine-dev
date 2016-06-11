@@ -1,29 +1,4 @@
 // Copyright (c) 2016 Doyub Kim
-//
-// Jet uses portion of pbrt-v2
-
-// Copyright (c) 1998-2014, Matt Pharr and Greg Humphreys.
-// All rights reserved.
-
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-
-// Redistributions of source code must retain the above copyright notice, this
-// list of conditions and the following disclaimer.
-// Redistributions in binary form must reproduce the above copyright notice,
-// this list of conditions and the following disclaimer in the documentation
-// and/or other materials provided with the distribution.
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-// HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <pch.h>
 #include <jet/triangle_mesh3.h>
@@ -60,7 +35,7 @@ Vector3D TriangleMesh3::closestPoint(const Vector3D& otherPoint) const {
     Vector3D minDistPt(m, m, m);
     double minDistSquared = m;
 
-    size_t n = numberOfFaces();
+    size_t n = numberOfTriangles();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
         Vector3D pt = tri.closestPoint(otherPoint);
@@ -80,7 +55,7 @@ Vector3D TriangleMesh3::actualClosestNormal(const Vector3D& otherPoint) const {
     Vector3D minDistNormal(1, 0, 0);
     double minDistSquared = m;
 
-    size_t n = numberOfFaces();
+    size_t n = numberOfTriangles();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
         Vector3D pt = tri.closestPoint(otherPoint);
@@ -95,20 +70,23 @@ Vector3D TriangleMesh3::actualClosestNormal(const Vector3D& otherPoint) const {
     return minDistNormal;
 }
 
-void TriangleMesh3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
-    size_t n = numberOfFaces();
+SurfaceRayIntersection3 TriangleMesh3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection;
+
+    size_t n = numberOfTriangles();
     double t = std::numeric_limits<double>::max();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
-        SurfaceRayIntersection3 tmpIntersection;
-        tri.getClosestIntersection(ray, &tmpIntersection);
+        SurfaceRayIntersection3 tmpIntersection
+            = tri.closestIntersection(ray);
         if (tmpIntersection.t < t) {
             t = tmpIntersection.t;
-            *intersection = tmpIntersection;
+            intersection = tmpIntersection;
         }
     }
+
+    return intersection;
 }
 
 BoundingBox3D TriangleMesh3::boundingBox() const {
@@ -124,7 +102,7 @@ BoundingBox3D TriangleMesh3::boundingBox() const {
 }
 
 bool TriangleMesh3::intersects(const Ray3D& ray) const {
-    size_t n = numberOfFaces();
+    size_t n = numberOfTriangles();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
         if (tri.intersects(ray)) {
@@ -137,7 +115,7 @@ bool TriangleMesh3::intersects(const Ray3D& ray) const {
 double TriangleMesh3::closestDistance(const Vector3D& otherPoint) const {
     double minDist = std::numeric_limits<double>::max();
 
-    size_t n = numberOfFaces();
+    size_t n = numberOfTriangles();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
         minDist = std::min(minDist, tri.closestDistance(otherPoint));
@@ -153,7 +131,6 @@ void TriangleMesh3::clear() {
     _pointIndices.clear();
     _normalIndices.clear();
     _uvIndices.clear();
-    _areaCache.clear();
 }
 
 void TriangleMesh3::set(const TriangleMesh3& other) {
@@ -163,7 +140,6 @@ void TriangleMesh3::set(const TriangleMesh3& other) {
     _pointIndices.set(other._pointIndices);
     _normalIndices.set(other._normalIndices);
     _uvIndices.set(other._uvIndices);
-    _areaCache.set(other._areaCache);
 }
 
 void TriangleMesh3::swap(TriangleMesh3& other) {
@@ -173,12 +149,11 @@ void TriangleMesh3::swap(TriangleMesh3& other) {
     _pointIndices.swap(other._pointIndices);
     _normalIndices.swap(other._normalIndices);
     _uvIndices.swap(other._uvIndices);
-    _areaCache.swap(other._areaCache);
 }
 
 double TriangleMesh3::area() const {
     double a = 0;
-    for (size_t i = 0; i < numberOfFaces(); ++i) {
+    for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
         a += tri.area();
     }
@@ -187,37 +162,11 @@ double TriangleMesh3::area() const {
 
 double TriangleMesh3::volume() const {
     double vol = 0;
-    for (size_t i = 0; i < numberOfFaces(); ++i) {
+    for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
         vol += tri.points[0].dot(tri.points[1].cross(tri.points[2])) / 6.f;
     }
     return vol;
-}
-
-void TriangleMesh3::sample(
-    double u1,
-    double u2,
-    double u3,
-    Vector3D* x,
-    Vector3D* n) const {
-    if (_areaCache.size() != numberOfFaces() + 1) {
-        computeAreaCacheP();
-    }
-
-    // pick a triangle
-    const double* ptr = std::lower_bound(
-        _areaCache.data(),
-        _areaCache.data() + _areaCache.size(),
-        u1);
-
-    size_t offset = 0;
-    if (ptr > _areaCache.data()) {
-        offset = static_cast<size_t>(ptr - _areaCache.data() - 1);
-    }
-
-    // sample on the triangle
-    Triangle3 tri = triangle(offset);
-    tri.sample(u2, u3, x, n);
 }
 
 const Vector3D& TriangleMesh3::point(size_t i) const {
@@ -302,7 +251,7 @@ size_t TriangleMesh3::numberOfUvs() const {
     return _uvs.size();
 }
 
-size_t TriangleMesh3::numberOfFaces() const {
+size_t TriangleMesh3::numberOfTriangles() const {
     return _pointIndices.size();
 }
 
@@ -326,11 +275,11 @@ void TriangleMesh3::addUv(const Vector2D& t) {
     _uvs.append(t);
 }
 
-void TriangleMesh3::addPointFace(const Point3UI& newPointIndices) {
+void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
     _pointIndices.append(newPointIndices);
 }
 
-void TriangleMesh3::addPointNormalFace(
+void TriangleMesh3::addPointNormalTriangle(
     const Point3UI& newPointIndices,
     const Point3UI& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
@@ -341,7 +290,7 @@ void TriangleMesh3::addPointNormalFace(
     _normalIndices.append(newNormalIndices);
 }
 
-void TriangleMesh3::addPointNormalUvFace(
+void TriangleMesh3::addPointNormalUvTriangle(
     const Point3UI& newPointIndices,
     const Point3UI& newNormalIndices,
     const Point3UI& newUvIndices) {
@@ -354,7 +303,7 @@ void TriangleMesh3::addPointNormalUvFace(
     _uvIndices.append(newUvIndices);
 }
 
-void TriangleMesh3::addPointUvFace(
+void TriangleMesh3::addPointUvTriangle(
     const Point3UI& newPointIndices,
     const Point3UI& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
@@ -388,7 +337,7 @@ void TriangleMesh3::setFaceNormal() {
     _normals.resize(_points.size());
     _normalIndices.set(_pointIndices);
 
-    for (size_t i = 0; i < numberOfFaces(); ++i) {
+    for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
         Vector3D n = tri.faceNormal();
         Point3UI f = _pointIndices[i];
@@ -410,7 +359,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         pseudoNormals[i] = Vector3D();
     }
 
-    for (size_t i = 0; i < numberOfFaces(); ++i) {
+    for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Vector3D pts[3];
         Vector3D normal, e0, e1;
         double cosangle, angle;
@@ -469,44 +418,6 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
     _normalIndices.set(_pointIndices);
 }
 
-void TriangleMesh3::clearAreaCache() {
-    _areaCache.clear();
-}
-
-void TriangleMesh3::computeAreaCache() {
-    _areaCache.resize(numberOfFaces()+1);
-
-    // compute area weighted CDF
-    _areaCache[0] = 0;
-    for (size_t i = 1; i < _areaCache.size(); ++i) {
-        Triangle3 tri = triangle(i-1);
-        double triarea = tri.area();
-        _areaCache[i] = triarea + _areaCache[i-1];
-    }
-
-    // normalize areaCache
-    for (size_t i = 1; i < _areaCache.size(); ++i) {
-        _areaCache[i] /= _areaCache[numberOfFaces()];
-    }
-}
-
-void TriangleMesh3::computeAreaCacheP() const {
-    _areaCache.resize(numberOfFaces()+1);
-
-    // compute area weighted CDF
-    _areaCache[0] = 0;
-    for (size_t i = 1; i < _areaCache.size(); ++i) {
-        Triangle3 tri = triangle(i-1);
-        double triarea = tri.area();
-        _areaCache[i] = triarea + _areaCache[i-1];
-    }
-
-    // normalize areaCache
-    for (size_t i = 1; i < _areaCache.size(); ++i) {
-        _areaCache[i] /= _areaCache[numberOfFaces()];
-    }
-}
-
 void TriangleMesh3::scale(double factor) {
     parallelFor(
         kZeroSize,
@@ -560,7 +471,7 @@ void TriangleMesh3::writeObj(std::ostream* strm) const {
     // faces
     bool hasUvs_ = hasUvs();
     bool hasNormals_ = hasNormals();
-    for (size_t i = 0; i < numberOfFaces(); ++i) {
+    for (size_t i = 0; i < numberOfTriangles(); ++i) {
         (*strm) << "f ";
         for (int j = 0; j < 3; ++j) {
             (*strm) << _pointIndices[i][j] + 1;
@@ -614,13 +525,13 @@ bool TriangleMesh3::readObj(std::istream* strm) {
     parser.face_callbacks(
         // triangular_face_geometric_vertices_callback_type
         [this](obj::index_type v0, obj::index_type v1, obj::index_type v2) {
-            addPointFace({v0 - 1, v1 - 1, v2 - 1});
+            addPointTriangle({v0 - 1, v1 - 1, v2 - 1});
         },
         // triangular_face_geometric_vertices_texture_vertices_callback_type
         [this](const obj::index_2_tuple_type& v0_vt0,
            const obj::index_2_tuple_type& v1_vt1,
            const obj::index_2_tuple_type& v2_vt2) {
-            addPointUvFace(
+            addPointUvTriangle(
                 {
                     std::get<0>(v0_vt0) - 1,
                     std::get<0>(v1_vt1) - 1,
@@ -636,7 +547,7 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         [this](const obj::index_2_tuple_type& v0_vn0,
            const obj::index_2_tuple_type& v1_vn1,
            const obj::index_2_tuple_type& v2_vn2) {
-            addPointNormalFace(
+            addPointNormalTriangle(
                 {
                     std::get<0>(v0_vn0) - 1,
                     std::get<0>(v1_vn1) - 1,
@@ -652,7 +563,7 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         [this](const obj::index_3_tuple_type& v0_vt0_vn0,
            const obj::index_3_tuple_type& v1_vt1_vn1,
            const obj::index_3_tuple_type& v2_vt2_vn2) {
-            addPointNormalUvFace(
+            addPointNormalUvTriangle(
                 {
                     std::get<0>(v0_vt0_vn0) - 1,
                     std::get<0>(v1_vt1_vn1) - 1,

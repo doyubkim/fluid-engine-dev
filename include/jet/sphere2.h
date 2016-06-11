@@ -22,6 +22,9 @@ class Sphere2 final : public Surface2 {
     //! Radius of the sphere.
     double radius = 1.0;
 
+    //! Constructs a sphere with center at (0, 0) and radius of 1.
+    Sphere2();
+
     //! Constructs a sphere with \p center and \p radius.
     Sphere2(const Vector2D& center, double radius);
 

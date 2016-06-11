@@ -218,7 +218,7 @@ void triangleMeshToSdf(
     // intersection counts
     Vector3D ijkmin, ijkmax;
 
-    size_t nTri = mesh.numberOfFaces();
+    size_t nTri = mesh.numberOfTriangles();
     for (size_t t = 0; t < nTri; ++t) {
         Point3UI indices = mesh.pointIndex(t);
 

@@ -7,6 +7,9 @@
 
 using namespace jet;
 
+Sphere2::Sphere2() {
+}
+
 Sphere2::Sphere2(const Vector2D& center_, double radius_) :
     center(center_),
     radius(radius_) {
@@ -17,7 +20,7 @@ Vector2D Sphere2::closestPoint(const Vector2D& otherPoint) const {
 }
 
 double Sphere2::closestDistance(const Vector2D& otherPoint) const {
-    return center.distanceTo(otherPoint) - radius;
+    return std::fabs(center.distanceTo(otherPoint) - radius);
 }
 
 Vector2D Sphere2::actualClosestNormal(const Vector2D& otherPoint) const {

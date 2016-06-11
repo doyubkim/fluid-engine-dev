@@ -66,7 +66,7 @@ Vector3D Box3::actualClosestNormal(const Vector3D& otherPoint) const {
     };
 
     if (_boundingBox.contains(otherPoint)) {
-        Vector3D closestNormal = planes[0].normal();
+        Vector3D closestNormal = planes[0].normal;
         Vector3D closestPoint = planes[0].closestPoint(otherPoint);
         double minDistanceSquared = (closestPoint - otherPoint).lengthSquared();
 
@@ -76,7 +76,7 @@ Vector3D Box3::actualClosestNormal(const Vector3D& otherPoint) const {
                 = (localClosestPoint - otherPoint).lengthSquared();
 
             if (localDistanceSquared < minDistanceSquared) {
-                closestNormal = planes[i].normal();
+                closestNormal = planes[i].normal;
                 minDistanceSquared = localDistanceSquared;
             }
         }
@@ -88,15 +88,15 @@ Vector3D Box3::actualClosestNormal(const Vector3D& otherPoint) const {
             _boundingBox.lowerCorner,
             _boundingBox.upperCorner);
         Vector3D closestPointToInputPoint = otherPoint - closestPoint;
-        Vector3D closestNormal = planes[0].normal();
+        Vector3D closestNormal = planes[0].normal;
         double maxCosineAngle = closestNormal.dot(closestPointToInputPoint);
 
         for (int i = 1; i < 6; ++i) {
             double cosineAngle
-                = planes[i].normal().dot(closestPointToInputPoint);
+                = planes[i].normal.dot(closestPointToInputPoint);
 
             if (cosineAngle > maxCosineAngle) {
-                closestNormal = planes[i].normal();
+                closestNormal = planes[i].normal;
                 maxCosineAngle = cosineAngle;
             }
         }
@@ -113,17 +113,19 @@ bool Box3::intersects(const Ray3D& ray) const {
     return _boundingBox.intersects(ray);
 }
 
-void Box3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
+SurfaceRayIntersection3 Box3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection;
     BoundingBoxRayIntersection3D bbRayIntersection;
     _boundingBox.getClosestIntersection(ray, &bbRayIntersection);
-    intersection->isIntersecting = bbRayIntersection.isIntersecting;
-    if (intersection->isIntersecting) {
-        intersection->t = bbRayIntersection.tNear;
-        intersection->point = ray.pointAt(bbRayIntersection.tNear);
-        intersection->normal = Box3::closestNormal(intersection->point);
+    intersection.isIntersecting = bbRayIntersection.isIntersecting;
+    if (intersection.isIntersecting) {
+        intersection.t = bbRayIntersection.tNear;
+        intersection.point = ray.pointAt(bbRayIntersection.tNear);
+        intersection.normal = Box3::closestNormal(intersection.point);
     }
+
+    return intersection;
 }
 
 BoundingBox3D Box3::boundingBox() const {

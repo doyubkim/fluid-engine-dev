@@ -90,20 +90,22 @@ bool ImplicitSurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-void ImplicitSurfaceSet3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
+SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection;
     double tMin = kMaxD;
 
     for (const auto& surface : _surfaces) {
-        SurfaceRayIntersection3 localResult;
-        surface->getClosestIntersection(ray, &localResult);
+        SurfaceRayIntersection3 localResult =
+            surface->closestIntersection(ray);
 
         if (localResult.isIntersecting && localResult.t < tMin) {
-            *intersection = localResult;
+            intersection = localResult;
             tMin = localResult.t;
         }
     }
+
+    return intersection;
 }
 
 BoundingBox3D ImplicitSurfaceSet3::boundingBox() const {
