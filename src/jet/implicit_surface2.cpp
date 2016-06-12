@@ -8,6 +8,10 @@ using namespace jet;
 ImplicitSurface2::ImplicitSurface2() {
 }
 
+ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other) :
+    Surface2(other) {
+}
+
 ImplicitSurface2::~ImplicitSurface2() {
 }
 

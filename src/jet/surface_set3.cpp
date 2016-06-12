@@ -11,6 +11,11 @@ using namespace jet;
 SurfaceSet3::SurfaceSet3() {
 }
 
+SurfaceSet3::SurfaceSet3(const SurfaceSet3& other) :
+    Surface3(other),
+    _surfaces(other._surfaces) {
+}
+
 size_t SurfaceSet3::numberOfSurfaces() const {
     return _surfaces.size();
 }
@@ -84,20 +89,22 @@ bool SurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-void SurfaceSet3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
+SurfaceRayIntersection3 SurfaceSet3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection;
     double tMin = std::numeric_limits<double>::max();
 
     for (const auto& surface : _surfaces) {
-        SurfaceRayIntersection3 localResult;
-        surface->getClosestIntersection(ray, &localResult);
+        SurfaceRayIntersection3 localResult =
+            surface->closestIntersection(ray);
 
         if (localResult.isIntersecting && localResult.t < tMin) {
-            *intersection = localResult;
+            intersection = localResult;
             tMin = localResult.t;
         }
     }
+
+    return intersection;
 }
 
 BoundingBox3D SurfaceSet3::boundingBox() const {

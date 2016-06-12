@@ -106,7 +106,7 @@ void runExample1(
 
     // Initialize boundary
     Box3Ptr box = std::make_shared<Box3>(domain);
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
     RigidBodyCollider3Ptr collider = std::make_shared<RigidBodyCollider3>(box);
     solver.setCollider(collider);
 
@@ -153,7 +153,7 @@ void runExample2(
 
     // Initialize boundary
     Box3Ptr box = std::make_shared<Box3>(domain);
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
     RigidBodyCollider3Ptr collider = std::make_shared<RigidBodyCollider3>(box);
     solver.setCollider(collider);
 
@@ -218,7 +218,7 @@ void runExample3(
 
     // Initialize boundary
     auto box = std::make_shared<Box3>(domain);
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
     colliderSurfaceSet->addSurface(box);
 
     RigidBodyCollider3Ptr collider
