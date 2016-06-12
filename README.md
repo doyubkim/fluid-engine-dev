@@ -18,26 +18,12 @@ Every simulator has both 2-D and 3-D implementations.
 
 To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/INSTALL.md).
 
-## License
-
-Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md).
-
 ## Examples
 
 Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/). 
 
-Smoke simulation example using 150 x 180 x 75 grid:
+![Examples](doc/img/examples.png "Examples")
 
-![Smoke Example](doc/img/smoke_example.png "Smoke Example")
+## License
 
-Level set simulation example using 150 x 150 x 150 grid:
-
-![Level Set Example](doc/img/levelset_example.png "Level Set Example")
-
-FLIP simulation example using 875k particles and 150 x 100 x 75 grid:
-
-![FLIP Example](doc/img/flip_example.png "FLIP Example")
-
-PCISPH example using 839k particles:
-
-![PCISPH Example](doc/img/pcisph_example.png "PCISPH Example")
+Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md).
