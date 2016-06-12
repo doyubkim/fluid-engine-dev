@@ -14,20 +14,20 @@ Box2::Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner) :
 }
 
 Box2::Box2(const BoundingBox2D& boundingBox) :
-    _boundingBox(boundingBox) {
+    bound(boundingBox) {
 }
 
 Box2::Box2(const Box2& other) :
-    _boundingBox(other._boundingBox) {
+    Surface2(other), bound(other.bound) {
 }
 
 Vector2D Box2::closestPoint(const Vector2D& otherPoint) const {
-    if (_boundingBox.contains(otherPoint)) {
+    if (bound.contains(otherPoint)) {
         Plane2 planes[4] = {
-            Plane2(Vector2D(1, 0), _boundingBox.upperCorner),
-            Plane2(Vector2D(0, 1), _boundingBox.upperCorner),
-            Plane2(Vector2D(-1, 0), _boundingBox.lowerCorner),
-            Plane2(Vector2D(0, -1), _boundingBox.lowerCorner)
+            Plane2(Vector2D(1, 0), bound.upperCorner),
+            Plane2(Vector2D(0, 1), bound.upperCorner),
+            Plane2(Vector2D(-1, 0), bound.lowerCorner),
+            Plane2(Vector2D(0, -1), bound.lowerCorner)
         };
 
         Vector2D result = planes[0].closestPoint(otherPoint);
@@ -48,21 +48,21 @@ Vector2D Box2::closestPoint(const Vector2D& otherPoint) const {
     } else {
         return clamp(
             otherPoint,
-            _boundingBox.lowerCorner,
-            _boundingBox.upperCorner);
+            bound.lowerCorner,
+            bound.upperCorner);
     }
 }
 
 Vector2D Box2::actualClosestNormal(const Vector2D& otherPoint) const {
     Plane2 planes[4] = {
-        Plane2(Vector2D(1, 0), _boundingBox.upperCorner),
-        Plane2(Vector2D(0, 1), _boundingBox.upperCorner),
-        Plane2(Vector2D(-1, 0), _boundingBox.lowerCorner),
-        Plane2(Vector2D(0, -1), _boundingBox.lowerCorner)
+        Plane2(Vector2D(1, 0), bound.upperCorner),
+        Plane2(Vector2D(0, 1), bound.upperCorner),
+        Plane2(Vector2D(-1, 0), bound.lowerCorner),
+        Plane2(Vector2D(0, -1), bound.lowerCorner)
     };
 
-    if (_boundingBox.contains(otherPoint)) {
-        Vector2D closestNormal = planes[0].normal();
+    if (bound.contains(otherPoint)) {
+        Vector2D closestNormal = planes[0].normal;
         Vector2D closestPoint = planes[0].closestPoint(otherPoint);
         double minDistanceSquared = (closestPoint - otherPoint).lengthSquared();
 
@@ -72,7 +72,7 @@ Vector2D Box2::actualClosestNormal(const Vector2D& otherPoint) const {
                 = (localClosestPoint - otherPoint).lengthSquared();
 
             if (localDistanceSquared < minDistanceSquared) {
-                closestNormal = planes[i].normal();
+                closestNormal = planes[i].normal;
                 minDistanceSquared = localDistanceSquared;
             }
         }
@@ -81,18 +81,18 @@ Vector2D Box2::actualClosestNormal(const Vector2D& otherPoint) const {
     } else {
         Vector2D closestPoint = clamp(
             otherPoint,
-            _boundingBox.lowerCorner,
-            _boundingBox.upperCorner);
+            bound.lowerCorner,
+            bound.upperCorner);
         Vector2D closestPointToInputPoint = otherPoint - closestPoint;
-        Vector2D closestNormal = planes[0].normal();
+        Vector2D closestNormal = planes[0].normal;
         double maxCosineAngle = closestNormal.dot(closestPointToInputPoint);
 
         for (int i = 1; i < 4; ++i) {
             double cosineAngle
-                = planes[i].normal().dot(closestPointToInputPoint);
+                = planes[i].normal.dot(closestPointToInputPoint);
 
             if (cosineAngle > maxCosineAngle) {
-                closestNormal = planes[i].normal();
+                closestNormal = planes[i].normal;
                 maxCosineAngle = cosineAngle;
             }
         }
@@ -106,22 +106,22 @@ double Box2::closestDistance(const Vector2D& otherPoint) const {
 }
 
 bool Box2::intersects(const Ray2D& ray) const {
-    return _boundingBox.intersects(ray);
+    return bound.intersects(ray);
 }
 
-void Box2::getClosestIntersection(
-    const Ray2D& ray,
-    SurfaceRayIntersection2* intersection) const {
+SurfaceRayIntersection2 Box2::closestIntersection(const Ray2D& ray) const {
+    SurfaceRayIntersection2 intersection;
     BoundingBoxRayIntersection2D bbRayIntersection;
-    _boundingBox.getClosestIntersection(ray, &bbRayIntersection);
-    intersection->isIntersecting = bbRayIntersection.isIntersecting;
-    if (intersection->isIntersecting) {
-        intersection->t = bbRayIntersection.tNear;
-        intersection->point = ray.pointAt(bbRayIntersection.tNear);
-        intersection->normal = Box2::closestNormal(intersection->point);
+    bound.getClosestIntersection(ray, &bbRayIntersection);
+    intersection.isIntersecting = bbRayIntersection.isIntersecting;
+    if (intersection.isIntersecting) {
+        intersection.t = bbRayIntersection.tNear;
+        intersection.point = ray.pointAt(bbRayIntersection.tNear);
+        intersection.normal = Box2::closestNormal(intersection.point);
     }
+    return intersection;
 }
 
 BoundingBox2D Box2::boundingBox() const {
-    return _boundingBox;
+    return bound;
 }

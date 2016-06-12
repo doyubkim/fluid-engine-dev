@@ -24,28 +24,28 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
     triMesh.addPoint({1, 1, 1});
 
     // -x
-    triMesh.addPointFace({0, 1, 3});
-    triMesh.addPointFace({0, 3, 2});
+    triMesh.addPointTriangle({0, 1, 3});
+    triMesh.addPointTriangle({0, 3, 2});
 
     // +x
-    triMesh.addPointFace({4, 6, 7});
-    triMesh.addPointFace({4, 7, 5});
+    triMesh.addPointTriangle({4, 6, 7});
+    triMesh.addPointTriangle({4, 7, 5});
 
     // -y
-    triMesh.addPointFace({0, 4, 5});
-    triMesh.addPointFace({0, 5, 1});
+    triMesh.addPointTriangle({0, 4, 5});
+    triMesh.addPointTriangle({0, 5, 1});
 
     // +y
-    triMesh.addPointFace({2, 3, 7});
-    triMesh.addPointFace({2, 7, 6});
+    triMesh.addPointTriangle({2, 3, 7});
+    triMesh.addPointTriangle({2, 7, 6});
 
     // -z
-    triMesh.addPointFace({0, 2, 6});
-    triMesh.addPointFace({0, 6, 4});
+    triMesh.addPointTriangle({0, 2, 6});
+    triMesh.addPointTriangle({0, 6, 4});
 
     // +z
-    triMesh.addPointFace({1, 5, 7});
-    triMesh.addPointFace({1, 7, 3});
+    triMesh.addPointTriangle({1, 5, 7});
+    triMesh.addPointTriangle({1, 7, 3});
 
     VertexCenteredScalarGrid3 grid(
         64, 64, 64, 3.0/64, 3.0/64, 3.0/64, -1.0, -1.0, -1.0);

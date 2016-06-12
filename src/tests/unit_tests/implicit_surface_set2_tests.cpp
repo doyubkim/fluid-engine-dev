@@ -10,7 +10,7 @@ TEST(ImplicitSurfaceSet2, ClosestNormal) {
     BoundingBox2D bbox(Vector2D(), Vector2D(1, 2));
 
     Box2Ptr box = std::make_shared<Box2>(bbox);
-    box->setIsNormalFlipped(true);
+    box->isNormalFlipped = true;
 
     ImplicitSurfaceSet2Ptr sset = std::make_shared<ImplicitSurfaceSet2>();
     sset->addSurface(box);

@@ -7,71 +7,93 @@
 
 using namespace jet;
 
-Sphere2::Sphere2(const Vector2D& center, double radius) :
-    _center(center),
-    _radius(radius) {
+Sphere2::Sphere2() {
+}
+
+Sphere2::Sphere2(const Vector2D& center_, double radius_) :
+    center(center_),
+    radius(radius_) {
+}
+
+Sphere2::Sphere2(const Sphere2& other) :
+    Surface2(other),
+    center(other.center),
+    radius(other.radius) {
 }
 
 Vector2D Sphere2::closestPoint(const Vector2D& otherPoint) const {
-    return _radius * closestNormal(otherPoint) + _center;
+    return radius * closestNormal(otherPoint) + center;
+}
+
+double Sphere2::closestDistance(const Vector2D& otherPoint) const {
+    return std::fabs(center.distanceTo(otherPoint) - radius);
 }
 
 Vector2D Sphere2::actualClosestNormal(const Vector2D& otherPoint) const {
-    if (_center.isSimilar(otherPoint)) {
+    if (center.isSimilar(otherPoint)) {
         return Vector2D(1, 0);
     } else {
-        return (otherPoint - _center).normalized();
+        return (otherPoint - center).normalized();
     }
 }
 
-void Sphere2::getClosestIntersection(
-    const Ray2D& ray,
-    SurfaceRayIntersection2* intersection) const {
-    Vector2D r = ray.origin - _center;
+bool Sphere2::intersects(const Ray2D& ray) const {
+    Vector2D r = ray.origin - center;
     double b = ray.direction.dot(r);
-    double c = r.lengthSquared() - square(_radius);
+    double c = r.lengthSquared() - square(radius);
     double d = b * b - c;
 
-    if (d > 0.) {
+    if (d > 0.0) {
         d = std::sqrt(d);
         double tMin = -b - d;
         double tMax = -b + d;
 
         if (tMin < 0.0) {
             tMin = tMax;
-            tMax = std::numeric_limits<double>::max();
+            tMax = kMaxD;
+        }
+
+        if (tMin >= 0.0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+SurfaceRayIntersection2 Sphere2::closestIntersection(const Ray2D& ray) const {
+    SurfaceRayIntersection2 intersection;
+    Vector2D r = ray.origin - center;
+    double b = ray.direction.dot(r);
+    double c = r.lengthSquared() - square(radius);
+    double d = b * b - c;
+
+    if (d > 0.0) {
+        d = std::sqrt(d);
+        double tMin = -b - d;
+        double tMax = -b + d;
+
+        if (tMin < 0.0) {
+            tMin = tMax;
+            tMax = kMaxD;
         }
 
         if (tMin < 0.0) {
-            intersection->isIntersecting = false;
+            intersection.isIntersecting = false;
         } else {
-            intersection->isIntersecting = true;
-            intersection->t = tMin;
-            intersection->point = ray.origin + tMin * ray.direction;
-            intersection->normal = (intersection->point - _center).normalized();
+            intersection.isIntersecting = true;
+            intersection.t = tMin;
+            intersection.point = ray.origin + tMin * ray.direction;
+            intersection.normal = (intersection.point - center).normalized();
         }
     } else {
-        intersection->isIntersecting = false;
+        intersection.isIntersecting = false;
     }
+
+    return intersection;
 }
 
 BoundingBox2D Sphere2::boundingBox() const {
-    Vector2D r(_radius, _radius);
-    return BoundingBox2D(_center - r, _center + r);
-}
-
-const Vector2D& Sphere2::center() const {
-    return _center;
-}
-
-void Sphere2::setCenter(const Vector2D& newCenter) {
-    _center = newCenter;
-}
-
-double Sphere2::radius() const {
-    return _radius;
-}
-
-void Sphere2::setRadius(double newRadius) {
-    _radius = newRadius;
+    Vector2D r(radius, radius);
+    return BoundingBox2D(center - r, center + r);
 }

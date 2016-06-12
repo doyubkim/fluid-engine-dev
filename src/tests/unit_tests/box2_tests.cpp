@@ -1,7 +1,6 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <jet/box2.h>
-#include <jet/box3.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -9,26 +8,25 @@ using namespace jet;
 TEST(Box2, Constructors) {
     {
         Box2 box;
-        BoundingBox2D boundingBox = box.boundingBox();
 
-        EXPECT_EQ(Vector2D(), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector2D(1, 1), boundingBox.upperCorner);
+        EXPECT_EQ(Vector2D(), box.bound.lowerCorner);
+        EXPECT_EQ(Vector2D(1, 1), box.bound.upperCorner);
     }
 
     {
         Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
-        BoundingBox2D boundingBox = box.boundingBox();
 
-        EXPECT_EQ(Vector2D(-1, 2), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector2D(5, 3), boundingBox.upperCorner);
+        EXPECT_EQ(Vector2D(-1, 2), box.bound.lowerCorner);
+        EXPECT_EQ(Vector2D(5, 3), box.bound.upperCorner);
     }
 
     {
         Box2 box(BoundingBox2D(Vector2D(-1, 2), Vector2D(5, 3)));
-        BoundingBox2D boundingBox = box.boundingBox();
 
-        EXPECT_EQ(Vector2D(-1, 2), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector2D(5, 3), boundingBox.upperCorner);
+        box.isNormalFlipped = true;
+        EXPECT_TRUE(box.isNormalFlipped);
+        EXPECT_EQ(Vector2D(-1, 2), box.bound.lowerCorner);
+        EXPECT_EQ(Vector2D(5, 3), box.bound.upperCorner);
     }
 }
 
@@ -61,6 +59,22 @@ TEST(Box2, ClosestPoint) {
 
     Vector2D result8 = box.closestPoint(Vector2D(9, -1));
     EXPECT_EQ(Vector2D(5, 2), result8);
+}
+
+TEST(Box2, ActualClosestNormal) {
+    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
+
+    Vector2D result0 = box.actualClosestNormal(Vector2D(-2, 2));
+    EXPECT_EQ(Vector2D(-1, 0), result0);
+
+    Vector2D result1 = box.actualClosestNormal(Vector2D(3, 5));
+    EXPECT_EQ(Vector2D(0, 1), result1);
+
+    Vector2D result2 = box.actualClosestNormal(Vector2D(9, 3));
+    EXPECT_EQ(Vector2D(1, 0), result2);
+
+    Vector2D result3 = box.actualClosestNormal(Vector2D(4, 1));
+    EXPECT_EQ(Vector2D(0, -1), result3);
 }
 
 TEST(Box2, ClosestDistance) {
@@ -112,22 +126,6 @@ TEST(Box2, ClosestDistance) {
         result8);
 }
 
-TEST(Box2, ClosestNormal) {
-    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
-
-    Vector2D result0 = box.closestNormal(Vector2D(-2, 2));
-    EXPECT_EQ(Vector2D(-1, 0), result0);
-
-    Vector2D result1 = box.closestNormal(Vector2D(3, 5));
-    EXPECT_EQ(Vector2D(0, 1), result1);
-
-    Vector2D result2 = box.closestNormal(Vector2D(9, 3));
-    EXPECT_EQ(Vector2D(1, 0), result2);
-
-    Vector2D result3 = box.closestNormal(Vector2D(4, 1));
-    EXPECT_EQ(Vector2D(0, -1), result3);
-}
-
 TEST(Box2, Intersects) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 
@@ -144,52 +142,47 @@ TEST(Box2, Intersects) {
     EXPECT_FALSE(result2);
 }
 
-TEST(Box2, GetClosestIntersection) {
+TEST(Box2, ClosestIntersection) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 
-    SurfaceRayIntersection2 result0;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()), &result0);
+    SurfaceRayIntersection2 result0 = box.closestIntersection(
+        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(2), result0.t);
     EXPECT_EQ(Vector2D(0, 3), result0.point);
 
-    SurfaceRayIntersection2 result1;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()), &result1);
+    SurfaceRayIntersection2 result1 = box.closestIntersection(
+        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.t);
     EXPECT_EQ(Vector2D(0.5, 2), result1.point);
 
-    SurfaceRayIntersection2 result2;
-    box.getClosestIntersection(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()), &result2);
+    SurfaceRayIntersection2 result2 = box.closestIntersection(
+        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
     EXPECT_FALSE(result2.isIntersecting);
 }
 
+TEST(Box2, BoundingBox) {
+    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
+    BoundingBox2D boundingBox = box.boundingBox();
 
-TEST(Box3, Constructors) {
-    {
-        Box3 box;
-        BoundingBox3D boundingBox = box.boundingBox();
+    EXPECT_EQ(Vector2D(-1, 2), boundingBox.lowerCorner);
+    EXPECT_EQ(Vector2D(5, 3), boundingBox.upperCorner);
+}
 
-        EXPECT_EQ(Vector3D(), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector3D(1, 1, 1), boundingBox.upperCorner);
-    }
+TEST(Box2, ClosestNormal) {
+    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
+    box.isNormalFlipped = true;
 
-    {
-        Box3 box(Vector3D(-1, 3, 2), Vector3D(5, 3, 4));
-        BoundingBox3D boundingBox = box.boundingBox();
+    Vector2D result0 = box.closestNormal(Vector2D(-2, 2));
+    EXPECT_EQ(Vector2D(1, -0), result0);
 
-        EXPECT_EQ(Vector3D(-1, 3, 2), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector3D(5, 3, 4), boundingBox.upperCorner);
-    }
+    Vector2D result1 = box.closestNormal(Vector2D(3, 5));
+    EXPECT_EQ(Vector2D(0, -1), result1);
 
-    {
-        Box3 box(BoundingBox3D(Vector3D(-1, 3, 2), Vector3D(5, 3, 4)));
-        BoundingBox3D boundingBox = box.boundingBox();
+    Vector2D result2 = box.closestNormal(Vector2D(9, 3));
+    EXPECT_EQ(Vector2D(-1, 0), result2);
 
-        EXPECT_EQ(Vector3D(-1, 3, 2), boundingBox.lowerCorner);
-        EXPECT_EQ(Vector3D(5, 3, 4), boundingBox.upperCorner);
-    }
+    Vector2D result3 = box.closestNormal(Vector2D(4, 1));
+    EXPECT_EQ(Vector2D(0, 1), result3);
 }

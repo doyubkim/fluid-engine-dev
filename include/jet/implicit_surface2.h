@@ -7,14 +7,22 @@
 
 namespace jet {
 
+//! Abstract base class for 2-D implicit surface.
 class ImplicitSurface2 : public Surface2 {
  public:
+    //! Default constructor.
     ImplicitSurface2();
 
+    //! Copy constructor.
+    ImplicitSurface2(const ImplicitSurface2& other);
+
+    //! Default destructor.
     virtual ~ImplicitSurface2();
 
+    //! Returns signed distance from the given point \p otherPoint.
     virtual double signedDistance(const Vector2D& otherPoint) const = 0;
 
+    //! Returns closest distance from the given point \p otherPoint.
     double closestDistance(const Vector2D& otherPoint) const override;
 };
 

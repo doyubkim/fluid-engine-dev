@@ -12,6 +12,11 @@ using namespace jet;
 ImplicitSurfaceSet2::ImplicitSurfaceSet2() {
 }
 
+ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other) :
+    ImplicitSurface2(other),
+    _surfaces(other._surfaces) {
+}
+
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
 }
@@ -49,17 +54,6 @@ Vector2D ImplicitSurfaceSet2::closestPoint(const Vector2D& otherPoint) const {
     return result;
 }
 
-double ImplicitSurfaceSet2::closestDistance(const Vector2D& otherPoint) const {
-    double minimumDistance = kMaxD;
-
-    for (const auto& surface : _surfaces) {
-        double localDistance = surface->closestDistance(otherPoint);
-        minimumDistance = std::min(localDistance, minimumDistance);
-    }
-
-    return minimumDistance;
-}
-
 Vector2D ImplicitSurfaceSet2::actualClosestNormal(
     const Vector2D& otherPoint) const {
     Vector2D result(1, 0);
@@ -89,20 +83,22 @@ bool ImplicitSurfaceSet2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-void ImplicitSurfaceSet2::getClosestIntersection(
-    const Ray2D& ray,
-    SurfaceRayIntersection2* intersection) const {
+SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersection(
+    const Ray2D& ray) const {
+    SurfaceRayIntersection2 intersection;
     double tMin = kMaxD;
 
     for (const auto& surface : _surfaces) {
         SurfaceRayIntersection2 localResult;
-        surface->getClosestIntersection(ray, &localResult);
+        localResult = surface->closestIntersection(ray);
 
         if (localResult.isIntersecting && localResult.t < tMin) {
-            *intersection = localResult;
+            intersection = localResult;
             tMin = localResult.t;
         }
     }
+
+    return intersection;
 }
 
 BoundingBox2D ImplicitSurfaceSet2::boundingBox() const {

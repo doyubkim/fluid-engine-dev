@@ -9,6 +9,11 @@ SurfaceToImplicit3::SurfaceToImplicit3(
     const Surface3Ptr& surface) : _surface(surface) {
 }
 
+SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other) :
+    ImplicitSurface3(other),
+    _surface(other._surface) {
+}
+
 Vector3D SurfaceToImplicit3::closestPoint(
     const Vector3D& otherPoint) const {
     return _surface->closestPoint(otherPoint);
@@ -28,10 +33,9 @@ bool SurfaceToImplicit3::intersects(const Ray3D& ray) const {
     return _surface->intersects(ray);
 }
 
-void SurfaceToImplicit3::getClosestIntersection(
-    const Ray3D& ray,
-    SurfaceRayIntersection3* intersection) const {
-    _surface->getClosestIntersection(ray, intersection);
+SurfaceRayIntersection3 SurfaceToImplicit3::closestIntersection(
+    const Ray3D& ray) const {
+    return _surface->closestIntersection(ray);
 }
 
 BoundingBox3D SurfaceToImplicit3::boundingBox() const {

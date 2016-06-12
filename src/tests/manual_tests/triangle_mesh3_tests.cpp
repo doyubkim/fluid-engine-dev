@@ -21,28 +21,28 @@ JET_BEGIN_TEST_F(TriangleMesh3, PointsOnlyGeometries) {
     triMesh.addPoint({1, 1, 1});
 
     // -x
-    triMesh.addPointFace({0, 1, 3});
-    triMesh.addPointFace({0, 3, 2});
+    triMesh.addPointTriangle({0, 1, 3});
+    triMesh.addPointTriangle({0, 3, 2});
 
     // +x
-    triMesh.addPointFace({4, 6, 7});
-    triMesh.addPointFace({4, 7, 5});
+    triMesh.addPointTriangle({4, 6, 7});
+    triMesh.addPointTriangle({4, 7, 5});
 
     // -y
-    triMesh.addPointFace({0, 4, 5});
-    triMesh.addPointFace({0, 5, 1});
+    triMesh.addPointTriangle({0, 4, 5});
+    triMesh.addPointTriangle({0, 5, 1});
 
     // +y
-    triMesh.addPointFace({2, 3, 7});
-    triMesh.addPointFace({2, 7, 6});
+    triMesh.addPointTriangle({2, 3, 7});
+    triMesh.addPointTriangle({2, 7, 6});
 
     // -z
-    triMesh.addPointFace({0, 2, 6});
-    triMesh.addPointFace({0, 6, 4});
+    triMesh.addPointTriangle({0, 2, 6});
+    triMesh.addPointTriangle({0, 6, 4});
 
     // +z
-    triMesh.addPointFace({1, 5, 7});
-    triMesh.addPointFace({1, 7, 3});
+    triMesh.addPointTriangle({1, 5, 7});
+    triMesh.addPointTriangle({1, 7, 3});
 
     saveTriangleMeshData(triMesh, "cube.obj");
 }
@@ -68,28 +68,28 @@ JET_BEGIN_TEST_F(TriangleMesh3, PointsAndNormalGeometries) {
     triMesh.addNormal({0, 0, 1});
 
     // -x
-    triMesh.addPointNormalFace({0, 1, 3}, {0, 0, 0});
-    triMesh.addPointNormalFace({0, 3, 2}, {0, 0, 0});
+    triMesh.addPointNormalTriangle({0, 1, 3}, {0, 0, 0});
+    triMesh.addPointNormalTriangle({0, 3, 2}, {0, 0, 0});
 
     // +x
-    triMesh.addPointNormalFace({4, 6, 7}, {1, 1, 1});
-    triMesh.addPointNormalFace({4, 7, 5}, {1, 1, 1});
+    triMesh.addPointNormalTriangle({4, 6, 7}, {1, 1, 1});
+    triMesh.addPointNormalTriangle({4, 7, 5}, {1, 1, 1});
 
     // -y
-    triMesh.addPointNormalFace({0, 4, 5}, {2, 2, 2});
-    triMesh.addPointNormalFace({0, 5, 1}, {2, 2, 2});
+    triMesh.addPointNormalTriangle({0, 4, 5}, {2, 2, 2});
+    triMesh.addPointNormalTriangle({0, 5, 1}, {2, 2, 2});
 
     // +y
-    triMesh.addPointNormalFace({2, 3, 7}, {3, 3, 3});
-    triMesh.addPointNormalFace({2, 7, 6}, {3, 3, 3});
+    triMesh.addPointNormalTriangle({2, 3, 7}, {3, 3, 3});
+    triMesh.addPointNormalTriangle({2, 7, 6}, {3, 3, 3});
 
     // -z
-    triMesh.addPointNormalFace({0, 2, 6}, {4, 4, 4});
-    triMesh.addPointNormalFace({0, 6, 4}, {4, 4, 4});
+    triMesh.addPointNormalTriangle({0, 2, 6}, {4, 4, 4});
+    triMesh.addPointNormalTriangle({0, 6, 4}, {4, 4, 4});
 
     // +z
-    triMesh.addPointNormalFace({1, 5, 7}, {5, 5, 5});
-    triMesh.addPointNormalFace({1, 7, 3}, {5, 5, 5});
+    triMesh.addPointNormalTriangle({1, 5, 7}, {5, 5, 5});
+    triMesh.addPointNormalTriangle({1, 7, 3}, {5, 5, 5});
 
     saveTriangleMeshData(triMesh, "cube_with_normal.obj");
 }

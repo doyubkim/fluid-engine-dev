@@ -36,7 +36,8 @@
     <ClCompile Include="bounding_box_tests.cpp" />
     <ClCompile Include="bounding_box2_tests.cpp" />
     <ClCompile Include="bounding_box3_tests.cpp" />
-    <ClCompile Include="box_unit_tests.cpp" />
+    <ClCompile Include="box2_tests.cpp" />
+    <ClCompile Include="box3_tests.cpp" />
     <ClCompile Include="cell_centered_scalar_grid_tests.cpp" />
     <ClCompile Include="cell_centered_vector_grid_tests.cpp" />
     <ClCompile Include="cg_tests.cpp" />
