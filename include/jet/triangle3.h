@@ -33,6 +33,9 @@ class Triangle3 final : public Surface3 {
         const std::array<Vector3D, 3>& normals,
         const std::array<Vector2D, 3>& uvs);
 
+    //! Copy constructor
+    Triangle3(const Triangle3& other);
+
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
     Vector3D closestPoint(const Vector3D& otherPoint) const override;

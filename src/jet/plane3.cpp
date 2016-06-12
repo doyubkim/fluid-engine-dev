@@ -24,6 +24,7 @@ Plane3::Plane3(
 }
 
 Plane3::Plane3(const Plane3& other) :
+    Surface3(other),
     normal(other.normal),
     point(other.point) {
 }
@@ -52,15 +53,15 @@ SurfaceRayIntersection3 Plane3::closestIntersection(
 
     double dDotN = ray.direction.dot(normal);
 
+    // Check if not parallel
     if (std::fabs(dDotN) > 0) {
         double t = normal.dot(point - ray.origin) / dDotN;
-
-        intersection.isIntersecting = true;
-        intersection.t = t;
-        intersection.point = ray.pointAt(t);
-        intersection.normal = normal;
-    } else {
-        intersection.isIntersecting = false;
+        if (t >= 0.0) {
+            intersection.isIntersecting = true;
+            intersection.t = t;
+            intersection.point = ray.pointAt(t);
+            intersection.normal = normal;
+        }
     }
 
     return intersection;

@@ -20,6 +20,9 @@ class SurfaceSet3 final : public Surface3 {
     //! Constructs an empty surface set.
     SurfaceSet3();
 
+    //! Copy constructor.
+    SurfaceSet3(const SurfaceSet3& other);
+
     //! Returns the number of surfaces.
     size_t numberOfSurfaces() const;
 

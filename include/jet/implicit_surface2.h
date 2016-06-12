@@ -13,6 +13,9 @@ class ImplicitSurface2 : public Surface2 {
     //! Default constructor.
     ImplicitSurface2();
 
+    //! Copy constructor.
+    ImplicitSurface2(const ImplicitSurface2& other);
+
     //! Default destructor.
     virtual ~ImplicitSurface2();
 

@@ -17,6 +17,9 @@ namespace jet {
 //!
 class Box2 final : public Surface2 {
  public:
+    //! Bounding box of this box.
+    BoundingBox2D bound = BoundingBox2D(Vector2D(), Vector2D(1.0, 1.0));
+
     //! Constructs (0, 0) x (1, 1) box.
     Box2();
 
@@ -59,10 +62,6 @@ class Box2 final : public Surface2 {
 
     //! Returns the bounding box of this box object.
     BoundingBox2D boundingBox() const override;
-
- private:
-    BoundingBox2D _boundingBox
-        = BoundingBox2D(Vector2D(), Vector2D(1.0, 1.0));
 };
 
 typedef std::shared_ptr<Box2> Box2Ptr;

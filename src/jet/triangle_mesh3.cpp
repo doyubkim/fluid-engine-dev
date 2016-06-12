@@ -26,7 +26,7 @@ inline std::ostream& operator<<(std::ostream& strm, const Vector3D& v) {
 TriangleMesh3::TriangleMesh3() {
 }
 
-TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) {
+TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
     set(other);
 }
 

@@ -20,6 +20,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Constructs an empty implicit surface set.
     ImplicitSurfaceSet2();
 
+    //! Copy constructor.
+    ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
+
     //! Returns the number of implicit surfaces.
     size_t numberOfSurfaces() const;
 

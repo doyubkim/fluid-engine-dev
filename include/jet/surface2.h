@@ -27,6 +27,9 @@ class Surface2 : public Geometry2 {
     //! Default constructor.
     Surface2();
 
+    //! Copy constructor.
+    Surface2(const Surface2& other);
+
     //! Default destructor.
     virtual ~Surface2();
 

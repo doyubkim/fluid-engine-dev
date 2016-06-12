@@ -12,6 +12,11 @@ using namespace jet;
 ImplicitSurfaceSet3::ImplicitSurfaceSet3() {
 }
 
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other) :
+    ImplicitSurface3(other),
+    _surfaces(other._surfaces) {
+}
+
 size_t ImplicitSurfaceSet3::numberOfSurfaces() const {
     return _surfaces.size();
 }

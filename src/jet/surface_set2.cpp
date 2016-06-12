@@ -11,6 +11,11 @@ using namespace jet;
 SurfaceSet2::SurfaceSet2() {
 }
 
+SurfaceSet2::SurfaceSet2(const SurfaceSet2& other) :
+    Surface2(other),
+    _surfaces(other._surfaces) {
+}
+
 size_t SurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
 }

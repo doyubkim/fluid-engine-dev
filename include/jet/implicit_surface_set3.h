@@ -20,6 +20,9 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     //! Constructs an empty implicit surface set.
     ImplicitSurfaceSet3();
 
+    //! Copy constructor.
+    ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other);
+
     //! Returns the number of implicit surfaces.
     size_t numberOfSurfaces() const;
 

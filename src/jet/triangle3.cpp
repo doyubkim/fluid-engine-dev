@@ -59,6 +59,13 @@ Triangle3::Triangle3(
     uvs(newUvs) {
 }
 
+Triangle3::Triangle3(const Triangle3& other) :
+    Surface3(other),
+    points(other.points),
+    normals(other.normals),
+    uvs(other.uvs) {
+}
+
 Vector3D Triangle3::closestPoint(const Vector3D& otherPoint) const {
     Vector3D n = faceNormal();
     double nd = n.dot(n);

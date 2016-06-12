@@ -28,6 +28,9 @@ class Sphere2 final : public Surface2 {
     //! Constructs a sphere with \p center and \p radius.
     Sphere2(const Vector2D& center, double radius);
 
+    //! Copy constructor.
+    Sphere2(const Sphere2& other);
+
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
     Vector2D closestPoint(const Vector2D& otherPoint) const override;

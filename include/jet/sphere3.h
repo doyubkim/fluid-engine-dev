@@ -28,6 +28,9 @@ class Sphere3 final : public Surface3 {
     //! Constructs a sphere with \p center and \p radius.
     Sphere3(const Vector3D& center, double radius);
 
+    //! Copy constructor.
+    Sphere3(const Sphere3& other);
+
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
     Vector3D closestPoint(const Vector3D& otherPoint) const override;

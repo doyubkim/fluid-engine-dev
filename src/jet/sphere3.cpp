@@ -15,6 +15,12 @@ Sphere3::Sphere3(const Vector3D& center_, double radius_) :
     radius(radius_) {
 }
 
+Sphere3::Sphere3(const Sphere3& other) :
+    Surface3(other),
+    center(other.center),
+    radius(other.radius) {
+}
+
 Vector3D Sphere3::closestPoint(const Vector3D& otherPoint) const {
     return radius * closestNormal(otherPoint) + center;
 }

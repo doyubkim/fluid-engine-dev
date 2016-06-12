@@ -20,6 +20,9 @@ class SurfaceSet2 final : public Surface2 {
     //! Constructs an empty surface set.
     SurfaceSet2();
 
+    //! Copy constructor.
+    SurfaceSet2(const SurfaceSet2& other);
+
     //! Returns the number of surfaces.
     size_t numberOfSurfaces() const;
 

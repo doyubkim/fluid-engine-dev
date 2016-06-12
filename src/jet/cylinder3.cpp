@@ -10,12 +10,13 @@ using namespace jet;
 Cylinder3::Cylinder3() {
 }
 
-Cylinder3::Cylinder3(const Vector3D& center_, double radius_, double height_)
-    : center(center_), radius(radius_), height(height_) {
+Cylinder3::Cylinder3(const Vector3D& center_, double radius_, double height_) :
+    center(center_), radius(radius_), height(height_) {
 }
 
-Cylinder3::Cylinder3(const Cylinder3& other)
-    : center(other.center),
+Cylinder3::Cylinder3(const Cylinder3& other) :
+    Surface3(other),
+    center(other.center),
     radius(other.radius),
     height(other.height) {
 }
@@ -28,11 +29,9 @@ Vector3D Cylinder3::closestPoint(const Vector3D& otherPoint) const {
         Vector2D(radius, 0.5 * height));
 
     Vector2D cp = box.closestPoint(rr);
-    if (rr.lengthSquared() > 0.0) {
-        return cp.length() / rr.length() * r + center;
-    }
-
-    return Vector3D();
+    double angle = std::atan2(r.z, r.x);
+    return Vector3D(
+        cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle)) + center;
 }
 
 double Cylinder3::closestDistance(const Vector3D& otherPoint) const {
@@ -67,13 +66,34 @@ bool Cylinder3::intersects(const Ray3D& ray) const {
     // (dx^2 + dz^2)t^2 + 2(ox.dx + oz.dz)t + ox^2 + oz^2 - r^2 = 0
     Vector3D d = ray.direction;
     d.y = 0.0;
-    Vector3D o = ray.origin;
+    Vector3D o = ray.origin - center;
     o.y = 0.0;
     double A = d.lengthSquared();
     double B = d.dot(o);
     double C = o.lengthSquared() - square(radius);
 
+    BoundingBox3D bbox = boundingBox();
+    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
+    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
+
+    SurfaceRayIntersection3 upperIntersection =
+        upperPlane.closestIntersection(ray);
+
+    SurfaceRayIntersection3 lowerIntersection =
+        lowerPlane.closestIntersection(ray);
+
+    // In case the ray does not intersect with infinite cylinder
     if (A < kEpsilonD || B*B - A*C < 0.0) {
+        // Check if the ray is inside the infinite cylinder
+        Vector3D r = ray.origin - center;
+        Vector2D rr(r.x, r.z);
+        if (rr.lengthSquared() <= square(radius)) {
+            if (upperIntersection.isIntersecting
+                || lowerIntersection.isIntersecting) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -91,16 +111,6 @@ bool Cylinder3::intersects(const Ray3D& ray) const {
         || pointOnCylinder.y <= center.y + 0.5 * height) {
         return true;
     }
-
-    BoundingBox3D bbox = boundingBox();
-    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
-    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
-
-    SurfaceRayIntersection3 upperIntersection =
-        upperPlane.closestIntersection(ray);
-
-    SurfaceRayIntersection3 lowerIntersection =
-        lowerPlane.closestIntersection(ray);
 
     if (upperIntersection.isIntersecting) {
         Vector3D r = upperIntersection.point - center;
@@ -129,15 +139,40 @@ SurfaceRayIntersection3 Cylinder3::closestIntersection(
     // (dx^2 + dz^2)t^2 + 2(ox.dx + oz.dz)t + ox^2 + oz^2 - r^2 = 0
     Vector3D d = ray.direction;
     d.y = 0.0;
-    Vector3D o = ray.origin;
+    Vector3D o = ray.origin - center;
     o.y = 0.0;
     double A = d.lengthSquared();
     double B = d.dot(o);
     double C = o.lengthSquared() - square(radius);
 
+    BoundingBox3D bbox = boundingBox();
+    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
+    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
+
+    SurfaceRayIntersection3 upperIntersection =
+        upperPlane.closestIntersection(ray);
+
+    SurfaceRayIntersection3 lowerIntersection =
+        lowerPlane.closestIntersection(ray);
+
+    intersection.t = kMaxD;
     intersection.isIntersecting = false;
 
+    // In case the ray does not intersect with infinite cylinder
     if (A < kEpsilonD || B*B - A*C < 0.0) {
+        // Check if the ray is inside the infinite cylinder
+        Vector3D r = ray.origin - center;
+        Vector2D rr(r.x, r.z);
+        if (rr.lengthSquared() <= square(radius)) {
+            if (upperIntersection.isIntersecting) {
+                intersection = upperIntersection;
+            }
+            if (lowerIntersection.isIntersecting
+                && lowerIntersection.t < intersection.t) {
+                intersection = lowerIntersection;
+            }
+        }
+
         return intersection;
     }
 
@@ -160,16 +195,6 @@ SurfaceRayIntersection3 Cylinder3::closestIntersection(
         intersection.normal.y = 0.0;
         intersection.normal.normalize();
     }
-
-    BoundingBox3D bbox = boundingBox();
-    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
-    Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
-
-    SurfaceRayIntersection3 upperIntersection =
-        upperPlane.closestIntersection(ray);
-
-    SurfaceRayIntersection3 lowerIntersection =
-        lowerPlane.closestIntersection(ray);
 
     if (upperIntersection.isIntersecting) {
         Vector3D r = upperIntersection.point - center;

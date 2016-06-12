@@ -19,6 +19,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     //! Constructs an instance with generic Surface2 instance.
     explicit SurfaceToImplicit2(const Surface2Ptr& surface);
 
+    //! Copy constructor.
+    SurfaceToImplicit2(const SurfaceToImplicit2& other);
+
     // Surface2 implementation
 
     //! Returns the closest point from the given point \p otherPoint to the

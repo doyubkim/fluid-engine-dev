@@ -51,7 +51,10 @@
     <ClCompile Include="bounding_box3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="box_unit_tests.cpp">
+    <ClCompile Include="box2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="box3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cell_centered_scalar_grid_tests.cpp">

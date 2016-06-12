@@ -8,6 +8,10 @@ using namespace jet;
 Surface3::Surface3() {
 }
 
+Surface3::Surface3(const Surface3& other) :
+    isNormalFlipped(other.isNormalFlipped) {
+}
+
 Surface3::~Surface3() {
 }
 

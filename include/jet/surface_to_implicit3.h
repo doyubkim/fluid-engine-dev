@@ -19,6 +19,9 @@ class SurfaceToImplicit3 final : public ImplicitSurface3 {
     //! Constructs an instance with generic Surface3 instance.
     explicit SurfaceToImplicit3(const Surface3Ptr& surface);
 
+    //! Copy constructor.
+    SurfaceToImplicit3(const SurfaceToImplicit3& other);
+
     // Surface3 implementation
 
     //! Returns the closest point from the given point \p otherPoint to the

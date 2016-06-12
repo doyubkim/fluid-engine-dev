@@ -15,6 +15,12 @@ Sphere2::Sphere2(const Vector2D& center_, double radius_) :
     radius(radius_) {
 }
 
+Sphere2::Sphere2(const Sphere2& other) :
+    Surface2(other),
+    center(other.center),
+    radius(other.radius) {
+}
+
 Vector2D Sphere2::closestPoint(const Vector2D& otherPoint) const {
     return radius * closestNormal(otherPoint) + center;
 }
