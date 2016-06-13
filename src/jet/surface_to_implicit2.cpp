@@ -14,6 +14,10 @@ SurfaceToImplicit2::SurfaceToImplicit2(const SurfaceToImplicit2& other) :
     _surface(other._surface) {
 }
 
+Surface2Ptr SurfaceToImplicit2::surface() const {
+    return _surface;
+}
+
 Vector2D SurfaceToImplicit2::closestPoint(
     const Vector2D& otherPoint) const {
     return _surface->closestPoint(otherPoint);

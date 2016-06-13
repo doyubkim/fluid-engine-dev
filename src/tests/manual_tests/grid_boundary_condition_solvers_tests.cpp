@@ -21,9 +21,12 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity) {
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.upperCorner, 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.upperCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
     collider->setLinearVelocity(Vector2D(-1.0, 0.0));
@@ -68,9 +71,12 @@ JET_BEGIN_TEST_F(
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.upperCorner, 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.upperCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
     collider->setLinearVelocity(Vector2D(-1.0, 0.0));
@@ -119,9 +125,12 @@ JET_BEGIN_TEST_F(
 
     // Collider setting
     auto surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.upperCorner, 0.25));
-    surfaceSet->addSurface(std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.upperCorner, 0.25));
+    surfaceSet->addExplicitSurface(
+        std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
     collider->setLinearVelocity(Vector2D(-1.0, 0.0));

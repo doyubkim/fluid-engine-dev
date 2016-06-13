@@ -29,11 +29,11 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     //! Returns the i-th implicit surface.
     const ImplicitSurface3Ptr& surfaceAt(size_t i) const;
 
-    //! Adds an implicit surface instance.
-    void addSurface(const Surface3Ptr& surface);
+    //! Adds an explicit surface instance.
+    void addExplicitSurface(const Surface3Ptr& surface);
 
     //! Adds an implicit surface instance.
-    void addImplicitSurface(const ImplicitSurface3Ptr& surface);
+    void addSurface(const ImplicitSurface3Ptr& surface);
 
     // Surface3 implementations
 

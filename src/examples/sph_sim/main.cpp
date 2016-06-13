@@ -87,10 +87,10 @@ void runExample1(
 
     // Initialize source
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Plane3>(
             Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Sphere3>(
             domain.midPoint(), 0.15 * domain.width()));
 
@@ -134,10 +134,10 @@ void runExample2(
 
     // Initialize source
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Plane3>(
             Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Sphere3>(
             domain.midPoint(), 0.15 * domain.width()));
 
@@ -184,11 +184,11 @@ void runExample3(
 
     // Initialize source
     ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0, 0, 0),
             Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
             Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
@@ -206,20 +206,20 @@ void runExample3(
     // Collider setting
     double height = 0.75;
     auto colliderSurfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    colliderSurfaceSet->addSurface(
+    colliderSurfaceSet->addExplicitSurface(
         std::make_shared<Cylinder3>(
             Vector3D(1, height / 2.0, 0.25 * lz), 0.1, height));
-    colliderSurfaceSet->addSurface(
+    colliderSurfaceSet->addExplicitSurface(
         std::make_shared<Cylinder3>(
             Vector3D(1.5, height / 2.0, 0.5 * lz), 0.1, height));
-    colliderSurfaceSet->addSurface(
+    colliderSurfaceSet->addExplicitSurface(
         std::make_shared<Cylinder3>(
             Vector3D(2, height / 2.0, 0.75 * lz), 0.1, height));
 
     // Initialize boundary
     auto box = std::make_shared<Box3>(domain);
     box->isNormalFlipped = true;
-    colliderSurfaceSet->addSurface(box);
+    colliderSurfaceSet->addExplicitSurface(box);
 
     RigidBodyCollider3Ptr collider
         = std::make_shared<RigidBodyCollider3>(colliderSurfaceSet);

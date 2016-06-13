@@ -111,10 +111,10 @@ void runExample1(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Plane3>(
             Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Sphere3>(
             domain.midPoint(), 0.15 * domain.width()));
 
@@ -152,11 +152,11 @@ void runExample2(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(-0.5, -0.5, -0.5 * lz),
             Vector3D(0.5, 0.75, 0.75 * lz)));
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(2.5, -0.5, 0.25 * lz),
             Vector3D(3.5, 0.75, 1.5 * lz)));
@@ -167,11 +167,11 @@ void runExample2(
 
     // Collider setting
     auto columns = std::make_shared<ImplicitSurfaceSet3>();
-    columns->addSurface(
+    columns->addExplicitSurface(
         std::make_shared<Cylinder3>(Vector3D(1, 0, 0.25 * lz), 0.1, 0.75));
-    columns->addSurface(
+    columns->addExplicitSurface(
         std::make_shared<Cylinder3>(Vector3D(1.5, 0, 0.5 * lz), 0.1, 0.75));
-    columns->addSurface(
+    columns->addExplicitSurface(
         std::make_shared<Cylinder3>(Vector3D(2, 0, 0.75 * lz), 0.1, 0.75));
     auto collider = std::make_shared<RigidBodyCollider3>(columns);
     solver.setCollider(collider);

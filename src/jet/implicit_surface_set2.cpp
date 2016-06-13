@@ -25,12 +25,11 @@ const ImplicitSurface2Ptr& ImplicitSurfaceSet2::surfaceAt(size_t i) const {
     return _surfaces[i];
 }
 
-void ImplicitSurfaceSet2::addSurface(const Surface2Ptr& surface) {
+void ImplicitSurfaceSet2::addExplicitSurface(const Surface2Ptr& surface) {
     _surfaces.push_back(std::make_shared<SurfaceToImplicit2>(surface));
 }
 
-void ImplicitSurfaceSet2::addImplicitSurface(
-    const ImplicitSurface2Ptr& surface) {
+void ImplicitSurfaceSet2::addSurface(const ImplicitSurface2Ptr& surface) {
     _surfaces.push_back(surface);
 }
 
@@ -52,6 +51,17 @@ Vector2D ImplicitSurfaceSet2::closestPoint(const Vector2D& otherPoint) const {
     }
 
     return result;
+}
+
+double ImplicitSurfaceSet2::closestDistance(const Vector2D& otherPoint) const {
+    double minimumDistance = kMaxD;
+
+    for (const auto& surface : _surfaces) {
+        double localDistance = surface->closestDistance(otherPoint);
+        minimumDistance = std::min(localDistance, minimumDistance);
+    }
+
+    return minimumDistance;
 }
 
 Vector2D ImplicitSurfaceSet2::actualClosestNormal(

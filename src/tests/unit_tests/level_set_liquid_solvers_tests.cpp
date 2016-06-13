@@ -24,7 +24,8 @@ TEST(LevelSetLiquidSolver2, ComputeVolume) {
     const double radius = 0.15;
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), radius));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), radius));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -50,7 +51,8 @@ TEST(LevelSetLiquidSolver3, ComputeVolume) {
     const double radius = 0.15;
     BoundingBox3D domain = data->boundingBox();
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Sphere3>(domain.midPoint(), radius));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere3>(domain.midPoint(), radius));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector3D& x) {

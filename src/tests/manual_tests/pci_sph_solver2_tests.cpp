@@ -64,10 +64,10 @@ JET_BEGIN_TEST_F(PciSphSolver2, WaterDrop) {
 
     // Initialize source
     ImplicitSurfaceSet2Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet2>();
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Plane2>(
             Vector2D(0, 1), Vector2D(0, 0.25 * domain.height())));
-    surfaceSet->addSurface(
+    surfaceSet->addExplicitSurface(
         std::make_shared<Sphere2>(
             domain.midPoint(), 0.15 * domain.width()));
 

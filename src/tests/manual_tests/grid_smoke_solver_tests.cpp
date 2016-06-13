@@ -292,7 +292,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
     auto sourceFunc = [&] (const Vector3D& pt) {
@@ -378,7 +378,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.4, -1, 0.2), Vector3D(0.6, 0.1, 0.3)));
     auto sourceFunc = [&] (const Vector3D& pt) {

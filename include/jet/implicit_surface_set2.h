@@ -29,17 +29,21 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Returns the i-th implicit surface.
     const ImplicitSurface2Ptr& surfaceAt(size_t i) const;
 
-    //! Adds an implicit surface instance.
-    void addSurface(const Surface2Ptr& surface);
+    //! Adds an explicit surface instance.
+    void addExplicitSurface(const Surface2Ptr& surface);
 
     //! Adds an implicit surface instance.
-    void addImplicitSurface(const ImplicitSurface2Ptr& surface);
+    void addSurface(const ImplicitSurface2Ptr& surface);
 
     // Surface2 implementations
 
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
     Vector2D closestPoint(const Vector2D& otherPoint) const override;
+
+    //! Returns the closest distance from the given point \p otherPoint to the
+    //! point on the surface.
+    double closestDistance(const Vector2D& otherPoint) const override;
 
     //!
     //! \brief Returns the closest surface normal from the given point
