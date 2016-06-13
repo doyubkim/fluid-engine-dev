@@ -31,6 +31,10 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     //! surface.
     Vector2D closestPoint(const Vector2D& otherPoint) const override;
 
+    //! Returns the closest distance from the given point \p otherPoint to the
+    //! point on the surface.
+    double closestDistance(const Vector2D& otherPoint) const override;
+
     //!
     //! \brief Returns the closest surface normal from the given point
     //! \p otherPoint.

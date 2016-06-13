@@ -28,6 +28,11 @@ Vector2D SurfaceToImplicit2::actualClosestNormal(
     return _surface->closestNormal(otherPoint);
 }
 
+double SurfaceToImplicit2::closestDistance(
+    const Vector2D& otherPoint) const {
+    return _surface->closestDistance(otherPoint);
+}
+
 bool SurfaceToImplicit2::intersects(const Ray2D& ray) const {
     return _surface->intersects(ray);
 }
@@ -45,6 +50,7 @@ double SurfaceToImplicit2::signedDistance(
     const Vector2D& otherPoint) const {
     Vector2D x = _surface->closestPoint(otherPoint);
     Vector2D n = _surface->closestNormal(otherPoint);
+    n = (isNormalFlipped) ? -n : n;
     if (n.dot(otherPoint - x) < 0.0) {
         return -x.distanceTo(otherPoint);
     } else {

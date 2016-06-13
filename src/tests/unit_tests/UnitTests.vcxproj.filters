@@ -168,6 +168,12 @@
     <ClCompile Include="sph_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="surface_to_implicit2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="surface_to_implicit3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="vector_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
