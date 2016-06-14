@@ -109,7 +109,8 @@ bool Box2::intersects(const Ray2D& ray) const {
     return bound.intersects(ray);
 }
 
-SurfaceRayIntersection2 Box2::closestIntersection(const Ray2D& ray) const {
+SurfaceRayIntersection2 Box2::actualClosestIntersection(
+    const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     BoundingBoxRayIntersection2D bbRayIntersection;
     bound.getClosestIntersection(ray, &bbRayIntersection);

@@ -37,13 +37,24 @@ class Surface2 : public Geometry2 {
     //! surface.
     virtual Vector2D closestPoint(const Vector2D& otherPoint) const = 0;
 
-    //! Returns the closest intersection point for given \p ray.
-    virtual SurfaceRayIntersection2 closestIntersection(
-        const Ray2D& ray) const = 0;
-
     //! Returns the bounding box of this surface object.
     virtual BoundingBox2D boundingBox() const = 0;
 
+    //! Returns true if the given \p ray intersects with this surface object.
+    virtual bool intersects(const Ray2D& ray) const;
+
+    //! Returns the closest distance from the given point \p otherPoint to the
+    //! point on the surface.
+    virtual double closestDistance(const Vector2D& otherPoint) const;
+
+    //! Returns the closest intersection point for given \p ray.
+    SurfaceRayIntersection2 closestIntersection(const Ray2D& ray) const;
+
+    //! Returns the normal to the closest point on the surface from the given
+    //! point \p otherPoint.
+    Vector2D closestNormal(const Vector2D& otherPoint) const;
+
+ protected:
     //!
     //! \brief Returns the closest surface normal from the given point
     //! \p otherPoint.
@@ -54,16 +65,16 @@ class Surface2 : public Geometry2 {
     //!
     virtual Vector2D actualClosestNormal(const Vector2D& otherPoint) const = 0;
 
-    //! Returns true if the given \p ray intersects with this surface object.
-    virtual bool intersects(const Ray2D& ray) const;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    virtual double closestDistance(const Vector2D& otherPoint) const;
-
-    //! Returns the normal to the closest point on the surface from the given
-    //! point \p otherPoint.
-    Vector2D closestNormal(const Vector2D& otherPoint) const;
+    //!
+    //! \brief Returns the closest intersection point for given \p ray.
+    //!
+    //! This function returns the SurfaceRayIntersection2 instance with the
+    //! "actual" closest surface normal from the given point \p otherPoint,
+    //! meaning that the return value is not flipped regardless how
+    //! Surface2::isNormalFlipped is set.
+    //!
+    virtual SurfaceRayIntersection2 actualClosestIntersection(
+        const Ray2D& ray) const = 0;
 };
 
 typedef std::shared_ptr<Surface2> Surface2Ptr;

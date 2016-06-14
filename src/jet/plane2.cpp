@@ -39,7 +39,8 @@ bool Plane2::intersects(const Ray2D& ray) const {
     return std::fabs(ray.direction.dot(normal)) > 0;
 }
 
-SurfaceRayIntersection2 Plane2::closestIntersection(const Ray2D& ray) const {
+SurfaceRayIntersection2 Plane2::actualClosestIntersection(
+    const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     double dDotN = ray.direction.dot(normal);
 

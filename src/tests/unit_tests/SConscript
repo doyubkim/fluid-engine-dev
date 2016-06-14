@@ -14,8 +14,8 @@ def from_build_dir(path):
 
 app_env = env.Clone()
 app_env.Append(CPPPATH = [from_root_dir('include'), from_root_dir('external/src/gtest/googletest/googletest/include'), script_dir])
-app_env.Append(LIBPATH = [from_build_dir('src/jet'), from_build_dir('external/src/gtest')])
-app_env.Prepend(LIBS = ['jet', 'gtest'])
+app_env.Append(LIBPATH = [from_build_dir('src/jet'), from_build_dir('external/src/gtest'), from_build_dir('external/src/obj')])
+app_env.Prepend(LIBS = ['jet', 'gtest', 'obj'])
 
 source_patterns = ['*.cpp']
 source = map(lambda x: os.path.relpath(x, script_dir), utils.get_all_files(script_dir, source_patterns))

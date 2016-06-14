@@ -166,7 +166,7 @@ bool Triangle3::intersects(const Ray3D& ray) const {
     return true;
 }
 
-SurfaceRayIntersection3 Triangle3::closestIntersection(
+SurfaceRayIntersection3 Triangle3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     Vector3D n = faceNormal();

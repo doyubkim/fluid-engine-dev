@@ -25,12 +25,11 @@ const ImplicitSurface3Ptr& ImplicitSurfaceSet3::surfaceAt(size_t i) const {
     return _surfaces[i];
 }
 
-void ImplicitSurfaceSet3::addSurface(const Surface3Ptr& surface) {
+void ImplicitSurfaceSet3::addExplicitSurface(const Surface3Ptr& surface) {
     _surfaces.push_back(std::make_shared<SurfaceToImplicit3>(surface));
 }
 
-void ImplicitSurfaceSet3::addImplicitSurface(
-    const ImplicitSurface3Ptr& surface) {
+void ImplicitSurfaceSet3::addSurface(const ImplicitSurface3Ptr& surface) {
     _surfaces.push_back(surface);
 }
 
@@ -95,7 +94,7 @@ bool ImplicitSurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersection(
+SurfaceRayIntersection3 ImplicitSurfaceSet3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     double tMin = kMaxD;

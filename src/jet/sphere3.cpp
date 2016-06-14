@@ -62,7 +62,7 @@ bool Sphere3::intersects(
     return false;
 }
 
-SurfaceRayIntersection3 Sphere3::closestIntersection(
+SurfaceRayIntersection3 Sphere3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     Vector3D r = ray.origin - center;

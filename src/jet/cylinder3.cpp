@@ -51,7 +51,7 @@ Vector3D Cylinder3::actualClosestNormal(const Vector3D& otherPoint) const {
         Vector2D(-radius, -0.5 * height),
         Vector2D(radius, 0.5 * height));
 
-    Vector2D cn = box.actualClosestNormal(rr);
+    Vector2D cn = box.closestNormal(rr);
     if (cn.y > 0) {
         return Vector3D(0, 1, 0);
     } else if (cn.y < 0) {
@@ -131,7 +131,7 @@ bool Cylinder3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 Cylinder3::closestIntersection(
+SurfaceRayIntersection3 Cylinder3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 

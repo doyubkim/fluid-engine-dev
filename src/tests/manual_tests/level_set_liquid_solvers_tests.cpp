@@ -25,9 +25,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
-        Vector2D(0, 1), Vector2D(0, 0.5)));
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -70,9 +71,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
-        Vector2D(0, 1), Vector2D(0, 0.5)));
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -115,7 +117,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
+    surfaceSet.addExplicitSurface(std::make_shared<Plane2>(
         Vector2D(0, 1), Vector2D(0, 0.5)));
 
     auto sdf = solver.signedDistanceField();
@@ -172,9 +174,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
-        Vector2D(0, 1), Vector2D(0, 0.5)));
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0.5)));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -219,7 +222,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
+    surfaceSet.addExplicitSurface(std::make_shared<Plane2>(
         Vector2D(0, 1), Vector2D(0, 0.5)));
 
     auto sdf = solver.signedDistanceField();
@@ -277,9 +280,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Plane2>(
+    surfaceSet.addExplicitSurface(std::make_shared<Plane2>(
         Vector2D(0, 1), Vector2D(0, 0.5)));
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -323,7 +327,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {
@@ -367,7 +372,8 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
     // Source setting
     BoundingBox2D domain = data->boundingBox();
     ImplicitSurfaceSet2 surfaceSet;
-    surfaceSet.addSurface(std::make_shared<Sphere2>(domain.midPoint(), 0.15));
+    surfaceSet.addExplicitSurface(
+        std::make_shared<Sphere2>(domain.midPoint(), 0.15));
 
     auto sdf = solver.signedDistanceField();
     sdf->fill([&](const Vector2D& x) {

@@ -83,30 +83,6 @@ TEST(Cylinder3, ClosestDistance) {
     EXPECT_DOUBLE_EQ(Vector3D(5, -1, 3).distanceTo({6, -5, 3}), result3);
 }
 
-TEST(Cylinder3, ActualClosestNormal) {
-    Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0);
-
-    Vector3D result1 = cyl.actualClosestNormal({7, 2, 3});
-    EXPECT_DOUBLE_EQ(1.0, result1.x);
-    EXPECT_DOUBLE_EQ(0.0, result1.y);
-    EXPECT_DOUBLE_EQ(0.0, result1.z);
-
-    Vector3D result2 = cyl.actualClosestNormal({1, 6, 2});
-    EXPECT_DOUBLE_EQ(0.0, result2.x);
-    EXPECT_DOUBLE_EQ(1.0, result2.y);
-    EXPECT_DOUBLE_EQ(0.0, result2.z);
-
-    Vector3D result3 = cyl.actualClosestNormal({6, -1.5, 3});
-    EXPECT_DOUBLE_EQ(1.0, result3.x);
-    EXPECT_DOUBLE_EQ(0.0, result3.y);
-    EXPECT_DOUBLE_EQ(0.0, result3.z);
-
-    Vector3D result4 = cyl.actualClosestNormal({3, 0, 3});
-    EXPECT_DOUBLE_EQ(0.0, result4.x);
-    EXPECT_DOUBLE_EQ(-1.0, result4.y);
-    EXPECT_DOUBLE_EQ(0.0, result4.z);
-}
-
 TEST(Cylinder3, Intersects) {
     Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0);
 

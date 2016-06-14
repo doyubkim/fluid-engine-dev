@@ -208,7 +208,7 @@ void runExample1(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.45, -1, 0.45), Vector3D(0.55, 0.05, 0.55)));
     auto sourceFunc = [&] (const Vector3D& pt) {
@@ -253,7 +253,7 @@ void runExample2(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.45, -1, 0.45), Vector3D(0.55, 0.05, 0.55)));
     auto sourceFunc = [&] (const Vector3D& pt) {
@@ -346,7 +346,7 @@ void runExample4(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
     auto sourceFunc = [&] (const Vector3D& pt) {
@@ -398,7 +398,7 @@ void runExample5(
 
     // Initialize source
     ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addSurface(
+    surfaceSet.addExplicitSurface(
         std::make_shared<Box3>(
             Vector3D(0.05, 0.1, 0.225), Vector3D(0.1, 0.15, 0.275)));
     auto sourceFunc = [&] (const Vector3D& pt) {

@@ -28,3 +28,11 @@ Vector3D Surface3::closestNormal(const Vector3D& otherPoint) const {
     Vector3D normal = actualClosestNormal(otherPoint);
     return (isNormalFlipped) ? -normal : normal;
 }
+
+SurfaceRayIntersection3 Surface3::closestIntersection(
+    const Ray3D& ray) const {
+    SurfaceRayIntersection3 intersection = actualClosestIntersection(ray);
+    intersection.normal
+        = (isNormalFlipped) ? -intersection.normal : intersection.normal;
+    return intersection;
+}

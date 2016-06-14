@@ -47,7 +47,7 @@ bool Plane3::intersects(const Ray3D& ray) const {
     return std::fabs(ray.direction.dot(normal)) > 0;
 }
 
-SurfaceRayIntersection3 Plane3::closestIntersection(
+SurfaceRayIntersection3 Plane3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 
