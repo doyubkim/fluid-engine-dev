@@ -71,6 +71,8 @@
     <ClCompile Include="sph_kernels_tests.cpp" />
     <ClCompile Include="sph_solver2_tests.cpp" />
     <ClCompile Include="sph_solver3_tests.cpp" />
+    <ClCompile Include="sphere2_tests.cpp" />
+    <ClCompile Include="sphere3_tests.cpp" />
     <ClCompile Include="surface_to_implicit2_tests.cpp" />
     <ClCompile Include="surface_to_implicit3_tests.cpp" />
     <ClCompile Include="vector2_tests.cpp" />

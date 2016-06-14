@@ -61,7 +61,8 @@ bool Sphere2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection2 Sphere2::closestIntersection(const Ray2D& ray) const {
+SurfaceRayIntersection2 Sphere2::actualClosestIntersection(
+    const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     Vector2D r = ray.origin - center;
     double b = ray.direction.dot(r);

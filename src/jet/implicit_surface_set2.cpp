@@ -93,7 +93,7 @@ bool ImplicitSurfaceSet2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersection(
+SurfaceRayIntersection2 ImplicitSurfaceSet2::actualClosestIntersection(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     double tMin = kMaxD;

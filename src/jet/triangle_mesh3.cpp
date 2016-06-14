@@ -70,7 +70,7 @@ Vector3D TriangleMesh3::actualClosestNormal(const Vector3D& otherPoint) const {
     return minDistNormal;
 }
 
-SurfaceRayIntersection3 TriangleMesh3::closestIntersection(
+SurfaceRayIntersection3 TriangleMesh3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 

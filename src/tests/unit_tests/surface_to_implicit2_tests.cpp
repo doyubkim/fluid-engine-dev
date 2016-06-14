@@ -45,21 +45,6 @@ TEST(SurfaceToImplicit2, ClosestDistance) {
     EXPECT_DOUBLE_EQ(boxDist, s2iDist);
 }
 
-TEST(SurfaceToImplicit2, ActualClosestNormal) {
-    BoundingBox2D bbox(Vector2D(), Vector2D(1, 2));
-
-    Box2Ptr box = std::make_shared<Box2>(bbox);
-    box->isNormalFlipped = true;
-
-    SurfaceToImplicit2 s2i(box);
-
-    Vector2D pt(0.5, 2.5);
-    Vector2D boxNormal = box->actualClosestNormal(pt);
-    Vector2D s2iNormal = s2i.actualClosestNormal(pt);
-    EXPECT_DOUBLE_EQ(boxNormal.x, -s2iNormal.x);
-    EXPECT_DOUBLE_EQ(boxNormal.y, -s2iNormal.y);
-}
-
 TEST(SurfaceToImplicit2, Intersects) {
     auto box = std::make_shared<Box2>(BoundingBox2D({-1, 2}, {5, 3}));
     SurfaceToImplicit2 s2i(box);

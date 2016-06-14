@@ -35,22 +35,8 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     //! point on the surface.
     double closestDistance(const Vector2D& otherPoint) const override;
 
-    //!
-    //! \brief Returns the closest surface normal from the given point
-    //! \p otherPoint.
-    //!
-    //! This function returns the "actual" closest surface normal from the
-    //! given point \p otherPoint, meaning that the return value is not flipped
-    //! regardless how Surface2::isNormalFlipped is set.
-    //!
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
-
     //! Returns true if the given \p ray intersects with this object.
     bool intersects(const Ray2D& ray) const override;
-
-    //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection2 closestIntersection(
-        const Ray2D& ray) const override;
 
     //! Returns the bounding box of this box object.
     BoundingBox2D boundingBox() const override;
@@ -59,6 +45,12 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
 
     //! Returns signed distance from the given point \p otherPoint.
     double signedDistance(const Vector2D& otherPoint) const override;
+
+ protected:
+    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 actualClosestIntersection(
+        const Ray2D& ray) const override;
 
  private:
     Surface2Ptr _surface;

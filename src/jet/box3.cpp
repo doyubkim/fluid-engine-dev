@@ -113,7 +113,7 @@ bool Box3::intersects(const Ray3D& ray) const {
     return bound.intersects(ray);
 }
 
-SurfaceRayIntersection3 Box3::closestIntersection(
+SurfaceRayIntersection3 Box3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     BoundingBoxRayIntersection3D bbRayIntersection;

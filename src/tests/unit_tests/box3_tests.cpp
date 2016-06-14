@@ -63,28 +63,6 @@ TEST(Box3, ClosestPoint) {
     EXPECT_EQ(Vector3D(5, 2, 1), result8);
 }
 
-TEST(Box3, ActualClosestNormal) {
-    Box3 box(Vector3D(-1, 2, 1), Vector3D(5, 3, 4));
-
-    Vector3D result0 = box.actualClosestNormal(Vector3D(-2, 2, 3));
-    EXPECT_EQ(Vector3D(-1, 0, 0), result0);
-
-    Vector3D result1 = box.actualClosestNormal(Vector3D(3, 5, 2));
-    EXPECT_EQ(Vector3D(0, 1, 0), result1);
-
-    Vector3D result2 = box.actualClosestNormal(Vector3D(9, 3, 4));
-    EXPECT_EQ(Vector3D(1, 0, 0), result2);
-
-    Vector3D result3 = box.actualClosestNormal(Vector3D(4, 1, 1));
-    EXPECT_EQ(Vector3D(0, -1, 0), result3);
-
-    Vector3D result4 = box.actualClosestNormal(Vector3D(4, 2.5, -1));
-    EXPECT_EQ(Vector3D(0, 0, -1), result4);
-
-    Vector3D result5 = box.actualClosestNormal(Vector3D(4, 2, 9));
-    EXPECT_EQ(Vector3D(0, 0, 1), result5);
-}
-
 TEST(Box3, ClosestDistance) {
     Box3 box(Vector3D(-1, 2, 1), Vector3D(5, 3, 4));
 

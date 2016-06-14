@@ -38,16 +38,6 @@ class SurfaceSet3 final : public Surface3 {
     //! surface.
     Vector3D closestPoint(const Vector3D& otherPoint) const override;
 
-    //!
-    //! \brief Returns the closest surface normal from the given point
-    //! \p otherPoint.
-    //!
-    //! This function returns the "actual" closest surface normal from the
-    //! given point \p otherPoint, meaning that the return value is not flipped
-    //! regardless how Surface3::isNormalFlipped is set.
-    //!
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
-
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface.
     double closestDistance(const Vector3D& otherPoint) const override;
@@ -55,12 +45,14 @@ class SurfaceSet3 final : public Surface3 {
     //! Returns true if the given \p ray intersects with this object.
     bool intersects(const Ray3D& ray) const override;
 
-    //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection3 closestIntersection(
-        const Ray3D& ray) const override;
-
     //! Returns the bounding box of this box object.
     BoundingBox3D boundingBox() const override;
+
+ protected:
+    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 actualClosestIntersection(
+        const Ray3D& ray) const override;
 
  private:
     std::vector<Surface3Ptr> _surfaces;

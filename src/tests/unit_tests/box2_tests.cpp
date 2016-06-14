@@ -61,22 +61,6 @@ TEST(Box2, ClosestPoint) {
     EXPECT_EQ(Vector2D(5, 2), result8);
 }
 
-TEST(Box2, ActualClosestNormal) {
-    Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
-
-    Vector2D result0 = box.actualClosestNormal(Vector2D(-2, 2));
-    EXPECT_EQ(Vector2D(-1, 0), result0);
-
-    Vector2D result1 = box.actualClosestNormal(Vector2D(3, 5));
-    EXPECT_EQ(Vector2D(0, 1), result1);
-
-    Vector2D result2 = box.actualClosestNormal(Vector2D(9, 3));
-    EXPECT_EQ(Vector2D(1, 0), result2);
-
-    Vector2D result3 = box.actualClosestNormal(Vector2D(4, 1));
-    EXPECT_EQ(Vector2D(0, -1), result3);
-}
-
 TEST(Box2, ClosestDistance) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 

@@ -41,25 +41,17 @@ class Cylinder3 final : public Surface3 {
     //! point on the surface.
     double closestDistance(const Vector3D& otherPoint) const override;
 
-    //!
-    //! \brief Returns the closest surface normal from the given point
-    //! \p otherPoint.
-    //!
-    //! This function returns the "actual" closest surface normal from the
-    //! given point \p otherPoint, meaning that the return value is not flipped
-    //! regardless how Surface3::isNormalFlipped is set.
-    //!
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
-
     //! Returns true if the given \p ray intersects with this cylinder object.
     bool intersects(const Ray3D& ray) const override;
 
-    //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection3 closestIntersection(
-        const Ray3D& ray) const override;
-
     //! Returns the bounding box of this cylinder object.
     BoundingBox3D boundingBox() const override;
+
+ protected:
+    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 actualClosestIntersection(
+        const Ray3D& ray) const override;
 };
 
 typedef std::shared_ptr<Cylinder3> Cylinder3Ptr;

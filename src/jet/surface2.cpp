@@ -28,3 +28,11 @@ Vector2D Surface2::closestNormal(const Vector2D& otherPoint) const {
     Vector2D normal = actualClosestNormal(otherPoint);
     return (isNormalFlipped) ? -normal : normal;
 }
+
+SurfaceRayIntersection2 Surface2::closestIntersection(
+    const Ray2D& ray) const {
+    SurfaceRayIntersection2 intersection = actualClosestIntersection(ray);
+    intersection.normal
+        = (isNormalFlipped) ? -intersection.normal : intersection.normal;
+    return intersection;
+}

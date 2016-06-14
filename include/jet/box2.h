@@ -38,17 +38,6 @@ class Box2 final : public Surface2 {
     //! surface.
     Vector2D closestPoint(const Vector2D& otherPoint) const override;
 
-    //!
-    //! \brief Returns the closest surface normal from the given point
-    //! \p otherPoint.
-    //!
-    //! This function returns the "actual" closest surface normal from the
-    //! given point \p otherPoint, meaning that the return value is not flipped
-    //! regardless how Surface2::isNormalFlipped is set. For this class, the
-    //! surface normal points outside the box.
-    //!
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
-
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface.
     double closestDistance(const Vector2D& otherPoint) const override;
@@ -56,12 +45,14 @@ class Box2 final : public Surface2 {
     //! Returns true if the given \p ray intersects with this box object.
     bool intersects(const Ray2D& ray) const override;
 
-    //! Returns the closest intersection point for given \p ray.
-    SurfaceRayIntersection2 closestIntersection(
-        const Ray2D& ray) const override;
-
     //! Returns the bounding box of this box object.
     BoundingBox2D boundingBox() const override;
+
+ protected:
+    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 actualClosestIntersection(
+        const Ray2D& ray) const override;
 };
 
 typedef std::shared_ptr<Box2> Box2Ptr;

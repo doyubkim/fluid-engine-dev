@@ -37,7 +37,7 @@ bool SurfaceToImplicit3::intersects(const Ray3D& ray) const {
     return _surface->intersects(ray);
 }
 
-SurfaceRayIntersection3 SurfaceToImplicit3::closestIntersection(
+SurfaceRayIntersection3 SurfaceToImplicit3::actualClosestIntersection(
     const Ray3D& ray) const {
     return _surface->closestIntersection(ray);
 }

@@ -94,7 +94,7 @@ bool ImplicitSurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersection(
+SurfaceRayIntersection3 ImplicitSurfaceSet3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     double tMin = kMaxD;

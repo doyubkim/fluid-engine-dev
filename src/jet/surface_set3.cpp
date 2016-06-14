@@ -89,7 +89,7 @@ bool SurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 SurfaceSet3::closestIntersection(
+SurfaceRayIntersection3 SurfaceSet3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     double tMin = std::numeric_limits<double>::max();
