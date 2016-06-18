@@ -46,6 +46,11 @@ CellCenteredVectorGrid3::CellCenteredVectorGrid3(
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
+CellCenteredVectorGrid3::CellCenteredVectorGrid3(
+    const CellCenteredVectorGrid3& other) {
+    set(other);
+}
+
 Size3 CellCenteredVectorGrid3::dataSize() const {
     return resolution();
 }
@@ -60,6 +65,16 @@ void CellCenteredVectorGrid3::swap(Grid3* other) {
     if (sameType != nullptr) {
         swapCollocatedVectorGrid(sameType);
     }
+}
+
+void CellCenteredVectorGrid3::set(const CellCenteredVectorGrid3& other) {
+    setCollocatedVectorGrid(other);
+}
+
+CellCenteredVectorGrid3& CellCenteredVectorGrid3::operator=(
+    const CellCenteredVectorGrid3& other) {
+    set(other);
+    return *this;
 }
 
 void CellCenteredVectorGrid3::fill(const Vector3D& value) {
@@ -96,9 +111,6 @@ VectorGridBuilder3Ptr CellCenteredVectorGrid3::builder() {
     return std::make_shared<CellCenteredVectorGridBuilder3>();
 }
 
-
-CellCenteredVectorGridBuilder3::CellCenteredVectorGridBuilder3() {
-}
 
 VectorGrid3Ptr CellCenteredVectorGridBuilder3::build(
     const Size3& resolution,

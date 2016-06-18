@@ -40,9 +40,6 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
     set(other);
 }
 
-VertexCenteredScalarGrid2::~VertexCenteredScalarGrid2() {
-}
-
 Size2 VertexCenteredScalarGrid2::dataSize() const {
     if (resolution() != Size2(0, 0)) {
         return resolution() + Size2(1, 1);
@@ -82,9 +79,6 @@ ScalarGridBuilder2Ptr VertexCenteredScalarGrid2::builder() {
     return std::make_shared<VertexCenteredScalarGridBuilder2>();
 }
 
-
-VertexCenteredScalarGridBuilder2::VertexCenteredScalarGridBuilder2() {
-}
 
 ScalarGrid2Ptr VertexCenteredScalarGridBuilder2::build(
         const Size2& resolution,

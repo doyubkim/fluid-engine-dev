@@ -41,7 +41,9 @@ VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
-VertexCenteredScalarGrid3::~VertexCenteredScalarGrid3() {
+VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
+    const VertexCenteredScalarGrid3& other) {
+    set(other);
 }
 
 Size3 VertexCenteredScalarGrid3::dataSize() const {
@@ -68,13 +70,20 @@ void VertexCenteredScalarGrid3::swap(Grid3* other) {
     }
 }
 
+void VertexCenteredScalarGrid3::set(const VertexCenteredScalarGrid3& other) {
+    setScalarGrid(other);
+}
+
+VertexCenteredScalarGrid3&
+VertexCenteredScalarGrid3::operator=(const VertexCenteredScalarGrid3& other) {
+    set(other);
+    return *this;
+}
+
 ScalarGridBuilder3Ptr VertexCenteredScalarGrid3::builder() {
     return std::make_shared<VertexCenteredScalarGridBuilder3>();
 }
 
-
-VertexCenteredScalarGridBuilder3::VertexCenteredScalarGridBuilder3() {
-}
 
 ScalarGrid3Ptr VertexCenteredScalarGridBuilder3::build(
         const Size3& resolution,

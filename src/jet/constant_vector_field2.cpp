@@ -9,9 +9,6 @@ ConstantVectorField2::ConstantVectorField2(const Vector2D& value) :
     _value(value) {
 }
 
-ConstantVectorField2::~ConstantVectorField2() {
-}
-
 Vector2D ConstantVectorField2::sample(const Vector2D& x) const {
     UNUSED_VARIABLE(x);
 

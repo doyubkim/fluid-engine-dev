@@ -10,17 +10,25 @@
 
 namespace jet {
 
+//! Abstract base class for 3-D vector grid structure.
 class VectorGrid3 : public VectorField3, public Grid3 {
  public:
+    //! Read-write array accessor type.
     typedef ArrayAccessor3<Vector3D> VectorDataAccessor;
+
+    //! Read-only array accessor type.
     typedef ConstArrayAccessor3<Vector3D> ConstVectorDataAccessor;
 
+    //! Constructs an empty grid.
     VectorGrid3();
 
+    //! Default destructor.
     virtual ~VectorGrid3();
 
+    //! Clears the contents of the grid.
     void clear();
 
+    //! Resizes the grid using given parameters.
     void resize(
         size_t resolutionX,
         size_t resolutionY,
@@ -35,12 +43,14 @@ class VectorGrid3 : public VectorField3, public Grid3 {
         double initialValueY = 0.0,
         double initialValueZ = 0.0);
 
+    //! Resizes the grid using given parameters.
     void resize(
         const Size3& resolution,
         const Vector3D& gridSpacing = Vector3D(1, 1, 1),
         const Vector3D& origin = Vector3D(),
         const Vector3D& initialValue = Vector3D());
 
+    //! Resizes the grid using given parameters.
     void resize(
         double gridSpacingX,
         double gridSpacingY,
@@ -49,15 +59,26 @@ class VectorGrid3 : public VectorField3, public Grid3 {
         double originY,
         double originZ);
 
+    //! Resizes the grid using given parameters.
     void resize(const Vector3D& gridSpacing, const Vector3D& origin);
 
+    //! Fills the grid with given value.
     virtual void fill(const Vector3D& value) = 0;
 
+    //! Fills the grid with given position-to-value mapping function.
     virtual void fill(const std::function<Vector3D(const Vector3D&)>& func) = 0;
 
+    //! Returns the copy of the grid instance.
     virtual std::shared_ptr<VectorGrid3> clone() const = 0;
 
  protected:
+    //!
+    //! \brief Invoked when the resizing happens.
+    //!
+    //! This callback function is called when the grid gets resized. The
+    //! overriding class should allocate the internal storage based on its
+    //! data layout scheme.
+    //!
     virtual void onResize(
         const Size3& resolution,
         const Vector3D& gridSpacing,
@@ -67,13 +88,16 @@ class VectorGrid3 : public VectorField3, public Grid3 {
 
 typedef std::shared_ptr<VectorGrid3> VectorGrid3Ptr;
 
-
+//! Abstract base class for 3-D vector grid builder.
 class VectorGridBuilder3 {
  public:
+    //! Creates a builder.
     VectorGridBuilder3();
 
+    //! Default destructor.
     virtual ~VectorGridBuilder3();
 
+    //! Returns 3-D vector grid with given parameters.
     virtual VectorGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

@@ -102,9 +102,6 @@ VectorGridBuilder2Ptr CellCenteredVectorGrid2::builder() {
 }
 
 
-CellCenteredVectorGridBuilder2::CellCenteredVectorGridBuilder2() {
-}
-
 VectorGrid2Ptr CellCenteredVectorGridBuilder2::build(
     const Size2& resolution,
     const Vector2D& gridSpacing,

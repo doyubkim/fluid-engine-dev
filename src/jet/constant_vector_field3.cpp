@@ -9,9 +9,6 @@ ConstantVectorField3::ConstantVectorField3(const Vector3D& value) :
     _value(value) {
 }
 
-ConstantVectorField3::~ConstantVectorField3() {
-}
-
 Vector3D ConstantVectorField3::sample(const Vector3D& x) const {
     UNUSED_VARIABLE(x);
 

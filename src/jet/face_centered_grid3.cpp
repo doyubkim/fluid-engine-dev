@@ -560,9 +560,6 @@ VectorGridBuilder3Ptr FaceCenteredGrid3::builder() {
 }
 
 
-FaceCenteredGridBuilder3::FaceCenteredGridBuilder3() {
-}
-
 VectorGrid3Ptr FaceCenteredGridBuilder3::build(
     const Size3& resolution,
     const Vector3D& gridSpacing,

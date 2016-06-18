@@ -5,6 +5,7 @@
 
 namespace jet {
 
+//! Abstract base class for 3-D fields.
 class Field3 {
  public:
     Field3();
