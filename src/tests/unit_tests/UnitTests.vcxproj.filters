@@ -57,10 +57,16 @@
     <ClCompile Include="box3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cell_centered_scalar_grid_tests.cpp">
+    <ClCompile Include="cell_centered_scalar2_grid_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cell_centered_vector_grid_tests.cpp">
+    <ClCompile Include="cell_centered_scalar3_grid_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cell_centered_vector2_grid_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cell_centered_vector3_grid_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cg_tests.cpp">
@@ -72,7 +78,10 @@
     <ClCompile Include="cylinder3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="face_centered_grid_tests.cpp">
+    <ClCompile Include="face_centered_grid2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="face_centered_grid3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="flip_solvers_tests.cpp">
@@ -195,10 +204,16 @@
     <ClCompile Include="vector3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vertex_centered_scalar_grid_tests.cpp">
+    <ClCompile Include="vertex_centered_scalar_grid2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vertex_centered_vector_grid_tests.cpp">
+    <ClCompile Include="vertex_centered_scalar_grid3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_centered_vector_grid2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_centered_vector_grid3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="animation_tests.cpp">

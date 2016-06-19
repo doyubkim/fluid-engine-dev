@@ -421,9 +421,6 @@ VectorGridBuilder2Ptr FaceCenteredGrid2::builder() {
 }
 
 
-FaceCenteredGridBuilder2::FaceCenteredGridBuilder2() {
-}
-
 VectorGrid2Ptr FaceCenteredGridBuilder2::build(
     const Size2& resolution,
     const Vector2D& gridSpacing,

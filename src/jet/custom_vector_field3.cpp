@@ -30,9 +30,6 @@ CustomVectorField3::CustomVectorField3(
     _customCurlFunction(customCurlFunction) {
 }
 
-CustomVectorField3::~CustomVectorField3() {
-}
-
 Vector3D CustomVectorField3::sample(const Vector3D& x) const {
     return _customFunction(x);
 }

@@ -9,44 +9,66 @@
 
 namespace jet {
 
+//! \brief Abstract base class for 3-D collocated vector grid structure.
 class CollocatedVectorGrid3 : public VectorGrid3 {
  public:
+    //! Constructs an empty grid.
     CollocatedVectorGrid3();
 
+    //! Default destructor.
     virtual ~CollocatedVectorGrid3();
 
+    //! Returns the actual data point size.
     virtual Size3 dataSize() const = 0;
 
-    //! Returns data position for the grid point at (0, 0, 0).
+    //!
+    //! \brief Returns data position for the grid point at (0, 0, 0).
+    //!
     //! Note that this is different from origin() since origin() returns
     //! the lower corner point of the bounding box.
+    //!
     virtual Vector3D dataOrigin() const = 0;
 
+    //! Returns the grid data at given data point.
     const Vector3D& operator()(size_t i, size_t j, size_t k) const;
 
+    //! Returns the grid data at given data point.
     Vector3D& operator()(size_t i, size_t j, size_t k);
 
     //! Returns divergence at data point location.
-    //! \param i Data index i.
-    //! \param j Data index j.
-    //! \param k Data index k.
     double divergenceAtDataPoint(size_t i, size_t j, size_t k) const;
 
     //! Returns curl at data point location.
-    //! \param i Data index i.
-    //! \param j Data index j.
-    //! \param k Data index k.
     Vector3D curlAtDataPoint(size_t i, size_t j, size_t k) const;
 
+    //! Returns the read-write data array accessor.
     VectorDataAccessor dataAccessor();
 
+    //! Returns the read-only data array accessor.
     ConstVectorDataAccessor constDataAccessor() const;
 
+    //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
 
+    //!
+    //! \brief Invokes the given function \p func for each data point.
+    //!
+    //! This function invokes the given function object \p func for each data
+    //! point in serial manner. The input parameters are i and j indices of a
+    //! data point. The order of execution is i-first, j-last.
+    //!
     void forEachDataPointIndex(
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
+    //!
+    //! \brief Invokes the given function \p func for each data point
+    //! parallelly.
+    //!
+    //! This function invokes the given function object \p func for each data
+    //! point in parallel manner. The input parameters are i and j indices of a
+    //! data point. The order of execution can be arbitrary since it's
+    //! multi-threaded.
+    //!
     void parallelForEachDataPointIndex(
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
@@ -57,17 +79,29 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     void deserialize(std::istream* strm) override;
 
     // VectorField3 implementations
+
+    //! Returns sampled value at given position \p x.
     Vector3D sample(const Vector3D& x) const override;
 
+    //! Returns divergence at given position \p x.
     double divergence(const Vector3D& x) const override;
 
+    //! Returns curl at given position \p x.
     Vector3D curl(const Vector3D& x) const override;
 
+    //!
+    //! \brief Returns the sampler function.
+    //!
+    //! This function returns the data sampler function object. The sampling
+    //! function is linear.
+    //!
     std::function<Vector3D(const Vector3D&)> sampler() const override;
 
  protected:
+    //! Swaps the data storage and predefined samplers with given grid.
     void swapCollocatedVectorGrid(CollocatedVectorGrid3* other);
 
+    //! Sets the data storage and predefined samplers with given grid.
     void setCollocatedVectorGrid(const CollocatedVectorGrid3& other);
 
  private:
@@ -79,7 +113,7 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
         const Size3& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& origin,
-        const Vector3D& initialValue) override;
+        const Vector3D& initialValue) final;
 
     void resetSampler();
 };

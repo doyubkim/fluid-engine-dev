@@ -8,14 +8,16 @@
 
 namespace jet {
 
+//! 3-D constant vector field.
 class ConstantVectorField3 final : public VectorField3 {
  public:
+    //! Constructs a constant vector field with given \p value.
     explicit ConstantVectorField3(const Vector3D& value);
 
-    virtual ~ConstantVectorField3();
-
+    //! Returns the sampled value at given position \p x.
     Vector3D sample(const Vector3D& x) const override;
 
+    //! Returns the sampler function.
     std::function<Vector3D(const Vector3D&)> sampler() const override;
 
  private:

@@ -78,9 +78,6 @@ ScalarGridBuilder2Ptr CellCenteredScalarGrid2::builder() {
 }
 
 
-CellCenteredScalarGridBuilder2::CellCenteredScalarGridBuilder2() {
-}
-
 ScalarGrid2Ptr CellCenteredScalarGridBuilder2::build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

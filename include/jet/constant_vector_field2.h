@@ -8,14 +8,16 @@
 
 namespace jet {
 
+//! 2-D constant vector field.
 class ConstantVectorField2 final : public VectorField2 {
  public:
+    //! Constructs a constant vector field with given \p value.
     explicit ConstantVectorField2(const Vector2D& value);
 
-    virtual ~ConstantVectorField2();
-
+    //! Returns the sampled value at given position \p x.
     Vector2D sample(const Vector2D& x) const override;
 
+    //! Returns the sampler function.
     std::function<Vector2D(const Vector2D&)> sampler() const override;
 
  private:

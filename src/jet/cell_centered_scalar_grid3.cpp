@@ -84,9 +84,6 @@ ScalarGridBuilder3Ptr CellCenteredScalarGrid3::builder() {
 }
 
 
-CellCenteredScalarGridBuilder3::CellCenteredScalarGridBuilder3() {
-}
-
 ScalarGrid3Ptr CellCenteredScalarGridBuilder3::build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

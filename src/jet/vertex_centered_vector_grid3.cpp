@@ -47,9 +47,6 @@ VertexCenteredVectorGrid3::VertexCenteredVectorGrid3(
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
-VertexCenteredVectorGrid3::~VertexCenteredVectorGrid3() {
-}
-
 Size3 VertexCenteredVectorGrid3::dataSize() const {
     if (resolution() != Size3(0, 0, 0)) {
         return resolution() + Size3(1, 1, 1);
@@ -100,13 +97,20 @@ std::shared_ptr<VectorGrid3> VertexCenteredVectorGrid3::clone() const {
     return std::make_shared<VertexCenteredVectorGrid3>(*this);
 }
 
+void VertexCenteredVectorGrid3::set(const VertexCenteredVectorGrid3& other) {
+    setCollocatedVectorGrid(other);
+}
+
+VertexCenteredVectorGrid3& VertexCenteredVectorGrid3::operator=(
+    const VertexCenteredVectorGrid3& other) {
+    set(other);
+    return *this;
+}
+
 VectorGridBuilder3Ptr VertexCenteredVectorGrid3::builder() {
     return std::make_shared<VertexCenteredVectorGridBuilder3>();
 }
 
-
-VertexCenteredVectorGridBuilder3::VertexCenteredVectorGridBuilder3() {
-}
 
 VectorGrid3Ptr VertexCenteredVectorGridBuilder3::build(
     const Size3& resolution,

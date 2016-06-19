@@ -44,9 +44,6 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     set(other);
 }
 
-VertexCenteredVectorGrid2::~VertexCenteredVectorGrid2() {
-}
-
 Size2 VertexCenteredVectorGrid2::dataSize() const {
     if (resolution() != Size2(0, 0)) {
         return resolution() + Size2(1, 1);
@@ -109,9 +106,6 @@ VectorGridBuilder2Ptr VertexCenteredVectorGrid2::builder() {
     return std::make_shared<VertexCenteredVectorGridBuilder2>();
 }
 
-
-VertexCenteredVectorGridBuilder2::VertexCenteredVectorGridBuilder2() {
-}
 
 VectorGrid2Ptr VertexCenteredVectorGridBuilder2::build(
     const Size2& resolution,

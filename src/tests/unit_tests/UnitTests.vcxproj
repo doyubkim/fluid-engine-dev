@@ -38,12 +38,15 @@
     <ClCompile Include="bounding_box3_tests.cpp" />
     <ClCompile Include="box2_tests.cpp" />
     <ClCompile Include="box3_tests.cpp" />
-    <ClCompile Include="cell_centered_scalar_grid_tests.cpp" />
-    <ClCompile Include="cell_centered_vector_grid_tests.cpp" />
+    <ClCompile Include="cell_centered_scalar_grid2_tests.cpp" />
+    <ClCompile Include="cell_centered_scalar_grid3_tests.cpp" />
+    <ClCompile Include="cell_centered_vector_grid2_tests.cpp" />
+    <ClCompile Include="cell_centered_vector_grid3_tests.cpp" />
     <ClCompile Include="cg_tests.cpp" />
     <ClCompile Include="collider_tests.cpp" />
     <ClCompile Include="cylinder3_tests.cpp" />
-    <ClCompile Include="face_centered_grid_tests.cpp" />
+    <ClCompile Include="face_centered_grid2_tests.cpp" />
+    <ClCompile Include="face_centered_grid3_tests.cpp" />
     <ClCompile Include="flip_solvers_tests.cpp" />
     <ClCompile Include="grid_diffusion_solvers_tests.cpp" />
     <ClCompile Include="grid_fluid_solvers_tests.cpp" />
@@ -80,8 +83,10 @@
     <ClCompile Include="vector2_tests.cpp" />
     <ClCompile Include="vector3_tests.cpp" />
     <ClCompile Include="vector_tests.cpp" />
-    <ClCompile Include="vertex_centered_scalar_grid_tests.cpp" />
-    <ClCompile Include="vertex_centered_vector_grid_tests.cpp" />
+    <ClCompile Include="vertex_centered_scalar_grid2_tests.cpp" />
+    <ClCompile Include="vertex_centered_scalar_grid3_tests.cpp" />
+    <ClCompile Include="vertex_centered_vector_grid2_tests.cpp" />
+    <ClCompile Include="vertex_centered_vector_grid3_tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF6018A6-EC7E-4D2E-856A-DAAB0B336946}</ProjectGuid>
