@@ -1,19 +1,19 @@
 // Copyright (c) 2016 Doyub Kim
 
-#include <jet/rigid_body_collider3.h>
-#include <jet/plane3.h>
+#include <jet/rigid_body_collider2.h>
+#include <jet/plane2.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(RigidBodyCollider3, ResolveCollision) {
+TEST(RigidBodyCollider2, ResolveCollision) {
     // 1. No penetration
     {
-        RigidBodyCollider3 collider(
-            std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
+        RigidBodyCollider2 collider(
+            std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-        Vector3D newPosition(1, 0.1, 0);
-        Vector3D newVelocity(1, 0, 0);
+        Vector2D newPosition(1, 0.1);
+        Vector2D newVelocity(1, 0);
         double radius = 0.05;
         double restitutionCoefficient = 0.5;
 
@@ -25,19 +25,17 @@ TEST(RigidBodyCollider3, ResolveCollision) {
 
         EXPECT_DOUBLE_EQ(1.0, newPosition.x);
         EXPECT_DOUBLE_EQ(0.1, newPosition.y);
-        EXPECT_DOUBLE_EQ(0.0, newPosition.z);
         EXPECT_DOUBLE_EQ(1.0, newVelocity.x);
         EXPECT_DOUBLE_EQ(0.0, newVelocity.y);
-        EXPECT_DOUBLE_EQ(0.0, newVelocity.z);
     }
 
     // 2. Penetration within radius
     {
-        RigidBodyCollider3 collider(
-            std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
+        RigidBodyCollider2 collider(
+            std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-        Vector3D newPosition(1, 0.1, 0);
-        Vector3D newVelocity(1, 0, 0);
+        Vector2D newPosition(1, 0.1);
+        Vector2D newVelocity(1, 0);
         double radius = 0.2;
         double restitutionCoefficient = 0.5;
 
@@ -49,16 +47,15 @@ TEST(RigidBodyCollider3, ResolveCollision) {
 
         EXPECT_DOUBLE_EQ(1.0, newPosition.x);
         EXPECT_DOUBLE_EQ(0.2, newPosition.y);
-        EXPECT_DOUBLE_EQ(0.0, newPosition.z);
     }
 
     // 3. Sitting
     {
-        RigidBodyCollider3 collider(
-            std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
+        RigidBodyCollider2 collider(
+            std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-        Vector3D newPosition(1, 0.1, 0);
-        Vector3D newVelocity(1, 0, 0);
+        Vector2D newPosition(1, 0.1);
+        Vector2D newVelocity(1, 0);
         double radius = 0.1;
         double restitutionCoefficient = 0.5;
 
@@ -70,19 +67,17 @@ TEST(RigidBodyCollider3, ResolveCollision) {
 
         EXPECT_DOUBLE_EQ(1.0, newPosition.x);
         EXPECT_DOUBLE_EQ(0.1, newPosition.y);
-        EXPECT_DOUBLE_EQ(0.0, newPosition.z);
         EXPECT_DOUBLE_EQ(1.0, newVelocity.x);
         EXPECT_DOUBLE_EQ(0.0, newVelocity.y);
-        EXPECT_DOUBLE_EQ(0.0, newVelocity.z);
     }
 
     // 4. Bounce-back
     {
-        RigidBodyCollider3 collider(
-            std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
+        RigidBodyCollider2 collider(
+            std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-        Vector3D newPosition(1, -1, 0);
-        Vector3D newVelocity(1, -1, 0);
+        Vector2D newPosition(1, -1);
+        Vector2D newVelocity(1, -1);
         double radius = 0.1;
         double restitutionCoefficient = 0.5;
 
@@ -94,19 +89,17 @@ TEST(RigidBodyCollider3, ResolveCollision) {
 
         EXPECT_DOUBLE_EQ(1.0, newPosition.x);
         EXPECT_DOUBLE_EQ(0.1, newPosition.y);
-        EXPECT_DOUBLE_EQ(0.0, newPosition.z);
         EXPECT_DOUBLE_EQ(1.0, newVelocity.x);
         EXPECT_DOUBLE_EQ(restitutionCoefficient, newVelocity.y);
-        EXPECT_DOUBLE_EQ(0.0, newVelocity.z);
     }
 
     // 4. Friction
     {
-        RigidBodyCollider3 collider(
-            std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
+        RigidBodyCollider2 collider(
+            std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-        Vector3D newPosition(1, -1, 0);
-        Vector3D newVelocity(1, -1, 0);
+        Vector2D newPosition(1, -1);
+        Vector2D newVelocity(1, -1);
         double radius = 0.1;
         double restitutionCoefficient = 0.5;
 
@@ -120,9 +113,20 @@ TEST(RigidBodyCollider3, ResolveCollision) {
 
         EXPECT_DOUBLE_EQ(1.0, newPosition.x);
         EXPECT_DOUBLE_EQ(0.1, newPosition.y);
-        EXPECT_DOUBLE_EQ(0.0, newPosition.z);
         EXPECT_GT(1.0, newVelocity.x);
         EXPECT_DOUBLE_EQ(restitutionCoefficient, newVelocity.y);
-        EXPECT_DOUBLE_EQ(0.0, newVelocity.z);
     }
+}
+
+TEST(RigidBodyCollider2, VelocityAt) {
+    RigidBodyCollider2 collider(
+        std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
+
+    collider.linearVelocity = {1, 3};
+    collider.angularVelocity = 4.0;
+    collider.origin = {-1, -2};
+
+    Vector2D result = collider.velocityAt({5, 7});
+    EXPECT_DOUBLE_EQ(-35.0, result.x);
+    EXPECT_DOUBLE_EQ(27.0, result.y);
 }

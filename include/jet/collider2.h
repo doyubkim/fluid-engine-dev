@@ -7,35 +7,63 @@
 
 namespace jet {
 
-struct ColliderQueryResult2 final {
-    double distance;
-    Vector2D point;
-    Vector2D normal;
-    Vector2D velocity;
-};
-
+//!
+//! \brief Abstract base class for generic collider object.
+//!
+//! This class contains basic interfaces for colliders. Most of the
+//! functionalities are implemented within this class, except the member
+//! function Collider2::velocityAt. This class also let the subclasses to
+//! provide a Surface2 instance to define collider surface using
+//! Collider2::setSurface function.
+//!
 class Collider2 {
  public:
+    //! Default constructor.
     Collider2();
 
+    //! Default destructor.
     virtual ~Collider2();
 
+    //! Returns the velocity of the collider at given \p point.
     virtual Vector2D velocityAt(const Vector2D& point) const = 0;
 
+    //!
     //! Resolves collision for given point.
+    //!
+    //! \param radius Radius of the colliding point.
+    //! \param restitutionCoefficient Defines the restitution effect.
+    //! \param position Input and output position of the point.
+    //! \param position Input and output velocity of the point.
+    //!
     void resolveCollision(
         double radius,
         double restitutionCoefficient,
-        Vector2D* newPosition,
-        Vector2D* newVelocity);
+        Vector2D* position,
+        Vector2D* velocity);
 
+    //! Returns friction coefficent.
     double frictionCoefficient() const;
 
+    //!
+    //! \brief Sets the friction coefficient.
+    //!
+    //! This function assigns the friction coefficient to the collider. Any
+    //! negative inputs will be clamped to zero.
+    //!
     void setFrictionCoefficient(double newFrictionCoeffient);
 
+    //! Returns the surface instance.
     const Surface2Ptr& surface() const;
 
  protected:
+    //! Internal query result structure.
+    struct ColliderQueryResult final {
+        double distance;
+        Vector2D point;
+        Vector2D normal;
+        Vector2D velocity;
+    };
+
     //! Assigns the surface instance from the subclass.
     void setSurface(const Surface2Ptr& newSurface);
 
@@ -43,11 +71,11 @@ class Collider2 {
     void getClosestPoint(
         const Surface2Ptr& surface,
         const Vector2D& queryPoint,
-        ColliderQueryResult2* result) const;
+        ColliderQueryResult* result) const;
 
     //! Returns true if given point is in the opposite side of the surface.
     bool isPenetrating(
-        const ColliderQueryResult2& colliderPoint,
+        const ColliderQueryResult& colliderPoint,
         const Vector2D& position,
         double radius);
 

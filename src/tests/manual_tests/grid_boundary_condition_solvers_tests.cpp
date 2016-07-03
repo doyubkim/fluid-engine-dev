@@ -29,7 +29,7 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity) {
         std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
-    collider->setLinearVelocity(Vector2D(-1.0, 0.0));
+    collider->linearVelocity = Vector2D(-1.0, 0.0);
 
     // Solver setting
     GridBlockedBoundaryConditionSolver2 solver;
@@ -79,7 +79,7 @@ JET_BEGIN_TEST_F(
         std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
-    collider->setLinearVelocity(Vector2D(-1.0, 0.0));
+    collider->linearVelocity = Vector2D(-1.0, 0.0);
     collider->setFrictionCoefficient(1.0);
 
     // Solver setting
@@ -133,7 +133,7 @@ JET_BEGIN_TEST_F(
         std::make_shared<Sphere2>(domain.lowerCorner, 0.25));
     RigidBodyCollider2Ptr collider
         = std::make_shared<RigidBodyCollider2>(surfaceSet);
-    collider->setLinearVelocity(Vector2D(-1.0, 0.0));
+    collider->linearVelocity = Vector2D(-1.0, 0.0);
 
     // Solver setting
     GridFractionalBoundaryConditionSolver2 solver;

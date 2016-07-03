@@ -43,7 +43,6 @@
     <ClCompile Include="cell_centered_vector_grid2_tests.cpp" />
     <ClCompile Include="cell_centered_vector_grid3_tests.cpp" />
     <ClCompile Include="cg_tests.cpp" />
-    <ClCompile Include="collider_tests.cpp" />
     <ClCompile Include="cylinder3_tests.cpp" />
     <ClCompile Include="face_centered_grid2_tests.cpp" />
     <ClCompile Include="face_centered_grid3_tests.cpp" />
@@ -71,6 +70,8 @@
     <ClCompile Include="point_parallel_hash_grid_searcher_tests.cpp" />
     <ClCompile Include="point_simple_list_searcher_tests.cpp" />
     <ClCompile Include="quaternion_tests.cpp" />
+    <ClCompile Include="rigid_body_collider2_tests.cpp" />
+    <ClCompile Include="rigid_body_collider3_tests.cpp" />
     <ClCompile Include="sph_kernels_tests.cpp" />
     <ClCompile Include="sph_solver2_tests.cpp" />
     <ClCompile Include="sph_solver3_tests.cpp" />
