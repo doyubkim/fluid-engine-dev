@@ -7,11 +7,14 @@
 
 namespace jet {
 
+//! Two-dimensional third-order ENO-based iterative level set solver.
 class EnoLevelSetSolver2 final : public IterativeLevelSetSolver2 {
  public:
+    //! Default constructor.
     EnoLevelSetSolver2();
 
  protected:
+    //! Computes the derivatives for given grid point.
     void getDerivatives(
         ConstArrayAccessor2<double> grid,
         const Vector2D& gridSpacing,
