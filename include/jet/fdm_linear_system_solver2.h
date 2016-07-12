@@ -8,8 +8,10 @@
 
 namespace jet {
 
+//! Abstract base class for 2-D finite difference-type linear system solver.
 class FdmLinearSystemSolver2 {
  public:
+    //! Solves the given linear system.
     virtual bool solve(FdmLinearSystem2* system) = 0;
 };
 
