@@ -145,7 +145,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
     for ( ; frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->center = Vector2D(domain.midPoint().x, 0.75 - std::cos(t));
-        collider->setLinearVelocity(Vector2D(0, std::sin(t)));
+        collider->linearVelocity = Vector2D(0, std::sin(t));
 
         solver.update(frame);
 
@@ -250,7 +250,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
     for ( ; frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->center = Vector2D(domain.midPoint().x, 0.75 - std::cos(t));
-        collider->setLinearVelocity(Vector2D(0, std::sin(t)));
+        collider->linearVelocity = Vector2D(0, std::sin(t));
 
         solver.update(frame);
 

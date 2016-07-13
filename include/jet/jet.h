@@ -49,7 +49,6 @@
 #include <jet/cylinder3.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>
-#include <jet/event.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/fcc_lattice_point_generator.h>

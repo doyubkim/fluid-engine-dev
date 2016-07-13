@@ -22,6 +22,8 @@ bool FdmJacobiSolver2::solve(FdmLinearSystem2* system) {
     _xTemp.resize(system->x.size());
     _residual.resize(system->x.size());
 
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
     for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
         relax(system, &_xTemp);
 
@@ -31,6 +33,7 @@ bool FdmJacobiSolver2::solve(FdmLinearSystem2* system) {
             FdmBlas2::residual(system->A, system->x, system->b, &_residual);
 
             if (FdmBlas2::l2Norm(_residual) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
                 break;
             }
         }

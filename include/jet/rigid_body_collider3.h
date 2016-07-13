@@ -7,28 +7,28 @@
 
 namespace jet {
 
+//!
+//! \brief 3-D rigid body collider class.
+//!
+//! This class implements 3-D rigid body collider. The collider can only take
+//! rigid body motion with linear and rotational velocities.
+//!
 class RigidBodyCollider3 final : public Collider3 {
  public:
+    //! Linear velocity of the rigid body.
+    Vector3D linearVelocity;
+
+    //! Angular velocity of the rigid body.
+    Vector3D angularVelocity;
+
+    //! Origin of the rigid body rotation.
+    Vector3D origin;
+
+    //! Constructs a collider with a surface.
     explicit RigidBodyCollider3(const Surface3Ptr& surface);
 
+    //! Returns the velocity of the collider at given \p point.
     Vector3D velocityAt(const Vector3D& point) const override;
-
-    const Vector3D& linearVelocity() const;
-
-    void setLinearVelocity(const Vector3D& newVelocity);
-
-    const Vector3D& angularVelocity() const;
-
-    void setAngularVelocity(const Vector3D& newVelocity);
-
-    const Vector3D& origin() const;
-
-    void setOrigin(const Vector3D& newOrigin);
-
- private:
-    Vector3D _linearVelocity;
-    Vector3D _angularVelocity;
-    Vector3D _origin;
 };
 
 typedef std::shared_ptr<RigidBodyCollider3> RigidBodyCollider3Ptr;

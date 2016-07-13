@@ -21,6 +21,8 @@ FdmGaussSeidelSolver3::FdmGaussSeidelSolver3(
 bool FdmGaussSeidelSolver3::solve(FdmLinearSystem3* system) {
     _residual.resize(system->x.size());
 
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
     for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
         relax(system);
 
@@ -28,6 +30,7 @@ bool FdmGaussSeidelSolver3::solve(FdmLinearSystem3* system) {
             FdmBlas3::residual(system->A, system->x, system->b, &_residual);
 
             if (FdmBlas3::l2Norm(_residual) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
                 break;
             }
         }

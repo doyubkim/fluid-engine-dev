@@ -7,28 +7,28 @@
 
 namespace jet {
 
+//!
+//! \brief 2-D rigid body collider class.
+//!
+//! This class implements 2-D rigid body collider. The collider can only take
+//! rigid body motion with linear and rotational velocities.
+//!
 class RigidBodyCollider2 final : public Collider2 {
  public:
+    //! Linear velocity of the rigid body.
+    Vector2D linearVelocity;
+
+    //! Angular velocity of the rigid body.
+    double angularVelocity;
+
+    //! Origin of the rigid body rotation.
+    Vector2D origin;
+
+    //! Constructs a collider with a surface.
     explicit RigidBodyCollider2(const Surface2Ptr& surface);
 
+    //! Returns the velocity of the collider at given \p point.
     Vector2D velocityAt(const Vector2D& point) const override;
-
-    const Vector2D& linearVelocity() const;
-
-    void setLinearVelocity(const Vector2D& newVelocity);
-
-    const Vector2D& angularVelocity() const;
-
-    void setAngularVelocity(const Vector2D& newVelocity);
-
-    const Vector2D& origin() const;
-
-    void setOrigin(const Vector2D& newOrigin);
-
- private:
-    Vector2D _linearVelocity;
-    Vector2D _angularVelocity;
-    Vector2D _origin;
 };
 
 typedef std::shared_ptr<RigidBodyCollider2> RigidBodyCollider2Ptr;

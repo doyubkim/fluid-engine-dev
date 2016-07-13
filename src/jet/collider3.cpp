@@ -2,6 +2,7 @@
 
 #include <pch.h>
 #include <jet/collider3.h>
+#include <algorithm>
 
 using namespace jet;
 
@@ -16,7 +17,7 @@ void Collider3::resolveCollision(
     double restitutionCoefficient,
     Vector3D* newPosition,
     Vector3D* newVelocity) {
-    ColliderQueryResult3 colliderPoint;
+    ColliderQueryResult colliderPoint;
 
     getClosestPoint(_surface, *newPosition, &colliderPoint);
 
@@ -72,7 +73,7 @@ double Collider3::frictionCoefficient() const {
 }
 
 void Collider3::setFrictionCoefficient(double newFrictionCoeffient) {
-    _frictionCoeffient = newFrictionCoeffient;
+    _frictionCoeffient = std::max(newFrictionCoeffient, 0.0);
 }
 
 const Surface3Ptr& Collider3::surface() const {
@@ -86,7 +87,7 @@ void Collider3::setSurface(const Surface3Ptr& newSurface) {
 void Collider3::getClosestPoint(
     const Surface3Ptr& surface,
     const Vector3D& queryPoint,
-    ColliderQueryResult3* result) const {
+    ColliderQueryResult* result) const {
     result->distance = surface->closestDistance(queryPoint);
     result->point = surface->closestPoint(queryPoint);
     result->normal = surface->closestNormal(queryPoint);
@@ -94,7 +95,7 @@ void Collider3::getClosestPoint(
 }
 
 bool Collider3::isPenetrating(
-    const ColliderQueryResult3& colliderPoint,
+    const ColliderQueryResult& colliderPoint,
     const Vector3D& position,
     double radius) {
     // If the new candidate position of the particle is on the other side of

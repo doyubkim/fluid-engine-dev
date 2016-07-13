@@ -9,12 +9,16 @@
 
 namespace jet {
 
+//! Collection of 2-D colliders
 class ColliderSet2 final : public Collider2 {
  public:
+    //! Default constructor.
     ColliderSet2();
 
+    //! Returns the velocity of the collider at given \p point.
     Vector2D velocityAt(const Vector2D& point) const override;
 
+    //! Adds a collider to the set.
     void addCollider(const Collider2Ptr& collider);
 
  private:

@@ -9,12 +9,16 @@
 
 namespace jet {
 
+//! Collection of 3-D colliders
 class ColliderSet3 final : public Collider3 {
  public:
+    //! Default constructor.
     ColliderSet3();
 
+    //! Returns the velocity of the collider at given \p point.
     Vector3D velocityAt(const Vector3D& point) const override;
 
+    //! Adds a collider to the set.
     void addCollider(const Collider3Ptr& collider);
 
  private:

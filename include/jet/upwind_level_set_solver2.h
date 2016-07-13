@@ -7,11 +7,14 @@
 
 namespace jet {
 
+//! Two-dimensional first-order upwind-based iterative level set solver.
 class UpwindLevelSetSolver2 final : public IterativeLevelSetSolver2 {
  public:
+    //! Default constructor.
     UpwindLevelSetSolver2();
 
  protected:
+    //! Computes the derivatives for given grid point.
     void getDerivatives(
         ConstArrayAccessor2<double> grid,
         const Vector2D& gridSpacing,

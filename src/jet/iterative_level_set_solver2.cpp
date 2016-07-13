@@ -227,7 +227,7 @@ double IterativeLevelSetSolver2::maxCfl() const {
 }
 
 void IterativeLevelSetSolver2::setMaxCfl(double newMaxCfl) {
-    _maxCfl = newMaxCfl;
+    _maxCfl = std::max(newMaxCfl, 0.0);
 }
 
 unsigned int IterativeLevelSetSolver2::distanceToNumberOfIterations(

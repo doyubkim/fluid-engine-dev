@@ -7,11 +7,14 @@
 
 namespace jet {
 
+//! Three-dimensional first-order upwind-based iterative level set solver.
 class UpwindLevelSetSolver3 final : public IterativeLevelSetSolver3 {
  public:
+    //! Default constructor.
     UpwindLevelSetSolver3();
 
  protected:
+    //! Computes the derivatives for given grid point.
     void getDerivatives(
         ConstArrayAccessor3<double> grid,
         const Vector3D& gridSpacing,
