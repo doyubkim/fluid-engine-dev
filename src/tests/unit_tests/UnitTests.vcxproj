@@ -54,6 +54,7 @@
     <ClCompile Include="fdm_iccg_solver3_tests.cpp" />
     <ClCompile Include="fdm_jacobi_solver2_tests.cpp" />
     <ClCompile Include="fdm_jacobi_solver3_tests.cpp" />
+    <ClCompile Include="fdm_utils_tests.cpp" />
     <ClCompile Include="flip_solvers_tests.cpp" />
     <ClCompile Include="grid_diffusion_solvers_tests.cpp" />
     <ClCompile Include="grid_fluid_solvers_tests.cpp" />

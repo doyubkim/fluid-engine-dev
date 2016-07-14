@@ -105,6 +105,9 @@
     <ClCompile Include="fdm_jacobi_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fdm_utils_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="flip_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
