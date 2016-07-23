@@ -108,7 +108,10 @@
     <ClCompile Include="fdm_utils_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="flip_solvers_tests.cpp">
+    <ClCompile Include="flip_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flip_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_diffusion_solvers_tests.cpp">
