@@ -5,8 +5,8 @@
 
 #include <jet/bounding_box2.h>
 #include <jet/constants.h>
-#include <jet/geometry2.h>
 #include <jet/ray2.h>
+#include <memory>
 
 namespace jet {
 
@@ -19,7 +19,7 @@ struct SurfaceRayIntersection2 {
 };
 
 //! Abstract base class for 2-D surface.
-class Surface2 : public Geometry2 {
+class Surface2 {
  public:
     //! Flips normal when calling Surface2::closestNormal(...).
     bool isNormalFlipped = false;

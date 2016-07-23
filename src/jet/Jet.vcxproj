@@ -291,8 +291,6 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\flip_solver3.h" />
     <ClInclude Include="..\..\include\jet\fmm_level_set_solver2.h" />
     <ClInclude Include="..\..\include\jet\fmm_level_set_solver3.h" />
-    <ClInclude Include="..\..\include\jet\geometry2.h" />
-    <ClInclude Include="..\..\include\jet\geometry3.h" />
     <ClInclude Include="..\..\include\jet\grid2.h" />
     <ClInclude Include="..\..\include\jet\grid3.h" />
     <ClInclude Include="..\..\include\jet\grid_backward_euler_diffusion_solver2.h" />
@@ -481,8 +479,6 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="flip_solver3.cpp" />
     <ClCompile Include="fmm_level_set_solver2.cpp" />
     <ClCompile Include="fmm_level_set_solver3.cpp" />
-    <ClCompile Include="geometry2.cpp" />
-    <ClCompile Include="geometry3.cpp" />
     <ClCompile Include="grid2.cpp" />
     <ClCompile Include="grid3.cpp" />
     <ClCompile Include="grid_backward_euler_diffusion_solver2.cpp" />

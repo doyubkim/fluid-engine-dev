@@ -5,8 +5,8 @@
 
 #include <jet/bounding_box3.h>
 #include <jet/constants.h>
-#include <jet/geometry3.h>
 #include <jet/ray3.h>
+#include <memory>
 
 namespace jet {
 
@@ -19,7 +19,7 @@ struct SurfaceRayIntersection3 {
 };
 
 //! Abstract base class for 3-D surface.
-class Surface3 : public Geometry3 {
+class Surface3 {
  public:
     //! Flips normal when calling Surface3::closestNormal(...).
     bool isNormalFlipped = false;

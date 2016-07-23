@@ -363,12 +363,6 @@
     <ClInclude Include="..\..\include\jet\fmm_level_set_solver3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\geometry2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\jet\geometry3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\jet\grid_backward_euler_diffusion_solver2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1104,12 +1098,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fmm_level_set_solver3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="geometry2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="geometry3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_backward_euler_diffusion_solver2.cpp">
