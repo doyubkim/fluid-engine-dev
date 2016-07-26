@@ -10,18 +10,39 @@
 
 namespace jet {
 
+//!
+//! \brief Fractional 3-D boundary condition solver for grids.
+//!
+//! This class constrains the velocity field by projecting the flow to the
+//! signed-distance field representation of the collider. This implementation
+//! should pair up with GridFractionalSinglePhasePressureSolver3 to provide
+//! sub-grid resolutional velocity projection.
+//!
 class GridFractionalBoundaryConditionSolver3
     : public GridBoundaryConditionSolver3 {
  public:
+    //! Default constructor.
     GridFractionalBoundaryConditionSolver3();
 
+    //! Default destructor.
+    virtual ~GridFractionalBoundaryConditionSolver3();
+
+    //!
+    //! Constrains the velocity field to conform the collider boundary.
+    //!
+    //! \param velocity Input and output velocity grid.
+    //! \param extrapolationDepth Number of inner-collider grid cells that
+    //!     velocity will get extrapolated.
+    //!
     void constrainVelocity(
         FaceCenteredGrid3* velocity,
         unsigned int extrapolationDepth = 5) override;
 
+    //! Returns the signed distance field of the collider.
     const CellCenteredScalarGrid3& colliderSdf() const;
 
  protected:
+    //! Invoked when a new collider is set.
     void onColliderUpdated(
         const Size3& gridSize,
         const Vector3D& gridSpacing,

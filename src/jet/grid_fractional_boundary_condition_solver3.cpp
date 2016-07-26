@@ -14,6 +14,10 @@ GridFractionalBoundaryConditionSolver3
 ::GridFractionalBoundaryConditionSolver3() {
 }
 
+GridFractionalBoundaryConditionSolver3::
+~GridFractionalBoundaryConditionSolver3() {
+}
+
 void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     FaceCenteredGrid3* velocity,
     unsigned int extrapolationDepth) {

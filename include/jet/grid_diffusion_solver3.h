@@ -13,7 +13,16 @@
 
 namespace jet {
 
-//! Abstract base class for 3-D grid-based diffusion equation solver.
+//!
+//! \brief Abstract base class for 3-D grid-based diffusion equation solver.
+//!
+//! This class provides functions to solve the diffusion equation for different
+//! types of fields. The target equation can be written as
+//! \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where \f$\mu\f$ is
+//! the diffusion coefficient. The field \f$f\f$ can be either scalar or vector
+//! field.
+//!
+
 class GridDiffusionSolver3 {
  public:
     //! Default constructor.
@@ -23,12 +32,7 @@ class GridDiffusionSolver3 {
     virtual ~GridDiffusionSolver3();
 
     //!
-    //! \brief Solves diffusion equation for a scalar field.
-    //!
-    //! This function solves diffusion equation for given scalar field \p source
-    //! and store the result to \p dest. The target equation can be written as
-    //! \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where \f$\mu\f$ is
-    //! the diffusion coefficient.
+    //! Solves diffusion equation for a scalar field.
     //!
     //! \param source Input scalar field.
     //! \param diffusionCoefficient Amount of diffusion.
@@ -46,12 +50,7 @@ class GridDiffusionSolver3 {
         const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) = 0;
 
     //!
-    //! \brief Solves diffusion equation for a collocated vector field.
-    //!
-    //! This function solves diffusion equation for given collocated vector
-    //! field \p source and store the result to \p dest. The target equation can
-    //! be written as \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where
-    //! \f$\mu\f$ is the diffusion coefficient.
+    //! Solves diffusion equation for a collocated vector field.
     //!
     //! \param source Input collocated vector field.
     //! \param diffusionCoefficient Amount of diffusion.
@@ -69,12 +68,7 @@ class GridDiffusionSolver3 {
         const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) = 0;
 
     //!
-    //! \brief Solves diffusion equation for a face-centered vector field.
-    //!
-    //! This function solves diffusion equation for given face-centered vector
-    //! field \p source and store the result to \p dest. The target equation can
-    //! be written as \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where
-    //! \f$\mu\f$ is the diffusion coefficient.
+    //! Solves diffusion equation for a face-centered vector field.
     //!
     //! \param source Input face-centered vector field.
     //! \param diffusionCoefficient Amount of diffusion.

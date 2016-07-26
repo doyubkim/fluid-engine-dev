@@ -34,12 +34,7 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
         BoundaryType boundaryType = Neumann);
 
     //!
-    //! \brief Solves diffusion equation for a scalar field.
-    //!
-    //! This function solves diffusion equation for given scalar field \p source
-    //! and store the result to \p dest. The target equation can be written as
-    //! \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where \f$\mu\f$ is
-    //! the diffusion coefficient.
+    //! Solves diffusion equation for a scalar field.
     //!
     //! \param source Input scalar field.
     //! \param diffusionCoefficient Amount of diffusion.
@@ -59,12 +54,7 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
             = ConstantScalarField3(-kMaxD)) override;
 
     //!
-    //! \brief Solves diffusion equation for a collocated vector field.
-    //!
-    //! This function solves diffusion equation for given collocated vector
-    //! field \p source and store the result to \p dest. The target equation can
-    //! be written as \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where
-    //! \f$\mu\f$ is the diffusion coefficient.
+    //! Solves diffusion equation for a collocated vector field.
     //!
     //! \param source Input collocated vector field.
     //! \param diffusionCoefficient Amount of diffusion.
@@ -84,12 +74,7 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
             = ConstantScalarField3(-kMaxD)) override;
 
     //!
-    //! \brief Solves diffusion equation for a face-centered vector field.
-    //!
-    //! This function solves diffusion equation for given face-centered vector
-    //! field \p source and store the result to \p dest. The target equation can
-    //! be written as \f$\frac{\partial f}{\partial t} = \mu\nabla^2 f\f$ where
-    //! \f$\mu\f$ is the diffusion coefficient.
+    //! Solves diffusion equation for a face-centered vector field.
     //!
     //! \param source Input face-centered vector field.
     //! \param diffusionCoefficient Amount of diffusion.
