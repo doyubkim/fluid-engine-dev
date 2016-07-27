@@ -2,7 +2,6 @@
 
 #include <pch.h>
 #include <jet/fdm_utils.h>
-#include <jet/parallel.h>
 
 namespace jet {
 
@@ -242,129 +241,6 @@ Vector3D laplacian3(
     return (dright - dleft) / square(gridSpacing.x)
         + (dup - ddown) / square(gridSpacing.y)
         + (dfront - dback) / square(gridSpacing.z);
-}
-
-void projectVectorFieldToSdf(
-    const ScalarField2& sdf,
-    CollocatedVectorGrid2* data) {
-    auto pos = data->dataPosition();
-    auto size = data->resolution();
-
-    parallelFor(
-        kZeroSize, size.x, kZeroSize, size.y,
-        [&data, &sdf, &pos](size_t i, size_t j) {
-            Vector2D pt = pos(i, j);
-            Vector2D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector2D normal = gradSdf.normalized();
-
-                Vector2D& v = (*data)(i, j);
-                v -= v.dot(normal) * normal;
-            }
-        });
-}
-
-void projectVectorFieldToSdf(
-    const ScalarField3& sdf,
-    CollocatedVectorGrid3* data) {
-    auto pos = data->dataPosition();
-    auto size = data->resolution();
-
-    parallelFor(
-        kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
-        [&sdf, &data, &pos](size_t i, size_t j, size_t k) {
-            Vector3D pt = pos(i, j, k);
-            Vector3D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector3D normal = gradSdf.normalized();
-
-                Vector3D& v = (*data)(i, j, k);
-                v -= v.dot(normal) * normal;
-            }
-        });
-}
-
-void projectVectorFieldToSdf(
-    const ScalarField2& sdf,
-    FaceCenteredGrid2* data) {
-    auto u = data->uAccessor();
-    auto uPos = data->uPosition();
-    auto uSize = data->uSize();
-
-    parallelFor(
-        kZeroSize, uSize.x, kZeroSize, uSize.y,
-        [&sdf, &u, &uPos](size_t i, size_t j) {
-            Vector2D pt = uPos(i, j);
-            Vector2D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector2D normal = gradSdf.normalized();
-
-                u(i, j) -= u(i, j) * normal.x;
-            }
-        });
-
-    auto v = data->vAccessor();
-    auto vPos = data->vPosition();
-    auto vSize = data->vSize();
-
-    parallelFor(
-        kZeroSize, vSize.x, kZeroSize, vSize.y,
-        [&sdf, &v, &vPos](size_t i, size_t j) {
-            Vector2D pt = vPos(i, j);
-            Vector2D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector2D normal = gradSdf.normalized();
-
-                v(i, j) -= v(i, j) * normal.y;
-            }
-        });
-}
-
-void projectVectorFieldToSdf(const ScalarField3& sdf, FaceCenteredGrid3* data) {
-    auto u = data->uAccessor();
-    auto uPos = data->uPosition();
-    auto uSize = data->uSize();
-
-    parallelFor(kZeroSize, uSize.x, kZeroSize, uSize.y, kZeroSize, uSize.z,
-        [&sdf, &u, &uPos](size_t i, size_t j, size_t k) {
-            Vector3D pt = uPos(i, j, k);
-            Vector3D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector3D normal = gradSdf.normalized();
-
-                u(i, j, k) -= u(i, j, k) * normal.x;
-            }
-        });
-
-    auto v = data->vAccessor();
-    auto vPos = data->vPosition();
-    auto vSize = data->vSize();
-
-    parallelFor(kZeroSize, vSize.x, kZeroSize, vSize.y, kZeroSize, vSize.z,
-        [&sdf, &v, &vPos](size_t i, size_t j, size_t k) {
-            Vector3D pt = vPos(i, j, k);
-            Vector3D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector3D normal = gradSdf.normalized();
-
-                v(i, j, k) -= v(i, j, k) * normal.y;
-            }
-        });
-
-    auto w = data->wAccessor();
-    auto wPos = data->wPosition();
-    auto wSize = data->wSize();
-
-    parallelFor(kZeroSize, wSize.x, kZeroSize, wSize.y, kZeroSize, wSize.z,
-        [&sdf, &w, &wPos](size_t i, size_t j, size_t k) {
-            Vector3D pt = wPos(i, j, k);
-            Vector3D gradSdf = sdf.gradient(pt);
-            if (gradSdf.lengthSquared() > 0.0) {
-                Vector3D normal = gradSdf.normalized();
-
-                w(i, j, k) -= w(i, j, k) * normal.z;
-            }
-        });
 }
 
 }  // namespace jet

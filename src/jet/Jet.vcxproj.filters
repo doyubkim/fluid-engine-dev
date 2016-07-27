@@ -363,12 +363,6 @@
     <ClInclude Include="..\..\include\jet\fmm_level_set_solver3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\geometry2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\jet\geometry3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\jet\grid_backward_euler_diffusion_solver2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1106,12 +1100,6 @@
     <ClCompile Include="fmm_level_set_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="geometry2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="geometry3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="grid_backward_euler_diffusion_solver2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1148,10 +1136,10 @@
     <ClCompile Include="grid_forward_euler_diffusion_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_fractional_boundary_condition2.cpp">
+    <ClCompile Include="grid_fractional_boundary_condition_solver2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_fractional_boundary_condition3.cpp">
+    <ClCompile Include="grid_fractional_boundary_condition_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_fractional_single_phase_pressure_solver2.cpp">

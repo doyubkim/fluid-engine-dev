@@ -105,13 +105,40 @@
     <ClCompile Include="fdm_jacobi_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="flip_solvers_tests.cpp">
+    <ClCompile Include="fdm_utils_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_diffusion_solvers_tests.cpp">
+    <ClCompile Include="flip_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flip_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_backward_diffusion_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_backward_diffusion_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_blocked_boundary_condition_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_blocked_boundary_condition_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_fluid_solvers_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_forward_diffusion_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_forward_diffusion_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_fractional_boundary_condition_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_fractional_boundary_condition_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grid_pressure_solvers_tests.cpp">
@@ -168,7 +195,10 @@
     <ClCompile Include="pde_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pic_solvers_tests.cpp">
+    <ClCompile Include="pic_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pic_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_hash_grid_searchers_tests.cpp">

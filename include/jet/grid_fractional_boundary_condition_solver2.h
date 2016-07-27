@@ -10,18 +10,39 @@
 
 namespace jet {
 
+//!
+//! \brief Fractional 2-D boundary condition solver for grids.
+//!
+//! This class constrains the velocity field by projecting the flow to the
+//! signed-distance field representation of the collider. This implementation
+//! should pair up with GridFractionalSinglePhasePressureSolver2 to provide
+//! sub-grid resolutional velocity projection.
+//!
 class GridFractionalBoundaryConditionSolver2
     : public GridBoundaryConditionSolver2 {
  public:
+    //! Default constructor.
     GridFractionalBoundaryConditionSolver2();
 
+    //! Default destructor.
+    virtual ~GridFractionalBoundaryConditionSolver2();
+
+    //!
+    //! Constrains the velocity field to conform the collider boundary.
+    //!
+    //! \param velocity Input and output velocity grid.
+    //! \param extrapolationDepth Number of inner-collider grid cells that
+    //!     velocity will get extrapolated.
+    //!
     void constrainVelocity(
         FaceCenteredGrid2* velocity,
         unsigned int extrapolationDepth = 5) override;
 
+    //! Returns the signed distance field of the collider.
     const CellCenteredScalarGrid2& colliderSdf() const;
 
  protected:
+    //! Invoked when a new collider is set.
     void onColliderUpdated(
         const Size2& gridSize,
         const Vector2D& gridSpacing,
