@@ -1,6 +1,6 @@
 # Fluid Engine Dev - Jet
 
-[![Build Status](https://travis-ci.org/doyubkim/fluid-engine-dev.svg?branch=master)](https://travis-ci.org/doyubkim/fluid-engine-dev) [![Build status](https://ci.appveyor.com/api/projects/status/kulihlhy43vbwou6/branch/master?svg=true)](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev/branch/master)
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE.md) [![Build Status](https://travis-ci.org/doyubkim/fluid-engine-dev.svg?branch=master)](https://travis-ci.org/doyubkim/fluid-engine-dev) [![Build status](https://ci.appveyor.com/api/projects/status/kulihlhy43vbwou6/branch/master?svg=true)](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev/branch/master)
 
 This project was created by Doyub Kim as part of the book, "Fluid Engine Development", and Jet is the fluid simulation engine SDK introduced from the book. Currently the book hasn't been released yet, but it will be published very soon.
 
@@ -16,7 +16,7 @@ Every simulator has both 2-D and 3-D implementations.
 
 ## How to Build
 
-To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/INSTALL.md).
+To learn how to build, test, and install the SDK, please check out [INSTALL.md](INSTALL.md).
 
 ## Examples
 
@@ -26,4 +26,4 @@ Here are some of the example simulations generated using Jet framework. Correspo
 
 ## License
 
-Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md).
+Jet is under the MIT license. For more information, check out [LICENSE.md](LICENSE.md).
