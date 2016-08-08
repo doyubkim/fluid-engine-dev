@@ -41,7 +41,7 @@ double GridFluidSolver3::viscosityCoefficient() const {
 }
 
 void GridFluidSolver3::setViscosityCoefficient(double newValue) {
-    _viscosityCoefficient = newValue;
+    _viscosityCoefficient = std::max(newValue, 0.0);
 }
 
 double GridFluidSolver3::cfl(double timeIntervalInSeconds) const {
@@ -97,12 +97,21 @@ void GridFluidSolver3::setPressureSolver(
     if (_pressureSolver != nullptr) {
         _boundaryConditionSolver
             = _pressureSolver->suggestedBoundaryConditionSolver();
+
+        // Apply domain boundary flag
+        _boundaryConditionSolver->setClosedDomainBoundaryFlag(
+            _closedDomainBoundaryFlag);
     }
 }
 
-const GridBoundaryConditionSolver3Ptr&
-GridFluidSolver3::boundaryConditionSolver() const {
-    return _boundaryConditionSolver;
+int GridFluidSolver3::closedDomainBoundaryFlag() const {
+    return _closedDomainBoundaryFlag;
+}
+
+void GridFluidSolver3::setClosedDomainBoundaryFlag(int flag) {
+    _closedDomainBoundaryFlag = flag;
+    _boundaryConditionSolver->setClosedDomainBoundaryFlag(
+        _closedDomainBoundaryFlag);
 }
 
 const GridSystemData3Ptr& GridFluidSolver3::gridSystemData() const {

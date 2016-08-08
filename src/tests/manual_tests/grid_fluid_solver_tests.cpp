@@ -113,8 +113,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
     solver.setDiffusionSolver(nullptr);
 
     // Open left and right
-    solver.boundaryConditionSolver()->setClosedDomainBoundaryFlag(
-        kDirectionDown | kDirectionUp);
+    solver.setClosedDomainBoundaryFlag(kDirectionDown | kDirectionUp);
 
     GridSinglePhasePressureSolver2Ptr ppe
         = std::make_shared<GridSinglePhasePressureSolver2>();
@@ -133,7 +132,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame;
+    Frame frame(1, 1.0/60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);
