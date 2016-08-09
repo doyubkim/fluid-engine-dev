@@ -1,0 +1,96 @@
+// Copyright (c) 2016 Doyub Kim
+
+#include <jet/grid_fluid_solver3.h>
+#include <gtest/gtest.h>
+
+using namespace jet;
+
+TEST(GridFluidSolver3, Constructor) {
+    GridFluidSolver3 solver;
+
+    // Check if the sub-step solvers are present
+    EXPECT_TRUE(solver.advectionSolver() != nullptr);
+    EXPECT_TRUE(solver.diffusionSolver() != nullptr);
+    EXPECT_TRUE(solver.pressureSolver() != nullptr);
+
+    // Check default parameters
+    EXPECT_GE(solver.viscosityCoefficient(), 0.0);
+    EXPECT_GT(solver.maxCfl(), 0.0);
+    EXPECT_EQ(kDirectionAll, solver.closedDomainBoundaryFlag());
+
+    // Check grid system data
+    EXPECT_TRUE(solver.gridSystemData() != nullptr);
+    EXPECT_EQ(0u, solver.gridSystemData().resolution().x);
+    EXPECT_EQ(0u, solver.gridSystemData().resolution().y);
+    EXPECT_EQ(0u, solver.gridSystemData().resolution().z);
+    EXPECT_EQ(solver.gridSystemData().velocity(), solver.velocity());
+
+    // Collider should be null
+    EXPECT_TRUE(solver.Collider() == nullptr);
+}
+
+TEST(GridFluidSolver3, ResizeGridSystemData) {
+    GridFluidSolver3 solver;
+
+    data->resizeGrid(
+        Size3(1, 2, 3),
+        Vector3D(4.0, 5.0, 6.0),
+        Vector3D(7.0, 8.0, 9.0));
+
+    EXPECT_EQ(1u, data->gridResolution().x);
+    EXPECT_EQ(2u, data->gridResolution().y);
+    EXPECT_EQ(2u, data->gridResolution().z);
+    EXPECT_EQ(4.0, data->gridSpacing().x);
+    EXPECT_EQ(5.0, data->gridSpacing().y);
+    EXPECT_EQ(6.0, data->gridSpacing().z);
+    EXPECT_EQ(7.0, data->gridOrigin().x);
+    EXPECT_EQ(8.0, data->gridOrigin().y);
+    EXPECT_EQ(9.0, data->gridOrigin().z);
+}
+
+TEST(GridFluidSolver3, MinimumResolution) {
+    GridFluidSolver3 solver;
+
+    GridSystemData2Ptr data = solver.gridSystemData();
+    data->resizeGrid(Size3(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
+    data->velocity()->fill(Vector3D());
+
+    Frame frame(1, 1.0 / 60.0);
+    frame.timeIntervalInSeconds = 0.01;
+    solver.update(frame);
+}
+
+TEST(GridFluidSolver3, GravityOnly) {
+    GridFluidSolver3 solver;
+    solver.setGravity(Vector3D(0, -10, 0.0));
+    solver.setAdvectionSolver(nullptr);
+    solver.setDiffusionSolver(nullptr);
+    solver.setPressureSolver(nullptr);
+
+    GridSystemData2Ptr data = solver.gridSystemData();
+    data->resizeGrid(
+        Size3(3, 3, 3),
+        Vector3D(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0),
+        Vector3D());
+    data->velocity()->fill(Vector3D());
+
+    Frame frame(1, 1.0 / 60.0);
+    frame.timeIntervalInSeconds = 0.01;
+    solver.update(frame);
+
+    data->velocity()->forEachUIndex([&](size_t i, size_t j, size_t k) {
+        EXPECT_NEAR(0.0, data->velocity()->u(i, j, k), 1e-8);
+    });
+
+    data->velocity()->forEachVIndex([&](size_t i, size_t j, size_t k) {
+        if (j == 0 || j == 3) {
+            EXPECT_NEAR(0.0, data->velocity()->v(i, j, k), 1e-8);
+        } else {
+            EXPECT_NEAR(-0.1, data->velocity()->v(i, j, k), 1e-8);
+        }
+    });
+
+    data->velocity()->forEachWIndex([&](size_t i, size_t j, size_t k) {
+        EXPECT_NEAR(0.0, data->velocity()->w(i, j, k), 1e-8);
+    });
+}

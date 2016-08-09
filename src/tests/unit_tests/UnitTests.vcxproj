@@ -61,7 +61,8 @@
     <ClCompile Include="grid_backward_diffusion_solver3_tests.cpp" />
     <ClCompile Include="grid_blocked_boundary_condition_solver2_tests.cpp" />
     <ClCompile Include="grid_blocked_boundary_condition_solver3_tests.cpp" />
-    <ClCompile Include="grid_fluid_solvers_tests.cpp" />
+    <ClCompile Include="grid_fluid_solver2_tests.cpp" />
+    <ClCompile Include="grid_fluid_solver3_tests.cpp" />
     <ClCompile Include="grid_forward_diffusion_solver2_tests.cpp" />
     <ClCompile Include="grid_forward_diffusion_solver3_tests.cpp" />
     <ClCompile Include="grid_fractional_boundary_condition_solver2_tests.cpp" />

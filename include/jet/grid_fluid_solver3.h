@@ -103,6 +103,50 @@ class GridFluidSolver3 : public PhysicsAnimation {
     const GridSystemData3Ptr& gridSystemData() const;
 
     //!
+    //! \brief Resizes grid system data.
+    //!
+    //! This function resizes grid system data. You can also resize the grid by
+    //! calling resize function directly from
+    //! GridFluidSolver3::gridSystemData(), but this function provides a
+    //! shortcut for the same operation.
+    //!
+    //! \param[in] newSize        The new size.
+    //! \param[in] newGridSpacing The new grid spacing.
+    //! \param[in] newGridOrigin  The new grid origin.
+    //!
+    void resizeGrid(
+        const Size3& newSize,
+        const Vector3D& newGridSpacing,
+        const Vector3D& newGridOrigin);
+
+    //!
+    //! \brief Returns the resolution of the grid system data.
+    //!
+    //! This function returns the resolution of the grid system data. This is
+    //! equivalent to calling gridSystemData()->resolution(), but provides a
+    //! shortcut.
+    //!
+    Size3 gridResolution() const;
+
+    //!
+    //! \brief Returns the grid spacing of the grid system data.
+    //!
+    //! This function returns the resolution of the grid system data. This is
+    //! equivalent to calling gridSystemData()->gridSpacing(), but provides a
+    //! shortcut.
+    //!
+    Vector3D gridResolution() const;
+
+    //!
+    //! \brief Returns the origin of the grid system data.
+    //!
+    //! This function returns the resolution of the grid system data. This is
+    //! equivalent to calling gridSystemData()->origin(), but provides a
+    //! shortcut.
+    //!
+    Vector3D origin() const;
+
+    //!
     //! \brief Returns the velocity field.
     //!
     //! This function returns the velocity field from the grid system data.

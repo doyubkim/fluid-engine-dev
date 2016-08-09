@@ -118,6 +118,25 @@ const GridSystemData3Ptr& GridFluidSolver3::gridSystemData() const {
     return _grids;
 }
 
+void GridFluidSolver3::resizeGrid(
+    const Size3& newSize,
+    const Vector3D& newGridSpacing,
+    const Vector3D& newGridOrigin) {
+    _grids.resize(newSize, newGridSpacing, newGridOrigin);
+}
+
+Size3 GridFluidSolver3::gridResolution() const {
+    return _grids.resolution();
+}
+
+Vector3D GridFluidSolver3::gridSpacing() const {
+    return _grids.gridSpacing();
+}
+
+Vector3D GridFluidSolver3::origin() const {
+    return _grids.origin();
+}
+
 const FaceCenteredGrid3Ptr& GridFluidSolver3::velocity() const {
     return _grids->velocity();
 }
