@@ -20,33 +20,32 @@ TEST(GridFluidSolver2, Constructor) {
 
     // Check grid system data
     EXPECT_TRUE(solver.gridSystemData() != nullptr);
-    EXPECT_EQ(0u, solver.gridSystemData().resolution().x);
-    EXPECT_EQ(0u, solver.gridSystemData().resolution().y);
-    EXPECT_EQ(solver.gridSystemData().velocity(), solver.velocity());
+    EXPECT_EQ(0u, solver.gridSystemData()->resolution().x);
+    EXPECT_EQ(0u, solver.gridSystemData()->resolution().y);
+    EXPECT_EQ(solver.gridSystemData()->velocity(), solver.velocity());
 
     // Collider should be null
-    EXPECT_TRUE(solver.Collider() == nullptr);
+    EXPECT_TRUE(solver.collider() == nullptr);
 }
 
 TEST(GridFluidSolver2, ResizeGridSystemData) {
     GridFluidSolver2 solver;
 
-    data->resizeGrid(Size2(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
+    solver.resizeGrid(Size2(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
 
-    EXPECT_EQ(1u, data->gridResolution().x);
-    EXPECT_EQ(2u, data->gridResolution().y);
-    EXPECT_EQ(3.0, data->gridSpacing().x);
-    EXPECT_EQ(4.0, data->gridSpacing().y);
-    EXPECT_EQ(5.0, data->gridOrigin().x);
-    EXPECT_EQ(6.0, data->gridOrigin().y);
+    EXPECT_EQ(1u, solver.gridResolution().x);
+    EXPECT_EQ(2u, solver.gridResolution().y);
+    EXPECT_EQ(3.0, solver.gridSpacing().x);
+    EXPECT_EQ(4.0, solver.gridSpacing().y);
+    EXPECT_EQ(5.0, solver.gridOrigin().x);
+    EXPECT_EQ(6.0, solver.gridOrigin().y);
 }
 
 TEST(GridFluidSolver2, MinimumResolution) {
     GridFluidSolver2 solver;
 
-    GridSystemData2Ptr data = solver.gridSystemData();
-    data->resizeGrid(Size2(1, 1), Vector2D(1.0, 1.0), Vector2D());
-    data->velocity()->fill(Vector2D());
+    solver.resizeGrid(Size2(1, 1), Vector2D(1.0, 1.0), Vector2D());
+    solver.velocity()->fill(Vector2D());
 
     Frame frame(1, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
@@ -60,23 +59,22 @@ TEST(GridFluidSolver2, GravityOnly) {
     solver.setDiffusionSolver(nullptr);
     solver.setPressureSolver(nullptr);
 
-    GridSystemData2Ptr data = solver.gridSystemData();
-    data->resizeGrid(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
-    data->velocity()->fill(Vector2D());
+    solver.resizeGrid(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
+    solver.velocity()->fill(Vector2D());
 
     Frame frame(1, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
     solver.update(frame);
 
-    data->velocity()->forEachUIndex([&](size_t i, size_t j) {
-        EXPECT_NEAR(0.0, data->velocity()->u(i, j), 1e-8);
+    solver.velocity()->forEachUIndex([&](size_t i, size_t j) {
+        EXPECT_NEAR(0.0, solver.velocity()->u(i, j), 1e-8);
     });
 
-    data->velocity()->forEachVIndex([&](size_t i, size_t j) {
+    solver.velocity()->forEachVIndex([&](size_t i, size_t j) {
         if (j == 0 || j == 3) {
-            EXPECT_NEAR(0.0, data->velocity()->v(i, j), 1e-8);
+            EXPECT_NEAR(0.0, solver.velocity()->v(i, j), 1e-8);
         } else {
-            EXPECT_NEAR(-0.1, data->velocity()->v(i, j), 1e-8);
+            EXPECT_NEAR(-0.1, solver.velocity()->v(i, j), 1e-8);
         }
     });
 }

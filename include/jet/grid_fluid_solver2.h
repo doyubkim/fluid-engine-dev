@@ -135,7 +135,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->gridSpacing(), but provides a
     //! shortcut.
     //!
-    Vector2D gridResolution() const;
+    Vector2D gridSpacing() const;
 
     //!
     //! \brief Returns the origin of the grid system data.
@@ -144,7 +144,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->origin(), but provides a
     //! shortcut.
     //!
-    Vector2D origin() const;
+    Vector2D gridOrigin() const;
 
     //!
     //! \brief Returns the velocity field.

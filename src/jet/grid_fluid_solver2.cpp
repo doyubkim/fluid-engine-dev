@@ -121,19 +121,19 @@ void GridFluidSolver2::resizeGrid(
     const Size2& newSize,
     const Vector2D& newGridSpacing,
     const Vector2D& newGridOrigin) {
-    _grids.resize(newSize, newGridSpacing, newGridOrigin);
+    _grids->resize(newSize, newGridSpacing, newGridOrigin);
 }
 
 Size2 GridFluidSolver2::gridResolution() const {
-    return _grids.resolution();
+    return _grids->resolution();
 }
 
 Vector2D GridFluidSolver2::gridSpacing() const {
-    return _grids.gridSpacing();
+    return _grids->gridSpacing();
 }
 
-Vector2D GridFluidSolver2::origin() const {
-    return _grids.origin();
+Vector2D GridFluidSolver2::gridOrigin() const {
+    return _grids->origin();
 }
 
 const FaceCenteredGrid2Ptr& GridFluidSolver2::velocity() const {
