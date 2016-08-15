@@ -144,7 +144,16 @@
     <ClCompile Include="grid_fractional_boundary_condition_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="grid_pressure_solvers_tests.cpp">
+    <ClCompile Include="grid_single_phase_pressure_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_single_phase_pressure_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_fractional_single_phase_pressure_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_fractional_single_phase_pressure_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="implicit_surface_set2_tests.cpp">
