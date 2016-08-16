@@ -151,12 +151,8 @@ void PicSolver2::moveParticles(double timeIntervalInSeconds) {
     auto positions = _particles->positions();
     auto velocities = _particles->velocities();
     size_t numberOfParticles = _particles->numberOfParticles();
-    int domainBoundaryFlag = 0;
+    int domainBoundaryFlag = closedDomainBoundaryFlag();
     BoundingBox2D boundingBox = flow->boundingBox();
-    if (boundaryConditionSolver()) {
-        domainBoundaryFlag
-            = boundaryConditionSolver()->closedDomainBoundaryFlag();
-    }
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         Vector2D pt0 = positions[i];

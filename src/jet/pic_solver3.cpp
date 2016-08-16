@@ -171,12 +171,8 @@ void PicSolver3::moveParticles(double timeIntervalInSeconds) {
     auto positions = _particles->positions();
     auto velocities = _particles->velocities();
     size_t numberOfParticles = _particles->numberOfParticles();
-    int domainBoundaryFlag = 0;
+    int domainBoundaryFlag = closedDomainBoundaryFlag();
     BoundingBox3D boundingBox = flow->boundingBox();
-    if (boundaryConditionSolver()) {
-        domainBoundaryFlag
-            = boundaryConditionSolver()->closedDomainBoundaryFlag();
-    }
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         Vector3D pt0 = positions[i];
