@@ -65,6 +65,11 @@ class Triangle3 final : public Surface3 {
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
 
+    //! Note, the book has different name and interface. This function used to
+    //! be getClosestIntersection, but now it is simply
+    //! actualClosestIntersection. Also, the book's function do not return
+    //! SurfaceRayIntersection3 instance, but rather takes a pointer to existing
+    //! SurfaceRayIntersection3 instance and modify its contents.
     SurfaceRayIntersection3 actualClosestIntersection(
         const Ray3D& ray) const override;
 };
