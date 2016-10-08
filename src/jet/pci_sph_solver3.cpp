@@ -64,11 +64,11 @@ void PciSphSolver3::accumulatePressureForce(
             ds[i] = d[i];
         });
 
-    unsigned int k;
+    unsigned int maxNumIter = 0;
     double maxDensityError;
     double densityErrorRatio = 0.0;
 
-    for (k = 0; k < _maxNumberOfIterations; ++k) {
+    for (unsigned int k = 0; k < _maxNumberOfIterations; ++k) {
         // Predict velocity and position
         parallelFor(
             kZeroSize,
@@ -128,13 +128,14 @@ void PciSphSolver3::accumulatePressureForce(
         }
 
         densityErrorRatio = maxDensityError / targetDensity;
+        maxNumIter = k + 1;
 
         if (std::fabs(densityErrorRatio) < _maxDensityErrorRatio) {
             break;
         }
     }
 
-    JET_INFO << "Number of PCI iterations: " << k;
+    JET_INFO << "Number of PCI iterations: " << maxNumIter;
     JET_INFO << "Max density error after PCI iteration: " << maxDensityError;
     if (std::fabs(densityErrorRatio) > _maxDensityErrorRatio) {
         JET_WARN << "Max density error ratio is greater than the threshold!";

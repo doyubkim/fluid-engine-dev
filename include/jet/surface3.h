@@ -72,6 +72,11 @@ class Surface3 {
     //! "actual" closest surface normal from the given point \p otherPoint,
     //! meaning that the return value is not flipped regardless how
     //! Surface3::isNormalFlipped is set.
+    //! Note, the book has different name and interface. This function used to
+    //! be getClosestIntersection, but now it is simply
+    //! actualClosestIntersection. Also, the book's function do not return
+    //! SurfaceRayIntersection3 instance, but rather takes a pointer to existing
+    //! SurfaceRayIntersection3 instance and modify its contents.
     //!
     virtual SurfaceRayIntersection3 actualClosestIntersection(
         const Ray3D& ray) const = 0;
