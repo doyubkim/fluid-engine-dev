@@ -85,7 +85,14 @@ class VertexCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
         const Size3& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
-        double initialVal) const override;
+        double initialVal) const override {
+        return std::make_shared<VertexCenteredScalarGrid3>(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal);
+    }
+
 };
 
 }  // namespace jet

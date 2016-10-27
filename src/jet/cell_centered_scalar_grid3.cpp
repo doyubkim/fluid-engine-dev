@@ -82,16 +82,3 @@ CellCenteredScalarGrid3::operator=(const CellCenteredScalarGrid3& other) {
 ScalarGridBuilder3Ptr CellCenteredScalarGrid3::builder() {
     return std::make_shared<CellCenteredScalarGridBuilder3>();
 }
-
-
-ScalarGrid3Ptr CellCenteredScalarGridBuilder3::build(
-        const Size3& resolution,
-        const Vector3D& gridSpacing,
-        const Vector3D& gridOrigin,
-        double initialVal) const {
-    return std::make_shared<CellCenteredScalarGrid3>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

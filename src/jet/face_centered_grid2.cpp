@@ -419,16 +419,3 @@ void FaceCenteredGrid2::resetSampler() {
 VectorGridBuilder2Ptr FaceCenteredGrid2::builder() {
     return std::make_shared<FaceCenteredGridBuilder2>();
 }
-
-
-VectorGrid2Ptr FaceCenteredGridBuilder2::build(
-    const Size2& resolution,
-    const Vector2D& gridSpacing,
-    const Vector2D& gridOrigin,
-    const Vector2D& initialVal) const {
-    return std::make_shared<FaceCenteredGrid2>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

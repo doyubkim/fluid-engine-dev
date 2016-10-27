@@ -110,16 +110,3 @@ std::shared_ptr<VectorGrid3> CellCenteredVectorGrid3::clone() const {
 VectorGridBuilder3Ptr CellCenteredVectorGrid3::builder() {
     return std::make_shared<CellCenteredVectorGridBuilder3>();
 }
-
-
-VectorGrid3Ptr CellCenteredVectorGridBuilder3::build(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin,
-    const Vector3D& initialVal) const {
-    return std::make_shared<CellCenteredVectorGrid3>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

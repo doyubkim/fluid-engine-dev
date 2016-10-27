@@ -291,7 +291,13 @@ class FaceCenteredGridBuilder3 final : public VectorGridBuilder3 {
         const Size3& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
-        const Vector3D& initialVal) const override;
+        const Vector3D& initialVal) const override {
+        return std::make_shared<FaceCenteredGrid3>(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal);
+    }
 };
 
 }  // namespace jet
