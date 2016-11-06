@@ -25,7 +25,8 @@ TEST(Blas, Set) {
 
     Blas<double, Vector3D, Matrix3x3D>::set(0.414, &mat);
 
-    for (double elem : mat.elements) {
+    for (int i = 0; i < 9; ++i) {
+        double elem = mat[i];
         EXPECT_DOUBLE_EQ(0.414, elem);
     }
 

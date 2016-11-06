@@ -24,8 +24,6 @@ class Matrix<T, 2, 2> {
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");
 
-    std::array<T, 4> elements;
-
     // MARK: Constructors
 
     //! Default constructor.
@@ -339,6 +337,9 @@ class Matrix<T, 2, 2> {
     //! Makes rotation matrix.
     //! \warning Input angle should be radian.
     static Matrix makeRotationMatrix(const T& rad);
+
+ private:
+    std::array<T, 4> _elements;
 };
 
 
@@ -398,7 +399,10 @@ Matrix2x2<T> operator/(const Matrix2x2<T>& a, T b);
 template <typename T>
 Matrix2x2<T> operator/(const T& a, const Matrix2x2<T>& b);
 
+//! Float-type 2x2 matrix.
 typedef Matrix2x2<float> Matrix2x2F;
+
+//! Double-type 2x2 matrix.
 typedef Matrix2x2<double> Matrix2x2D;
 
 }  // namespace jet

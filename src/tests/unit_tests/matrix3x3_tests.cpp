@@ -7,34 +7,34 @@ using namespace jet;
 
 TEST(Matrix3x3, Constructors) {
     Matrix3x3D mat;
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(0.0, elem);
+    for (int i = 0; i < 9; ++i) {
+        EXPECT_DOUBLE_EQ(0.0, mat[i]);
     }
 
     Matrix3x3D mat2(3.1);
-    for (double elem : mat2.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 9; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat2[i]);
     }
 
     Matrix3x3D mat3(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3[i]);
     }
 
     Matrix3x3D mat4({{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4[i]);
     }
 
     Matrix3x3D mat5(mat4);
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5[i]);
     }
 
     double arr[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0};
     Matrix3x3D mat6(arr);
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6[i]);
     }
 }
 
@@ -42,33 +42,33 @@ TEST(Matrix3x3, SetMethods) {
     Matrix3x3D mat;
 
     mat.set(3.1);
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 9; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
     mat.set(0.0);
     mat.set(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set({{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set(Matrix3x3D(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0));
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     double arr[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0};
     mat.set(arr);
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
@@ -100,7 +100,7 @@ TEST(Matrix3x3, SetMethods) {
     mat.setRow(1, Vector3D(4.0, 5.0, 6.0));
     mat.setRow(2, Vector3D(7.0, 8.0, 9.0));
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
@@ -108,7 +108,7 @@ TEST(Matrix3x3, SetMethods) {
     mat.setColumn(1, Vector3D(2.0, 5.0, 8.0));
     mat.setColumn(2, Vector3D(3.0, 6.0, 9.0));
     for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 }
 

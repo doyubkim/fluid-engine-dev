@@ -7,35 +7,35 @@ using namespace jet;
 
 TEST(Matrix4x4, Constructors) {
     Matrix4x4D mat;
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(0.0, elem);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(0.0, mat[i]);
     }
 
     Matrix4x4D mat2(3.1);
-    for (double elem : mat2.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat2[i]);
     }
 
     Matrix4x4D mat3(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3[i]);
     }
 
     Matrix4x4D mat4(
         {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}});
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4[i]);
     }
 
     Matrix4x4D mat5(mat4);
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5[i]);
     }
 
     double arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
     Matrix4x4D mat6(arr);
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6[i]);
     }
 }
 
@@ -43,33 +43,33 @@ TEST(Matrix4x4, SetMethods) {
     Matrix4x4D mat;
 
     mat.set(3.1);
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
     mat.set(0.0);
     mat.set(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}});
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set(Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16));
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     double arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
     mat.set(arr);
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
@@ -102,7 +102,7 @@ TEST(Matrix4x4, SetMethods) {
     mat.setRow(2, Vector4D(9, 10, 11, 12));
     mat.setRow(3, Vector4D(13, 14, 15, 16));
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
@@ -111,7 +111,7 @@ TEST(Matrix4x4, SetMethods) {
     mat.setColumn(2, Vector4D(3, 7, 11, 15));
     mat.setColumn(3, Vector4D(4, 8, 12, 16));
     for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 }
 

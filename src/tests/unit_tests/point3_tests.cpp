@@ -5,8 +5,7 @@
 
 using namespace jet;
 
-TEST(Point3, Constructors)
-{
+TEST(Point3, Constructors) {
     Point3F pt;
     EXPECT_FLOAT_EQ(0.f, pt.x);
     EXPECT_FLOAT_EQ(0.f, pt.y);
@@ -34,8 +33,7 @@ TEST(Point3, Constructors)
     EXPECT_FLOAT_EQ(1.f, pt6.z);
 }
 
-TEST(Point3, SetMethods)
-{
+TEST(Point3, SetMethods) {
     Point3F pt;
     pt.set(4.f, 2.f, 8.f);
     EXPECT_FLOAT_EQ(4.f, pt.x);
@@ -59,8 +57,7 @@ TEST(Point3, SetMethods)
     EXPECT_FLOAT_EQ(2.f, pt.z);
 }
 
-TEST(Point3, BasicSetterMethods)
-{
+TEST(Point3, BasicSetterMethods) {
     Point3F pt(3.f, 9.f, 4.f);
     pt.setZero();
     EXPECT_FLOAT_EQ(0.f, pt.x);
@@ -68,8 +65,7 @@ TEST(Point3, BasicSetterMethods)
     EXPECT_FLOAT_EQ(0.f, pt.z);
 }
 
-TEST(Point3, BinaryOperatorMethods)
-{
+TEST(Point3, BinaryOperatorMethods) {
     Point3F pt(3.f, 9.f, 4.f);
     pt = pt.add(4.f);
     EXPECT_FLOAT_EQ(7.f, pt.x);
@@ -112,8 +108,7 @@ TEST(Point3, BinaryOperatorMethods)
     EXPECT_FLOAT_EQ(-7.f, pt.z);
 }
 
-TEST(Point3, BinaryInverseOperatorMethods)
-{
+TEST(Point3, BinaryInverseOperatorMethods) {
     Point3F pt(5.f, 14.f, 13.f);
     pt = pt.rsub(8.f);
     EXPECT_FLOAT_EQ(3.f, pt.x);
@@ -137,8 +132,7 @@ TEST(Point3, BinaryInverseOperatorMethods)
     EXPECT_FLOAT_EQ(4.f, pt.z);
 }
 
-TEST(Point3, AugmentedOperatorMethods)
-{
+TEST(Point3, AugmentedOperatorMethods) {
     Point3F pt(3.f, 9.f, 4.f);
     pt.iadd(4.f);
     EXPECT_FLOAT_EQ(7.f, pt.x);
@@ -181,8 +175,7 @@ TEST(Point3, AugmentedOperatorMethods)
     EXPECT_FLOAT_EQ(-7.f, pt.z);
 }
 
-TEST(Point3, AtMethods)
-{
+TEST(Point3, AtMethods) {
     Point3F pt(8.f, 9.f, 1.f);
     EXPECT_FLOAT_EQ(8.f, pt.at(0));
     EXPECT_FLOAT_EQ(9.f, pt.at(1));
@@ -196,8 +189,7 @@ TEST(Point3, AtMethods)
     EXPECT_FLOAT_EQ(5.f, pt.z);
 }
 
-TEST(Point3, BasicGetterMethods)
-{
+TEST(Point3, BasicGetterMethods) {
     Point3F pt(3.f, 7.f, -1.f), pt2(-3.f, -7.f, 1.f);
 
     float sum = pt.sum();
@@ -222,8 +214,7 @@ TEST(Point3, BasicGetterMethods)
     EXPECT_EQ((size_t)2, saxis);
 }
 
-TEST(Point3, BracketOperators)
-{
+TEST(Point3, BracketOperators) {
     Point3F pt(8.f, 9.f, 1.f);
     EXPECT_FLOAT_EQ(8.f, pt[0]);
     EXPECT_FLOAT_EQ(9.f, pt[1]);
@@ -237,8 +228,7 @@ TEST(Point3, BracketOperators)
     EXPECT_FLOAT_EQ(5.f, pt.z);
 }
 
-TEST(Point3, AssignmentOperators)
-{
+TEST(Point3, AssignmentOperators) {
     Point3F pt(5.f, 1.f, 0.f);
     Point3F pt2(3.f, 3.f, 3.f);
     pt2 = pt;
@@ -247,8 +237,7 @@ TEST(Point3, AssignmentOperators)
     EXPECT_FLOAT_EQ(0.f, pt2.z);
 }
 
-TEST(Point3, AugmentedOperators)
-{
+TEST(Point3, AugmentedOperators) {
     Point3F pt(3.f, 9.f, -2.f);
     pt += 4.f;
     EXPECT_FLOAT_EQ(7.f, pt.x);
@@ -291,8 +280,7 @@ TEST(Point3, AugmentedOperators)
     EXPECT_FLOAT_EQ(0.5f, pt.z);
 }
 
-TEST(Point3, EqualOperatators)
-{
+TEST(Point3, EqualOperatators) {
     Point3F pt, pt2(3.f, 7.f, 4.f), pt3(3.f, 5.f, 4.f), pt4(5.f, 1.f, 2.f);
     pt = pt2;
     EXPECT_TRUE(pt == pt2);
@@ -302,8 +290,7 @@ TEST(Point3, EqualOperatators)
     EXPECT_TRUE(pt != pt4);
 }
 
-TEST(Point3, MinMaxFunctions)
-{
+TEST(Point3, MinMaxFunctions) {
     Point3F pt(5.f, 1.f, 0.f);
     Point3F pt2(3.f, 3.f, 3.f);
     Point3F minPoint = min(pt, pt2);
@@ -312,15 +299,13 @@ TEST(Point3, MinMaxFunctions)
     EXPECT_TRUE(maxPoint == Point3F(5.f, 3.f, 3.f));
 }
 
-TEST(Point3, ClampFunction)
-{
+TEST(Point3, ClampFunction) {
     Point3F pt(2.f, 4.f, 1.f), low(3.f, -1.f, 0.f), high(5.f, 2.f, 3.f);
     Point3F clampedVec = clamp(pt, low, high);
     EXPECT_TRUE(clampedVec == Point3F(3.f, 2.f, 1.f));
 }
 
-TEST(Point3, CeilFloorFunctions)
-{
+TEST(Point3, CeilFloorFunctions) {
     Point3F pt(2.2f, 4.7f, -0.2f);
     Point3F ceilVec = ceil(pt);
     EXPECT_TRUE(ceilVec == Point3F(3.f, 5.f, 0.f));
@@ -329,8 +314,7 @@ TEST(Point3, CeilFloorFunctions)
     EXPECT_TRUE(floorVec == Point3F(2.f, 4.f, -1.f));
 }
 
-TEST(Point3, BinaryOperators)
-{
+TEST(Point3, BinaryOperators) {
     Point3F pt(3.f, 9.f, 4.f);
     pt = pt + 4.f;
     EXPECT_FLOAT_EQ(7.f, pt.x);
