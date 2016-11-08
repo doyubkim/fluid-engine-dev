@@ -4,7 +4,6 @@
 #include <jet/fdm_utils.h>
 #include <jet/fmm_level_set_solver3.h>
 #include <jet/level_set_utils.h>
-#include <jet/not_implemented_exception.h>
 
 #include <algorithm>
 #include <vector>
