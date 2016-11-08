@@ -78,16 +78,3 @@ VertexCenteredScalarGrid2::operator=(const VertexCenteredScalarGrid2& other) {
 ScalarGridBuilder2Ptr VertexCenteredScalarGrid2::builder() {
     return std::make_shared<VertexCenteredScalarGridBuilder2>();
 }
-
-
-ScalarGrid2Ptr VertexCenteredScalarGridBuilder2::build(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& gridOrigin,
-        double initialVal) const {
-    return std::make_shared<VertexCenteredScalarGrid2>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

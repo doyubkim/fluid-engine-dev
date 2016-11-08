@@ -82,7 +82,14 @@ class VertexCenteredScalarGridBuilder2 final : public ScalarGridBuilder2 {
         const Size2& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
-        double initialVal) const override;
+        double initialVal) const override {
+        return std::make_shared<VertexCenteredScalarGrid2>(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal);
+    }
+
 };
 
 }  // namespace jet

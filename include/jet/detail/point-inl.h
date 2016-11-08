@@ -10,7 +10,7 @@ namespace jet {
 
 template <typename T, size_t N>
 Point<T, N>::Point() {
-    for (auto& elem : elements) {
+    for (auto& elem : _elements) {
         elem = static_cast<T>(0);
     }
 }
@@ -30,37 +30,67 @@ Point<T, N>::Point(const std::initializer_list<U>& lst) {
 
     size_t i = 0;
     for (const auto& inputElem : lst) {
-        elements[i] = static_cast<T>(inputElem);
+        _elements[i] = static_cast<T>(inputElem);
         ++i;
     }
 }
 
 template <typename T, size_t N>
 Point<T, N>::Point(const Point& other) :
-    elements(other.elements) {
+    _elements(other._elements) {
+}
+
+template <typename T, size_t N>
+template <typename U>
+void Point<T, N>::set(const std::initializer_list<U>& lst) {
+    assert(lst.size() >= N);
+
+    size_t i = 0;
+    for (const auto& inputElem : lst) {
+        _elements[i] = static_cast<T>(inputElem);
+        ++i;
+    }
+}
+
+template <typename T, size_t N>
+void Point<T, N>::set(const Point& other) {
+    _elements = other._elements;
+}
+
+template <typename T, size_t N>
+template <typename U>
+Point<T, N>& Point<T, N>::operator=(const std::initializer_list<U>& lst) {
+    set(lst);
+    return *this;
+}
+
+template <typename T, size_t N>
+Point<T, N>& Point<T, N>::operator=(const Point& other) {
+    set(other);
+    return *this;
 }
 
 template <typename T, size_t N>
 const T& Point<T, N>::operator[](size_t i) const {
-    return elements[i];
+    return _elements[i];
 }
 
 template <typename T, size_t N>
 T& Point<T, N>::operator[](size_t i) {
-    return elements[i];
+    return _elements[i];
 }
 
 template <typename T, size_t N>
 template <typename... Params>
 void Point<T, N>::setAt(size_t i, T v, Params... params) {
-    elements[i] = v;
+    _elements[i] = v;
 
     setAt(i+1, params...);
 }
 
 template <typename T, size_t N>
 void Point<T, N>::setAt(size_t i, T v) {
-    elements[i] = v;
+    _elements[i] = v;
 }
 
 }  // namespace jet

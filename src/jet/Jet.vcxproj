@@ -339,7 +339,6 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\matrix2x2.h" />
     <ClInclude Include="..\..\include\jet\matrix3x3.h" />
     <ClInclude Include="..\..\include\jet\matrix4x4.h" />
-    <ClInclude Include="..\..\include\jet\not_implemented_exception.h" />
     <ClInclude Include="..\..\include\jet\parallel.h" />
     <ClInclude Include="..\..\include\jet\particle_emitter2.h" />
     <ClInclude Include="..\..\include\jet\particle_emitter3.h" />
@@ -519,7 +518,6 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="level_set_solver3.cpp" />
     <ClCompile Include="logging.cpp" />
     <ClCompile Include="marching_cubes.cpp" />
-    <ClCompile Include="not_implemented_exception.cpp" />
     <ClCompile Include="particle_emitter2.cpp" />
     <ClCompile Include="particle_emitter3.cpp" />
     <ClCompile Include="particle_system_data2.cpp" />

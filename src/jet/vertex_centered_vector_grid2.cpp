@@ -105,16 +105,3 @@ std::shared_ptr<VectorGrid2> VertexCenteredVectorGrid2::clone() const {
 VectorGridBuilder2Ptr VertexCenteredVectorGrid2::builder() {
     return std::make_shared<VertexCenteredVectorGridBuilder2>();
 }
-
-
-VectorGrid2Ptr VertexCenteredVectorGridBuilder2::build(
-    const Size2& resolution,
-    const Vector2D& gridSpacing,
-    const Vector2D& gridOrigin,
-    const Vector2D& initialVal) const {
-    return std::make_shared<VertexCenteredVectorGrid2>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

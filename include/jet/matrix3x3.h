@@ -17,9 +17,7 @@ class Matrix<T, 3, 3> {
         std::is_floating_point<T>::value,
         "Matrix only can be instantiated with floating point types");
 
-    std::array<T, 9> elements;
-
-    // Constructors
+    // MARK: Constructors
 
     //! Default constructor.
     //! \warning This constructor will create zero matrix.
@@ -64,7 +62,7 @@ class Matrix<T, 3, 3> {
     explicit Matrix(const T* arr);
 
 
-    // Basic setters
+    // MARK: Basic setters
 
     //! Sets whole matrix with input scalar.
     void set(T s);
@@ -117,7 +115,7 @@ class Matrix<T, 3, 3> {
     void setColumn(size_t i, const Vector3<T>& col);
 
 
-    // Basic getters
+    // MARK: Basic getters
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
@@ -141,7 +139,7 @@ class Matrix<T, 3, 3> {
     const T* data() const;
 
 
-    // Binary operator methods - new instance = this instance (+) input
+    // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
     Matrix add(T s) const;
 
@@ -167,7 +165,7 @@ class Matrix<T, 3, 3> {
     Matrix div(T s) const;
 
 
-    // Binary operator methods - new instance = input (+) this instance
+    // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
     Matrix radd(T s) const;
 
@@ -190,7 +188,7 @@ class Matrix<T, 3, 3> {
     Matrix rdiv(T s) const;
 
 
-    // Augmented operator methods - this instance (+)= input
+    // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
     void iadd(T s);
 
@@ -213,7 +211,7 @@ class Matrix<T, 3, 3> {
     void idiv(T s);
 
 
-    // Modifiers
+    // MARK: Modifiers
     //! Transposes this matrix.
     void transpose();
 
@@ -221,7 +219,7 @@ class Matrix<T, 3, 3> {
     void invert();
 
 
-    // Complex getters
+    // MARK: Complex getters
     //! Returns sum of all elements.
     T sum() const;
 
@@ -273,7 +271,7 @@ class Matrix<T, 3, 3> {
     template <typename U>
     Matrix<U, 3, 3> castTo() const;
 
-    // Setter operators
+    // MARK: Setter operators
     //! Assigns input matrix.
     Matrix& operator=(const Matrix& m);
 
@@ -299,7 +297,7 @@ class Matrix<T, 3, 3> {
     Matrix& operator/=(T s);
 
 
-    // Getter operators
+    // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
 
@@ -319,7 +317,7 @@ class Matrix<T, 3, 3> {
     bool operator!=(const Matrix& m) const;
 
 
-    // Helpers
+    // MARK: Helpers
     //! Sets all matrix entries to zero.
     static Matrix makeZero();
 
@@ -335,6 +333,9 @@ class Matrix<T, 3, 3> {
     //! Makes rotation matrix.
     //! \warning Input angle should be radian.
     static Matrix makeRotationMatrix(const Vector3<T>& axis, T rad);
+
+ private:
+    std::array<T, 9> _elements;
 };
 
 template <typename T> using Matrix3x3 = Matrix<T, 3, 3>;
@@ -401,8 +402,10 @@ Matrix3x3<T> operator/(const Matrix3x3<T>& a, T b);
 template <typename T>
 Matrix3x3<T> operator/(T a, const Matrix3x3<T>& b);
 
-
+//! Float-type 3x3 matrix.
 typedef Matrix3x3<float> Matrix3x3F;
+
+//! Double-type 3x3 matrix.
 typedef Matrix3x3<double> Matrix3x3D;
 
 }  // namespace jet

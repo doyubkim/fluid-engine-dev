@@ -558,16 +558,3 @@ void FaceCenteredGrid3::resetSampler() {
 VectorGridBuilder3Ptr FaceCenteredGrid3::builder() {
     return std::make_shared<FaceCenteredGridBuilder3>();
 }
-
-
-VectorGrid3Ptr FaceCenteredGridBuilder3::build(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin,
-    const Vector3D& initialVal) const {
-    return std::make_shared<FaceCenteredGrid3>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

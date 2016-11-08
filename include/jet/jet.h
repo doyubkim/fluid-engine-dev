@@ -119,7 +119,6 @@
 #include <jet/matrix2x2.h>
 #include <jet/matrix3x3.h>
 #include <jet/matrix4x4.h>
-#include <jet/not_implemented_exception.h>
 #include <jet/parallel.h>
 #include <jet/particle_emitter2.h>
 #include <jet/particle_emitter3.h>

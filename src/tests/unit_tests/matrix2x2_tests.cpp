@@ -7,34 +7,34 @@ using namespace jet;
 
 TEST(Matrix2x2, Constructors) {
     Matrix2x2D mat;
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(0.0, elem);
+    for (int i = 0; i < 4; ++i) {
+        EXPECT_DOUBLE_EQ(0.0, mat[i]);
     }
 
     Matrix2x2D mat2(3.1);
-    for (double elem : mat2.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 4; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat2[i]);
     }
 
     Matrix2x2D mat3(1.0, 2.0, 3.0, 4.0);
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3[i]);
     }
 
     Matrix2x2D mat4({{1.0, 2.0}, {3.0, 4.0}});
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4[i]);
     }
 
     Matrix2x2D mat5(mat4);
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5[i]);
     }
 
     double arr[4] = {1.0, 2.0, 3.0, 4.0};
     Matrix2x2D mat6(arr);
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6[i]);
     }
 }
 
@@ -42,33 +42,33 @@ TEST(Matrix2x2, SetMethods) {
     Matrix2x2D mat;
 
     mat.set(3.1);
-    for (double elem : mat.elements) {
-        EXPECT_DOUBLE_EQ(3.1, elem);
+    for (int i = 0; i < 4; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
     mat.set(0.0);
     mat.set(1.0, 2.0, 3.0, 4.0);
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set({{1.0, 2.0}, {3.0, 4.0}});
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.set(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     double arr[4] = {1.0, 2.0, 3.0, 4.0};
     mat.set(arr);
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
@@ -99,14 +99,14 @@ TEST(Matrix2x2, SetMethods) {
     mat.setRow(0, Vector2D(1.0, 2.0));
     mat.setRow(1, Vector2D(3.0, 4.0));
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.set(0.0);
     mat.setColumn(0, Vector2D(1.0, 3.0));
     mat.setColumn(1, Vector2D(2.0, 4.0));
     for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat.elements[i]);
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 }
 

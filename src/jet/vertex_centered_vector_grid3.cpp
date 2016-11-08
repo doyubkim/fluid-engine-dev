@@ -110,16 +110,3 @@ VertexCenteredVectorGrid3& VertexCenteredVectorGrid3::operator=(
 VectorGridBuilder3Ptr VertexCenteredVectorGrid3::builder() {
     return std::make_shared<VertexCenteredVectorGridBuilder3>();
 }
-
-
-VectorGrid3Ptr VertexCenteredVectorGridBuilder3::build(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin,
-    const Vector3D& initialVal) const {
-    return std::make_shared<VertexCenteredVectorGrid3>(
-        resolution,
-        gridSpacing,
-        gridOrigin,
-        initialVal);
-}

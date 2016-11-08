@@ -11,6 +11,7 @@ namespace jet {
 
 //!
 //! \brief Generic N-D point class.
+//!
 //! \tparam T - Number type.
 //! \tparam N - Dimension.
 //!
@@ -23,19 +24,43 @@ class Point final {
         std::is_arithmetic<T>::value,
         "Point only can be instantiated with arithmetic types");
 
-    std::array<T, N> elements;
-
+    //! Default constructor.
     Point();
+
+    //! Constructs point instance with parameters.
     template <typename... Params>
     explicit Point(Params... params);
+
+    //! Constructs point instance with initiazer list.
     template <typename U>
     explicit Point(const std::initializer_list<U>& lst);
+
+    //! Copy constructor.
     Point(const Point& other);
 
+    //! Set point instance with initializer list.
+    template <typename U>
+    void set(const std::initializer_list<U>& lst);
+
+    //! Set point instance with other point.
+    void set(const Point& other);
+
+    //! Set point instance with initializer list.
+    template <typename U>
+    Point& operator=(const std::initializer_list<U>& lst);
+
+    //! Set point instance with other point.
+    Point& operator=(const Point& other);
+
+    //! Returns the const reference to the \p i -th element.
     const T& operator[](size_t i) const;
+
+    //! Returns the reference to the \p i -th element.
     T& operator[](size_t);
 
  private:
+    std::array<T, N> _elements;
+
     template <typename... Params>
     void setAt(size_t i, T v, Params... params);
 
