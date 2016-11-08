@@ -507,9 +507,6 @@
     <ClInclude Include="..\..\include\jet\matrix4x4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\not_implemented_exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\jet\parallel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1218,9 +1215,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="marching_cubes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="not_implemented_exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="particle_emitter2.cpp">
