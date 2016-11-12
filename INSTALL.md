@@ -120,7 +120,9 @@ Replace `bin/unit_tests` with `bin\unit_tests.bat` for two commands above when r
 
 ### Manual Tests
 
-The manual test is the collection of the tests that can be verified manually. The test outputs data files to `manual_tests_output` so that the result can be rendered as images for the validation. To list the entire test cases from Mac OS X or Linux, run
+To test and demonstrate the features of Jet, the SDK comes with a manual test application. The tests are generally more complicated than the unit tests that involves longer run time and collection of API calls. The manual tests are closer to the real-world use cases, so it is useful to take them as SDK examples. The tests normally output data files which can often be rendered into images or even movie clips
+
+To list the entire test cases from Mac OS X or Linux, run
 
 ```
 bin/list_manual_tests
@@ -135,25 +137,25 @@ bin\list_manual_tests.bat
 Similar to the unit test, run the following command to run entire tests for Mac OS X and Linux:
 
 ```
-bin/manual_tests
+bin/manual_tests <name_of_the_test>
 ```
 
 For Windows, run
 
 ```
-bin\manual_tests.bat
+bin\manual_tests.bat <name_of_the_test>
 ```
 
-However, the manual test includes quite intensive tests such as running a short fluid simulation. Thus, it is recommended to run specific tests for the fast debugging, and then run the entire tests for final validation. Specifying the tests is the same as the unit test, such as.
+You can run the entire tests by not specifying the name of the test. However, it will cost more than an hour of execution time since the manual test includes quite intensive tests such as running multiple fluid simulations. Thus, it is recommended to run specific tests for the fast debugging, and then run the entire tests for final validation. Similar to the unit test, you can also use patterns for specifying the tests such as:
 
 ```
-bin/manual_tests Cubic*
+bin/manual_tests AnimationTests.*
 ```
 
-Replace `bin/manual_tests` with the `.bat` command for Windows.
+Again, replace `bin/manual_tests` with the `.bat` command for Windows.
 
 
-The test results will be located at `manual_tests_output/TestName/CaseName/file`. To validate the results, you need [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as
+The test results will be located at `manual_tests_output/TestName/CaseName/file`. To validate the results, you need [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as:
 
 ```
 pip install matplotlib
@@ -161,12 +163,26 @@ pip install matplotlib
 
 The modern Python versions (2.7.9 and above) comes with `pip` by default. Once Matplotlib is installed, run the following:
 
-
 ```
 bin/render_manual_tests_output
 ```
 
 Once renderered, the rendered image will be stored at the same directory where the test output files are located (`manual_tests_output/TestName/CaseName/file`). Also, to render the animations as mpeg movie files, [ffmpeg](https://www.ffmpeg.org/) is required for Mac OS X and Windows. For Linux, [mencoder](http://www.mplayerhq.hu/) is needed. For Mac OS X, ffmpeg can be installed via Homebrew. For Windows, the executable can be downloaded from the [website](https://www.ffmpeg.org/). For Ubuntu, you can use `apt-get`.
+
+For example, after running the following commands:
+
+```
+bin/manual_tests AnimationTests.OnUpdateSine
+bin/render_manual_tests_output
+```
+
+you can find
+
+```
+manual_tests_output/Animation/OnUpdateSine/data.#line2.mp4
+```
+
+is generated.
 
 ### Performance Tests
 
