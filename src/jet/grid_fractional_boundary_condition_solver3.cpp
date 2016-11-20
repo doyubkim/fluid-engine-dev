@@ -37,6 +37,9 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     auto vPos = velocity->vPosition();
     auto wPos = velocity->wPosition();
 
+    Array3<double> uTemp(u.size());
+    Array3<double> vTemp(v.size());
+    Array3<double> wTemp(w.size());
     Array3<char> uMarker(u.size(), 1);
     Array3<char> vMarker(v.size(), 1);
     Array3<char> wMarker(w.size(), 1);
@@ -115,10 +118,12 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                u(i, j, k) = velp.x;
+                uTemp(i, j, k) = velp.x;
             } else {
-                u(i, j, k) = colliderVel.x;
+                uTemp(i, j, k) = colliderVel.x;
             }
+        } else {
+            uTemp(i, j, k) = u(i, j, k);
         }
     });
 
@@ -135,10 +140,12 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                v(i, j, k) = velp.y;
+                vTemp(i, j, k) = velp.y;
             } else {
-                v(i, j, k) = colliderVel.y;
+                vTemp(i, j, k) = colliderVel.y;
             }
+        } else {
+            vTemp(i, j, k) = v(i, j, k);
         }
     });
 
@@ -155,11 +162,24 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                w(i, j, k) = velp.z;
+                wTemp(i, j, k) = velp.z;
             } else {
-                w(i, j, k) = colliderVel.z;
+                wTemp(i, j, k) = colliderVel.z;
             }
+        } else {
+            wTemp(i, j, k) = v(i, j, k);
         }
+    });
+
+    // Transfer results
+    u.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        u(i, j, k) = uTemp(i, j, k);
+    });
+    v.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        v(i, j, k) = vTemp(i, j, k);
+    });
+    w.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        w(i, j, k) = wTemp(i, j, k);
     });
 
     // No-flux: Project velocity on the domain boundary if closed
