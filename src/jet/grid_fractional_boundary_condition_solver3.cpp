@@ -167,7 +167,7 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                 wTemp(i, j, k) = colliderVel.z;
             }
         } else {
-            wTemp(i, j, k) = v(i, j, k);
+            wTemp(i, j, k) = w(i, j, k);
         }
     });
 
