@@ -17,6 +17,9 @@ JET_TESTS(SphSolver3);
 
 JET_BEGIN_TEST_F(SphSolver3, SteadyState) {
     SphSolver3 solver;
+    solver.setViscosityCoefficient(0.1);
+    solver.setPseudoViscosityCoefficient(10.0);
+
     SphSystemData3Ptr particles = solver.sphSystemData();
     const double targetSpacing = particles->targetSpacing();
 
@@ -40,7 +43,7 @@ JET_BEGIN_TEST_F(SphSolver3, SteadyState) {
     saveParticleDataXy(particles, 0);
 
     Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 10; frame.advance()) {
+    for ( ; frame.index < 100; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
@@ -56,6 +59,7 @@ JET_BEGIN_TEST_F(SphSolver3, WaterDrop) {
 
     // Initialize solvers
     SphSolver3 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData3Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);

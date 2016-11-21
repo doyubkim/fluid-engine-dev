@@ -17,6 +17,9 @@ JET_TESTS(SphSolver2);
 
 JET_BEGIN_TEST_F(SphSolver2, SteadyState) {
     SphSolver2 solver;
+    solver.setViscosityCoefficient(0.1);
+    solver.setPseudoViscosityCoefficient(10.0);
+
     SphSystemData2Ptr particles = solver.sphSystemData();
     const double targetSpacing = particles->targetSpacing();
 
@@ -40,7 +43,7 @@ JET_BEGIN_TEST_F(SphSolver2, SteadyState) {
     saveParticleDataXy(particles, 0);
 
     Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 10; frame.advance()) {
+    for ( ; frame.index < 100; frame.advance()) {
         emitter->emit(frame, particles);
         solver.update(frame);
 
@@ -56,6 +59,7 @@ JET_BEGIN_TEST_F(SphSolver2, WaterDrop) {
 
     // Initialize solvers
     SphSolver2 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData2Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
@@ -107,6 +111,7 @@ JET_BEGIN_TEST_F(SphSolver2, WaterDropLargeDt) {
 
     // Initialize solvers
     SphSolver2 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData2Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
@@ -136,7 +141,7 @@ JET_BEGIN_TEST_F(SphSolver2, WaterDropLargeDt) {
     box->isNormalFlipped = true;
     RigidBodyCollider2Ptr collider = std::make_shared<RigidBodyCollider2>(box);
 
-    // Setup solver
+    // Setup solver - allow up to 10x from suggested time-step
     solver.setCollider(collider);
     solver.setTimeStepLimitScale(10.0);
 

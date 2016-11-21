@@ -17,6 +17,8 @@ JET_TESTS(PciSphSolver2);
 
 JET_BEGIN_TEST_F(PciSphSolver2, SteadyState) {
     PciSphSolver2 solver;
+    solver.setViscosityCoefficient(0.1);
+    solver.setPseudoViscosityCoefficient(10.0);
 
     SphSystemData2Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
@@ -57,6 +59,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, WaterDrop) {
 
     // Initialize solvers
     PciSphSolver2 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData2Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
