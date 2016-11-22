@@ -190,23 +190,23 @@ Below is the list of the tests and their expected results.
 
         Reinitializing constant field (should result the same constant field), before and after:
 
-        ![ConstantBefore](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/constant0.png "ConstantBefore")
+        ![ConstantBefore](img/manual_tests/FmmLevelSetSolver2/Reinitialize/constant0.png "ConstantBefore")
         ![ConstantAfter](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/constant1.png "ConstantAfter")
 
         Reinitializing SDF (should result nearly the same SDF), before and after:
 
-        ![SDFBefore](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/sdf0.png "SDFBefore")
-        ![SDFAfter](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/sdf1.png "SDFAfter")
+        ![SDFBefore](img/manual_tests/FmmLevelSetSolver2/Reinitialize/sdf0.png "SDFBefore")
+        ![SDFAfter](img/manual_tests/FmmLevelSetSolver2/Reinitialize/sdf1.png "SDFAfter")
 
         Reinitializing 2x scaled SDF (should result 1x scale SDF), before and after:
 
-        ![ScaledBefore](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/scaled0.png "ScaledBefore")
-        ![ScaledAfter](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/scaled1.png "ScaledAfter")
+        ![ScaledBefore](img/manual_tests/FmmLevelSetSolver2/Reinitialize/scaled0.png "ScaledBefore")
+        ![ScaledAfter](img/manual_tests/FmmLevelSetSolver2/Reinitialize/scaled1.png "ScaledAfter")
 
         Reinitializing unit step function (should result 1x scale SDF), before and after:
 
-        ![UnitStepBefore](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/unit_step0.png "UnitStepBefore")
-        ![UnitStepAfter](img/manual_tests/FmmLevelSetSolver2/ReinitializeSmall/unit_step1.png "UnitStepAfter")
+        ![UnitStepBefore](img/manual_tests/FmmLevelSetSolver2/Reinitialize/unit_step0.png "UnitStepBefore")
+        ![UnitStepAfter](img/manual_tests/FmmLevelSetSolver2/Reinitialize/unit_step1.png "UnitStepAfter")
 
     * Extrapolate
 
