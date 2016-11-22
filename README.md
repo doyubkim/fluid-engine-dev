@@ -26,4 +26,4 @@ Here are some of the example simulations generated using Jet framework. Correspo
 
 ## License
 
-Jet is under the MIT license. For more information, check out [LICENSE.md](LICENSE.md).
+Jet is under the MIT license. For more information, check out [LICENSE.md](LICENSE.md). Jet also utilizes other open source codes. Checkout [3RD_PARTY.md](3RD_PARTY.md) for more details.
