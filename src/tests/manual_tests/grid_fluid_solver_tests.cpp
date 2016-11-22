@@ -36,7 +36,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame;
+    Frame frame(1, 1.0/60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);
@@ -83,7 +83,7 @@ JET_BEGIN_TEST_F(
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame;
+    Frame frame(1, 1.0/60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);

@@ -19,7 +19,7 @@ class RigidBodyCollider2 final : public Collider2 {
     Vector2D linearVelocity;
 
     //! Angular velocity of the rigid body.
-    double angularVelocity;
+    double angularVelocity = 0.0;
 
     //! Origin of the rigid body rotation.
     Vector2D origin;

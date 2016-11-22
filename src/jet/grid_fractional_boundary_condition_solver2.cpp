@@ -35,6 +35,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     auto uPos = velocity->uPosition();
     auto vPos = velocity->vPosition();
 
+    Array2<double> uTemp(u.size());
+    Array2<double> vTemp(v.size());
     Array2<char> uMarker(u.size(), 1);
     Array2<char> vMarker(v.size(), 1);
 
@@ -81,7 +83,7 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     // No-flux: project the extrapolated velocity to the collider's surface
     // normal
-    velocity->forEachUIndex([&](size_t i, size_t j) {
+    velocity->parallelForEachUIndex([&](size_t i, size_t j) {
         Vector2D pt = uPos(i, j);
         if (isInsideSdf(_colliderSdf.sample(pt))) {
             Vector2D colliderVel = collider()->velocityAt(pt);
@@ -94,10 +96,12 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
-                u(i, j) = velp.x;
+                uTemp(i, j) = velp.x;
             } else {
-                u(i, j) = colliderVel.x;
+                uTemp(i, j) = colliderVel.x;
             }
+        } else {
+            uTemp(i, j) = u(i, j);
         }
     });
 
@@ -114,11 +118,21 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
-                v(i, j) = velp.y;
+                vTemp(i, j) = velp.y;
             } else {
-                v(i, j) = colliderVel.y;
+                vTemp(i, j) = colliderVel.y;
             }
+        } else {
+            vTemp(i, j) = v(i, j);
         }
+    });
+
+    // Transfer results
+    u.parallelForEachIndex([&](size_t i, size_t j) {
+        u(i, j) = uTemp(i, j);
+    });
+    v.parallelForEachIndex([&](size_t i, size_t j) {
+        v(i, j) = vTemp(i, j);
     });
 
     // No-flux: Project velocity on the domain boundary if closed

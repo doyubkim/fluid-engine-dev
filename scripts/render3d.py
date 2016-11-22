@@ -5,6 +5,7 @@ Copyright (c) 2016 Doyub Kim
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import matplotlib.pyplot as plt
+import sys
 
 def render_still_trimesh(x, y, z, tri, output_filename):
     fig = plt.figure()
@@ -60,6 +61,5 @@ def obj_to_xyzt(obj_filename):
 
 
 if __name__ == '__main__':
-    # Example usage
-    x, y, z, tri = obj_to_xyzt('resources/bunny.obj')
-    render_still_trimesh(x, y, z, tri, 'test.png')
+    x, y, z, tri = obj_to_xyzt(sys.argv[1])
+    render_still_trimesh(x, y, z, tri, sys.argv[2])

@@ -76,131 +76,7 @@ Once installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl 
 
 ## Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test.
-
-### Unit Tests
-
-The unit test contains the minimum validation tests for the code. To discover all the unit test cases from Mac OS X or Linux, run
-
-```
-bin/list_unit_tests
-```
-
-or for Windows, run
-
-```
-bin\list_unit_tests.bat
-```
-
-As described above, run the following command to launch entire tests from Mac OS X or Linux:
-
-```
-bin/unit_tests
-```
-
-For Windows, run
-
-```
-bin\unit_tests.bat
-```
-
-To run specific tests, such as `VertexCenteredVectorGrid3.Fill`, run
-
-```
-bin/unit_tests VertexCenteredVectorGrid3.Fill
-```
-
-You can also use a pattern to run the tests such as
-
-```
-bin/unit_tests VertexCenteredVectorGrid3.*
-```
-
-Replace `bin/unit_tests` with `bin\unit_tests.bat` for two commands above when running from Windows.
-
-### Manual Tests
-
-The manual test is the collection of the tests that can be verified manually. The test outputs data files to `manual_tests_output` so that the result can be rendered as images for the validation. To list the entire test cases from Mac OS X or Linux, run
-
-```
-bin/list_manual_tests
-```
-
-or for Windows, run
-
-```
-bin\list_manual_tests.bat
-```
-
-Similar to the unit test, run the following command to run entire tests for Mac OS X and Linux:
-
-```
-bin/manual_tests
-```
-
-For Windows, run
-
-```
-bin\manual_tests.bat
-```
-
-However, the manual test includes quite intensive tests such as running a short fluid simulation. Thus, it is recommended to run specific tests for the fast debugging, and then run the entire tests for final validation. Specifying the tests is the same as the unit test, such as.
-
-```
-bin/manual_tests Cubic*
-```
-
-Replace `bin/manual_tests` with the `.bat` command for Windows.
-
-
-The test results will be located at `manual_tests_output/TestName/CaseName/file`. To validate the results, you need [Matplotlib](http://matplotlib.org/). The recommended way of installing the latest version of the library is to use `pip` such as
-
-```
-pip install matplotlib
-```
-
-The modern Python versions (2.7.9 and above) comes with `pip` by default. Once Matplotlib is installed, run the following:
-
-
-```
-bin/render_manual_tests_output
-```
-
-Once renderered, the rendered image will be stored at the same directory where the test output files are located (`manual_tests_output/TestName/CaseName/file`). Also, to render the animations as mpeg movie files, [ffmpeg](https://www.ffmpeg.org/) is required for Mac OS X and Windows. For Linux, [mencoder](http://www.mplayerhq.hu/) is needed. For Mac OS X, ffmpeg can be installed via Homebrew. For Windows, the executable can be downloaded from the [website](https://www.ffmpeg.org/). For Ubuntu, you can use `apt-get`.
-
-### Performance Tests
-
-The performance test measures the computation timing. To list the entire test cases, run
-
-```
-bin/list_perf_tests
-```
-
-To run the tests, execute
-
-```
-bin/perf_tests
-```
-
-Similar to the unit test and manual test, you can pass the test name pattern to run specific tests, such as
-
-```
-bin/perf_tests Point*
-```
-
-For Windows, use `bin\list_perf_tests.bat` and `bin\perf_tests.bat`.
-
-The measured performance for each test will be printed to the console, such as
-
-```
-...
-[----------] 1 test from PointHashGridSearcher3
-[ RUN      ] PointHashGridSearcher3.Build
-[----------] PointHashGridSearcher3::build avg. 0.261923 sec.
-[       OK ] PointHashGridSearcher3.Build (2732 ms)
-[----------] 1 test from PointHashGridSearcher3 (2733 ms total)
-...
-```
+There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout [UNIT_TESTS.md](doc/UNIT_TESTS.md), [MANUAL_TESTS.md](doc/MANUAL_TESTS.md), and [PERF_TESTS.md](doc/PERF_TESTS.md).
 
 ## Installing SDK
 
@@ -213,7 +89,6 @@ For Mac OS X and Ubuntu platforms, the library can be installed by running
 This will install the header files and the static library `libjet.a` under `INSTALL_PATH`.
 
 For Windows, the binaries and header files will be located under `dist` directory after building the solution.
-
 
 ## Coding Style
 

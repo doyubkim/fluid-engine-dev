@@ -106,90 +106,97 @@ JET_TESTS(UpwindLevelSetSolver2);
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall) {
     CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    UpwindLevelSetSolver2 solver;
 
+    // Starting from constant field
+    sdf.fill([](const Vector2D& x) {
+        return 1.0;
+    });
+    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+
+    // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
     });
+    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
 
-    UpwindLevelSetSolver2 solver;
-    solver.reinitialize(sdf, 20.0 /* * gridSpacing.x */, &temp);
+    solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(sdf.constDataAccessor(), "sdf_#grid2,iso.npy");
-    saveData(temp.constDataAccessor(), "temp_#grid2,iso.npy");
+    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(20, 20)).length() - 8.0;
+        return 2.0 * r;
+    });
+    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(20, 20)).length() - 8.0;
+        return (r < 0.0) ? -0.5 : 0.5;
+    });
+    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize) {
-    Size2 size(160, 120);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
-    double maxDistance = 10.0 * gridSpacing.x;
-
+    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
     UpwindLevelSetSolver2 solver;
-    CellCenteredScalarGrid2 data(size, gridSpacing);
-    CellCenteredScalarGrid2 buffer(size, gridSpacing);
 
     // Starting from constant field
-    data.fill(1.0);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "constant_#grid2,iso.npy");
-
-    // Starting from unit-step function
-    data.fill([gridSpacing](const Vector2D& x) {
-        double r = (x - Vector2D(0.75, 0.5)).length() - 0.3;
-        if (r < 0.0) {
-            return -0.5 * gridSpacing.x;
-        } else {
-            return 0.5 * gridSpacing.x;
-        }
+    sdf.fill([](const Vector2D& x) {
+        return 1.0;
     });
+    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "unit_step1_#grid2,iso.npy");
-
-    data.swap(&buffer);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "unit_step2_#grid2,iso.npy");
-
-    // Starting from SDF
-    data.fill([gridSpacing](const Vector2D& x) {
-        return (x - Vector2D(0.75, 0.5)).length() - 0.3;
+    // Starting from SDF field
+    sdf.fill([](const Vector2D& x) {
+        return (x - Vector2D(80, 80)).length() - 32.0;
     });
+    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "sdf1_#grid2,iso.npy");
-
-    data.swap(&buffer);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "sdf2_#grid2,iso.npy");
-
-    // Starting from scaled SDF
-    data.fill([gridSpacing](const Vector2D& x) {
-        return 4.0 * ((x - Vector2D(0.75, 0.5)).length() - 0.3);
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(80, 80)).length() - 32.0;
+        return 2.0 * r;
     });
+    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "sdf_scaled0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "sdf_scaled1_#grid2,iso.npy");
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(80, 80)).length() - 32.0;
+        return (r < 0.0) ? -0.5 : 0.5;
+    });
+    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
 
-    data.swap(&buffer);
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "sdf_scaled2_#grid2,iso.npy");
+    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -288,90 +295,97 @@ JET_TESTS(EnoLevelSetSolver2);
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, ReinitializeSmall) {
     CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    EnoLevelSetSolver2 solver;
 
+    // Starting from constant field
+    sdf.fill([](const Vector2D& x) {
+        return 1.0;
+    });
+    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+
+    // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
     });
+    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
 
-    EnoLevelSetSolver2 solver;
-    solver.reinitialize(sdf, 5.0, &temp);
+    solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(sdf.constDataAccessor(), "sdf_#grid2,iso.npy");
-    saveData(temp.constDataAccessor(), "temp_#grid2,iso.npy");
+    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(20, 20)).length() - 8.0;
+        return 2.0 * r;
+    });
+    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(20, 20)).length() - 8.0;
+        return (r < 0.0) ? -0.5 : 0.5;
+    });
+    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+
+    solver.reinitialize(sdf, 40.0, &temp);
+
+    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, Reinitialize) {
-    Size2 size(160, 120);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
-    double maxDistance = 10.0 * gridSpacing.x;
-
+    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
     EnoLevelSetSolver2 solver;
-    CellCenteredScalarGrid2 data(size, gridSpacing);
-    CellCenteredScalarGrid2 buffer(size, gridSpacing);
 
     // Starting from constant field
-    data.fill(1.0);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "constant_#grid2,iso.npy");
-
-    // Starting from unit-step function
-    data.fill([gridSpacing](const Vector2D& x) {
-        double r = (x - Vector2D(0.75, 0.5)).length() - 0.3;
-        if (r < 0.0) {
-            return -0.5 * gridSpacing.x;
-        } else {
-            return 0.5 * gridSpacing.x;
-        }
+    sdf.fill([](const Vector2D& x) {
+        return 1.0;
     });
+    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "unit_step1_#grid2,iso.npy");
-
-    data.swap(&buffer);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "unit_step2_#grid2,iso.npy");
-
-    // Starting from SDF
-    data.fill([gridSpacing](const Vector2D& x) {
-        return (x - Vector2D(0.75, 0.5)).length() - 0.3;
+    // Starting from SDF field
+    sdf.fill([](const Vector2D& x) {
+        return (x - Vector2D(80, 80)).length() - 32.0;
     });
+    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "sdf1_#grid2,iso.npy");
-
-    data.swap(&buffer);
-
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "sdf2_#grid2,iso.npy");
-
-    // Starting from scaled SDF
-    data.fill([gridSpacing](const Vector2D& x) {
-        return 4.0 * ((x - Vector2D(0.75, 0.5)).length() - 0.3);
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(80, 80)).length() - 32.0;
+        return 2.0 * r;
     });
+    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
 
-    saveData(data.constDataAccessor(), "sdf_scaled0_#grid2,iso.npy");
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
+    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
 
-    saveData(buffer.constDataAccessor(), "sdf_scaled1_#grid2,iso.npy");
+    // Starting from scaled SDF field
+    sdf.fill([](const Vector2D& x) {
+        double r = (x - Vector2D(80, 80)).length() - 32.0;
+        return (r < 0.0) ? -0.5 : 0.5;
+    });
+    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
 
-    data.swap(&buffer);
+    solver.reinitialize(sdf, 160.0, &temp);
 
-    solver.reinitialize(data, maxDistance, &buffer);
-
-    saveData(buffer.constDataAccessor(), "sdf_scaled2_#grid2,iso.npy");
+    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 

@@ -80,6 +80,7 @@ void runExample1(
 
     // Initialize solvers
     PciSphSolver3 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData3Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
@@ -127,6 +128,7 @@ void runExample2(
 
     // Initialize solvers
     SphSolver3 solver;
+    solver.setPseudoViscosityCoefficient(0.0);
 
     SphSystemData3Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
