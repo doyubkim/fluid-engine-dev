@@ -92,7 +92,6 @@ class VertexCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
             gridOrigin,
             initialVal);
     }
-
 };
 
 }  // namespace jet

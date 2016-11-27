@@ -46,7 +46,8 @@ void printUsage() {
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
-        "   -e, --example: example number (between 1 and 4, default is 1)\n");
+        "   -e, --example: example number (between 1 and 4, default is 1)\n"
+        "   -h, --help: print this message\n");
 }
 
 void printInfo(
@@ -324,13 +325,14 @@ int main(int argc, char* argv[]) {
         {"example",   optional_argument, 0, 'e'},
         {"log",       optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
+        {"help",      optional_argument, 0, 'h'},
         {0,           0,                 0,  0 }
     };
 
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "r:f:e:l:o:", longOptions, &long_index)) != -1) {
+        argc, argv, "r:f:e:l:o:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'r':
                 resolutionX = static_cast<size_t>(atoi(optarg));
@@ -347,6 +349,9 @@ int main(int argc, char* argv[]) {
             case 'o':
                 outputDir = optarg;
                 break;
+            case 'h':
+                printUsage();
+                exit(EXIT_SUCCESS);
             default:
                 printUsage();
                 exit(EXIT_FAILURE);

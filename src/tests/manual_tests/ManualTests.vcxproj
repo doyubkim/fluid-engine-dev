@@ -30,9 +30,10 @@
     <ClCompile Include="grid_diffusion_solvers_tests.cpp" />
     <ClCompile Include="grid_fluid_solver_tests.cpp" />
     <ClCompile Include="iterative_level_set_solvers_tests.cpp" />
-    <ClCompile Include="level_set_liquid_solvers_tests.cpp" />
+    <ClCompile Include="level_set_liquid_solver2_tests.cpp" />
     <ClCompile Include="grid_smoke_solver_tests.cpp" />
     <ClCompile Include="hello_fluid_sim.cpp" />
+    <ClCompile Include="level_set_liquid_solver3_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="marching_cubes_tests.cpp" />
     <ClCompile Include="particle_system_solver2_tests.cpp" />

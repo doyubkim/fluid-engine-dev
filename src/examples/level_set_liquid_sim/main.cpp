@@ -55,10 +55,12 @@ void printUsage() {
         "-r resolution -l length -f frames -e example_num\n"
         "   -r, --resx: grid resolution in x-axis (default is 50)\n"
         "   -f, --frames: total number of frames (default is 100)\n"
+        "   -p, --fps: frames per second (default is 60.0)\n"
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
-        "   -e, --example: example number (between 1 and 4, default is 1)\n");
+        "   -e, --example: example number (between 1 and 4, default is 1)\n"
+        "   -h, --help: print this message\n");
 }
 
 void printInfo(
@@ -80,11 +82,12 @@ void printInfo(
 void runSimulation(
     const std::string& rootDir,
     LevelSetLiquidSolver3* solver,
-    size_t numberOfFrames) {
+    size_t numberOfFrames,
+    double fps) {
     auto sdf = solver->signedDistanceField();
     triangulateAndSave(sdf, rootDir, 0);
 
-    Frame frame(1, 1.0 / 60.0);
+    Frame frame(1, 1.0 / fps);
     for ( ; frame.index < numberOfFrames; frame.advance()) {
         solver->update(frame);
         triangulateAndSave(sdf, rootDir, frame.index);
@@ -95,7 +98,8 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    double fps) {
     Size3 resolution(resolutionX, 2 * resolutionX, resolutionX);
     Vector3D origin;
     double dx = 1.0 / resolutionX;
@@ -128,14 +132,15 @@ void runExample1(
     printInfo(resolution, domain, gridSpacing);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, &solver, numberOfFrames, fps);
 }
 
 // Dam-breaking example
 void runExample2(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    double fps) {
     Size3 resolution(3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2);
     Vector3D origin;
     double dx = 1.0 / resolutionX;
@@ -181,14 +186,15 @@ void runExample2(
     printInfo(resolution, domain, gridSpacing);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, &solver, numberOfFrames, fps);
 }
 
 // High-viscosity example (bunny-drop)
 void runExample3(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    double fps) {
     Size3 resolution(resolutionX, resolutionX, resolutionX);
     Vector3D origin;
     double dx = 1.0 / resolutionX;
@@ -229,14 +235,15 @@ void runExample3(
     printInfo(resolution, domain, gridSpacing);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, &solver, numberOfFrames, fps);
 }
 
 // Low-viscosity example (bunny-drop)
 void runExample4(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    double fps) {
     Size3 resolution(resolutionX, resolutionX, resolutionX);
     Vector3D origin;
     double dx = 1.0 / resolutionX;
@@ -261,8 +268,9 @@ void runExample4(
         fprintf(stderr, "Cannot open bunny.sdf\n");
         fprintf(
             stderr,
-            "Run\nbin/obj2sdf -i resources/bunny.obj"
-            " -o bunny.sdf\nto generate the sdf file.\n");
+            "Run\nbin/obj2sdf -i resources/bunny.obj -r %zu"
+            " -o bunny.sdf\nto generate the sdf file.\n",
+            resolutionX);
         exit(EXIT_FAILURE);
     }
 
@@ -276,12 +284,13 @@ void runExample4(
     printInfo(resolution, domain, gridSpacing);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, &solver, numberOfFrames, fps);
 }
 
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
     unsigned int numberOfFrames = 100;
+    double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
@@ -290,22 +299,27 @@ int main(int argc, char* argv[]) {
     static struct option longOptions[] = {
         {"resx",      optional_argument, 0, 'r'},
         {"frames",    optional_argument, 0, 'f'},
+        {"fps",       optional_argument, 0, 'p'},
         {"example",   optional_argument, 0, 'e'},
         {"log",       optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
+        {"help",      optional_argument, 0, 'h'},
         {0,           0,                 0,  0 }
     };
 
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "r:f:e:l:o:", longOptions, &long_index)) != -1) {
+        argc, argv, "r:f:p:e:l:o:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'r':
                 resolutionX = static_cast<size_t>(atoi(optarg));
                 break;
             case 'f':
                 numberOfFrames = static_cast<size_t>(atoi(optarg));
+                break;
+            case 'p':
+                fps = atof(optarg);
                 break;
             case 'e':
                 exampleNum = atoi(optarg);
@@ -316,6 +330,9 @@ int main(int argc, char* argv[]) {
             case 'o':
                 outputDir = optarg;
                 break;
+            case 'h':
+                printUsage();
+                exit(EXIT_SUCCESS);
             default:
                 printUsage();
                 exit(EXIT_FAILURE);
@@ -335,16 +352,16 @@ int main(int argc, char* argv[]) {
 
     switch (exampleNum) {
         case 1:
-            runExample1(outputDir, resolutionX, numberOfFrames);
+            runExample1(outputDir, resolutionX, numberOfFrames, fps);
             break;
         case 2:
-            runExample2(outputDir, resolutionX, numberOfFrames);
+            runExample2(outputDir, resolutionX, numberOfFrames, fps);
             break;
         case 3:
-            runExample3(outputDir, resolutionX, numberOfFrames);
+            runExample3(outputDir, resolutionX, numberOfFrames, fps);
             break;
         case 4:
-            runExample4(outputDir, resolutionX, numberOfFrames);
+            runExample4(outputDir, resolutionX, numberOfFrames, fps);
             break;
         default:
             printUsage();

@@ -95,7 +95,6 @@ class VertexCenteredVectorGridBuilder2 final : public VectorGridBuilder2 {
             gridOrigin,
             initialVal);
     }
-
 };
 
 }  // namespace jet
