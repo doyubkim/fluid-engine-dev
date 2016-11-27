@@ -103,7 +103,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <PostBuildEvent>
-      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe &gt; $(SolutionDir)bin\obj2sdf.bat
+      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe %%* &gt; $(SolutionDir)bin\obj2sdf.bat
 $(Command)</Command>
     </PostBuildEvent>
     <Link>
@@ -117,7 +117,7 @@ $(Command)</Command>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <PostBuildEvent>
-      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe &gt; $(SolutionDir)bin\obj2sdf.bat
+      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe %%* &gt; $(SolutionDir)bin\obj2sdf.bat
 $(Command)</Command>
     </PostBuildEvent>
     <Link>
@@ -138,7 +138,7 @@ $(Command)</Command>
       <AdditionalDependencies>jet.lib;Winix.lib;obj.lib;pystring.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe &gt; $(SolutionDir)bin\obj2sdf.bat
+      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe %%* &gt; $(SolutionDir)bin\obj2sdf.bat
 $(Command)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@ $(Command)</Command>
       <AdditionalDependencies>jet.lib;Winix.lib;obj.lib;pystring.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe &gt; $(SolutionDir)bin\obj2sdf.bat
+      <Command>echo $(SolutionDir)obj\$(Platform)\$(Configuration)\Obj2Sdf.exe %%* &gt; $(SolutionDir)bin\obj2sdf.bat
 $(Command)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

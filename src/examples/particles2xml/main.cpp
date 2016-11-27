@@ -17,7 +17,8 @@ void printUsage() {
         "Usage: particles2xml "
         "-i input_pos -o output_xml \n"
         "   -i, --input: input particle position filename\n"
-        "   -o, --output: output obj filename\n");
+        "   -o, --output: output obj filename\n"
+        "   -h, --help: print this message\n");
 }
 
 void printInfo(size_t numberOfParticles) {
@@ -71,13 +72,14 @@ int main(int argc, char* argv[]) {
     static struct option longOptions[] = {
         {"input",       required_argument,  0,  'i' },
         {"output",      required_argument,  0,  'o' },
+        {"help",        optional_argument,  0,  'h' },
         {0,             0,                  0,   0  }
     };
 
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "i:o:", longOptions, &long_index)) != -1) {
+        argc, argv, "i:o:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'i':
                 inputFilename = optarg;
@@ -85,6 +87,9 @@ int main(int argc, char* argv[]) {
             case 'o':
                 outputFilename = optarg;
                 break;
+            case 'h':
+                printUsage();
+                exit(EXIT_SUCCESS);
             default:
                 printUsage();
                 exit(EXIT_FAILURE);

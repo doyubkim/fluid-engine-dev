@@ -261,7 +261,8 @@ Matrix<T, 2, 2> Matrix<T, 2, 2>::rsub(const Matrix& m) const {
 
 template <typename T>
 Matrix<T, 2, 2> Matrix<T, 2, 2>::rmul(T s) const {
-    return Matrix(s*_elements[0], s*_elements[1], s*_elements[2], s*_elements[3]);
+    return Matrix(
+        s*_elements[0], s*_elements[1], s*_elements[2], s*_elements[3]);
 }
 
 template <typename T>
@@ -371,13 +372,15 @@ T Matrix<T, 2, 2>::avg() const {
 template <typename T>
 T Matrix<T, 2, 2>::min() const {
     return std::min(
-        std::min(_elements[0], _elements[1]), std::min(_elements[2], _elements[3]));
+        std::min(_elements[0], _elements[1]),
+        std::min(_elements[2], _elements[3]));
 }
 
 template <typename T>
 T Matrix<T, 2, 2>::max() const {
     return std::max(
-        std::max(_elements[0], _elements[1]), std::max(_elements[2], _elements[3]));
+        std::max(_elements[0], _elements[1]),
+        std::max(_elements[2], _elements[3]));
 }
 
 template <typename T>

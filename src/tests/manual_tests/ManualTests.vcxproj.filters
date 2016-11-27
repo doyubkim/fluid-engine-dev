@@ -75,9 +75,6 @@
     <ClCompile Include="grid_fluid_solver_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="level_set_liquid_solvers_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="grid_smoke_solver_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,6 +103,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="fmm_level_set_solvers_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="level_set_liquid_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="level_set_liquid_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

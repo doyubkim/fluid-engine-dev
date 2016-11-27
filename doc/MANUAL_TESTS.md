@@ -606,6 +606,13 @@ Below is the list of the tests and their expected results.
 
         ![Data](img/manual_tests/LevelSetLiquidSolver2/DropWithGlobalComp/data.gif "Data")
 
+* LevelSetLiquidSolver3Tests.
+    * SubtleSloshing
+
+        The simulation should correctly generate sloshing animation even with subtle slope of the initial geometry.
+
+        ![Data](img/manual_tests/LevelSetLiquidSolver3/SubtleSloshing/data.gif "Data")
+
 * MarchingCubesTests.
     * SingleCube
 

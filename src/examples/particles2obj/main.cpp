@@ -27,7 +27,8 @@ void printUsage() {
         "   -g, --gridspacing: grid spacing in CSV format "
             "(default: 0.01,0.01,0.01)\n"
         "   -n, --origin: domain origin in CSV format (default: 0,0,0)\n"
-        "   -k, --kernel: interpolation kernel radius (default: 0.2)\n");
+        "   -k, --kernel: interpolation kernel radius (default: 0.2)\n"
+        "   -h, --help: print this message\n");
 }
 
 void printInfo(
@@ -117,13 +118,14 @@ int main(int argc, char* argv[]) {
         {"gridspacing", optional_argument,  0,  'g' },
         {"origin",      optional_argument,  0,  'n' },
         {"kernel",      optional_argument,  0,  'k' },
+        {"help",        optional_argument,  0,  'h' },
         {0,             0,                  0,   0  }
     };
 
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "i:o:r:g:n:k:", longOptions, &long_index)) != -1) {
+        argc, argv, "i:o:r:g:n:k:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'i':
                 inputFilename = optarg;
@@ -178,6 +180,9 @@ int main(int argc, char* argv[]) {
                 kernelRadius = atof(optarg);
                 break;
             }
+            case 'h':
+                printUsage();
+                exit(EXIT_SUCCESS);
             default:
                 printUsage();
                 exit(EXIT_FAILURE);

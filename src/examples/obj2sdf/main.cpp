@@ -17,7 +17,8 @@ void printUsage() {
         "   -i, --input: input obj filename\n"
         "   -o, --output: output sdf filename\n"
         "   -r, --resx: grid resolution in x-axis (default: 100)\n"
-        "   -m, --margin: margin scale around the sdf (default: 0.2)\n");
+        "   -m, --margin: margin scale around the sdf (default: 0.2)\n"
+        "   -h, --help: print this message\n");
 }
 
 void saveTriangleMeshData(
@@ -42,13 +43,14 @@ int main(int argc, char* argv[]) {
         {"output",  required_argument,  0,  'o' },
         {"resx",    optional_argument,  0,  'r' },
         {"margin",  optional_argument,  0,  'm' },
+        {"help",    optional_argument,  0,  'h' },
         {0,         0,                  0,   0  }
     };
 
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "i:o:r:m:", longOptions, &long_index)) != -1) {
+        argc, argv, "i:o:r:m:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'i':
                 inputFilename = optarg;
@@ -62,6 +64,9 @@ int main(int argc, char* argv[]) {
             case 'm':
                 marginScale = std::max(atof(optarg), 0.0);
                 break;
+            case 'h':
+                printUsage();
+                exit(EXIT_SUCCESS);
             default:
                 printUsage();
                 exit(EXIT_FAILURE);
