@@ -3,44 +3,45 @@
 #include <manual_tests.h>
 
 #include <jet/array2.h>
-#include <jet/level_set_liquid_solver3.h>
 #include <jet/implicit_surface_set3.h>
+#include <jet/marching_cubes.h>
+#include <jet/level_set_liquid_solver3.h>
 #include <jet/level_set_utils.h>
 #include <jet/plane3.h>
 #include <jet/surface_to_implicit3.h>
 
-#include <jet/marching_cubes.h>
+#include <string>
 
 using namespace jet;
 
 namespace {
 
-    void saveTriangleMesh(
-        const TriangleMesh3& mesh,
-        const std::string& filename) {
-        std::ofstream file(filename.c_str());
-        if (file) {
-            mesh.writeObj(&file);
-            file.close();
-        }
+void saveTriangleMesh(
+    const TriangleMesh3& mesh,
+    const std::string& filename) {
+    std::ofstream file(filename.c_str());
+    if (file) {
+        mesh.writeObj(&file);
+        file.close();
     }
-
-    void triangulateAndSave(
-        const ScalarGrid3Ptr& sdf,
-        const std::string& filename) {
-        TriangleMesh3 mesh;
-        int flag = kMarchingCubesBoundaryFlagAll & ~kMarchingCubesBoundaryFlagDown;
-        marchingCubes(
-            sdf->constDataAccessor(),
-            sdf->gridSpacing(),
-            sdf->dataOrigin(),
-            &mesh,
-            0.0,
-            flag);
-        saveTriangleMesh(mesh, filename);
-    }
-
 }
+
+void triangulateAndSave(
+    const ScalarGrid3Ptr& sdf,
+    const std::string& filename) {
+    TriangleMesh3 mesh;
+    int flag = kMarchingCubesBoundaryFlagAll & ~kMarchingCubesBoundaryFlagDown;
+    marchingCubes(
+        sdf->constDataAccessor(),
+        sdf->gridSpacing(),
+        sdf->dataOrigin(),
+        &mesh,
+        0.0,
+        flag);
+    saveTriangleMesh(mesh, filename);
+}
+
+}  // namespace
 
 JET_TESTS(LevelSetLiquidSolver3);
 
@@ -52,7 +53,6 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing) {
     data->resize({ 64, 64, 8 }, { dx, dx, dx }, Vector3D());
 
     // Source setting
-    BoundingBox3D domain = data->boundingBox();
     ImplicitSurfaceSet3 surfaceSet;
     surfaceSet.addExplicitSurface(
         std::make_shared<Plane3>(
