@@ -6,17 +6,25 @@
 #include <jet/animation.h>
 #include <jet/particle_system_data3.h>
 
-#include <limits>
-#include <random>
-
 namespace jet {
 
+//!
+//! Abstract base class for 3-D particle emitter.
+//!
 class ParticleEmitter3 {
  public:
+    //! Default constructor.
     ParticleEmitter3();
 
+    //! Destructor.
     virtual ~ParticleEmitter3();
 
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  frame     Current animation frame.
+    //! \param[in]  particles The particle system data.
+    //!
     virtual void emit(
         const Frame& frame,
         const ParticleSystemData3Ptr& particles) = 0;

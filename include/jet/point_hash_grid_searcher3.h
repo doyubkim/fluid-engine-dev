@@ -11,38 +11,117 @@
 
 namespace jet {
 
+//!
+//! \brief Hash grid-based 3-D point searcher.
+//!
+//! This class implements 3-D point searcher by using hash grid for its internal
+//! acceleration data structure. Each point is recorded to its corresponding
+//! bucket where the hashing function is 3-D grid mapping.
+//!
 class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
  public:
+    //!
+    //! \brief      Constructs hash grid with given resolution and grid spacing.
+    //!
+    //! This constructor takes hash grid resolution and its grid spacing as
+    //! its input parameters. The grid spacing must be 2x or greater than
+    //! search radius.
+    //!
+    //! \param[in]  resolution  The resolution.
+    //! \param[in]  gridSpacing The grid spacing.
+    //!
     PointHashGridSearcher3(const Size3& resolution, double gridSpacing);
+
+    //!
+    //! \brief      Constructs hash grid with given resolution and grid spacing.
+    //!
+    //! This constructor takes hash grid resolution and its grid spacing as
+    //! its input parameters. The grid spacing must be 2x or greater than
+    //! search radius.
+    //!
+    //! \param[in]  resolutionX The resolution x.
+    //! \param[in]  resolutionY The resolution y.
+    //! \param[in]  resolutionY The resolution z.
+    //! \param[in]  gridSpacing The grid spacing.
+    //!
     PointHashGridSearcher3(
         size_t resolutionX,
         size_t resolutionY,
         size_t resolutionZ,
         double gridSpacing);
 
+    //! Builds internal acceleration structure for given points list.
     void build(const ConstArrayAccessor1<Vector3D>& points) override;
 
+    //!
+    //! Invokes the callback function for each nearby point around the origin
+    //! within given radius.
+    //!
+    //! \param[in]  origin   The origin position.
+    //! \param[in]  radius   The search radius.
+    //! \param[in]  callback The callback function.
+    //!
     void forEachNearbyPoint(
         const Vector3D& origin,
         double radius,
         const ForEachNearbyPointFunc& callback) const override;
 
+    //!
+    //! Returns true if there are any nearby points for given origin within
+    //! radius.
+    //!
+    //! \param[in]  origin The origin.
+    //! \param[in]  radius The radius.
+    //!
+    //! \return     True if has nearby point, false otherwise.
+    //!
     bool hasNearbyPoint(
         const Vector3D& origin, double radius) const override;
 
+    //!
+    //! \brief      Adds a single point to the hash grid.
+    //!
+    //! This function adds a single point to the hash grid for future queries.
+    //! It can be used for a hash grid that is already built by calling function
+    //! PointHashGridSearcher3::build.
+    //!
+    //! \param[in]  point The point to be added.
+    //!
     void add(const Vector3D& point);
 
+    //!
+    //! \brief      Returns the internal bucket.
+    //!
+    //! A bucket is a list of point indices that has same hash value. This
+    //! function returns the (immutable) internal bucket structure.
+    //!
+    //! \return     List of buckets.
+    //!
     const std::vector<std::vector<size_t>>& buckets() const;
 
+    //!
+    //! Returns the hash value for given 3-D bucket index.
+    //!
+    //! \param[in]  bucketIndex The bucket index.
+    //!
+    //! \return     The hash key from bucket index.
+    //!
     size_t getHashKeyFromBucketIndex(const Point3I& bucketIndex) const;
+
+    //!
+    //! Gets the bucket index from a point.
+    //!
+    //! \param[in]  position The position of the point.
+    //!
+    //! \return     The bucket index.
+    //!
+    Point3I getBucketIndex(const Vector3D& position) const;
 
  private:
     double _gridSpacing = 1.0;
     Point3I _resolution = Point3I(1, 1, 1);
     std::vector<Vector3D> _points;
     std::vector<std::vector<size_t>> _buckets;
-
-    Point3I getBucketIndex(const Vector3D& position) const;
 
     size_t getHashKeyFromPosition(const Vector3D& position) const;
 

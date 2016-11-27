@@ -23,6 +23,12 @@
 #endif
 
 #ifdef __cplusplus
+#define JET_NON_COPYABLE(ClassName) \
+    ClassName(const ClassName&) = delete; \
+    ClassName& operator=(const ClassName&) = delete;
+#endif
+
+#ifdef __cplusplus
 #include <stdexcept>
 #define JET_THROW_INVALID_ARG_IF(expression) \
     if (expression) { throw std::invalid_argument(#expression); }

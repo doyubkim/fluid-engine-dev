@@ -12,8 +12,12 @@ PointParticleEmitter2::PointParticleEmitter2(
     const Vector2D& direction,
     double speed,
     double spreadAngleInDegrees,
+    size_t maxNumOfNewParticlesPerSec,
+    size_t maxNumOfParticles,
     uint32_t seed) :
     _rng(seed),
+    _maxNumberOfNewParticlesPerSecond(maxNumOfNewParticlesPerSec),
+    _maxNumberOfParticles(maxNumOfParticles),
     _origin(origin),
     _direction(direction),
     _speed(speed),
