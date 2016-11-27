@@ -22,8 +22,8 @@ TEST(VolumeParticleEmitter3, Constructors) {
         true);
 
     EXPECT_EQ(0.01, emitter.jitter());
-    EXPECT_EQ(false, emitter.isOneShot());
-    EXPECT_EQ(true, emitter.allowOverlapping());
+    EXPECT_FALSE(emitter.isOneShot());
+    EXPECT_TRUE(emitter.allowOverlapping());
     EXPECT_EQ(30u, emitter.maxNumberOfParticles());
     EXPECT_EQ(0.1, emitter.spacing());
     EXPECT_EQ(-1.0, emitter.initialVelocity().x);
