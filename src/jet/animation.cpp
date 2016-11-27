@@ -4,6 +4,8 @@
 #include <jet/animation.h>
 #include <jet/timer.h>
 
+#include "./private_helpers.h"
+
 using namespace jet;
 
 Frame::Frame() {
@@ -24,6 +26,19 @@ void Frame::advance() {
 
 void Frame::advance(unsigned int delta) {
     index += delta;
+}
+
+Frame& Frame::operator++() {
+    advance();
+    return *this;
+}
+
+Frame Frame::operator++(int i) {
+    UNUSED_VARIABLE(i);
+
+    Frame result = *this;
+    advance();
+    return result;
 }
 
 Animation::Animation() {

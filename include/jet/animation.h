@@ -36,6 +36,12 @@ struct Frame final {
     //! Advances multiple frames.
     //! \param delta Number of frames to advance.
     void advance(unsigned int delta);
+
+    //! Advances single frame (prefix).
+    Frame& operator++();
+
+    //! Advances single frame (postfix).
+    Frame operator++(int);
 };
 
 //!

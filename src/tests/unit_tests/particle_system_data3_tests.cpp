@@ -6,6 +6,11 @@
 
 using namespace jet;
 
+TEST(ParticleSystemData3, Constructors) {
+    ParticleSystemData3 particleSystem;
+    EXPECT_EQ(0u, particleSystem.numberOfParticles());
+}
+
 TEST(ParticleSystemData3, Resize) {
     ParticleSystemData3 particleSystem;
     particleSystem.resize(12);

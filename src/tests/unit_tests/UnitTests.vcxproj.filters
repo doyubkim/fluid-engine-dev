@@ -231,6 +231,12 @@
     <ClCompile Include="point_parallel_hash_grid_searcher3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="point_particle_emitter2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_particle_emitter3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="point_simple_list_searcher2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -295,6 +301,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vertex_centered_vector_grid3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volume_particle_emitter2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volume_particle_emitter3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="animation_tests.cpp">

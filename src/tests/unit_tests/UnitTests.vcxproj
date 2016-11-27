@@ -92,6 +92,8 @@
     <ClCompile Include="point_hash_grid_searchers3_tests.cpp" />
     <ClCompile Include="point_parallel_hash_grid_searcher2_tests.cpp" />
     <ClCompile Include="point_parallel_hash_grid_searcher3_tests.cpp" />
+    <ClCompile Include="point_particle_emitter2_tests.cpp" />
+    <ClCompile Include="point_particle_emitter3_tests.cpp" />
     <ClCompile Include="point_simple_list_searcher2_tests.cpp" />
     <ClCompile Include="point_simple_list_searcher3_tests.cpp" />
     <ClCompile Include="point_tests.cpp" />
@@ -114,6 +116,8 @@
     <ClCompile Include="vertex_centered_scalar_grid3_tests.cpp" />
     <ClCompile Include="vertex_centered_vector_grid2_tests.cpp" />
     <ClCompile Include="vertex_centered_vector_grid3_tests.cpp" />
+    <ClCompile Include="volume_particle_emitter2_tests.cpp" />
+    <ClCompile Include="volume_particle_emitter3_tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF6018A6-EC7E-4D2E-856A-DAAB0B336946}</ProjectGuid>

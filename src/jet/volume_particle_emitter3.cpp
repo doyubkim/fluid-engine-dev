@@ -8,17 +8,27 @@
 
 using namespace jet;
 
+static const size_t kDefaultHashGridResolution = 64;
+
 VolumeParticleEmitter3::VolumeParticleEmitter3(
     const ImplicitSurface3Ptr& implicitSurface,
     const BoundingBox3D& bounds,
     double spacing,
     const Vector3D& initialVel,
+    size_t maxNumberOfParticles,
+    double jitter,
+    bool isOneShot,
+    bool allowOverlapping,
     uint32_t seed) :
     _rng(seed),
     _implicitSurface(implicitSurface),
     _bounds(bounds),
     _spacing(spacing),
-    _initialVel(initialVel) {
+    _initialVel(initialVel),
+    _maxNumberOfParticles(maxNumberOfParticles),
+    _jitter(jitter),
+    _isOneShot(isOneShot),
+    _allowOverlapping(allowOverlapping) {
     _pointsGen = std::make_shared<BccLatticePointGenerator>();
 }
 
@@ -31,23 +41,12 @@ void VolumeParticleEmitter3::emit(
         return;
     }
 
-    Array1<Vector3D> candidatePositions;
-    Array1<Vector3D> candidateVelocities;
     Array1<Vector3D> newPositions;
     Array1<Vector3D> newVelocities;
 
-    emit(particles, &candidatePositions, &candidateVelocities);
+    emit(particles, &newPositions, &newVelocities);
 
-    size_t expectedSize = _numberOfEmittedParticles + candidatePositions.size();
-
-    if (expectedSize < _maxNumberOfParticles) {
-        newPositions.append(candidatePositions);
-        newVelocities.append(candidateVelocities);
-
-        particles->addParticles(newPositions, newVelocities);
-
-        _numberOfEmittedParticles += newPositions.size();
-    }
+    particles->addParticles(newPositions, newVelocities);
 }
 
 void VolumeParticleEmitter3::emit(
@@ -69,14 +68,27 @@ void VolumeParticleEmitter3::emit(
                 Vector3D offset = maxJitterDist * randomDir;
                 Vector3D candidate = point + offset;
                 if (_implicitSurface->signedDistance(candidate) <= 0.0) {
-                    newPositions->append(candidate);
+                    if (_numberOfEmittedParticles < _maxNumberOfParticles) {
+                        newPositions->append(candidate);
+                        ++_numberOfEmittedParticles;
+                    } else {
+                        return false;
+                    }
                 }
 
                 return true;
             });
     } else {
-        particles->buildNeighborSearcher(_spacing);
-        auto neighborSearcher = particles->neighborSearcher();
+        // Use serial hash grid searcher for continuous update.
+        PointHashGridSearcher3 neighborSearcher(
+            Size3(
+                kDefaultHashGridResolution,
+                kDefaultHashGridResolution,
+                kDefaultHashGridResolution),
+            2.0 * _spacing);
+        if (!_allowOverlapping) {
+            neighborSearcher.build(particles->positions());
+        }
 
         _pointsGen->forEachPoint(
             _bounds,
@@ -87,9 +99,16 @@ void VolumeParticleEmitter3::emit(
                     random());
                 Vector3D offset = maxJitterDist * randomDir;
                 Vector3D candidate = point + offset;
-                if (_implicitSurface->signedDistance(candidate) <= 0.0
-                    && !neighborSearcher->hasNearbyPoint(point, _spacing)) {
-                    newPositions->append(candidate);
+                if (_implicitSurface->signedDistance(candidate) <= 0.0 &&
+                    (!_allowOverlapping &&
+                     !neighborSearcher.hasNearbyPoint(candidate, _spacing))) {
+                    if (_numberOfEmittedParticles < _maxNumberOfParticles) {
+                        newPositions->append(candidate);
+                        neighborSearcher.add(candidate);
+                        ++_numberOfEmittedParticles;
+                    } else {
+                        return false;
+                    }
                 }
 
                 return true;
@@ -113,12 +132,45 @@ void VolumeParticleEmitter3::setJitter(double newJitter) {
     _jitter = clamp(newJitter, 0.0, 1.0);
 }
 
+bool VolumeParticleEmitter3::isOneShot() const {
+    return _isOneShot;
+}
+
 void VolumeParticleEmitter3::setIsOneShot(bool newValue) {
     _isOneShot = newValue;
 }
 
+bool VolumeParticleEmitter3::allowOverlapping() const {
+    return _allowOverlapping;
+}
+
 void VolumeParticleEmitter3::setAllowOverlapping(bool newValue) {
     _allowOverlapping = newValue;
+}
+
+size_t VolumeParticleEmitter3::maxNumberOfParticles() const {
+    return _maxNumberOfParticles;
+}
+
+void VolumeParticleEmitter3::setMaxNumberOfParticles(
+    size_t newMaxNumberOfParticles) {
+    _maxNumberOfParticles = newMaxNumberOfParticles;
+}
+
+double VolumeParticleEmitter3::spacing() const {
+    return _spacing;
+}
+
+void VolumeParticleEmitter3::setSpacing(double newSpacing) {
+    _spacing = newSpacing;
+}
+
+Vector3D VolumeParticleEmitter3::initialVelocity() const {
+    return _initialVel;
+}
+
+void VolumeParticleEmitter3::setInitialVelocity(const Vector3D& newInitialVel) {
+    _initialVel = newInitialVel;
 }
 
 double VolumeParticleEmitter3::random() {

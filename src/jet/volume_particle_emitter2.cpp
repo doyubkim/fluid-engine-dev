@@ -9,17 +9,27 @@
 
 using namespace jet;
 
+static const size_t kDefaultHashGridResolution = 64;
+
 VolumeParticleEmitter2::VolumeParticleEmitter2(
     const ImplicitSurface2Ptr& implicitSurface,
     const BoundingBox2D& bounds,
     double spacing,
     const Vector2D& initialVel,
+    size_t maxNumberOfParticles,
+    double jitter,
+    bool isOneShot,
+    bool allowOverlapping,
     uint32_t seed) :
     _rng(seed),
     _implicitSurface(implicitSurface),
     _bounds(bounds),
     _spacing(spacing),
-    _initialVel(initialVel) {
+    _initialVel(initialVel),
+    _maxNumberOfParticles(maxNumberOfParticles),
+    _jitter(jitter),
+    _isOneShot(isOneShot),
+    _allowOverlapping(allowOverlapping) {
     _pointsGen = std::make_shared<TrianglePointGenerator>();
 }
 
@@ -32,23 +42,12 @@ void VolumeParticleEmitter2::emit(
         return;
     }
 
-    Array1<Vector2D> candidatePositions;
-    Array1<Vector2D> candidateVelocities;
     Array1<Vector2D> newPositions;
     Array1<Vector2D> newVelocities;
 
-    emit(particles, &candidatePositions, &candidateVelocities);
+    emit(particles, &newPositions, &newVelocities);
 
-    size_t expectedSize = _numberOfEmittedParticles + candidatePositions.size();
-
-    if (expectedSize < _maxNumberOfParticles) {
-        newPositions.append(candidatePositions);
-        newVelocities.append(candidateVelocities);
-
-        particles->addParticles(newPositions, newVelocities);
-
-        _numberOfEmittedParticles += newPositions.size();
-    }
+    particles->addParticles(newPositions, newVelocities);
 }
 
 void VolumeParticleEmitter2::emit(
@@ -71,14 +70,26 @@ void VolumeParticleEmitter2::emit(
                 Vector2D offset = maxJitterDist * randomDir;
                 Vector2D candidate = point + offset;
                 if (_implicitSurface->signedDistance(candidate) <= 0.0) {
-                    newPositions->append(candidate);
+                    if (_numberOfEmittedParticles < _maxNumberOfParticles) {
+                        newPositions->append(candidate);
+                        ++_numberOfEmittedParticles;
+                    } else {
+                        return false;
+                    }
                 }
 
                 return true;
             });
     } else {
-        particles->buildNeighborSearcher(_spacing);
-        auto neighborSearcher = particles->neighborSearcher();
+        // Use serial hash grid searcher for continuous update.
+        PointHashGridSearcher2 neighborSearcher(
+            Size2(
+                kDefaultHashGridResolution,
+                kDefaultHashGridResolution),
+            2.0 * _spacing);
+        if (!_allowOverlapping) {
+            neighborSearcher.build(particles->positions());
+        }
 
         _pointsGen->forEachPoint(
             _bounds,
@@ -90,9 +101,16 @@ void VolumeParticleEmitter2::emit(
                 Vector2D randomDir = rotationMatrix * Vector2D();
                 Vector2D offset = maxJitterDist * randomDir;
                 Vector2D candidate = point + offset;
-                if (_implicitSurface->signedDistance(candidate) <= 0.0
-                    && !neighborSearcher->hasNearbyPoint(point, _spacing)) {
-                    newPositions->append(candidate);
+                if (_implicitSurface->signedDistance(candidate) <= 0.0 &&
+                    (!_allowOverlapping &&
+                     !neighborSearcher.hasNearbyPoint(candidate, _spacing))) {
+                    if (_numberOfEmittedParticles < _maxNumberOfParticles) {
+                        newPositions->append(candidate);
+                        neighborSearcher.add(candidate);
+                        ++_numberOfEmittedParticles;
+                    } else {
+                        return false;
+                    }
                 }
 
                 return true;
@@ -116,12 +134,45 @@ void VolumeParticleEmitter2::setJitter(double newJitter) {
     _jitter = clamp(newJitter, 0.0, 1.0);
 }
 
+bool VolumeParticleEmitter2::isOneShot() const {
+    return _isOneShot;
+}
+
 void VolumeParticleEmitter2::setIsOneShot(bool newValue) {
     _isOneShot = newValue;
 }
 
+bool VolumeParticleEmitter2::allowOverlapping() const {
+    return _allowOverlapping;
+}
+
 void VolumeParticleEmitter2::setAllowOverlapping(bool newValue) {
     _allowOverlapping = newValue;
+}
+
+size_t VolumeParticleEmitter2::maxNumberOfParticles() const {
+    return _maxNumberOfParticles;
+}
+
+void VolumeParticleEmitter2::setMaxNumberOfParticles(
+    size_t newMaxNumberOfParticles) {
+    _maxNumberOfParticles = newMaxNumberOfParticles;
+}
+
+double VolumeParticleEmitter2::spacing() const {
+    return _spacing;
+}
+
+void VolumeParticleEmitter2::setSpacing(double newSpacing) {
+    _spacing = newSpacing;
+}
+
+Vector2D VolumeParticleEmitter2::initialVelocity() const {
+    return _initialVel;
+}
+
+void VolumeParticleEmitter2::setInitialVelocity(const Vector2D& newInitialVel) {
+    _initialVel = newInitialVel;
 }
 
 double VolumeParticleEmitter2::random() {

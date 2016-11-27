@@ -33,4 +33,10 @@ TEST(Frame, Advance) {
     frame.advance(23);
 
     EXPECT_EQ(77u, frame.index);
+
+    EXPECT_EQ(78u, (++frame).index);
+
+    EXPECT_EQ(78u, (frame++).index);
+
+    EXPECT_EQ(79u, frame.index);
 }
