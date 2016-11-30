@@ -7,8 +7,14 @@ using namespace jet;
 
 TEST(Matrix4x4, Constructors) {
     Matrix4x4D mat;
-    for (int i = 0; i < 16; ++i) {
-        EXPECT_DOUBLE_EQ(0.0, mat[i]);
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (i == j) {
+                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
+            } else {
+                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
+            }
+        }
     }
 
     Matrix4x4D mat2(3.1);
