@@ -201,6 +201,15 @@ TEST(Quaternion, BinaryOperators) {
     EXPECT_DOUBLE_EQ(ans2.x, ans1.x);
     EXPECT_DOUBLE_EQ(ans2.y, ans1.y);
     EXPECT_DOUBLE_EQ(ans2.z, ans1.z);
+
+    q1.set(1, 2, 3, 4);
+    q2.set(5, 6, 7, 8);
+    EXPECT_DOUBLE_EQ(70.0, q1.dot(q2));
+
+    q3 = q1.mul(q2);
+    EXPECT_EQ(q3, q2.rmul(q1));
+    q1.imul(q2);
+    EXPECT_EQ(q3, q1);
 }
 
 TEST(Quaternion, Modifiers) {
@@ -268,6 +277,9 @@ TEST(Quaternion, ComplexGetters) {
     EXPECT_DOUBLE_EQ(0.0, axis.x);
     EXPECT_DOUBLE_EQ(5.0 / std::sqrt(29.0), axis.y);
     EXPECT_DOUBLE_EQ(2.0 / std::sqrt(29.0), axis.z);
+
+    EXPECT_EQ(axis, q.axis());
+    EXPECT_EQ(angle, q.angle());
 
     EXPECT_DOUBLE_EQ(2.0 * std::acos(1.0 / std::sqrt(30.0)), angle);
 
