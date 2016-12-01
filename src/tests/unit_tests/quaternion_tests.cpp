@@ -174,10 +174,10 @@ TEST(Quaternion, Normalized) {
     QuaternionD qn = q.normalized();
 
     double denom = std::sqrt(30.0);
-    EXPECT_FLOAT_EQ(1.0 / denom, qn.w);
-    EXPECT_FLOAT_EQ(2.0 / denom, qn.x);
-    EXPECT_FLOAT_EQ(3.0 / denom, qn.y);
-    EXPECT_FLOAT_EQ(4.0 / denom, qn.z);
+    EXPECT_DOUBLE_EQ(1.0 / denom, qn.w);
+    EXPECT_DOUBLE_EQ(2.0 / denom, qn.x);
+    EXPECT_DOUBLE_EQ(3.0 / denom, qn.y);
+    EXPECT_DOUBLE_EQ(4.0 / denom, qn.z);
 }
 
 TEST(Quaternion, BinaryOperators) {
