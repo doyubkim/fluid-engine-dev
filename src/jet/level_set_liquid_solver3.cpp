@@ -74,11 +74,6 @@ void LevelSetLiquidSolver3::onEndAdvanceTimeStep(double timeIntervalInSeconds) {
     JET_INFO << "reinitializing level set field took "
              << timer.durationInSeconds() << " seconds";
 
-    timer.reset();
-    extrapolateVelocityToAir(currentCfl);
-    JET_INFO << "velocity extrapolation took "
-             << timer.durationInSeconds() << " seconds";
-
     // Measure current volume
     double currentVol = computeVolume();
     double volDiff = currentVol - _lastKnownVolume;
@@ -92,6 +87,17 @@ void LevelSetLiquidSolver3::onEndAdvanceTimeStep(double timeIntervalInSeconds) {
         currentVol = computeVolume();
         JET_INFO << "Volume after global compensation: " << currentVol;
     }
+}
+
+void LevelSetLiquidSolver3::computeAdvection(double timeIntervalInSeconds) {
+    double currentCfl = cfl(timeIntervalInSeconds);
+
+    Timer timer;
+    extrapolateVelocityToAir(currentCfl);
+    JET_INFO << "velocity extrapolation took "
+             << timer.durationInSeconds() << " seconds";
+
+    GridFluidSolver3::computeAdvection(timeIntervalInSeconds);
 }
 
 ScalarField3Ptr LevelSetLiquidSolver3::fluidSdf() const {

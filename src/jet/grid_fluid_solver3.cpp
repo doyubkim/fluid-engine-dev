@@ -161,11 +161,6 @@ void GridFluidSolver3::onAdvanceTimeStep(double timeIntervalInSeconds) {
     beginAdvanceTimeStep(timeIntervalInSeconds);
 
     Timer timer;
-    computeAdvection(timeIntervalInSeconds);
-    JET_INFO << "Computing advection force took "
-        << timer.durationInSeconds() << " seconds";
-
-    timer.reset();
     computeExternalForces(timeIntervalInSeconds);
     JET_INFO << "Computing external force took "
              << timer.durationInSeconds() << " seconds";
@@ -178,6 +173,11 @@ void GridFluidSolver3::onAdvanceTimeStep(double timeIntervalInSeconds) {
     timer.reset();
     computePressure(timeIntervalInSeconds);
     JET_INFO << "Computing pressure force took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    computeAdvection(timeIntervalInSeconds);
+    JET_INFO << "Computing advection force took "
              << timer.durationInSeconds() << " seconds";
 
     endAdvanceTimeStep(timeIntervalInSeconds);
