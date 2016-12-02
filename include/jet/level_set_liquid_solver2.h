@@ -52,6 +52,9 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2 {
     //! Called at the end of the time-step.
     void onEndAdvanceTimeStep(double timeIntervalInSeconds) override;
 
+    //! Customizes advection step.
+    void computeAdvection(double timeIntervalInSeconds) override;
+
     //!
     //! \brief Returns fluid region as a signed-distance field.
     //!
