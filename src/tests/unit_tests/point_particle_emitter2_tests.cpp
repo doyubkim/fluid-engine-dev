@@ -15,8 +15,8 @@ TEST(PointParticleEmitter2, Constructors) {
         4,
         18);
 
-    EXPECT_EQ(4, emitter.maxNumberOfNewParticlesPerSecond());
-    EXPECT_EQ(18, emitter.maxNumberOfParticles());
+    EXPECT_EQ(4u, emitter.maxNumberOfNewParticlesPerSecond());
+    EXPECT_EQ(18u, emitter.maxNumberOfParticles());
 }
 
 TEST(PointParticleEmitter2, Emit) {
@@ -34,23 +34,23 @@ TEST(PointParticleEmitter2, Emit) {
 
     Frame frame(1, 1.0);
     emitter.emit(frame, particles);
-    EXPECT_EQ(4, particles->numberOfParticles());
+    EXPECT_EQ(4u, particles->numberOfParticles());
 
     frame.advance();
     emitter.emit(frame, particles);
-    EXPECT_EQ(8, particles->numberOfParticles());
+    EXPECT_EQ(8u, particles->numberOfParticles());
 
     frame.advance();
     emitter.emit(frame, particles);
-    EXPECT_EQ(12, particles->numberOfParticles());
+    EXPECT_EQ(12u, particles->numberOfParticles());
 
     frame.advance();
     emitter.emit(frame, particles);
-    EXPECT_EQ(16, particles->numberOfParticles());
+    EXPECT_EQ(16u, particles->numberOfParticles());
 
     frame.advance();
     emitter.emit(frame, particles);
-    EXPECT_EQ(18, particles->numberOfParticles());
+    EXPECT_EQ(18u, particles->numberOfParticles());
 
     auto pos = particles->positions();
     auto vel = particles->velocities();
