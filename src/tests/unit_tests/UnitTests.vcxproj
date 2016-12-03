@@ -98,6 +98,9 @@
     <ClCompile Include="point_simple_list_searcher3_tests.cpp" />
     <ClCompile Include="point_tests.cpp" />
     <ClCompile Include="quaternion_tests.cpp" />
+    <ClCompile Include="ray2_tests.cpp" />
+    <ClCompile Include="ray3_tests.cpp" />
+    <ClCompile Include="samplers_tests.cpp" />
     <ClCompile Include="rigid_body_collider2_tests.cpp" />
     <ClCompile Include="rigid_body_collider3_tests.cpp" />
     <ClCompile Include="sph_kernels_tests.cpp" />

@@ -187,18 +187,16 @@ bool PointParallelHashGridSearcher3::hasNearbyPoint(
             Vector3D direction = _points[j] - origin;
             double distanceSquared = direction.lengthSquared();
             if (distanceSquared <= queryRadiusSquared) {
-                double distance = 0.0;
-                if (distanceSquared > 0) {
-                    distance = std::sqrt(distanceSquared);
-                    direction /= distance;
-                }
-
                 return true;
             }
         }
     }
 
     return false;
+}
+
+const std::vector<size_t>& PointParallelHashGridSearcher3::keys() const {
+    return _keys;
 }
 
 const std::vector<size_t>&

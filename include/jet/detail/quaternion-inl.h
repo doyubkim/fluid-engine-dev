@@ -10,7 +10,7 @@ namespace jet {
 // Constructors
 template <typename T>
 inline Quaternion<T>::Quaternion() {
-    makeIdentity();
+    setIdentity();
 }
 
 template <typename T>
@@ -84,7 +84,7 @@ inline void Quaternion<T>::set(const Vector3<T>& axis, T angle) {
     T axisLengthSquared = axis.lengthSquared();
 
     if (axisLengthSquared < eps) {
-        makeIdentity();
+        setIdentity();
     } else {
         Vector3<T> normalizedAxis = axis.normalized();
         T s = std::sin(angle / 2);
@@ -107,7 +107,7 @@ inline void Quaternion<T>::set(const Vector3<T>& from, const Vector3<T>& to) {
 
     if (fromLengthSquared < eps ||
         toLengthSquared < eps) {
-        makeIdentity();
+        setIdentity();
     } else {
         T axisLengthSquared = axis.lengthSquared();
 
@@ -207,8 +207,8 @@ inline Vector3<T> Quaternion<T>::mul(const Vector3<T>& v) const {
 
     return Vector3<T>(
         (1 - _2yy - _2zz)*v.x + (_2xy - _2zw)*v.y + (_2xz + _2yw)*v.z,
-        (_2xy + _2zw)*v.x + (1 - _2zz - _2xx)*v.y + (_2yz + _2xw)*v.z,
-        (_2xz - _2yw)*v.x + (_2yz - _2xw)*v.y + (1 - _2yy - _2xx)*v.z);
+        (_2xy + _2zw)*v.x + (1 - _2zz - _2xx)*v.y + (_2yz - _2xw)*v.z,
+        (_2xz - _2yw)*v.x + (_2yz + _2xw)*v.y + (1 - _2yy - _2xx)*v.z);
 }
 
 template <typename T>
@@ -245,7 +245,7 @@ inline void Quaternion<T>::imul(const Quaternion& other) {
 
 // Modifiers
 template <typename T>
-inline void Quaternion<T>::makeIdentity() {
+inline void Quaternion<T>::setIdentity() {
     set(1, 0, 0, 0);
 }
 
@@ -254,7 +254,7 @@ inline void Quaternion<T>::rotate(T angleInRadians) {
     Vector3<T> axis;
     T currentAngle;
 
-    getAxisAngle(axis, currentAngle);
+    getAxisAngle(&axis, &currentAngle);
 
     currentAngle += angleInRadians;
 
@@ -314,7 +314,8 @@ inline void Quaternion<T>::getAxisAngle(Vector3<T>* axis, T* angle) const {
 
 template <typename T>
 inline Quaternion<T> Quaternion<T>::inverse() const {
-    return Quaternion(w, -x, -y, -z);
+    T denom = w * w + x * x + y * y + z * z;
+    return Quaternion(w / denom, -x / denom, -y / denom, -z / denom);
 }
 
 template <typename T>
@@ -330,9 +331,9 @@ inline Matrix3x3<T> Quaternion<T>::matrix3() const {
     T _2zw = 2 * z * w;
 
     Matrix3x3<T> m(
-        1 - _2yy - _2zz, _2xy + _2zw, _2xz - _2yw,
-        _2xy - _2zw, 1 - _2zz - _2xx, _2yz - _2xw,
-        _2xz + _2yw, _2yz + _2xw, 1 - _2yy - _2xx);
+        1 - _2yy - _2zz, _2xy - _2zw, _2xz + _2yw,
+        _2xy + _2zw, 1 - _2zz - _2xx, _2yz - _2xw,
+        _2xz - _2yw, _2yz + _2xw, 1 - _2yy - _2xx);
 
     return m;
 }
@@ -350,9 +351,9 @@ inline Matrix4x4<T> Quaternion<T>::matrix4() const {
     T _2zw = 2 * z * w;
 
     Matrix4x4<T> m(
-        1 - _2yy - _2zz, _2xy + _2zw, _2xz - _2yw, 0,
-        _2xy - _2zw, 1 - _2zz - _2xx, _2yz - _2xw, 0,
-        _2xz + _2yw, _2yz + _2xw, 1 - _2yy - _2xx, 0,
+        1 - _2yy - _2zz, _2xy - _2zw, _2xz + _2yw, 0,
+        _2xy + _2zw, 1 - _2zz - _2xx, _2yz - _2xw, 0,
+        _2xz - _2yw, _2yz + _2xw, 1 - _2yy - _2xx, 0,
         0, 0, 0, 1);
 
     return m;
@@ -402,6 +403,11 @@ bool Quaternion<T>::operator!=(const Quaternion& other) const {
         x != other.x ||
         y != other.y ||
         z != other.z;
+}
+
+template <typename T>
+Quaternion<T> Quaternion<T>::makeIdentity() {
+    return Quaternion();
 }
 
 

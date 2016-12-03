@@ -26,8 +26,7 @@ class Matrix<T, 2, 2> {
 
     // MARK: Constructors
 
-    //! Default constructor.
-    //! \warning This constructor will create zero matrix.
+    //! Constructs identity matrix.
     Matrix();
 
     //! Constructs constant value matrix.

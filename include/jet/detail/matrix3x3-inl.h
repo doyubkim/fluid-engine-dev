@@ -13,7 +13,9 @@ namespace jet {
 // MARK: CTOR/DTOR
 template <typename T>
 Matrix<T, 3, 3>::Matrix() {
-    set(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    set(1, 0, 0,
+        0, 1, 0,
+        0, 0, 1);
 }
 
 template <typename T>

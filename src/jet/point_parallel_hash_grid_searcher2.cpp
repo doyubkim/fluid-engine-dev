@@ -185,6 +185,10 @@ bool PointParallelHashGridSearcher2::hasNearbyPoint(
     return false;
 }
 
+const std::vector<size_t>& PointParallelHashGridSearcher2::keys() const {
+    return _keys;
+}
+
 const std::vector<size_t>&
 PointParallelHashGridSearcher2::startIndexTable() const {
     return _startIndexTable;

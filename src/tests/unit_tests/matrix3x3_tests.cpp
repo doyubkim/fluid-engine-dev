@@ -7,9 +7,9 @@ using namespace jet;
 
 TEST(Matrix3x3, Constructors) {
     Matrix3x3D mat;
-    for (int i = 0; i < 9; ++i) {
-        EXPECT_DOUBLE_EQ(0.0, mat[i]);
-    }
+    EXPECT_TRUE(mat == Matrix3x3D(1.0, 0.0, 0.0,
+                                  0.0, 1.0, 0.0,
+                                  0.0, 0.0, 1.0));
 
     Matrix3x3D mat2(3.1);
     for (int i = 0; i < 9; ++i) {
