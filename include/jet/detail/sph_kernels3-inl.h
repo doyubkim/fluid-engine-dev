@@ -40,6 +40,16 @@ inline double SphStdKernel3::firstDerivative(double distance) const {
 }
 
 inline Vector3D SphStdKernel3::gradient(
+    const Vector3D& point) const {
+    double dist = point.length();
+    if (dist > 0.0) {
+        return gradient(dist, point / dist);
+    } else {
+        return Vector3D(0, 0, 0);
+    }
+}
+
+inline Vector3D SphStdKernel3::gradient(
     double distance,
     const Vector3D& directionToCenter) const {
     return -firstDerivative(distance) * directionToCenter;
@@ -78,6 +88,16 @@ inline double SphSpikyKernel3::firstDerivative(double distance) const {
     } else {
         double x = 1.0 - distance / h;
         return -45.0 / (kPiD * h4) * x * x;
+    }
+}
+
+inline Vector3D SphSpikyKernel3::gradient(
+    const Vector3D& point) const {
+    double dist = point.length();
+    if (dist > 0.0) {
+        return gradient(dist, point / dist);
+    } else {
+        return Vector3D(0, 0, 0);
     }
 }
 

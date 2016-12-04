@@ -104,7 +104,6 @@
     <ClCompile Include="rigid_body_collider2_tests.cpp" />
     <ClCompile Include="rigid_body_collider3_tests.cpp" />
     <ClCompile Include="serial_tests.cpp" />
-    <ClCompile Include="sph_kernels_tests.cpp" />
     <ClCompile Include="sph_solver2_tests.cpp" />
     <ClCompile Include="sph_solver3_tests.cpp" />
     <ClCompile Include="sphere2_tests.cpp" />

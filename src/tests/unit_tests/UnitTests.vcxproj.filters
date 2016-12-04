@@ -267,9 +267,6 @@
     <ClCompile Include="serial_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sph_kernels_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sph_solver2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
