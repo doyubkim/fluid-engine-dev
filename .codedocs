@@ -1,0 +1,27 @@
+# CodeDocs.xyz Configuration File
+#
+# Rename this example to '.codedocs' and put it in the root directory of your
+# repository. This file is optional, documentation will still be generated
+# without it using sensible defaults.
+
+#---------------------------------------------------------------------------
+# CodeDocs Configuration
+#---------------------------------------------------------------------------
+
+# Include the Doxygen configuration from another file.
+# The file must be a relative path with respect to the root of the repository.
+# If any of the options in this doxyfile include a path (ie, INPUT), these
+# paths will be considered relative to the root of the repository, not the
+# location of the DOXYFILE.
+
+DOXYFILE = doc/Doxyfile
+
+# Specify external repository to link documentation with.
+# This is similar to Doxygen's TAGFILES option, but will automatically link to
+# tags of other repositories already using CodeDocs. List each repository to
+# link with by giving its location in the form of owner/repository.
+# For example:
+#   TAGLINKS = doxygen/doxygen CodeDocs/osg
+# Note: these repositories must already be built on CodeDocs.
+
+TAGLINKS =
