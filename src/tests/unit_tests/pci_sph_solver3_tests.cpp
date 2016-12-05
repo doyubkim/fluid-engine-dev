@@ -8,7 +8,7 @@ using namespace jet;
 TEST(PciSphSolver3, UpdateEmpty) {
     // Empty solver test
     PciSphSolver3 solver;
-    Frame frame;
+    Frame frame(1, 0.01);
     solver.update(frame);
     solver.update(frame);
 }
