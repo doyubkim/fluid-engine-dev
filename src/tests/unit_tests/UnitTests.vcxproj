@@ -112,8 +112,10 @@
     <ClCompile Include="sphere3_tests.cpp" />
     <ClCompile Include="surface_to_implicit2_tests.cpp" />
     <ClCompile Include="surface_to_implicit3_tests.cpp" />
+    <ClCompile Include="timer_tests.cpp" />
     <ClCompile Include="triangle3_tests.cpp" />
     <ClCompile Include="triangle_mesh3_tests.cpp" />
+    <ClCompile Include="triangle_mesh_to_sdf_tests.cpp" />
     <ClCompile Include="vector2_tests.cpp" />
     <ClCompile Include="vector3_tests.cpp" />
     <ClCompile Include="vector_tests.cpp" />
