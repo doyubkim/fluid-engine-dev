@@ -11,49 +11,111 @@
 
 namespace jet {
 
+//!
+//! \brief      Basic 3-D particle system solver.
+//!
+//! This class implements basic particle system solver. It includes gravity,
+//! air drag, and collision. But it does not compute particle-to-particle
+//! interaction. Thus, this solver is suitable for performing simple spray-like
+//! simulations with low computational cost. This class can be further extend
+//! to add more sophisticated simulations, such as SPH, to handle
+//! particle-to-particle intersection.
+//!
+//! \see        SphSolver2
+//!
 class ParticleSystemSolver3 : public PhysicsAnimation {
  public:
+    //! Constructs an empty solver.
     ParticleSystemSolver3();
 
+    //! Destructor.
     virtual ~ParticleSystemSolver3();
 
+    //! Returns the drag coefficient.
     double dragCoefficient() const;
 
+    //!
+    //! \brief      Sets the drag coefficient.
+    //!
+    //! The drag coefficient controls the amount of air-drag. The coefficient
+    //! should be a positive number and 0 means no drag force.
+    //!
+    //! \param[in]  newDragCoefficient The new drag coefficient.
+    //!
     void setDragCoefficient(double newDragCoefficient);
 
+    //! Sets the restitution coefficient.
     double restitutionCoefficient() const;
 
+    //!
+    //! \brief      Sets the restitution coefficient.
+    //!
+    //! The restitution coefficient controls the bouncy-ness of a particle when
+    //! it hits a collider surface. The range of the coefficient should be 0 to
+    //! 1 -- 0 means no bounce back and 1 means perfect reflection.
+    //!
+    //! \param[in]  newRestitutionCoefficient The new restitution coefficient.
+    //!
     void setRestitutionCoefficient(double newRestitutionCoefficient);
 
+    //! Returns the gravity.
     const Vector3D& gravity() const;
 
+    //! Sets the gravity.
     void setGravity(const Vector3D& newGravity);
 
+    //!
+    //! \brief      Returns the particle system data.
+    //!
+    //! This function returns the particle system data. The data is created when
+    //! this solver is constructed and also owned by the solver.
+    //!
+    //! \return     The particle system data.
+    //!
     const ParticleSystemData3Ptr& particleSystemData() const;
 
+    //! Returns the collider.
     const Collider3Ptr& collider() const;
 
+    //! Sets the collider.
     void setCollider(const Collider3Ptr& newCollider);
 
+    //! Returns the wind field.
     const VectorField3Ptr& wind() const;
 
+    //!
+    //! \brief      Sets the wind.
+    //!
+    //! Wind can be applied to the particle system by setting a vector field to
+    //! the solver.
+    //!
+    //! \param[in]  newWind The new wind.
+    //!
     void setWind(const VectorField3Ptr& newWind);
 
  protected:
+    //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
+    //! Accumulates forces applied to the particles.
     virtual void accumulateForces(double timeStepInSeconds);
 
+    //! Called when a time-step is about to begin.
     virtual void onBeginAdvanceTimeStep(double timeStepInSeconds);
 
+    //! Called after a time-step is completed.
     virtual void onEndAdvanceTimeStep(double timeStepInSeconds);
 
+    //! Resolves any collisions occured by the particles.
     void resolveCollision();
 
+    //! Resolves any collisions occured by the particles where the particle
+    //! state is given by the position and velocity arrays.
     void resolveCollision(
         ArrayAccessor1<Vector3D> newPositions,
         ArrayAccessor1<Vector3D> newVelocities);
 
+    //! Assign a new particle system data.
     void setParticleSystemData(const ParticleSystemData3Ptr& newParticles);
 
  private:

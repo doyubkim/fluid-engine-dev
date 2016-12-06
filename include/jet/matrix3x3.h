@@ -10,6 +10,15 @@
 
 namespace jet {
 
+//!
+//! \brief 3-D matrix class.
+//!
+//! This class is a row-major 3-D matrix class, which means each element of
+//! the matrix is stored in order of (0, 0), (0, 1), (0, 2), (1, 0), (1, 1),
+//! (1, 2), (2, 0), (2, 1), and (2, 2).
+//!
+//! \tparam T - Type of the element.
+//!
 template <typename T>
 class Matrix<T, 3, 3> {
  public:

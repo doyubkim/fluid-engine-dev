@@ -10,10 +10,20 @@
 
 namespace jet {
 
+//!
+//! \brief      3-D box-ray intersection result.
+//!
+//! \tparam     T     The value type.
+//!
 template <typename T>
 struct BoundingBoxRayIntersection3 {
+    //! True if the box and ray intersects.
     bool isIntersecting = false;
+
+    //! Distance to the first intersection point.
     T tNear = std::numeric_limits<T>::max();
+
+    //! Distance to the second (and the last) intersection point.
     T tFar = std::numeric_limits<T>::max();
 };
 

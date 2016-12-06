@@ -8,18 +8,35 @@
 
 namespace jet {
 
+//!
+//! \brief      Level set based 2-D liquid solver.
+//!
+//! This class implements level set-based 2-D liquid solver. It defines the
+//! surface of the liquid using signed-distance field and use stable fluids
+//! framework to compute the forces.
+//!
+//! \see Enright, Douglas, Stephen Marschner, and Ronald Fedkiw.
+//!     "Animation and rendering of complex water surfaces." ACM Transactions on
+//!     Graphics (TOG). Vol. 21. No. 3. ACM, 2002.
+//!
 class LevelSetLiquidSolver2 : public GridFluidSolver2 {
  public:
+    //! Constructs an empty solver.
     LevelSetLiquidSolver2();
 
+    //! Destructor.
     virtual ~LevelSetLiquidSolver2();
 
+    //! Returns signed-distance field.
     ScalarGrid2Ptr signedDistanceField() const;
 
+    //! Returns the level set solver.
     LevelSetSolver2Ptr levelSetSolver() const;
 
+    //! Sets the level set solver.
     void setLevelSetSolver(const LevelSetSolver2Ptr& newSolver);
 
+    //! Sets minimum reinitialization distance.
     void setMinReinitializeDistance(double distance);
 
     //!

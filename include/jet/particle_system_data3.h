@@ -196,6 +196,7 @@ class ParticleSystemData3 {
     std::vector<std::vector<size_t>> _neighborLists;
 };
 
+//! Shared pointer type of ParticleSystemData3.
 typedef std::shared_ptr<ParticleSystemData3> ParticleSystemData3Ptr;
 
 }  // namespace jet

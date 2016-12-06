@@ -9,7 +9,7 @@
 namespace jet {
 
 //!
-//! Abstract base class for 2-D particle emitter.
+//! \brief Abstract base class for 2-D particle emitter.
 //!
 class ParticleEmitter2 {
  public:
