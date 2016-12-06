@@ -200,7 +200,10 @@ Vector<T, 3> operator*(const Quaternion<T>& q, const Vector<T, 3>& v);
 template <typename T>
 Quaternion<T> operator*(const Quaternion<T>& a, const Quaternion<T>& b);
 
+//! Float-type quaternion.
 typedef Quaternion<float> QuaternionF;
+
+//! Double-type quaternion.
 typedef Quaternion<double> QuaternionD;
 
 }  // namespace jet

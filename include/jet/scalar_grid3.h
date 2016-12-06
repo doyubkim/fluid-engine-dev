@@ -176,6 +176,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     void resetSampler();
 };
 
+//! Shared pointer for the ScalarGrid3 type.
 typedef std::shared_ptr<ScalarGrid3> ScalarGrid3Ptr;
 
 //! Abstract base class for 3-D scalar grid builder.
@@ -195,6 +196,7 @@ class ScalarGridBuilder3 {
         double initialVal) const = 0;
 };
 
+//! Shared pointer for the ScalarGridBuilder3 type.
 typedef std::shared_ptr<ScalarGridBuilder3> ScalarGridBuilder3Ptr;
 
 }  // namespace jet

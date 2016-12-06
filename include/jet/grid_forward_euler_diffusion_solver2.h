@@ -96,6 +96,7 @@ class GridForwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
         const ScalarField2& fluidSdf);
 };
 
+//! Shared pointer type for the GridForwardEulerDiffusionSolver2.
 typedef std::shared_ptr<GridForwardEulerDiffusionSolver2>
     GridForwardEulerDiffusionSolver2Ptr;
 

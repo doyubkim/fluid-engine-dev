@@ -111,6 +111,7 @@ class GridFractionalSinglePhasePressureSolver2 final :
         FaceCenteredGrid2* output);
 };
 
+//! Shared pointer type for the GridFractionalSinglePhasePressureSolver2.
 typedef std::shared_ptr<GridFractionalSinglePhasePressureSolver2>
     GridFractionalSinglePhasePressureSolver2Ptr;
 

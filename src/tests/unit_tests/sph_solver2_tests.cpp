@@ -8,7 +8,7 @@ using namespace jet;
 TEST(SphSolver2, UpdateEmpty) {
     // Empty solver test
     SphSolver2 solver;
-    Frame frame;
+    Frame frame(1, 0.01);
     solver.update(frame);
     solver.update(frame);
 }

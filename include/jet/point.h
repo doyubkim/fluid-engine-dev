@@ -24,7 +24,7 @@ class Point final {
         std::is_arithmetic<T>::value,
         "Point only can be instantiated with arithmetic types");
 
-    //! Default constructor.
+    //! Constructs a point with zeros.
     Point();
 
     //! Constructs point instance with parameters.

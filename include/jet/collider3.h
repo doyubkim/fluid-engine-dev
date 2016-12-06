@@ -84,6 +84,7 @@ class Collider3 {
     double _frictionCoeffient = 0.0;
 };
 
+//! Shared pointer type for the Collider2.
 typedef std::shared_ptr<Collider3> Collider3Ptr;
 
 }  // namespace jet

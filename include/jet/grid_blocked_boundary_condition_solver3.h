@@ -49,6 +49,7 @@ class GridBlockedBoundaryConditionSolver3 final
     Array3<char> _marker;
 };
 
+//! Shared pointer type for the GridBlockedBoundaryConditionSolver3.
 typedef std::shared_ptr<GridBlockedBoundaryConditionSolver3>
     GridBlockedBoundaryConditionSolver3Ptr;
 

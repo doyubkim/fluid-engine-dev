@@ -10,10 +10,20 @@
 
 namespace jet {
 
+//!
+//! \brief      2-D box-ray intersection result.
+//!
+//! \tparam     T     The value type.
+//!
 template <typename T>
 struct BoundingBoxRayIntersection2 {
+    //! True if the box and ray intersects.
     bool isIntersecting = false;
+
+    //! Distance to the first intersection point.
     T tNear = std::numeric_limits<T>::max();
+
+    //! Distance to the second (and the last) intersection point.
     T tFar = std::numeric_limits<T>::max();
 };
 
@@ -96,11 +106,19 @@ class BoundingBox<T, 2> {
     Vector2<T> corner(size_t idx) const;
 };
 
+//! Type alias for 2-D BoundingBox.
 template <typename T> using BoundingBox2 = BoundingBox<T, 2>;
 
+//! Float-type 2-D BoundingBox.
 typedef BoundingBox2<float> BoundingBox2F;
+
+//! Double-type 2-D BoundingBox.
 typedef BoundingBox2<double> BoundingBox2D;
+
+//! Float-type 2-D box-ray intersection result.
 typedef BoundingBoxRayIntersection2<float> BoundingBoxRayIntersection2F;
+
+//! Double-type 2-D box-ray intersection result.
 typedef BoundingBoxRayIntersection2<double> BoundingBoxRayIntersection2D;
 
 }  // namespace jet

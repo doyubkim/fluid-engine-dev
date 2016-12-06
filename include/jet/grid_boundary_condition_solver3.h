@@ -88,6 +88,7 @@ class GridBoundaryConditionSolver3 {
     int _closedDomainBoundaryFlag = kDirectionAll;
 };
 
+//! Shared pointer type for the GridBoundaryConditionSolver3.
 typedef std::shared_ptr<GridBoundaryConditionSolver3>
     GridBoundaryConditionSolver3Ptr;
 

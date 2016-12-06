@@ -56,6 +56,7 @@ class Box3 final : public Surface3 {
         const Ray3D& ray) const override;
 };
 
+//! Shared pointer type for the Box3.
 typedef std::shared_ptr<Box3> Box3Ptr;
 
 }  // namespace jet

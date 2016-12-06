@@ -9,190 +9,276 @@
 
 namespace jet {
 
-// Zero
-const size_t kZeroSize = 0;
-const ssize_t kZeroSSize = 0;
+// MARK: Zero
 
+//! Zero size_t.
+constexpr size_t kZeroSize = 0;
+
+//! Zero ssize_t.
+constexpr ssize_t kZeroSSize = 0;
+
+//! Zero for type T.
 template <typename T>
 inline T zero() {
     return 0;
 }
 
+//! Zero for float.
 template <>
 inline float zero<float>() {
     return 0.f;
 }
 
+//! Zero for double.
 template <>
 inline double zero<double>() {
     return 0.0;
 }
 
-// One
-const size_t kOneSize = 1;
-const ssize_t kOneSSize = 1;
+// MARK: One
 
+//! One size_t.
+constexpr size_t kOneSize = 1;
+
+//! One ssize_t.
+constexpr ssize_t kOneSSize = 1;
+
+//! One for type T.
 template <typename T>
-inline T one() {
+constexpr T one() {
     return 1;
 }
 
+//! One for float.
 template <>
-inline float one<float>() {
+constexpr float one<float>() {
     return 1.f;
 }
 
+//! One for double.
 template <>
-inline double one<double>() {
+constexpr double one<double>() {
     return 1.0;
 }
 
-// Epsilon
-const float kEpsilonF = std::numeric_limits<float>::epsilon();
-const double kEpsilonD = std::numeric_limits<double>::epsilon();
+// MARK: Epsilon
 
-// Max
-const size_t kMaxSize = std::numeric_limits<size_t>::max();
-const ssize_t kMaxSSize = std::numeric_limits<ssize_t>::max();
-const float kMaxF = std::numeric_limits<float>::max();
-const double kMaxD = std::numeric_limits<double>::max();
+//! Float-type epsilon.
+constexpr float kEpsilonF = std::numeric_limits<float>::epsilon();
 
-// Pi
-const float kPiF = 3.14159265358979323846264338327950288f;
-const double kPiD = 3.14159265358979323846264338327950288;
+//! Double-type epsilon.
+constexpr double kEpsilonD = std::numeric_limits<double>::epsilon();
 
+
+// MARK: Max
+
+//! Max size_t.
+constexpr size_t kMaxSize = std::numeric_limits<size_t>::max();
+
+//! Max ssize_t.
+constexpr ssize_t kMaxSSize = std::numeric_limits<ssize_t>::max();
+
+//! Max float.
+constexpr float kMaxF = std::numeric_limits<float>::max();
+
+//! Max double.
+constexpr double kMaxD = std::numeric_limits<double>::max();
+
+
+// MARK: Pi
+
+//! Float-type pi.
+constexpr float kPiF = 3.14159265358979323846264338327950288f;
+
+//! Double-type pi.
+constexpr double kPiD = 3.14159265358979323846264338327950288;
+
+//! Pi for type T.
 template <typename T>
-inline T pi() {
-    static const T result = static_cast<T>(kPiD);
-    return result;
+constexpr T pi() {
+    return static_cast<T>(kPiD);
 }
 
+//! Pi for float.
 template <>
-inline float pi<float>() {
+constexpr float pi<float>() {
     return kPiF;
 }
 
+//! Pi for double.
 template <>
-inline double pi<double>() {
+constexpr double pi<double>() {
     return kPiD;
 }
 
-// Pi/2
-const float kHalfPiF = 1.57079632679489661923132169163975144f;
-const double kHalfPiD = 1.57079632679489661923132169163975144;
 
+// MARK: Pi/2
+
+//! Float-type pi/2.
+constexpr float kHalfPiF = 1.57079632679489661923132169163975144f;
+
+//! Double-type pi/2.
+constexpr double kHalfPiD = 1.57079632679489661923132169163975144;
+
+//! Pi/2 for type T.
 template <typename T>
-inline T halfPi() {
-    static const T result = static_cast<T>(kHalfPiD);
-    return result;
+constexpr T halfPi() {
+    return static_cast<T>(kHalfPiD);
 }
 
+//! Pi/2 for float.
 template <>
-inline float halfPi<float>() {
+constexpr float halfPi<float>() {
     return kHalfPiF;
 }
 
+//! Pi/2 for double.
 template <>
-inline double halfPi<double>() {
+constexpr double halfPi<double>() {
     return kHalfPiD;
 }
 
-// Pi/4
-const float kQuaterPiF = 0.785398163397448309615660845819875721f;
-const double kQuaterPiD = 0.785398163397448309615660845819875721;
 
+// MARK: Pi/4
+
+//! Float-type pi/4.
+constexpr float kQuaterPiF = 0.785398163397448309615660845819875721f;
+
+//! Double-type pi/4.
+constexpr double kQuaterPiD = 0.785398163397448309615660845819875721;
+
+//! Pi/4 for type T.
 template <typename T>
-inline T quaterPi() {
-    static const T result = static_cast<T>(kQuaterPiD);
-    return result;
+constexpr T quaterPi() {
+    return static_cast<T>(kQuaterPiD);
 }
 
+//! Pi/2 for float.
 template <>
-inline float quaterPi<float>() {
+constexpr float quaterPi<float>() {
     return kQuaterPiF;
 }
 
+//! Pi/2 for double.
 template <>
-inline double quaterPi<double>() {
+constexpr double quaterPi<double>() {
     return kQuaterPiD;
 }
 
-// 2*Pi
-const float kTwoPiF = static_cast<float>(2.0 * kPiD);
-const double kTwoPiD = 2.0 * kPiD;
+// MARK: 2*Pi
 
+//! Float-type 2*pi.
+constexpr float kTwoPiF = static_cast<float>(2.0 * kPiD);
+
+//! Double-type 2*pi.
+constexpr double kTwoPiD = 2.0 * kPiD;
+
+//! 2*pi for type T.
 template <typename T>
-inline T twoPi() {
-    static const T result = static_cast<T>(kTwoPiD);
-    return result;
+constexpr T twoPi() {
+    return static_cast<T>(kTwoPiD);
 }
 
+//! 2*pi for float.
 template <>
-inline float twoPi<float>() {
+constexpr float twoPi<float>() {
     return kTwoPiF;
 }
 
+//! 2*pi for double.
 template <>
-inline double twoPi<double>() {
+constexpr double twoPi<double>() {
     return kTwoPiD;
 }
 
-// 1/Pi
-const float kInvPiF = static_cast<float>(1.0 / kPiD);
-const double kInvPiD = 1.0 / kPiD;
+// MARK: 1/Pi
 
+//! Float-type 1/pi.
+constexpr float kInvPiF = static_cast<float>(1.0 / kPiD);
+
+//! Double-type 1/pi.
+constexpr double kInvPiD = 1.0 / kPiD;
+
+//! 1/pi for type T.
 template <typename T>
-inline T invPi() {
-    static const T result = static_cast<T>(kInvPiD);
-    return result;
+constexpr T invPi() {
+    return static_cast<T>(kInvPiD);
 }
 
+//! 1/pi for float.
 template <>
-inline float invPi<float>() {
+constexpr float invPi<float>() {
     return kInvPiF;
 }
 
+//! 1/pi for double.
 template <>
-inline double invPi<double>() {
+constexpr double invPi<double>() {
     return kInvPiD;
 }
 
-// 1/2*Pi
-const float kInvTwoPiF = static_cast<float>(0.5 / kPiD);
-const double kInvTwoPiD = 0.5 / kPiD;
 
+// MARK: 1/2*Pi
+
+//! Float-type 1/2*pi.
+constexpr float kInvTwoPiF = static_cast<float>(0.5 / kPiD);
+
+//! Double-type 1/2*pi.
+constexpr double kInvTwoPiD = 0.5 / kPiD;
+
+//! 1/2*pi for type T.
 template <typename T>
-inline T invTwoPi() {
-    static const T result = static_cast<T>(kInvTwoPiD);
-    return result;
+constexpr T invTwoPi() {
+    return static_cast<T>(kInvTwoPiD);
 }
 
+//! 1/2*pi for float.
 template <>
-inline float invTwoPi<float>() {
+constexpr float invTwoPi<float>() {
     return kInvTwoPiF;
 }
 
+//! 1/2*pi for double.
 template <>
-inline double invTwoPi<double>() {
+constexpr double invTwoPi<double>() {
     return kInvTwoPiD;
 }
 
-// Physics
 
-// Gravity
-const double kGravity = -9.8;
+// MARK: Physics
 
-// Speed of sound in water at 20 degrees celcius.
-const double kSpeedOfSoundInWater = 1482.0;
+//! Gravity.
+constexpr double kGravity = -9.8;
 
-// Common enums
-const int kDirectionLeft = 1 << 0;
-const int kDirectionRight = 1 << 1;
-const int kDirectionDown = 1 << 2;
-const int kDirectionUp = 1 << 3;
-const int kDirectionBack = 1 << 4;
-const int kDirectionFront = 1 << 5;
-const int kDirectionAll
+//! Speed of sound in water at 20 degrees celcius.
+constexpr double kSpeedOfSoundInWater = 1482.0;
+
+
+// MARK: Common enums
+
+//! No direction.
+constexpr int kDirectionNone = 0;
+
+//! Left direction.
+constexpr int kDirectionLeft = 1 << 0;
+
+//! RIght direction.
+constexpr int kDirectionRight = 1 << 1;
+
+//! Down direction.
+constexpr int kDirectionDown = 1 << 2;
+
+//! Up direction.
+constexpr int kDirectionUp = 1 << 3;
+
+//! Back direction.
+constexpr int kDirectionBack = 1 << 4;
+
+//! Front direction.
+constexpr int kDirectionFront = 1 << 5;
+
+//! All direction.
+constexpr int kDirectionAll
     = kDirectionLeft | kDirectionRight
     | kDirectionDown | kDirectionUp
     | kDirectionBack | kDirectionFront;

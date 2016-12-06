@@ -65,14 +65,14 @@ void serialFor(
 
 template<typename RandomIterator, typename SortingFunction>
 void serialSort(
-    const RandomIterator& begin,
-    const RandomIterator& end,
+    RandomIterator begin,
+    RandomIterator end,
     const SortingFunction& sortingFunction) {
     std::sort(begin, end, sortingFunction);
 }
 
-template<typename RandomIterator, typename SortingFunction>
-void serialSort(const RandomIterator& begin, const RandomIterator& end) {
+template<typename RandomIterator>
+void serialSort(RandomIterator begin, RandomIterator end) {
     serialSort(begin, end, std::less<typename RandomIterator::value_type>());
 }
 

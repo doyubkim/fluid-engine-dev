@@ -7,7 +7,7 @@
 
 namespace jet {
 
-//! 2-D finite difference-type linear system solver using Jacobi method.
+//! \brief 2-D finite difference-type linear system solver using Jacobi method.
 class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
  public:
     //! Constructs the solver with given parameters.
@@ -44,6 +44,7 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     void relax(FdmLinearSystem2* system, FdmVector2* xTemp);
 };
 
+//! Shared pointer type for the FdmJacobiSolver2.
 typedef std::shared_ptr<FdmJacobiSolver2> FdmJacobiSolver2Ptr;
 
 }  // namespace jet

@@ -31,6 +31,30 @@
 
 namespace jet {
 
+//!
+//! \brief      Generates signed-distance field out of given triangle mesh.
+//!
+//! This function generates signed-distance field from a triangle mesh. The mesh
+//! should be water-tight, meaning there should be no gap. A gap can make the
+//! evaluation of the signs impossible. The output signed-distance field will be
+//! assigned to the scalar field, \p sdf, which can be any type of scalar field
+//! (vertex-centered vs. cell-centered). To accelerate the calculation, this
+//! function also takes extra parameter, \p exactBand, which defines the
+//! bandwidth around the mesh in a number of grid points. This bandwidth is the
+//! region where the exact distance to the mesh will be computed. Distance
+//! values of the areas that are farther from the mesh surface will be
+//! approximated using fast sweeping method. The sign of the signed-distance
+//! field is determined by assuming the boundig box of the output scalar grid
+//! is the exterior of the mesh.
+//!
+//! This function is a port of Christopher Batty's SDFGen software.
+//!
+//! \see https://github.com/christopherbatty/SDFGen
+//!
+//! \param[in]      mesh      The mesh.
+//! \param[in,out]  sdf       The output signed-distance field.
+//! \param[in]      exactBand The bandwidth for exact distance computation.
+//!
 void triangleMeshToSdf(
     const TriangleMesh3& mesh,
     ScalarGrid3* sdf,

@@ -57,6 +57,7 @@ class Sphere3 final : public Surface3 {
         const Ray3D& ray) const override;
 };
 
+//! Shared pointer for the Sphere3 type.
 typedef std::shared_ptr<Sphere3> Sphere3Ptr;
 
 }  // namespace jet

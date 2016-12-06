@@ -29,7 +29,7 @@ JET_BEGIN_TEST_F(MarchingCubes, SingleCube) {
         Vector3D(),
         &triMesh,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh, "single_cube.obj");
 }
@@ -49,7 +49,7 @@ JET_BEGIN_TEST_F(MarchingCubes, FourCubes) {
         grid.origin(),
         &triMesh,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh, "four_cubes.obj");
 }
@@ -69,7 +69,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
         grid.origin(),
         &triMesh,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh, "sphere.obj");
 
@@ -85,7 +85,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
         grid.origin(),
         &triMesh,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh, "clamped_sphere.obj");
 
@@ -101,7 +101,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
         grid.origin(),
         &triMesh,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh, "clamped_sphere2.obj");
 }

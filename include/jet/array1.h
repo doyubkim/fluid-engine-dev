@@ -237,6 +237,7 @@ class Array<T, 1> final {
     ContainerType _data;
 };
 
+//! Type alias for 1-D array.
 template <typename T> using Array1 = Array<T, 1>;
 
 }  // namespace jet

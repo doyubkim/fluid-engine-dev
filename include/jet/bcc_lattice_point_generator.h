@@ -28,6 +28,7 @@ class BccLatticePointGenerator final : public PointGenerator3 {
         const std::function<bool(const Vector3D&)>& callback) const override;
 };
 
+//! Shared pointer type for the BccLatticePointGenerator.
 typedef std::shared_ptr<BccLatticePointGenerator> BccLatticePointGeneratorPtr;
 
 }  // namespace jet

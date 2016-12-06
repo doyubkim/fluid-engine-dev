@@ -89,6 +89,7 @@ class FmmLevelSetSolver3 final : public LevelSetSolver3 {
         ArrayAccessor3<double> output);
 };
 
+//! Shared pointer type for the FmmLevelSetSolver3.
 typedef std::shared_ptr<FmmLevelSetSolver3> FmmLevelSetSolver3Ptr;
 
 }  // namespace jet

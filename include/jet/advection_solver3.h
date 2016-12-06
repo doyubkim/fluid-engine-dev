@@ -107,6 +107,7 @@ class AdvectionSolver3 {
             = ConstantScalarField3(kMaxD));
 };
 
+//! Shared pointer type for the 3-D advection solver.
 typedef std::shared_ptr<AdvectionSolver3> AdvectionSolver3Ptr;
 
 }  // namespace jet

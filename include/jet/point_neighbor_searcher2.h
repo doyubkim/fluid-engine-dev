@@ -60,6 +60,7 @@ class PointNeighborSearcher2 {
         const Vector2D& origin, double radius) const = 0;
 };
 
+//! Shared pointer for the PointNeighborSearcher2 type.
 typedef std::shared_ptr<PointNeighborSearcher2> PointNeighborSearcher2Ptr;
 
 }  // namespace jet

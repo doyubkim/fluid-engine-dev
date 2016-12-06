@@ -218,7 +218,13 @@ void triangleMeshToSdf(
     // intersection counts
     Vector3D ijkmin, ijkmax;
 
+    auto gridPos = sdf->dataPosition();
+
     size_t nTri = mesh.numberOfTriangles();
+    ssize_t bandwidth = static_cast<ssize_t>(exactBand);
+    ssize_t maxSizeX = static_cast<ssize_t>(size.x);
+    ssize_t maxSizeY = static_cast<ssize_t>(size.y);
+    ssize_t maxSizeZ = static_cast<ssize_t>(size.z);
     for (size_t t = 0; t < nTri; ++t) {
         Point3UI indices = mesh.pointIndex(t);
 
@@ -234,25 +240,25 @@ void triangleMeshToSdf(
         Vector3D f3 = (pt3 - origin) / h;
 
         // Do distances nearby
-        size_t i0 = clamp(static_cast<size_t>(
-            min3(f1.x, f2.x, f3.x)) - exactBand, kZeroSize, size.x - 1);
-        size_t i1 = clamp(static_cast<size_t>(
-            max3(f1.x, f2.x, f3.x)) + exactBand + 1, kZeroSize, size.x - 1);
-        size_t j0 = clamp(static_cast<size_t>(
-            min3(f1.y, f2.y, f3.y)) - exactBand, kZeroSize, size.y - 1);
-        size_t j1 = clamp(static_cast<size_t>(
-            max3(f1.y, f2.y, f3.y)) + exactBand + 1, kZeroSize, size.y - 1);
-        size_t k0 = clamp(static_cast<size_t>(
-            min3(f1.z, f2.z, f3.z)) - exactBand, kZeroSize, size.z - 1);
-        size_t k1 = clamp(static_cast<size_t>(
-            max3(f1.z, f2.z, f3.z)) + exactBand + 1, kZeroSize, size.z - 1);
+        ssize_t i0 = static_cast<ssize_t>(min3<double>(f1.x, f2.x, f3.x));
+        i0 = clamp(i0 - bandwidth, kZeroSSize, maxSizeX - 1);
+        ssize_t i1 = static_cast<ssize_t>(max3<double>(f1.x, f2.x, f3.x));
+        i1 = clamp(i1 + bandwidth + 1, kZeroSSize, maxSizeX - 1);
 
-        for (size_t k = k0; k <= k1; ++k) {
-            for (size_t j = j0; j <= j1; ++j) {
-                for (size_t i = i0; i <= i1; ++i) {
-                    Vector3D gx({ i, j, k });
-                    gx *= h;
-                    gx += origin;
+        ssize_t j0 = static_cast<ssize_t>(min3<double>(f1.y, f2.y, f3.y));
+        j0 = clamp(j0 - bandwidth, kZeroSSize, maxSizeY - 1);
+        ssize_t j1 = static_cast<ssize_t>(max3<double>(f1.y, f2.y, f3.y));
+        j1 = clamp(j1 + bandwidth + 1, kZeroSSize, maxSizeY - 1);
+
+        ssize_t k0 = static_cast<ssize_t>(min3<double>(f1.z, f2.z, f3.z));
+        k0 = clamp(k0 - bandwidth, kZeroSSize, maxSizeZ - 1);
+        ssize_t k1 = static_cast<ssize_t>(max3<double>(f1.z, f2.z, f3.z));
+        k1 = clamp(k1 + bandwidth + 1, kZeroSSize, maxSizeZ - 1);
+
+        for (ssize_t k = k0; k <= k1; ++k) {
+            for (ssize_t j = j0; j <= j1; ++j) {
+                for (ssize_t i = i0; i <= i1; ++i) {
+                    Vector3D gx = gridPos(i, j, k);
                     double d = tri.closestDistance(gx);
                     if (d < (*sdf)(i, j, k)) {
                         (*sdf)(i, j, k) = d;
@@ -263,17 +269,17 @@ void triangleMeshToSdf(
         }
 
         // Do intersection counts
-        j0 = clamp(static_cast<size_t>(
-            std::ceil(min3(f1.y, f2.y, f3.y))), kZeroSize, size.y - 1);
-        j1 = clamp(static_cast<size_t>(
-            std::floor(max3(f1.y, f2.y, f3.y))), kZeroSize, size.y - 1);
-        k0 = clamp(static_cast<size_t>(
-            std::ceil(min3(f1.z, f2.z, f3.z))), kZeroSize, size.z - 1);
-        k1 = clamp(static_cast<size_t>(
-            std::floor(max3(f1.z, f2.z, f3.z))), kZeroSize, size.z - 1);
+        j0 = static_cast<ssize_t>(std::ceil(min3<double>(f1.y, f2.y, f3.y)));
+        j0 = clamp(j0 - bandwidth, kZeroSSize, maxSizeY - 1);
+        j1 = static_cast<ssize_t>(std::floor(max3<double>(f1.y, f2.y, f3.y)));
+        j1 = clamp(j1 + bandwidth + 1, kZeroSSize, maxSizeY - 1);
+        k0 = static_cast<ssize_t>(std::ceil(min3<double>(f1.z, f2.z, f3.z)));
+        k0 = clamp(k0 - bandwidth, kZeroSSize, maxSizeZ - 1);
+        k1 = static_cast<ssize_t>(std::floor(max3<double>(f1.z, f2.z, f3.z)));
+        k1 = clamp(k1 + bandwidth + 1, kZeroSSize, maxSizeZ - 1);
 
-        for (size_t k = k0; k <= k1; ++k) {
-            for (size_t j = j0; j <= j1; ++j) {
+        for (ssize_t k = k0; k <= k1; ++k) {
+            for (ssize_t j = j0; j <= j1; ++j) {
                 double a, b, c;
                 double jD = static_cast<double>(j);
                 double kD = static_cast<double>(k);

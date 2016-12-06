@@ -9,6 +9,7 @@
 
 namespace jet {
 
+//! Level of the logging.
 enum class LoggingLevel {
     Info,
     Warn,
@@ -24,10 +25,13 @@ enum class LoggingLevel {
 //!
 class Logger final {
  public:
+    //! Constructs a logger with logging level.
     explicit Logger(LoggingLevel level);
 
+    //! Destructor.
     ~Logger();
 
+    //! Writes a value to the buffer stream.
     template <typename T>
     const Logger& operator<<(const T& x) const {
         _buffer << x;
@@ -39,24 +43,38 @@ class Logger final {
     mutable std::stringstream _buffer;
 };
 
+//! Helper class for logging.
 class Logging {
  public:
+    //! Sets the output stream for the info level logs.
     static void setInfoStream(std::ostream* strm);
 
+    //! Sets the output stream for the warning level logs.
     static void setWarnStream(std::ostream* strm);
 
+    //! Sets the output stream for the error level logs.
     static void setErrorStream(std::ostream* strm);
 
+    //! Sets the output stream for the debug level logs.
     static void setDebugStream(std::ostream* strm);
 
+    //! Sets the output stream for all the log levelss.
     static void setAllStream(std::ostream* strm);
 
+    //! Returns the header string.
     static std::string getHeader(LoggingLevel level);
 };
 
+//! Info-level logger.
 extern Logger infoLogger;
+
+//! Warn-level logger.
 extern Logger warnLogger;
+
+//! Error-level logger.
 extern Logger errorLogger;
+
+//! Debug-level logger.
 extern Logger debugLogger;
 
 #define JET_INFO \

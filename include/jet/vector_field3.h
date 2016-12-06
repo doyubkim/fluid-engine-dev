@@ -32,6 +32,7 @@ class VectorField3 : public Field3 {
     virtual std::function<Vector3D(const Vector3D&)> sampler() const;
 };
 
+//! Shared pointer for the VectorField3 type.
 typedef std::shared_ptr<VectorField3> VectorField3Ptr;
 
 }  // namespace jet

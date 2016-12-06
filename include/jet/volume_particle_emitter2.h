@@ -145,6 +145,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     double random();
 };
 
+//! Shared pointer for the VolumeParticleEmitter2 type.
 typedef std::shared_ptr<VolumeParticleEmitter2> VolumeParticleEmitter2Ptr;
 
 }  // namespace jet

@@ -105,6 +105,7 @@ class AdvectionSolver2 {
             = ConstantScalarField2(kMaxD));
 };
 
+//! Shared pointer type for the 2-D advection solver.
 typedef std::shared_ptr<AdvectionSolver2> AdvectionSolver2Ptr;
 
 }  // namespace jet

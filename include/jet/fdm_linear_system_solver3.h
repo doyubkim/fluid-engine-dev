@@ -15,6 +15,7 @@ class FdmLinearSystemSolver3 {
     virtual bool solve(FdmLinearSystem3* system) = 0;
 };
 
+//! Shared pointer type for the FdmLinearSystemSolver3.
 typedef std::shared_ptr<FdmLinearSystemSolver3> FdmLinearSystemSolver3Ptr;
 
 }  // namespace jet

@@ -171,6 +171,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     void resetSampler();
 };
 
+//! Shared pointer for the ScalarGrid2 type.
 typedef std::shared_ptr<ScalarGrid2> ScalarGrid2Ptr;
 
 //! Abstract base class for 2-D scalar grid builder.
@@ -190,6 +191,7 @@ class ScalarGridBuilder2 {
         double initialVal) const = 0;
 };
 
+//! Shared pointer for the ScalarGridBuilder2 type.
 typedef std::shared_ptr<ScalarGridBuilder2> ScalarGridBuilder2Ptr;
 
 }  // namespace jet

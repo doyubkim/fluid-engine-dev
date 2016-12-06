@@ -39,7 +39,7 @@ class Point<T, 3> final {
     //! Constructs point with given parameters \p x, \p y, and \p z.
     Point(T x, T y, T z);
 
-    //! Constructs point with initializer list.
+    //! Constructs point with a 2-D point and a scalar.
     Point(const Point2<T>& pt, T z);
 
     //! Constructs point with initializer list.
@@ -51,7 +51,7 @@ class Point<T, 3> final {
 
     // MARK: Basic setters
 
-    //! Set both x, y, and z components to \p s.
+    //! Set all x, y, and z components to \p s.
     void set(T s);
 
     //! Set x, y, and z components with given parameters.
@@ -217,7 +217,7 @@ class Point<T, 3> final {
 };
 
 
-//! Type alias for two dimensional point.
+//! Type alias for three dimensional point.
 template <typename T> using Point3 = Point<T, 3>;
 
 //! Positive sign operator.

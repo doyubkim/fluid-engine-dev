@@ -56,6 +56,7 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     Surface2Ptr _surface;
 };
 
+//! Shared pointer for the SurfaceToImplicit2 type.
 typedef std::shared_ptr<SurfaceToImplicit2> SurfaceToImplicit2Ptr;
 
 }  // namespace jet

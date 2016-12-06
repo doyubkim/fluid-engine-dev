@@ -392,7 +392,7 @@ class Matrix<T, 4, 4> {
     std::array<T, 16> _elements;
 };
 
-
+//! Type alias for 4x4 matrix.
 template <typename T> using Matrix4x4 = Matrix<T, 4, 4>;
 
 
@@ -461,7 +461,10 @@ Matrix4x4<T> operator/(const Matrix4x4<T>& a, T b);
 template <typename T>
 Matrix4x4<T> operator/(const T& a, const Matrix4x4<T>& b);
 
+//! Float-type 4x4 matrix.
 typedef Matrix4x4<float> Matrix4x4F;
+
+//! Double-type 4x4 matrix.
 typedef Matrix4x4<double> Matrix4x4D;
 
 }  // namespace jet

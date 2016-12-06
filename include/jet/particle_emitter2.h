@@ -9,7 +9,7 @@
 namespace jet {
 
 //!
-//! Abstract base class for 2-D particle emitter.
+//! \brief Abstract base class for 2-D particle emitter.
 //!
 class ParticleEmitter2 {
  public:
@@ -30,6 +30,7 @@ class ParticleEmitter2 {
         const ParticleSystemData2Ptr& particles) = 0;
 };
 
+//! Shared pointer for the ParticleEmitter2 type.
 typedef std::shared_ptr<ParticleEmitter2> ParticleEmitter2Ptr;
 
 }  // namespace jet

@@ -38,7 +38,7 @@ void triangulateAndSave(
     const std::string& rootDir,
     unsigned int frameCnt) {
     TriangleMesh3 mesh;
-    int flag = kMarchingCubesBoundaryFlagAll & ~kMarchingCubesBoundaryFlagDown;
+    int flag = kDirectionAll & ~kDirectionDown;
     marchingCubes(
         sdf->constDataAccessor(),
         sdf->gridSpacing(),

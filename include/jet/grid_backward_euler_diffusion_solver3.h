@@ -122,6 +122,7 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
         size_t component);
 };
 
+//! Shared pointer type for the GridBackwardEulerDiffusionSolver3.
 typedef std::shared_ptr<GridBackwardEulerDiffusionSolver3>
     GridBackwardEulerDiffusionSolver3Ptr;
 

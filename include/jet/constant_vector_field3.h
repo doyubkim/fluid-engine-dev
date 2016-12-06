@@ -24,6 +24,7 @@ class ConstantVectorField3 final : public VectorField3 {
     Vector3D _value;
 };
 
+//! Shared pointer for the ConstantVectorField3 type.
 typedef std::shared_ptr<ConstantVectorField3> ConstantVectorField3Ptr;
 
 }  // namespace jet

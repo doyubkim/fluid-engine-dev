@@ -54,6 +54,7 @@ class Cylinder3 final : public Surface3 {
         const Ray3D& ray) const override;
 };
 
+//! Shared pointer type for the Cylinder3.
 typedef std::shared_ptr<Cylinder3> Cylinder3Ptr;
 
 }  // namespace jet

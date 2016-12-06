@@ -25,6 +25,7 @@ class ColliderSet3 final : public Collider3 {
     std::vector<Collider3Ptr> _colliders;
 };
 
+//! Shared pointer for the ColliderSet3 type.
 typedef std::shared_ptr<ColliderSet3> ColliderSet3Ptr;
 
 }  // namespace jet

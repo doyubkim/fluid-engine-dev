@@ -48,6 +48,7 @@ class PointGenerator3 {
         const std::function<bool(const Vector3D&)>& callback) const = 0;
 };
 
+//! Shared pointer for the PointGenerator3 type.
 typedef std::shared_ptr<PointGenerator3> PointGenerator3Ptr;
 
 }  // namespace jet

@@ -25,6 +25,7 @@ class GridPointGenerator2 final : public PointGenerator2 {
         const std::function<bool(const Vector2D&)>& callback) const;
 };
 
+//! Shared pointer type for the GridPointGenerator2.
 typedef std::shared_ptr<GridPointGenerator2> GridPointGenerator2Ptr;
 
 }  // namespace jet

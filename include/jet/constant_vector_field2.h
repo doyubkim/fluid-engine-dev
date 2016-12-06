@@ -24,6 +24,7 @@ class ConstantVectorField2 final : public VectorField2 {
     Vector2D _value;
 };
 
+//! Shared pointer for the ConstantVectorField2 type.
 typedef std::shared_ptr<ConstantVectorField2> ConstantVectorField2Ptr;
 
 }  // namespace jet

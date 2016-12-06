@@ -58,6 +58,7 @@ class SurfaceSet2 final : public Surface2 {
     std::vector<Surface2Ptr> _surfaces;
 };
 
+//! Shared pointer for the SurfaceSet2 type.
 typedef std::shared_ptr<SurfaceSet2> SurfaceSet2Ptr;
 
 }  // namespace jet

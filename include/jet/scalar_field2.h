@@ -32,6 +32,7 @@ class ScalarField2 : public Field2 {
     virtual std::function<double(const Vector2D&)> sampler() const;
 };
 
+//! Shared pointer for the ScalarField2 type.
 typedef std::shared_ptr<ScalarField2> ScalarField2Ptr;
 
 }  // namespace jet

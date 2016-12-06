@@ -264,7 +264,13 @@
     <ClCompile Include="samplers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sph_kernels_tests.cpp">
+    <ClCompile Include="serial_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sph_kernels2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sph_kernels3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sph_solver2_tests.cpp">
@@ -285,10 +291,16 @@
     <ClCompile Include="surface_to_implicit3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="timer_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="triangle3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="triangle_mesh3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="triangle_mesh_to_sdf_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vector_tests.cpp">

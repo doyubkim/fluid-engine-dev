@@ -423,7 +423,7 @@ void marchingCubes(
     // Construct boundaries parallel to x-y plane
     vertexMap.clear();
     if (bndFlag
-        & (kMarchingCubesBoundaryFlagBack | kMarchingCubesBoundaryFlagFront)) {
+        & (kDirectionBack | kDirectionFront)) {
         for (ssize_t j = 0; j < dimy-1; ++j) {
             for (ssize_t i = 0; i < dimx-1; ++i) {
                 ssize_t k = 0;
@@ -439,7 +439,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagBack) {
+                if (bndFlag & kDirectionBack) {
                     normal = Vector3D(0, 0, -1);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 1);
@@ -472,7 +472,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k + 1);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagFront) {
+                if (bndFlag & kDirectionFront) {
                     normal = Vector3D(0, 0, 1);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 3);
@@ -505,7 +505,7 @@ void marchingCubes(
     // Construct boundaries parallel to y-z plane
     vertexMap.clear();
     if (bndFlag
-        & (kMarchingCubesBoundaryFlagLeft | kMarchingCubesBoundaryFlagRight)) {
+        & (kDirectionLeft | kDirectionRight)) {
         for (ssize_t k = 0; k < dimz-1; ++k) {
             for (ssize_t j = 0; j < dimy-1; ++j) {
                 ssize_t i = 0;
@@ -521,7 +521,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagLeft) {
+                if (bndFlag & kDirectionLeft) {
                     normal = Vector3D(-1, 0, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 0);
@@ -554,7 +554,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagRight) {
+                if (bndFlag & kDirectionRight) {
                     normal = Vector3D(1, 0, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 2);
@@ -587,7 +587,7 @@ void marchingCubes(
     // Construct boundaries parallel to x-z plane
     vertexMap.clear();
     if (bndFlag
-        & (kMarchingCubesBoundaryFlagDown | kMarchingCubesBoundaryFlagUp)) {
+        & (kDirectionDown | kDirectionUp)) {
         for (ssize_t k = 0; k < dimz-1; ++k) {
             for (ssize_t i = 0; i < dimx-1; ++i) {
                 ssize_t j = 0;
@@ -603,7 +603,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j, k + 1);
                 data[3] = grid(i, j, k + 1);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagDown) {
+                if (bndFlag & kDirectionDown) {
                     normal = Vector3D(0, -1, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 0);
@@ -636,7 +636,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & kMarchingCubesBoundaryFlagUp) {
+                if (bndFlag & kDirectionUp) {
                     normal = Vector3D(0, 1, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 5);

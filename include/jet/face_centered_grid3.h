@@ -281,6 +281,7 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
     void resetSampler();
 };
 
+//! Shared pointer type for the FaceCenteredGrid3.
 typedef std::shared_ptr<FaceCenteredGrid3> FaceCenteredGrid3Ptr;
 
 //! A grid builder class that returns 3-D face-centered vector grid.

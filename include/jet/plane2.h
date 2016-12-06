@@ -52,6 +52,7 @@ class Plane2 final : public Surface2 {
         const Ray2D& ray) const override;
 };
 
+//! Shared pointer for the Plane2 type.
 typedef std::shared_ptr<Plane2> Plane2Ptr;
 
 }  // namespace jet

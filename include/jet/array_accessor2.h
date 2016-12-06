@@ -238,6 +238,7 @@ class ArrayAccessor<T, 2> final {
     T* _data;
 };
 
+//! Type alias for 2-D array accessor.
 template <typename T> using ArrayAccessor2 = ArrayAccessor<T, 2>;
 
 
@@ -406,6 +407,7 @@ class ConstArrayAccessor<T, 2> {
     const T* _data;
 };
 
+//! Type alias for 2-D const array accessor.
 template <typename T> using ConstArrayAccessor2 = ConstArrayAccessor<T, 2>;
 
 }  // namespace jet

@@ -375,6 +375,7 @@ class Array<T, 2> final {
     std::vector<T> _data;
 };
 
+//! Type alias for 2-D array.
 template <typename T> using Array2 = Array<T, 2>;
 
 }  // namespace jet

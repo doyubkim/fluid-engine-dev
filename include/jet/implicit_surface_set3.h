@@ -66,6 +66,7 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     std::vector<ImplicitSurface3Ptr> _surfaces;
 };
 
+//! Shared pointer type for the ImplicitSurfaceSet3.
 typedef std::shared_ptr<ImplicitSurfaceSet3> ImplicitSurfaceSet3Ptr;
 
 }  // namespace jet

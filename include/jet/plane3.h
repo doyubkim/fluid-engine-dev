@@ -58,6 +58,7 @@ class Plane3 final : public Surface3 {
         const Ray3D& ray) const override;
 };
 
+//! Shared pointer for the Plane3 type.
 typedef std::shared_ptr<Plane3> Plane3Ptr;
 
 }  // namespace jet

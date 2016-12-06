@@ -86,6 +86,7 @@ class VectorGrid3 : public VectorField3, public Grid3 {
         const Vector3D& initialValue) = 0;
 };
 
+//! Shared pointer for the VectorGrid3 type.
 typedef std::shared_ptr<VectorGrid3> VectorGrid3Ptr;
 
 //! Abstract base class for 3-D vector grid builder.
@@ -105,6 +106,7 @@ class VectorGridBuilder3 {
         const Vector3D& initialVal) const = 0;
 };
 
+//! Shared pointer for the VectorGridBuilder3 type.
 typedef std::shared_ptr<VectorGridBuilder3> VectorGridBuilder3Ptr;
 
 }  // namespace jet

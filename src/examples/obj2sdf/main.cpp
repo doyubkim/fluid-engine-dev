@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) {
         grid.origin(),
         &triMesh2,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh2, outputFilename + "_previz.obj");
 

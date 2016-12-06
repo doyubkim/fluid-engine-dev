@@ -68,7 +68,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
         grid.origin(),
         &triMesh2,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "cube.obj");
 }
@@ -102,7 +102,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Bunny) {
         grid.origin(),
         &triMesh2,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "bunny.obj");
 }
@@ -136,7 +136,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Dragon) {
         grid.origin(),
         &triMesh2,
         0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "dragon.obj");
 }

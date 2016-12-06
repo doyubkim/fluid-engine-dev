@@ -7,7 +7,8 @@
 
 namespace jet {
 
-//! 3-D finite difference-type linear system solver using Gauss-Seidel method.
+//! \brief 3-D finite difference-type linear system solver using Gauss-Seidel
+//!        method.
 class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
  public:
     //! Constructs the solver with given parameters.
@@ -43,6 +44,7 @@ class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
     void relax(FdmLinearSystem3* system);
 };
 
+//! Shared pointer type for the FdmGaussSeidelSolver3.
 typedef std::shared_ptr<FdmGaussSeidelSolver3> FdmGaussSeidelSolver3Ptr;
 
 }  // namespace jet

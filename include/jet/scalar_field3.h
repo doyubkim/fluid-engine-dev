@@ -32,6 +32,7 @@ class ScalarField3 : public Field3 {
     virtual std::function<double(const Vector3D&)> sampler() const;
 };
 
+//! Shared pointer for the ScalarField3 type.
 typedef std::shared_ptr<ScalarField3> ScalarField3Ptr;
 
 }  // namespace jet

@@ -7,23 +7,50 @@
 
 namespace jet {
 
+//!
+//! \brief      2-D SPH particle system data.
+//!
+//! This class extends ParticleSystemData2 to specialize the data model for SPH.
+//! It includes density and pressure array as a default particle attribute, and
+//! it also contains SPH utilities such as interpolation operator.
+//!
 class SphSystemData2 : public ParticleSystemData2 {
  public:
+    //! Constructs empty SPH system.
     SphSystemData2();
 
+    //! Destructor.
     virtual ~SphSystemData2();
 
+    //!
+    //! \brief Sets the radius.
+    //!
+    //! Sets the radius of the particle system. The radius will be interpreted
+    //! as target spacing.
+    //!
     void setRadius(double newRadius) override;
 
+    //! Returns the density array accessor (immutable).
     ConstArrayAccessor1<double> densities() const;
 
+    //! Returns the density array accessor (mutable).
     ArrayAccessor1<double> densities();
 
+    //! Returns the pressure array accessor (immutable).
     ConstArrayAccessor1<double> pressures() const;
 
+    //! Returns the pressure array accessor (mutable).
     ArrayAccessor1<double> pressures();
 
-    //! Updates the density array with the latest particle positions.
+    //!
+    //! \brief Updates the density array with the latest particle positions.
+    //!
+    //! This function updates the density array by recalculating each particle's
+    //! latest nearby particles' position.
+    //!
+    //! \warning You must update the neighbor searcher
+    //! (SphSystemData2::buildNeighborSearcher) before calling this function.
+    //!
     void updateDensities();
 
     //! Sets the target density of this particle system.
@@ -35,22 +62,33 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! Returns the mass of a particle in kg.
     double mass() const;
 
-    //! Sets the target particle spacing in meters.
+    //!
+    //! \brief Sets the target particle spacing in meters.
+    //!
     //! Once this function is called, hash grid and density should be
     //! updated using updateHashGrid() and updateDensities).
+    //!
     void setTargetSpacing(double spacing);
 
     //! Returns the target particle spacing in meters.
     double targetSpacing() const;
 
+    //!
+    //! \brief Sets the relative kernel radius.
+    //!
     //! Sets the relative kernel radius compared to the target particle
     //! spacing (i.e. kernal radius / target spacing).
     //! Once this function is called, hash grid and density should
     //! be updated using updateHashGrid() and updateDensities).
+    //!
     void setRelativeKernelRadius(double relativeRadius);
 
+    //!
+    //! \brief Returns the relative kernel radius.
+    //!
     //! Returns the relative kernel radius compared to the target particle
     //! spacing (i.e. kernal radius / target spacing).
+    //!
     double relativeKernelRadius() const;
 
     //! Returns the kernel radius in meters unit.
@@ -59,36 +97,70 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! Returns sum of kernel function evaluation for each nearby particle.
     double sumOfKernelNearby(const Vector2D& position) const;
 
+    //!
+    //! \brief Returns interpolated value at given origin point.
+    //!
     //! Returns interpolated scalar data from the given position using
     //! standard SPH weighted average. The data array should match the
     //! particle layout. For example, density or pressure arrays can be
     //! used.
+    //!
+    //! \warning You must update the neighbor searcher
+    //! (SphSystemData2::buildNeighborSearcher) before calling this function.
+    //!
     double interpolate(
         const Vector2D& origin,
         const ConstArrayAccessor1<double>& values) const;
 
+    //!
+    //! \brief Returns interpolated vector value at given origin point.
+    //!
     //! Returns interpolated vector data from the given position using
     //! standard SPH weighted average. The data array should match the
     //! particle layout. For example, velocity or acceleration arrays can be
     //! used.
+    //!
+    //! \warning You must update the neighbor searcher
+    //! (SphSystemData2::buildNeighborSearcher) before calling this function.
+    //!
     Vector2D interpolate(
         const Vector2D& origin,
         const ConstArrayAccessor1<Vector2D>& values) const;
 
+    //!
+    //! Returns the gradient of the given values at i-th particle.
+    //!
+    //! \warning You must update the neighbor lists
+    //! (SphSystemData2::buildNeighborLists) before calling this function.
+    //!
     Vector2D gradientAt(
         size_t i,
         const ConstArrayAccessor1<double>& values) const;
 
+    //!
+    //! Returns the laplacian of the given values at i-th particle.
+    //!
+    //! \warning You must update the neighbor lists
+    //! (SphSystemData2::buildNeighborLists) before calling this function.
+    //!
     double laplacianAt(
         size_t i,
         const ConstArrayAccessor1<double>& values) const;
 
+    //!
+    //! Returns the laplacian of the given values at i-th particle.
+    //!
+    //! \warning You must update the neighbor lists
+    //! (SphSystemData2::buildNeighborLists) before calling this function.
+    //!
     Vector2D laplacianAt(
         size_t i,
         const ConstArrayAccessor1<Vector2D>& values) const;
 
+    //! Builds neighbor searcher with kernel radius.
     void buildNeighborSearcher();
 
+    //! Builds neighbor lists with kernel radius.
     void buildNeighborLists();
 
  private:
@@ -121,6 +193,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     void computeMass();
 };
 
+//! Shared pointer for the SphSystemData2 type.
 typedef std::shared_ptr<SphSystemData2> SphSystemData2Ptr;
 
 }  // namespace jet

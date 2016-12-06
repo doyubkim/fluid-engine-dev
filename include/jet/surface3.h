@@ -82,6 +82,7 @@ class Surface3 {
         const Ray3D& ray) const = 0;
 };
 
+//! Shared pointer for the Surface3 type.
 typedef std::shared_ptr<Surface3> Surface3Ptr;
 
 }  // namespace jet
