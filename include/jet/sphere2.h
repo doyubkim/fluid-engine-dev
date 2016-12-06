@@ -52,6 +52,7 @@ class Sphere2 final : public Surface2 {
         const Ray2D& ray) const override;
 };
 
+//! Shared pointer for the Sphere2 type.
 typedef std::shared_ptr<Sphere2> Sphere2Ptr;
 
 }  // namespace jet

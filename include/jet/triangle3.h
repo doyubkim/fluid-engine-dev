@@ -74,6 +74,7 @@ class Triangle3 final : public Surface3 {
         const Ray3D& ray) const override;
 };
 
+//! Shared pointer for the Triangle3 type.
 typedef std::shared_ptr<Triangle3> Triangle3Ptr;
 
 }  // namespace jet

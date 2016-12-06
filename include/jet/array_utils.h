@@ -171,7 +171,7 @@ void extrapolateToRegion(
     ArrayAccessor3<T> output);
 
 //!
-//! Converts 2-D array to Comma Separated Value (CSV) stream.
+//! \brief Converts 2-D array to Comma Separated Value (CSV) stream.
 //!
 //! \param data - data to convert
 //! \param strm - stream object to write CSV

@@ -98,6 +98,7 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
         FaceCenteredGrid3* output);
 };
 
+//! Shared pointer type for the GridSinglePhasePressureSolver3.
 typedef std::shared_ptr<GridSinglePhasePressureSolver3>
     GridSinglePhasePressureSolver3Ptr;
 

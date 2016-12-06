@@ -187,6 +187,7 @@ class TriangleMesh3 final : public Surface3 {
     IndexArray _uvIndices;
 };
 
+//! Shared pointer for the TriangleMesh3 type.
 typedef std::shared_ptr<TriangleMesh3> TriangleMesh3Ptr;
 
 }  // namespace jet

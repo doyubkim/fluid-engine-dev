@@ -86,6 +86,7 @@ class GridDiffusionSolver3 {
         const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) = 0;
 };
 
+//! Shared pointer type for the GridDiffusionSolver3.
 typedef std::shared_ptr<GridDiffusionSolver3> GridDiffusionSolver3Ptr;
 
 }  // namespace jet

@@ -7,6 +7,7 @@
 
 namespace jet {
 
+//! \brief 3-D size type.
 typedef Point3<size_t> Size3;
 
 }  // namespace jet

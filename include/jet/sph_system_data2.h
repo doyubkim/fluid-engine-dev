@@ -193,6 +193,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     void computeMass();
 };
 
+//! Shared pointer for the SphSystemData2 type.
 typedef std::shared_ptr<SphSystemData2> SphSystemData2Ptr;
 
 }  // namespace jet

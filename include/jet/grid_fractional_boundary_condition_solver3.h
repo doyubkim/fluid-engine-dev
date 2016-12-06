@@ -52,6 +52,7 @@ class GridFractionalBoundaryConditionSolver3
     CellCenteredScalarGrid3 _colliderSdf;
 };
 
+//! Shared pointer type for the GridFractionalBoundaryConditionSolver3.
 typedef std::shared_ptr<GridFractionalBoundaryConditionSolver3>
     GridFractionalBoundaryConditionSolver3Ptr;
 

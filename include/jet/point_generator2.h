@@ -48,6 +48,7 @@ class PointGenerator2 {
         const std::function<bool(const Vector2D&)>& callback) const = 0;
 };
 
+//! Shared pointer for the PointGenerator2 type.
 typedef std::shared_ptr<PointGenerator2> PointGenerator2Ptr;
 
 }  // namespace jet

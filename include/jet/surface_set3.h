@@ -58,6 +58,7 @@ class SurfaceSet3 final : public Surface3 {
     std::vector<Surface3Ptr> _surfaces;
 };
 
+//! Shared pointer for the SurfaceSet2 type.
 typedef std::shared_ptr<SurfaceSet3> SurfaceSet3Ptr;
 
 }  // namespace jet

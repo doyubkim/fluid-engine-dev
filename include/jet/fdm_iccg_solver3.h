@@ -7,8 +7,10 @@
 
 namespace jet {
 
-//! 3-D finite difference-type linear system solver using incomplete Cholesky
-//! conjugate gradient.
+//!
+//! \brief 3-D finite difference-type linear system solver using incomplete
+//!        Cholesky conjugate gradient (ICCG).
+//!
 class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
  public:
     //! Constructs the solver with given parameters.
@@ -54,6 +56,7 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
     Preconditioner _precond;
 };
 
+//! Shared pointer type for the FdmIccgSolver3.
 typedef std::shared_ptr<FdmIccgSolver3> FdmIccgSolver3Ptr;
 
 }  // namespace jet

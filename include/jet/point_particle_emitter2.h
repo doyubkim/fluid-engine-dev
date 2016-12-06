@@ -85,6 +85,7 @@ class PointParticleEmitter2 final : public ParticleEmitter2 {
     double random();
 };
 
+//! Shared pointer for the PointParticleEmitter2 type.
 typedef std::shared_ptr<PointParticleEmitter2> PointParticleEmitter2Ptr;
 
 }  // namespace jet

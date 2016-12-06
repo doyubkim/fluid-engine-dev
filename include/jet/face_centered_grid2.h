@@ -226,6 +226,7 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     void resetSampler();
 };
 
+//! Shared pointer type for the FaceCenteredGrid2.
 typedef std::shared_ptr<FaceCenteredGrid2> FaceCenteredGrid2Ptr;
 
 //! A grid builder class that returns 2-D face-centered vector grid.

@@ -77,6 +77,7 @@ class Surface2 {
         const Ray2D& ray) const = 0;
 };
 
+//! Shared pointer for the Surface2 type.
 typedef std::shared_ptr<Surface2> Surface2Ptr;
 
 }  // namespace jet

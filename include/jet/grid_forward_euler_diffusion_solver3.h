@@ -96,6 +96,7 @@ class GridForwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
         const ScalarField3& fluidSdf);
 };
 
+//! Shared pointer type for the GridForwardEulerDiffusionSolver3.
 typedef std::shared_ptr<GridForwardEulerDiffusionSolver3>
     GridForwardEulerDiffusionSolver3Ptr;
 

@@ -56,6 +56,7 @@ class SurfaceToImplicit3 final : public ImplicitSurface3 {
     Surface3Ptr _surface;
 };
 
+//! Shared pointer for the SurfaceToImplicit3 type.
 typedef std::shared_ptr<SurfaceToImplicit3> SurfaceToImplicit3Ptr;
 
 }  // namespace jet

@@ -39,9 +39,13 @@ class Ray<T, 3> final {
     Vector3<T> pointAt(T t) const;
 };
 
+//! Type alias for 3-D ray.
 template <typename T> using Ray3 = Ray<T, 3>;
 
+//! Float-type 3-D ray.
 typedef Ray3<float> Ray3F;
+
+//! Double-type 3-D ray.
 typedef Ray3<double> Ray3D;
 
 }  // namespace jet

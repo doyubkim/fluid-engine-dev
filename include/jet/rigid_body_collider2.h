@@ -31,6 +31,7 @@ class RigidBodyCollider2 final : public Collider2 {
     Vector2D velocityAt(const Vector2D& point) const override;
 };
 
+//! Shared pointer for the RigidBodyCollider2 type.
 typedef std::shared_ptr<RigidBodyCollider2> RigidBodyCollider2Ptr;
 
 }  // namespace jet

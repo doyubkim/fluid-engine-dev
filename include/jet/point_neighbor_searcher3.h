@@ -60,6 +60,7 @@ class PointNeighborSearcher3 {
         const Vector3D& origin, double radius) const = 0;
 };
 
+//! Shared pointer for the PointNeighborSearcher3 type.
 typedef std::shared_ptr<PointNeighborSearcher3> PointNeighborSearcher3Ptr;
 
 }  // namespace jet

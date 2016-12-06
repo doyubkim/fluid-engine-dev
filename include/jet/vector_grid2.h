@@ -80,6 +80,7 @@ class VectorGrid2 : public VectorField2, public Grid2 {
         const Vector2D& initialValue) = 0;
 };
 
+//! Shared pointer for the VectorGrid2 type.
 typedef std::shared_ptr<VectorGrid2> VectorGrid2Ptr;
 
 //! Abstract base class for 2-D vector grid builder.
@@ -99,6 +100,7 @@ class VectorGridBuilder2 {
         const Vector2D& initialVal) const = 0;
 };
 
+//! Shared pointer for the VectorGridBuilder2 type.
 typedef std::shared_ptr<VectorGridBuilder2> VectorGridBuilder2Ptr;
 
 }  // namespace jet

@@ -69,6 +69,7 @@ class GridPressureSolver2 {
         suggestedBoundaryConditionSolver() const = 0;
 };
 
+//! Shared pointer type for the GridPressureSolver2.
 typedef std::shared_ptr<GridPressureSolver2> GridPressureSolver2Ptr;
 
 }  // namespace jet

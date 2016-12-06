@@ -49,6 +49,7 @@ class GridBlockedBoundaryConditionSolver2 final
     Array2<char> _marker;
 };
 
+//! Shared pointer type for the GridBlockedBoundaryConditionSolver2.
 typedef std::shared_ptr<GridBlockedBoundaryConditionSolver2>
     GridBlockedBoundaryConditionSolver2Ptr;
 

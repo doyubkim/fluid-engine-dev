@@ -346,6 +346,7 @@ class Matrix<T, 3, 3> {
     std::array<T, 9> _elements;
 };
 
+//! Type alias for 3x3 matrix.
 template <typename T> using Matrix3x3 = Matrix<T, 3, 3>;
 
 

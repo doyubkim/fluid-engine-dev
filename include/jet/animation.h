@@ -78,6 +78,7 @@ class Animation {
     virtual void onUpdate(const Frame& frame) = 0;
 };
 
+//! Shared pointer for the Animation type.
 typedef std::shared_ptr<Animation> AnimationPtr;
 
 }  // namespace jet

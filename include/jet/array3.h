@@ -404,6 +404,7 @@ class Array<T, 3> final {
     std::vector<T> _data;
 };
 
+//! Type alias for 3-D array.
 template <typename T> using Array3 = Array<T, 3>;
 
 }  // namespace jet

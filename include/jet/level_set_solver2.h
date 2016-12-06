@@ -76,6 +76,7 @@ class LevelSetSolver2 {
         FaceCenteredGrid2* output) = 0;
 };
 
+//! Shared pointer type for the LevelSetSolver2.
 typedef std::shared_ptr<LevelSetSolver2> LevelSetSolver2Ptr;
 
 }  // namespace jet

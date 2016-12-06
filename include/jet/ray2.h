@@ -39,9 +39,13 @@ class Ray<T, 2> final {
     Vector2<T> pointAt(T t) const;
 };
 
+//! Type alias for 2-D ray.
 template <typename T> using Ray2 = Ray<T, 2>;
 
+//! Float-type 2-D ray.
 typedef Ray2<float> Ray2F;
+
+//! Double-type 2-D ray.
 typedef Ray2<double> Ray2D;
 
 }  // namespace jet

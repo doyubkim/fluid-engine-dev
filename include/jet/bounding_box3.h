@@ -109,11 +109,19 @@ class BoundingBox<T, 3> {
     Vector3<T> corner(size_t idx) const;
 };
 
+//! Type alias for 3-D BoundingBox.
 template <typename T> using BoundingBox3 = BoundingBox<T, 3>;
 
+//! Float-type 3-D BoundingBox.
 typedef BoundingBox3<float> BoundingBox3F;
+
+//! Double-type 3-D BoundingBox.
 typedef BoundingBox3<double> BoundingBox3D;
+
+//! Float-type 3-D box-ray intersection result.
 typedef BoundingBoxRayIntersection3<float> BoundingBoxRayIntersection3F;
+
+//! Double-type 3-D box-ray intersection result.
 typedef BoundingBoxRayIntersection3<double> BoundingBoxRayIntersection3D;
 
 }  // namespace jet

@@ -7,7 +7,8 @@
 
 namespace jet {
 
-//! 2-D finite difference-type linear system solver using conjugate gradient.
+//! \brief 2-D finite difference-type linear system solver using conjugate
+//!        gradient.
 class FdmCgSolver2 final : public FdmLinearSystemSolver2 {
  public:
     //! Constructs the solver with given parameters.
@@ -40,6 +41,7 @@ class FdmCgSolver2 final : public FdmLinearSystemSolver2 {
     FdmVector2 _s;
 };
 
+//! Shared pointer type for the FdmCgSolver2.
 typedef std::shared_ptr<FdmCgSolver2> FdmCgSolver2Ptr;
 
 }  // namespace jet

@@ -342,6 +342,7 @@ class Matrix<T, 2, 2> {
 };
 
 
+//! Type alias for 2x2 matrix.
 template <typename T> using Matrix2x2 = Matrix<T, 2, 2>;
 
 

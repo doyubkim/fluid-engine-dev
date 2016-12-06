@@ -30,6 +30,7 @@ class ParticleEmitter3 {
         const ParticleSystemData3Ptr& particles) = 0;
 };
 
+//! Shared pointer for the ParticleEmitter3 type.
 typedef std::shared_ptr<ParticleEmitter3> ParticleEmitter3Ptr;
 
 }  // namespace jet

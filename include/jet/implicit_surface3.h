@@ -26,6 +26,7 @@ class ImplicitSurface3 : public Surface3 {
     double closestDistance(const Vector3D& otherPoint) const override;
 };
 
+//! Shared pointer type for the ImplicitSurface3.
 typedef std::shared_ptr<ImplicitSurface3> ImplicitSurface3Ptr;
 
 }  // namespace jet

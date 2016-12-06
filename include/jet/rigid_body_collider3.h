@@ -31,6 +31,7 @@ class RigidBodyCollider3 final : public Collider3 {
     Vector3D velocityAt(const Vector3D& point) const override;
 };
 
+//! Shared pointer for the RigidBodyCollider3 type.
 typedef std::shared_ptr<RigidBodyCollider3> RigidBodyCollider3Ptr;
 
 }  // namespace jet
