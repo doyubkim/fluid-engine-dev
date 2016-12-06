@@ -278,8 +278,8 @@ void triangleMeshToSdf(
         k1 = static_cast<ssize_t>(std::floor(max3<double>(f1.z, f2.z, f3.z)));
         k1 = clamp(k1 + bandwidth + 1, kZeroSSize, maxSizeZ - 1);
 
-        for (size_t k = k0; k <= k1; ++k) {
-            for (size_t j = j0; j <= j1; ++j) {
+        for (ssize_t k = k0; k <= k1; ++k) {
+            for (ssize_t j = j0; j <= j1; ++j) {
                 double a, b, c;
                 double jD = static_cast<double>(j);
                 double kD = static_cast<double>(k);
