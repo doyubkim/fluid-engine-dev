@@ -19,19 +19,19 @@ constexpr ssize_t kZeroSSize = 0;
 
 //! Zero for type T.
 template <typename T>
-constexpr T zero() {
+inline T zero() {
     return 0;
 }
 
 //! Zero for float.
 template <>
-constexpr float zero<float>() {
+inline float zero<float>() {
     return 0.f;
 }
 
 //! Zero for double.
 template <>
-constexpr double zero<double>() {
+inline double zero<double>() {
     return 0.0;
 }
 

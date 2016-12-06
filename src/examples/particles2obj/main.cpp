@@ -59,7 +59,7 @@ void triangulateAndSave(
         sdf.dataOrigin(),
         &mesh,
         0.0,
-        kMarchingCubesBoundaryFlagAll);
+        kDirectionAll);
 
     std::ofstream file(objFilename.c_str());
     if (file) {
