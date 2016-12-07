@@ -101,7 +101,8 @@ VertexCenteredScalarGrid3::Builder::withResolution(
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withGridSpacing(const Vector3D& gridSpacing) {
+VertexCenteredScalarGrid3::Builder::withGridSpacing(
+    const Vector3D& gridSpacing) {
     _gridSpacing = gridSpacing;
     return *this;
 }

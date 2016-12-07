@@ -122,7 +122,8 @@ VertexCenteredVectorGrid2::Builder::withResolution(
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+VertexCenteredVectorGrid2::Builder::withGridSpacing(
+    const Vector2D& gridSpacing) {
     _gridSpacing = gridSpacing;
     return *this;
 }
@@ -150,7 +151,8 @@ VertexCenteredVectorGrid2::Builder::withGridOrigin(
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withInitialValue(const Vector2D& initialVal) {
+VertexCenteredVectorGrid2::Builder::withInitialValue(
+    const Vector2D& initialVal) {
     _initialVal = initialVal;
     return *this;
 }

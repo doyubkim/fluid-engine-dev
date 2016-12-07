@@ -94,7 +94,8 @@ VertexCenteredScalarGrid2::Builder::withResolution(
 }
 
 VertexCenteredScalarGrid2::Builder&
-VertexCenteredScalarGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+VertexCenteredScalarGrid2::Builder::withGridSpacing(
+    const Vector2D& gridSpacing) {
     _gridSpacing = gridSpacing;
     return *this;
 }

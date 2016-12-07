@@ -159,7 +159,8 @@ VertexCenteredVectorGrid3::Builder::withGridOrigin(
 }
 
 VertexCenteredVectorGrid3::Builder&
-VertexCenteredVectorGrid3::Builder::withInitialValue(const Vector3D& initialVal) {
+VertexCenteredVectorGrid3::Builder::withInitialValue(
+    const Vector3D& initialVal) {
     _initialVal = initialVal;
     return *this;
 }
