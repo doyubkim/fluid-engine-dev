@@ -18,6 +18,8 @@ namespace jet {
 //!
 class CellCenteredScalarGrid3 final : public ScalarGrid3 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     CellCenteredScalarGrid3();
 
@@ -71,14 +73,43 @@ class CellCenteredScalarGrid3 final : public ScalarGrid3 {
     //! Sets the contents with the given \p other grid.
     CellCenteredScalarGrid3& operator=(const CellCenteredScalarGrid3& other);
 
-    //! Returns the grid builder instance.
-    static ScalarGridBuilder3Ptr builder();
+    //! Returns builder fox CellCenteredScalarGrid3.
+    static Builder builder();
 };
 
-//! A grid builder class that returns 3-D cell-centered scalar grid.
-class CellCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
+//!
+//! \brief Front-end to create CellCenteredScalarGrid3 objects step by step.
+//!
+class CellCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
  public:
-    //! Returns a cell-centered grid for given parameters.
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(
+        size_t resolutionX, size_t resolutionY, size_t resolutionZ);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector3D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(
+        double gridSpacingX, double gridSpacingY, double gridSpacingZ);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector3D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(
+        double gridOriginX, double gridOriginY, double gridOriginZ);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialVal);
+
+    //! Builds CellCenteredScalarGrid3 instance.
+    CellCenteredScalarGrid3 build() const;
+
+    //! Builds shared pointer of CellCenteredScalarGrid3 instance.
     ScalarGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,
@@ -90,6 +121,12 @@ class CellCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size3 _resolution{1, 1, 1};
+    Vector3D _gridSpacing{1, 1, 1};
+    Vector3D _gridOrigin{0, 0, 0};
+    double _initialVal = 0.0;
 };
 
 }  // namespace jet

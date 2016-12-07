@@ -10,9 +10,9 @@ GridSmokeSolver2::GridSmokeSolver2() {
     auto grids = gridSystemData();
 
     _smokeDensityDataId = grids->addAdvectableScalarData(
-        CellCenteredScalarGrid2::builder(), 0.0);
+        std::make_shared<CellCenteredScalarGrid2::Builder>(), 0.0);
     _temperatureDataId = grids->addAdvectableScalarData(
-        CellCenteredScalarGrid2::builder(), 0.0);
+        std::make_shared<CellCenteredScalarGrid2::Builder>(), 0.0);
 }
 
 GridSmokeSolver2::~GridSmokeSolver2() {

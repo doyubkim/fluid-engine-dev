@@ -107,6 +107,75 @@ std::shared_ptr<VectorGrid3> CellCenteredVectorGrid3::clone() const {
     return std::make_shared<CellCenteredVectorGrid3>(*this);
 }
 
-VectorGridBuilder3Ptr CellCenteredVectorGrid3::builder() {
-    return std::make_shared<CellCenteredVectorGridBuilder3>();
+CellCenteredVectorGrid3::Builder CellCenteredVectorGrid3::builder() {
+    return Builder();
+}
+
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withResolution(const Size3& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY, size_t resolutionZ) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    _resolution.z = resolutionZ;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withGridSpacing(const Vector3D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY, double gridSpacingZ) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    _gridSpacing.z = gridSpacingZ;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY, double gridOriginZ) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    _gridOrigin.z = gridOriginZ;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withInitialValue(const Vector3D& initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+CellCenteredVectorGrid3::Builder&
+CellCenteredVectorGrid3::Builder::withInitialValue(
+    double initialValX, double initialValY, double initialValZ) {
+    _initialVal.x = initialValX;
+    _initialVal.y = initialValY;
+    _initialVal.z = initialValZ;
+    return *this;
+}
+
+CellCenteredVectorGrid3 CellCenteredVectorGrid3::Builder::build() const {
+    return CellCenteredVectorGrid3(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

@@ -5,7 +5,7 @@
 
 using namespace jet;
 
-Surface2::Surface2() {
+Surface2::Surface2(bool isNormalFlipped_) : isNormalFlipped(isNormalFlipped_) {
 }
 
 Surface2::Surface2(const Surface2& other) :

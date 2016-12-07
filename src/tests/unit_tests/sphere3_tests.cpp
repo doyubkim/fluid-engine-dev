@@ -136,3 +136,16 @@ TEST(Sphere3, ClosestNormal) {
     EXPECT_DOUBLE_EQ(-1.0, result3.y);
     EXPECT_DOUBLE_EQ(0.0, result3.z);
 }
+
+TEST(Sphere3, Builder) {
+    Sphere3 sph = Sphere3::builder()
+        .withCenter({3.0, -1.0, 2.0})
+        .withRadius(5.0)
+        .withIsNormalFlipped(true)
+        .build();
+    EXPECT_DOUBLE_EQ(3.0, sph.center.x);
+    EXPECT_DOUBLE_EQ(-1.0, sph.center.y);
+    EXPECT_DOUBLE_EQ(2.0, sph.center.z);
+    EXPECT_DOUBLE_EQ(5.0, sph.radius);
+    EXPECT_TRUE(sph.isNormalFlipped);
+}

@@ -55,3 +55,37 @@ TEST(Triangle3, Constructors) {
         }
     }
 }
+
+TEST(Triangle3, Builder) {
+    std::array<Vector3D, 3> points = {{
+        Vector3D(1, 2, 3),
+        Vector3D(4, 5, 6),
+        Vector3D(7, 8, 9)
+    }};
+    std::array<Vector3D, 3> normals = {{
+        Vector3D(1, 0, 0),
+        Vector3D(0, 1, 0),
+        Vector3D(0, 0, 1)
+    }};
+    std::array<Vector2D, 3> uvs = {{
+        Vector2D(1, 0),
+        Vector2D(0, 1),
+        Vector2D(0.5, 0.5)
+    }};
+
+    Triangle3 tri = Triangle3::builder()
+        .withPoints(points)
+        .withNormals(normals)
+        .withUvs(uvs)
+        .build();
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            EXPECT_DOUBLE_EQ(points[i][j], tri.points[i][j]);
+            EXPECT_DOUBLE_EQ(normals[i][j], tri.normals[i][j]);
+        }
+        for (int j = 0; j < 2; ++j) {
+            EXPECT_DOUBLE_EQ(uvs[i][j], tri.uvs[i][j]);
+        }
+    }
+}

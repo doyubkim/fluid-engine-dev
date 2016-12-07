@@ -24,8 +24,8 @@ class Surface2 {
     //! Flips normal when calling Surface2::closestNormal(...).
     bool isNormalFlipped = false;
 
-    //! Default constructor.
-    Surface2();
+    //! Constructs a surface with normal direction.
+    explicit Surface2(bool isNormalFlipped = false);
 
     //! Copy constructor.
     Surface2(const Surface2& other);

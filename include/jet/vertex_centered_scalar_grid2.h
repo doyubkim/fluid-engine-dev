@@ -19,6 +19,8 @@ namespace jet {
 //!
 class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     VertexCenteredScalarGrid2();
 
@@ -70,13 +72,39 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
     VertexCenteredScalarGrid2& operator=(
         const VertexCenteredScalarGrid2& other);
 
-    //! Returns the grid builder instance.
-    static ScalarGridBuilder2Ptr builder();
+    //! Returns builder fox VertexCenteredScalarGrid2.
+    static Builder builder();
 };
 
-//! A grid builder class that returns 2-D vertex-centered scalar grid.
-class VertexCenteredScalarGridBuilder2 final : public ScalarGridBuilder2 {
+//!
+//! \brief Front-end to create VertexCenteredScalarGrid2 objects step by step.
+//!
+class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
  public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size2& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(size_t resolutionX, size_t resolutionY);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector2D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacingX, double gridSpacingY);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector2D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(double gridOriginX, double gridOriginY);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialVal);
+
+    //! Builds VertexCenteredScalarGrid2 instance.
+    VertexCenteredScalarGrid2 build() const;
+
     //! Returns a vertex-centered grid for given parameters.
     ScalarGrid2Ptr build(
         const Size2& resolution,
@@ -89,6 +117,12 @@ class VertexCenteredScalarGridBuilder2 final : public ScalarGridBuilder2 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size2 _resolution{1, 1};
+    Vector2D _gridSpacing{1, 1};
+    Vector2D _gridOrigin{0, 0};
+    double _initialVal = 0.0;
 };
 
 }  // namespace jet

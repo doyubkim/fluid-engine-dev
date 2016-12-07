@@ -211,32 +211,65 @@ TEST(VertexCenteredVectorGrid3, Clone) {
 }
 
 TEST(VertexCenteredVectorGrid3, Builder) {
-    auto grid1 = VertexCenteredVectorGrid3::builder()->build(
-        {3, 8, 5}, {2.0, 3.0, 1.0}, {5.0, 4.0, 7.0}, {8.0, 1.0, 3.0});
+    {
+        auto grid1 = VertexCenteredVectorGrid3::builder().build(
+            {3, 8, 5}, {2.0, 3.0, 1.0}, {5.0, 4.0, 7.0}, {8.0, 1.0, 3.0});
 
-    auto grid2 = std::dynamic_pointer_cast<VertexCenteredVectorGrid3>(grid1);
-    EXPECT_TRUE(grid2 != nullptr);
+        auto grid2
+            = std::dynamic_pointer_cast<VertexCenteredVectorGrid3>(grid1);
+        EXPECT_TRUE(grid2 != nullptr);
 
-    EXPECT_EQ(3u, grid1->resolution().x);
-    EXPECT_EQ(8u, grid1->resolution().y);
-    EXPECT_EQ(5u, grid1->resolution().z);
-    EXPECT_DOUBLE_EQ(2.0, grid1->gridSpacing().x);
-    EXPECT_DOUBLE_EQ(3.0, grid1->gridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1->gridSpacing().z);
-    EXPECT_DOUBLE_EQ(5.0, grid1->origin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid1->origin().y);
-    EXPECT_DOUBLE_EQ(7.0, grid1->origin().z);
-    EXPECT_EQ(4u, grid2->dataSize().x);
-    EXPECT_EQ(9u, grid2->dataSize().y);
-    EXPECT_EQ(6u, grid2->dataSize().z);
-    EXPECT_DOUBLE_EQ(5.0, grid2->dataOrigin().x);
-    EXPECT_DOUBLE_EQ(4.0, grid2->dataOrigin().y);
-    EXPECT_DOUBLE_EQ(7.0, grid2->dataOrigin().z);
-    grid2->forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
-        EXPECT_DOUBLE_EQ(8.0, (*grid2)(i, j, k).x);
-        EXPECT_DOUBLE_EQ(1.0, (*grid2)(i, j, k).y);
-        EXPECT_DOUBLE_EQ(3.0, (*grid2)(i, j, k).z);
-    });
+        EXPECT_EQ(3u, grid1->resolution().x);
+        EXPECT_EQ(8u, grid1->resolution().y);
+        EXPECT_EQ(5u, grid1->resolution().z);
+        EXPECT_DOUBLE_EQ(2.0, grid1->gridSpacing().x);
+        EXPECT_DOUBLE_EQ(3.0, grid1->gridSpacing().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1->gridSpacing().z);
+        EXPECT_DOUBLE_EQ(5.0, grid1->origin().x);
+        EXPECT_DOUBLE_EQ(4.0, grid1->origin().y);
+        EXPECT_DOUBLE_EQ(7.0, grid1->origin().z);
+        EXPECT_EQ(4u, grid2->dataSize().x);
+        EXPECT_EQ(9u, grid2->dataSize().y);
+        EXPECT_EQ(6u, grid2->dataSize().z);
+        EXPECT_DOUBLE_EQ(5.0, grid2->dataOrigin().x);
+        EXPECT_DOUBLE_EQ(4.0, grid2->dataOrigin().y);
+        EXPECT_DOUBLE_EQ(7.0, grid2->dataOrigin().z);
+        grid2->forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
+            EXPECT_DOUBLE_EQ(8.0, (*grid2)(i, j, k).x);
+            EXPECT_DOUBLE_EQ(1.0, (*grid2)(i, j, k).y);
+            EXPECT_DOUBLE_EQ(3.0, (*grid2)(i, j, k).z);
+        });
+    }
+
+    {
+        auto grid1 = VertexCenteredVectorGrid3::builder()
+            .withResolution(3, 8, 5)
+            .withGridSpacing(2.0, 3.0, 1.0)
+            .withGridOrigin(5, 4, 7)
+            .withInitialValue(8, 1, 3)
+            .build();
+
+        EXPECT_EQ(3u, grid1.resolution().x);
+        EXPECT_EQ(8u, grid1.resolution().y);
+        EXPECT_EQ(5u, grid1.resolution().z);
+        EXPECT_DOUBLE_EQ(2.0, grid1.gridSpacing().x);
+        EXPECT_DOUBLE_EQ(3.0, grid1.gridSpacing().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1.gridSpacing().z);
+        EXPECT_DOUBLE_EQ(5.0, grid1.origin().x);
+        EXPECT_DOUBLE_EQ(4.0, grid1.origin().y);
+        EXPECT_DOUBLE_EQ(7.0, grid1.origin().z);
+        EXPECT_EQ(4u, grid1.dataSize().x);
+        EXPECT_EQ(9u, grid1.dataSize().y);
+        EXPECT_EQ(6u, grid1.dataSize().z);
+        EXPECT_DOUBLE_EQ(5.0, grid1.dataOrigin().x);
+        EXPECT_DOUBLE_EQ(4.0, grid1.dataOrigin().y);
+        EXPECT_DOUBLE_EQ(7.0, grid1.dataOrigin().z);
+        grid1.forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
+            EXPECT_DOUBLE_EQ(8.0, grid1(i, j, k).x);
+            EXPECT_DOUBLE_EQ(1.0, grid1(i, j, k).y);
+            EXPECT_DOUBLE_EQ(3.0, grid1(i, j, k).z);
+        });
+    }
 }
 
 TEST(VertexCenteredVectorGrid3, Fill) {

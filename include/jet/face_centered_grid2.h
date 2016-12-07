@@ -20,6 +20,8 @@ namespace jet {
 //!
 class FaceCenteredGrid2 final : public VectorGrid2 {
  public:
+    class Builder;
+
     //! Read-write scalar data accessor type.
     typedef ArrayAccessor2<double> ScalarDataAccessor;
 
@@ -203,8 +205,8 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     //!
     std::function<Vector2D(const Vector2D&)> sampler() const override;
 
-    //! Returns the grid builder instance.
-    static VectorGridBuilder2Ptr builder();
+    //! Returns builder fox FaceCenteredGrid2.
+    static Builder builder();
 
  protected:
     // VectorGrid2 implementations
@@ -229,9 +231,38 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
 //! Shared pointer type for the FaceCenteredGrid2.
 typedef std::shared_ptr<FaceCenteredGrid2> FaceCenteredGrid2Ptr;
 
-//! A grid builder class that returns 2-D face-centered vector grid.
-class FaceCenteredGridBuilder2 final : public VectorGridBuilder2 {
+//!
+//! \brief Front-end to create FaceCenteredGrid2 objects step by step.
+//!
+class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
  public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size2& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(size_t resolutionX, size_t resolutionY);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector2D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacingX, double gridSpacingY);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector2D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(double gridOriginX, double gridOriginY);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(const Vector2D& initialVal);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialValX, double initialValY);
+
+    //! Builds FaceCenteredGrid2 instance.
+    FaceCenteredGrid2 build() const;
+
     //! Returns a face-centered grid for given parameters.
     VectorGrid2Ptr build(
         const Size2& resolution,
@@ -244,6 +275,12 @@ class FaceCenteredGridBuilder2 final : public VectorGridBuilder2 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size2 _resolution{1, 1};
+    Vector2D _gridSpacing{1, 1};
+    Vector2D _gridOrigin{0, 0};
+    Vector2D _initialVal{0, 0};
 };
 
 }  // namespace jet

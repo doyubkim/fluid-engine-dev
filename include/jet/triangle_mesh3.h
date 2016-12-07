@@ -22,12 +22,28 @@ namespace jet {
 //!
 class TriangleMesh3 final : public Surface3 {
  public:
+    class Builder;
+
     typedef Array1<Vector2D> Vector2DArray;
     typedef Array1<Vector3D> Vector3DArray;
     typedef Array1<Point3UI> IndexArray;
 
+    typedef Vector3DArray PointArray;
+    typedef Vector3DArray NormalArray;
+    typedef Vector2DArray UvArray;
+
     //! Default constructor.
-    TriangleMesh3();
+    explicit TriangleMesh3(bool isNormalFlipped = false);
+
+    //! Constructs mesh with points, normals, uvs, and their indices.
+    TriangleMesh3(
+        const PointArray& points,
+        const NormalArray& normals,
+        const UvArray& uvs,
+        const IndexArray& pointIndices,
+        const IndexArray& normalIndices,
+        const IndexArray& uvIndices,
+        bool isNormalFlipped);
 
     //! Copy constructor.
     TriangleMesh3(const TriangleMesh3& other);
@@ -155,17 +171,26 @@ class TriangleMesh3 final : public Surface3 {
     //! Sets angle weighted vertex normal.
     void setAngleWeightedVertexNormal();
 
+    //! Scales the mesh by given factor.
     void scale(double factor);
 
+    //! Traslates the mesh.
     void translate(const Vector3D& t);
 
+    //! Rotates the mesh.
     void rotate(const QuaternionD& q);
 
+    //! Writes the mesh in obj format to the output stream.
     void writeObj(std::ostream* strm) const;
 
+    //! Reads the mesh in obj format from the input stream.
     bool readObj(std::istream* strm);
 
+    //! Copies \p other mesh.
     TriangleMesh3& operator=(const TriangleMesh3& other);
+
+    //! Returns builder fox TriangleMesh3.
+    static Builder builder();
 
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
@@ -179,9 +204,9 @@ class TriangleMesh3 final : public Surface3 {
         const Ray3D& ray) const override;
 
  private:
-    Vector3DArray _points;
-    Vector3DArray _normals;
-    Vector2DArray _uvs;
+    PointArray _points;
+    NormalArray _normals;
+    UvArray _uvs;
     IndexArray _pointIndices;
     IndexArray _normalIndices;
     IndexArray _uvIndices;
@@ -189,6 +214,46 @@ class TriangleMesh3 final : public Surface3 {
 
 //! Shared pointer for the TriangleMesh3 type.
 typedef std::shared_ptr<TriangleMesh3> TriangleMesh3Ptr;
+
+
+//!
+//! \brief Front-end to create TriangleMesh3 objects step by step.
+//!
+class TriangleMesh3::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with points.
+    Builder& withPoints(const PointArray& points);
+
+    //! Returns builder with normals.
+    Builder& withNormals(const NormalArray& normals);
+
+    //! Returns builder with uvs.
+    Builder& withUvs(const UvArray& uvs);
+
+    //! Returns builder with point indices.
+    Builder& withPointIndices(const IndexArray& pointIndices);
+
+    //! Returns builder with normal indices.
+    Builder& withNormalIndices(const IndexArray& normalIndices);
+
+    //! Returns builder with uv indices.
+    Builder& withUvIndices(const IndexArray& uvIndices);
+
+    //! Builds TriangleMesh3.
+    TriangleMesh3 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    PointArray _points;
+    NormalArray _normals;
+    UvArray _uvs;
+    IndexArray _pointIndices;
+    IndexArray _normalIndices;
+    IndexArray _uvIndices;
+};
 
 }  // namespace jet
 

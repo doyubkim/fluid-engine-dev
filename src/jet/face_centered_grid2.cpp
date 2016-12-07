@@ -416,6 +416,71 @@ void FaceCenteredGrid2::resetSampler() {
     };
 }
 
-VectorGridBuilder2Ptr FaceCenteredGrid2::builder() {
-    return std::make_shared<FaceCenteredGridBuilder2>();
+FaceCenteredGrid2::Builder FaceCenteredGrid2::builder() {
+    return Builder();
+}
+
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withInitialValue(const Vector2D& initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+FaceCenteredGrid2::Builder&
+FaceCenteredGrid2::Builder::withInitialValue(
+    double initialValX, double initialValY) {
+    _initialVal.x = initialValX;
+    _initialVal.y = initialValY;
+    return *this;
+}
+
+FaceCenteredGrid2 FaceCenteredGrid2::Builder::build() const {
+    return FaceCenteredGrid2(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

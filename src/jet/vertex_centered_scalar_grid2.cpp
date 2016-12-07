@@ -74,7 +74,63 @@ VertexCenteredScalarGrid2::operator=(const VertexCenteredScalarGrid2& other) {
     return *this;
 }
 
+VertexCenteredScalarGrid2::Builder VertexCenteredScalarGrid2::builder() {
+    return Builder();
+}
 
-ScalarGridBuilder2Ptr VertexCenteredScalarGrid2::builder() {
-    return std::make_shared<VertexCenteredScalarGridBuilder2>();
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    return *this;
+}
+
+VertexCenteredScalarGrid2::Builder&
+VertexCenteredScalarGrid2::Builder::withInitialValue(double initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+VertexCenteredScalarGrid2 VertexCenteredScalarGrid2::Builder::build() const {
+    return VertexCenteredScalarGrid2(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

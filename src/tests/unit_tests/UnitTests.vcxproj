@@ -86,6 +86,8 @@
     <ClCompile Include="pde_tests.cpp" />
     <ClCompile Include="pic_solver2_tests.cpp" />
     <ClCompile Include="pic_solver3_tests.cpp" />
+    <ClCompile Include="plane2_tests.cpp" />
+    <ClCompile Include="plane3_tests.cpp" />
     <ClCompile Include="point2_tests.cpp" />
     <ClCompile Include="point3_tests.cpp" />
     <ClCompile Include="point_hash_grid_searchers2_tests.cpp" />

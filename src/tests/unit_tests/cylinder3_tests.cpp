@@ -149,3 +149,24 @@ TEST(Cylinder3, ClosestNormal) {
     EXPECT_DOUBLE_EQ(1.0, result4.y);
     EXPECT_DOUBLE_EQ(0.0, result4.z);
 }
+
+TEST(Cylinder3, Builder) {
+    Cylinder3 cyl2 = Cylinder3::builder()
+        .withCenter({1, 2, 3})
+        .withRadius(4.0)
+        .withHeight(5.0)
+        .build();
+
+    EXPECT_FALSE(cyl2.isNormalFlipped);
+    EXPECT_DOUBLE_EQ(1.0, cyl2.center.x);
+    EXPECT_DOUBLE_EQ(2.0, cyl2.center.y);
+    EXPECT_DOUBLE_EQ(3.0, cyl2.center.z);
+    EXPECT_DOUBLE_EQ(4.0, cyl2.radius);
+    EXPECT_DOUBLE_EQ(5.0, cyl2.height);
+    EXPECT_DOUBLE_EQ(-3.0, cyl2.boundingBox().lowerCorner.x);
+    EXPECT_DOUBLE_EQ(-0.5, cyl2.boundingBox().lowerCorner.y);
+    EXPECT_DOUBLE_EQ(-1.0, cyl2.boundingBox().lowerCorner.z);
+    EXPECT_DOUBLE_EQ(5.0, cyl2.boundingBox().upperCorner.x);
+    EXPECT_DOUBLE_EQ(4.5, cyl2.boundingBox().upperCorner.y);
+    EXPECT_DOUBLE_EQ(7.0, cyl2.boundingBox().upperCorner.z);
+}

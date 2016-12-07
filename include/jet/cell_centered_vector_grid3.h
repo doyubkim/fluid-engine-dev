@@ -19,6 +19,8 @@ namespace jet {
 //!
 class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     CellCenteredVectorGrid3();
 
@@ -80,13 +82,46 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
     //! Sets the contents with the given \p other grid.
     CellCenteredVectorGrid3& operator=(const CellCenteredVectorGrid3& other);
 
-    //! Returns the grid builder instance.
-    static VectorGridBuilder3Ptr builder();
+    //! Returns builder fox CellCenteredVectorGrid3.
+    static Builder builder();
 };
 
-//! A grid builder class that returns 3-D vector-centered scalar grid.
-class CellCenteredVectorGridBuilder3 final : public VectorGridBuilder3 {
+//!
+//! \brief Front-end to create CellCenteredScalarGrid3 objects step by step.
+//!
+class CellCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
  public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(
+        size_t resolutionX, size_t resolutionY, size_t resolutionZ);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector3D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(
+        double gridSpacingX, double gridSpacingY, double gridSpacingZ);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector3D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(
+        double gridOriginX, double gridOriginY, double gridOriginZ);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(const Vector3D& initialVal);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(
+        double initialValX, double initialValY, double initialValZ);
+
+    //! Builds CellCenteredScalarGrid3 instance.
+    CellCenteredVectorGrid3 build() const;
+
     //! Returns a cell-centered grid for given parameters.
     VectorGrid3Ptr build(
         const Size3& resolution,
@@ -99,6 +134,12 @@ class CellCenteredVectorGridBuilder3 final : public VectorGridBuilder3 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size3 _resolution{1, 1, 1};
+    Vector3D _gridSpacing{1, 1, 1};
+    Vector3D _gridOrigin{0, 0, 0};
+    Vector3D _initialVal{0, 0, 0};
 };
 
 }  // namespace jet

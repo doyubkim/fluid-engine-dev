@@ -17,18 +17,25 @@ namespace jet {
 //!
 class Box3 final : public Surface3 {
  public:
+    class Builder;
+
     //! Bounding box of this box.
     BoundingBox3D bound
         = BoundingBox3D(Vector3D(), Vector3D(1.0, 1.0, 1.0));
 
     //! Constructs (0, 0, 0) x (1, 1, 1) box.
-    Box3();
+    explicit Box3(bool isNormalFlipped = false);
 
     //! Constructs a box with given \p lowerCorner and \p upperCorner.
-    Box3(const Vector3D& lowerCorner, const Vector3D& upperCorner);
+    Box3(
+        const Vector3D& lowerCorner,
+        const Vector3D& upperCorner,
+        bool isNormalFlipped = false);
 
     //! Constructs a box with BoundingBox3D instance.
-    explicit Box3(const BoundingBox3D& boundingBox);
+    explicit Box3(
+        const BoundingBox3D& boundingBox,
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     Box3(const Box3& other);
@@ -49,6 +56,9 @@ class Box3 final : public Surface3 {
     //! Returns the bounding box of this box object.
     BoundingBox3D boundingBox() const override;
 
+    //! Returns builder fox Box3.
+    static Builder builder();
+
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
 
@@ -58,6 +68,30 @@ class Box3 final : public Surface3 {
 
 //! Shared pointer type for the Box3.
 typedef std::shared_ptr<Box3> Box3Ptr;
+
+
+//!
+//! \brief Front-end to create Box3 objects step by step.
+//!
+class Box3::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with lower corner set.
+    Builder& withLowerCorner(const Vector3D& pt);
+
+    //! Returns builder with upper corner set.
+    Builder& withUpperCorner(const Vector3D& pt);
+
+    //! Builds Box3.
+    Box3 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    Vector3D _lowerCorner{0, 0, 0};
+    Vector3D _upperCorner{1, 1, 1};
+};
 
 }  // namespace jet
 

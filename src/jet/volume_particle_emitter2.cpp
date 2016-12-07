@@ -179,3 +179,82 @@ double VolumeParticleEmitter2::random() {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(_rng);
 }
+
+VolumeParticleEmitter2::Builder VolumeParticleEmitter2::builder() {
+    return Builder();
+}
+
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withVolumeShape(
+    const ImplicitSurface2Ptr& implicitSurface) {
+    _implicitSurface = implicitSurface;
+    if (!_isBoundSet) {
+        _bounds = _implicitSurface->boundingBox();
+    }
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withMaxRegion(const BoundingBox2D& bounds) {
+    _bounds = bounds;
+    _isBoundSet = true;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withSpacing(double spacing) {
+    _spacing = spacing;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withInitialVelocity(
+    const Vector2D& initialVel) {
+    _initialVel = initialVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withMaxNumberOfParticles(
+    size_t maxNumberOfParticles) {
+    _maxNumberOfParticles = maxNumberOfParticles;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withJitter(double jitter) {
+    _jitter = jitter;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withIsOneShot(bool isOneShot) {
+    _isOneShot = isOneShot;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withAllowOverlapping(bool allowOverlapping) {
+    _allowOverlapping = allowOverlapping;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withRandomSeed(uint32_t seed) {
+    _seed = seed;
+    return *this;
+}
+
+VolumeParticleEmitter2 VolumeParticleEmitter2::Builder::build() const {
+    return VolumeParticleEmitter2(
+        _implicitSurface,
+        _bounds,
+        _spacing,
+        _initialVel,
+        _maxNumberOfParticles,
+        _jitter,
+        _isOneShot,
+        _allowOverlapping,
+        _seed);
+}

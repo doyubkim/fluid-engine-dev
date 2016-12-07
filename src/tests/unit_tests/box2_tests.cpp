@@ -170,3 +170,12 @@ TEST(Box2, ClosestNormal) {
     Vector2D result3 = box.closestNormal(Vector2D(4, 1));
     EXPECT_EQ(Vector2D(0, 1), result3);
 }
+
+TEST(Box2, Builder) {
+    Box2 box = Box2::builder().withLowerCorner({-3.0, -2.0})
+                              .withUpperCorner({5.0, 4.0})
+                              .build();
+
+    EXPECT_EQ(Vector2D(-3.0, -2.0), box.bound.lowerCorner);
+    EXPECT_EQ(Vector2D(5.0, 4.0), box.bound.upperCorner);
+}

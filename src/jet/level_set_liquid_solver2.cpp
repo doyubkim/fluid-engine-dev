@@ -15,7 +15,7 @@ using namespace jet;
 LevelSetLiquidSolver2::LevelSetLiquidSolver2() {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addAdvectableScalarData(
-        CellCenteredScalarGrid2::builder(), kMaxD);
+        std::make_shared<CellCenteredScalarGrid2::Builder>(), kMaxD);
     _levelSetSolver = std::make_shared<EnoLevelSetSolver2>();
 }
 

@@ -100,4 +100,65 @@ double PointParticleEmitter3::random() {
     return d(_rng);
 }
 
+PointParticleEmitter3::Builder PointParticleEmitter3::builder() {
+    return Builder();
+}
+
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withOrigin(const Vector3D& origin) {
+    _origin = origin;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withDirection(const Vector3D& direction) {
+    _direction = direction;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withSpeed(double speed) {
+    _speed = speed;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withSpreadAngleInDegrees(
+    double spreadAngleInDegrees) {
+    _spreadAngleInDegrees = spreadAngleInDegrees;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withMaxNumberOfNewParticlesPerSecond(
+    size_t maxNumOfNewParticlesPerSec) {
+    _maxNumberOfNewParticlesPerSecond = maxNumOfNewParticlesPerSec;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withMaxNumberOfParticles(
+    size_t maxNumberOfParticles) {
+    _maxNumberOfParticles = maxNumberOfParticles;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withRandomSeed(uint32_t seed) {
+    _seed = seed;
+    return *this;
+}
+
+PointParticleEmitter3 PointParticleEmitter3::Builder::build() const {
+    return PointParticleEmitter3(
+        _origin,
+        _direction,
+        _speed,
+        _spreadAngleInDegrees,
+        _maxNumberOfNewParticlesPerSecond,
+        _maxNumberOfParticles,
+        _seed);
+}
+
 }  // namespace jet

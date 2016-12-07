@@ -6,19 +6,22 @@
 
 using namespace jet;
 
-Box2::Box2() {
+Box2::Box2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
 }
 
-Box2::Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner) :
-    Box2(BoundingBox2D(lowerCorner, upperCorner)) {
+Box2::Box2(
+    const Vector2D& lowerCorner,
+    const Vector2D& upperCorner,
+    bool isNormalFlipped_) :
+    Box2(BoundingBox2D(lowerCorner, upperCorner), isNormalFlipped_) {
 }
 
-Box2::Box2(const BoundingBox2D& boundingBox) :
-    bound(boundingBox) {
+Box2::Box2(const BoundingBox2D& boundingBox, bool isNormalFlipped_)
+: Surface2(isNormalFlipped_)
+, bound(boundingBox) {
 }
 
-Box2::Box2(const Box2& other) :
-    Surface2(other), bound(other.bound) {
+Box2::Box2(const Box2& other) : Surface2(other), bound(other.bound) {
 }
 
 Vector2D Box2::closestPoint(const Vector2D& otherPoint) const {
@@ -125,4 +128,27 @@ SurfaceRayIntersection2 Box2::actualClosestIntersection(
 
 BoundingBox2D Box2::boundingBox() const {
     return bound;
+}
+
+Box2::Builder Box2::builder() {
+    return Builder();
+}
+
+Box2::Builder& Box2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Box2::Builder& Box2::Builder::withLowerCorner(const Vector2D& pt) {
+    _lowerCorner = pt;
+    return *this;
+}
+
+Box2::Builder& Box2::Builder::withUpperCorner(const Vector2D& pt) {
+    _upperCorner = pt;
+    return *this;
+}
+
+Box2 Box2::Builder::build() const {
+    return Box2(_lowerCorner, _upperCorner, _isNormalFlipped);
 }

@@ -17,6 +17,8 @@ namespace jet {
 //!
 class PointParticleEmitter3 final : public ParticleEmitter3 {
  public:
+    class Builder;
+
     //!
     //! Constructs an emitter that spawns particles from given origin,
     //! direction, speed, spread angle, max number of new particles per second,
@@ -63,6 +65,9 @@ class PointParticleEmitter3 final : public ParticleEmitter3 {
     //! Sets max number of particles to be emitted.
     void setMaxNumberOfParticles(size_t maxNumberOfParticles);
 
+    //! Returns builder fox PointParticleEmitter3.
+    static Builder builder();
+
  private:
     std::mt19937 _rng;
 
@@ -85,8 +90,48 @@ class PointParticleEmitter3 final : public ParticleEmitter3 {
     double random();
 };
 
-//! Shared pointer for the PointParticleEmitter2 type.
+//! Shared pointer for the PointParticleEmitter3 type.
 typedef std::shared_ptr<PointParticleEmitter3> PointParticleEmitter3Ptr;
+
+
+//!
+//! \brief Front-end to create PointParticleEmitter3 objects step by step.
+//!
+class PointParticleEmitter3::Builder final {
+ public:
+    //! Returns builder with origin.
+    Builder& withOrigin(const Vector3D& origin);
+
+    //! Returns builder with direction.
+    Builder& withDirection(const Vector3D& direction);
+
+    //! Returns builder with speed.
+    Builder& withSpeed(double speed);
+
+    //! Returns builder with spread angle in degrees.
+    Builder& withSpreadAngleInDegrees(double spreadAngleInDegrees);
+
+    Builder& withMaxNumberOfNewParticlesPerSecond(
+        size_t maxNumOfNewParticlesPerSec);
+
+    //! Returns builder with max number of particles.
+    Builder& withMaxNumberOfParticles(size_t maxNumberOfParticles);
+
+    //! Returns builder with random seed.
+    Builder& withRandomSeed(uint32_t seed);
+
+    //! Builds PointParticleEmitter3.
+    PointParticleEmitter3 build() const;
+
+ private:
+    size_t _maxNumberOfNewParticlesPerSecond = 1;
+    size_t _maxNumberOfParticles = kMaxSize;
+    Vector3D _origin{0, 0, 0};
+    Vector3D _direction{0, 1, 0};
+    double _speed = 1.0;
+    double _spreadAngleInDegrees = 90.0;
+    uint32_t _seed = 0;
+};
 
 }  // namespace jet
 

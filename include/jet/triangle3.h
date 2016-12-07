@@ -15,6 +15,8 @@ namespace jet {
 //!
 class Triangle3 final : public Surface3 {
  public:
+    class Builder;
+
     //! Three points.
     std::array<Vector3D, 3> points;
 
@@ -25,13 +27,14 @@ class Triangle3 final : public Surface3 {
     std::array<Vector2D, 3> uvs;
 
     //! Constructs an empty triangle.
-    Triangle3();
+    explicit Triangle3(bool isNormalFlipped = false);
 
     //! Constructs a triangle with given \p points, \p normals, and \p uvs.
     Triangle3(
         const std::array<Vector3D, 3>& points,
         const std::array<Vector3D, 3>& normals,
-        const std::array<Vector2D, 3>& uvs);
+        const std::array<Vector2D, 3>& uvs,
+        bool isNormalFlipped = false);
 
     //! Copy constructor
     Triangle3(const Triangle3& other);
@@ -62,6 +65,9 @@ class Triangle3 final : public Surface3 {
     //! Set Triangle3::normals to the face normal.
     void setNormalsToFaceNormal();
 
+    //! Returns builder fox Triangle3.
+    static Builder builder();
+
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
 
@@ -76,6 +82,34 @@ class Triangle3 final : public Surface3 {
 
 //! Shared pointer for the Triangle3 type.
 typedef std::shared_ptr<Triangle3> Triangle3Ptr;
+
+
+//!
+//! \brief Front-end to create Triangle3 objects step by step.
+//!
+class Triangle3::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with points.
+    Builder& withPoints(const std::array<Vector3D, 3>& points);
+
+    //! Returns builder with normals.
+    Builder& withNormals(const std::array<Vector3D, 3>& normals);
+
+    //! Returns builder with uvs.
+    Builder& withUvs(const std::array<Vector2D, 3>& uvs);
+
+    //! Builds Triangle3.
+    Triangle3 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    std::array<Vector3D, 3> _points;
+    std::array<Vector3D, 3> _normals;
+    std::array<Vector2D, 3> _uvs;
+};
 
 }  // namespace jet
 

@@ -66,3 +66,17 @@ TEST(PointParticleEmitter3, Emit) {
         EXPECT_DOUBLE_EQ(3.0, vel[i].length());
     }
 }
+
+TEST(PointParticleEmitter3, Builder) {
+    PointParticleEmitter3 emitter = PointParticleEmitter3::builder()
+        .withOrigin({1.0, 2.0, 3.0})
+        .withDirection(Vector3D(0.5, 1.0, -2.0).normalized())
+        .withSpeed(3.0)
+        .withSpreadAngleInDegrees(15.0)
+        .withMaxNumberOfNewParticlesPerSecond(4)
+        .withMaxNumberOfParticles(18)
+        .build();
+
+    EXPECT_EQ(4u, emitter.maxNumberOfNewParticlesPerSecond());
+    EXPECT_EQ(18u, emitter.maxNumberOfParticles());
+}

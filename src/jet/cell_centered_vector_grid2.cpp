@@ -97,6 +97,71 @@ std::shared_ptr<VectorGrid2> CellCenteredVectorGrid2::clone() const {
     return std::make_shared<CellCenteredVectorGrid2>(*this);
 }
 
-VectorGridBuilder2Ptr CellCenteredVectorGrid2::builder() {
-    return std::make_shared<CellCenteredVectorGridBuilder2>();
+CellCenteredVectorGrid2::Builder CellCenteredVectorGrid2::builder() {
+    return Builder();
+}
+
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withInitialValue(const Vector2D& initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+CellCenteredVectorGrid2::Builder&
+CellCenteredVectorGrid2::Builder::withInitialValue(
+    double initialValX, double initialValY) {
+    _initialVal.x = initialValX;
+    _initialVal.y = initialValY;
+    return *this;
+}
+
+CellCenteredVectorGrid2 CellCenteredVectorGrid2::Builder::build() const {
+    return CellCenteredVectorGrid2(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

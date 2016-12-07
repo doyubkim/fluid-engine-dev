@@ -6,15 +6,19 @@
 
 using namespace jet;
 
-Box3::Box3() {
+Box3::Box3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
 }
 
-Box3::Box3(const Vector3D& lowerCorner, const Vector3D& upperCorner) :
-    Box3(BoundingBox3D(lowerCorner, upperCorner)) {
+Box3::Box3(
+    const Vector3D& lowerCorner,
+    const Vector3D& upperCorner,
+    bool isNormalFlipped_) :
+    Box3(BoundingBox3D(lowerCorner, upperCorner), isNormalFlipped_) {
 }
 
-Box3::Box3(const BoundingBox3D& boundingBox) :
-    bound(boundingBox) {
+Box3::Box3(const BoundingBox3D& boundingBox, bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, bound(boundingBox) {
 }
 
 Box3::Box3(const Box3& other) :
@@ -130,4 +134,27 @@ SurfaceRayIntersection3 Box3::actualClosestIntersection(
 
 BoundingBox3D Box3::boundingBox() const {
     return bound;
+}
+
+Box3::Builder Box3::builder() {
+    return Builder();
+}
+
+Box3::Builder& Box3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Box3::Builder& Box3::Builder::withLowerCorner(const Vector3D& pt) {
+    _lowerCorner = pt;
+    return *this;
+}
+
+Box3::Builder& Box3::Builder::withUpperCorner(const Vector3D& pt) {
+    _upperCorner = pt;
+    return *this;
+}
+
+Box3 Box3::Builder::build() const {
+    return Box3(_lowerCorner, _upperCorner, _isNormalFlipped);
 }

@@ -16,7 +16,7 @@ using namespace jet;
 PicSolver3::PicSolver3() {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addScalarData(
-        CellCenteredScalarGrid3::builder(), kMaxD);
+        std::make_shared<CellCenteredScalarGrid3::Builder>(), kMaxD);
     _particles = std::make_shared<ParticleSystemData3>();
 }
 

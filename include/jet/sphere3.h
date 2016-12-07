@@ -16,6 +16,8 @@ namespace jet {
 //!
 class Sphere3 final : public Surface3 {
  public:
+    class Builder;
+
     //! Center of the sphere.
     Vector3D center;
 
@@ -23,10 +25,13 @@ class Sphere3 final : public Surface3 {
     double radius = 1.0;
 
     //! Constructs a sphere with center at (0, 0, 0) and radius of 1.
-    Sphere3();
+    explicit Sphere3(bool isNormalFlipped = false);
 
     //! Constructs a sphere with \p center and \p radius.
-    Sphere3(const Vector3D& center, double radius);
+    Sphere3(
+        const Vector3D& center,
+        double radius,
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     Sphere3(const Sphere3& other);
@@ -45,6 +50,9 @@ class Sphere3 final : public Surface3 {
     //! Returns the bounding box of this sphere object.
     BoundingBox3D boundingBox() const override;
 
+    //! Returns builder fox Sphere3.
+    static Builder builder();
+
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
 
@@ -59,6 +67,29 @@ class Sphere3 final : public Surface3 {
 
 //! Shared pointer for the Sphere3 type.
 typedef std::shared_ptr<Sphere3> Sphere3Ptr;
+
+//!
+//! \brief Front-end to create Sphere3 objects step by step.
+//!
+class Sphere3::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with sphere center.
+    Builder& withCenter(const Vector3D& center);
+
+    //! Returns builder with sphere radius.
+    Builder& withRadius(double radius);
+
+    //! Builds Sphere3.
+    Sphere3 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    Vector3D _center{0, 0, 0};
+    double _radius = 0.0;
+};
 
 }  // namespace jet
 

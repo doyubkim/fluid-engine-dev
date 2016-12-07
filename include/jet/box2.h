@@ -17,17 +17,24 @@ namespace jet {
 //!
 class Box2 final : public Surface2 {
  public:
+    class Builder;
+
     //! Bounding box of this box.
     BoundingBox2D bound = BoundingBox2D(Vector2D(), Vector2D(1.0, 1.0));
 
     //! Constructs (0, 0) x (1, 1) box.
-    Box2();
+    explicit Box2(bool isNormalFlipped = false);
 
     //! Constructs a box with given \p lowerCorner and \p upperCorner.
-    Box2(const Vector2D& lowerCorner, const Vector2D& upperCorner);
+    Box2(
+        const Vector2D& lowerCorner,
+        const Vector2D& upperCorner,
+        bool isNormalFlipped = false);
 
     //! Constructs a box with BoundingBox2D instance.
-    explicit Box2(const BoundingBox2D& boundingBox);
+    explicit Box2(
+        const BoundingBox2D& boundingBox,
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     Box2(const Box2& other);
@@ -48,6 +55,9 @@ class Box2 final : public Surface2 {
     //! Returns the bounding box of this box object.
     BoundingBox2D boundingBox() const override;
 
+    //! Returns builder fox Box2.
+    static Builder builder();
+
  protected:
     Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
 
@@ -57,6 +67,30 @@ class Box2 final : public Surface2 {
 
 //! Shared pointer type for the Box2.
 typedef std::shared_ptr<Box2> Box2Ptr;
+
+
+//!
+//! \brief Front-end to create Box2 objects step by step.
+//!
+class Box2::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with lower corner set.
+    Builder& withLowerCorner(const Vector2D& pt);
+
+    //! Returns builder with upper corner set.
+    Builder& withUpperCorner(const Vector2D& pt);
+
+    //! Builds Box2.
+    Box2 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    Vector2D _lowerCorner{0, 0};
+    Vector2D _upperCorner{1, 1};
+};
 
 }  // namespace jet
 

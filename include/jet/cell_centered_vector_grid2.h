@@ -19,6 +19,8 @@ namespace jet {
 //!
 class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     CellCenteredVectorGrid2();
 
@@ -76,14 +78,43 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
     //! Returns the copy of the grid instance.
     std::shared_ptr<VectorGrid2> clone() const override;
 
-    //! Returns the grid builder instance.
-    static VectorGridBuilder2Ptr builder();
+    //! Returns builder fox CellCenteredVectorGrid2.
+    static Builder builder();
 };
 
 
-//! A grid builder class that returns 2-D cell-centered scalar grid.
-class CellCenteredVectorGridBuilder2 final : public VectorGridBuilder2 {
+//!
+//! \brief Front-end to create CellCenteredVectorGrid2 objects step by step.
+//!
+class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
  public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size2& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(size_t resolutionX, size_t resolutionY);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector2D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacingX, double gridSpacingY);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector2D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(double gridOriginX, double gridOriginY);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(const Vector2D& initialVal);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialValX, double initialValY);
+
+    //! Builds CellCenteredVectorGrid2 instance.
+    CellCenteredVectorGrid2 build() const;
+
     //! Returns a cell-centered grid for given parameters.
     VectorGrid2Ptr build(
         const Size2& resolution,
@@ -96,6 +127,12 @@ class CellCenteredVectorGridBuilder2 final : public VectorGridBuilder2 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size2 _resolution{1, 1};
+    Vector2D _gridSpacing{1, 1};
+    Vector2D _gridOrigin{0, 0};
+    Vector2D _initialVal{0, 0};
 };
 
 }  // namespace jet

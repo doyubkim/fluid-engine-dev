@@ -16,6 +16,8 @@ namespace jet {
 //!
 class Sphere2 final : public Surface2 {
  public:
+    class Builder;
+
     //! Center of the sphere.
     Vector2D center;
 
@@ -23,10 +25,13 @@ class Sphere2 final : public Surface2 {
     double radius = 1.0;
 
     //! Constructs a sphere with center at (0, 0) and radius of 1.
-    Sphere2();
+    explicit Sphere2(bool isNormalFlipped = false);
 
     //! Constructs a sphere with \p center and \p radius.
-    Sphere2(const Vector2D& center, double radius);
+    Sphere2(
+        const Vector2D& center,
+        double radius, bool
+        isNormalFlipped = false);
 
     //! Copy constructor.
     Sphere2(const Sphere2& other);
@@ -45,6 +50,9 @@ class Sphere2 final : public Surface2 {
     //! Returns the bounding box of this plane object.
     BoundingBox2D boundingBox() const override;
 
+    //! Returns builder fox Sphere2.
+    static Builder builder();
+
  protected:
     Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
 
@@ -54,6 +62,30 @@ class Sphere2 final : public Surface2 {
 
 //! Shared pointer for the Sphere2 type.
 typedef std::shared_ptr<Sphere2> Sphere2Ptr;
+
+
+//!
+//! \brief Front-end to create Sphere2 objects step by step.
+//!
+class Sphere2::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with sphere center.
+    Builder& withCenter(const Vector2D& center);
+
+    //! Returns builder with sphere radius.
+    Builder& withRadius(double radius);
+
+    //! Builds Sphere2.
+    Sphere2 build() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    Vector2D _center{0, 0};
+    double _radius = 0.0;
+};
 
 }  // namespace jet
 

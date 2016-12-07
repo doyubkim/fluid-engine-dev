@@ -175,29 +175,53 @@ TEST(FaceCenteredGrid2, Sample) {
 }
 
 TEST(FaceCenteredGrid2, Builder) {
-    auto builder = FaceCenteredGrid2::builder();
-    FaceCenteredGridBuilder2* faceCenteredBuilder
-        = dynamic_cast<FaceCenteredGridBuilder2*>(builder.get());
-    EXPECT_TRUE(faceCenteredBuilder != nullptr);
+    {
+        auto builder = FaceCenteredGrid2::builder();
 
-    auto grid = builder->build(
-        Size2(5, 2),
-        Vector2D(2.0, 4.0),
-        Vector2D(-1.0, 2.0),
-        Vector2D(3.0, 5.0));
-    EXPECT_EQ(Size2(5, 2), grid->resolution());
-    EXPECT_EQ(Vector2D(2.0, 4.0), grid->gridSpacing());
-    EXPECT_EQ(Vector2D(-1.0, 2.0), grid->origin());
+        auto grid = builder.build(
+            Size2(5, 2),
+            Vector2D(2.0, 4.0),
+            Vector2D(-1.0, 2.0),
+            Vector2D(3.0, 5.0));
+        EXPECT_EQ(Size2(5, 2), grid->resolution());
+        EXPECT_EQ(Vector2D(2.0, 4.0), grid->gridSpacing());
+        EXPECT_EQ(Vector2D(-1.0, 2.0), grid->origin());
 
-    auto faceCenteredGrid = std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
-    faceCenteredGrid->forEachUIndex(
-        [&faceCenteredGrid](size_t i, size_t j) {
-            EXPECT_DOUBLE_EQ(3.0, faceCenteredGrid->u(i, j));
-        });
-    faceCenteredGrid->forEachVIndex(
-        [&faceCenteredGrid](size_t i, size_t j) {
-            EXPECT_DOUBLE_EQ(5.0, faceCenteredGrid->v(i, j));
-        });
+        auto faceCenteredGrid
+            = std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
+        EXPECT_TRUE(faceCenteredGrid != nullptr);
+
+        faceCenteredGrid->forEachUIndex(
+            [&faceCenteredGrid](size_t i, size_t j) {
+                EXPECT_DOUBLE_EQ(3.0, faceCenteredGrid->u(i, j));
+            });
+        faceCenteredGrid->forEachVIndex(
+            [&faceCenteredGrid](size_t i, size_t j) {
+                EXPECT_DOUBLE_EQ(5.0, faceCenteredGrid->v(i, j));
+            });
+    }
+
+    {
+        auto grid = FaceCenteredGrid2::builder()
+            .withResolution(5, 2)
+            .withGridSpacing(2, 4)
+            .withGridOrigin(-1, 2)
+            .withInitialValue(3, 5)
+            .build();
+
+        EXPECT_EQ(Size2(5, 2), grid.resolution());
+        EXPECT_EQ(Vector2D(2.0, 4.0), grid.gridSpacing());
+        EXPECT_EQ(Vector2D(-1.0, 2.0), grid.origin());
+
+        grid.forEachUIndex(
+            [&](size_t i, size_t j) {
+                EXPECT_DOUBLE_EQ(3.0, grid.u(i, j));
+            });
+        grid.forEachVIndex(
+            [&](size_t i, size_t j) {
+                EXPECT_DOUBLE_EQ(5.0, grid.v(i, j));
+            });
+    }
 }
 
 TEST(FaceCenteredGrid2, Serialization) {
