@@ -86,6 +86,10 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
     static Builder builder();
 };
 
+//! Shared pointer for the CellCenteredVectorGrid3 type.
+typedef std::shared_ptr<CellCenteredVectorGrid3> CellCenteredVectorGrid3Ptr;
+
+
 //!
 //! \brief Front-end to create CellCenteredScalarGrid3 objects step by step.
 //!
@@ -122,7 +126,20 @@ class CellCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
     //! Builds CellCenteredScalarGrid3 instance.
     CellCenteredVectorGrid3 build() const;
 
-    //! Returns a cell-centered grid for given parameters.
+    //! Builds shared pointer of CellCenteredVectorGrid3 instance.
+    CellCenteredVectorGrid3Ptr makeShared() const {
+        return std::make_shared<CellCenteredVectorGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of CellCenteredVectorGrid3 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder3.
+    //!
     VectorGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

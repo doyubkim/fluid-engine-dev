@@ -5,7 +5,8 @@
 
 using namespace jet;
 
-ImplicitSurface2::ImplicitSurface2() {
+ImplicitSurface2::ImplicitSurface2(bool isNormalFlipped_)
+: Surface2(isNormalFlipped_) {
 }
 
 ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other) :

@@ -41,23 +41,29 @@ void PointParticleEmitter3::setMaxNumberOfParticles(
 }
 
 void PointParticleEmitter3::emit(
-    const Frame& frame,
-    const ParticleSystemData3Ptr& particles) {
-    if (_numberOfEmittedParticles == 0) {
-        _firstFrameTimeInSeconds = frame.timeInSeconds();
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    auto particles = target();
+
+    if (particles == nullptr) {
+        return;
     }
 
-    double elapsedTimeInSeconds = frame.timeInSeconds()
-        - _firstFrameTimeInSeconds;
+    if (_numberOfEmittedParticles == 0) {
+        _firstFrameTimeInSeconds = currentTimeInSeconds;
+    }
+
+    double elapsedTimeInSeconds
+        = currentTimeInSeconds - _firstFrameTimeInSeconds;
 
     size_t newMaxTotalNumberOfEmittedParticles = static_cast<size_t>(
-        std::ceil((elapsedTimeInSeconds + frame.timeIntervalInSeconds)
+        std::ceil((elapsedTimeInSeconds + timeIntervalInSeconds)
             * _maxNumberOfNewParticlesPerSecond));
     newMaxTotalNumberOfEmittedParticles = std::min(
         newMaxTotalNumberOfEmittedParticles,
         _maxNumberOfParticles);
-    size_t maxNumberOfNewParticles = newMaxTotalNumberOfEmittedParticles
-        - _numberOfEmittedParticles;
+    size_t maxNumberOfNewParticles
+        = newMaxTotalNumberOfEmittedParticles - _numberOfEmittedParticles;
 
     if (maxNumberOfNewParticles > 0) {
         Array1<Vector3D> candidatePositions;

@@ -43,16 +43,6 @@ class PointParticleEmitter3 final : public ParticleEmitter3 {
         size_t maxNumOfParticles = std::numeric_limits<size_t>::max(),
         uint32_t seed = 0);
 
-    //!
-    //! \brief      Emits particles to the particle system data.
-    //!
-    //! \param[in]  frame     Current animation frame.
-    //! \param[in]  particles The particle system data.
-    //!
-    void emit(
-        const Frame& frame,
-        const ParticleSystemData3Ptr& particles) override;
-
     //! Returns max number of new particles per second.
     size_t maxNumberOfNewParticlesPerSecond() const;
 
@@ -81,6 +71,16 @@ class PointParticleEmitter3 final : public ParticleEmitter3 {
     Vector3D _direction;
     double _speed;
     double _spreadAngleInRadians;
+
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
+    //!
+    void emit(
+        double currentTimeInSeconds,
+        double timeIntervalInSeconds) override;
 
     void emit(
         Array1<Vector3D>* newPositions,

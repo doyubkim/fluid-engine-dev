@@ -263,7 +263,20 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
     //! Builds FaceCenteredGrid2 instance.
     FaceCenteredGrid2 build() const;
 
-    //! Returns a face-centered grid for given parameters.
+    //! Builds shared pointer of FaceCenteredGrid2 instance.
+    FaceCenteredGrid2Ptr makeShared() const {
+        return std::make_shared<FaceCenteredGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of FaceCenteredGrid2 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder2.
+    //!
     VectorGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

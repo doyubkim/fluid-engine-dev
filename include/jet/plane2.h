@@ -81,6 +81,14 @@ class Plane2::Builder final {
     //! Builds Plane2.
     Plane2 build() const;
 
+    //! Builds shared pointer of Plane2 instance.
+    Plane2Ptr makeShared() const {
+        return std::make_shared<Plane2>(
+            _normal,
+            _point,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector2D _normal{0, 1};

@@ -81,6 +81,10 @@
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_diffusion_solver2.h>
 #include <jet/grid_diffusion_solver3.h>
+#include <jet/grid_emitter2.h>
+#include <jet/grid_emitter3.h>
+#include <jet/grid_emitter_set2.h>
+#include <jet/grid_emitter_set3.h>
 #include <jet/grid_fluid_solver2.h>
 #include <jet/grid_fluid_solver3.h>
 #include <jet/grid_forward_euler_diffusion_solver2.h>
@@ -200,6 +204,8 @@
 #include <jet/vertex_centered_scalar_grid3.h>
 #include <jet/vertex_centered_vector_grid2.h>
 #include <jet/vertex_centered_vector_grid3.h>
+#include <jet/volume_grid_emitter2.h>
+#include <jet/volume_grid_emitter3.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
 #endif  // INCLUDE_JET_JET_H_

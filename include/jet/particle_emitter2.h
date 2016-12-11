@@ -13,21 +13,57 @@ namespace jet {
 //!
 class ParticleEmitter2 {
  public:
+    //!
+    //! \brief Callback function type for update calls.
+    //!
+    //! This type of callback function will take the emitter pointer, current
+    //! time, and time interval in seconds.
+    //!
+    typedef std::function<void(ParticleEmitter2*, double, double)>
+        OnBeginUpdateCallback;
+
     //! Default constructor.
     ParticleEmitter2();
 
     //! Destructor.
     virtual ~ParticleEmitter2();
 
+    //! Updates the emitter state from \p currentTimeInSeconds to the following
+    //! time-step.
+    void update(double currentTimeInSeconds, double timeIntervalInSeconds);
+
+    //! Returns the target particle system to emit.
+    const ParticleSystemData2Ptr& target() const;
+
+    //! Sets the target particle system to emit.
+    void setTarget(const ParticleSystemData2Ptr& particles);
+
+    //!
+    //! \brief      Sets the callback function to be called when
+    //!             ParticleEmitter2::update function is invoked.
+    //!
+    //! The callback function takes current simulation time in seconds unit. Use
+    //! this callback to track any motion or state changes related to this
+    //! emitter.
+    //!
+    //! \param[in]  callback The callback function.
+    //!
+    void setOnBeginUpdateCallback(const OnBeginUpdateCallback& callback);
+
+ protected:
     //!
     //! \brief      Emits particles to the particle system data.
     //!
-    //! \param[in]  frame     Current animation frame.
-    //! \param[in]  particles The particle system data.
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
     //!
     virtual void emit(
-        const Frame& frame,
-        const ParticleSystemData2Ptr& particles) = 0;
+        double currentTimeInSeconds,
+        double timeIntervalInSeconds) = 0;
+
+ private:
+    ParticleSystemData2Ptr _particles;
+    OnBeginUpdateCallback _onBeginUpdateCallback;
 };
 
 //! Shared pointer for the ParticleEmitter2 type.

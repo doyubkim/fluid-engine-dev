@@ -207,12 +207,11 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, Update) {
         = std::make_shared<PointParticleEmitter3>(
             Vector3D(0, 3, 0), Vector3D(0, 1, 0), 5.0, 45.0);
     emitter->setMaxNumberOfNewParticlesPerSecond(300);
+    emitter->setTarget(particles);
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 360; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 360; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

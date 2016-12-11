@@ -6,7 +6,10 @@
 using namespace jet;
 
 SurfaceToImplicit2::SurfaceToImplicit2(
-    const Surface2Ptr& surface) : _surface(surface) {
+    const Surface2Ptr& surface,
+    bool isNormalFlipped_)
+: ImplicitSurface2(isNormalFlipped_)
+, _surface(surface) {
 }
 
 SurfaceToImplicit2::SurfaceToImplicit2(const SurfaceToImplicit2& other) :

@@ -76,6 +76,10 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
     static Builder builder();
 };
 
+//! Shared pointer for the VertexCenteredScalarGrid2 type.
+typedef std::shared_ptr<VertexCenteredScalarGrid2> VertexCenteredScalarGrid2Ptr;
+
+
 //!
 //! \brief Front-end to create VertexCenteredScalarGrid2 objects step by step.
 //!
@@ -105,7 +109,20 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     //! Builds VertexCenteredScalarGrid2 instance.
     VertexCenteredScalarGrid2 build() const;
 
-    //! Returns a vertex-centered grid for given parameters.
+    //! Builds shared pointer of VertexCenteredScalarGrid2 instance.
+    VertexCenteredScalarGrid2Ptr makeShared() const {
+        return std::make_shared<VertexCenteredScalarGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of VertexCenteredScalarGrid2 instance.
+    //!
+    //! This is an overriding function that implements ScalarGridBuilder2.
+    //!
     ScalarGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

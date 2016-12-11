@@ -5,7 +5,14 @@
 
 using namespace jet;
 
-FlipSolver3::FlipSolver3() {
+FlipSolver3::FlipSolver3() : FlipSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
+}
+
+FlipSolver3::FlipSolver3(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin)
+: PicSolver3(resolution, gridSpacing, gridOrigin) {
 }
 
 FlipSolver3::~FlipSolver3() {
@@ -41,4 +48,13 @@ void FlipSolver3::transferFromGridsToParticles() {
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] += _delta.sample(positions[i]);
     });
+}
+
+FlipSolver3::Builder FlipSolver3::builder() {
+    return Builder();
+}
+
+
+FlipSolver3 FlipSolver3::Builder::build() const {
+    return FlipSolver3(_resolution, getGridSpacing(), _gridOrigin);
 }

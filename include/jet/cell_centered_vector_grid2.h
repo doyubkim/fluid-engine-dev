@@ -82,6 +82,9 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
     static Builder builder();
 };
 
+//! Shared pointer for the CellCenteredVectorGrid2 type.
+typedef std::shared_ptr<CellCenteredVectorGrid2> CellCenteredVectorGrid2Ptr;
+
 
 //!
 //! \brief Front-end to create CellCenteredVectorGrid2 objects step by step.
@@ -115,7 +118,20 @@ class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
     //! Builds CellCenteredVectorGrid2 instance.
     CellCenteredVectorGrid2 build() const;
 
-    //! Returns a cell-centered grid for given parameters.
+    //! Builds shared pointer of CellCenteredVectorGrid2 instance.
+    CellCenteredVectorGrid2Ptr makeShared() const {
+        return std::make_shared<CellCenteredVectorGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of CellCenteredVectorGrid2 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder2.
+    //!
     VectorGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

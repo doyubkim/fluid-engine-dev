@@ -6,6 +6,7 @@
 #include <jet/collider2.h>
 #include <jet/constants.h>
 #include <jet/vector_field2.h>
+#include <jet/particle_emitter2.h>
 #include <jet/particle_system_data2.h>
 #include <jet/physics_animation.h>
 
@@ -25,8 +26,15 @@ namespace jet {
 //!
 class ParticleSystemSolver2 : public PhysicsAnimation {
  public:
+    class Builder;
+
     //! Constructs an empty solver.
     ParticleSystemSolver2();
+
+    //! Constructs a solver with particle parameters.
+    ParticleSystemSolver2(
+        double radius,
+        double mass);
 
     //! Destructor.
     virtual ~ParticleSystemSolver2();
@@ -80,6 +88,12 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     //! Sets the collider.
     void setCollider(const Collider2Ptr& newCollider);
 
+    //! Returns the emitter.
+    const ParticleEmitter2Ptr& emitter() const;
+
+    //! Sets the emitter.
+    void setEmitter(const ParticleEmitter2Ptr& newEmitter);
+
     //! Returns the wind field.
     const VectorField2Ptr& wind() const;
 
@@ -93,7 +107,13 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     //!
     void setWind(const VectorField2Ptr& newWind);
 
+    //! Returns builder fox ParticleSystemSolver2.
+    static Builder builder();
+
  protected:
+    //! Initializes the simulator.
+    void onInitialize() override;
+
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
@@ -127,6 +147,7 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     ParticleSystemData2::VectorData _newPositions;
     ParticleSystemData2::VectorData _newVelocities;
     Collider2Ptr _collider;
+    ParticleEmitter2Ptr _emitter;
     VectorField2Ptr _wind;
 
     void beginAdvanceTimeStep(double timeStepInSeconds);
@@ -136,6 +157,58 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     void accumulateExternalForces();
 
     void timeIntegration(double timeStepInSeconds);
+
+    void updateCollider(double timeStepInSeconds);
+
+    void updateEmitter(double timeStepInSeconds);
+};
+
+//! Shared pointer type for the ParticleSystemSolver2.
+typedef std::shared_ptr<ParticleSystemSolver2> ParticleSystemSolver2Ptr;
+
+
+//!
+//! \brief Base class for particle-based solver builder.
+//!
+template <typename DerivedBuilder>
+class ParticleSystemSolverBuilderBase2 {
+ public:
+    //! Returns builder with particle radius.
+    DerivedBuilder& withRadius(double radius);
+
+    //! Returns builder with mass per particle.
+    DerivedBuilder& withMass(double mass);
+
+ protected:
+    double _radius = 1e-3;
+    double _mass = 1e-3;
+};
+
+template <typename T>
+T& ParticleSystemSolverBuilderBase2<T>::withRadius(double radius) {
+    _radius = radius;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& ParticleSystemSolverBuilderBase2<T>::withMass(double mass) {
+    _mass = mass;
+    return static_cast<T&>(*this);
+}
+
+//!
+//! \brief Front-end to create ParticleSystemSolver2 objects step by step.
+//!
+class ParticleSystemSolver2::Builder final
+    : public ParticleSystemSolverBuilderBase2<ParticleSystemSolver2::Builder> {
+ public:
+    //! Builds ParticleSystemSolver2.
+    ParticleSystemSolver2 build() const;
+
+    //! Builds shared pointer of ParticleSystemSolver2 instance.
+    ParticleSystemSolver2Ptr makeShared() const {
+        return std::make_shared<ParticleSystemSolver2>(_radius, _mass);
+    }
 };
 
 }  // namespace jet

@@ -6,6 +6,7 @@
 #include <jet/advection_solver3.h>
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/collider3.h>
+#include <jet/grid_emitter3.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_diffusion_solver3.h>
@@ -28,8 +29,16 @@ namespace jet {
 //!
 class GridFluidSolver3 : public PhysicsAnimation {
  public:
+    class Builder;
+
     //! Default constructor.
     GridFluidSolver3();
+
+    //! Constructs solver with initial grid size.
+    GridFluidSolver3(
+        const Size3& resolution,
+        const Vector3D& gridSpacing,
+        const Vector3D& gridOrigin);
 
     //! Default destructor.
     virtual ~GridFluidSolver3();
@@ -160,7 +169,19 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! Sets the collider.
     void setCollider(const Collider3Ptr& newCollider);
 
+    //! Returns the emitter.
+    const GridEmitter3Ptr& emitter() const;
+
+    //! Sets the emitter.
+    void setEmitter(const GridEmitter3Ptr& newEmitter);
+
+    //! Returns builder fox GridFluidSolver3.
+    static Builder builder();
+
  protected:
+    //! Called when it needs to setup initial condition.
+    void onInitialize() override;
+
     //! Called when advancing a single time-step.
     void onAdvanceTimeStep(double timeIntervalInSeconds) override;
 
@@ -244,6 +265,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     GridSystemData3Ptr _grids;
     Collider3Ptr _collider;
     CellCenteredScalarGrid3 _colliderSdf;
+    GridEmitter3Ptr _emitter;
 
     AdvectionSolver3Ptr _advectionSolver;
     GridDiffusionSolver3Ptr _diffusionSolver;
@@ -253,6 +275,112 @@ class GridFluidSolver3 : public PhysicsAnimation {
     void beginAdvanceTimeStep(double timeIntervalInSeconds);
 
     void endAdvanceTimeStep(double timeIntervalInSeconds);
+
+    void updateCollider(double timeIntervalInSeconds);
+
+    void updateEmitter(double timeIntervalInSeconds);
+};
+
+//! Shared pointer type for the GridFluidSolver3.
+typedef std::shared_ptr<GridFluidSolver3> GridFluidSolver3Ptr;
+
+
+//!
+//! \brief Base class for grid-based fluid solver builder.
+//!
+template <typename DerivedBuilder>
+class GridFluidSolverBuilderBase3 {
+ public:
+    //! Returns builder with grid resolution.
+    DerivedBuilder& withResolution(const Size3& resolution);
+
+    //! Returns builder with grid spacing.
+    DerivedBuilder& withGridSpacing(const Vector3D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    DerivedBuilder& withGridSpacing(double gridSpacing);
+
+    //!
+    //! \brief Returns builder with domain size in x-direction.
+    //!
+    //! To build a solver, one can use either grid spacing directly or domain
+    //! size in x-direction to set the final grid spacing.
+    //!
+    DerivedBuilder& withDomainSizeX(double domainSizeX);
+
+    //! Returns builder with grid origin
+    DerivedBuilder& withGridOrigin(const Vector3D& gridOrigin);
+
+ protected:
+    Size3 _resolution{1, 1, 1};
+    Vector3D _gridSpacing{1, 1, 1};
+    Vector3D _gridOrigin{0, 0, 0};
+    double _domainSizeX = 1.0;
+    bool _useDomainSize = false;
+
+    Vector3D getGridSpacing() const;
+};
+
+template <typename T>
+T& GridFluidSolverBuilderBase3<T>::withResolution(const Size3& resolution) {
+    _resolution = resolution;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase3<T>::withGridSpacing(
+    const Vector3D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    _useDomainSize = false;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase3<T>::withGridSpacing(double gridSpacing) {
+    _gridSpacing.x = gridSpacing;
+    _gridSpacing.y = gridSpacing;
+    _useDomainSize = false;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase3<T>::withDomainSizeX(double domainSizeX) {
+    _domainSizeX = domainSizeX;
+    _useDomainSize = true;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase3<T>::withGridOrigin(const Vector3D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+Vector3D GridFluidSolverBuilderBase3<T>::getGridSpacing() const {
+    Vector3D gridSpacing = _gridSpacing;
+    if (_useDomainSize) {
+        gridSpacing.set(_domainSizeX / static_cast<double>(_resolution.x));
+    }
+    return gridSpacing;
+}
+
+//!
+//! \brief Front-end to create GridFluidSolver3 objects step by step.
+//!
+class GridFluidSolver3::Builder final
+    : public GridFluidSolverBuilderBase3<GridFluidSolver3::Builder> {
+ public:
+    //! Builds GridFluidSolver3.
+    GridFluidSolver3 build() const;
+
+    //! Builds shared pointer of GridFluidSolver3 instance.
+    GridFluidSolver3Ptr makeShared() const {
+        return std::make_shared<GridFluidSolver3>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

@@ -79,10 +79,7 @@ void runSimulation(
     size_t numberOfFrames) {
     auto particles = solver->particleSystemData();
 
-    saveParticlePos(particles, rootDir, 0);
-
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < numberOfFrames; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
         saveParticlePos(
             particles,
@@ -126,7 +123,7 @@ void runExample1(
         0.5 * dx,
         Vector3D());
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    emitter->emit(Frame(), particles);
+    solver.setParticleEmitter(emitter);
 
     // Print simulation info
     printf("Running example 1 (water-drop with FLIP)\n");
@@ -172,7 +169,7 @@ void runExample2(
         0.5 * dx,
         Vector3D());
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    emitter->emit(Frame(), particles);
+    solver.setParticleEmitter(emitter);
 
     // Print simulation info
     printf("Running example 2 (water-drop with PIC)\n");
@@ -221,7 +218,7 @@ void runExample3(
         0.5 * dx,
         Vector3D());
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    emitter->emit(Frame(), particles);
+    solver.setParticleEmitter(emitter);
 
     // Collider setting
     double height = 0.75;
@@ -285,7 +282,7 @@ void runExample4(
         0.5 * dx,
         Vector3D());
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    emitter->emit(Frame(), particles);
+    solver.setParticleEmitter(emitter);
 
     // Collider setting
     double height = 0.75;

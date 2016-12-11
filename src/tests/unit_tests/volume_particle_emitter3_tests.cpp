@@ -48,9 +48,10 @@ TEST(VolumeParticleEmitter3, Emit) {
         false);
 
     auto particles = std::make_shared<ParticleSystemData3>();
+    emitter.setTarget(particles);
 
-    Frame frame(1, 1.0);
-    emitter.emit(frame, particles);
+    Frame frame(0, 1.0);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     auto pos = particles->positions();
     auto vel = particles->velocities();
@@ -67,7 +68,7 @@ TEST(VolumeParticleEmitter3, Emit) {
 
     ++frame;
     emitter.setMaxNumberOfParticles(80);
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(69u, particles->numberOfParticles());
 
@@ -77,16 +78,15 @@ TEST(VolumeParticleEmitter3, Emit) {
     }
 
     ++frame;
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_LT(69u, particles->numberOfParticles());
 }
 
 TEST(VolumeParticleEmitter3, Builder) {
-    auto sphere = std::make_shared<SurfaceToImplicit3>(
-        std::make_shared<Sphere3>(Vector3D(1.0, 2.0, 4.0), 3.0));
+    auto sphere = std::make_shared<Sphere3>(Vector3D(1.0, 2.0, 4.0), 3.0);
 
     VolumeParticleEmitter3 emitter = VolumeParticleEmitter3::builder()
-        .withVolumeShape(sphere)
+        .withSurface(sphere)
         .withMaxRegion(BoundingBox3D({0.0, 0.0, 0.0}, {3.0, 3.0, 3.0}))
         .withSpacing(0.1)
         .withInitialVelocity({-1.0, 0.5, 2.5})

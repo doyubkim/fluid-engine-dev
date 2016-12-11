@@ -85,3 +85,34 @@ double CustomScalarField3::laplacian(const Vector3D& x) const {
             / (_resolution * _resolution);
     }
 }
+
+CustomScalarField3::Builder CustomScalarField3::builder() {
+    return Builder();
+}
+
+
+CustomScalarField3::Builder&
+CustomScalarField3::Builder::withFunction(
+    const std::function<double(const Vector3D&)>& func) {
+    _customFunction = func;
+    return *this;
+}
+
+CustomScalarField3::Builder&
+CustomScalarField3::Builder::withGradientFunction(
+    const std::function<Vector3D(const Vector3D&)>& func) {
+    _customGradientFunction = func;
+    return *this;
+}
+
+CustomScalarField3::Builder&
+CustomScalarField3::Builder::withLaplacianFunction(
+    const std::function<double(const Vector3D&)>& func) {
+    _customLaplacianFunction = func;
+    return *this;
+}
+
+CustomScalarField3 CustomScalarField3::Builder::build() const {
+    return CustomScalarField3(
+        _customFunction, _customGradientFunction, _customLaplacianFunction);
+}

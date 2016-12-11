@@ -4,13 +4,13 @@
 
 #include <jet/box2.h>
 #include <jet/box3.h>
-#include <jet/grid_smoke_solver2.h>
-#include <jet/grid_smoke_solver3.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/grid_single_phase_pressure_solver3.h>
+#include <jet/grid_smoke_solver2.h>
+#include <jet/grid_smoke_solver3.h>
 #include <jet/implicit_surface_set3.h>
 #include <jet/level_set_utils.h>
 #include <jet/rigid_body_collider2.h>
@@ -19,6 +19,7 @@
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit2.h>
 #include <jet/surface_to_implicit3.h>
+#include <jet/volume_grid_emitter2.h>
 #include <algorithm>
 
 using namespace jet;
@@ -137,6 +138,94 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider) {
             "data.#grid2,%04d.npy",
             frame.index);
         saveData(output.constAccessor(), filename);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider2) {
+    // Build solver
+    auto solver = GridSmokeSolver2::builder()
+        .withResolution({32, 64})
+        .withGridSpacing(1.0 / 32.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.3, 0.0})
+        .withUpperCorner({0.7, 0.4})
+        .makeShared();
+
+    auto emitter = VolumeGridEmitter2::builder()
+        .withSourceRegion(box)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+    emitter->addStepFunctionTarget(solver->smokeDensity(), 0.0, 1.0);
+    emitter->addStepFunctionTarget(solver->temperature(), 0.0, 1.0);
+
+    // Build collider
+    auto sphere = Sphere2::builder()
+        .withCenter({0.5, 1.0})
+        .withRadius(0.1)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(sphere)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    for (Frame frame; frame.index < 240; ++frame) {
+        solver->update(frame);
+
+        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider3) {
+    // Build solver
+    auto solver = GridSmokeSolver2::builder()
+        .withResolution({32, 64})
+        .withGridSpacing(1.0 / 32.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.3, 0.0})
+        .withUpperCorner({0.7, 0.1})
+        .makeShared();
+
+    auto emitter = VolumeGridEmitter2::builder()
+        .withSourceRegion(box)
+        .withIsOneShot(false)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+    emitter->addStepFunctionTarget(solver->smokeDensity(), 0.0, 1.0);
+    emitter->addStepFunctionTarget(solver->temperature(), 0.0, 1.0);
+    emitter->setOnBeginUpdateCallback(
+        [&box] (GridEmitter2*, double t, double dt) {
+            box->bound.lowerCorner.x = 0.1 * std::sin(kPiD * t) + 0.3;
+            box->bound.upperCorner.x = 0.1 * std::sin(kPiD * t) + 0.7;
+        });
+
+    // Build collider
+    auto sphere = Sphere2::builder()
+        .withCenter({0.5, 1.0})
+        .withRadius(0.1)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(sphere)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    for (Frame frame; frame.index < 240; ++frame) {
+        solver->update(frame);
+
+        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
     }
 }
 JET_END_TEST_F

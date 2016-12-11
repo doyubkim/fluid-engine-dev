@@ -16,8 +16,17 @@
 
 using namespace jet;
 
-GridFluidSolver3::GridFluidSolver3() {
+GridFluidSolver3::GridFluidSolver3()
+: GridFluidSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
+}
+
+GridFluidSolver3::GridFluidSolver3(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin) {
     _grids = std::make_shared<GridSystemData3>();
+    _grids->resize(resolution, gridSpacing, gridOrigin);
+
     setAdvectionSolver(std::make_shared<CubicSemiLagrangian3>());
     setDiffusionSolver(std::make_shared<GridBackwardEulerDiffusionSolver3>());
     setPressureSolver(
@@ -149,6 +158,28 @@ void GridFluidSolver3::setCollider(const Collider3Ptr& newCollider) {
     _collider = newCollider;
 }
 
+const GridEmitter3Ptr& GridFluidSolver3::emitter() const {
+    return _emitter;
+}
+
+void GridFluidSolver3::setEmitter(const GridEmitter3Ptr& newEmitter) {
+    _emitter = newEmitter;
+}
+
+void GridFluidSolver3::onInitialize() {
+    // When initializing the solver, update the collider and emitter state as
+    // well since they also affects the initial condition of the simulation.
+    Timer timer;
+    updateCollider(0.0);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(0.0);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+}
+
 void GridFluidSolver3::onAdvanceTimeStep(double timeIntervalInSeconds) {
     // The minimum grid resolution is 1x1.
     if (_grids->resolution().x == 0
@@ -161,6 +192,16 @@ void GridFluidSolver3::onAdvanceTimeStep(double timeIntervalInSeconds) {
     beginAdvanceTimeStep(timeIntervalInSeconds);
 
     Timer timer;
+    updateCollider(timeIntervalInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeIntervalInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
     computeExternalForces(timeIntervalInSeconds);
     JET_INFO << "Computing external force took "
              << timer.durationInSeconds() << " seconds";
@@ -252,7 +293,13 @@ void GridFluidSolver3::computeAdvection(double timeIntervalInSeconds) {
 
         // Solve advections for custom vector fields
         n = _grids->numberOfAdvectableVectorData();
+        size_t velIdx = _grids->velocityIndex();
         for (size_t i = 0; i < n; ++i) {
+            // Handle velocity layer separately.
+            if (i == velIdx) {
+                continue;
+            }
+
             auto grid = _grids->advectableVectorDataAt(i);
             auto grid0 = grid->clone();
 
@@ -464,4 +511,16 @@ void GridFluidSolver3::beginAdvanceTimeStep(double timeIntervalInSeconds) {
 void GridFluidSolver3::endAdvanceTimeStep(double timeIntervalInSeconds) {
     // Invoke callback
     onEndAdvanceTimeStep(timeIntervalInSeconds);
+}
+
+void GridFluidSolver3::updateCollider(double timeIntervalInSeconds) {
+    if (_collider != nullptr) {
+        _collider->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
+}
+
+void GridFluidSolver3::updateEmitter(double timeIntervalInSeconds) {
+    if (_emitter != nullptr) {
+        _emitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
 }

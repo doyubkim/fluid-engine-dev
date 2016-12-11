@@ -88,6 +88,14 @@ class Plane3::Builder final {
     //! Builds Plane3.
     Plane3 build() const;
 
+    //! Builds shared pointer of Plane3 instance.
+    Plane3Ptr makeShared() const {
+        return std::make_shared<Plane3>(
+            _normal,
+            _point,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector3D _normal{0, 1, 0};

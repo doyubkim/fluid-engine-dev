@@ -74,6 +74,10 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2 {
     static Builder builder();
 };
 
+//! Shared pointer for the CellCenteredScalarGrid2 type.
+typedef std::shared_ptr<CellCenteredScalarGrid2> CellCenteredScalarGrid2Ptr;
+
+
 //!
 //! \brief Front-end to create CellCenteredScalarGrid2 objects step by step.
 //!
@@ -104,6 +108,19 @@ class CellCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     CellCenteredScalarGrid2 build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid2 instance.
+    CellCenteredScalarGrid2Ptr makeShared() const {
+        return std::make_shared<CellCenteredScalarGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of CellCenteredScalarGrid2 instance.
+    //!
+    //! This is an overriding function that implements ScalarGridBuilder2.
+    //!
     ScalarGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

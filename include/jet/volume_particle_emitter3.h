@@ -51,16 +51,6 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
         uint32_t seed = 0);
 
     //!
-    //! Emits particles to the particle system data.
-    //!
-    //! \param[in]  frame     Current animation frame.
-    //! \param[in]  particles The particle system data.
-    //!
-    void emit(
-        const Frame& frame,
-        const ParticleSystemData3Ptr& particles) override;
-
-    //!
     //! \brief      Sets the point generator.
     //!
     //! This function sets the point generator that defines the pattern of the
@@ -141,6 +131,16 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     bool _isOneShot = true;
     bool _allowOverlapping = false;
 
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
+    //!
+    void emit(
+        double currentTimeInSeconds,
+        double timeIntervalInSeconds) override;
+
     void emit(
         const ParticleSystemData3Ptr& particles,
         Array1<Vector3D>* newPositions,
@@ -158,8 +158,11 @@ typedef std::shared_ptr<VolumeParticleEmitter3> VolumeParticleEmitter3Ptr;
 //!
 class VolumeParticleEmitter3::Builder final {
  public:
-    //! Returns builder with volume shape.
-    Builder& withVolumeShape(const ImplicitSurface3Ptr& implicitSurface);
+    //! Returns builder with implicit surface defining volume shape.
+    Builder& withImplicitSurface(const ImplicitSurface3Ptr& implicitSurface);
+
+    //! Returns builder with surface defining volume shape.
+    Builder& withSurface(const Surface3Ptr& surface);
 
     //! Returns builder with max region.
     Builder& withMaxRegion(const BoundingBox3D& bounds);
@@ -187,6 +190,19 @@ class VolumeParticleEmitter3::Builder final {
 
     //! Builds VolumeParticleEmitter3.
     VolumeParticleEmitter3 build() const;
+
+    //! Builds shared pointer of VolumeParticleEmitter3 instance.
+    VolumeParticleEmitter3Ptr makeShared() const {
+        return std::make_shared<VolumeParticleEmitter3>(
+            _implicitSurface,
+            _bounds,
+            _spacing,
+            _initialVel,
+            _maxNumberOfParticles,
+            _jitter,
+            _isOneShot,
+            _allowOverlapping);
+    }
 
  private:
     ImplicitSurface3Ptr _implicitSurface;

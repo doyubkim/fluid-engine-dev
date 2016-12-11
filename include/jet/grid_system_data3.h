@@ -141,8 +141,26 @@ class GridSystemData3 {
         const VectorGridBuilder3Ptr& builder,
         const Vector3D& initialVal = Vector3D());
 
-    //! Returns the velocity field.
+    //!
+    //! \brief      Returns the velocity field.
+    //!
+    //! This class has velocify field by default, and it is part of the
+    //! advectable vector data list.
+    //!
+    //! \return     Pointer to the velocity field.
+    //!
     const FaceCenteredGrid3Ptr& velocity() const;
+
+    //!
+    //! \brief      Returns the index of the velocity field.
+    //!
+    //! This class has velocify field by default, and it is part of the
+    //! advectable vector data list. This function returns the index of the
+    //! velocity field from the list.
+    //!
+    //! \return     Index of the velocity field.
+    //!
+    size_t velocityIndex() const;
 
     //! Returns the non-advectable scalar data at given index.
     const ScalarGrid3Ptr& scalarDataAt(size_t idx) const;
@@ -165,11 +183,12 @@ class GridSystemData3 {
     //! Returns the number of advectable scalar data.
     size_t numberOfAdvectableScalarData() const;
 
-    //! Returns the number of advectable vector data excluding the velocity.
+    //! Returns the number of advectable vector data.
     size_t numberOfAdvectableVectorData() const;
 
  private:
     FaceCenteredGrid3Ptr _velocity;
+    size_t _velocityIdx;
     std::vector<ScalarGrid3Ptr> _scalarDataList;
     std::vector<VectorGrid3Ptr> _vectorDataList;
     std::vector<ScalarGrid3Ptr> _advectableScalarDataList;

@@ -6,6 +6,7 @@
 #include <jet/collider3.h>
 #include <jet/constants.h>
 #include <jet/vector_field3.h>
+#include <jet/particle_emitter3.h>
 #include <jet/particle_system_data3.h>
 #include <jet/physics_animation.h>
 
@@ -21,12 +22,19 @@ namespace jet {
 //! to add more sophisticated simulations, such as SPH, to handle
 //! particle-to-particle intersection.
 //!
-//! \see        SphSolver2
+//! \see        SphSolver3
 //!
 class ParticleSystemSolver3 : public PhysicsAnimation {
  public:
+    class Builder;
+
     //! Constructs an empty solver.
     ParticleSystemSolver3();
+
+    //! Constructs a solver with particle parameters.
+    ParticleSystemSolver3(
+        double radius,
+        double mass);
 
     //! Destructor.
     virtual ~ParticleSystemSolver3();
@@ -80,6 +88,12 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     //! Sets the collider.
     void setCollider(const Collider3Ptr& newCollider);
 
+    //! Returns the emitter.
+    const ParticleEmitter3Ptr& emitter() const;
+
+    //! Sets the emitter.
+    void setEmitter(const ParticleEmitter3Ptr& newEmitter);
+
     //! Returns the wind field.
     const VectorField3Ptr& wind() const;
 
@@ -93,7 +107,13 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     //!
     void setWind(const VectorField3Ptr& newWind);
 
+    //! Returns builder fox ParticleSystemSolver3.
+    static Builder builder();
+
  protected:
+    //! Initializes the simulator.
+    void onInitialize() override;
+
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
@@ -127,6 +147,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     ParticleSystemData3::VectorData _newPositions;
     ParticleSystemData3::VectorData _newVelocities;
     Collider3Ptr _collider;
+    ParticleEmitter3Ptr _emitter;
     VectorField3Ptr _wind;
 
     void beginAdvanceTimeStep(double timeStepInSeconds);
@@ -136,6 +157,58 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     void accumulateExternalForces();
 
     void timeIntegration(double timeStepInSeconds);
+
+    void updateCollider(double timeStepInSeconds);
+
+    void updateEmitter(double timeStepInSeconds);
+};
+
+//! Shared pointer type for the ParticleSystemSolver3.
+typedef std::shared_ptr<ParticleSystemSolver3> ParticleSystemSolver3Ptr;
+
+
+//!
+//! \brief Base class for particle-based solver builder.
+//!
+template <typename DerivedBuilder>
+class ParticleSystemSolverBuilderBase3 {
+ public:
+    //! Returns builder with particle radius.
+    DerivedBuilder& withRadius(double radius);
+
+    //! Returns builder with mass per particle.
+    DerivedBuilder& withMass(double mass);
+
+ protected:
+    double _radius = 1e-3;
+    double _mass = 1e-3;
+};
+
+template <typename T>
+T& ParticleSystemSolverBuilderBase3<T>::withRadius(double radius) {
+    _radius = radius;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& ParticleSystemSolverBuilderBase3<T>::withMass(double mass) {
+    _mass = mass;
+    return static_cast<T&>(*this);
+}
+
+//!
+//! \brief Front-end to create ParticleSystemSolver3 objects step by step.
+//!
+class ParticleSystemSolver3::Builder final
+    : public ParticleSystemSolverBuilderBase3<ParticleSystemSolver3::Builder> {
+ public:
+    //! Builds ParticleSystemSolver3.
+    ParticleSystemSolver3 build() const;
+
+    //! Builds shared pointer of ParticleSystemSolver3 instance.
+    ParticleSystemSolver3Ptr makeShared() const {
+        return std::make_shared<ParticleSystemSolver3>(_radius, _mass);
+    }
 };
 
 }  // namespace jet

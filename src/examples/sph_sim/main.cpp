@@ -60,10 +60,7 @@ void runSimulation(
     size_t numberOfFrames) {
     auto particles = solver->sphSystemData();
 
-    saveParticlePos(particles, rootDir, 0);
-
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < numberOfFrames; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
         saveParticlePos(
             particles,
@@ -104,7 +101,7 @@ void runExample1(
         sourceBound,
         targetSpacing,
         Vector3D());
-    emitter->emit(Frame(), particles);
+    solver.setEmitter(emitter);
 
     // Initialize boundary
     Box3Ptr box = std::make_shared<Box3>(domain);
@@ -152,7 +149,7 @@ void runExample2(
         sourceBound,
         targetSpacing,
         Vector3D());
-    emitter->emit(Frame(), particles);
+    solver.setEmitter(emitter);
 
     // Initialize boundary
     Box3Ptr box = std::make_shared<Box3>(domain);
@@ -204,7 +201,7 @@ void runExample3(
         sourceBound,
         targetSpacing,
         Vector3D());
-    emitter->emit(Frame(), particles);
+    solver.setEmitter(emitter);
 
     // Collider setting
     double height = 0.75;

@@ -141,8 +141,26 @@ class GridSystemData2 {
         const VectorGridBuilder2Ptr& builder,
         const Vector2D& initialVal = Vector2D());
 
-    //! Returns the velocity field.
+    //!
+    //! \brief      Returns the velocity field.
+    //!
+    //! This class has velocify field by default, and it is part of the
+    //! advectable vector data list.
+    //!
+    //! \return     Pointer to the velocity field.
+    //!
     const FaceCenteredGrid2Ptr& velocity() const;
+
+    //!
+    //! \brief      Returns the index of the velocity field.
+    //!
+    //! This class has velocify field by default, and it is part of the
+    //! advectable vector data list. This function returns the index of the
+    //! velocity field from the list.
+    //!
+    //! \return     Index of the velocity field.
+    //!
+    size_t velocityIndex() const;
 
     //! Returns the non-advectable scalar data at given index.
     const ScalarGrid2Ptr& scalarDataAt(size_t idx) const;
@@ -165,11 +183,12 @@ class GridSystemData2 {
     //! Returns the number of advectable scalar data.
     size_t numberOfAdvectableScalarData() const;
 
-    //! Returns the number of advectable vector data excluding the velocity.
+    //! Returns the number of advectable vector data.
     size_t numberOfAdvectableVectorData() const;
 
  private:
     FaceCenteredGrid2Ptr _velocity;
+    size_t _velocityIdx;
     std::vector<ScalarGrid2Ptr> _scalarDataList;
     std::vector<VectorGrid2Ptr> _vectorDataList;
     std::vector<ScalarGrid2Ptr> _advectableScalarDataList;

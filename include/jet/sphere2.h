@@ -81,6 +81,14 @@ class Sphere2::Builder final {
     //! Builds Sphere2.
     Sphere2 build() const;
 
+    //! Builds shared pointer of Sphere2 instance.
+    Sphere2Ptr makeShared() const {
+        return std::make_shared<Sphere2>(
+            _center,
+            _radius,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector2D _center{0, 0};

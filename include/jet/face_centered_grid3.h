@@ -322,7 +322,20 @@ class FaceCenteredGrid3::Builder final : public VectorGridBuilder3 {
     //! Builds CellCenteredScalarGrid3 instance.
     FaceCenteredGrid3 build() const;
 
-    //! Returns a cell-centered grid for given parameters.
+    //! Builds shared pointer of FaceCenteredGrid3 instance.
+    FaceCenteredGrid3Ptr makeShared() const {
+        return std::make_shared<FaceCenteredGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of FaceCenteredGrid3 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder3.
+    //!
     VectorGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

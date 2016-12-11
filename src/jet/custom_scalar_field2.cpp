@@ -68,3 +68,34 @@ double CustomScalarField2::laplacian(const Vector2D& x) const {
             / (_resolution * _resolution);
     }
 }
+
+CustomScalarField2::Builder CustomScalarField2::builder() {
+    return Builder();
+}
+
+
+CustomScalarField2::Builder&
+CustomScalarField2::Builder::withFunction(
+    const std::function<double(const Vector2D&)>& func) {
+    _customFunction = func;
+    return *this;
+}
+
+CustomScalarField2::Builder&
+CustomScalarField2::Builder::withGradientFunction(
+    const std::function<Vector2D(const Vector2D&)>& func) {
+    _customGradientFunction = func;
+    return *this;
+}
+
+CustomScalarField2::Builder&
+CustomScalarField2::Builder::withLaplacianFunction(
+    const std::function<double(const Vector2D&)>& func) {
+    _customLaplacianFunction = func;
+    return *this;
+}
+
+CustomScalarField2 CustomScalarField2::Builder::build() const {
+    return CustomScalarField2(
+        _customFunction, _customGradientFunction, _customLaplacianFunction);
+}

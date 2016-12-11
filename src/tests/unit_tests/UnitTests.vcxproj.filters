@@ -126,6 +126,12 @@
     <ClCompile Include="grid_blocked_boundary_condition_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="grid_emitter2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_emitter3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="grid_fluid_solver2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

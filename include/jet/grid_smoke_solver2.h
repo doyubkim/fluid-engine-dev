@@ -20,8 +20,16 @@ namespace jet {
 //!
 class GridSmokeSolver2 : public GridFluidSolver2 {
  public:
-    //! Constructs empty smoke solver.
+    class Builder;
+
+    //! Default constructor.
     GridSmokeSolver2();
+
+    //! Constructs solver with initial grid size.
+    GridSmokeSolver2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin);
 
     //! Destructor.
     virtual ~GridSmokeSolver2();
@@ -144,6 +152,9 @@ class GridSmokeSolver2 : public GridFluidSolver2 {
     //! Returns temperature field.
     ScalarGrid2Ptr temperature() const;
 
+    //! Returns builder fox GridSmokeSolver2.
+    static Builder builder();
+
  protected:
     void onEndAdvanceTimeStep(double timeIntervalInSeconds) override;
 
@@ -162,6 +173,28 @@ class GridSmokeSolver2 : public GridFluidSolver2 {
     void computeDiffusion(double timeIntervalInSeconds);
 
     void computeBuoyancyForce(double timeIntervalInSeconds);
+};
+
+//! Shared pointer type for the GridSmokeSolver2.
+typedef std::shared_ptr<GridSmokeSolver2> GridSmokeSolver2Ptr;
+
+
+//!
+//! \brief Front-end to create GridSmokeSolver2 objects step by step.
+//!
+class GridSmokeSolver2::Builder final
+    : public GridFluidSolverBuilderBase2<GridSmokeSolver2::Builder> {
+ public:
+    //! Builds GridSmokeSolver2.
+    GridSmokeSolver2 build() const;
+
+    //! Builds shared pointer of GridSmokeSolver2 instance.
+    GridSmokeSolver2Ptr makeShared() const {
+        return std::make_shared<GridSmokeSolver2>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

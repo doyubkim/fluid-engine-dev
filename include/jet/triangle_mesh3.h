@@ -245,6 +245,18 @@ class TriangleMesh3::Builder final {
     //! Builds TriangleMesh3.
     TriangleMesh3 build() const;
 
+    //! Builds shared pointer of TriangleMesh3 instance.
+    TriangleMesh3Ptr makeShared() const {
+        return std::make_shared<TriangleMesh3>(
+            _points,
+            _normals,
+            _uvs,
+            _pointIndices,
+            _normalIndices,
+            _uvIndices,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     PointArray _points;

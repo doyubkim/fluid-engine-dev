@@ -83,6 +83,10 @@ class VertexCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
     static Builder builder();
 };
 
+//! Shared pointer for the VertexCenteredVectorGrid3 type.
+typedef std::shared_ptr<VertexCenteredVectorGrid3> VertexCenteredVectorGrid3Ptr;
+
+
 //!
 //! \brief Front-end to create VertexCenteredVectorGrid3 objects step by step.
 //!
@@ -119,7 +123,20 @@ class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
     //! Builds VertexCenteredVectorGrid3 instance.
     VertexCenteredVectorGrid3 build() const;
 
-    //! Returns a vertex-centered grid for given parameters.
+    //! Builds shared pointer of VertexCenteredVectorGrid3 instance.
+    VertexCenteredVectorGrid3Ptr makeShared() const {
+        return std::make_shared<VertexCenteredVectorGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of VertexCenteredVectorGrid3 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder3.
+    //!
     VectorGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

@@ -104,3 +104,16 @@ bool Collider3::isPenetrating(
     return (position - colliderPoint.point).dot(colliderPoint.normal) < 0.0 ||
         colliderPoint.distance < radius;
 }
+
+void Collider3::update(
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    if (_onUpdateCallback) {
+        _onUpdateCallback(this, currentTimeInSeconds, timeIntervalInSeconds);
+    }
+}
+
+void Collider3::setOnBeginUpdateCallback(
+    const OnBeginUpdateCallback& callback) {
+    _onUpdateCallback = callback;
+}

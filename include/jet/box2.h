@@ -86,6 +86,14 @@ class Box2::Builder final {
     //! Builds Box2.
     Box2 build() const;
 
+    //! Builds shared pointer of Box2 instance.
+    Box2Ptr makeShared() const {
+        return std::make_shared<Box2>(
+            _lowerCorner,
+            _upperCorner,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector2D _lowerCorner{0, 0};

@@ -29,12 +29,12 @@ JET_BEGIN_TEST_F(ParticleSystemSolver2, Update) {
             Vector2D(0, 3),
             Vector2D(0, 1), 5.0, 45.0);
     emitter->setMaxNumberOfNewParticlesPerSecond(100);
+    solver.setEmitter(emitter);
 
     saveParticleDataXy(particles, 0);
 
     Frame frame(1, 1.0 / 60.0);
     for ( ; frame.index < 360; frame.advance()) {
-        emitter->emit(frame, particles);
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

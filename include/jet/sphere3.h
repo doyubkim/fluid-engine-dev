@@ -85,6 +85,14 @@ class Sphere3::Builder final {
     //! Builds Sphere3.
     Sphere3 build() const;
 
+    //! Builds shared pointer of Sphere3 instance.
+    Sphere3Ptr makeShared() const {
+        return std::make_shared<Sphere3>(
+            _center,
+            _radius,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector3D _center{0, 0, 0};

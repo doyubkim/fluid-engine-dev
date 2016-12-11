@@ -13,7 +13,14 @@
 
 using namespace jet;
 
-PicSolver3::PicSolver3() {
+PicSolver3::PicSolver3() : PicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
+}
+
+PicSolver3::PicSolver3(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin)
+: GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(), kMaxD);
@@ -31,6 +38,24 @@ const ParticleSystemData3Ptr& PicSolver3::particleSystemData() const {
     return _particles;
 }
 
+const ParticleEmitter3Ptr& PicSolver3::particleEmitter() const {
+    return _particleEmitter;
+}
+
+void PicSolver3::setParticleEmitter(const ParticleEmitter3Ptr& newEmitter) {
+    _particleEmitter = newEmitter;
+    newEmitter->setTarget(_particles);
+}
+
+void PicSolver3::onInitialize() {
+    GridFluidSolver3::onInitialize();
+
+    Timer timer;
+    updateParticleEmitter(0.0);
+    JET_INFO << "Update particle emitter took "
+             << timer.durationInSeconds() << " seconds";
+}
+
 void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
 
@@ -38,6 +63,14 @@ void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
              << _particles->numberOfParticles();
 
     Timer timer;
+    updateParticleEmitter(timeIntervalInSeconds);
+    JET_INFO << "Update particle emitter took "
+             << timer.durationInSeconds() << " seconds";
+
+    JET_INFO << "Number of PIC-type particles: "
+             << _particles->numberOfParticles();
+
+    timer.reset();
     transferFromParticlesToGrids();
     JET_INFO << "transferFromParticlesToGrids took "
              << timer.durationInSeconds() << " seconds";
@@ -277,4 +310,19 @@ void PicSolver3::buildSignedDistanceField() {
     });
 
     extrapolateIntoCollider(sdf.get());
+}
+
+void PicSolver3::updateParticleEmitter(double timeIntervalInSeconds) {
+    if (_particleEmitter != nullptr) {
+        _particleEmitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
+}
+
+PicSolver3::Builder PicSolver3::builder() {
+    return Builder();
+}
+
+
+PicSolver3 PicSolver3::Builder::build() const {
+    return PicSolver3(_resolution, getGridSpacing(), _gridOrigin);
 }

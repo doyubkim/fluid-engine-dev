@@ -15,4 +15,28 @@ ParticleEmitter2::ParticleEmitter2() {
 ParticleEmitter2::~ParticleEmitter2() {
 }
 
+const ParticleSystemData2Ptr& ParticleEmitter2::target() const {
+    return _particles;
+}
+
+void ParticleEmitter2::setTarget(const ParticleSystemData2Ptr& particles) {
+    _particles = particles;
+}
+
+void ParticleEmitter2::update(
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    if (_onBeginUpdateCallback) {
+        _onBeginUpdateCallback(
+            this, currentTimeInSeconds, timeIntervalInSeconds);
+    }
+
+    emit(currentTimeInSeconds, timeIntervalInSeconds);
+}
+
+void ParticleEmitter2::setOnBeginUpdateCallback(
+    const OnBeginUpdateCallback& callback) {
+    _onBeginUpdateCallback = callback;
+}
+
 }  // namespace jet

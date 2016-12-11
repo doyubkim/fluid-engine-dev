@@ -95,6 +95,18 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
+            const ConstArrayAccessor2<T>& data, \
+            unsigned int frameNum) { \
+            char filename[256]; \
+            snprintf( \
+                filename, \
+                sizeof(filename), \
+                "data.#grid2,%04d.npy", \
+                frameNum); \
+            saveData(data, filename); \
+        } \
+        template <typename T> \
+        void saveData( \
             const ConstArrayAccessor3<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
@@ -104,6 +116,18 @@ inline void createDirectory(const std::string& dirname) {
                 static_cast<unsigned int>(data.width()) \
             }; \
             cnpy::npy_save(filename, data.data(), dim, 3, "w"); \
+        } \
+        template <typename T> \
+        void saveData( \
+            const ConstArrayAccessor3<T>& data, \
+            unsigned int frameNum) { \
+            char filename[256]; \
+            snprintf( \
+                filename, \
+                sizeof(filename), \
+                "data.#grid3,%04d.npy", \
+                frameNum); \
+            saveData(data, filename); \
         } \
         template <typename ParticleSystem> \
         void saveParticleDataXy( \

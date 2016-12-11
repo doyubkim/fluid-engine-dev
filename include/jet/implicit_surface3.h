@@ -11,7 +11,7 @@ namespace jet {
 class ImplicitSurface3 : public Surface3 {
  public:
     //! Default constructor.
-    ImplicitSurface3();
+    explicit ImplicitSurface3(bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurface3(const ImplicitSurface3& other);

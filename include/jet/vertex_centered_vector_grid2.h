@@ -82,6 +82,10 @@ class VertexCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
     static Builder builder();
 };
 
+//! Shared pointer for the VertexCenteredVectorGrid2 type.
+typedef std::shared_ptr<VertexCenteredVectorGrid2> VertexCenteredVectorGrid2Ptr;
+
+
 //! A grid builder class that returns 2-D vertex-centered vector grid.
 class VertexCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
  public:
@@ -112,7 +116,20 @@ class VertexCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
     //! Builds VertexCenteredVectorGrid2 instance.
     VertexCenteredVectorGrid2 build() const;
 
-    //! Returns a cell-centered grid for given parameters.
+    //! Builds shared pointer of VertexCenteredVectorGrid2 instance.
+    VertexCenteredVectorGrid2Ptr makeShared() const {
+        return std::make_shared<VertexCenteredVectorGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of VertexCenteredVectorGrid2 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder2.
+    //!
     VectorGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,

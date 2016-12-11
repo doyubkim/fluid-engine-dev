@@ -31,25 +31,26 @@ TEST(PointParticleEmitter2, Emit) {
         18);
 
     auto particles = std::make_shared<ParticleSystemData2>();
+    emitter.setTarget(particles);
 
-    Frame frame(1, 1.0);
-    emitter.emit(frame, particles);
+    Frame frame(0, 1.0);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(4u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(8u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(12u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(16u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(18u, particles->numberOfParticles());
 
     auto pos = particles->positions();

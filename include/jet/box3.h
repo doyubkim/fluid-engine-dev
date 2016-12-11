@@ -87,6 +87,14 @@ class Box3::Builder final {
     //! Builds Box3.
     Box3 build() const;
 
+    //! Builds shared pointer of Box3 instance.
+    Box3Ptr makeShared() const {
+        return std::make_shared<Box3>(
+            _lowerCorner,
+            _upperCorner,
+            _isNormalFlipped);
+    }
+
  private:
     bool _isNormalFlipped = false;
     Vector3D _lowerCorner{0, 0, 0};

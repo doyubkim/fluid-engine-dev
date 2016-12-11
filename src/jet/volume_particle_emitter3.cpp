@@ -4,6 +4,7 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/samplers.h>
+#include <jet/surface_to_implicit3.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;
@@ -33,9 +34,16 @@ VolumeParticleEmitter3::VolumeParticleEmitter3(
 }
 
 void VolumeParticleEmitter3::emit(
-    const Frame& frame,
-    const ParticleSystemData3Ptr& particles) {
-    UNUSED_VARIABLE(frame);
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    UNUSED_VARIABLE(currentTimeInSeconds);
+    UNUSED_VARIABLE(timeIntervalInSeconds);
+
+    auto particles = target();
+
+    if (particles == nullptr) {
+        return;
+    }
 
     if (_numberOfEmittedParticles > 0 && _isOneShot) {
         return;
@@ -184,11 +192,21 @@ VolumeParticleEmitter3::Builder VolumeParticleEmitter3::builder() {
 
 
 VolumeParticleEmitter3::Builder&
-VolumeParticleEmitter3::Builder::withVolumeShape(
+VolumeParticleEmitter3::Builder::withImplicitSurface(
     const ImplicitSurface3Ptr& implicitSurface) {
     _implicitSurface = implicitSurface;
     if (!_isBoundSet) {
         _bounds = _implicitSurface->boundingBox();
+    }
+    return *this;
+}
+
+VolumeParticleEmitter3::Builder&
+VolumeParticleEmitter3::Builder::withSurface(
+    const Surface3Ptr& surface) {
+    _implicitSurface = std::make_shared<SurfaceToImplicit3>(surface);
+    if (!_isBoundSet) {
+        _bounds = surface->boundingBox();
     }
     return *this;
 }

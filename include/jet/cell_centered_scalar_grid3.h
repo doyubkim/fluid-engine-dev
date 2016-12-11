@@ -77,6 +77,10 @@ class CellCenteredScalarGrid3 final : public ScalarGrid3 {
     static Builder builder();
 };
 
+//! Shared pointer for the CellCenteredScalarGrid3 type.
+typedef std::shared_ptr<CellCenteredScalarGrid3> CellCenteredScalarGrid3Ptr;
+
+
 //!
 //! \brief Front-end to create CellCenteredScalarGrid3 objects step by step.
 //!
@@ -110,6 +114,19 @@ class CellCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
     CellCenteredScalarGrid3 build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid3 instance.
+    CellCenteredScalarGrid3Ptr makeShared() const {
+        return std::make_shared<CellCenteredScalarGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of CellCenteredScalarGrid3 instance.
+    //!
+    //! This is an overriding function that implements ScalarGridBuilder3.
+    //!
     ScalarGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,

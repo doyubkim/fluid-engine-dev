@@ -6,9 +6,16 @@
 
 using namespace jet;
 
-GridSmokeSolver3::GridSmokeSolver3() {
-    auto grids = gridSystemData();
+GridSmokeSolver3::GridSmokeSolver3()
+: GridSmokeSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
+}
 
+GridSmokeSolver3::GridSmokeSolver3(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin)
+: GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
+    auto grids = gridSystemData();
     _smokeDensityDataId = grids->addAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(), 0.0);
     _temperatureDataId = grids->addAdvectableScalarData(
@@ -185,4 +192,13 @@ void GridSmokeSolver3::computeBuoyancyForce(double timeIntervalInSeconds) {
 
         applyBoundaryCondition();
     }
+}
+
+GridSmokeSolver3::Builder GridSmokeSolver3::builder() {
+    return Builder();
+}
+
+
+GridSmokeSolver3 GridSmokeSolver3::Builder::build() const {
+    return GridSmokeSolver3(_resolution, getGridSpacing(), _gridOrigin);
 }

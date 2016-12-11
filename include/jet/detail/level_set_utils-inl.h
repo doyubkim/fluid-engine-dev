@@ -12,7 +12,7 @@
 namespace jet {
 
 template <typename T>
-T isInsideSdf(T phi) {
+bool isInsideSdf(T phi) {
     return phi < 0;
 }
 

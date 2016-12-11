@@ -4,6 +4,7 @@
 #include <jet/matrix2x2.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/samplers.h>
+#include <jet/surface_to_implicit2.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/volume_particle_emitter2.h>
 
@@ -34,9 +35,16 @@ VolumeParticleEmitter2::VolumeParticleEmitter2(
 }
 
 void VolumeParticleEmitter2::emit(
-    const Frame& frame,
-    const ParticleSystemData2Ptr& particles) {
-    UNUSED_VARIABLE(frame);
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    UNUSED_VARIABLE(currentTimeInSeconds);
+    UNUSED_VARIABLE(timeIntervalInSeconds);
+
+    auto particles = target();
+
+    if (particles == nullptr) {
+        return;
+    }
 
     if (_numberOfEmittedParticles > 0 && _isOneShot) {
         return;
@@ -186,11 +194,21 @@ VolumeParticleEmitter2::Builder VolumeParticleEmitter2::builder() {
 
 
 VolumeParticleEmitter2::Builder&
-VolumeParticleEmitter2::Builder::withVolumeShape(
+VolumeParticleEmitter2::Builder::withImplicitSurface(
     const ImplicitSurface2Ptr& implicitSurface) {
     _implicitSurface = implicitSurface;
     if (!_isBoundSet) {
         _bounds = _implicitSurface->boundingBox();
+    }
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withSurface(
+    const Surface2Ptr& surface) {
+    _implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
+    if (!_isBoundSet) {
+        _bounds = surface->boundingBox();
     }
     return *this;
 }

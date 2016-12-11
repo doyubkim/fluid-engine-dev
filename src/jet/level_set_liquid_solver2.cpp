@@ -12,7 +12,15 @@
 
 using namespace jet;
 
-LevelSetLiquidSolver2::LevelSetLiquidSolver2() {
+LevelSetLiquidSolver2::LevelSetLiquidSolver2()
+: LevelSetLiquidSolver2({1, 1}, {1, 1}, {0, 0}) {
+}
+
+LevelSetLiquidSolver2::LevelSetLiquidSolver2(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin)
+: GridFluidSolver2(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addAdvectableScalarData(
         std::make_shared<CellCenteredScalarGrid2::Builder>(), kMaxD);

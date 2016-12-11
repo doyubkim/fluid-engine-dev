@@ -54,7 +54,7 @@ JET_BEGIN_TEST_F(PicSolver3, DamBreakingWithCollider) {
         0.5 * dx,
         Vector3D());
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    emitter->emit(Frame(), particles);
+    solver.setParticleEmitter(emitter);
 
     // Collider setting
     double height = 0.75;
