@@ -190,31 +190,38 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(ParticleSystemSolver3, Update) {
-    Plane3Ptr plane = std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D());
-    RigidBodyCollider3Ptr collider
-        = std::make_shared<RigidBodyCollider3>(plane);
-    ConstantVectorField3Ptr wind
-        = std::make_shared<ConstantVectorField3>(Vector3D(1, 0, 0));
+    auto plane = Plane3::builder()
+        .withNormal({0, 1, 0})
+        .withPoint({0, 0, 0})
+        .makeShared();
 
-    ParticleSystemSolver3 solver;
-    solver.setCollider(collider);
-    solver.setWind(wind);
-    solver.setDragCoefficient(0.0);
-    solver.setRestitutionCoefficient(0.5);
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(plane)
+        .makeShared();
 
-    ParticleSystemData3Ptr particles = solver.particleSystemData();
-    PointParticleEmitter3Ptr emitter
-        = std::make_shared<PointParticleEmitter3>(
-            Vector3D(0, 3, 0), Vector3D(0, 1, 0), 5.0, 45.0);
-    emitter->setMaxNumberOfNewParticlesPerSecond(300);
-    emitter->setTarget(particles);
+    auto wind = ConstantVectorField3::builder()
+        .withValue({1, 0, 0})
+        .makeShared();
 
-    saveParticleDataXy(particles, 0);
+    auto emitter = PointParticleEmitter3::builder()
+        .withOrigin({0, 3, 0})
+        .withDirection({0, 1, 0})
+        .withSpeed(5)
+        .withSpreadAngleInDegrees(45.0)
+        .withMaxNumberOfNewParticlesPerSecond(300)
+        .makeShared();
+
+    auto solver = ParticleSystemSolver3::builder().makeShared();
+    solver->setCollider(collider);
+    solver->setEmitter(emitter);
+    solver->setWind(wind);
+    solver->setDragCoefficient(0.0);
+    solver->setRestitutionCoefficient(0.5);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 360; ++frame) {
-        solver.update(frame);
+        solver->update(frame);
 
-        saveParticleDataXy(particles, frame.index);
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
     }
 }
 JET_END_TEST_F

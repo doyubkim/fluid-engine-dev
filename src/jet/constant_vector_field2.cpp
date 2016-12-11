@@ -20,3 +20,18 @@ std::function<Vector2D(const Vector2D&)> ConstantVectorField2::sampler() const {
         return _value;
     };
 }
+
+ConstantVectorField2::Builder ConstantVectorField2::builder() {
+    return Builder();
+}
+
+
+ConstantVectorField2::Builder&
+ConstantVectorField2::Builder::withValue(const Vector2D& value) {
+    _value = value;
+    return *this;
+}
+
+ConstantVectorField2 ConstantVectorField2::Builder::build() const {
+    return ConstantVectorField2(_value);
+}

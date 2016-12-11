@@ -21,3 +21,18 @@ std::function<double(const Vector3D&)> ConstantScalarField3::sampler() const {
         return value;
     };
 }
+
+ConstantScalarField3::Builder ConstantScalarField3::builder() {
+    return Builder();
+}
+
+
+ConstantScalarField3::Builder&
+ConstantScalarField3::Builder::withValue(double value) {
+    _value = value;
+    return *this;
+}
+
+ConstantScalarField3 ConstantScalarField3::Builder::build() const {
+    return ConstantScalarField3(_value);
+}

@@ -20,3 +20,18 @@ std::function<Vector3D(const Vector3D&)> ConstantVectorField3::sampler() const {
         return _value;
     };
 }
+
+ConstantVectorField3::Builder ConstantVectorField3::builder() {
+    return Builder();
+}
+
+
+ConstantVectorField3::Builder&
+ConstantVectorField3::Builder::withValue(const Vector3D& value) {
+    _value = value;
+    return *this;
+}
+
+ConstantVectorField3 ConstantVectorField3::Builder::build() const {
+    return ConstantVectorField3(_value);
+}

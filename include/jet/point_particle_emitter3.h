@@ -123,6 +123,18 @@ class PointParticleEmitter3::Builder final {
     //! Builds PointParticleEmitter3.
     PointParticleEmitter3 build() const;
 
+    //! Builds shared pointer of PointParticleEmitter3 instance.
+    PointParticleEmitter3Ptr makeShared() const {
+        return std::make_shared<PointParticleEmitter3>(
+            _origin,
+            _direction,
+            _speed,
+            _spreadAngleInDegrees,
+            _maxNumberOfNewParticlesPerSecond,
+            _maxNumberOfParticles,
+            _seed);
+    }
+
  private:
     size_t _maxNumberOfNewParticlesPerSecond = 1;
     size_t _maxNumberOfParticles = kMaxSize;
