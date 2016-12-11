@@ -189,16 +189,6 @@ void GridFluidSolver2::onAdvanceTimeStep(double timeIntervalInSeconds) {
     beginAdvanceTimeStep(timeIntervalInSeconds);
 
     Timer timer;
-    updateCollider(timeIntervalInSeconds);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
-
-    timer.reset();
-    updateEmitter(timeIntervalInSeconds);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
-
-    timer.reset();
     computeExternalForces(timeIntervalInSeconds);
     JET_INFO << "Computing external force took "
              << timer.durationInSeconds() << " seconds";
@@ -451,6 +441,17 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
 
     // Reserve memory
     _colliderSdf.resize(res, h, o);
+
+    // Update collider and emitter
+    Timer timer;
+    updateCollider(timeIntervalInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeIntervalInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
 
     // Rasterize collider into SDF
     if (_collider != nullptr) {

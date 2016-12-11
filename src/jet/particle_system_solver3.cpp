@@ -103,16 +103,6 @@ void ParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     beginAdvanceTimeStep(timeStepInSeconds);
 
     Timer timer;
-    updateCollider(timeStepInSeconds);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
-
-    timer.reset();
-    updateEmitter(timeStepInSeconds);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
-
-    timer.reset();
     accumulateForces(timeStepInSeconds);
     JET_INFO << "Accumulating forces took "
              << timer.durationInSeconds() << " seconds";
@@ -146,6 +136,17 @@ void ParticleSystemSolver3::beginAdvanceTimeStep(double timeStepInSeconds) {
     // Clear forces
     auto forces = _particleSystemData->forces();
     setRange1(forces.size(), Vector3D(), &forces);
+
+    // Update collider and emitter
+    Timer timer;
+    updateCollider(timeStepInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeStepInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
 
     onBeginAdvanceTimeStep(timeStepInSeconds);
 }
