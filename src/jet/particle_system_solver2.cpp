@@ -128,11 +128,6 @@ void ParticleSystemSolver2::accumulateForces(double timeStepInSeconds) {
 }
 
 void ParticleSystemSolver2::beginAdvanceTimeStep(double timeStepInSeconds) {
-    // Allocate buffers
-    size_t n = _particleSystemData->numberOfParticles();
-    _newPositions.resize(n);
-    _newVelocities.resize(n);
-
     // Clear forces
     auto forces = _particleSystemData->forces();
     setRange1(forces.size(), Vector2D(), &forces);
@@ -147,6 +142,11 @@ void ParticleSystemSolver2::beginAdvanceTimeStep(double timeStepInSeconds) {
     updateEmitter(timeStepInSeconds);
     JET_INFO << "Update emitter took "
              << timer.durationInSeconds() << " seconds";
+
+    // Allocate buffers
+    size_t n = _particleSystemData->numberOfParticles();
+    _newPositions.resize(n);
+    _newVelocities.resize(n);
 
     onBeginAdvanceTimeStep(timeStepInSeconds);
 }
