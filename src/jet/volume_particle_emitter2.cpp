@@ -34,7 +34,7 @@ VolumeParticleEmitter2::VolumeParticleEmitter2(
     _pointsGen = std::make_shared<TrianglePointGenerator>();
 }
 
-void VolumeParticleEmitter2::emit(
+void VolumeParticleEmitter2::onUpdate(
     double currentTimeInSeconds,
     double timeIntervalInSeconds) {
     UNUSED_VARIABLE(currentTimeInSeconds);

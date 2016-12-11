@@ -17,8 +17,17 @@ namespace jet {
 //!
 class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
  public:
+    class Builder;
+
     //! Constructs an empty implicit surface set.
     ImplicitSurfaceSet2();
+
+    //! Constructs an implicit surface set using list of other surfaces.
+    explicit ImplicitSurfaceSet2(
+        const std::vector<ImplicitSurface2Ptr>& surfaces);
+
+    //! Constructs an implicit surface set using list of other surfaces.
+    explicit ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces);
 
     //! Copy constructor.
     ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
@@ -56,6 +65,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Returns signed distance from the given point \p otherPoint.
     double signedDistance(const Vector2D& otherPoint) const override;
 
+    //! Returns builder fox ImplicitSurfaceSet2.
+    static Builder builder();
+
  protected:
     Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
 
@@ -68,6 +80,31 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
 
 //! Shared pointer type for the ImplicitSurfaceSet2.
 typedef std::shared_ptr<ImplicitSurfaceSet2> ImplicitSurfaceSet2Ptr;
+
+
+//!
+//! \brief Front-end to create ImplicitSurfaceSet2 objects step by step.
+//!
+class ImplicitSurfaceSet2::Builder final {
+ public:
+    //! Returns builder with surfaces.
+    Builder& withSurfaces(const std::vector<ImplicitSurface2Ptr>& surfaces);
+
+    //! Returns builder with explicit surfaces.
+    Builder& withExplicitSurfaces(
+        const std::vector<Surface2Ptr>& surfaces);
+
+    //! Builds ImplicitSurfaceSet2.
+    ImplicitSurfaceSet2 build() const;
+
+    //! Builds shared pointer of ImplicitSurfaceSet2 instance.
+    ImplicitSurfaceSet2Ptr makeShared() const {
+        return std::make_shared<ImplicitSurfaceSet2>(_surfaces);
+    }
+
+ private:
+    std::vector<ImplicitSurface2Ptr> _surfaces;
+};
 
 }  // namespace jet
 

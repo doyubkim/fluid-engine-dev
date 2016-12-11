@@ -51,13 +51,11 @@ class ParticleEmitter3 {
     void setOnBeginUpdateCallback(const OnBeginUpdateCallback& callback);
 
  protected:
-    //!
-    //! \brief      Emits particles to the particle system data.
-    //!
-    //! \param[in]  currentTimeInSeconds    Current simulation time.
-    //! \param[in]  timeIntervalInSeconds   The time-step interval.
-    //!
-    virtual void emit(
+    //! Called when ParticleEmitter3::setTarget is executed.
+    virtual void onSetTarget(const ParticleSystemData3Ptr& particles);
+
+    //! Called when ParticleEmitter3::update is executed.
+    virtual void onUpdate(
         double currentTimeInSeconds,
         double timeIntervalInSeconds) = 0;
 

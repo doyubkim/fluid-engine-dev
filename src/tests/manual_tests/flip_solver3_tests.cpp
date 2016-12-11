@@ -9,6 +9,7 @@
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/level_set_utils.h>
 #include <jet/implicit_surface_set3.h>
+#include <jet/particle_emitter_set3.h>
 #include <jet/plane3.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/sphere3.h>
@@ -20,112 +21,125 @@ using namespace jet;
 JET_TESTS(FlipSolver3);
 
 JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
-    size_t resolutionX = 32;
-    Size3 resolution(resolutionX, 2 * resolutionX, resolutionX);
-    Vector3D origin;
-    double dx = 1.0 / resolutionX;
-    Vector3D gridSpacing(dx, dx, dx);
+    // Build solver
+    auto solver = FlipSolver3::builder()
+        .withResolution({32, 64, 32})
+        .withDomainSizeX(1.0)
+        .makeShared();
 
-    // Initialize solvers
-    FlipSolver3 solver;
+    double dx = solver->gridSystemData()->gridSpacing().x;
+    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
 
-    // Initialize grids
-    auto grids = solver.gridSystemData();
-    grids->resize(resolution, gridSpacing, origin);
-    BoundingBox3D domain = grids->boundingBox();
+    // Build emitter
+    auto plane = Plane3::builder()
+        .withNormal({0, 1, 0})
+        .withPoint({0, 0.25 * domain.height(), 0})
+        .makeShared();
 
-    // Initialize source
-    ImplicitSurfaceSet3 surfaceSet;
-    surfaceSet.addExplicitSurface(
-        std::make_shared<Plane3>(
-            Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet.addExplicitSurface(
-        std::make_shared<Sphere3>(
-            domain.midPoint(), 0.15 * domain.width()));
+    auto sphere = Sphere3::builder()
+        .withCenter(domain.midPoint())
+        .withRadius(0.15 * domain.width())
+        .makeShared();
 
-    // Initialize particles
-    GridPointGenerator3 pointsGen;
-    Array1<Vector3D> points;
-    pointsGen.forEachPoint(
-        domain,
-        0.5 * dx,
-        [&](const Vector3D& pt) {
-            if (isInsideSdf(surfaceSet.signedDistance(pt))) {
-                points.append(pt);
-            }
-            return true;
-        });
-    auto particles = solver.particleSystemData();
-    particles->addParticles(points);
+    auto emitter1 = VolumeParticleEmitter3::builder()
+        .withSurface(plane)
+        .withSpacing(0.5 * dx)
+        .withMaxRegion(domain)
+        .withIsOneShot(true)
+        .makeShared();
+    emitter1->setPointGenerator(std::make_shared<GridPointGenerator3>());
 
-    saveParticleDataXy(particles, 0);
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
-        solver.update(frame);
+    auto emitter2 = VolumeParticleEmitter3::builder()
+        .withSurface(sphere)
+        .withSpacing(0.5 * dx)
+        .withMaxRegion(domain)
+        .withIsOneShot(true)
+        .makeShared();
+    emitter2->setPointGenerator(std::make_shared<GridPointGenerator3>());
 
-        saveParticleDataXy(particles, frame.index);
+    auto emitterSet = ParticleEmitterSet3::builder()
+        .withEmitters({emitter1, emitter2})
+        .makeShared();
+
+    solver->setParticleEmitter(emitterSet);
+
+    for (Frame frame; frame.index < 120; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
     }
 }
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FlipSolver3, DamBreakingWithCollider) {
-    size_t resolutionX = 50;
-    Size3 resolution(3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2);
-    Vector3D origin;
-    double dx = 1.0 / resolutionX;
-    Vector3D gridSpacing(dx, dx, dx);
+    // Build solver
+    auto solver = FlipSolver3::builder()
+        .withResolution({150, 100, 75})
+        .withDomainSizeX(3.0)
+        .makeShared();
 
-    // Initialize solvers
-    FlipSolver3 solver;
-
-    // Initialize grids
-    auto grids = solver.gridSystemData();
-    grids->resize(resolution, gridSpacing, origin);
-    BoundingBox3D domain = grids->boundingBox();
+    double dx = solver->gridSystemData()->gridSpacing().x;
+    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
     double lz = domain.depth();
 
-    // Initialize source
-    ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Box3>(
-            Vector3D(0, 0, 0),
-            Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Box3>(
-            Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
-            Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
+    // Build emitter
+    auto box1 = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001})
+        .makeShared();
 
-    // Initialize particles
-    auto particles = solver.particleSystemData();
-    auto emitter = std::make_shared<VolumeParticleEmitter3>(
-        surfaceSet,
-        domain,
-        0.5 * dx,
-        Vector3D());
+    auto box2 = Box3::builder()
+        .withLowerCorner({2.5 - 0.001, 0, 0.25 * lz - 0.001})
+        .withUpperCorner({3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001})
+        .makeShared();
+
+    auto boxSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({box1, box2})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(boxSet)
+        .withMaxRegion(domain)
+        .withSpacing(0.5 * dx)
+        .makeShared();
+
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
-    solver.setParticleEmitter(emitter);
+    solver->setParticleEmitter(emitter);
 
-    // Collider setting
-    double height = 0.75;
-    auto columns = std::make_shared<ImplicitSurfaceSet3>();
-    columns->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(1, -height / 2.0, 0.25 * lz), 0.1, height));
-    columns->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(1.5, -height / 2.0, 0.5 * lz), 0.1, height));
-    columns->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(2, -height / 2.0, 0.75 * lz), 0.1, height));
-    auto collider = std::make_shared<RigidBodyCollider3>(columns);
-    solver.setCollider(collider);
+    // Build collider
+    auto cyl1 = Cylinder3::builder()
+        .withCenter({1, -0.75 / 2.0, 0.25 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
 
-    saveParticleDataXy(particles, 0);
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 200; frame.advance()) {
-        solver.update(frame);
+    auto cyl2 = Cylinder3::builder()
+        .withCenter({1.5, -0.75 / 2.0, 0.5 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
 
-        saveParticleDataXy(particles, frame.index);
+    auto cyl3 = Cylinder3::builder()
+        .withCenter({2, -0.75 / 2.0, 0.75 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cylSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({cyl1, cyl2, cyl3})
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(cylSet)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    // Run simulation
+    for (Frame frame; frame.index < 200; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
     }
 }
 JET_END_TEST_F

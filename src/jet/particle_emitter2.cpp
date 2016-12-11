@@ -21,6 +21,8 @@ const ParticleSystemData2Ptr& ParticleEmitter2::target() const {
 
 void ParticleEmitter2::setTarget(const ParticleSystemData2Ptr& particles) {
     _particles = particles;
+
+    onSetTarget(particles);
 }
 
 void ParticleEmitter2::update(
@@ -31,7 +33,11 @@ void ParticleEmitter2::update(
             this, currentTimeInSeconds, timeIntervalInSeconds);
     }
 
-    emit(currentTimeInSeconds, timeIntervalInSeconds);
+    onUpdate(currentTimeInSeconds, timeIntervalInSeconds);
+}
+
+void ParticleEmitter2::onSetTarget(const ParticleSystemData2Ptr& particles) {
+    UNUSED_VARIABLE(particles);
 }
 
 void ParticleEmitter2::setOnBeginUpdateCallback(

@@ -40,7 +40,7 @@ void PointParticleEmitter3::setMaxNumberOfParticles(
     _maxNumberOfParticles = maxNumberOfParticles;
 }
 
-void PointParticleEmitter3::emit(
+void PointParticleEmitter3::onUpdate(
     double currentTimeInSeconds,
     double timeIntervalInSeconds) {
     auto particles = target();

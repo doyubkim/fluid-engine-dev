@@ -6,10 +6,23 @@
 
 #include <algorithm>
 #include <limits>
+#include <vector>
 
 using namespace jet;
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3() {
+}
+
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(
+    const std::vector<ImplicitSurface3Ptr>& surfaces)
+: _surfaces(surfaces) {
+}
+
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(
+    const std::vector<Surface3Ptr>& surfaces) {
+    for (const auto& surface : surfaces) {
+        addExplicitSurface(surface);
+    }
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other) :
@@ -128,4 +141,31 @@ double ImplicitSurfaceSet3::signedDistance(const Vector3D& otherPoint) const {
     }
 
     return sdf;
+}
+
+ImplicitSurfaceSet3::Builder ImplicitSurfaceSet3::builder() {
+    return Builder();
+}
+
+
+
+ImplicitSurfaceSet3::Builder&
+ImplicitSurfaceSet3::Builder::withSurfaces(
+    const std::vector<ImplicitSurface3Ptr>& surfaces) {
+    _surfaces = surfaces;
+    return *this;
+}
+
+ImplicitSurfaceSet3::Builder&
+ImplicitSurfaceSet3::Builder::withExplicitSurfaces(
+    const std::vector<Surface3Ptr>& surfaces) {
+    _surfaces.clear();
+    for (const auto& surface : surfaces) {
+        _surfaces.push_back(std::make_shared<SurfaceToImplicit3>(surface));
+    }
+    return *this;
+}
+
+ImplicitSurfaceSet3 ImplicitSurfaceSet3::Builder::build() const {
+    return ImplicitSurfaceSet3(_surfaces);
 }

@@ -33,7 +33,7 @@ VolumeParticleEmitter3::VolumeParticleEmitter3(
     _pointsGen = std::make_shared<BccLatticePointGenerator>();
 }
 
-void VolumeParticleEmitter3::emit(
+void VolumeParticleEmitter3::onUpdate(
     double currentTimeInSeconds,
     double timeIntervalInSeconds) {
     UNUSED_VARIABLE(currentTimeInSeconds);

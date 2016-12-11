@@ -528,6 +528,12 @@
     <ClInclude Include="..\..\include\jet\particle_emitter3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\particle_emitter_set2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\particle_emitter_set3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\particle_system_data2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -843,6 +849,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_particle_emitter3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_particle_emitter_set2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_particle_emitter_set3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_simple_list_searcher2.cpp">

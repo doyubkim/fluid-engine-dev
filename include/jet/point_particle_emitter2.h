@@ -78,7 +78,7 @@ class PointParticleEmitter2 final : public ParticleEmitter2 {
     //! \param[in]  currentTimeInSeconds    Current simulation time.
     //! \param[in]  timeIntervalInSeconds   The time-step interval.
     //!
-    void emit(
+    void onUpdate(
         double currentTimeInSeconds,
         double timeIntervalInSeconds) override;
 
