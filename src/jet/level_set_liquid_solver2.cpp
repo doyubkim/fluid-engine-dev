@@ -198,3 +198,15 @@ void LevelSetLiquidSolver2::addVolume(double volDiff) {
         });
     }
 }
+
+LevelSetLiquidSolver2::Builder LevelSetLiquidSolver2::builder() {
+    return Builder();
+}
+
+
+LevelSetLiquidSolver2 LevelSetLiquidSolver2::Builder::build() const {
+    return LevelSetLiquidSolver2(
+        _resolution,
+        getGridSpacing(),
+        _gridOrigin);
+}
