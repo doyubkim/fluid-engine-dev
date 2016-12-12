@@ -84,6 +84,9 @@ class Box3::Builder final {
     //! Returns builder with upper corner set.
     Builder& withUpperCorner(const Vector3D& pt);
 
+    //! Returns builder with bounding box.
+    Builder& withBoundingBox(const BoundingBox3D& bbox);
+
     //! Builds Box3.
     Box3 build() const;
 

@@ -250,6 +250,9 @@ constexpr double invTwoPi<double>() {
 //! Gravity.
 constexpr double kGravity = -9.8;
 
+//! Water density.
+constexpr double kWaterDensity = 1000.0;
+
 //! Speed of sound in water at 20 degrees celcius.
 constexpr double kSpeedOfSoundInWater = 1482.0;
 

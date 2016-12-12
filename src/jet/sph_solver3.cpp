@@ -19,6 +19,18 @@ SphSolver3::SphSolver3() {
     setIsUsingFixedSubTimeSteps(false);
 }
 
+SphSolver3::SphSolver3(
+    double targetDensity,
+    double targetSpacing,
+    double relativeKernelRadius) {
+    auto sphParticles = std::make_shared<SphSystemData3>();
+    setParticleSystemData(sphParticles);
+    sphParticles->setTargetDensity(targetDensity);
+    sphParticles->setTargetSpacing(targetSpacing);
+    sphParticles->setRelativeKernelRadius(relativeKernelRadius);
+    setIsUsingFixedSubTimeSteps(false);
+}
+
 SphSolver3::~SphSolver3() {
 }
 
@@ -291,4 +303,15 @@ void SphSolver3::computePseudoViscosity(double timeStepInSeconds) {
             v[i] = lerp(
                 v[i], smoothedVelocities[i], factor);
         });
+}
+
+SphSolver3::Builder SphSolver3::builder() {
+    return Builder();
+}
+
+SphSolver3 SphSolver3::Builder::build() const {
+    return SphSolver3(
+        _targetDensity,
+        _targetSpacing,
+        _relativeKernelRadius);
 }

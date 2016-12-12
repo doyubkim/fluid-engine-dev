@@ -155,6 +155,12 @@ Box3::Builder& Box3::Builder::withUpperCorner(const Vector3D& pt) {
     return *this;
 }
 
+Box3::Builder& Box3::Builder::withBoundingBox(const BoundingBox3D& bbox) {
+    _lowerCorner = bbox.lowerCorner;
+    _upperCorner = bbox.upperCorner;
+    return *this;
+}
+
 Box3 Box3::Builder::build() const {
     return Box3(_lowerCorner, _upperCorner, _isNormalFlipped);
 }

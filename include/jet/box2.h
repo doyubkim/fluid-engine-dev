@@ -83,6 +83,9 @@ class Box2::Builder final {
     //! Returns builder with upper corner set.
     Builder& withUpperCorner(const Vector2D& pt);
 
+    //! Returns builder with bounding box.
+    Builder& withBoundingBox(const BoundingBox2D& bbox);
+
     //! Builds Box2.
     Box2 build() const;
 

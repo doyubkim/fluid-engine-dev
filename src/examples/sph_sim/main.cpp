@@ -19,8 +19,8 @@
 
 using namespace jet;
 
-void saveParticlePos(
-    const SphSystemData3Ptr& particles,
+void saveParticleAsPos(
+    const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
     unsigned int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
@@ -29,10 +29,30 @@ void saveParticlePos(
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.pos", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
-    std::ofstream file(filename.c_str());
+    std::ofstream file(filename.c_str(), std::ios::binary);
     if (file) {
         printf("Writing %s...\n", filename.c_str());
         positions.serialize(&file);
+        file.close();
+    }
+}
+
+void saveParticleAsXyz(
+    const ParticleSystemData3Ptr& particles,
+    const std::string& rootDir,
+    unsigned int frameCnt) {
+    Array1<Vector3D> positions(particles->numberOfParticles());
+    copyRange1(
+        particles->positions(), particles->numberOfParticles(), &positions);
+    char basename[256];
+    snprintf(basename, sizeof(basename), "frame_%06d.xyz", frameCnt);
+    std::string filename = pystring::os::path::join(rootDir, basename);
+    std::ofstream file(filename.c_str());
+    if (file) {
+        printf("Writing %s...\n", filename.c_str());
+        for (const auto& pt : positions) {
+            file << pt.x << ' ' << pt.y << ' ' << pt.z << std::endl;
+        }
         file.close();
     }
 }
@@ -46,26 +66,36 @@ void printUsage() {
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
+        "   -m, --format: particle output format (xyz or pos. default is xyz)\n"
         "   -e, --example: example number (between 1 and 3, default is 1)\n"
         "   -h, --help: print this message\n");
 }
 
-void printInfo(const SphSystemData3Ptr& particles) {
+void printInfo(const SphSolver3Ptr& solver) {
+    auto particles = solver->sphSystemData();
     printf("Number of particles: %zu\n", particles->numberOfParticles());
 }
 
 void runSimulation(
     const std::string& rootDir,
-    SphSolver3* solver,
-    size_t numberOfFrames) {
+    const SphSolver3Ptr& solver,
+    size_t numberOfFrames,
+    const std::string& format) {
     auto particles = solver->sphSystemData();
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
-        saveParticlePos(
-            particles,
-            rootDir,
-            frame.index);
+        if (format == "xyz") {
+            saveParticleAsXyz(
+                particles,
+                rootDir,
+                frame.index);
+        } else if (format == "pos") {
+            saveParticleAsPos(
+                particles,
+                rootDir,
+                frame.index);
+        }
     }
 }
 
@@ -73,164 +103,211 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    const std::string& format) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
-    // Initialize solvers
-    PciSphSolver3 solver;
-    solver.setPseudoViscosityCoefficient(0.0);
+    // Build solver
+    auto solver = PciSphSolver3::builder()
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(targetSpacing)
+        .makeShared();
 
-    SphSystemData3Ptr particles = solver.sphSystemData();
-    particles->setTargetDensity(1000.0);
-    particles->setTargetSpacing(targetSpacing);
+    solver->setPseudoViscosityCoefficient(0.0);
 
-    // Initialize source
-    ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Plane3>(
-            Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Sphere3>(
-            domain.midPoint(), 0.15 * domain.width()));
-
+    // Build emitter
     BoundingBox3D sourceBound(domain);
     sourceBound.expand(-targetSpacing);
 
-    auto emitter = std::make_shared<VolumeParticleEmitter3>(
-        surfaceSet,
-        sourceBound,
-        targetSpacing,
-        Vector3D());
-    solver.setEmitter(emitter);
+    auto plane = Plane3::builder()
+        .withNormal({0, 1, 0})
+        .withPoint({0, 0.25 * domain.height(), 0})
+        .makeShared();
 
-    // Initialize boundary
-    Box3Ptr box = std::make_shared<Box3>(domain);
-    box->isNormalFlipped = true;
-    RigidBodyCollider3Ptr collider = std::make_shared<RigidBodyCollider3>(box);
-    solver.setCollider(collider);
+    auto sphere = Sphere3::builder()
+        .withCenter(domain.midPoint())
+        .withRadius(0.15 * domain.width())
+        .makeShared();
+
+    auto surfaceSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({plane, sphere})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(surfaceSet)
+        .withSpacing(targetSpacing)
+        .withMaxRegion(sourceBound)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+
+    // Build collider
+    auto box = Box3::builder()
+        .withIsNormalFlipped(true)
+        .withBoundingBox(domain)
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(box)
+        .makeShared();
+
+    solver->setCollider(collider);
 
     // Print simulation info
     printf("Running example 1 (water-drop with PCISPH)\n");
-    printInfo(particles);
+    printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, solver, numberOfFrames, format);
 }
 
 // Water-drop example (SPH)
 void runExample2(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames) {
-    BoundingBox3D domain(Vector3D(), Vector3D(2, 1, 2));
+    unsigned int numberOfFrames,
+    const std::string& format) {
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
-    // Initialize solvers
-    SphSolver3 solver;
-    solver.setPseudoViscosityCoefficient(0.0);
+    auto solver = SphSolver3::builder()
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(targetSpacing)
+        .makeShared();
 
-    SphSystemData3Ptr particles = solver.sphSystemData();
-    particles->setTargetDensity(1000.0);
-    particles->setTargetSpacing(targetSpacing);
+    solver->setPseudoViscosityCoefficient(0.0);
 
-    // Initialize source
-    ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Plane3>(
-            Vector3D(0, 1, 0), Vector3D(0, 0.25 * domain.height(), 0)));
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Sphere3>(
-            domain.midPoint(), 0.15 * domain.width()));
-
+    // Build emitter
     BoundingBox3D sourceBound(domain);
     sourceBound.expand(-targetSpacing);
 
-    auto emitter = std::make_shared<VolumeParticleEmitter3>(
-        surfaceSet,
-        sourceBound,
-        targetSpacing,
-        Vector3D());
-    solver.setEmitter(emitter);
+    auto plane = Plane3::builder()
+        .withNormal({0, 1, 0})
+        .withPoint({0, 0.25 * domain.height(), 0})
+        .makeShared();
 
-    // Initialize boundary
-    Box3Ptr box = std::make_shared<Box3>(domain);
-    box->isNormalFlipped = true;
-    RigidBodyCollider3Ptr collider = std::make_shared<RigidBodyCollider3>(box);
-    solver.setCollider(collider);
+    auto sphere = Sphere3::builder()
+        .withCenter(domain.midPoint())
+        .withRadius(0.15 * domain.width())
+        .makeShared();
+
+    auto surfaceSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({plane, sphere})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(surfaceSet)
+        .withSpacing(targetSpacing)
+        .withMaxRegion(sourceBound)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+
+    // Build collider
+    auto box = Box3::builder()
+        .withIsNormalFlipped(true)
+        .withBoundingBox(domain)
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(box)
+        .makeShared();
+
+    solver->setCollider(collider);
 
     // Print simulation info
-    printf("Running example 1 (water-drop with PCISPH)\n");
-    printInfo(particles);
+    printf("Running example 2 (water-drop with SPH)\n");
+    printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, solver, numberOfFrames, format);
 }
 
 // Dam-breaking example
 void runExample3(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames) {
+    unsigned int numberOfFrames,
+    const std::string& format) {
     BoundingBox3D domain(Vector3D(), Vector3D(3, 2, 1.5));
     double lz = domain.depth();
 
-    // Initialize solvers
-    PciSphSolver3 solver;
-    solver.setPseudoViscosityCoefficient(1.0);
-    solver.setTimeStepLimitScale(10.0);
+    // Build solver
+    auto solver = PciSphSolver3::builder()
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(targetSpacing)
+        .makeShared();
 
-    SphSystemData3Ptr particles = solver.sphSystemData();
-    particles->setTargetDensity(1000.0);
-    particles->setTargetSpacing(targetSpacing);
+    solver->setPseudoViscosityCoefficient(0.0);
+    solver->setTimeStepLimitScale(10.0);
 
-    // Initialize source
-    ImplicitSurfaceSet3Ptr surfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Box3>(
-            Vector3D(0, 0, 0),
-            Vector3D(0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001)));
-    surfaceSet->addExplicitSurface(
-        std::make_shared<Box3>(
-            Vector3D(2.5 - 0.001, 0, 0.25 * lz - 0.001),
-            Vector3D(3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001)));
-
+    // Build emitter
     BoundingBox3D sourceBound(domain);
     sourceBound.expand(-targetSpacing);
 
-    auto emitter = std::make_shared<VolumeParticleEmitter3>(
-        surfaceSet,
-        sourceBound,
-        targetSpacing,
-        Vector3D());
-    solver.setEmitter(emitter);
+    auto box1 = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001})
+        .makeShared();
 
-    // Collider setting
-    double height = 0.75;
-    auto colliderSurfaceSet = std::make_shared<ImplicitSurfaceSet3>();
-    colliderSurfaceSet->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(1, height / 2.0, 0.25 * lz), 0.1, height));
-    colliderSurfaceSet->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(1.5, height / 2.0, 0.5 * lz), 0.1, height));
-    colliderSurfaceSet->addExplicitSurface(
-        std::make_shared<Cylinder3>(
-            Vector3D(2, height / 2.0, 0.75 * lz), 0.1, height));
+    auto box2 = Box3::builder()
+        .withLowerCorner({2.5 - 0.001, 0, 0.25 * lz - 0.001})
+        .withUpperCorner({3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001})
+        .makeShared();
 
-    // Initialize boundary
-    auto box = std::make_shared<Box3>(domain);
-    box->isNormalFlipped = true;
-    colliderSurfaceSet->addExplicitSurface(box);
+    auto boxSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({box1, box2})
+        .makeShared();
 
-    RigidBodyCollider3Ptr collider
-        = std::make_shared<RigidBodyCollider3>(colliderSurfaceSet);
-    solver.setCollider(collider);
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(boxSet)
+        .withMaxRegion(sourceBound)
+        .withSpacing(targetSpacing)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+
+    // Build collider
+    auto cyl1 = Cylinder3::builder()
+        .withCenter({1, -0.75 / 2.0, 0.25 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cyl2 = Cylinder3::builder()
+        .withCenter({1.5, -0.75 / 2.0, 0.5 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cyl3 = Cylinder3::builder()
+        .withCenter({2, -0.75 / 2.0, 0.75 * lz})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto box = Box3::builder()
+        .withIsNormalFlipped(true)
+        .withBoundingBox(domain)
+        .makeShared();
+
+    auto surfaceSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({cyl1, cyl2, cyl3, box})
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(surfaceSet)
+        .makeShared();
+
+    solver->setCollider(collider);
 
     // Print simulation info
     printf("Running example 3 (dam-breaking with PCISPH)\n");
-    printInfo(particles);
+    printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, &solver, numberOfFrames);
+    runSimulation(rootDir, solver, numberOfFrames, format);
 }
 
 int main(int argc, char* argv[]) {
@@ -239,6 +316,7 @@ int main(int argc, char* argv[]) {
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
+    std::string format = "xyz";
 
     // Parse options
     static struct option longOptions[] = {
@@ -247,6 +325,7 @@ int main(int argc, char* argv[]) {
         {"example",   optional_argument, 0, 'e'},
         {"log",       optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
+        {"format",    optional_argument, 0, 'm'},
         {"help",      optional_argument, 0, 'h'},
         {0,           0,                 0,  0 }
     };
@@ -254,7 +333,7 @@ int main(int argc, char* argv[]) {
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "s:f:e:l:o:h", longOptions, &long_index)) != -1) {
+        argc, argv, "s:f:e:l:o:m:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 's':
                 targetSpacing = atof(optarg);
@@ -270,6 +349,13 @@ int main(int argc, char* argv[]) {
                 break;
             case 'o':
                 outputDir = optarg;
+                break;
+            case 'm':
+                format = optarg;
+                if (format != "pos" && format != "xyz") {
+                    printUsage();
+                    exit(EXIT_FAILURE);
+                }
                 break;
             case 'h':
                 printUsage();
@@ -293,13 +379,13 @@ int main(int argc, char* argv[]) {
 
     switch (exampleNum) {
         case 1:
-            runExample1(outputDir, targetSpacing, numberOfFrames);
+            runExample1(outputDir, targetSpacing, numberOfFrames, format);
             break;
         case 2:
-            runExample2(outputDir, targetSpacing, numberOfFrames);
+            runExample2(outputDir, targetSpacing, numberOfFrames, format);
             break;
         case 3:
-            runExample3(outputDir, targetSpacing, numberOfFrames);
+            runExample3(outputDir, targetSpacing, numberOfFrames, format);
             break;
         default:
             printUsage();

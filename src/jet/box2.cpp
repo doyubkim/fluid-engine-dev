@@ -149,6 +149,12 @@ Box2::Builder& Box2::Builder::withUpperCorner(const Vector2D& pt) {
     return *this;
 }
 
+Box2::Builder& Box2::Builder::withBoundingBox(const BoundingBox2D& bbox) {
+    _lowerCorner = bbox.lowerCorner;
+    _upperCorner = bbox.upperCorner;
+    return *this;
+}
+
 Box2 Box2::Builder::build() const {
     return Box2(_lowerCorner, _upperCorner, _isNormalFlipped);
 }

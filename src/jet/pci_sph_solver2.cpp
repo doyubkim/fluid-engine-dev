@@ -10,9 +10,19 @@
 
 using namespace jet;
 
+// Heuristically chosen
+const double kDefaultTimeStepLimitScale = 5.0;
+
 PciSphSolver2::PciSphSolver2() {
-    // Heuristically chosen
-    setTimeStepLimitScale(5.0);
+    setTimeStepLimitScale(kDefaultTimeStepLimitScale);
+}
+
+PciSphSolver2::PciSphSolver2(
+    double targetDensity,
+    double targetSpacing,
+    double relativeKernelRadius)
+: SphSolver2(targetDensity, targetSpacing, relativeKernelRadius) {
+    setTimeStepLimitScale(kDefaultTimeStepLimitScale);
 }
 
 PciSphSolver2::~PciSphSolver2() {
@@ -207,4 +217,15 @@ double PciSphSolver2::computeBeta(double timeStepInSeconds) {
     auto particles = sphSystemData();
     return 2.0 * square(particles->mass() * timeStepInSeconds
         / particles->targetDensity());
+}
+
+PciSphSolver2::Builder PciSphSolver2::builder() {
+    return Builder();
+}
+
+PciSphSolver2 PciSphSolver2::Builder::build() const {
+    return PciSphSolver2(
+        _targetDensity,
+        _targetSpacing,
+        _relativeKernelRadius);
 }

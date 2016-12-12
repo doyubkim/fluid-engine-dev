@@ -3,6 +3,7 @@
 #ifndef INCLUDE_JET_SPH_SYSTEM_DATA3_H_
 #define INCLUDE_JET_SPH_SYSTEM_DATA3_H_
 
+#include <jet/constants.h>
 #include <jet/particle_system_data3.h>
 
 namespace jet {
@@ -140,7 +141,7 @@ class SphSystemData3 : public ParticleSystemData3 {
     double _mass;
 
     //! Target density of this particle system in kg/m^3.
-    double _targetDensity = 1000.0;
+    double _targetDensity = kWaterDensity;
 
     //! Target spacing of this particle system in meters.
     double _targetSpacing = 0.1;
