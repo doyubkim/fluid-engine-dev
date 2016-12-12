@@ -21,13 +21,23 @@ using namespace jet;
 JET_TESTS(FlipSolver3);
 
 JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
+    //
+    // This is a replica of hybrid_liquid_sim example 1.
+    //
+
+    size_t resolutionX = 32;
+
     // Build solver
     auto solver = FlipSolver3::builder()
-        .withResolution({32, 64, 32})
+        .withResolution({resolutionX, 2 * resolutionX, resolutionX})
         .withDomainSizeX(1.0)
         .makeShared();
 
-    double dx = solver->gridSystemData()->gridSpacing().x;
+    auto grids = solver->gridSystemData();
+    auto particles = solver->particleSystemData();
+
+    Vector3D gridSpacing = grids->gridSpacing();
+    double dx = gridSpacing.x;
     BoundingBox3D domain = solver->gridSystemData()->boundingBox();
 
     // Build emitter
@@ -72,9 +82,16 @@ JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FlipSolver3, DamBreakingWithCollider) {
+    size_t resolutionX = 50;
+
+    //
+    // This is a replica of hybrid_liquid_sim example 2.
+    //
+
     // Build solver
+    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = FlipSolver3::builder()
-        .withResolution({150, 100, 75})
+        .withResolution(resolution)
         .withDomainSizeX(3.0)
         .makeShared();
 
