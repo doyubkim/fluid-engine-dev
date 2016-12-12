@@ -244,6 +244,4 @@ class SphSolver2::Builder final
 
 }  // namespace jet
 
-}  // namespace jet
-
 #endif  // INCLUDE_JET_SPH_SOLVER2_H_
