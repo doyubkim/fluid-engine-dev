@@ -38,7 +38,7 @@ JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
 
     Vector3D gridSpacing = grids->gridSpacing();
     double dx = gridSpacing.x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    BoundingBox3D domain = grids->boundingBox();
 
     // Build emitter
     auto plane = Plane3::builder()
@@ -95,8 +95,9 @@ JET_BEGIN_TEST_F(FlipSolver3, DamBreakingWithCollider) {
         .withDomainSizeX(3.0)
         .makeShared();
 
-    double dx = solver->gridSystemData()->gridSpacing().x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    auto grids = solver->gridSystemData();
+    double dx = grids->gridSpacing().x;
+    BoundingBox3D domain = grids->boundingBox();
     double lz = domain.depth();
 
     // Build emitter

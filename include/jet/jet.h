@@ -42,6 +42,8 @@
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/cubic_semi_lagrangian3.h>
+#include <jet/custom_implicit_surface2.h>
+#include <jet/custom_implicit_surface3.h>
 #include <jet/custom_scalar_field2.h>
 #include <jet/custom_scalar_field3.h>
 #include <jet/custom_vector_field2.h>

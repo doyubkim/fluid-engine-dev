@@ -22,13 +22,10 @@ VolumeGridEmitter2::~VolumeGridEmitter2() {
 
 void VolumeGridEmitter2::addSignedDistanceTarget(
     const ScalarGrid2Ptr& scalarGridTarget) {
-    auto mapper = [] (double sdf, const Vector2D&) {
-        return sdf;
+    auto mapper = [] (double sdf, const Vector2D&, double oldVal) {
+        return std::min(oldVal, sdf);
     };
-    auto blender = [] (double oldVal, double newVal) {
-        return std::min(oldVal, newVal);
-    };
-    addTarget(scalarGridTarget, mapper, blender);
+    addTarget(scalarGridTarget, mapper);
 }
 
 void VolumeGridEmitter2::addStepFunctionTarget(
@@ -37,28 +34,23 @@ void VolumeGridEmitter2::addStepFunctionTarget(
     double maxValue) {
     double smoothingWidth = scalarGridTarget->gridSpacing().min();
     auto mapper = [minValue, maxValue, smoothingWidth, scalarGridTarget]
-        (double sdf, const Vector2D&) {
+        (double sdf, const Vector2D&, double oldVal) {
             double step = 1.0 - smearedHeavisideSdf(sdf / smoothingWidth);
-            return (maxValue - minValue) * step + minValue;
+            return std::max(oldVal, (maxValue - minValue) * step + minValue);
         };
-    auto blender = [] (double oldVal, double newVal) {
-        return std::max(oldVal, newVal);
-    };
-    addTarget(scalarGridTarget, mapper, blender);
+    addTarget(scalarGridTarget, mapper);
 }
 
 void VolumeGridEmitter2::addTarget(
     const ScalarGrid2Ptr& scalarGridTarget,
-    const ScalarMapper& customMapper,
-    const ScalarBlender& blender) {
-    _customScalarTargets.emplace_back(scalarGridTarget, customMapper, blender);
+    const ScalarMapper& customMapper) {
+    _customScalarTargets.emplace_back(scalarGridTarget, customMapper);
 }
 
 void VolumeGridEmitter2::addTarget(
     const VectorGrid2Ptr& vectorGridTarget,
-    const VectorMapper& customMapper,
-    const VectorBlender& blender) {
-    _customVectorTargets.emplace_back(vectorGridTarget, customMapper, blender);
+    const VectorMapper& customMapper) {
+    _customVectorTargets.emplace_back(vectorGridTarget, customMapper);
 }
 
 const ImplicitSurface2Ptr& VolumeGridEmitter2::sourceRegion() const {
@@ -88,21 +80,19 @@ void VolumeGridEmitter2::emit() {
     for (const auto& target : _customScalarTargets) {
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
-        const auto& blender = std::get<2>(target);
 
         auto pos = grid->dataPosition();
         grid->parallelForEachDataPointIndex(
             [&] (size_t i, size_t j) {
                 Vector2D gx = pos(i, j);
                 double sdf = sourceRegion()->signedDistance(gx);
-                (*grid)(i, j) = blender((*grid)(i, j), mapper(sdf, gx));
+                (*grid)(i, j) = mapper(sdf, gx, (*grid)(i, j));
             });
     }
 
     for (const auto& target : _customVectorTargets) {
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
-        const auto& blender = std::get<2>(target);
 
         CollocatedVectorGrid2Ptr collocated
             = std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
@@ -114,7 +104,7 @@ void VolumeGridEmitter2::emit() {
                     double sdf = sourceRegion()->signedDistance(gx);
                     if (isInsideSdf(sdf)) {
                         (*collocated)(i, j)
-                            = blender((*collocated)(i, j), mapper(sdf, gx));
+                            = mapper(sdf, gx, (*collocated)(i, j));
                     }
                 });
             continue;
@@ -125,25 +115,22 @@ void VolumeGridEmitter2::emit() {
         if (faceCentered != nullptr) {
             auto uPos = faceCentered->uPosition();
             auto vPos = faceCentered->vPosition();
+
             faceCentered->parallelForEachUIndex(
                 [&] (size_t i, size_t j) {
                     Vector2D gx = uPos(i, j);
                     double sdf = sourceRegion()->signedDistance(gx);
-                    if (isInsideSdf(sdf)) {
-                        Vector2D oldVal = faceCentered->sample(gx);
-                        Vector2D newVal = mapper(sdf, gx);
-                        faceCentered->u(i, j) = blender(oldVal, newVal).x;
-                    }
+                    Vector2D oldVal = faceCentered->sample(gx);
+                    Vector2D newVal = mapper(sdf, gx, oldVal);
+                    faceCentered->u(i, j) = newVal.x;
                 });
             faceCentered->parallelForEachVIndex(
                 [&] (size_t i, size_t j) {
                     Vector2D gx = vPos(i, j);
                     double sdf = sourceRegion()->signedDistance(gx);
-                    if (isInsideSdf(sdf)) {
-                        Vector2D oldVal = faceCentered->sample(gx);
-                        Vector2D newVal = mapper(sdf, gx);
-                        faceCentered->v(i, j) = blender(oldVal, newVal).y;
-                    }
+                    Vector2D oldVal = faceCentered->sample(gx);
+                    Vector2D newVal = mapper(sdf, gx, oldVal);
+                    faceCentered->v(i, j) = newVal.y;
                 });
             continue;
         }

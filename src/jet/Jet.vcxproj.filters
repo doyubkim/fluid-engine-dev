@@ -273,6 +273,12 @@
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\custom_scalar_field2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1044,6 +1050,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cubic_semi_lagrangian3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_implicit_surface2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_implicit_surface3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="custom_scalar_field2.cpp">

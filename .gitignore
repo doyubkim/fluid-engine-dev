@@ -79,6 +79,9 @@ unit_tests_output
 *.bat
 *.vol
 *.pos
+*.tga
+*.gif
+*.mp4
 
 # NuGet
 packages

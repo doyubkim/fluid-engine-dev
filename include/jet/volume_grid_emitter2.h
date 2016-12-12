@@ -17,17 +17,13 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
  public:
     class Builder;
 
-    //! For given signed-distance and location, maps to a scalar value.
-    typedef std::function<double(double, const Vector2D&)> ScalarMapper;
+    //! Maps to a scalar value for given signed-dist, location, and old value.
+    typedef std::function<double(double, const Vector2D&, double)>
+        ScalarMapper;
 
-    //! For given signed-distance and location, maps to a vector value.
-    typedef std::function<Vector2D(double, const Vector2D&)> VectorMapper;
-
-    //! For given old and new scalar values, returns a blended result.
-    typedef std::function<double(double, double)> ScalarBlender;
-
-    //! For given old and new vector values, returns a blended result.
-    typedef std::function<Vector2D(Vector2D, Vector2D)> VectorBlender;
+    //! Maps to a vector value for given signed-dist, location, and old value.
+    typedef std::function<Vector2D(double, const Vector2D&, const Vector2D&)>
+        VectorMapper;
 
     //! Constructs an emitter with a source and is-one-shot flag.
     explicit VolumeGridEmitter2(
@@ -65,12 +61,10 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
     //!
     //! \param[in]  scalarGridTarget The scalar grid target
     //! \param[in]  customMapper     The custom mapper.
-    //! \param[in]  blender          The blender function.
     //!
     void addTarget(
         const ScalarGrid2Ptr& scalarGridTarget,
-        const ScalarMapper& customMapper,
-        const ScalarBlender& blender);
+        const ScalarMapper& customMapper);
 
     //!
     //! \brief      Adds a vector grid target.
@@ -85,12 +79,10 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
     //!
     //! \param[in]  scalarGridTarget The vector grid target
     //! \param[in]  customMapper     The custom mapper.
-    //! \param[in]  blender          The blender function.
     //!
     void addTarget(
         const VectorGrid2Ptr& vectorGridTarget,
-        const VectorMapper& customMapper,
-        const VectorBlender& blender);
+        const VectorMapper& customMapper);
 
     //! Returns implicit surface which defines the source region.
     const ImplicitSurface2Ptr& sourceRegion() const;
@@ -102,10 +94,8 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
     static Builder builder();
 
  private:
-    typedef std::tuple<ScalarGrid2Ptr, ScalarMapper, ScalarBlender>
-        ScalarTarget;
-    typedef std::tuple<VectorGrid2Ptr, VectorMapper, VectorBlender>
-        VectorTarget;
+    typedef std::tuple<ScalarGrid2Ptr, ScalarMapper> ScalarTarget;
+    typedef std::tuple<VectorGrid2Ptr, VectorMapper> VectorTarget;
 
     ImplicitSurface2Ptr _sourceRegion;
     bool _isOneShot = true;

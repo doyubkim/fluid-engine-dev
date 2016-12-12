@@ -220,6 +220,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\constant_vector_field3.h" />
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian2.h" />
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface2.h" />
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface3.h" />
     <ClInclude Include="..\..\include\jet\custom_scalar_field2.h" />
     <ClInclude Include="..\..\include\jet\custom_scalar_field3.h" />
     <ClInclude Include="..\..\include\jet\custom_vector_field2.h" />
@@ -459,6 +461,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="constant_vector_field3.cpp" />
     <ClCompile Include="cubic_semi_lagrangian2.cpp" />
     <ClCompile Include="cubic_semi_lagrangian3.cpp" />
+    <ClCompile Include="custom_implicit_surface2.cpp" />
+    <ClCompile Include="custom_implicit_surface3.cpp" />
     <ClCompile Include="custom_scalar_field2.cpp" />
     <ClCompile Include="custom_scalar_field3.cpp" />
     <ClCompile Include="custom_vector_field2.cpp" />

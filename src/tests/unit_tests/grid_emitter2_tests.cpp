@@ -26,15 +26,15 @@ TEST(VolumeGridEmitter2, Velocity) {
         .withGridOrigin({0, 0})
         .makeShared();
 
-    auto mapper = [] (double, const Vector2D& pt) {
-        return Vector2D(pt.y, -pt.x);
+    auto mapper = [] (double sdf, const Vector2D& pt, const Vector2D& oldVal) {
+        if (sdf < 0.0) {
+            return Vector2D(pt.y, -pt.x);
+        } else {
+            return oldVal;
+        }
     };
 
-    auto blender = [] (const Vector2D&, const Vector2D& newVal) {
-        return newVal;
-    };
-
-    emitter->addTarget(grid, mapper, blender);
+    emitter->addTarget(grid, mapper);
 
     emitter->update(0.0, 0.01);
 

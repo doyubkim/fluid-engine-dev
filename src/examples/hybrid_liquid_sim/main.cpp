@@ -19,7 +19,7 @@
 
 using namespace jet;
 
-void saveParticlePos(
+void saveParticleAsPos(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
     unsigned int frameCnt) {
@@ -37,7 +37,7 @@ void saveParticlePos(
     }
 }
 
-void saveParticleXyz(
+void saveParticleAsXyz(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
     unsigned int frameCnt) {
@@ -67,7 +67,7 @@ void printUsage() {
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
         "   -e, --example: example number (between 1 and 4, default is 1)\n"
-        "   -m, --format: particle output format (pos or xyz. default is pos)\n"
+        "   -m, --format: particle output format (xyz or pos. default is xyz)\n"
         "   -h, --help: print this message\n");
 }
 
@@ -99,12 +99,12 @@ void runSimulation(
     for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
         if (format == "xyz") {
-            saveParticleXyz(
+            saveParticleAsXyz(
                 particles,
                 rootDir,
                 frame.index);
         } else if (format == "pos") {
-            saveParticlePos(
+            saveParticleAsPos(
                 particles,
                 rootDir,
                 frame.index);
@@ -129,7 +129,7 @@ void runExample1(
 
     Vector3D gridSpacing = grids->gridSpacing();
     double dx = gridSpacing.x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    BoundingBox3D domain = grids->boundingBox();
 
     // Build emitter
     auto plane = Plane3::builder()
@@ -189,7 +189,7 @@ void runExample2(
 
     Vector3D gridSpacing = grids->gridSpacing();
     double dx = gridSpacing.x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    BoundingBox3D domain = grids->boundingBox();
 
     // Build emitter
     auto plane = Plane3::builder()
@@ -245,8 +245,9 @@ void runExample3(
         .withDomainSizeX(3.0)
         .makeShared();
 
-    double dx = solver->gridSystemData()->gridSpacing().x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    auto grids = solver->gridSystemData();
+    double dx = grids->gridSpacing().x;
+    BoundingBox3D domain = grids->boundingBox();
     double lz = domain.depth();
 
     // Build emitter
@@ -323,8 +324,9 @@ void runExample4(
         .withDomainSizeX(3.0)
         .makeShared();
 
-    double dx = solver->gridSystemData()->gridSpacing().x;
-    BoundingBox3D domain = solver->gridSystemData()->boundingBox();
+    auto grids = solver->gridSystemData();
+    double dx = grids->gridSpacing().x;
+    BoundingBox3D domain = grids->boundingBox();
     double lz = domain.depth();
 
     // Build emitter
@@ -394,7 +396,7 @@ int main(int argc, char* argv[]) {
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
-    std::string format = "pos";
+    std::string format = "xyz";
 
     // Parse options
     static struct option longOptions[] = {
