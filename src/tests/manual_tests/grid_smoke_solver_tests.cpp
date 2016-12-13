@@ -273,7 +273,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
             if (sdf < 0.05) {
                 return Vector3D(0.5, oldVal.y, oldVal.z);
             } else {
-                return oldVal;
+                return Vector3D(oldVal);
             }
         });
 
