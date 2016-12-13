@@ -76,7 +76,7 @@ Once installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl 
 
 ## Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout [UNIT_TESTS.md](doc/UNIT_TESTS.md), [MANUAL_TESTS.md](doc/MANUAL_TESTS.md), and [PERF_TESTS.md](doc/PERF_TESTS.md).
+There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout [unit_tests.md](doc/unit_tests.md), [manual_tests.md](doc/manual_tests.md), and [perf_tests.md](doc/perf_tests.md).
 
 ## Installing SDK
 

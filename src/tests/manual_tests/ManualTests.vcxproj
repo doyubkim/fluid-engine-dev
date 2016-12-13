@@ -50,6 +50,7 @@
     <ClCompile Include="sph_solver3_tests.cpp" />
     <ClCompile Include="triangle_mesh3_tests.cpp" />
     <ClCompile Include="triangle_mesh_to_sdf_tests.cpp" />
+    <ClCompile Include="tutorials.cpp" />
     <ClCompile Include="volume_particle_emitters_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
