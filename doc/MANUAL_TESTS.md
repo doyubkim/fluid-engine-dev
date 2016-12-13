@@ -375,6 +375,10 @@ Below is the list of the tests and their expected results.
         ![Pressure](img/manual_tests/GridFluidSolver2/ApplyBoundaryConditionWithPressureOpen/pressure.png "Pressure")
 
 * GridSmokeSolver2Tests.
+    * MovingEmitterWithCollider
+
+        ![Data](img/manual_tests/GridSmokeSolver2/MovingEmitterWithCollider/data.gif "Data")
+
     * Rising
 
         ![Data](img/manual_tests/GridSmokeSolver2/Rising/data.gif "Data")
@@ -383,9 +387,9 @@ Below is the list of the tests and their expected results.
 
         ![Data](img/manual_tests/GridSmokeSolver2/RisingWithCollider/data.gif "Data")
 
-    * RisingWithColliderVariational
+    * RisingWithColliderNonVariational
 
-        ![Data](img/manual_tests/GridSmokeSolver2/RisingWithColliderVariational/data.gif "Data")
+        ![Data](img/manual_tests/GridSmokeSolver2/RisingWithColliderNonVariational/data.gif "Data")
 
     * RisingWithColliderAndDiffusion
 
@@ -399,6 +403,10 @@ Below is the list of the tests and their expected results.
     * RisingWithCollider
 
         ![Data](img/manual_tests/GridSmokeSolver3/RisingWithCollider/data.gif "Data")
+
+    * RisingWithColliderLinear
+
+        ![Data](img/manual_tests/GridSmokeSolver3/RisingWithColliderLinear/data.gif "Data")
 
 * HelloFluidSimTests.
     * Run
@@ -694,6 +702,10 @@ Below is the list of the tests and their expected results.
     * DamBreakingWithCollider
 
         ![Data](img/manual_tests/PicSolver3/DamBreakingWithCollider/data.gif "Data")
+
+    * WaterDrop
+
+        ![Data](img/manual_tests/PicSolver3/WaterDrop/data.gif "Data")
 
 * PointHashGridSearcher2Tests.
     * Build
