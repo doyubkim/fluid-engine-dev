@@ -20,13 +20,15 @@ namespace jet {
 //!
 class VolumeParticleEmitter3 final : public ParticleEmitter3 {
  public:
+    class Builder;
+
     //!
     //! Constructs an emitter that spawns particles from given implicit surface
     //! which defines the volumetric geometry. Provided bounding box limits
     //! the particle generation region.
     //!
     //! \param[in]  implicitSurface         The implicit surface.
-    //! \param[in]  bounds                  The bounding box.
+    //! \param[in]  bounds                  The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
@@ -47,16 +49,6 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
         bool isOneShot = true,
         bool allowOverlapping = false,
         uint32_t seed = 0);
-
-    //!
-    //! Emits particles to the particle system data.
-    //!
-    //! \param[in]  frame     Current animation frame.
-    //! \param[in]  particles The particle system data.
-    //!
-    void emit(
-        const Frame& frame,
-        const ParticleSystemData3Ptr& particles) override;
 
     //!
     //! \brief      Sets the point generator.
@@ -120,6 +112,9 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //! Returns the initial velocity of the particles.
     void setInitialVelocity(const Vector3D& newInitialVel);
 
+    //! Returns builder fox VolumeParticleEmitter3.
+    static Builder builder();
+
  private:
     std::mt19937 _rng;
 
@@ -136,6 +131,16 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     bool _isOneShot = true;
     bool _allowOverlapping = false;
 
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
+    //!
+    void onUpdate(
+        double currentTimeInSeconds,
+        double timeIntervalInSeconds) override;
+
     void emit(
         const ParticleSystemData3Ptr& particles,
         Array1<Vector3D>* newPositions,
@@ -146,6 +151,71 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
 
 //! Shared pointer for the VolumeParticleEmitter3 type.
 typedef std::shared_ptr<VolumeParticleEmitter3> VolumeParticleEmitter3Ptr;
+
+
+//!
+//! \brief Front-end to create VolumeParticleEmitter3 objects step by step.
+//!
+class VolumeParticleEmitter3::Builder final {
+ public:
+    //! Returns builder with implicit surface defining volume shape.
+    Builder& withImplicitSurface(const ImplicitSurface3Ptr& implicitSurface);
+
+    //! Returns builder with surface defining volume shape.
+    Builder& withSurface(const Surface3Ptr& surface);
+
+    //! Returns builder with max region.
+    Builder& withMaxRegion(const BoundingBox3D& bounds);
+
+    //! Returns builder with spacing.
+    Builder& withSpacing(double spacing);
+
+    //! Returns builder with initial velocity.
+    Builder& withInitialVelocity(const Vector3D& initialVel);
+
+    //! Returns builder with max number of particles.
+    Builder& withMaxNumberOfParticles(size_t maxNumberOfParticles);
+
+    //! Returns builder with jitter amount.
+    Builder& withJitter(double jitter);
+
+    //! Returns builder with one-shot flag.
+    Builder& withIsOneShot(bool isOneShot);
+
+    //! Returns builder with overlapping flag.
+    Builder& withAllowOverlapping(bool allowOverlapping);
+
+    //! Returns builder with random seed.
+    Builder& withRandomSeed(uint32_t seed);
+
+    //! Builds VolumeParticleEmitter3.
+    VolumeParticleEmitter3 build() const;
+
+    //! Builds shared pointer of VolumeParticleEmitter3 instance.
+    VolumeParticleEmitter3Ptr makeShared() const {
+        return std::make_shared<VolumeParticleEmitter3>(
+            _implicitSurface,
+            _bounds,
+            _spacing,
+            _initialVel,
+            _maxNumberOfParticles,
+            _jitter,
+            _isOneShot,
+            _allowOverlapping);
+    }
+
+ private:
+    ImplicitSurface3Ptr _implicitSurface;
+    bool _isBoundSet = false;
+    BoundingBox3D _bounds;
+    double _spacing = 0.1;
+    Vector3D _initialVel{0, 0, 0};
+    size_t _maxNumberOfParticles = kMaxSize;
+    double _jitter = 0.0;
+    bool _isOneShot = true;
+    bool _allowOverlapping = false;
+    uint32_t _seed = 0;
+};
 
 }  // namespace jet
 

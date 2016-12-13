@@ -34,6 +34,7 @@ JET_BEGIN_TEST_F(PciSphSolver3, SteadyState) {
         targetSpacing,
         Vector3D());
     emitter->setJitter(0.0);
+    solver.setEmitter(emitter);
 
     Box3Ptr box = std::make_shared<Box3>(Vector3D(), Vector3D(1, 1, 1));
     box->isNormalFlipped = true;
@@ -42,9 +43,7 @@ JET_BEGIN_TEST_F(PciSphSolver3, SteadyState) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 100; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0) ; frame.index < 100; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
@@ -82,7 +81,7 @@ JET_BEGIN_TEST_F(PciSphSolver3, WaterDrop) {
         sourceBound,
         targetSpacing,
         Vector3D());
-    emitter->emit(Frame(), particles);
+    solver.setEmitter(emitter);
 
     // Initialize boundary
     Box3Ptr box = std::make_shared<Box3>(domain);
@@ -92,9 +91,7 @@ JET_BEGIN_TEST_F(PciSphSolver3, WaterDrop) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 100; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0) ; frame.index < 100; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

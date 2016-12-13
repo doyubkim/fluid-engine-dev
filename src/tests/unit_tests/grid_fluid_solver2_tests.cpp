@@ -20,8 +20,8 @@ TEST(GridFluidSolver2, Constructor) {
 
     // Check grid system data
     EXPECT_TRUE(solver.gridSystemData() != nullptr);
-    EXPECT_EQ(0u, solver.gridSystemData()->resolution().x);
-    EXPECT_EQ(0u, solver.gridSystemData()->resolution().y);
+    EXPECT_EQ(1u, solver.gridSystemData()->resolution().x);
+    EXPECT_EQ(1u, solver.gridSystemData()->resolution().y);
     EXPECT_EQ(solver.gridSystemData()->velocity(), solver.velocity());
 
     // Collider should be null

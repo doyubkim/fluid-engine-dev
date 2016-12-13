@@ -10,6 +10,8 @@ namespace jet {
 //! 2-D vector field with custom field function.
 class CustomVectorField2 final : public VectorField2 {
  public:
+    class Builder;
+
     //!
     //! \brief Constructs a field with given function.
     //!
@@ -53,11 +55,52 @@ class CustomVectorField2 final : public VectorField2 {
     //! Returns the sampler function.
     std::function<Vector2D(const Vector2D&)> sampler() const override;
 
+    //! Returns builder fox CustomVectorField2.
+    static Builder builder();
+
  private:
     std::function<Vector2D(const Vector2D&)> _customFunction;
     std::function<double(const Vector2D&)> _customDivergenceFunction;
     std::function<double(const Vector2D&)> _customCurlFunction;
     double _resolution = 1e-3;
+};
+
+//! Shared pointer type for the CustomVectorField2.
+typedef std::shared_ptr<CustomVectorField2> CustomVectorField2Ptr;
+
+
+//!
+//! \brief Front-end to create CustomVectorField2 objects step by step.
+//!
+class CustomVectorField2::Builder final {
+ public:
+    //! Returns builder with field function.
+    Builder& withFunction(
+        const std::function<Vector2D(const Vector2D&)>& func);
+
+    //! Returns builder with divergence function.
+    Builder& withDivergenceFunction(
+        const std::function<double(const Vector2D&)>& func);
+
+    //! Returns builder with curl function.
+    Builder& withCurlFunction(
+        const std::function<double(const Vector2D&)>& func);
+
+    //! Builds CustomVectorField2.
+    CustomVectorField2 build() const;
+
+    //! Builds shared pointer of CustomVectorField2 instance.
+    CustomVectorField2Ptr makeShared() const {
+        return std::make_shared<CustomVectorField2>(
+            _customFunction,
+            _customDivergenceFunction,
+            _customCurlFunction);
+    }
+
+ private:
+    std::function<Vector2D(const Vector2D&)> _customFunction;
+    std::function<double(const Vector2D&)> _customDivergenceFunction;
+    std::function<double(const Vector2D&)> _customCurlFunction;
 };
 
 }  // namespace jet

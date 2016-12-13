@@ -17,7 +17,7 @@ namespace jet {
 //! \return     True if inside the implicit surface, false otherwise.
 //!
 template <typename T>
-T isInsideSdf(T phi);
+bool isInsideSdf(T phi);
 
 //!
 //! \brief      Returns smeared Heaviside function.

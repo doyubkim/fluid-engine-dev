@@ -31,25 +31,26 @@ TEST(PointParticleEmitter3, Emit) {
         18);
 
     auto particles = std::make_shared<ParticleSystemData3>();
+    emitter.setTarget(particles);
 
-    Frame frame(1, 1.0);
-    emitter.emit(frame, particles);
+    Frame frame(0, 1.0);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(4u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(8u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(12u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(16u, particles->numberOfParticles());
 
     frame.advance();
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_EQ(18u, particles->numberOfParticles());
 
     auto pos = particles->positions();
@@ -65,4 +66,18 @@ TEST(PointParticleEmitter3, Emit) {
             vel[i].normalized().dot(dir));
         EXPECT_DOUBLE_EQ(3.0, vel[i].length());
     }
+}
+
+TEST(PointParticleEmitter3, Builder) {
+    PointParticleEmitter3 emitter = PointParticleEmitter3::builder()
+        .withOrigin({1.0, 2.0, 3.0})
+        .withDirection(Vector3D(0.5, 1.0, -2.0).normalized())
+        .withSpeed(3.0)
+        .withSpreadAngleInDegrees(15.0)
+        .withMaxNumberOfNewParticlesPerSecond(4)
+        .withMaxNumberOfParticles(18)
+        .build();
+
+    EXPECT_EQ(4u, emitter.maxNumberOfNewParticlesPerSecond());
+    EXPECT_EQ(18u, emitter.maxNumberOfParticles());
 }

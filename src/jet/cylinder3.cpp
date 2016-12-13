@@ -7,11 +7,18 @@
 
 using namespace jet;
 
-Cylinder3::Cylinder3() {
+Cylinder3::Cylinder3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
 }
 
-Cylinder3::Cylinder3(const Vector3D& center_, double radius_, double height_) :
-    center(center_), radius(radius_), height(height_) {
+Cylinder3::Cylinder3(
+    const Vector3D& center_,
+    double radius_,
+    double height_,
+    bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, center(center_)
+, radius(radius_)
+, height(height_) {
 }
 
 Cylinder3::Cylinder3(const Cylinder3& other) :
@@ -223,4 +230,33 @@ BoundingBox3D Cylinder3::boundingBox() const {
     return BoundingBox3D(
         center - Vector3D(radius, 0.5 * height, radius),
         center + Vector3D(radius, 0.5 * height, radius));
+}
+
+Cylinder3::Builder Cylinder3::builder() {
+    return Builder();
+}
+
+Cylinder3::Builder&
+Cylinder3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Cylinder3::Builder& Cylinder3::Builder::withCenter(const Vector3D& center) {
+    _center = center;
+    return *this;
+}
+
+Cylinder3::Builder& Cylinder3::Builder::withRadius(double radius) {
+    _radius = radius;
+    return *this;
+}
+
+Cylinder3::Builder& Cylinder3::Builder::withHeight(double height) {
+    _height = height;
+    return *this;
+}
+
+Cylinder3 Cylinder3::Builder::build() const {
+    return Cylinder3(_center, _radius, _height, _isNormalFlipped);
 }

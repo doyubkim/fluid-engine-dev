@@ -273,6 +273,12 @@
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\custom_scalar_field2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -385,6 +391,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\grid_diffusion_solver3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\grid_emitter2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\grid_emitter3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\grid_emitter_set2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\grid_emitter_set3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\grid_fluid_solver2.h">
@@ -514,6 +532,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\particle_emitter3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\particle_emitter_set2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\particle_emitter_set3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\particle_system_data2.h">
@@ -750,6 +774,12 @@
     <ClInclude Include="..\..\include\jet\vertex_centered_vector_grid3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\volume_grid_emitter2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\volume_grid_emitter3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\volume_particle_emitter2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -825,6 +855,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_particle_emitter3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_particle_emitter_set2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point_particle_emitter_set3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_simple_list_searcher2.cpp">
@@ -1016,6 +1052,12 @@
     <ClCompile Include="cubic_semi_lagrangian3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="custom_implicit_surface2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_implicit_surface3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="custom_scalar_field2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1121,6 +1163,18 @@
     <ClCompile Include="grid_diffusion_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="grid_emitter2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_emitter3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_emitter_set2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_emitter_set3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="grid_fluid_solver2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1224,6 +1278,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="particle_system_data2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volume_grid_emitter2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volume_grid_emitter3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -97,3 +97,34 @@ Vector3D CustomVectorField3::curl(const Vector3D& x) const {
 std::function<Vector3D(const Vector3D&)> CustomVectorField3::sampler() const {
     return _customFunction;
 }
+
+CustomVectorField3::Builder CustomVectorField3::builder() {
+    return Builder();
+}
+
+
+CustomVectorField3::Builder&
+CustomVectorField3::Builder::withFunction(
+    const std::function<Vector3D(const Vector3D&)>& func) {
+    _customFunction = func;
+    return *this;
+}
+
+CustomVectorField3::Builder&
+CustomVectorField3::Builder::withDivergenceFunction(
+    const std::function<double(const Vector3D&)>& func) {
+    _customDivergenceFunction = func;
+    return *this;
+}
+
+CustomVectorField3::Builder&
+CustomVectorField3::Builder::withCurlFunction(
+    const std::function<Vector3D(const Vector3D&)>& func) {
+    _customCurlFunction = func;
+    return *this;
+}
+
+CustomVectorField3 CustomVectorField3::Builder::build() const {
+    return CustomVectorField3(
+        _customFunction, _customDivergenceFunction, _customCurlFunction);
+}

@@ -3,9 +3,7 @@
 #include <pch.h>
 #include <jet/triangle_mesh3.h>
 #include <jet/parallel.h>
-
 #include <obj/obj_parser.hpp>
-
 #include <algorithm>
 #include <limits>
 #include <string>
@@ -23,7 +21,25 @@ inline std::ostream& operator<<(std::ostream& strm, const Vector3D& v) {
     return strm;
 }
 
-TriangleMesh3::TriangleMesh3() {
+TriangleMesh3::TriangleMesh3(bool isNormalFlipped_)
+: Surface3(isNormalFlipped_) {
+}
+
+TriangleMesh3::TriangleMesh3(
+    const PointArray& points,
+    const NormalArray& normals,
+    const UvArray& uvs,
+    const IndexArray& pointIndices,
+    const IndexArray& normalIndices,
+    const IndexArray& uvIndices,
+    bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, _points(points)
+, _normals(normals)
+, _uvs(uvs)
+, _pointIndices(pointIndices)
+, _normalIndices(normalIndices)
+, _uvIndices(uvIndices) {
 }
 
 TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
@@ -641,4 +657,61 @@ bool TriangleMesh3::readObj(std::istream* strm) {
 TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other) {
     set(other);
     return *this;
+}
+
+TriangleMesh3::Builder TriangleMesh3::builder() {
+    return Builder();
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withPoints(const PointArray& points) {
+    _points = points;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withNormals(const NormalArray& normals) {
+    _normals = normals;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withUvs(const UvArray& uvs) {
+    _uvs = uvs;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withPointIndices(const IndexArray& pointIndices) {
+    _pointIndices = pointIndices;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withNormalIndices(const IndexArray& normalIndices) {
+    _normalIndices = normalIndices;
+    return *this;
+}
+
+TriangleMesh3::Builder&
+TriangleMesh3::Builder::withUvIndices(const IndexArray& uvIndices) {
+    _uvIndices = uvIndices;
+    return *this;
+}
+
+TriangleMesh3 TriangleMesh3::Builder::build() const {
+    return TriangleMesh3(
+        _points,
+        _normals,
+        _uvs,
+        _pointIndices,
+        _normalIndices,
+        _uvIndices,
+        _isNormalFlipped);
 }

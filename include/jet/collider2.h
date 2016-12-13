@@ -4,6 +4,7 @@
 #define INCLUDE_JET_COLLIDER2_H_
 
 #include <jet/surface2.h>
+#include <functional>
 
 namespace jet {
 
@@ -18,6 +19,15 @@ namespace jet {
 //!
 class Collider2 {
  public:
+    //!
+    //! \brief Callback function type for update calls.
+    //!
+    //! This type of callback function will take the collider pointer, current
+    //! time, and time interval in seconds.
+    //!
+    typedef std::function<void(Collider2*, double, double)>
+        OnBeginUpdateCallback;
+
     //! Default constructor.
     Collider2();
 
@@ -55,6 +65,21 @@ class Collider2 {
     //! Returns the surface instance.
     const Surface2Ptr& surface() const;
 
+    //! Updates the collider state.
+    void update(double currentTimeInSeconds, double timeIntervalInSeconds);
+
+    //!
+    //! \brief      Sets the callback function to be called when
+    //!             Collider2::update function is invoked.
+    //!
+    //! The callback function takes current simulation time in seconds unit. Use
+    //! this callback to track any motion or state changes related to this
+    //! collider.
+    //!
+    //! \param[in]  callback The callback function.
+    //!
+    void setOnBeginUpdateCallback(const OnBeginUpdateCallback& callback);
+
  protected:
     //! Internal query result structure.
     struct ColliderQueryResult final {
@@ -82,6 +107,7 @@ class Collider2 {
  private:
     Surface2Ptr _surface;
     double _frictionCoeffient = 0.0;
+    OnBeginUpdateCallback _onUpdateCallback;
 };
 
 //! Shared pointer type for the Collider2.

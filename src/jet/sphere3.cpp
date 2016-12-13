@@ -7,12 +7,16 @@
 
 using namespace jet;
 
-Sphere3::Sphere3() {
+Sphere3::Sphere3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
 }
 
-Sphere3::Sphere3(const Vector3D& center_, double radius_) :
-    center(center_),
-    radius(radius_) {
+Sphere3::Sphere3(
+    const Vector3D& center_,
+    double radius_,
+    bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, center(center_)
+, radius(radius_) {
 }
 
 Sphere3::Sphere3(const Sphere3& other) :
@@ -98,4 +102,27 @@ SurfaceRayIntersection3 Sphere3::actualClosestIntersection(
 BoundingBox3D Sphere3::boundingBox() const {
     Vector3D r(radius, radius, radius);
     return BoundingBox3D(center - r, center + r);
+}
+
+Sphere3::Builder Sphere3::builder() {
+    return Builder();
+}
+
+Sphere3::Builder& Sphere3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Sphere3::Builder& Sphere3::Builder::withCenter(const Vector3D& center) {
+    _center = center;
+    return *this;
+}
+
+Sphere3::Builder& Sphere3::Builder::withRadius(double radius) {
+    _radius = radius;
+    return *this;
+}
+
+Sphere3 Sphere3::Builder::build() const {
+    return Sphere3(_center, _radius, _isNormalFlipped);
 }

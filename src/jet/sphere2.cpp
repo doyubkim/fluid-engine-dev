@@ -7,12 +7,16 @@
 
 using namespace jet;
 
-Sphere2::Sphere2() {
+Sphere2::Sphere2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
 }
 
-Sphere2::Sphere2(const Vector2D& center_, double radius_) :
-    center(center_),
-    radius(radius_) {
+Sphere2::Sphere2(
+    const Vector2D& center_,
+    double radius_,
+    bool isNormalFlipped_)
+: Surface2(isNormalFlipped_)
+, center(center_)
+, radius(radius_) {
 }
 
 Sphere2::Sphere2(const Sphere2& other) :
@@ -97,4 +101,27 @@ SurfaceRayIntersection2 Sphere2::actualClosestIntersection(
 BoundingBox2D Sphere2::boundingBox() const {
     Vector2D r(radius, radius);
     return BoundingBox2D(center - r, center + r);
+}
+
+Sphere2::Builder Sphere2::builder() {
+    return Builder();
+}
+
+Sphere2::Builder& Sphere2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Sphere2::Builder& Sphere2::Builder::withCenter(const Vector2D& center) {
+    _center = center;
+    return *this;
+}
+
+Sphere2::Builder& Sphere2::Builder::withRadius(double radius) {
+    _radius = radius;
+    return *this;
+}
+
+Sphere2 Sphere2::Builder::build() const {
+    return Sphere2(_center, _radius, _isNormalFlipped);
 }

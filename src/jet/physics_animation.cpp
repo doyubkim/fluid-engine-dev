@@ -31,6 +31,19 @@ void PhysicsAnimation::setNumberOfFixedSubTimeSteps(
     _numberOfFixedSubTimeSteps = numberOfSteps;
 }
 
+void PhysicsAnimation::advanceSingleFrame() {
+    ++_currentFrame;
+    update(_currentFrame);
+}
+
+Frame PhysicsAnimation::currentFrame() const {
+    return _currentFrame;
+}
+
+double PhysicsAnimation::currentTimeInSeconds() const {
+    return _currentTime;
+}
+
 unsigned int PhysicsAnimation::numberOfSubTimeSteps(
     double timeIntervalInSeconds) const {
     UNUSED_VARIABLE(timeIntervalInSeconds);
@@ -48,10 +61,14 @@ void PhysicsAnimation::onUpdate(const Frame& frame) {
         }
 
         _currentFrame = frame;
+    } else if (frame.index == 0 && !_hasInitialized) {
+        initialize();
     }
 }
 
 void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
+    _currentTime = _currentFrame.timeInSeconds();
+
     if (_isUsingFixedSubTimeSteps) {
         JET_INFO << "Using fixed sub-timesteps: " << _numberOfFixedSubTimeSteps;
 
@@ -71,6 +88,8 @@ void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
             JET_INFO << "End onAdvanceTimeStep (took "
                      << timer.durationInSeconds()
                      << " seconds)";
+
+            _currentTime += actualTimeInterval;
         }
     } else {
         JET_INFO << "Using adaptive sub-timesteps";
@@ -96,6 +115,16 @@ void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
                      << " seconds)";
 
             remainingTime -= actualTimeInterval;
+            _currentTime += actualTimeInterval;
         }
     }
+}
+
+void PhysicsAnimation::initialize() {
+    onInitialize();
+    _hasInitialized = true;
+}
+
+void PhysicsAnimation::onInitialize() {
+    // Do nothing
 }

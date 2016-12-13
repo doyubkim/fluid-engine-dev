@@ -24,10 +24,19 @@ namespace jet {
 //!
 class SphSolver2 : public ParticleSystemSolver2 {
  public:
+    class Builder;
+
     //! Constructs a solver with empty particle set.
     SphSolver2();
 
     virtual ~SphSolver2();
+
+    //! Constructs a solver with target density, spacing, and relative kernel
+    //! radius.
+    SphSolver2(
+        double targetDensity,
+        double targetSpacing,
+        double relativeKernelRadius);
 
     //! Returns the exponent part of the equation-of-state.
     double eosExponent() const;
@@ -104,6 +113,9 @@ class SphSolver2 : public ParticleSystemSolver2 {
     //! Returns the SPH system data.
     SphSystemData2Ptr sphSystemData() const;
 
+    //! Returns builder fox SphSolver2.
+    static Builder builder();
+
  protected:
     //! Returns the number of sub-time-steps.
     unsigned int numberOfSubTimeSteps(
@@ -166,6 +178,68 @@ class SphSolver2 : public ParticleSystemSolver2 {
 
     //! Scales the max allowed time-step.
     double _timeStepLimitScale = 1.0;
+};
+
+//! Shared pointer type for the SphSolver2.
+typedef std::shared_ptr<SphSolver2> SphSolver2Ptr;
+
+
+//!
+//! \brief Base class for SPH-based fluid solver builder.
+//!
+template <typename DerivedBuilder>
+class SphSolverBuilderBase2 {
+ public:
+    //! Returns builder with target density.
+    DerivedBuilder& withTargetDensity(double targetDensity);
+
+    //! Returns builder with target spacing.
+    DerivedBuilder& withTargetSpacing(double targetSpacing);
+
+    //! Returns builder with relative kernel radius.
+    DerivedBuilder& withRelativeKernelRadius(double relativeKernelRadius);
+
+ protected:
+    double _targetDensity = kWaterDensity;
+    double _targetSpacing = 0.1;
+    double _relativeKernelRadius = 1.8;
+};
+
+template <typename T>
+T& SphSolverBuilderBase2<T>::withTargetDensity(double targetDensity) {
+    _targetDensity = targetDensity;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& SphSolverBuilderBase2<T>::withTargetSpacing(double targetSpacing) {
+    _targetSpacing = targetSpacing;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& SphSolverBuilderBase2<T>::withRelativeKernelRadius(
+    double relativeKernelRadius) {
+    _relativeKernelRadius = relativeKernelRadius;
+    return static_cast<T&>(*this);
+}
+
+//!
+//! \brief Front-end to create SphSolver2 objects step by step.
+//!
+class SphSolver2::Builder final
+    : public SphSolverBuilderBase2<SphSolver2::Builder> {
+ public:
+    //! Builds SphSolver2.
+    SphSolver2 build() const;
+
+    //! Builds shared pointer of SphSolver2 instance.
+    SphSolver2Ptr makeShared() const {
+        return std::make_shared<SphSolver2>(
+            _targetDensity,
+            _targetSpacing,
+            _relativeKernelRadius);
+    }
 };
 
 }  // namespace jet

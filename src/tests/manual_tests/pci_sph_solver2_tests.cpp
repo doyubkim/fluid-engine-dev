@@ -34,6 +34,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, SteadyState) {
         targetSpacing,
         Vector2D());
     emitter->setJitter(0.0);
+    solver.setEmitter(emitter);
 
     Box2Ptr box = std::make_shared<Box2>(Vector2D(), Vector2D(1, 1));
     box->isNormalFlipped = true;
@@ -42,9 +43,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, SteadyState) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 100; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0) ; frame.index < 100; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
@@ -82,7 +81,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, WaterDrop) {
         sourceBound,
         targetSpacing,
         Vector2D());
-    emitter->emit(Frame(), particles);
+    solver.setEmitter(emitter);
 
     // Initialize boundary
     Box2Ptr box = std::make_shared<Box2>(domain);
@@ -92,9 +91,7 @@ JET_BEGIN_TEST_F(PciSphSolver2, WaterDrop) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0) ; frame.index < 120; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

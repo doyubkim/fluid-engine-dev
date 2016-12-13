@@ -220,6 +220,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\constant_vector_field3.h" />
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian2.h" />
     <ClInclude Include="..\..\include\jet\cubic_semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface2.h" />
+    <ClInclude Include="..\..\include\jet\custom_implicit_surface3.h" />
     <ClInclude Include="..\..\include\jet\custom_scalar_field2.h" />
     <ClInclude Include="..\..\include\jet\custom_scalar_field3.h" />
     <ClInclude Include="..\..\include\jet\custom_vector_field2.h" />
@@ -301,6 +303,10 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\grid_boundary_condition_solver3.h" />
     <ClInclude Include="..\..\include\jet\grid_diffusion_solver2.h" />
     <ClInclude Include="..\..\include\jet\grid_diffusion_solver3.h" />
+    <ClInclude Include="..\..\include\jet\grid_emitter2.h" />
+    <ClInclude Include="..\..\include\jet\grid_emitter3.h" />
+    <ClInclude Include="..\..\include\jet\grid_emitter_set2.h" />
+    <ClInclude Include="..\..\include\jet\grid_emitter_set3.h" />
     <ClInclude Include="..\..\include\jet\grid_fluid_solver2.h" />
     <ClInclude Include="..\..\include\jet\grid_fluid_solver3.h" />
     <ClInclude Include="..\..\include\jet\grid_forward_euler_diffusion_solver2.h" />
@@ -342,6 +348,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\parallel.h" />
     <ClInclude Include="..\..\include\jet\particle_emitter2.h" />
     <ClInclude Include="..\..\include\jet\particle_emitter3.h" />
+    <ClInclude Include="..\..\include\jet\particle_emitter_set2.h" />
+    <ClInclude Include="..\..\include\jet\particle_emitter_set3.h" />
     <ClInclude Include="..\..\include\jet\particle_system_data2.h" />
     <ClInclude Include="..\..\include\jet\particle_system_data3.h" />
     <ClInclude Include="..\..\include\jet\particle_system_solver2.h" />
@@ -420,6 +428,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\vertex_centered_scalar_grid3.h" />
     <ClInclude Include="..\..\include\jet\vertex_centered_vector_grid2.h" />
     <ClInclude Include="..\..\include\jet\vertex_centered_vector_grid3.h" />
+    <ClInclude Include="..\..\include\jet\volume_grid_emitter2.h" />
+    <ClInclude Include="..\..\include\jet\volume_grid_emitter3.h" />
     <ClInclude Include="..\..\include\jet\volume_particle_emitter2.h" />
     <ClInclude Include="..\..\include\jet\volume_particle_emitter3.h" />
     <ClInclude Include="marching_cubes_table.h" />
@@ -451,6 +461,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="constant_vector_field3.cpp" />
     <ClCompile Include="cubic_semi_lagrangian2.cpp" />
     <ClCompile Include="cubic_semi_lagrangian3.cpp" />
+    <ClCompile Include="custom_implicit_surface2.cpp" />
+    <ClCompile Include="custom_implicit_surface3.cpp" />
     <ClCompile Include="custom_scalar_field2.cpp" />
     <ClCompile Include="custom_scalar_field3.cpp" />
     <ClCompile Include="custom_vector_field2.cpp" />
@@ -488,6 +500,10 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="grid_boundary_condition_solver3.cpp" />
     <ClCompile Include="grid_diffusion_solver2.cpp" />
     <ClCompile Include="grid_diffusion_solver3.cpp" />
+    <ClCompile Include="grid_emitter2.cpp" />
+    <ClCompile Include="grid_emitter3.cpp" />
+    <ClCompile Include="grid_emitter_set2.cpp" />
+    <ClCompile Include="grid_emitter_set3.cpp" />
     <ClCompile Include="grid_fluid_solver2.cpp" />
     <ClCompile Include="grid_fluid_solver3.cpp" />
     <ClCompile Include="grid_forward_euler_diffusion_solver2.cpp" />
@@ -520,6 +536,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="marching_cubes.cpp" />
     <ClCompile Include="particle_emitter2.cpp" />
     <ClCompile Include="particle_emitter3.cpp" />
+    <ClCompile Include="particle_emitter_set2.cpp" />
+    <ClCompile Include="particle_emitter_set3.cpp" />
     <ClCompile Include="particle_system_data2.cpp" />
     <ClCompile Include="particle_system_data3.cpp" />
     <ClCompile Include="particle_system_solver2.cpp" />
@@ -588,6 +606,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="vertex_centered_scalar_grid3.cpp" />
     <ClCompile Include="vertex_centered_vector_grid2.cpp" />
     <ClCompile Include="vertex_centered_vector_grid3.cpp" />
+    <ClCompile Include="volume_grid_emitter2.cpp" />
+    <ClCompile Include="volume_grid_emitter3.cpp" />
     <ClCompile Include="volume_particle_emitter2.cpp" />
     <ClCompile Include="volume_particle_emitter3.cpp" />
   </ItemGroup>

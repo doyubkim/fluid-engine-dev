@@ -21,8 +21,16 @@ namespace jet {
 //!
 class LevelSetLiquidSolver2 : public GridFluidSolver2 {
  public:
-    //! Constructs an empty solver.
+    class Builder;
+
+    //! Default constructor.
     LevelSetLiquidSolver2();
+
+    //! Constructs solver with initial grid size.
+    LevelSetLiquidSolver2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin);
 
     //! Destructor.
     virtual ~LevelSetLiquidSolver2();
@@ -62,6 +70,9 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2 {
     //!
     double computeVolume() const;
 
+    //! Returns builder fox LevelSetLiquidSolver2.
+    static Builder builder();
+
  protected:
     //! Called at the beginning of the time-step.
     void onBeginAdvanceTimeStep(double timeIntervalInSeconds) override;
@@ -93,6 +104,28 @@ class LevelSetLiquidSolver2 : public GridFluidSolver2 {
     void extrapolateVelocityToAir(double currentCfl);
 
     void addVolume(double volDiff);
+};
+
+//! Shared pointer type for the LevelSetLiquidSolver2.
+typedef std::shared_ptr<LevelSetLiquidSolver2> LevelSetLiquidSolver2Ptr;
+
+
+//!
+//! \brief Front-end to create LevelSetLiquidSolver2 objects step by step.
+//!
+class LevelSetLiquidSolver2::Builder final
+    : public GridFluidSolverBuilderBase2<LevelSetLiquidSolver2::Builder> {
+ public:
+    //! Builds LevelSetLiquidSolver2.
+    LevelSetLiquidSolver2 build() const;
+
+    //! Builds shared pointer of LevelSetLiquidSolver2 instance.
+    LevelSetLiquidSolver2Ptr makeShared() const {
+        return std::make_shared<LevelSetLiquidSolver2>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

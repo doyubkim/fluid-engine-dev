@@ -26,12 +26,11 @@ JET_BEGIN_TEST_F(VolumeParticleEmitter2, EmitContinuousNonOverlapping) {
         0.2);
     emitter->setIsOneShot(false);
     emitter->setAllowOverlapping(false);
+    solver.setEmitter(emitter);
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
@@ -52,12 +51,11 @@ JET_BEGIN_TEST_F(VolumeParticleEmitter3, EmitContinuousNonOverlapping) {
         0.2);
     emitter->setIsOneShot(false);
     emitter->setAllowOverlapping(false);
+    solver.setEmitter(emitter);
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
-        emitter->emit(frame, particles);
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; ++frame) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

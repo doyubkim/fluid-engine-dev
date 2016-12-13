@@ -69,6 +69,22 @@ class PhysicsAnimation : public Animation {
     //!
     void setNumberOfFixedSubTimeSteps(unsigned int numberOfSteps);
 
+    //! Advances a single frame.
+    void advanceSingleFrame();
+
+    //!
+    //! \brief      Returns current frame.
+    //!
+    Frame currentFrame() const;
+
+    //!
+    //! \brief      Returns current time in seconds.
+    //!
+    //! This function returns the current time which is calculated by adding
+    //! current frame + sub-timesteps it passed.
+    //!
+    double currentTimeInSeconds() const;
+
  protected:
     //!
     //! \brief      Called when a single time-step should be advanced.
@@ -99,14 +115,26 @@ class PhysicsAnimation : public Animation {
     virtual unsigned int numberOfSubTimeSteps(
         double timeIntervalInSeconds) const;
 
+    //!
+    //! \brief      Called at frame 0 to initialize the physics state.
+    //!
+    //! Inheriting classes can override this function to setup initial condition
+    //! for the simulation.
+    //!
+    virtual void onInitialize();
+
  private:
     Frame _currentFrame;
     bool _isUsingFixedSubTimeSteps = true;
     unsigned int _numberOfFixedSubTimeSteps = 1;
+    bool _hasInitialized = false;
+    double _currentTime = 0.0;
 
     void onUpdate(const Frame& frame) final;
 
     void advanceTimeStep(double timeIntervalInSeconds);
+
+    void initialize();
 };
 
 typedef std::shared_ptr<PhysicsAnimation> PhysicsAnimationPtr;

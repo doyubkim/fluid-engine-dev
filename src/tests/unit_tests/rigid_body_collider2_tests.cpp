@@ -124,7 +124,7 @@ TEST(RigidBodyCollider2, VelocityAt) {
 
     collider.linearVelocity = {1, 3};
     collider.angularVelocity = 4.0;
-    collider.origin = {-1, -2};
+    collider.rotationOrigin = {-1, -2};
 
     Vector2D result = collider.velocityAt({5, 7});
     EXPECT_DOUBLE_EQ(-35.0, result.x);

@@ -6,9 +6,9 @@
 using namespace jet;
 
 TEST(FlipSolver3, UpdateEmpty) {
-    // Empty solver test
     FlipSolver3 solver;
-    Frame frame;
-    solver.update(frame);
-    solver.update(frame);
+
+    for (Frame frame; frame.index < 2; ++frame) {
+        solver.update(frame);
+    }
 }

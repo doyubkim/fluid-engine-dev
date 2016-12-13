@@ -40,24 +40,30 @@ void PointParticleEmitter3::setMaxNumberOfParticles(
     _maxNumberOfParticles = maxNumberOfParticles;
 }
 
-void PointParticleEmitter3::emit(
-    const Frame& frame,
-    const ParticleSystemData3Ptr& particles) {
-    if (_numberOfEmittedParticles == 0) {
-        _firstFrameTimeInSeconds = frame.timeInSeconds();
+void PointParticleEmitter3::onUpdate(
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    auto particles = target();
+
+    if (particles == nullptr) {
+        return;
     }
 
-    double elapsedTimeInSeconds = frame.timeInSeconds()
-        - _firstFrameTimeInSeconds;
+    if (_numberOfEmittedParticles == 0) {
+        _firstFrameTimeInSeconds = currentTimeInSeconds;
+    }
+
+    double elapsedTimeInSeconds
+        = currentTimeInSeconds - _firstFrameTimeInSeconds;
 
     size_t newMaxTotalNumberOfEmittedParticles = static_cast<size_t>(
-        std::ceil((elapsedTimeInSeconds + frame.timeIntervalInSeconds)
+        std::ceil((elapsedTimeInSeconds + timeIntervalInSeconds)
             * _maxNumberOfNewParticlesPerSecond));
     newMaxTotalNumberOfEmittedParticles = std::min(
         newMaxTotalNumberOfEmittedParticles,
         _maxNumberOfParticles);
-    size_t maxNumberOfNewParticles = newMaxTotalNumberOfEmittedParticles
-        - _numberOfEmittedParticles;
+    size_t maxNumberOfNewParticles
+        = newMaxTotalNumberOfEmittedParticles - _numberOfEmittedParticles;
 
     if (maxNumberOfNewParticles > 0) {
         Array1<Vector3D> candidatePositions;
@@ -98,6 +104,67 @@ void PointParticleEmitter3::emit(
 double PointParticleEmitter3::random() {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(_rng);
+}
+
+PointParticleEmitter3::Builder PointParticleEmitter3::builder() {
+    return Builder();
+}
+
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withOrigin(const Vector3D& origin) {
+    _origin = origin;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withDirection(const Vector3D& direction) {
+    _direction = direction;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withSpeed(double speed) {
+    _speed = speed;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withSpreadAngleInDegrees(
+    double spreadAngleInDegrees) {
+    _spreadAngleInDegrees = spreadAngleInDegrees;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withMaxNumberOfNewParticlesPerSecond(
+    size_t maxNumOfNewParticlesPerSec) {
+    _maxNumberOfNewParticlesPerSecond = maxNumOfNewParticlesPerSec;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withMaxNumberOfParticles(
+    size_t maxNumberOfParticles) {
+    _maxNumberOfParticles = maxNumberOfParticles;
+    return *this;
+}
+
+PointParticleEmitter3::Builder&
+PointParticleEmitter3::Builder::withRandomSeed(uint32_t seed) {
+    _seed = seed;
+    return *this;
+}
+
+PointParticleEmitter3 PointParticleEmitter3::Builder::build() const {
+    return PointParticleEmitter3(
+        _origin,
+        _direction,
+        _speed,
+        _spreadAngleInDegrees,
+        _maxNumberOfNewParticlesPerSecond,
+        _maxNumberOfParticles,
+        _seed);
 }
 
 }  // namespace jet

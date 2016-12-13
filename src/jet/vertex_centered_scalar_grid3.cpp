@@ -80,6 +80,67 @@ VertexCenteredScalarGrid3::operator=(const VertexCenteredScalarGrid3& other) {
     return *this;
 }
 
-ScalarGridBuilder3Ptr VertexCenteredScalarGrid3::builder() {
-    return std::make_shared<VertexCenteredScalarGridBuilder3>();
+VertexCenteredScalarGrid3::Builder VertexCenteredScalarGrid3::builder() {
+    return Builder();
+}
+
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withResolution(const Size3& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY, size_t resolutionZ) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    _resolution.z = resolutionZ;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withGridSpacing(
+    const Vector3D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY, double gridSpacingZ) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    _gridSpacing.z = gridSpacingZ;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY, double gridOriginZ) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    _gridOrigin.z = gridOriginZ;
+    return *this;
+}
+
+VertexCenteredScalarGrid3::Builder&
+VertexCenteredScalarGrid3::Builder::withInitialValue(double initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+VertexCenteredScalarGrid3 VertexCenteredScalarGrid3::Builder::build() const {
+    return VertexCenteredScalarGrid3(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

@@ -10,6 +10,8 @@ namespace jet {
 //! 3-D scalar field with custom field function.
 class CustomScalarField3 final : public ScalarField3 {
  public:
+    class Builder;
+
     //!
     //! \brief Constructs a field with given function.
     //!
@@ -53,11 +55,52 @@ class CustomScalarField3 final : public ScalarField3 {
     //! Returns the Laplacian at given position \p x.
     double laplacian(const Vector3D& x) const override;
 
+    //! Returns builder fox CustomScalarField3.
+    static Builder builder();
+
  private:
     std::function<double(const Vector3D&)> _customFunction;
     std::function<Vector3D(const Vector3D&)> _customGradientFunction;
     std::function<double(const Vector3D&)> _customLaplacianFunction;
     double _resolution = 1e-3;
+};
+
+//! Shared pointer type for the CustomScalarField3.
+typedef std::shared_ptr<CustomScalarField3> CustomScalarField3Ptr;
+
+
+//!
+//! \brief Front-end to create CustomScalarField3 objects step by step.
+//!
+class CustomScalarField3::Builder final {
+ public:
+    //! Returns builder with field function.
+    Builder& withFunction(
+        const std::function<double(const Vector3D&)>& func);
+
+    //! Returns builder with divergence function.
+    Builder& withGradientFunction(
+        const std::function<Vector3D(const Vector3D&)>& func);
+
+    //! Returns builder with curl function.
+    Builder& withLaplacianFunction(
+        const std::function<double(const Vector3D&)>& func);
+
+    //! Builds CustomScalarField3.
+    CustomScalarField3 build() const;
+
+    //! Builds shared pointer of CustomScalarField3 instance.
+    CustomScalarField3Ptr makeShared() const {
+        return std::make_shared<CustomScalarField3>(
+            _customFunction,
+            _customGradientFunction,
+            _customLaplacianFunction);
+    }
+
+ private:
+    std::function<double(const Vector3D&)> _customFunction;
+    std::function<Vector3D(const Vector3D&)> _customGradientFunction;
+    std::function<double(const Vector3D&)> _customLaplacianFunction;
 };
 
 }  // namespace jet

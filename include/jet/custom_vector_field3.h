@@ -10,6 +10,8 @@ namespace jet {
 //! 3-D vector field with custom field function.
 class CustomVectorField3 final : public VectorField3 {
  public:
+    class Builder;
+
     //!
     //! \brief Constructs a field with given function.
     //!
@@ -53,11 +55,52 @@ class CustomVectorField3 final : public VectorField3 {
     //! Returns the sampler function.
     std::function<Vector3D(const Vector3D&)> sampler() const override;
 
+    //! Returns builder fox CustomVectorField2.
+    static Builder builder();
+
  private:
     std::function<Vector3D(const Vector3D&)> _customFunction;
     std::function<double(const Vector3D&)> _customDivergenceFunction;
     std::function<Vector3D(const Vector3D&)> _customCurlFunction;
     double _resolution = 1e-3;
+};
+
+//! Shared pointer type for the CustomVectorField3.
+typedef std::shared_ptr<CustomVectorField3> CustomVectorField3Ptr;
+
+
+//!
+//! \brief Front-end to create CustomVectorField3 objects step by step.
+//!
+class CustomVectorField3::Builder final {
+ public:
+    //! Returns builder with field function.
+    Builder& withFunction(
+        const std::function<Vector3D(const Vector3D&)>& func);
+
+    //! Returns builder with divergence function.
+    Builder& withDivergenceFunction(
+        const std::function<double(const Vector3D&)>& func);
+
+    //! Returns builder with curl function.
+    Builder& withCurlFunction(
+        const std::function<Vector3D(const Vector3D&)>& func);
+
+    //! Builds CustomVectorField3.
+    CustomVectorField3 build() const;
+
+    //! Builds shared pointer of CustomVectorField3 instance.
+    CustomVectorField3Ptr makeShared() const {
+        return std::make_shared<CustomVectorField3>(
+            _customFunction,
+            _customDivergenceFunction,
+            _customCurlFunction);
+    }
+
+ private:
+    std::function<Vector3D(const Vector3D&)> _customFunction;
+    std::function<double(const Vector3D&)> _customDivergenceFunction;
+    std::function<Vector3D(const Vector3D&)> _customCurlFunction;
 };
 
 }  // namespace jet

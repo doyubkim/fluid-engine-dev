@@ -21,13 +21,15 @@ namespace jet {
 //!
 class VolumeParticleEmitter2 final : public ParticleEmitter2 {
  public:
+    class Builder;
+
     //!
     //! Constructs an emitter that spawns particles from given implicit surface
     //! which defines the volumetric geometry. Provided bounding box limits
     //! the particle generation region.
     //!
     //! \param[in]  implicitSurface         The implicit surface.
-    //! \param[in]  bounds                  The bounding box.
+    //! \param[in]  bounds                  The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
@@ -48,16 +50,6 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
         bool isOneShot = true,
         bool allowOverlapping = false,
         uint32_t seed = 0);
-
-    //!
-    //! Emits particles to the particle system data.
-    //!
-    //! \param[in]  frame     Current animation frame.
-    //! \param[in]  particles The particle system data.
-    //!
-    void emit(
-        const Frame& frame,
-        const ParticleSystemData2Ptr& particles) override;
 
     //!
     //! \brief      Sets the point generator.
@@ -121,6 +113,9 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! Returns the initial velocity of the particles.
     void setInitialVelocity(const Vector2D& newInitialVel);
 
+    //! Returns builder fox VolumeParticleEmitter2.
+    static Builder builder();
+
  private:
     std::mt19937 _rng;
 
@@ -137,6 +132,16 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     bool _isOneShot = true;
     bool _allowOverlapping = false;
 
+    //!
+    //! \brief      Emits particles to the particle system data.
+    //!
+    //! \param[in]  currentTimeInSeconds    Current simulation time.
+    //! \param[in]  timeIntervalInSeconds   The time-step interval.
+    //!
+    void onUpdate(
+        double currentTimeInSeconds,
+        double timeIntervalInSeconds) override;
+
     void emit(
         const ParticleSystemData2Ptr& particles,
         Array1<Vector2D>* newPositions,
@@ -147,6 +152,71 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
 
 //! Shared pointer for the VolumeParticleEmitter2 type.
 typedef std::shared_ptr<VolumeParticleEmitter2> VolumeParticleEmitter2Ptr;
+
+
+//!
+//! \brief Front-end to create VolumeParticleEmitter2 objects step by step.
+//!
+class VolumeParticleEmitter2::Builder final {
+ public:
+    //! Returns builder with implicit surface defining volume shape.
+    Builder& withImplicitSurface(const ImplicitSurface2Ptr& implicitSurface);
+
+    //! Returns builder with surface defining volume shape.
+    Builder& withSurface(const Surface2Ptr& surface);
+
+    //! Returns builder with max region.
+    Builder& withMaxRegion(const BoundingBox2D& bounds);
+
+    //! Returns builder with spacing.
+    Builder& withSpacing(double spacing);
+
+    //! Returns builder with initial velocity.
+    Builder& withInitialVelocity(const Vector2D& initialVel);
+
+    //! Returns builder with max number of particles.
+    Builder& withMaxNumberOfParticles(size_t maxNumberOfParticles);
+
+    //! Returns builder with jitter amount.
+    Builder& withJitter(double jitter);
+
+    //! Returns builder with one-shot flag.
+    Builder& withIsOneShot(bool isOneShot);
+
+    //! Returns builder with overlapping flag.
+    Builder& withAllowOverlapping(bool allowOverlapping);
+
+    //! Returns builder with random seed.
+    Builder& withRandomSeed(uint32_t seed);
+
+    //! Builds VolumeParticleEmitter2.
+    VolumeParticleEmitter2 build() const;
+
+    //! Builds shared pointer of VolumeParticleEmitter2 instance.
+    VolumeParticleEmitter2Ptr makeShared() const {
+        return std::make_shared<VolumeParticleEmitter2>(
+            _implicitSurface,
+            _bounds,
+            _spacing,
+            _initialVel,
+            _maxNumberOfParticles,
+            _jitter,
+            _isOneShot,
+            _allowOverlapping);
+    }
+
+ private:
+    ImplicitSurface2Ptr _implicitSurface;
+    bool _isBoundSet = false;
+    BoundingBox2D _bounds;
+    double _spacing = 0.1;
+    Vector2D _initialVel{0, 0};
+    size_t _maxNumberOfParticles = kMaxSize;
+    double _jitter = 0.0;
+    bool _isOneShot = true;
+    bool _allowOverlapping = false;
+    uint32_t _seed = 0;
+};
 
 }  // namespace jet
 

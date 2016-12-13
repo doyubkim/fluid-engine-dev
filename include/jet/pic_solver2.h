@@ -4,6 +4,7 @@
 #define INCLUDE_JET_PIC_SOLVER2_H_
 
 #include <jet/grid_fluid_solver2.h>
+#include <jet/particle_emitter2.h>
 #include <jet/particle_system_data2.h>
 
 namespace jet {
@@ -20,8 +21,16 @@ namespace jet {
 //!
 class PicSolver2 : public GridFluidSolver2 {
  public:
+    class Builder;
+
     //! Default constructor.
     PicSolver2();
+
+    //! Constructs solver with initial grid size.
+    PicSolver2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin);
 
     //! Default destructor.
     virtual ~PicSolver2();
@@ -32,7 +41,19 @@ class PicSolver2 : public GridFluidSolver2 {
     //! Returns the particle system data.
     const ParticleSystemData2Ptr& particleSystemData() const;
 
+    //! Returns the particle emitter.
+    const ParticleEmitter2Ptr& particleEmitter() const;
+
+    //! Sets the particle emitter.
+    void setParticleEmitter(const ParticleEmitter2Ptr& newEmitter);
+
+    //! Returns builder fox PicSolver2.
+    static Builder builder();
+
  protected:
+    //! Initializes the simulator.
+    void onInitialize() override;
+
     //! Invoked before a simulation time-step begins.
     void onBeginAdvanceTimeStep(double timeIntervalInSeconds) override;
 
@@ -54,6 +75,7 @@ class PicSolver2 : public GridFluidSolver2 {
  private:
     size_t _signedDistanceFieldId;
     ParticleSystemData2Ptr _particles;
+    ParticleEmitter2Ptr _particleEmitter;
 
     Array2<char> _uMarkers;
     Array2<char> _vMarkers;
@@ -61,6 +83,30 @@ class PicSolver2 : public GridFluidSolver2 {
     void extrapolateVelocityToAir();
 
     void buildSignedDistanceField();
+
+    void updateParticleEmitter(double timeIntervalInSeconds);
+};
+
+//! Shared pointer type for the PicSolver2.
+typedef std::shared_ptr<PicSolver2> PicSolver2Ptr;
+
+
+//!
+//! \brief Front-end to create PicSolver2 objects step by step.
+//!
+class PicSolver2::Builder final
+    : public GridFluidSolverBuilderBase2<PicSolver2::Builder> {
+ public:
+    //! Builds PicSolver2.
+    PicSolver2 build() const;
+
+    //! Builds shared pointer of PicSolver2 instance.
+    PicSolver2Ptr makeShared() const {
+        return std::make_shared<PicSolver2>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

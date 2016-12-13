@@ -19,6 +19,8 @@ namespace jet {
 //!
 class VertexCenteredScalarGrid3 final : public ScalarGrid3 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     VertexCenteredScalarGrid3();
 
@@ -73,14 +75,58 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3 {
     VertexCenteredScalarGrid3& operator=(
         const VertexCenteredScalarGrid3& other);
 
-    //! Returns the grid builder instance.
-    static ScalarGridBuilder3Ptr builder();
+    //! Returns builder fox VertexCenteredScalarGrid3.
+    static Builder builder();
 };
 
+//! Shared pointer for the VertexCenteredScalarGrid3 type.
+typedef std::shared_ptr<VertexCenteredScalarGrid3> VertexCenteredScalarGrid3Ptr;
+
+
 //! A grid builder class that returns 3-D vertex-centered scalar grid.
-class VertexCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
+class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
  public:
-    //! Returns a vertex-centered grid for given parameters.
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(
+        size_t resolutionX, size_t resolutionY, size_t resolutionZ);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector3D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(
+        double gridSpacingX, double gridSpacingY, double gridSpacingZ);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector3D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(
+        double gridOriginX, double gridOriginY, double gridOriginZ);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialVal);
+
+    //! Builds VertexCenteredScalarGrid3 instance.
+    VertexCenteredScalarGrid3 build() const;
+
+    //! Builds shared pointer of VertexCenteredScalarGrid3 instance.
+    VertexCenteredScalarGrid3Ptr makeShared() const {
+        return std::make_shared<VertexCenteredScalarGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of VertexCenteredScalarGrid3 instance.
+    //!
+    //! This is an overriding function that implements ScalarGridBuilder3.
+    //!
     ScalarGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,
@@ -92,6 +138,12 @@ class VertexCenteredScalarGridBuilder3 final : public ScalarGridBuilder3 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size3 _resolution{1, 1, 1};
+    Vector3D _gridSpacing{1, 1, 1};
+    Vector3D _gridOrigin{0, 0, 0};
+    double _initialVal = 0.0;
 };
 
 }  // namespace jet

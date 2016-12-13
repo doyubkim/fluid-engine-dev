@@ -118,6 +118,9 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     void resetSampler();
 };
 
+//! Shared pointer for the CollocatedVectorGrid2 type.
+typedef std::shared_ptr<CollocatedVectorGrid2> CollocatedVectorGrid2Ptr;
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_COLLOCATED_VECTOR_GRID2_H_

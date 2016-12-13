@@ -6,6 +6,7 @@
 #include <jet/advection_solver2.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/collider2.h>
+#include <jet/grid_emitter2.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/grid_boundary_condition_solver2.h>
 #include <jet/grid_diffusion_solver2.h>
@@ -28,8 +29,16 @@ namespace jet {
 //!
 class GridFluidSolver2 : public PhysicsAnimation {
  public:
+    class Builder;
+
     //! Default constructor.
     GridFluidSolver2();
+
+    //! Constructs solver with initial grid size.
+    GridFluidSolver2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin);
 
     //! Default destructor.
     virtual ~GridFluidSolver2();
@@ -160,7 +169,19 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! Sets the collider.
     void setCollider(const Collider2Ptr& newCollider);
 
+    //! Returns the emitter.
+    const GridEmitter2Ptr& emitter() const;
+
+    //! Sets the emitter.
+    void setEmitter(const GridEmitter2Ptr& newEmitter);
+
+    //! Returns builder fox GridFluidSolver2.
+    static Builder builder();
+
  protected:
+    //! Called when it needs to setup initial condition.
+    void onInitialize() override;
+
     //! Called when advancing a single time-step.
     void onAdvanceTimeStep(double timeIntervalInSeconds) override;
 
@@ -244,6 +265,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     GridSystemData2Ptr _grids;
     Collider2Ptr _collider;
     CellCenteredScalarGrid2 _colliderSdf;
+    GridEmitter2Ptr _emitter;
 
     AdvectionSolver2Ptr _advectionSolver;
     GridDiffusionSolver2Ptr _diffusionSolver;
@@ -253,6 +275,112 @@ class GridFluidSolver2 : public PhysicsAnimation {
     void beginAdvanceTimeStep(double timeIntervalInSeconds);
 
     void endAdvanceTimeStep(double timeIntervalInSeconds);
+
+    void updateCollider(double timeIntervalInSeconds);
+
+    void updateEmitter(double timeIntervalInSeconds);
+};
+
+//! Shared pointer type for the GridFluidSolver2.
+typedef std::shared_ptr<GridFluidSolver2> GridFluidSolver2Ptr;
+
+
+//!
+//! \brief Base class for grid-based fluid solver builder.
+//!
+template <typename DerivedBuilder>
+class GridFluidSolverBuilderBase2 {
+ public:
+    //! Returns builder with grid resolution.
+    DerivedBuilder& withResolution(const Size2& resolution);
+
+    //! Returns builder with grid spacing.
+    DerivedBuilder& withGridSpacing(const Vector2D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    DerivedBuilder& withGridSpacing(double gridSpacing);
+
+    //!
+    //! \brief Returns builder with domain size in x-direction.
+    //!
+    //! To build a solver, one can use either grid spacing directly or domain
+    //! size in x-direction to set the final grid spacing.
+    //!
+    DerivedBuilder& withDomainSizeX(double domainSizeX);
+
+    //! Returns builder with grid origin
+    DerivedBuilder& withGridOrigin(const Vector2D& gridOrigin);
+
+ protected:
+    Size2 _resolution{1, 1};
+    Vector2D _gridSpacing{1, 1};
+    Vector2D _gridOrigin{0, 0};
+    double _domainSizeX = 1.0;
+    bool _useDomainSize = false;
+
+    Vector2D getGridSpacing() const;
+};
+
+template <typename T>
+T& GridFluidSolverBuilderBase2<T>::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase2<T>::withGridSpacing(
+    const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    _useDomainSize = false;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase2<T>::withGridSpacing(double gridSpacing) {
+    _gridSpacing.x = gridSpacing;
+    _gridSpacing.y = gridSpacing;
+    _useDomainSize = false;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase2<T>::withDomainSizeX(double domainSizeX) {
+    _domainSizeX = domainSizeX;
+    _useDomainSize = true;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& GridFluidSolverBuilderBase2<T>::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+Vector2D GridFluidSolverBuilderBase2<T>::getGridSpacing() const {
+    Vector2D gridSpacing = _gridSpacing;
+    if (_useDomainSize) {
+        gridSpacing.set(_domainSizeX / static_cast<double>(_resolution.x));
+    }
+    return gridSpacing;
+}
+
+//!
+//! \brief Front-end to create GridFluidSolver2 objects step by step.
+//!
+class GridFluidSolver2::Builder final
+    : public GridFluidSolverBuilderBase2<GridFluidSolver2::Builder> {
+ public:
+    //! Builds GridFluidSolver2.
+    GridFluidSolver2 build() const;
+
+    //! Builds shared pointer of GridFluidSolver2 instance.
+    GridFluidSolver2Ptr makeShared() const {
+        return std::make_shared<GridFluidSolver2>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

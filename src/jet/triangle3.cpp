@@ -47,16 +47,18 @@ inline Vector3D closestNormalOnLine(
     return (n0 + t * (n1 - n0)).normalized();
 }
 
-Triangle3::Triangle3() {
+Triangle3::Triangle3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
 }
 
 Triangle3::Triangle3(
     const std::array<Vector3D, 3>& newPoints,
     const std::array<Vector3D, 3>& newNormals,
-    const std::array<Vector2D, 3>& newUvs) :
-    points(newPoints),
-    normals(newNormals),
-    uvs(newUvs) {
+    const std::array<Vector2D, 3>& newUvs,
+    bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, points(newPoints)
+, normals(newNormals)
+, uvs(newUvs) {
 }
 
 Triangle3::Triangle3(const Triangle3& other) :
@@ -252,4 +254,36 @@ Vector3D Triangle3::faceNormal() const {
 
 void Triangle3::setNormalsToFaceNormal() {
     normals[0] = normals[1] = normals[2] = faceNormal();
+}
+
+Triangle3::Builder Triangle3::builder() {
+    return Builder();
+}
+
+Triangle3::Builder&
+Triangle3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Triangle3::Builder&
+Triangle3::Builder::withPoints(const std::array<Vector3D, 3>& points) {
+    _points = points;
+    return *this;
+}
+
+Triangle3::Builder&
+Triangle3::Builder::withNormals(const std::array<Vector3D, 3>& normals) {
+    _normals = normals;
+    return *this;
+}
+
+Triangle3::Builder&
+Triangle3::Builder::withUvs(const std::array<Vector2D, 3>& uvs) {
+    _uvs = uvs;
+    return *this;
+}
+
+Triangle3 Triangle3::Builder::build() const {
+    return Triangle3(_points, _normals, _uvs, _isNormalFlipped);
 }

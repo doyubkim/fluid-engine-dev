@@ -18,8 +18,17 @@ namespace jet {
 //!
 class PciSphSolver2 : public SphSolver2 {
  public:
+    class Builder;
+
     //! Constructs a solver with empty particle set.
     PciSphSolver2();
+
+    //! Constructs a solver with target density, spacing, and relative kernel
+    //! radius.
+    PciSphSolver2(
+        double targetDensity,
+        double targetSpacing,
+        double relativeKernelRadius);
 
     virtual ~PciSphSolver2();
 
@@ -44,6 +53,9 @@ class PciSphSolver2 : public SphSolver2 {
     //!
     void setMaxNumberOfIterations(unsigned int n);
 
+    //! Returns builder fox PciSphSolver2.
+    static Builder builder();
+
  protected:
     //! Accumulates the pressure force to the forces array in the particle
     //! system.
@@ -63,6 +75,27 @@ class PciSphSolver2 : public SphSolver2 {
 
     double computeDelta(double timeStepInSeconds);
     double computeBeta(double timeStepInSeconds);
+};
+
+//! Shared pointer type for the PciSphSolver2.
+typedef std::shared_ptr<PciSphSolver2> PciSphSolver2Ptr;
+
+//!
+//! \brief Front-end to create PciSphSolver2 objects step by step.
+//!
+class PciSphSolver2::Builder final
+    : public SphSolverBuilderBase2<PciSphSolver2::Builder> {
+ public:
+    //! Builds PciSphSolver2.
+    PciSphSolver2 build() const;
+
+    //! Builds shared pointer of PciSphSolver2 instance.
+    PciSphSolver2Ptr makeShared() const {
+        return std::make_shared<PciSphSolver2>(
+            _targetDensity,
+            _targetSpacing,
+            _relativeKernelRadius);
+    }
 };
 
 }  // namespace jet

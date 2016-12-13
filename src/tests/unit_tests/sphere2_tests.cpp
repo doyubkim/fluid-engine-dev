@@ -114,3 +114,13 @@ TEST(Sphere2, ClosestNormal) {
     EXPECT_DOUBLE_EQ(0.0, result3.x);
     EXPECT_DOUBLE_EQ(-1.0, result3.y);
 }
+
+TEST(Sphere2, Builder) {
+    Sphere2 sph = Sphere2::builder()
+        .withCenter({3.0, -1.0})
+        .withRadius(5.0)
+        .build();
+    EXPECT_DOUBLE_EQ(3.0, sph.center.x);
+    EXPECT_DOUBLE_EQ(-1.0, sph.center.y);
+    EXPECT_DOUBLE_EQ(5.0, sph.radius);
+}

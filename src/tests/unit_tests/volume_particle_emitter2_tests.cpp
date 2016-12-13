@@ -47,9 +47,10 @@ TEST(VolumeParticleEmitter2, Emit) {
         false);
 
     auto particles = std::make_shared<ParticleSystemData2>();
+    emitter.setTarget(particles);
 
     Frame frame(1, 1.0);
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     auto pos = particles->positions();
     auto vel = particles->velocities();
@@ -65,7 +66,7 @@ TEST(VolumeParticleEmitter2, Emit) {
 
     ++frame;
     emitter.setMaxNumberOfParticles(60);
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(51u, particles->numberOfParticles());
 
@@ -75,6 +76,29 @@ TEST(VolumeParticleEmitter2, Emit) {
     }
 
     ++frame;
-    emitter.emit(frame, particles);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
     EXPECT_LT(51u, particles->numberOfParticles());
+}
+
+TEST(VolumeParticleEmitter2, Builder) {
+    auto sphere = std::make_shared<Sphere2>(Vector2D(1.0, 2.0), 3.0);
+
+    VolumeParticleEmitter2 emitter = VolumeParticleEmitter2::builder()
+        .withSurface(sphere)
+        .withMaxRegion(BoundingBox2D({0.0, 0.0}, {3.0, 3.0}))
+        .withSpacing(0.1)
+        .withInitialVelocity({-1.0, 0.5})
+        .withMaxNumberOfParticles(30)
+        .withJitter(0.01)
+        .withIsOneShot(false)
+        .withAllowOverlapping(true)
+        .build();
+
+    EXPECT_EQ(0.01, emitter.jitter());
+    EXPECT_FALSE(emitter.isOneShot());
+    EXPECT_TRUE(emitter.allowOverlapping());
+    EXPECT_EQ(30u, emitter.maxNumberOfParticles());
+    EXPECT_EQ(0.1, emitter.spacing());
+    EXPECT_EQ(-1.0, emitter.initialVelocity().x);
+    EXPECT_EQ(0.5, emitter.initialVelocity().y);
 }

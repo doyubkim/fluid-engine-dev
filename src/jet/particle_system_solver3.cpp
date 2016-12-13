@@ -6,13 +6,22 @@
 #include <jet/constant_vector_field3.h>
 #include <jet/parallel.h>
 #include <jet/particle_system_solver3.h>
+#include <jet/timer.h>
 
 #include <algorithm>
 
 namespace jet {
 
-ParticleSystemSolver3::ParticleSystemSolver3() {
+ParticleSystemSolver3::ParticleSystemSolver3()
+: ParticleSystemSolver3(1e-3, 1e-3) {
+}
+
+ParticleSystemSolver3::ParticleSystemSolver3(
+    double radius,
+    double mass) {
     _particleSystemData = std::make_shared<ParticleSystemData3>();
+    _particleSystemData->setRadius(radius);
+    _particleSystemData->setMass(mass);
     _wind = std::make_shared<ConstantVectorField3>(Vector3D());
 }
 
@@ -58,6 +67,16 @@ void ParticleSystemSolver3::setCollider(
     _collider = newCollider;
 }
 
+const ParticleEmitter3Ptr& ParticleSystemSolver3::emitter() const {
+    return _emitter;
+}
+
+void ParticleSystemSolver3::setEmitter(
+    const ParticleEmitter3Ptr& newEmitter) {
+    _emitter = newEmitter;
+    newEmitter->setTarget(_particleSystemData);
+}
+
 const VectorField3Ptr& ParticleSystemSolver3::wind() const {
     return _wind;
 }
@@ -66,12 +85,37 @@ void ParticleSystemSolver3::setWind(const VectorField3Ptr& newWind) {
     _wind = newWind;
 }
 
+void ParticleSystemSolver3::onInitialize() {
+    // When initializing the solver, update the collider and emitter state as
+    // well since they also affects the initial condition of the simulation.
+    Timer timer;
+    updateCollider(0.0);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(0.0);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+}
+
 void ParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     beginAdvanceTimeStep(timeStepInSeconds);
 
+    Timer timer;
     accumulateForces(timeStepInSeconds);
+    JET_INFO << "Accumulating forces took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
     timeIntegration(timeStepInSeconds);
+    JET_INFO << "Time integration took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
     resolveCollision();
+    JET_INFO << "Resolving collision took "
+             << timer.durationInSeconds() << " seconds";
 
     endAdvanceTimeStep(timeStepInSeconds);
 }
@@ -84,14 +128,25 @@ void ParticleSystemSolver3::accumulateForces(double timeStepInSeconds) {
 }
 
 void ParticleSystemSolver3::beginAdvanceTimeStep(double timeStepInSeconds) {
+    // Clear forces
+    auto forces = _particleSystemData->forces();
+    setRange1(forces.size(), Vector3D(), &forces);
+
+    // Update collider and emitter
+    Timer timer;
+    updateCollider(timeStepInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeStepInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+
     // Allocate buffers
     size_t n = _particleSystemData->numberOfParticles();
     _newPositions.resize(n);
     _newVelocities.resize(n);
-
-    // Clear forces
-    auto forces = _particleSystemData->forces();
-    setRange1(forces.size(), Vector3D(), &forces);
 
     onBeginAdvanceTimeStep(timeStepInSeconds);
 }
@@ -193,6 +248,27 @@ void ParticleSystemSolver3::timeIntegration(double timeStepInSeconds) {
             Vector3D& newPosition = _newPositions[i];
             newPosition = positions[i] + timeStepInSeconds * newVelocity;
         });
+}
+
+void ParticleSystemSolver3::updateCollider(double timeStepInSeconds) {
+    if (_collider != nullptr) {
+        _collider->update(currentTimeInSeconds(), timeStepInSeconds);
+    }
+}
+
+void ParticleSystemSolver3::updateEmitter(double timeStepInSeconds) {
+    if (_emitter != nullptr) {
+        _emitter->update(currentTimeInSeconds(), timeStepInSeconds);
+    }
+}
+
+ParticleSystemSolver3::Builder ParticleSystemSolver3::builder() {
+    return Builder();
+}
+
+
+ParticleSystemSolver3 ParticleSystemSolver3::Builder::build() const {
+    return ParticleSystemSolver3(_radius, _mass);
 }
 
 }  // namespace jet

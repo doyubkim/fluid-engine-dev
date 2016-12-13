@@ -20,6 +20,8 @@ namespace jet {
 //!
 class FaceCenteredGrid3 final : public VectorGrid3 {
  public:
+    class Builder;
+
     //! Read-write scalar data accessor type.
     typedef ArrayAccessor3<double> ScalarDataAccessor;
 
@@ -255,8 +257,8 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
     //!
     std::function<Vector3D(const Vector3D&)> sampler() const override;
 
-    //! Returns the grid builder instance.
-    static VectorGridBuilder3Ptr builder();
+    //! Returns builder fox FaceCenteredGrid3.
+    static Builder builder();
 
  protected:
     // VectorGrid3 implementations
@@ -284,10 +286,56 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
 //! Shared pointer type for the FaceCenteredGrid3.
 typedef std::shared_ptr<FaceCenteredGrid3> FaceCenteredGrid3Ptr;
 
-//! A grid builder class that returns 3-D face-centered vector grid.
-class FaceCenteredGridBuilder3 final : public VectorGridBuilder3 {
+//!
+//! \brief Front-end to create CellCenteredScalarGrid3 objects step by step.
+//!
+class FaceCenteredGrid3::Builder final : public VectorGridBuilder3 {
  public:
-    //! Returns a face-centered grid for given parameters.
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(
+        size_t resolutionX, size_t resolutionY, size_t resolutionZ);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector3D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(
+        double gridSpacingX, double gridSpacingY, double gridSpacingZ);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector3D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(
+        double gridOriginX, double gridOriginY, double gridOriginZ);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(const Vector3D& initialVal);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(
+        double initialValX, double initialValY, double initialValZ);
+
+    //! Builds CellCenteredScalarGrid3 instance.
+    FaceCenteredGrid3 build() const;
+
+    //! Builds shared pointer of FaceCenteredGrid3 instance.
+    FaceCenteredGrid3Ptr makeShared() const {
+        return std::make_shared<FaceCenteredGrid3>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of FaceCenteredGrid3 instance.
+    //!
+    //! This is an overriding function that implements VectorGridBuilder3.
+    //!
     VectorGrid3Ptr build(
         const Size3& resolution,
         const Vector3D& gridSpacing,
@@ -299,6 +347,12 @@ class FaceCenteredGridBuilder3 final : public VectorGridBuilder3 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size3 _resolution{1, 1, 1};
+    Vector3D _gridSpacing{1, 1, 1};
+    Vector3D _gridOrigin{0, 0, 0};
+    Vector3D _initialVal{0, 0, 0};
 };
 
 }  // namespace jet

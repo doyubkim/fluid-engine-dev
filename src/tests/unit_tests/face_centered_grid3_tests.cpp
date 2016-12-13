@@ -264,33 +264,58 @@ TEST(FaceCenteredGrid3, Sample) {
 }
 
 TEST(FaceCenteredGrid3, Builder) {
-    auto builder = FaceCenteredGrid3::builder();
-    FaceCenteredGridBuilder3* faceCenteredBuilder
-        = dynamic_cast<FaceCenteredGridBuilder3*>(builder.get());
-    EXPECT_TRUE(faceCenteredBuilder != nullptr);
+    {
+        auto builder = FaceCenteredGrid3::builder();
 
-    auto grid = builder->build(
-        Size3(5, 2, 7),
-        Vector3D(2.0, 4.0, 1.5),
-        Vector3D(-1.0, 2.0, 7.0),
-        Vector3D(3.0, 5.0, -2.0));
-    EXPECT_EQ(Size3(5, 2, 7), grid->resolution());
-    EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid->gridSpacing());
-    EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid->origin());
+        auto grid = builder.build(
+            Size3(5, 2, 7),
+            Vector3D(2.0, 4.0, 1.5),
+            Vector3D(-1.0, 2.0, 7.0),
+            Vector3D(3.0, 5.0, -2.0));
+        EXPECT_EQ(Size3(5, 2, 7), grid->resolution());
+        EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid->gridSpacing());
+        EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid->origin());
 
-    auto faceCenteredGrid = std::dynamic_pointer_cast<FaceCenteredGrid3>(grid);
-    faceCenteredGrid->forEachUIndex(
-        [&faceCenteredGrid](size_t i, size_t j, size_t k) {
-            EXPECT_DOUBLE_EQ(3.0, faceCenteredGrid->u(i, j, k));
-        });
-    faceCenteredGrid->forEachVIndex(
-        [&faceCenteredGrid](size_t i, size_t j, size_t k) {
-            EXPECT_DOUBLE_EQ(5.0, faceCenteredGrid->v(i, j, k));
-        });
-    faceCenteredGrid->forEachWIndex(
-        [&faceCenteredGrid](size_t i, size_t j, size_t k) {
-            EXPECT_DOUBLE_EQ(-2.0, faceCenteredGrid->w(i, j, k));
-        });
+        auto faceCenteredGrid
+            = std::dynamic_pointer_cast<FaceCenteredGrid3>(grid);
+        faceCenteredGrid->forEachUIndex(
+            [&faceCenteredGrid](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(3.0, faceCenteredGrid->u(i, j, k));
+            });
+        faceCenteredGrid->forEachVIndex(
+            [&faceCenteredGrid](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(5.0, faceCenteredGrid->v(i, j, k));
+            });
+        faceCenteredGrid->forEachWIndex(
+            [&faceCenteredGrid](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(-2.0, faceCenteredGrid->w(i, j, k));
+            });
+    }
+
+    {
+        auto grid = FaceCenteredGrid3::builder()
+            .withResolution(5, 2, 7)
+            .withGridSpacing(2.0, 4.0, 1.5)
+            .withGridOrigin(-1.0, 2.0, 7.0)
+            .withInitialValue(3.0, 5.0, -2.0)
+            .build();
+        EXPECT_EQ(Size3(5, 2, 7), grid.resolution());
+        EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid.gridSpacing());
+        EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid.origin());
+
+        grid.forEachUIndex(
+            [&](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(3.0, grid.u(i, j, k));
+            });
+        grid.forEachVIndex(
+            [&](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(5.0, grid.v(i, j, k));
+            });
+        grid.forEachWIndex(
+            [&](size_t i, size_t j, size_t k) {
+                EXPECT_DOUBLE_EQ(-2.0, grid.w(i, j, k));
+            });
+    }
 }
 
 TEST(FaceCenteredGrid3, Serialization) {

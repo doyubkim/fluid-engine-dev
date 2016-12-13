@@ -7,6 +7,8 @@ using namespace jet;
 
 GridSystemData2::GridSystemData2() {
     _velocity = std::make_shared<FaceCenteredGrid2>();
+    _advectableVectorDataList.push_back(_velocity);
+    _velocityIdx = 0;
 }
 
 GridSystemData2::~GridSystemData2() {
@@ -16,7 +18,6 @@ void GridSystemData2::resize(
     const Size2& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin) {
-    _velocity->resize(resolution, gridSpacing, origin);
     for (auto& data : _scalarDataList) {
         data->resize(resolution, gridSpacing, origin);
     }
@@ -85,6 +86,10 @@ size_t GridSystemData2::addAdvectableVectorData(
 
 const FaceCenteredGrid2Ptr& GridSystemData2::velocity() const {
     return _velocity;
+}
+
+size_t GridSystemData2::velocityIndex() const {
+    return _velocityIdx;
 }
 
 const ScalarGrid2Ptr& GridSystemData2::scalarDataAt(size_t idx) const {

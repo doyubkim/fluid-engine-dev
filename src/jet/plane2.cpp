@@ -7,12 +7,16 @@
 
 using namespace jet;
 
-Plane2::Plane2() {
+Plane2::Plane2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
 }
 
-Plane2::Plane2(const Vector2D& normal_, const Vector2D& point_) :
-    normal(normal_),
-    point(point_) {
+Plane2::Plane2(
+    const Vector2D& normal_,
+    const Vector2D& point_,
+    bool isNormalFlipped_)
+: Surface2(isNormalFlipped_)
+, normal(normal_)
+, point(point_) {
 }
 
 Plane2::Plane2(const Plane2& other) :
@@ -72,4 +76,27 @@ BoundingBox2D Plane2::boundingBox() const {
             Vector2D(kMaxD, kMaxD),
             Vector2D(kMaxD, kMaxD));
     }
+}
+
+Plane2::Builder Plane2::builder() {
+    return Builder();
+}
+
+Plane2::Builder& Plane2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Plane2::Builder& Plane2::Builder::withNormal(const Vector2D& normal) {
+    _normal = normal;
+    return *this;
+}
+
+Plane2::Builder& Plane2::Builder::withPoint(const Vector2D& point) {
+    _point = point;
+    return *this;
+}
+
+Plane2 Plane2::Builder::build() const {
+    return Plane2(_normal, _point, _isNormalFlipped);
 }

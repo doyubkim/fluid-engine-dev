@@ -16,8 +16,12 @@ namespace jet {
 //!
 class SurfaceToImplicit2 final : public ImplicitSurface2 {
  public:
+    class Builder;
+
     //! Constructs an instance with generic Surface2 instance.
-    explicit SurfaceToImplicit2(const Surface2Ptr& surface);
+    explicit SurfaceToImplicit2(
+        const Surface2Ptr& surface,
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2& other);
@@ -46,6 +50,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     //! Returns signed distance from the given point \p otherPoint.
     double signedDistance(const Vector2D& otherPoint) const override;
 
+    //! Returns builder fox SurfaceToImplicit2.
+    static Builder builder();
+
  protected:
     Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
 
@@ -58,6 +65,33 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
 
 //! Shared pointer for the SurfaceToImplicit2 type.
 typedef std::shared_ptr<SurfaceToImplicit2> SurfaceToImplicit2Ptr;
+
+
+//!
+//! \brief Front-end to create SurfaceToImplicit2 objects step by step.
+//!
+class SurfaceToImplicit2::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with surface.
+    Builder& withSurface(const Surface2Ptr& surface);
+
+    //! Builds SurfaceToImplicit2.
+    SurfaceToImplicit2 build() const;
+
+    //! Builds shared pointer of SurfaceToImplicit2 instance.
+    SurfaceToImplicit2Ptr makeShared() const {
+        return std::make_shared<SurfaceToImplicit2>(
+            _surface,
+            _isNormalFlipped);
+    }
+
+ private:
+    bool _isNormalFlipped = false;
+    Surface2Ptr _surface;
+};
 
 }  // namespace jet
 

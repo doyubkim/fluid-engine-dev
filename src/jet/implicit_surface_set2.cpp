@@ -6,10 +6,23 @@
 
 #include <algorithm>
 #include <limits>
+#include <vector>
 
 using namespace jet;
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2() {
+}
+
+ImplicitSurfaceSet2::ImplicitSurfaceSet2(
+    const std::vector<ImplicitSurface2Ptr>& surfaces)
+: _surfaces(surfaces) {
+}
+
+ImplicitSurfaceSet2::ImplicitSurfaceSet2(
+    const std::vector<Surface2Ptr>& surfaces) {
+    for (const auto& surface : surfaces) {
+        addExplicitSurface(surface);
+    }
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other) :
@@ -127,4 +140,31 @@ double ImplicitSurfaceSet2::signedDistance(const Vector2D& otherPoint) const {
     }
 
     return sdf;
+}
+
+ImplicitSurfaceSet2::Builder ImplicitSurfaceSet2::builder() {
+    return Builder();
+}
+
+
+
+ImplicitSurfaceSet2::Builder&
+ImplicitSurfaceSet2::Builder::withSurfaces(
+    const std::vector<ImplicitSurface2Ptr>& surfaces) {
+    _surfaces = surfaces;
+    return *this;
+}
+
+ImplicitSurfaceSet2::Builder&
+ImplicitSurfaceSet2::Builder::withExplicitSurfaces(
+    const std::vector<Surface2Ptr>& surfaces) {
+    _surfaces.clear();
+    for (const auto& surface : surfaces) {
+        _surfaces.push_back(std::make_shared<SurfaceToImplicit2>(surface));
+    }
+    return *this;
+}
+
+ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::build() const {
+    return ImplicitSurfaceSet2(_surfaces);
 }

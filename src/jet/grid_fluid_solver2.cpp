@@ -16,8 +16,17 @@
 
 using namespace jet;
 
-GridFluidSolver2::GridFluidSolver2() {
+GridFluidSolver2::GridFluidSolver2()
+: GridFluidSolver2({1, 1}, {1, 1}, {0, 0}) {
+}
+
+GridFluidSolver2::GridFluidSolver2(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin) {
     _grids = std::make_shared<GridSystemData2>();
+    _grids->resize(resolution, gridSpacing, gridOrigin);
+
     setAdvectionSolver(std::make_shared<CubicSemiLagrangian2>());
     setDiffusionSolver(std::make_shared<GridBackwardEulerDiffusionSolver2>());
     setPressureSolver(
@@ -148,6 +157,28 @@ void GridFluidSolver2::setCollider(const Collider2Ptr& newCollider) {
     _collider = newCollider;
 }
 
+const GridEmitter2Ptr& GridFluidSolver2::emitter() const {
+    return _emitter;
+}
+
+void GridFluidSolver2::setEmitter(const GridEmitter2Ptr& newEmitter) {
+    _emitter = newEmitter;
+}
+
+void GridFluidSolver2::onInitialize() {
+    // When initializing the solver, update the collider and emitter state as
+    // well since they also affects the initial condition of the simulation.
+    Timer timer;
+    updateCollider(0.0);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(0.0);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+}
+
 void GridFluidSolver2::onAdvanceTimeStep(double timeIntervalInSeconds) {
     // The minimum grid resolution is 1x1.
     if (_grids->resolution().x == 0 || _grids->resolution().y == 0) {
@@ -249,7 +280,13 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
 
         // Solve advections for custom vector fields
         n = _grids->numberOfAdvectableVectorData();
+        size_t velIdx = _grids->velocityIndex();
         for (size_t i = 0; i < n; ++i) {
+            // Handle velocity layer separately.
+            if (i == velIdx) {
+                continue;
+            }
+
             auto grid = _grids->advectableVectorDataAt(i);
             auto grid0 = grid->clone();
 
@@ -405,6 +442,17 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
     // Reserve memory
     _colliderSdf.resize(res, h, o);
 
+    // Update collider and emitter
+    Timer timer;
+    updateCollider(timeIntervalInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeIntervalInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+
     // Rasterize collider into SDF
     if (_collider != nullptr) {
         auto pos = _colliderSdf.dataPosition();
@@ -448,4 +496,16 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
 void GridFluidSolver2::endAdvanceTimeStep(double timeIntervalInSeconds) {
     // Invoke callback
     onEndAdvanceTimeStep(timeIntervalInSeconds);
+}
+
+void GridFluidSolver2::updateCollider(double timeIntervalInSeconds) {
+    if (_collider != nullptr) {
+        _collider->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
+}
+
+void GridFluidSolver2::updateEmitter(double timeIntervalInSeconds) {
+    if (_emitter != nullptr) {
+        _emitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
 }

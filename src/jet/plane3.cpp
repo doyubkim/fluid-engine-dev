@@ -7,18 +7,23 @@
 
 using namespace jet;
 
-Plane3::Plane3() {
+Plane3::Plane3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
 }
 
-Plane3::Plane3(const Vector3D& normal, const Vector3D& point) :
-    normal(normal),
-    point(point) {
+Plane3::Plane3(
+    const Vector3D& normal,
+    const Vector3D& point,
+    bool isNormalFlipped_)
+: Surface3(isNormalFlipped_)
+, normal(normal)
+, point(point) {
 }
 
 Plane3::Plane3(
     const Vector3D& point0,
     const Vector3D& point1,
-    const Vector3D& point2) {
+    const Vector3D& point2,
+    bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
     normal = (point1 - point0).cross(point2 - point0).normalized();
     point = point0;
 }
@@ -88,4 +93,27 @@ BoundingBox3D Plane3::boundingBox() const {
             Vector3D(dmax, dmax, dmax),
             Vector3D(dmax, dmax, dmax));
     }
+}
+
+Plane3::Builder Plane3::builder() {
+    return Builder();
+}
+
+Plane3::Builder& Plane3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+Plane3::Builder& Plane3::Builder::withNormal(const Vector3D& normal) {
+    _normal = normal;
+    return *this;
+}
+
+Plane3::Builder& Plane3::Builder::withPoint(const Vector3D& point) {
+    _point = point;
+    return *this;
+}
+
+Plane3 Plane3::Builder::build() const {
+    return Plane3(_normal, _point, _isNormalFlipped);
 }

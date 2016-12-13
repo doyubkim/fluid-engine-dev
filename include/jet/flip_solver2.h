@@ -20,11 +20,22 @@ namespace jet {
 //!
 class FlipSolver2 : public PicSolver2 {
  public:
+    class Builder;
+
     //! Default constructor.
     FlipSolver2();
 
+    //! Constructs solver with initial grid size.
+    FlipSolver2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& gridOrigin);
+
     //! Default destructor.
     virtual ~FlipSolver2();
+
+    //! Returns builder fox FlipSolver2.
+    static Builder builder();
 
  protected:
     //! Transfers velocity field from particles to grids.
@@ -35,6 +46,28 @@ class FlipSolver2 : public PicSolver2 {
 
  private:
     FaceCenteredGrid2 _delta;
+};
+
+//! Shared pointer type for the FlipSolver2.
+typedef std::shared_ptr<FlipSolver2> FlipSolver2Ptr;
+
+
+//!
+//! \brief Front-end to create FlipSolver2 objects step by step.
+//!
+class FlipSolver2::Builder final
+    : public GridFluidSolverBuilderBase2<FlipSolver2::Builder> {
+ public:
+    //! Builds FlipSolver2.
+    FlipSolver2 build() const;
+
+    //! Builds shared pointer of FlipSolver2 instance.
+    FlipSolver2Ptr makeShared() const {
+        return std::make_shared<FlipSolver2>(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin);
+    }
 };
 
 }  // namespace jet

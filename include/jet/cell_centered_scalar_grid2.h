@@ -18,6 +18,8 @@ namespace jet {
 //!
 class CellCenteredScalarGrid2 final : public ScalarGrid2 {
  public:
+    class Builder;
+
     //! Constructs zero-sized grid.
     CellCenteredScalarGrid2();
 
@@ -68,14 +70,57 @@ class CellCenteredScalarGrid2 final : public ScalarGrid2 {
     //! Returns the copy of the grid instance.
     std::shared_ptr<ScalarGrid2> clone() const override;
 
-    //! Returns the grid builder instance.
-    static ScalarGridBuilder2Ptr builder();
+    //! Returns builder fox CellCenteredScalarGrid2.
+    static Builder builder();
 };
 
-//! A grid builder class that returns 2-D cell-centered scalar grid.
-class CellCenteredScalarGridBuilder2 final : public ScalarGridBuilder2 {
+//! Shared pointer for the CellCenteredScalarGrid2 type.
+typedef std::shared_ptr<CellCenteredScalarGrid2> CellCenteredScalarGrid2Ptr;
+
+
+//!
+//! \brief Front-end to create CellCenteredScalarGrid2 objects step by step.
+//!
+class CellCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
  public:
-    //! Returns a cell-centered grid for given parameters.
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size2& resolution);
+
+    //! Returns builder with resolution.
+    Builder& withResolution(size_t resolutionX, size_t resolutionY);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(const Vector2D& gridSpacing);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacingX, double gridSpacingY);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(const Vector2D& gridOrigin);
+
+    //! Returns builder with grid origin.
+    Builder& withGridOrigin(double gridOriginX, double gridOriginY);
+
+    //! Returns builder with initial value.
+    Builder& withInitialValue(double initialVal);
+
+    //! Builds CellCenteredScalarGrid2 instance.
+    CellCenteredScalarGrid2 build() const;
+
+    //! Builds shared pointer of CellCenteredScalarGrid2 instance.
+    CellCenteredScalarGrid2Ptr makeShared() const {
+        return std::make_shared<CellCenteredScalarGrid2>(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal);
+    }
+
+    //!
+    //! \brief Builds shared pointer of CellCenteredScalarGrid2 instance.
+    //!
+    //! This is an overriding function that implements ScalarGridBuilder2.
+    //!
     ScalarGrid2Ptr build(
         const Size2& resolution,
         const Vector2D& gridSpacing,
@@ -87,6 +132,12 @@ class CellCenteredScalarGridBuilder2 final : public ScalarGridBuilder2 {
             gridOrigin,
             initialVal);
     }
+
+ private:
+    Size2 _resolution{1, 1};
+    Vector2D _gridSpacing{1, 1};
+    Vector2D _gridOrigin{0, 0};
+    double _initialVal = 0.0;
 };
 
 }  // namespace jet

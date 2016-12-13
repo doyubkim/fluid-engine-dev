@@ -13,10 +13,17 @@
 
 using namespace jet;
 
-PicSolver2::PicSolver2() {
+PicSolver2::PicSolver2() : PicSolver2({1, 1}, {1, 1}, {0, 0}) {
+}
+
+PicSolver2::PicSolver2(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin)
+: GridFluidSolver2(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addScalarData(
-        CellCenteredScalarGrid2::builder(), kMaxD);
+        std::make_shared<CellCenteredScalarGrid2::Builder>(), kMaxD);
     _particles = std::make_shared<ParticleSystemData2>();
 }
 
@@ -31,13 +38,36 @@ const ParticleSystemData2Ptr& PicSolver2::particleSystemData() const {
     return _particles;
 }
 
+const ParticleEmitter2Ptr& PicSolver2::particleEmitter() const {
+    return _particleEmitter;
+}
+
+void PicSolver2::setParticleEmitter(const ParticleEmitter2Ptr& newEmitter) {
+    _particleEmitter = newEmitter;
+    newEmitter->setTarget(_particles);
+}
+
+void PicSolver2::onInitialize() {
+    GridFluidSolver2::onInitialize();
+
+    Timer timer;
+    updateParticleEmitter(0.0);
+    JET_INFO << "Update particle emitter took "
+             << timer.durationInSeconds() << " seconds";
+}
+
 void PicSolver2::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
+
+    Timer timer;
+    updateParticleEmitter(timeIntervalInSeconds);
+    JET_INFO << "Update particle emitter took "
+             << timer.durationInSeconds() << " seconds";
 
     JET_INFO << "Number of PIC-type particles: "
              << _particles->numberOfParticles();
 
-    Timer timer;
+    timer.reset();
     transferFromParticlesToGrids();
     JET_INFO << "transferFromParticlesToGrids took "
              << timer.durationInSeconds() << " seconds";
@@ -243,4 +273,19 @@ void PicSolver2::buildSignedDistanceField() {
     });
 
     extrapolateIntoCollider(sdf.get());
+}
+
+void PicSolver2::updateParticleEmitter(double timeIntervalInSeconds) {
+    if (_particleEmitter != nullptr) {
+        _particleEmitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
+    }
+}
+
+PicSolver2::Builder PicSolver2::builder() {
+    return Builder();
+}
+
+
+PicSolver2 PicSolver2::Builder::build() const {
+    return PicSolver2(_resolution, getGridSpacing(), _gridOrigin);
 }

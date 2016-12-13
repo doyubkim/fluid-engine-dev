@@ -147,25 +147,48 @@ TEST(CellCenteredScalarGrid2, Clone) {
 }
 
 TEST(CellCenteredScalarGrid2, Builder) {
-    auto grid1 = CellCenteredScalarGrid2::builder()->build(
-        Size2(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
+    {
+        auto grid1 = CellCenteredScalarGrid2::builder().build(
+            Size2(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
 
-    auto grid2 = std::dynamic_pointer_cast<CellCenteredScalarGrid2>(grid1);
-    EXPECT_TRUE(grid2 != nullptr);
+        auto grid2 = std::dynamic_pointer_cast<CellCenteredScalarGrid2>(grid1);
+        EXPECT_TRUE(grid2 != nullptr);
 
-    EXPECT_EQ(3u, grid1->resolution().x);
-    EXPECT_EQ(8u, grid1->resolution().y);
-    EXPECT_DOUBLE_EQ(2.0, grid1->gridSpacing().x);
-    EXPECT_DOUBLE_EQ(3.0, grid1->gridSpacing().y);
-    EXPECT_DOUBLE_EQ(1.0, grid1->origin().x);
-    EXPECT_DOUBLE_EQ(5.0, grid1->origin().y);
-    EXPECT_EQ(3u, grid1->dataSize().x);
-    EXPECT_EQ(8u, grid1->dataSize().y);
-    EXPECT_DOUBLE_EQ(2.0, grid1->dataOrigin().x);
-    EXPECT_DOUBLE_EQ(6.5, grid1->dataOrigin().y);
-    grid1->forEachDataPointIndex([&] (size_t i, size_t j) {
-        EXPECT_DOUBLE_EQ(4.0, (*grid1)(i, j));
-    });
+        EXPECT_EQ(3u, grid1->resolution().x);
+        EXPECT_EQ(8u, grid1->resolution().y);
+        EXPECT_DOUBLE_EQ(2.0, grid1->gridSpacing().x);
+        EXPECT_DOUBLE_EQ(3.0, grid1->gridSpacing().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1->origin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1->origin().y);
+        EXPECT_EQ(3u, grid1->dataSize().x);
+        EXPECT_EQ(8u, grid1->dataSize().y);
+        EXPECT_DOUBLE_EQ(2.0, grid1->dataOrigin().x);
+        EXPECT_DOUBLE_EQ(6.5, grid1->dataOrigin().y);
+        grid1->forEachDataPointIndex([&] (size_t i, size_t j) {
+            EXPECT_DOUBLE_EQ(4.0, (*grid1)(i, j));
+        });
+    }
+
+    {
+        auto grid1 = CellCenteredScalarGrid2::builder().withResolution(3, 8)
+                                                       .withGridSpacing(2, 3)
+                                                       .withGridOrigin(1, 5)
+                                                       .withInitialValue(4.0)
+                                                       .build();
+        EXPECT_EQ(3u, grid1.resolution().x);
+        EXPECT_EQ(8u, grid1.resolution().y);
+        EXPECT_DOUBLE_EQ(2.0, grid1.gridSpacing().x);
+        EXPECT_DOUBLE_EQ(3.0, grid1.gridSpacing().y);
+        EXPECT_DOUBLE_EQ(1.0, grid1.origin().x);
+        EXPECT_DOUBLE_EQ(5.0, grid1.origin().y);
+        EXPECT_EQ(3u, grid1.dataSize().x);
+        EXPECT_EQ(8u, grid1.dataSize().y);
+        EXPECT_DOUBLE_EQ(2.0, grid1.dataOrigin().x);
+        EXPECT_DOUBLE_EQ(6.5, grid1.dataOrigin().y);
+        grid1.forEachDataPointIndex([&] (size_t i, size_t j) {
+            EXPECT_DOUBLE_EQ(4.0, grid1(i, j));
+        });
+    }
 }
 
 TEST(CellCenteredScalarGrid2, Fill) {

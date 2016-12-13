@@ -12,10 +12,18 @@
 
 using namespace jet;
 
-LevelSetLiquidSolver2::LevelSetLiquidSolver2() {
+LevelSetLiquidSolver2::LevelSetLiquidSolver2()
+: LevelSetLiquidSolver2({1, 1}, {1, 1}, {0, 0}) {
+}
+
+LevelSetLiquidSolver2::LevelSetLiquidSolver2(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin)
+: GridFluidSolver2(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addAdvectableScalarData(
-        CellCenteredScalarGrid2::builder(), kMaxD);
+        std::make_shared<CellCenteredScalarGrid2::Builder>(), kMaxD);
     _levelSetSolver = std::make_shared<EnoLevelSetSolver2>();
 }
 
@@ -189,4 +197,16 @@ void LevelSetLiquidSolver2::addVolume(double volDiff) {
             (*sdf)(i, j) += dist;
         });
     }
+}
+
+LevelSetLiquidSolver2::Builder LevelSetLiquidSolver2::builder() {
+    return Builder();
+}
+
+
+LevelSetLiquidSolver2 LevelSetLiquidSolver2::Builder::build() const {
+    return LevelSetLiquidSolver2(
+        _resolution,
+        getGridSpacing(),
+        _gridOrigin);
 }

@@ -4,6 +4,7 @@
 #include <jet/matrix2x2.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/samplers.h>
+#include <jet/surface_to_implicit2.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/volume_particle_emitter2.h>
 
@@ -33,10 +34,17 @@ VolumeParticleEmitter2::VolumeParticleEmitter2(
     _pointsGen = std::make_shared<TrianglePointGenerator>();
 }
 
-void VolumeParticleEmitter2::emit(
-    const Frame& frame,
-    const ParticleSystemData2Ptr& particles) {
-    UNUSED_VARIABLE(frame);
+void VolumeParticleEmitter2::onUpdate(
+    double currentTimeInSeconds,
+    double timeIntervalInSeconds) {
+    UNUSED_VARIABLE(currentTimeInSeconds);
+    UNUSED_VARIABLE(timeIntervalInSeconds);
+
+    auto particles = target();
+
+    if (particles == nullptr) {
+        return;
+    }
 
     if (_numberOfEmittedParticles > 0 && _isOneShot) {
         return;
@@ -178,4 +186,93 @@ void VolumeParticleEmitter2::setInitialVelocity(const Vector2D& newInitialVel) {
 double VolumeParticleEmitter2::random() {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(_rng);
+}
+
+VolumeParticleEmitter2::Builder VolumeParticleEmitter2::builder() {
+    return Builder();
+}
+
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withImplicitSurface(
+    const ImplicitSurface2Ptr& implicitSurface) {
+    _implicitSurface = implicitSurface;
+    if (!_isBoundSet) {
+        _bounds = _implicitSurface->boundingBox();
+    }
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withSurface(
+    const Surface2Ptr& surface) {
+    _implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
+    if (!_isBoundSet) {
+        _bounds = surface->boundingBox();
+    }
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withMaxRegion(const BoundingBox2D& bounds) {
+    _bounds = bounds;
+    _isBoundSet = true;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withSpacing(double spacing) {
+    _spacing = spacing;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withInitialVelocity(
+    const Vector2D& initialVel) {
+    _initialVel = initialVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withMaxNumberOfParticles(
+    size_t maxNumberOfParticles) {
+    _maxNumberOfParticles = maxNumberOfParticles;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withJitter(double jitter) {
+    _jitter = jitter;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withIsOneShot(bool isOneShot) {
+    _isOneShot = isOneShot;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withAllowOverlapping(bool allowOverlapping) {
+    _allowOverlapping = allowOverlapping;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withRandomSeed(uint32_t seed) {
+    _seed = seed;
+    return *this;
+}
+
+VolumeParticleEmitter2 VolumeParticleEmitter2::Builder::build() const {
+    return VolumeParticleEmitter2(
+        _implicitSurface,
+        _bounds,
+        _spacing,
+        _initialVel,
+        _maxNumberOfParticles,
+        _jitter,
+        _isOneShot,
+        _allowOverlapping,
+        _seed);
 }

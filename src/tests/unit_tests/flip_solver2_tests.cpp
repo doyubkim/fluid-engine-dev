@@ -5,10 +5,10 @@
 
 using namespace jet;
 
-TEST(FlipSolver2, UpdateEmpty) {
-    // Empty solver test
+TEST(FlipSolver2, Empty) {
     FlipSolver2 solver;
-    Frame frame;
-    solver.update(frame);
-    solver.update(frame);
+
+    for (Frame frame; frame.index < 2; ++frame) {
+        solver.update(frame);
+    }
 }

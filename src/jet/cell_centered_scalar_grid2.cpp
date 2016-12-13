@@ -73,6 +73,63 @@ CellCenteredScalarGrid2::operator=(const CellCenteredScalarGrid2& other) {
     return *this;
 }
 
-ScalarGridBuilder2Ptr CellCenteredScalarGrid2::builder() {
-    return std::make_shared<CellCenteredScalarGridBuilder2>();
+CellCenteredScalarGrid2::Builder CellCenteredScalarGrid2::builder() {
+    return Builder();
+}
+
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withGridSpacing(const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    return *this;
+}
+
+CellCenteredScalarGrid2::Builder&
+CellCenteredScalarGrid2::Builder::withInitialValue(double initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+CellCenteredScalarGrid2 CellCenteredScalarGrid2::Builder::build() const {
+    return CellCenteredScalarGrid2(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

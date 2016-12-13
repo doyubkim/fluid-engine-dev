@@ -79,6 +79,66 @@ CellCenteredScalarGrid3::operator=(const CellCenteredScalarGrid3& other) {
     return *this;
 }
 
-ScalarGridBuilder3Ptr CellCenteredScalarGrid3::builder() {
-    return std::make_shared<CellCenteredScalarGridBuilder3>();
+CellCenteredScalarGrid3::Builder CellCenteredScalarGrid3::builder() {
+    return Builder();
+}
+
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withResolution(const Size3& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY, size_t resolutionZ) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    _resolution.z = resolutionZ;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withGridSpacing(const Vector3D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY, double gridSpacingZ) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    _gridSpacing.z = gridSpacingZ;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY, double gridOriginZ) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    _gridOrigin.z = gridOriginZ;
+    return *this;
+}
+
+CellCenteredScalarGrid3::Builder&
+CellCenteredScalarGrid3::Builder::withInitialValue(double initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+CellCenteredScalarGrid3 CellCenteredScalarGrid3::Builder::build() const {
+    return CellCenteredScalarGrid3(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }

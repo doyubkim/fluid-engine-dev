@@ -63,3 +63,34 @@ double CustomVectorField2::curl(const Vector2D& x) const {
         return (top - bottom - right + left) / _resolution;
     }
 }
+
+CustomVectorField2::Builder CustomVectorField2::builder() {
+    return Builder();
+}
+
+
+CustomVectorField2::Builder&
+CustomVectorField2::Builder::withFunction(
+    const std::function<Vector2D(const Vector2D&)>& func) {
+    _customFunction = func;
+    return *this;
+}
+
+CustomVectorField2::Builder&
+CustomVectorField2::Builder::withDivergenceFunction(
+    const std::function<double(const Vector2D&)>& func) {
+    _customDivergenceFunction = func;
+    return *this;
+}
+
+CustomVectorField2::Builder&
+CustomVectorField2::Builder::withCurlFunction(
+    const std::function<double(const Vector2D&)>& func) {
+    _customCurlFunction = func;
+    return *this;
+}
+
+CustomVectorField2 CustomVectorField2::Builder::build() const {
+    return CustomVectorField2(
+        _customFunction, _customDivergenceFunction, _customCurlFunction);
+}

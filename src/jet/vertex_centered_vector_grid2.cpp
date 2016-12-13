@@ -102,6 +102,73 @@ std::shared_ptr<VectorGrid2> VertexCenteredVectorGrid2::clone() const {
     return std::make_shared<VertexCenteredVectorGrid2>(*this);
 }
 
-VectorGridBuilder2Ptr VertexCenteredVectorGrid2::builder() {
-    return std::make_shared<VertexCenteredVectorGridBuilder2>();
+VertexCenteredVectorGrid2::Builder VertexCenteredVectorGrid2::builder() {
+    return Builder();
+}
+
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withResolution(const Size2& resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withResolution(
+    size_t resolutionX, size_t resolutionY) {
+    _resolution.x = resolutionX;
+    _resolution.y = resolutionY;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withGridSpacing(
+    const Vector2D& gridSpacing) {
+    _gridSpacing = gridSpacing;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withGridSpacing(
+    double gridSpacingX, double gridSpacingY) {
+    _gridSpacing.x = gridSpacingX;
+    _gridSpacing.y = gridSpacingY;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+    _gridOrigin = gridOrigin;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withGridOrigin(
+    double gridOriginX, double gridOriginY) {
+    _gridOrigin.x = gridOriginX;
+    _gridOrigin.y = gridOriginY;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withInitialValue(
+    const Vector2D& initialVal) {
+    _initialVal = initialVal;
+    return *this;
+}
+
+VertexCenteredVectorGrid2::Builder&
+VertexCenteredVectorGrid2::Builder::withInitialValue(
+    double initialValX, double initialValY) {
+    _initialVal.x = initialValX;
+    _initialVal.y = initialValY;
+    return *this;
+}
+
+VertexCenteredVectorGrid2 VertexCenteredVectorGrid2::Builder::build() const {
+    return VertexCenteredVectorGrid2(
+        _resolution,
+        _gridSpacing,
+        _gridOrigin,
+        _initialVal);
 }
