@@ -30,7 +30,7 @@ TEST(VolumeGridEmitter3, Velocity) {
         if (sdf < 0.0) {
             return Vector3D(pt.y, -pt.x, 3.5);
         } else {
-            return oldVal;
+            return Vector3D(oldVal);
         }
     };
 
