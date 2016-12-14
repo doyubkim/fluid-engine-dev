@@ -109,9 +109,10 @@ bool BoundingBox<T, 3>::intersects(const Ray3<T>& ray) const {
 }
 
 template <typename T>
-void BoundingBox<T, 3>::getClosestIntersection(
-    const Ray3<T>& ray,
-    BoundingBoxRayIntersection3<T>* intersection) const {
+BoundingBoxRayIntersection3<T> BoundingBox<T, 3>::getClosestIntersection(
+    const Ray3<T>& ray) const {
+    BoundingBoxRayIntersection3<T> intersection;
+
     T tMin = 0;
     T tMax = std::numeric_limits<T>::max();
     const Vector3<T>& rayInvDir = ray.direction.rdiv(1);
@@ -125,20 +126,22 @@ void BoundingBox<T, 3>::getClosestIntersection(
         tMax = tFar  < tMax ? tFar : tMax;
 
         if (tMin > tMax) {
-            intersection->isIntersecting = false;
-            return;
+            intersection.isIntersecting = false;
+            return intersection;
         }
     }
 
-    intersection->isIntersecting = true;
+    intersection.isIntersecting = true;
 
     if (contains(ray.origin)) {
-        intersection->tNear = tMax;
-        intersection->tFar = std::numeric_limits<T>::max();
+        intersection.tNear = tMax;
+        intersection.tFar = std::numeric_limits<T>::max();
     } else {
-        intersection->tNear = tMin;
-        intersection->tFar = tMax;
+        intersection.tNear = tMin;
+        intersection.tFar = tMax;
     }
+
+    return intersection;
 }
 
 template <typename T>

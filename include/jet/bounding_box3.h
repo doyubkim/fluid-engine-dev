@@ -77,9 +77,8 @@ class BoundingBox<T, 3> {
     //! intersecting with this box. If interesects, intersection.tNear is
     //! assigned with distant to the closest intersecting point, and
     //! intersection.tFar with furthest.
-    void getClosestIntersection(
-        const Ray3<T>& ray,
-        BoundingBoxRayIntersection3<T>* intersection) const;
+    BoundingBoxRayIntersection3<T> getClosestIntersection(
+        const Ray3<T>& ray) const;
 
     //! Returns the mid-point of this box.
     Vector3<T> midPoint() const;

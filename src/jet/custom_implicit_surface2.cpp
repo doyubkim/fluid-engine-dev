@@ -45,8 +45,8 @@ double CustomImplicitSurface2::closestDistance(
 }
 
 bool CustomImplicitSurface2::intersects(const Ray2D& ray) const {
-    BoundingBoxRayIntersection2D intersection;
-    _domain.getClosestIntersection(ray, &intersection);
+    BoundingBoxRayIntersection2D intersection
+        = _domain.getClosestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;
@@ -119,8 +119,8 @@ SurfaceRayIntersection2 CustomImplicitSurface2::actualClosestIntersection(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 result;
 
-    BoundingBoxRayIntersection2D intersection;
-    _domain.getClosestIntersection(ray, &intersection);
+    BoundingBoxRayIntersection2D intersection
+        = _domain.getClosestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;

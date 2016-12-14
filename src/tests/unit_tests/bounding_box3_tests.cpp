@@ -141,15 +141,15 @@ TEST(BoundingBox3, GetClosestIntersection) {
     BoundingBox3D box(Vector3D(-2.0, -2.0, -1.0), Vector3D(1.0, 0.0, 1.0));
 
     Ray3D ray1(Vector3D(-4, -3, 0), Vector3D(1, 1, 0).normalized());
-    BoundingBoxRayIntersection3D intersection1;
-    box.getClosestIntersection(ray1, &intersection1);
+    BoundingBoxRayIntersection3D intersection1
+        = box.getClosestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).length(), intersection1.tNear);
     EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).length(), intersection1.tFar);
 
     Ray3D ray2(Vector3D(0, -1, 0), Vector3D(-2, 1, 1).normalized());
-    BoundingBoxRayIntersection3D intersection2;
-    box.getClosestIntersection(ray2, &intersection2);
+    BoundingBoxRayIntersection3D intersection2
+        = box.getClosestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).length(), intersection2.tNear);
 }

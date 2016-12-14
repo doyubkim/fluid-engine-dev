@@ -120,8 +120,8 @@ bool Box3::intersects(const Ray3D& ray) const {
 SurfaceRayIntersection3 Box3::actualClosestIntersection(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
-    BoundingBoxRayIntersection3D bbRayIntersection;
-    bound.getClosestIntersection(ray, &bbRayIntersection);
+    BoundingBoxRayIntersection3D bbRayIntersection
+        = bound.getClosestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
     if (intersection.isIntersecting) {
         intersection.t = bbRayIntersection.tNear;
