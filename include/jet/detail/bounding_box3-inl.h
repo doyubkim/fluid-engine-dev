@@ -109,7 +109,7 @@ bool BoundingBox<T, 3>::intersects(const Ray3<T>& ray) const {
 }
 
 template <typename T>
-BoundingBoxRayIntersection3<T> BoundingBox<T, 3>::getClosestIntersection(
+BoundingBoxRayIntersection3<T> BoundingBox<T, 3>::closestIntersection(
     const Ray3<T>& ray) const {
     BoundingBoxRayIntersection3<T> intersection;
 

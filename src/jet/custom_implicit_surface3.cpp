@@ -46,7 +46,7 @@ double CustomImplicitSurface3::closestDistance(
 
 bool CustomImplicitSurface3::intersects(const Ray3D& ray) const {
     BoundingBoxRayIntersection3D intersection
-        = _domain.getClosestIntersection(ray);
+        = _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;
@@ -120,7 +120,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::actualClosestIntersection(
     SurfaceRayIntersection3 result;
 
     BoundingBoxRayIntersection3D intersection
-        = _domain.getClosestIntersection(ray);
+        = _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;

@@ -116,7 +116,7 @@ SurfaceRayIntersection2 Box2::actualClosestIntersection(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     BoundingBoxRayIntersection2D bbRayIntersection
-        = bound.getClosestIntersection(ray);
+        = bound.closestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
     if (intersection.isIntersecting) {
         intersection.t = bbRayIntersection.tNear;

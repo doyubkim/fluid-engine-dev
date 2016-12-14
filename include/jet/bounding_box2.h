@@ -74,7 +74,7 @@ class BoundingBox<T, 2> {
     //! intersecting with this box. If interesects, intersection.tNear is
     //! assigned with distant to the closest intersecting point, and
     //! intersection.tFar with furthest.
-    BoundingBoxRayIntersection2<T> getClosestIntersection(
+    BoundingBoxRayIntersection2<T> closestIntersection(
         const Ray2<T>& ray) const;
 
     //! Returns the mid-point of this box.
