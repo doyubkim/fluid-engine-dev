@@ -19,6 +19,8 @@ namespace jet {
 //!
 class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
  public:
+    JET_GRID2_TYPE_NAME(CellCenteredVectorGrid2)
+
     class Builder;
 
     //! Constructs zero-sized grid.
@@ -136,13 +138,7 @@ class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
         const Size2& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
-        const Vector2D& initialVal) const override {
-        return std::make_shared<CellCenteredVectorGrid2>(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal);
-    }
+        const Vector2D& initialVal) const override;
 
  private:
     Size2 _resolution{1, 1};

@@ -90,12 +90,7 @@ class CustomVectorField3::Builder final {
     CustomVectorField3 build() const;
 
     //! Builds shared pointer of CustomVectorField3 instance.
-    CustomVectorField3Ptr makeShared() const {
-        return std::make_shared<CustomVectorField3>(
-            _customFunction,
-            _customDivergenceFunction,
-            _customCurlFunction);
-    }
+    CustomVectorField3Ptr makeShared() const;
 
  private:
     std::function<Vector3D(const Vector3D&)> _customFunction;

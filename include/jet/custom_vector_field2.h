@@ -90,12 +90,7 @@ class CustomVectorField2::Builder final {
     CustomVectorField2 build() const;
 
     //! Builds shared pointer of CustomVectorField2 instance.
-    CustomVectorField2Ptr makeShared() const {
-        return std::make_shared<CustomVectorField2>(
-            _customFunction,
-            _customDivergenceFunction,
-            _customCurlFunction);
-    }
+    CustomVectorField2Ptr makeShared() const;
 
  private:
     std::function<Vector2D(const Vector2D&)> _customFunction;

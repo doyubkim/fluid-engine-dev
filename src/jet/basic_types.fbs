@@ -1,0 +1,23 @@
+namespace jet.fbs;
+
+struct Size2 {
+    x:ulong = 0;
+    y:ulong = 0;
+}
+
+struct Size3 {
+    x:ulong = 0;
+    y:ulong = 0;
+    z:ulong = 0;
+}
+
+struct Vector2D {
+    x:double = 0.0;
+    y:double = 0.0;
+}
+
+struct Vector3D {
+    x:double = 0.0;
+    y:double = 0.0;
+    z:double = 0.0;
+}

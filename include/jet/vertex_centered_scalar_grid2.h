@@ -19,6 +19,8 @@ namespace jet {
 //!
 class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
  public:
+    JET_GRID2_TYPE_NAME(VertexCenteredScalarGrid2)
+
     class Builder;
 
     //! Constructs zero-sized grid.
@@ -110,13 +112,7 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     VertexCenteredScalarGrid2 build() const;
 
     //! Builds shared pointer of VertexCenteredScalarGrid2 instance.
-    VertexCenteredScalarGrid2Ptr makeShared() const {
-        return std::make_shared<VertexCenteredScalarGrid2>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    VertexCenteredScalarGrid2Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of VertexCenteredScalarGrid2 instance.
@@ -127,13 +123,7 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
         const Size2& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
-        double initialVal) const override {
-        return std::make_shared<VertexCenteredScalarGrid2>(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal);
-    }
+        double initialVal) const override;
 
  private:
     Size2 _resolution{1, 1};

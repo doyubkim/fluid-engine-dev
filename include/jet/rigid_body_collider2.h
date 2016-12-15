@@ -68,13 +68,7 @@ class RigidBodyCollider2::Builder final {
     RigidBodyCollider2 build() const;
 
     //! Builds shared pointer of RigidBodyCollider2 instance.
-    RigidBodyCollider2Ptr makeShared() const {
-        return std::make_shared<RigidBodyCollider2>(
-            _surface,
-            _linearVelocity,
-            _angularVelocity,
-            _rotationOrigin);
-    }
+    RigidBodyCollider2Ptr makeShared() const;
 
  private:
     Surface2Ptr _surface;

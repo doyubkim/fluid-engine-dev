@@ -126,3 +126,14 @@ Sphere3::Builder& Sphere3::Builder::withRadius(double radius) {
 Sphere3 Sphere3::Builder::build() const {
     return Sphere3(_center, _radius, _isNormalFlipped);
 }
+
+Sphere3Ptr Sphere3::Builder::makeShared() const {
+    return std::shared_ptr<Sphere3>(
+        new Sphere3(
+            _center,
+            _radius,
+            _isNormalFlipped),
+        [] (Sphere3* obj) {
+            delete obj;
+    });
+}

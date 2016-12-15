@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -206,6 +207,19 @@ void ScalarGrid3::resetSampler() {
         _data.constAccessor(), gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
+
+void ScalarGrid3::getData(std::vector<double>* data) const {
+    size_t size = dataSize().x * dataSize().y * dataSize().z;
+    data->resize(size);
+    std::copy(_data.begin(), _data.end(), data->begin());
+}
+
+void ScalarGrid3::setData(const std::vector<double>& data) {
+    JET_ASSERT(dataSize().x * dataSize().y * dataSize().z == data.size());
+
+    std::copy(data.begin(), data.end(), _data.begin());
+}
+
 
 ScalarGridBuilder3::ScalarGridBuilder3() {
 }

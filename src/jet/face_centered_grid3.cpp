@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -559,6 +560,43 @@ FaceCenteredGrid3::Builder FaceCenteredGrid3::builder() {
     return Builder();
 }
 
+void FaceCenteredGrid3::getData(std::vector<double>* data) const {
+    size_t size
+        = uSize().x * uSize().y * uSize().z
+        + vSize().x * vSize().y * vSize().z
+        + wSize().x * wSize().y * wSize().z;
+    data->resize(size);
+    size_t cnt = 0;
+    _dataU.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataV.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataW.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+}
+
+void FaceCenteredGrid3::setData(const std::vector<double>& data) {
+    JET_ASSERT(
+          uSize().x * uSize().y * uSize().z
+        + vSize().x * vSize().y * vSize().z
+        + wSize().x * wSize().y * wSize().z
+         == data.size());
+
+    size_t cnt = 0;
+    _dataU.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataU(i, j, k) = data[cnt++];
+    });
+    _dataV.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataV(i, j, k) = data[cnt++];
+    });
+    _dataW.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataW(i, j, k) = data[cnt++];
+    });
+}
+
 
 FaceCenteredGrid3::Builder&
 FaceCenteredGrid3::Builder::withResolution(const Size3& resolution) {
@@ -626,4 +664,32 @@ FaceCenteredGrid3 FaceCenteredGrid3::Builder::build() const {
         _gridSpacing,
         _gridOrigin,
         _initialVal);
+}
+
+FaceCenteredGrid3Ptr FaceCenteredGrid3::Builder::makeShared() const {
+    return std::shared_ptr<FaceCenteredGrid3>(
+        new FaceCenteredGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (FaceCenteredGrid3* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid3Ptr FaceCenteredGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    const Vector3D& initialVal) const {
+    return std::shared_ptr<FaceCenteredGrid3>(
+        new FaceCenteredGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (FaceCenteredGrid3* obj) {
+            delete obj;
+        });
 }

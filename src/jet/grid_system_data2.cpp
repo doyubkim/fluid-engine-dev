@@ -1,13 +1,53 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <factory.h>
+#include <fbs_helpers.h>
+#include <grid_system_data2_generated.h>
 #include <jet/grid_system_data2.h>
+#include <flatbuffers/flatbuffers.h>
+#include <algorithm>
+#include <vector>
 
 using namespace jet;
 
-GridSystemData2::GridSystemData2() {
+GridSystemData2::GridSystemData2()
+: GridSystemData2({0, 0}, {1, 1}, {0, 0}) {
+}
+
+GridSystemData2::GridSystemData2(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& origin) {
     _velocity = std::make_shared<FaceCenteredGrid2>();
     _advectableVectorDataList.push_back(_velocity);
+    _velocityIdx = 0;
+    resize(resolution, gridSpacing, origin);
+}
+
+GridSystemData2::GridSystemData2(const GridSystemData2& other) {
+    resize(other._resolution, other._gridSpacing, other._origin);
+
+    for (auto& data : other._scalarDataList) {
+        _scalarDataList.push_back(data->clone());
+    }
+    for (auto& data : other._vectorDataList) {
+        _vectorDataList.push_back(data->clone());
+    }
+    for (auto& data : other._advectableScalarDataList) {
+        _advectableScalarDataList.push_back(data->clone());
+    }
+    for (auto& data : other._advectableVectorDataList) {
+        _advectableVectorDataList.push_back(data->clone());
+    }
+
+    JET_ASSERT(_advectableVectorDataList.size() > 0);
+
+    _velocity = std::dynamic_pointer_cast<FaceCenteredGrid2>(
+        _advectableVectorDataList[0]);
+
+    JET_ASSERT(_velocity != nullptr);
+
     _velocityIdx = 0;
 }
 
@@ -18,6 +58,10 @@ void GridSystemData2::resize(
     const Size2& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin) {
+    _resolution = resolution;
+    _gridSpacing = gridSpacing;
+    _origin = origin;
+
     for (auto& data : _scalarDataList) {
         data->resize(resolution, gridSpacing, origin);
     }
@@ -33,15 +77,15 @@ void GridSystemData2::resize(
 }
 
 Size2 GridSystemData2::resolution() const {
-    return _velocity->resolution();
+    return _resolution;
 }
 
 Vector2D GridSystemData2::gridSpacing() const {
-    return _velocity->gridSpacing();
+    return _gridSpacing;
 }
 
 Vector2D GridSystemData2::origin() const {
-    return _velocity->origin();
+    return _origin;
 }
 
 BoundingBox2D GridSystemData2::boundingBox() const {
@@ -60,7 +104,7 @@ size_t GridSystemData2::addScalarData(
 size_t GridSystemData2::addVectorData(
     const VectorGridBuilder2Ptr& builder,
     const Vector2D& initialVal) {
-    size_t attrIdx = _scalarDataList.size();
+    size_t attrIdx = _vectorDataList.size();
     _vectorDataList.push_back(
         builder->build(resolution(), gridSpacing(), origin(), initialVal));
     return attrIdx;
@@ -124,4 +168,90 @@ size_t GridSystemData2::numberOfAdvectableScalarData() const {
 
 size_t GridSystemData2::numberOfAdvectableVectorData() const {
     return _advectableVectorDataList.size();
+}
+
+void GridSystemData2::serialize(std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    auto resolution = jetToFbs(_resolution);
+    auto gridSpacing = jetToFbs(_gridSpacing);
+    auto origin = jetToFbs(_origin);
+
+    std::vector<flatbuffers::Offset<fbs::ScalarGrid2>> scalarDataList;
+    std::vector<flatbuffers::Offset<fbs::VectorGrid2>> vectorDataList;
+    std::vector<flatbuffers::Offset<fbs::ScalarGrid2>> advScalarDataList;
+    std::vector<flatbuffers::Offset<fbs::VectorGrid2>> advVectorDataList;
+
+    serializeGrid(
+        &builder,
+        _scalarDataList,
+        fbs::CreateScalarGrid2,
+        &scalarDataList);
+    serializeGrid(
+        &builder,
+        _vectorDataList,
+        fbs::CreateVectorGrid2,
+        &vectorDataList);
+    serializeGrid(
+        &builder,
+        _advectableScalarDataList,
+        fbs::CreateScalarGrid2,
+        &advScalarDataList);
+    serializeGrid(
+        &builder,
+        _advectableVectorDataList,
+        fbs::CreateVectorGrid2,
+        &advVectorDataList);
+
+    auto gsd = fbs::CreateGridSystemData2(
+        builder,
+        &resolution,
+        &gridSpacing,
+        &origin,
+        _velocityIdx,
+        builder.CreateVector(scalarDataList),
+        builder.CreateVector(vectorDataList),
+        builder.CreateVector(advScalarDataList),
+        builder.CreateVector(advVectorDataList));
+
+    builder.Finish(gsd);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
+}
+
+void GridSystemData2::deserialize(const std::vector<uint8_t>& buffer) {
+    auto gsd = fbs::GetGridSystemData2(buffer.data());
+
+    resize(
+        fbsToJet(*gsd->resolution()),
+        fbsToJet(*gsd->gridSpacing()),
+        fbsToJet(*gsd->origin()));
+
+    _scalarDataList.clear();
+    _vectorDataList.clear();
+    _advectableScalarDataList.clear();
+    _advectableVectorDataList.clear();
+
+    deserializeGrid(
+        gsd->scalarData(),
+        Factory::buildScalarGrid2,
+        &_scalarDataList);
+    deserializeGrid(
+        gsd->vectorData(),
+        Factory::buildVectorGrid2,
+        &_vectorDataList);
+    deserializeGrid(
+        gsd->advectableScalarData(),
+        Factory::buildScalarGrid2,
+        &_advectableScalarDataList);
+    deserializeGrid(
+        gsd->advectableVectorData(),
+        Factory::buildVectorGrid2,
+        &_advectableVectorDataList);
+
+    _velocityIdx = gsd->velocityIdx();
 }

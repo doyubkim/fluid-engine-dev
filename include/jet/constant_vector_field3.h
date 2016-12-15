@@ -45,9 +45,7 @@ class ConstantVectorField3::Builder final {
     ConstantVectorField3 build() const;
 
     //! Builds shared pointer of ConstantVectorField3 instance.
-    ConstantVectorField3Ptr makeShared() const {
-        return std::make_shared<ConstantVectorField3>(_value);
-    }
+    ConstantVectorField3Ptr makeShared() const;
 
  private:
     Vector3D _value{0, 0, 0};

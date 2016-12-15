@@ -260,3 +260,15 @@ Cylinder3::Builder& Cylinder3::Builder::withHeight(double height) {
 Cylinder3 Cylinder3::Builder::build() const {
     return Cylinder3(_center, _radius, _height, _isNormalFlipped);
 }
+
+Cylinder3Ptr Cylinder3::Builder::makeShared() const {
+    return std::shared_ptr<Cylinder3>(
+        new Cylinder3(
+            _center,
+            _radius,
+            _height,
+            _isNormalFlipped),
+        [] (Cylinder3* obj) {
+            delete obj;
+        });
+}

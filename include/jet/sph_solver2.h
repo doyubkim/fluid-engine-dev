@@ -234,12 +234,7 @@ class SphSolver2::Builder final
     SphSolver2 build() const;
 
     //! Builds shared pointer of SphSolver2 instance.
-    SphSolver2Ptr makeShared() const {
-        return std::make_shared<SphSolver2>(
-            _targetDensity,
-            _targetSpacing,
-            _relativeKernelRadius);
-    }
+    SphSolver2Ptr makeShared() const;
 };
 
 }  // namespace jet

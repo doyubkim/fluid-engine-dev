@@ -326,3 +326,14 @@ PicSolver3::Builder PicSolver3::builder() {
 PicSolver3 PicSolver3::Builder::build() const {
     return PicSolver3(_resolution, getGridSpacing(), _gridOrigin);
 }
+
+PicSolver3Ptr PicSolver3::Builder::makeShared() const {
+    return std::shared_ptr<PicSolver3>(
+        new PicSolver3(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin),
+        [] (PicSolver3* obj) {
+            delete obj;
+        });
+}

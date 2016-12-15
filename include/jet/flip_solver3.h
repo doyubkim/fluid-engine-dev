@@ -62,12 +62,7 @@ class FlipSolver3::Builder final
     FlipSolver3 build() const;
 
     //! Builds shared pointer of FlipSolver3 instance.
-    FlipSolver3Ptr makeShared() const {
-        return std::make_shared<FlipSolver3>(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin);
-    }
+    FlipSolver3Ptr makeShared() const;
 };
 
 }  // namespace jet

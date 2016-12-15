@@ -116,3 +116,14 @@ CustomScalarField3 CustomScalarField3::Builder::build() const {
     return CustomScalarField3(
         _customFunction, _customGradientFunction, _customLaplacianFunction);
 }
+
+CustomScalarField3Ptr CustomScalarField3::Builder::makeShared() const {
+    return std::shared_ptr<CustomScalarField3>(
+        new CustomScalarField3(
+            _customFunction,
+            _customGradientFunction,
+            _customLaplacianFunction),
+        [] (CustomScalarField3* obj) {
+            delete obj;
+        });
+}

@@ -274,3 +274,19 @@ VolumeParticleEmitter3 VolumeParticleEmitter3::Builder::build() const {
         _allowOverlapping,
         _seed);
 }
+
+VolumeParticleEmitter3Ptr VolumeParticleEmitter3::Builder::makeShared() const {
+    return std::shared_ptr<VolumeParticleEmitter3>(
+        new VolumeParticleEmitter3(
+            _implicitSurface,
+            _bounds,
+            _spacing,
+            _initialVel,
+            _maxNumberOfParticles,
+            _jitter,
+            _isOneShot,
+            _allowOverlapping),
+        [] (VolumeParticleEmitter3* obj) {
+            delete obj;
+        });
+}

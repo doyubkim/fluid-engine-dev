@@ -7,6 +7,8 @@
 #include <jet/bounding_box3.h>
 #include <functional>
 #include <utility>  // just make cpplint happy..
+#include <string>
+#include <vector>
 
 namespace jet {
 
@@ -28,6 +30,9 @@ class Grid3 {
 
     //! Default destructor.
     virtual ~Grid3();
+
+    //! Returns the type name of derived grid.
+    virtual std::string gridTypeName() const = 0;
 
     //! Returns the grid resolution.
     const Size3& resolution() const;
@@ -77,6 +82,12 @@ class Grid3 {
     //! Swaps the data with other grid.
     virtual void swap(Grid3* other) = 0;
 
+    //! Fetches the data into a continuous linear array.
+    virtual void getData(std::vector<double>* data) const = 0;
+
+    //! Sets the data from a continuous linear array.
+    virtual void setData(const std::vector<double>& data) = 0;
+
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
@@ -103,6 +114,11 @@ class Grid3 {
     Vector3D _origin;
     BoundingBox3D _boundingBox = BoundingBox3D(Vector3D(), Vector3D());
 };
+
+#define JET_GRID3_TYPE_NAME(DerivedClassName) \
+    std::string gridTypeName() const override { \
+        return #DerivedClassName; \
+    }
 
 }  // namespace jet
 

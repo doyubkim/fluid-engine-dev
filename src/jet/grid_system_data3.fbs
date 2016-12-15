@@ -1,0 +1,32 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table ScalarGrid3 {
+    type:string;
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    data:[double];
+}
+
+table VectorGrid3 {
+    type:string;
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    data:[double];
+}
+
+table GridSystemData3 {
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    velocityIdx:ulong;
+    scalarData:[ScalarGrid3];
+    vectorData:[VectorGrid3];
+    advectableScalarData:[ScalarGrid3];
+    advectableVectorData:[VectorGrid3];
+}
+
+root_type GridSystemData3;

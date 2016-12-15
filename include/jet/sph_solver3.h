@@ -234,12 +234,7 @@ class SphSolver3::Builder final
     SphSolver3 build() const;
 
     //! Builds shared pointer of SphSolver3 instance.
-    SphSolver3Ptr makeShared() const {
-        return std::make_shared<SphSolver3>(
-            _targetDensity,
-            _targetSpacing,
-            _relativeKernelRadius);
-    }
+    SphSolver3Ptr makeShared() const;
 };
 
 }  // namespace jet

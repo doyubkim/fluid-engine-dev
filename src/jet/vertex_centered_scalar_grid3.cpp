@@ -144,3 +144,32 @@ VertexCenteredScalarGrid3 VertexCenteredScalarGrid3::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VertexCenteredScalarGrid3Ptr
+VertexCenteredScalarGrid3::Builder::makeShared() const {
+    return std::shared_ptr<VertexCenteredScalarGrid3>(
+        new VertexCenteredScalarGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (VertexCenteredScalarGrid3* obj) {
+            delete obj;
+        });
+}
+
+ScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    double initialVal) const {
+    return std::shared_ptr<VertexCenteredScalarGrid3>(
+        new VertexCenteredScalarGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (VertexCenteredScalarGrid3* obj) {
+            delete obj;
+        });
+}

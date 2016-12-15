@@ -6,6 +6,7 @@
 #include <jet/array2.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
+#include <vector>
 
 namespace jet {
 
@@ -96,6 +97,12 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     //! function is linear.
     //!
     std::function<Vector2D(const Vector2D&)> sampler() const override;
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  protected:
     //! Swaps the data storage and predefined samplers with given grid.

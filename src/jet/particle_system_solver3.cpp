@@ -271,4 +271,10 @@ ParticleSystemSolver3 ParticleSystemSolver3::Builder::build() const {
     return ParticleSystemSolver3(_radius, _mass);
 }
 
+ParticleSystemSolver3Ptr ParticleSystemSolver3::Builder::makeShared() const {
+    return std::shared_ptr<ParticleSystemSolver3>(
+        new ParticleSystemSolver3(_radius, _mass),
+        [] (ParticleSystemSolver3* obj) { delete obj; });
+}
+
 }  // namespace jet

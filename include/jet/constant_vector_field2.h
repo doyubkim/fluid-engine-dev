@@ -45,9 +45,7 @@ class ConstantVectorField2::Builder final {
     ConstantVectorField2 build() const;
 
     //! Builds shared pointer of ConstantVectorField2 instance.
-    ConstantVectorField2Ptr makeShared() const {
-        return std::make_shared<ConstantVectorField2>(_value);
-    }
+    ConstantVectorField2Ptr makeShared() const;
 
  private:
     Vector2D _value{0, 0};

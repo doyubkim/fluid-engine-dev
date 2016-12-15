@@ -715,3 +715,18 @@ TriangleMesh3 TriangleMesh3::Builder::build() const {
         _uvIndices,
         _isNormalFlipped);
 }
+
+TriangleMesh3Ptr TriangleMesh3::Builder::makeShared() const {
+    return std::shared_ptr<TriangleMesh3>(
+        new TriangleMesh3(
+            _points,
+            _normals,
+            _uvs,
+            _pointIndices,
+            _normalIndices,
+            _uvIndices,
+            _isNormalFlipped),
+        [] (TriangleMesh3* obj) {
+            delete obj;
+        });
+}

@@ -14,8 +14,10 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2() {
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<ImplicitSurface2Ptr>& surfaces)
-: _surfaces(surfaces) {
+    const std::vector<ImplicitSurface2Ptr>& surfaces,
+    bool isNormalFlipped)
+: ImplicitSurface2(isNormalFlipped)
+, _surfaces(surfaces) {
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
@@ -166,5 +168,11 @@ ImplicitSurfaceSet2::Builder::withExplicitSurfaces(
 }
 
 ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::build() const {
-    return ImplicitSurfaceSet2(_surfaces);
+    return ImplicitSurfaceSet2(_surfaces, _isNormalFlipped);
+}
+
+ImplicitSurfaceSet2Ptr ImplicitSurfaceSet2::Builder::makeShared() const {
+    return std::shared_ptr<ImplicitSurfaceSet2>(
+        new ImplicitSurfaceSet2(_surfaces, _isNormalFlipped),
+        [] (ImplicitSurfaceSet2* obj) { delete obj; });
 }

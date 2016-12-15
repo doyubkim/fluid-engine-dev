@@ -181,3 +181,32 @@ VertexCenteredVectorGrid3 VertexCenteredVectorGrid3::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VertexCenteredVectorGrid3Ptr
+VertexCenteredVectorGrid3::Builder::makeShared() const {
+    return std::shared_ptr<VertexCenteredVectorGrid3>(
+        new VertexCenteredVectorGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (VertexCenteredVectorGrid3* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid3Ptr VertexCenteredVectorGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    const Vector3D& initialVal) const {
+    return std::shared_ptr<VertexCenteredVectorGrid3>(
+        new VertexCenteredVectorGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (VertexCenteredVectorGrid3* obj) {
+            delete obj;
+        });
+}

@@ -90,12 +90,7 @@ class PciSphSolver3::Builder final
     PciSphSolver3 build() const;
 
     //! Builds shared pointer of PciSphSolver3 instance.
-    PciSphSolver3Ptr makeShared() const {
-        return std::make_shared<PciSphSolver3>(
-            _targetDensity,
-            _targetSpacing,
-            _relativeKernelRadius);
-    }
+    PciSphSolver3Ptr makeShared() const;
 };
 
 }  // namespace jet

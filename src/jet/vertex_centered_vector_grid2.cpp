@@ -172,3 +172,32 @@ VertexCenteredVectorGrid2 VertexCenteredVectorGrid2::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VertexCenteredVectorGrid2Ptr
+VertexCenteredVectorGrid2::Builder::makeShared() const {
+    return std::shared_ptr<VertexCenteredVectorGrid2>(
+        new VertexCenteredVectorGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (VertexCenteredVectorGrid2* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid2Ptr VertexCenteredVectorGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    const Vector2D& initialVal) const {
+    return std::shared_ptr<VertexCenteredVectorGrid2>(
+        new VertexCenteredVectorGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (VertexCenteredVectorGrid2* obj) {
+            delete obj;
+        });
+}

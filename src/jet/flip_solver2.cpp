@@ -54,3 +54,14 @@ FlipSolver2::Builder FlipSolver2::builder() {
 FlipSolver2 FlipSolver2::Builder::build() const {
     return FlipSolver2(_resolution, getGridSpacing(), _gridOrigin);
 }
+
+FlipSolver2Ptr FlipSolver2::Builder::makeShared() const {
+    return std::shared_ptr<FlipSolver2>(
+        new FlipSolver2(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin),
+        [] (FlipSolver2* obj) {
+            delete obj;
+        });
+}

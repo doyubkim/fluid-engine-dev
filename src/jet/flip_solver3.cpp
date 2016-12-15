@@ -58,3 +58,14 @@ FlipSolver3::Builder FlipSolver3::builder() {
 FlipSolver3 FlipSolver3::Builder::build() const {
     return FlipSolver3(_resolution, getGridSpacing(), _gridOrigin);
 }
+
+FlipSolver3Ptr FlipSolver3::Builder::makeShared() const {
+    return std::shared_ptr<FlipSolver3>(
+        new FlipSolver3(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin),
+        [] (FlipSolver3* obj) {
+            delete obj;
+        });
+}

@@ -9,6 +9,7 @@
 #include <jet/grid2.h>
 #include <jet/scalar_field2.h>
 #include <memory>
+#include <vector>
 
 namespace jet {
 
@@ -155,6 +156,12 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
 
     //! Returns the Laplacian at given position \p x.
     double laplacian(const Vector2D& x) const override;
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  protected:
     //! Swaps the data storage and predefined samplers with given grid.

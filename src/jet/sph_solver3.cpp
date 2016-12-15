@@ -315,3 +315,14 @@ SphSolver3 SphSolver3::Builder::build() const {
         _targetSpacing,
         _relativeKernelRadius);
 }
+
+SphSolver3Ptr SphSolver3::Builder::makeShared() const {
+    return std::shared_ptr<SphSolver3>(
+        new SphSolver3(
+            _targetDensity,
+            _targetSpacing,
+            _relativeKernelRadius),
+        [] (SphSolver3* obj) {
+            delete obj;
+    });
+}

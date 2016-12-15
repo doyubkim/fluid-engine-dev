@@ -210,3 +210,14 @@ LevelSetLiquidSolver2 LevelSetLiquidSolver2::Builder::build() const {
         getGridSpacing(),
         _gridOrigin);
 }
+
+LevelSetLiquidSolver2Ptr LevelSetLiquidSolver2::Builder::makeShared() const {
+    return std::shared_ptr<LevelSetLiquidSolver2>(
+        new LevelSetLiquidSolver2(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin),
+        [] (LevelSetLiquidSolver2* obj) {
+            delete obj;
+        });
+}

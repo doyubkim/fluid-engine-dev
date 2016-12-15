@@ -164,3 +164,14 @@ Box3::Builder& Box3::Builder::withBoundingBox(const BoundingBox3D& bbox) {
 Box3 Box3::Builder::build() const {
     return Box3(_lowerCorner, _upperCorner, _isNormalFlipped);
 }
+
+Box3Ptr Box3::Builder::makeShared() const {
+    return std::shared_ptr<Box3>(
+        new Box3(
+            _lowerCorner,
+            _upperCorner,
+            _isNormalFlipped),
+        [] (Box3* obj) {
+            delete obj;
+        });
+}

@@ -23,12 +23,35 @@ class GridSystemData3 {
     //! Constructs empty grid system.
     GridSystemData3();
 
+    //!
+    //! \brief      Constructs a grid system with given resolution, grid spacing
+    //!             and origin.
+    //!
+    //! This constructor builds the entire grid layers within the system. Note,
+    //! the resolution is the grid resolution, not the data size of each grid.
+    //! Depending on the layout of the grid, the data point may lie on different
+    //! part of the grid (vertex, cell-center, or face-center), thus can have
+    //! different array size internally. The resolution of the grid means the
+    //! grid cell resolution.
+    //!
+    //! \param[in]  resolution  The resolution.
+    //! \param[in]  gridSpacing The grid spacing.
+    //! \param[in]  origin      The origin.
+    //!
+    GridSystemData3(
+        const Size3& resolution,
+        const Vector3D& gridSpacing,
+        const Vector3D& origin);
+
+    //! Copy constructor.
+    GridSystemData3(const GridSystemData3& other);
+
     //! Destructor.
     virtual ~GridSystemData3();
 
     //!
     //! \brief      Resizes the whole system with given resolution, grid
-    //!     spacing, and origin.
+    //!             spacing, and origin.
     //!
     //! This function resizes the entire grid layers within the system. Note,
     //! the resolution is the grid resolution, not the data size of each grid.
@@ -186,7 +209,17 @@ class GridSystemData3 {
     //! Returns the number of advectable vector data.
     size_t numberOfAdvectableVectorData() const;
 
+    //! Serialize the data to the given buffer.
+    void serialize(std::vector<uint8_t>* buffer) const;
+
+    //! Serialize the data from the given buffer.
+    void deserialize(const std::vector<uint8_t>& buffer);
+
  private:
+    Size3 _resolution;
+    Vector3D _gridSpacing;
+    Vector3D _origin;
+
     FaceCenteredGrid3Ptr _velocity;
     size_t _velocityIdx;
     std::vector<ScalarGrid3Ptr> _scalarDataList;

@@ -135,3 +135,32 @@ VertexCenteredScalarGrid2 VertexCenteredScalarGrid2::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VertexCenteredScalarGrid2Ptr
+VertexCenteredScalarGrid2::Builder::makeShared() const {
+    return std::shared_ptr<VertexCenteredScalarGrid2>(
+        new VertexCenteredScalarGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (VertexCenteredScalarGrid2* obj) {
+            delete obj;
+        });
+}
+
+ScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    double initialVal) const {
+    return std::shared_ptr<VertexCenteredScalarGrid2>(
+        new VertexCenteredScalarGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (VertexCenteredScalarGrid2* obj) {
+            delete obj;
+        });
+}

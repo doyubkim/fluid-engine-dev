@@ -207,3 +207,15 @@ CustomImplicitSurface2 CustomImplicitSurface2::Builder::build() const {
         _resolution,
         _isNormalFlipped);
 }
+
+CustomImplicitSurface2Ptr CustomImplicitSurface2::Builder::makeShared() const {
+    return std::shared_ptr<CustomImplicitSurface2>(
+        new CustomImplicitSurface2(
+            _func,
+            _domain,
+            _resolution,
+            _isNormalFlipped),
+        [] (CustomImplicitSurface2* obj) {
+            delete obj;
+        });
+}

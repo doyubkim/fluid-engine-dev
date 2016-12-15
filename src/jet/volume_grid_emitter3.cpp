@@ -172,3 +172,13 @@ VolumeGridEmitter3::Builder::withIsOneShot(bool isOneShot) {
 VolumeGridEmitter3 VolumeGridEmitter3::Builder::build() const {
     return VolumeGridEmitter3(_sourceRegion, _isOneShot);
 }
+
+VolumeGridEmitter3Ptr VolumeGridEmitter3::Builder::makeShared() const {
+    return std::shared_ptr<VolumeGridEmitter3>(
+        new VolumeGridEmitter3(
+            _sourceRegion,
+            _isOneShot),
+        [] (VolumeGridEmitter3* obj) {
+            delete obj;
+        });
+}

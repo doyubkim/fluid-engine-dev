@@ -105,13 +105,7 @@ class Triangle3::Builder final {
     Triangle3 build() const;
 
     //! Builds shared pointer of Triangle3 instance.
-    Triangle3Ptr makeShared() const {
-        return std::make_shared<Triangle3>(
-            _points,
-            _normals,
-            _uvs,
-            _isNormalFlipped);
-    }
+    Triangle3Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

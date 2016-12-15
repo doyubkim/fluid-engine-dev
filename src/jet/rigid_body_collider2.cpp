@@ -62,3 +62,15 @@ RigidBodyCollider2 RigidBodyCollider2::Builder::build() const {
         _angularVelocity,
         _rotationOrigin);
 }
+
+RigidBodyCollider2Ptr RigidBodyCollider2::Builder::makeShared() const {
+    return std::shared_ptr<RigidBodyCollider2>(
+        new RigidBodyCollider2(
+            _surface,
+            _linearVelocity,
+            _angularVelocity,
+            _rotationOrigin),
+        [] (RigidBodyCollider2* obj) {
+            delete obj;
+    });
+}

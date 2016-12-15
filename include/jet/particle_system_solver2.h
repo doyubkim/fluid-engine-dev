@@ -206,9 +206,7 @@ class ParticleSystemSolver2::Builder final
     ParticleSystemSolver2 build() const;
 
     //! Builds shared pointer of ParticleSystemSolver2 instance.
-    ParticleSystemSolver2Ptr makeShared() const {
-        return std::make_shared<ParticleSystemSolver2>(_radius, _mass);
-    }
+    ParticleSystemSolver2Ptr makeShared() const;
 };
 
 }  // namespace jet

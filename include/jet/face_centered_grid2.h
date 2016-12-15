@@ -8,6 +8,7 @@
 #include <jet/vector_grid2.h>
 #include <memory>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 namespace jet {
 
@@ -20,6 +21,8 @@ namespace jet {
 //!
 class FaceCenteredGrid2 final : public VectorGrid2 {
  public:
+    JET_GRID2_TYPE_NAME(FaceCenteredGrid2)
+
     class Builder;
 
     //! Read-write scalar data accessor type.
@@ -135,6 +138,12 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
 
     //! Returns the copy of the grid instance.
     std::shared_ptr<VectorGrid2> clone() const override;
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
     //!
     //! \brief Invokes the given function \p func for each u-data point.
@@ -264,13 +273,7 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
     FaceCenteredGrid2 build() const;
 
     //! Builds shared pointer of FaceCenteredGrid2 instance.
-    FaceCenteredGrid2Ptr makeShared() const {
-        return std::make_shared<FaceCenteredGrid2>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    FaceCenteredGrid2Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of FaceCenteredGrid2 instance.
@@ -281,13 +284,7 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
         const Size2& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
-        const Vector2D& initialVal) const override {
-        return std::make_shared<FaceCenteredGrid2>(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal);
-    }
+        const Vector2D& initialVal) const override;
 
  private:
     Size2 _resolution{1, 1};

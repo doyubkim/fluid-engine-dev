@@ -23,8 +23,9 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     ImplicitSurfaceSet3();
 
     //! Constructs an implicit surface set using list of other surfaces.
-    explicit ImplicitSurfaceSet3(
-        const std::vector<ImplicitSurface3Ptr>& surfaces);
+    ImplicitSurfaceSet3(
+        const std::vector<ImplicitSurface3Ptr>& surfaces,
+        bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
     explicit ImplicitSurfaceSet3(const std::vector<Surface3Ptr>& surfaces);
@@ -97,11 +98,10 @@ class ImplicitSurfaceSet3::Builder final {
     ImplicitSurfaceSet3 build() const;
 
     //! Builds shared pointer of ImplicitSurfaceSet3 instance.
-    ImplicitSurfaceSet3Ptr makeShared() const {
-        return std::make_shared<ImplicitSurfaceSet3>(_surfaces);
-    }
+    ImplicitSurfaceSet3Ptr makeShared() const;
 
  private:
+    bool _isNormalFlipped = false;
     std::vector<ImplicitSurface3Ptr> _surfaces;
 };
 

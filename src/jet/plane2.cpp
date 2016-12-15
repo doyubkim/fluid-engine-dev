@@ -100,3 +100,14 @@ Plane2::Builder& Plane2::Builder::withPoint(const Vector2D& point) {
 Plane2 Plane2::Builder::build() const {
     return Plane2(_normal, _point, _isNormalFlipped);
 }
+
+Plane2Ptr Plane2::Builder::makeShared() const {
+    return std::shared_ptr<Plane2>(
+        new Plane2(
+            _normal,
+            _point,
+            _isNormalFlipped),
+        [] (Plane2* obj) {
+            delete obj;
+        });
+}

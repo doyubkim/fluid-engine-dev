@@ -6,6 +6,7 @@
 #include <jet/array3.h>
 #include <jet/array_samplers3.h>
 #include <jet/vector_grid3.h>
+#include <vector>
 
 namespace jet {
 
@@ -96,6 +97,12 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     //! function is linear.
     //!
     std::function<Vector3D(const Vector3D&)> sampler() const override;
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  protected:
     //! Swaps the data storage and predefined samplers with given grid.

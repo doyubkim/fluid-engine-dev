@@ -55,9 +55,7 @@ class GridEmitterSet3::Builder final {
     GridEmitterSet3 build() const;
 
     //! Builds shared pointer of GridEmitterSet3 instance.
-    GridEmitterSet3Ptr makeShared() const {
-        return std::make_shared<GridEmitterSet3>(_emitters);
-    }
+    GridEmitterSet3Ptr makeShared() const;
 
  private:
     std::vector<GridEmitter3Ptr> _emitters;

@@ -99,3 +99,14 @@ CustomScalarField2 CustomScalarField2::Builder::build() const {
     return CustomScalarField2(
         _customFunction, _customGradientFunction, _customLaplacianFunction);
 }
+
+CustomScalarField2Ptr CustomScalarField2::Builder::makeShared() const {
+    return std::shared_ptr<CustomScalarField2>(
+        new CustomScalarField2(
+            _customFunction,
+            _customGradientFunction,
+            _customLaplacianFunction),
+        [] (CustomScalarField2* obj) {
+            delete obj;
+        });
+}

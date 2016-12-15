@@ -229,3 +229,14 @@ PciSphSolver3 PciSphSolver3::Builder::build() const {
         _targetSpacing,
         _relativeKernelRadius);
 }
+
+PciSphSolver3Ptr PciSphSolver3::Builder::makeShared() const {
+    return std::shared_ptr<PciSphSolver3>(
+        new PciSphSolver3(
+            _targetDensity,
+            _targetSpacing,
+            _relativeKernelRadius),
+        [] (PciSphSolver3* obj) {
+            delete obj;
+        });
+}

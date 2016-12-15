@@ -117,3 +117,14 @@ Plane3::Builder& Plane3::Builder::withPoint(const Vector3D& point) {
 Plane3 Plane3::Builder::build() const {
     return Plane3(_normal, _point, _isNormalFlipped);
 }
+
+Plane3Ptr Plane3::Builder::makeShared() const {
+    return std::shared_ptr<Plane3>(
+        new Plane3(
+            _normal,
+            _point,
+            _isNormalFlipped),
+        [] (Plane3* obj) {
+            delete obj;
+        });
+}

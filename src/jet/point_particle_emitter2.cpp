@@ -166,4 +166,19 @@ PointParticleEmitter2 PointParticleEmitter2::Builder::build() const {
         _seed);
 }
 
+PointParticleEmitter2Ptr PointParticleEmitter2::Builder::makeShared() const {
+    return std::shared_ptr<PointParticleEmitter2>(
+        new PointParticleEmitter2(
+            _origin,
+            _direction,
+            _speed,
+            _spreadAngleInDegrees,
+            _maxNumberOfNewParticlesPerSecond,
+            _maxNumberOfParticles,
+            _seed),
+        [] (PointParticleEmitter2* obj) {
+            delete obj;
+        });
+}
+
 }  // namespace jet

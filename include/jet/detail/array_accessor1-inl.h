@@ -84,7 +84,7 @@ void ArrayAccessor<T, 1>::swap(ArrayAccessor& other) {
 
 template <typename T>
 template <typename Callback>
-void ArrayAccessor<T, 1>::forEach(Callback func) {
+void ArrayAccessor<T, 1>::forEach(Callback func) const {
     for (size_t i = 0; i < size(); ++i) {
         func(at(i));
     }

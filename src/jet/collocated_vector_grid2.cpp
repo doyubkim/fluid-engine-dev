@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -174,4 +175,24 @@ void CollocatedVectorGrid2::resetSampler() {
     _linearSampler = LinearArraySampler2<Vector2D, double>(
         _data.constAccessor(), gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
+}
+
+void CollocatedVectorGrid2::getData(std::vector<double>* data) const {
+    size_t size = 2 * dataSize().x * dataSize().y;
+    data->resize(size);
+    size_t cnt = 0;
+    _data.forEach([&] (const Vector2D& value) {
+        (*data)[cnt++] = value.x;
+        (*data)[cnt++] = value.y;
+    });
+}
+
+void CollocatedVectorGrid2::setData(const std::vector<double>& data) {
+    JET_ASSERT(2 * dataSize().x * dataSize().y == data.size());
+
+    size_t cnt = 0;
+    _data.forEachIndex([&] (size_t i, size_t j) {
+        _data(i, j).x = data[cnt++];
+        _data(i, j).y = data[cnt++];
+    });
 }

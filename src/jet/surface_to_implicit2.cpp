@@ -60,3 +60,31 @@ double SurfaceToImplicit2::signedDistance(
         return x.distanceTo(otherPoint);
     }
 }
+
+SurfaceToImplicit2::Builder&
+SurfaceToImplicit2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+SurfaceToImplicit2::Builder&
+SurfaceToImplicit2::Builder::withSurface(const Surface2Ptr& surface) {
+    _surface = surface;
+    return *this;
+}
+
+SurfaceToImplicit2
+SurfaceToImplicit2::Builder::build() const {
+    return SurfaceToImplicit2(_surface, _isNormalFlipped);
+}
+
+SurfaceToImplicit2Ptr
+SurfaceToImplicit2::Builder::makeShared() const {
+    return std::shared_ptr<SurfaceToImplicit2>(
+        new SurfaceToImplicit2(
+            _surface,
+            _isNormalFlipped),
+        [] (SurfaceToImplicit2* obj) {
+            delete obj;
+        });
+}

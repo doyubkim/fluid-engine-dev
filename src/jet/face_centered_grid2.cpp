@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -420,6 +421,30 @@ FaceCenteredGrid2::Builder FaceCenteredGrid2::builder() {
     return Builder();
 }
 
+void FaceCenteredGrid2::getData(std::vector<double>* data) const {
+    size_t size = uSize().x * uSize().y + vSize().x * vSize().y;
+    data->resize(size);
+    size_t cnt = 0;
+    _dataU.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataV.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+}
+
+void FaceCenteredGrid2::setData(const std::vector<double>& data) {
+    JET_ASSERT(uSize().x * uSize().y + vSize().x * vSize().y == data.size());
+
+    size_t cnt = 0;
+    _dataU.forEachIndex([&] (size_t i, size_t j) {
+        _dataU(i, j) = data[cnt++];
+    });
+    _dataV.forEachIndex([&] (size_t i, size_t j) {
+        _dataV(i, j) = data[cnt++];
+    });
+}
+
 
 FaceCenteredGrid2::Builder&
 FaceCenteredGrid2::Builder::withResolution(const Size2& resolution) {
@@ -483,4 +508,32 @@ FaceCenteredGrid2 FaceCenteredGrid2::Builder::build() const {
         _gridSpacing,
         _gridOrigin,
         _initialVal);
+}
+
+FaceCenteredGrid2Ptr FaceCenteredGrid2::Builder::makeShared() const {
+    return std::shared_ptr<FaceCenteredGrid2>(
+        new FaceCenteredGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (FaceCenteredGrid2* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid2Ptr FaceCenteredGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    const Vector2D& initialVal) const {
+    return std::shared_ptr<FaceCenteredGrid2>(
+        new FaceCenteredGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (FaceCenteredGrid2* obj) {
+            delete obj;
+        });
 }

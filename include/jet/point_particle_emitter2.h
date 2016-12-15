@@ -124,16 +124,7 @@ class PointParticleEmitter2::Builder final {
     PointParticleEmitter2 build() const;
 
     //! Builds shared pointer of PointParticleEmitter2 instance.
-    PointParticleEmitter2Ptr makeShared() const {
-        return std::make_shared<PointParticleEmitter2>(
-            _origin,
-            _direction,
-            _speed,
-            _spreadAngleInDegrees,
-            _maxNumberOfNewParticlesPerSecond,
-            _maxNumberOfParticles,
-            _seed);
-    }
+    PointParticleEmitter2Ptr makeShared() const;
 
  private:
     size_t _maxNumberOfNewParticlesPerSecond = 1;

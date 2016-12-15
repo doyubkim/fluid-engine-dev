@@ -191,8 +191,8 @@ void Array<T, 2>::swap(Array& other) {
 
 template <typename T>
 template <typename Callback>
-void Array<T, 2>::forEach(Callback func) {
-    accessor().forEach(func);
+void Array<T, 2>::forEach(Callback func) const {
+    constAccessor().forEach(func);
 }
 
 template <typename T>

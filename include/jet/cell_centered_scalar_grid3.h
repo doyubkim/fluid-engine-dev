@@ -18,6 +18,8 @@ namespace jet {
 //!
 class CellCenteredScalarGrid3 final : public ScalarGrid3 {
  public:
+    JET_GRID3_TYPE_NAME(CellCenteredScalarGrid3)
+
     class Builder;
 
     //! Constructs zero-sized grid.
@@ -131,13 +133,7 @@ class CellCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
         const Size3& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
-        double initialVal) const override {
-        return std::make_shared<CellCenteredScalarGrid3>(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal);
-    }
+        double initialVal) const override;
 
  private:
     Size3 _resolution{1, 1, 1};

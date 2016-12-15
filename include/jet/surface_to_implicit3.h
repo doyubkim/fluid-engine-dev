@@ -82,11 +82,7 @@ class SurfaceToImplicit3::Builder final {
     SurfaceToImplicit3 build() const;
 
     //! Builds shared pointer of SurfaceToImplicit3 instance.
-    SurfaceToImplicit3Ptr makeShared() const {
-        return std::make_shared<SurfaceToImplicit3>(
-            _surface,
-            _isNormalFlipped);
-    }
+    SurfaceToImplicit3Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

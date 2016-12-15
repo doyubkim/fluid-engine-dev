@@ -94,3 +94,14 @@ CustomVectorField2 CustomVectorField2::Builder::build() const {
     return CustomVectorField2(
         _customFunction, _customDivergenceFunction, _customCurlFunction);
 }
+
+CustomVectorField2Ptr CustomVectorField2::Builder::makeShared() const {
+    return std::shared_ptr<CustomVectorField2>(
+        new CustomVectorField2(
+            _customFunction,
+            _customDivergenceFunction,
+            _customCurlFunction),
+        [] (CustomVectorField2* obj) {
+            delete obj;
+        });
+}
