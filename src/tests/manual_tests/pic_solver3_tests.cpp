@@ -151,6 +151,8 @@ JET_BEGIN_TEST_F(PicSolver3, DamBreakingWithCollider) {
         .withSurface(cylSet)
         .makeShared();
 
+    solver->setCollider(collider);
+
     // Run simulation
     for (Frame frame; frame.index < 200; ++frame) {
         solver->update(frame);
