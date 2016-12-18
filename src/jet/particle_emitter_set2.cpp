@@ -54,5 +54,7 @@ ParticleEmitterSet2 ParticleEmitterSet2::Builder::build() const {
 ParticleEmitterSet2Ptr ParticleEmitterSet2::Builder::makeShared() const {
     return std::shared_ptr<ParticleEmitterSet2>(
         new ParticleEmitterSet2(_emitters),
-        [] (ParticleEmitterSet2* obj) { delete obj; });
+        [] (ParticleEmitterSet2* obj) {
+            delete obj;
+        });
 }

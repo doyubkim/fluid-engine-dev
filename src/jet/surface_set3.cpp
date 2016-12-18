@@ -148,5 +148,7 @@ SurfaceSet3 SurfaceSet3::Builder::build() const {
 SurfaceSet3Ptr SurfaceSet3::Builder::makeShared() const {
     return std::shared_ptr<SurfaceSet3>(
         new SurfaceSet3(_surfaces, _isNormalFlipped),
-        [] (SurfaceSet3* obj) { delete obj; } );
+        [] (SurfaceSet3* obj) {
+            delete obj;
+        });
 }

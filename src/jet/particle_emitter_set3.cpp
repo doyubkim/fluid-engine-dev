@@ -54,5 +54,7 @@ ParticleEmitterSet3 ParticleEmitterSet3::Builder::build() const {
 ParticleEmitterSet3Ptr ParticleEmitterSet3::Builder::makeShared() const {
     return std::shared_ptr<ParticleEmitterSet3>(
         new ParticleEmitterSet3(_emitters),
-        [] (ParticleEmitterSet3* obj) { delete obj; });
+        [] (ParticleEmitterSet3* obj) {
+            delete obj;
+        });
 }

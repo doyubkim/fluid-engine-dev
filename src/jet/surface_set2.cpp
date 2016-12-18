@@ -147,5 +147,7 @@ SurfaceSet2 SurfaceSet2::Builder::build() const {
 SurfaceSet2Ptr SurfaceSet2::Builder::makeShared() const {
     return std::shared_ptr<SurfaceSet2>(
         new SurfaceSet2(_surfaces, _isNormalFlipped),
-        [] (SurfaceSet2* obj) { delete obj; } );
+        [] (SurfaceSet2* obj) {
+            delete obj;
+        });
 }

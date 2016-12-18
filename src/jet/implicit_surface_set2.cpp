@@ -174,5 +174,7 @@ ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::build() const {
 ImplicitSurfaceSet2Ptr ImplicitSurfaceSet2::Builder::makeShared() const {
     return std::shared_ptr<ImplicitSurfaceSet2>(
         new ImplicitSurfaceSet2(_surfaces, _isNormalFlipped),
-        [] (ImplicitSurfaceSet2* obj) { delete obj; });
+        [] (ImplicitSurfaceSet2* obj) {
+            delete obj;
+        });
 }

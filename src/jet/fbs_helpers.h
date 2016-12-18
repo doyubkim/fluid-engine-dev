@@ -8,6 +8,8 @@
 #include <jet/size3.h>
 #include <jet/vector2.h>
 #include <jet/vector3.h>
+#include <algorithm>
+#include <vector>
 
 namespace jet {
 
