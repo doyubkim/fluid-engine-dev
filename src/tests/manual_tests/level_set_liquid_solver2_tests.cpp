@@ -10,6 +10,9 @@
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
 #include <jet/surface_to_implicit2.h>
+#include <jet/volume_grid_emitter2.h>
+
+#include <vector>
 
 using namespace jet;
 
@@ -57,6 +60,94 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
             "data.#grid2,%04d.npy",
             frame.index);
         saveData(output.constAccessor(), filename);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo) {
+    Frame frame(0, 1.0 / 60.0);
+    Array2<double> output(32, 64);
+    std::vector<uint8_t> dump;
+    char filename[256];
+
+    {
+        // Build solver
+        auto solver = LevelSetLiquidSolver2::builder()
+            .withResolution({32, 64})
+            .withDomainSizeX(1.0)
+            .makeShared();
+
+        auto grids = solver->gridSystemData();
+        auto domain = grids->boundingBox();
+        auto sdf = solver->signedDistanceField();
+        double dx = grids->gridSpacing().x;
+
+        // Build emitter
+        auto plane = Plane2::builder()
+            .withNormal({0, 1})
+            .withPoint({0, 0.5})
+            .makeShared();
+
+        auto sphere = Sphere2::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15)
+            .makeShared();
+
+        auto surfaceSet = ImplicitSurfaceSet2::builder()
+            .withExplicitSurfaces({plane, sphere})
+            .makeShared();
+
+        auto emitter = VolumeGridEmitter2::builder()
+            .withSourceRegion(surfaceSet)
+            .makeShared();
+
+        solver->setEmitter(emitter);
+        emitter->addSignedDistanceTarget(solver->signedDistanceField());
+
+        for (; frame.index < 60; ++frame) {
+            solver->update(frame);
+
+            output.forEachIndex([&](size_t i, size_t j) {
+                output(i, j) = 1.0 - smearedHeavisideSdf((*sdf)(i, j) / dx);
+            });
+
+            snprintf(
+                filename,
+                sizeof(filename),
+                "data.#grid2,%04d.npy",
+                frame.index);
+            saveData(output.constAccessor(), filename);
+        }
+
+        grids->serialize(&dump);
+    }
+
+    {
+        // Build solver
+        auto solver = LevelSetLiquidSolver2::builder()
+            .makeShared();
+        solver->setCurrentFrame(frame);
+
+        auto grids = solver->gridSystemData();
+        grids->deserialize(dump);
+
+        double dx = grids->gridSpacing().x;
+        auto sdf = solver->signedDistanceField();
+
+        for (; frame.index < 120; ++frame) {
+            solver->update(frame);
+
+            output.forEachIndex([&](size_t i, size_t j) {
+                output(i, j) = 1.0 - smearedHeavisideSdf((*sdf)(i, j) / dx);
+            });
+
+            snprintf(
+                filename,
+                sizeof(filename),
+                "data.#grid2,%04d.npy",
+                frame.index);
+            saveData(output.constAccessor(), filename);
+        }
     }
 }
 JET_END_TEST_F

@@ -586,6 +586,12 @@ Below is the list of the tests and their expected results.
 
         ![Data](img/manual_tests/LevelSetLiquidSolver2/Drop/data.gif "Data")
 
+    * DropStopAndGo
+
+        After 60 frames, serialize the grid system, recreate the solver, and deserialize from the saved buffer to see if the simulator resumes correctly.
+
+        ![Data](img/manual_tests/LevelSetLiquidSolver2/DropStopAndGo/data.gif "Data")
+
     * DropHighRes
 
         ![Data](img/manual_tests/LevelSetLiquidSolver2/DropHighRes/data.gif "Data")

@@ -78,6 +78,11 @@ class PhysicsAnimation : public Animation {
     Frame currentFrame() const;
 
     //!
+    //! \brief      Sets current frame cursor (but do not invoke update()).
+    //!
+    void setCurrentFrame(const Frame& frame);
+
+    //!
     //! \brief      Returns current time in seconds.
     //!
     //! This function returns the current time which is calculated by adding
