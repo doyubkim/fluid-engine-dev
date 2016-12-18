@@ -472,6 +472,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="eno_level_set_solver3.cpp" />
     <ClCompile Include="face_centered_grid2.cpp" />
     <ClCompile Include="face_centered_grid3.cpp" />
+    <ClCompile Include="factory.cpp" />
     <ClCompile Include="fcc_lattice_point_generator.cpp" />
     <ClCompile Include="fdm_cg_solver2.cpp" />
     <ClCompile Include="fdm_cg_solver3.cpp" />

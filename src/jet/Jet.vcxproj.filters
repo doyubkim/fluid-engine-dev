@@ -1085,6 +1085,9 @@
     <ClCompile Include="face_centered_grid3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="fcc_lattice_point_generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
