@@ -63,6 +63,7 @@ void printUsage() {
         "-s spacing -l length -f frames -e example_num\n"
         "   -s, --spacing: target particle spacing (default is 0.02)\n"
         "   -f, --frames: total number of frames (default is 100)\n"
+        "   -p, --fps: frames per second (default is 60.0)\n"
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
@@ -80,10 +81,11 @@ void runSimulation(
     const std::string& rootDir,
     const SphSolver3Ptr& solver,
     size_t numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     auto particles = solver->sphSystemData();
 
-    for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
+    for (Frame frame(0, 1.0 / fps); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
         if (format == "xyz") {
             saveParticleAsXyz(
@@ -104,7 +106,8 @@ void runExample1(
     const std::string& rootDir,
     double targetSpacing,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
     // Build solver
@@ -159,7 +162,7 @@ void runExample1(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 // Water-drop example (SPH)
@@ -167,7 +170,8 @@ void runExample2(
     const std::string& rootDir,
     double targetSpacing,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
     auto solver = SphSolver3::builder()
@@ -221,7 +225,7 @@ void runExample2(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 // Dam-breaking example
@@ -229,7 +233,8 @@ void runExample3(
     const std::string& rootDir,
     double targetSpacing,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(3, 2, 1.5));
     double lz = domain.depth();
 
@@ -307,12 +312,13 @@ void runExample3(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 int main(int argc, char* argv[]) {
     double targetSpacing = 0.02;
     unsigned int numberOfFrames = 100;
+    double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
@@ -322,6 +328,7 @@ int main(int argc, char* argv[]) {
     static struct option longOptions[] = {
         {"spacing",   optional_argument, 0, 's'},
         {"frames",    optional_argument, 0, 'f'},
+        {"fps",       optional_argument, 0, 'p'},
         {"example",   optional_argument, 0, 'e'},
         {"log",       optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
@@ -333,13 +340,16 @@ int main(int argc, char* argv[]) {
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "s:f:e:l:o:m:h", longOptions, &long_index)) != -1) {
+        argc, argv, "s:f:p:e:l:o:m:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 's':
                 targetSpacing = atof(optarg);
                 break;
             case 'f':
                 numberOfFrames = static_cast<size_t>(atoi(optarg));
+                break;
+            case 'p':
+                fps = atof(optarg);
                 break;
             case 'e':
                 exampleNum = atoi(optarg);
@@ -379,13 +389,13 @@ int main(int argc, char* argv[]) {
 
     switch (exampleNum) {
         case 1:
-            runExample1(outputDir, targetSpacing, numberOfFrames, format);
+            runExample1(outputDir, targetSpacing, numberOfFrames, format, fps);
             break;
         case 2:
-            runExample2(outputDir, targetSpacing, numberOfFrames, format);
+            runExample2(outputDir, targetSpacing, numberOfFrames, format, fps);
             break;
         case 3:
-            runExample3(outputDir, targetSpacing, numberOfFrames, format);
+            runExample3(outputDir, targetSpacing, numberOfFrames, format, fps);
             break;
         default:
             printUsage();

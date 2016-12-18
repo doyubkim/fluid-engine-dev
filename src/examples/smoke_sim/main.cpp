@@ -165,6 +165,7 @@ void printUsage() {
         "-r resolution -l length -f frames -e example_num\n"
         "   -r, --resx: grid resolution in x-axis (default is 50)\n"
         "   -f, --frames: total number of frames (default is 100)\n"
+        "   -p, --fps: frames per second (default is 60.0)\n"
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
@@ -195,10 +196,11 @@ void runSimulation(
     const std::string& rootDir,
     const GridSmokeSolver3Ptr& solver,
     size_t numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     auto density = solver->smokeDensity();
 
-    for (Frame frame(0, 1.0 / 60.0); frame.index < numberOfFrames; ++frame) {
+    for (Frame frame(0, 1.0 / fps); frame.index < numberOfFrames; ++frame) {
         solver->update(frame);
 
         if (format == "vol") {
@@ -213,7 +215,8 @@ void runExample1(
     const std::string& rootDir,
     size_t resolutionX,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     // Build solver
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, 2 * resolutionX, resolutionX})
@@ -257,14 +260,15 @@ void runExample1(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 void runExample2(
     const std::string& rootDir,
     size_t resolutionX,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     // Build solver
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, 2 * resolutionX, resolutionX})
@@ -308,14 +312,15 @@ void runExample2(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 void runExample3(
     const std::string& rootDir,
     size_t resolutionX,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     // Build solver
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, resolutionX / 4 * 5, resolutionX / 2})
@@ -357,14 +362,15 @@ void runExample3(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 void runExample4(
     const std::string& rootDir,
     size_t resolutionX,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     // Build solver
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
@@ -402,14 +408,15 @@ void runExample4(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 void runExample5(
     const std::string& rootDir,
     size_t resolutionX,
     unsigned int numberOfFrames,
-    const std::string& format) {
+    const std::string& format,
+    double fps) {
     // Build solver
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
@@ -448,12 +455,13 @@ void runExample5(
     printInfo(solver);
 
     // Run simulation
-    runSimulation(rootDir, solver, numberOfFrames, format);
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
     unsigned int numberOfFrames = 100;
+    double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
     std::string outputDir = APP_NAME "_output";
@@ -463,6 +471,7 @@ int main(int argc, char* argv[]) {
     static struct option longOptions[] = {
         {"resx",      optional_argument, 0, 'r'},
         {"frames",    optional_argument, 0, 'f'},
+        {"fps",       optional_argument, 0, 'p'},
         {"example",   optional_argument, 0, 'e'},
         {"log",       optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
@@ -474,13 +483,16 @@ int main(int argc, char* argv[]) {
     int opt = 0;
     int long_index = 0;
     while ((opt = getopt_long(
-        argc, argv, "r:f:e:l:o:m:h", longOptions, &long_index)) != -1) {
+        argc, argv, "r:f:p:e:l:o:m:h", longOptions, &long_index)) != -1) {
         switch (opt) {
             case 'r':
                 resolutionX = static_cast<size_t>(atoi(optarg));
                 break;
             case 'f':
                 numberOfFrames = static_cast<size_t>(atoi(optarg));
+                break;
+            case 'p':
+                fps = atof(optarg);
                 break;
             case 'e':
                 exampleNum = atoi(optarg);
@@ -520,19 +532,19 @@ int main(int argc, char* argv[]) {
 
     switch (exampleNum) {
         case 1:
-            runExample1(outputDir, resolutionX, numberOfFrames, format);
+            runExample1(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         case 2:
-            runExample2(outputDir, resolutionX, numberOfFrames, format);
+            runExample2(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         case 3:
-            runExample3(outputDir, resolutionX, numberOfFrames, format);
+            runExample3(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         case 4:
-            runExample4(outputDir, resolutionX, numberOfFrames, format);
+            runExample4(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         case 5:
-            runExample5(outputDir, resolutionX, numberOfFrames, format);
+            runExample5(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         default:
             printUsage();
