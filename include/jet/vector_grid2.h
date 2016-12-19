@@ -7,6 +7,7 @@
 #include <jet/grid2.h>
 #include <jet/vector_field2.h>
 #include <memory>
+#include <vector>
 
 namespace jet {
 
@@ -64,6 +65,12 @@ class VectorGrid2 : public VectorField2, public Grid2 {
 
     //! Returns the copy of the grid instance.
     virtual std::shared_ptr<VectorGrid2> clone() const = 0;
+
+    //! Serializes the grid instance to the output buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the input buffer to the grid instance.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
 
  protected:
     //!

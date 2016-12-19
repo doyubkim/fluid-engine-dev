@@ -278,34 +278,6 @@ void FaceCenteredGrid2::parallelForEachVIndex(
     _dataV.parallelForEachIndex(func);
 }
 
-void FaceCenteredGrid2::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-
-    const char* orgUAsBytes = reinterpret_cast<const char*>(&_dataOriginU);
-    const char* orgVAsBytes = reinterpret_cast<const char*>(&_dataOriginV);
-
-    strm->write(orgUAsBytes, 2 * sizeof(double));
-    strm->write(orgVAsBytes, 2 * sizeof(double));
-
-    _dataU.serialize(strm);
-    _dataV.serialize(strm);
-}
-
-void FaceCenteredGrid2::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-
-    char* orgUAsBytes = reinterpret_cast<char*>(&_dataOriginU);
-    char* orgVAsBytes = reinterpret_cast<char*>(&_dataOriginV);
-
-    strm->read(orgUAsBytes, 2 * sizeof(double));
-    strm->read(orgVAsBytes, 2 * sizeof(double));
-
-    _dataU.deserialize(strm);
-    _dataV.deserialize(strm);
-
-    resetSampler();
-}
-
 Vector2D FaceCenteredGrid2::sample(const Vector2D& x) const {
     return _sampler(x);
 }

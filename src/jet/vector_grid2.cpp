@@ -1,8 +1,14 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <fbs_helpers.h>
+#include <vector_grid2_generated.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
+#include <flatbuffers/flatbuffers.h>
+#include <algorithm>
+#include <string>
+#include <vector>
 
 using namespace jet;
 
@@ -54,6 +60,49 @@ void VectorGrid2::resize(
 
 void VectorGrid2::resize(const Vector2D& gridSpacing, const Vector2D& origin) {
     resize(resolution(), gridSpacing, origin);
+}
+
+void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    auto type = builder.CreateString(gridTypeName());
+    auto fbsResolution = jetToFbs(resolution());
+    auto fbsGridSpacing = jetToFbs(gridSpacing());
+    auto fbsOrigin = jetToFbs(origin());
+
+    std::vector<double> gridData;
+    getData(&gridData);
+    auto data = builder.CreateVector(gridData.data(), gridData.size());
+
+    auto fbsGrid = fbs::CreateVectorGrid2(
+        builder, type, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+
+    builder.Finish(fbsGrid);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
+}
+
+void VectorGrid2::deserialize(const std::vector<uint8_t>& buffer) {
+    auto fbsGrid = fbs::GetVectorGrid2(buffer.data());
+
+    if (gridTypeName() != std::string(fbsGrid->type()->c_str())) {
+        return;
+    }
+
+    resize(
+        fbsToJet(*fbsGrid->resolution()),
+        fbsToJet(*fbsGrid->gridSpacing()),
+        fbsToJet(*fbsGrid->origin()));
+
+    auto data = fbsGrid->data();
+    std::vector<double> gridData(data->size());
+    std::copy(data->begin(), data->end(), gridData.begin());
+
+    setData(gridData);
 }
 
 

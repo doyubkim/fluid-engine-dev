@@ -13,6 +13,7 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define APP_NAME "level_set_liquid_sim"
 
@@ -236,7 +237,10 @@ void runExample3(
     VertexCenteredScalarGrid3 bunnySdf;
     std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
     if (sdfFile) {
-        bunnySdf.deserialize(&sdfFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(sdfFile)),
+            (std::istreambuf_iterator<char>()));
+        bunnySdf.deserialize(buffer);
         sdfFile.close();
     } else {
         fprintf(stderr, "Cannot open bunny.sdf\n");
@@ -288,7 +292,10 @@ void runExample4(
     VertexCenteredScalarGrid3 bunnySdf;
     std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
     if (sdfFile) {
-        bunnySdf.deserialize(&sdfFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(sdfFile)),
+            (std::istreambuf_iterator<char>()));
+        bunnySdf.deserialize(buffer);
         sdfFile.close();
     } else {
         fprintf(stderr, "Cannot open bunny.sdf\n");

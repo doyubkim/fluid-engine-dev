@@ -387,40 +387,6 @@ void FaceCenteredGrid3::parallelForEachWIndex(
     _dataW.parallelForEachIndex(func);
 }
 
-void FaceCenteredGrid3::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-
-    const char* orgUAsBytes = reinterpret_cast<const char*>(&_dataOriginU);
-    const char* orgVAsBytes = reinterpret_cast<const char*>(&_dataOriginV);
-    const char* orgWAsBytes = reinterpret_cast<const char*>(&_dataOriginW);
-
-    strm->write(orgUAsBytes, 3 * sizeof(double));
-    strm->write(orgVAsBytes, 3 * sizeof(double));
-    strm->write(orgWAsBytes, 3 * sizeof(double));
-
-    _dataU.serialize(strm);
-    _dataV.serialize(strm);
-    _dataW.serialize(strm);
-}
-
-void FaceCenteredGrid3::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-
-    char* orgUAsBytes = reinterpret_cast<char*>(&_dataOriginU);
-    char* orgVAsBytes = reinterpret_cast<char*>(&_dataOriginV);
-    char* orgWAsBytes = reinterpret_cast<char*>(&_dataOriginW);
-
-    strm->read(orgUAsBytes, 3 * sizeof(double));
-    strm->read(orgVAsBytes, 3 * sizeof(double));
-    strm->read(orgWAsBytes, 3 * sizeof(double));
-
-    _dataU.deserialize(strm);
-    _dataV.deserialize(strm);
-    _dataW.deserialize(strm);
-
-    resetSampler();
-}
-
 Vector3D FaceCenteredGrid3::sample(const Vector3D& x) const {
     return _sampler(x);
 }

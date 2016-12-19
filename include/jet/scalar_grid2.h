@@ -127,12 +127,6 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     void parallelForEachDataPointIndex(
         const std::function<void(size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    void serialize(std::ostream* strm) const override;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    void deserialize(std::istream* strm) override;
-
     // ScalarField2 implementations
 
     //!
@@ -156,6 +150,12 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
 
     //! Returns the Laplacian at given position \p x.
     double laplacian(const Vector2D& x) const override;
+
+    //! Serializes the grid instance to the output buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the input buffer to the grid instance.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Fetches the data into a continuous linear array.
     void getData(std::vector<double>* data) const override;

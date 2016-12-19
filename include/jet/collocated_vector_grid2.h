@@ -73,12 +73,6 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     void parallelForEachDataPointIndex(
         const std::function<void(size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    void serialize(std::ostream* strm) const override;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    void deserialize(std::istream* strm) override;
-
     // VectorField2 implementations
 
     //! Returns sampled value at given position \p x.

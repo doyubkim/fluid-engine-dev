@@ -2,7 +2,7 @@
 
 #include <jet/cell_centered_scalar_grid3.h>
 #include <gtest/gtest.h>
-#include <sstream>
+#include <vector>
 
 using namespace jet;
 
@@ -329,12 +329,12 @@ TEST(CellCenteredScalarGrid3, Serialization) {
     });
 
     // Serialize to in-memoery stream
-    std::stringstream strm1;
-    grid1.serialize(&strm1);
+    std::vector<uint8_t> buffer1;
+    grid1.serialize(&buffer1);
 
     // Deserialize to non-zero array
     CellCenteredScalarGrid3 grid2(1, 2, 4, 0.5, 1.0, 2.0, 0.5, 2.0, -3.0);
-    grid2.deserialize(&strm1);
+    grid2.deserialize(buffer1);
     EXPECT_EQ(5u, grid2.resolution().x);
     EXPECT_EQ(4u, grid2.resolution().y);
     EXPECT_EQ(3u, grid2.resolution().z);
@@ -357,11 +357,11 @@ TEST(CellCenteredScalarGrid3, Serialization) {
 
     // Serialize zero-sized array
     CellCenteredScalarGrid3 grid3;
-    std::stringstream strm2;
-    grid3.serialize(&strm2);
+    std::vector<uint8_t> buffer2;
+    grid3.serialize(&buffer2);
 
     // Deserialize to non-zero array
-    grid2.deserialize(&strm2);
+    grid2.deserialize(buffer2);
     EXPECT_EQ(0u, grid2.resolution().x);
     EXPECT_EQ(0u, grid2.resolution().y);
     EXPECT_EQ(0u, grid2.resolution().z);

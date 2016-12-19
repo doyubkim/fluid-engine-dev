@@ -146,18 +146,6 @@ void CollocatedVectorGrid3::parallelForEachDataPointIndex(
     _data.parallelForEachIndex(func);
 }
 
-void CollocatedVectorGrid3::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-    _data.serialize(strm);
-}
-
-void CollocatedVectorGrid3::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-    _data.deserialize(strm);
-
-    resetSampler();
-}
-
 void CollocatedVectorGrid3::swapCollocatedVectorGrid(
     CollocatedVectorGrid3* other) {
     swapGrid(other);

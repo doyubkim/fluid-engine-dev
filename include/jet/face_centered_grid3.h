@@ -241,12 +241,6 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
     void parallelForEachWIndex(
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    void serialize(std::ostream* strm) const override;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    void deserialize(std::istream* strm) override;
-
     // VectorField3 implementations
 
     //! Returns sampled value at given position \p x.

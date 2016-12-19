@@ -332,7 +332,10 @@ void runExample3(
     VertexCenteredScalarGrid3 dragonSdf;
     std::ifstream sdfFile("dragon.sdf", std::ifstream::binary);
     if (sdfFile) {
-        dragonSdf.deserialize(&sdfFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(sdfFile)),
+            (std::istreambuf_iterator<char>()));
+        dragonSdf.deserialize(buffer);
         sdfFile.close();
     } else {
         fprintf(stderr, "Cannot open dragon.sdf\n");

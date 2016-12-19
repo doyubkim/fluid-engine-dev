@@ -1,13 +1,16 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <fbs_helpers.h>
+#include <scalar_grid3_generated.h>
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid3.h>
 #include <jet/serial.h>
-
+#include <flatbuffers/flatbuffers.h>
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <string>
 #include <vector>
 
 using namespace jet;
@@ -175,16 +178,47 @@ void ScalarGrid3::parallelForEachDataPointIndex(
     _data.parallelForEachIndex(func);
 }
 
-void ScalarGrid3::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-    _data.serialize(strm);
+void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    auto type = builder.CreateString(gridTypeName());
+    auto fbsResolution = jetToFbs(resolution());
+    auto fbsGridSpacing = jetToFbs(gridSpacing());
+    auto fbsOrigin = jetToFbs(origin());
+
+    std::vector<double> gridData;
+    getData(&gridData);
+    auto data = builder.CreateVector(gridData.data(), gridData.size());
+
+    auto fbsGrid = fbs::CreateScalarGrid3(
+        builder, type, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+
+    builder.Finish(fbsGrid);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
 }
 
-void ScalarGrid3::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-    _data.deserialize(strm);
+void ScalarGrid3::deserialize(const std::vector<uint8_t>& buffer) {
+    auto fbsGrid = fbs::GetScalarGrid3(buffer.data());
 
-    resetSampler();
+    if (gridTypeName() != std::string(fbsGrid->type()->c_str())) {
+        return;
+    }
+
+    resize(
+        fbsToJet(*fbsGrid->resolution()),
+        fbsToJet(*fbsGrid->gridSpacing()),
+        fbsToJet(*fbsGrid->origin()));
+
+    auto data = fbsGrid->data();
+    std::vector<double> gridData(data->size());
+    std::copy(data->begin(), data->end(), gridData.begin());
+
+    setData(gridData);
 }
 
 void ScalarGrid3::swapScalarGrid(ScalarGrid3* other) {

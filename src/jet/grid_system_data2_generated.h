@@ -6,147 +6,13 @@
 #include "flatbuffers/flatbuffers.h"
 
 #include "basic_types_generated.h"
+#include "scalar_grid2_generated.h"
+#include "vector_grid2_generated.h"
 
 namespace jet {
 namespace fbs {
 
-struct ScalarGrid2;
-
-struct VectorGrid2;
-
 struct GridSystemData2;
-
-struct ScalarGrid2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  enum {
-    VT_TYPE = 4,
-    VT_RESOLUTION = 6,
-    VT_GRIDSPACING = 8,
-    VT_ORIGIN = 10,
-    VT_DATA = 12
-  };
-  const flatbuffers::String *type() const { return GetPointer<const flatbuffers::String *>(VT_TYPE); }
-  const jet::fbs::Size2 *resolution() const { return GetStruct<const jet::fbs::Size2 *>(VT_RESOLUTION); }
-  const jet::fbs::Vector2D *gridSpacing() const { return GetStruct<const jet::fbs::Vector2D *>(VT_GRIDSPACING); }
-  const jet::fbs::Vector2D *origin() const { return GetStruct<const jet::fbs::Vector2D *>(VT_ORIGIN); }
-  const flatbuffers::Vector<double> *data() const { return GetPointer<const flatbuffers::Vector<double> *>(VT_DATA); }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_TYPE) &&
-           verifier.Verify(type()) &&
-           VerifyField<jet::fbs::Size2>(verifier, VT_RESOLUTION) &&
-           VerifyField<jet::fbs::Vector2D>(verifier, VT_GRIDSPACING) &&
-           VerifyField<jet::fbs::Vector2D>(verifier, VT_ORIGIN) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_DATA) &&
-           verifier.Verify(data()) &&
-           verifier.EndTable();
-  }
-};
-
-struct ScalarGrid2Builder {
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_type(flatbuffers::Offset<flatbuffers::String> type) { fbb_.AddOffset(ScalarGrid2::VT_TYPE, type); }
-  void add_resolution(const jet::fbs::Size2 *resolution) { fbb_.AddStruct(ScalarGrid2::VT_RESOLUTION, resolution); }
-  void add_gridSpacing(const jet::fbs::Vector2D *gridSpacing) { fbb_.AddStruct(ScalarGrid2::VT_GRIDSPACING, gridSpacing); }
-  void add_origin(const jet::fbs::Vector2D *origin) { fbb_.AddStruct(ScalarGrid2::VT_ORIGIN, origin); }
-  void add_data(flatbuffers::Offset<flatbuffers::Vector<double>> data) { fbb_.AddOffset(ScalarGrid2::VT_DATA, data); }
-  ScalarGrid2Builder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  ScalarGrid2Builder &operator=(const ScalarGrid2Builder &);
-  flatbuffers::Offset<ScalarGrid2> Finish() {
-    auto o = flatbuffers::Offset<ScalarGrid2>(fbb_.EndTable(start_, 5));
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<ScalarGrid2> CreateScalarGrid2(flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> type = 0,
-    const jet::fbs::Size2 *resolution = 0,
-    const jet::fbs::Vector2D *gridSpacing = 0,
-    const jet::fbs::Vector2D *origin = 0,
-    flatbuffers::Offset<flatbuffers::Vector<double>> data = 0) {
-  ScalarGrid2Builder builder_(_fbb);
-  builder_.add_data(data);
-  builder_.add_origin(origin);
-  builder_.add_gridSpacing(gridSpacing);
-  builder_.add_resolution(resolution);
-  builder_.add_type(type);
-  return builder_.Finish();
-}
-
-inline flatbuffers::Offset<ScalarGrid2> CreateScalarGrid2Direct(flatbuffers::FlatBufferBuilder &_fbb,
-    const char *type = nullptr,
-    const jet::fbs::Size2 *resolution = 0,
-    const jet::fbs::Vector2D *gridSpacing = 0,
-    const jet::fbs::Vector2D *origin = 0,
-    const std::vector<double> *data = nullptr) {
-  return CreateScalarGrid2(_fbb, type ? _fbb.CreateString(type) : 0, resolution, gridSpacing, origin, data ? _fbb.CreateVector<double>(*data) : 0);
-}
-
-struct VectorGrid2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  enum {
-    VT_TYPE = 4,
-    VT_RESOLUTION = 6,
-    VT_GRIDSPACING = 8,
-    VT_ORIGIN = 10,
-    VT_DATA = 12
-  };
-  const flatbuffers::String *type() const { return GetPointer<const flatbuffers::String *>(VT_TYPE); }
-  const jet::fbs::Size2 *resolution() const { return GetStruct<const jet::fbs::Size2 *>(VT_RESOLUTION); }
-  const jet::fbs::Vector2D *gridSpacing() const { return GetStruct<const jet::fbs::Vector2D *>(VT_GRIDSPACING); }
-  const jet::fbs::Vector2D *origin() const { return GetStruct<const jet::fbs::Vector2D *>(VT_ORIGIN); }
-  const flatbuffers::Vector<double> *data() const { return GetPointer<const flatbuffers::Vector<double> *>(VT_DATA); }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_TYPE) &&
-           verifier.Verify(type()) &&
-           VerifyField<jet::fbs::Size2>(verifier, VT_RESOLUTION) &&
-           VerifyField<jet::fbs::Vector2D>(verifier, VT_GRIDSPACING) &&
-           VerifyField<jet::fbs::Vector2D>(verifier, VT_ORIGIN) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_DATA) &&
-           verifier.Verify(data()) &&
-           verifier.EndTable();
-  }
-};
-
-struct VectorGrid2Builder {
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_type(flatbuffers::Offset<flatbuffers::String> type) { fbb_.AddOffset(VectorGrid2::VT_TYPE, type); }
-  void add_resolution(const jet::fbs::Size2 *resolution) { fbb_.AddStruct(VectorGrid2::VT_RESOLUTION, resolution); }
-  void add_gridSpacing(const jet::fbs::Vector2D *gridSpacing) { fbb_.AddStruct(VectorGrid2::VT_GRIDSPACING, gridSpacing); }
-  void add_origin(const jet::fbs::Vector2D *origin) { fbb_.AddStruct(VectorGrid2::VT_ORIGIN, origin); }
-  void add_data(flatbuffers::Offset<flatbuffers::Vector<double>> data) { fbb_.AddOffset(VectorGrid2::VT_DATA, data); }
-  VectorGrid2Builder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  VectorGrid2Builder &operator=(const VectorGrid2Builder &);
-  flatbuffers::Offset<VectorGrid2> Finish() {
-    auto o = flatbuffers::Offset<VectorGrid2>(fbb_.EndTable(start_, 5));
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<VectorGrid2> CreateVectorGrid2(flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> type = 0,
-    const jet::fbs::Size2 *resolution = 0,
-    const jet::fbs::Vector2D *gridSpacing = 0,
-    const jet::fbs::Vector2D *origin = 0,
-    flatbuffers::Offset<flatbuffers::Vector<double>> data = 0) {
-  VectorGrid2Builder builder_(_fbb);
-  builder_.add_data(data);
-  builder_.add_origin(origin);
-  builder_.add_gridSpacing(gridSpacing);
-  builder_.add_resolution(resolution);
-  builder_.add_type(type);
-  return builder_.Finish();
-}
-
-inline flatbuffers::Offset<VectorGrid2> CreateVectorGrid2Direct(flatbuffers::FlatBufferBuilder &_fbb,
-    const char *type = nullptr,
-    const jet::fbs::Size2 *resolution = 0,
-    const jet::fbs::Vector2D *gridSpacing = 0,
-    const jet::fbs::Vector2D *origin = 0,
-    const std::vector<double> *data = nullptr) {
-  return CreateVectorGrid2(_fbb, type ? _fbb.CreateString(type) : 0, resolution, gridSpacing, origin, data ? _fbb.CreateVector<double>(*data) : 0);
-}
 
 struct GridSystemData2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
@@ -163,10 +29,10 @@ struct GridSystemData2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const jet::fbs::Vector2D *gridSpacing() const { return GetStruct<const jet::fbs::Vector2D *>(VT_GRIDSPACING); }
   const jet::fbs::Vector2D *origin() const { return GetStruct<const jet::fbs::Vector2D *>(VT_ORIGIN); }
   uint64_t velocityIdx() const { return GetField<uint64_t>(VT_VELOCITYIDX, 0); }
-  const flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>> *scalarData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>> *>(VT_SCALARDATA); }
-  const flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>> *vectorData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>> *>(VT_VECTORDATA); }
-  const flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>> *advectableScalarData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>> *>(VT_ADVECTABLESCALARDATA); }
-  const flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>> *advectableVectorData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>> *>(VT_ADVECTABLEVECTORDATA); }
+  const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *scalarData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *>(VT_SCALARDATA); }
+  const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *vectorData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *>(VT_VECTORDATA); }
+  const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *advectableScalarData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *>(VT_ADVECTABLESCALARDATA); }
+  const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *advectableVectorData() const { return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *>(VT_ADVECTABLEVECTORDATA); }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<jet::fbs::Size2>(verifier, VT_RESOLUTION) &&
@@ -196,10 +62,10 @@ struct GridSystemData2Builder {
   void add_gridSpacing(const jet::fbs::Vector2D *gridSpacing) { fbb_.AddStruct(GridSystemData2::VT_GRIDSPACING, gridSpacing); }
   void add_origin(const jet::fbs::Vector2D *origin) { fbb_.AddStruct(GridSystemData2::VT_ORIGIN, origin); }
   void add_velocityIdx(uint64_t velocityIdx) { fbb_.AddElement<uint64_t>(GridSystemData2::VT_VELOCITYIDX, velocityIdx, 0); }
-  void add_scalarData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>>> scalarData) { fbb_.AddOffset(GridSystemData2::VT_SCALARDATA, scalarData); }
-  void add_vectorData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>>> vectorData) { fbb_.AddOffset(GridSystemData2::VT_VECTORDATA, vectorData); }
-  void add_advectableScalarData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>>> advectableScalarData) { fbb_.AddOffset(GridSystemData2::VT_ADVECTABLESCALARDATA, advectableScalarData); }
-  void add_advectableVectorData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>>> advectableVectorData) { fbb_.AddOffset(GridSystemData2::VT_ADVECTABLEVECTORDATA, advectableVectorData); }
+  void add_scalarData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>> scalarData) { fbb_.AddOffset(GridSystemData2::VT_SCALARDATA, scalarData); }
+  void add_vectorData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>>> vectorData) { fbb_.AddOffset(GridSystemData2::VT_VECTORDATA, vectorData); }
+  void add_advectableScalarData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>> advectableScalarData) { fbb_.AddOffset(GridSystemData2::VT_ADVECTABLESCALARDATA, advectableScalarData); }
+  void add_advectableVectorData(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>>> advectableVectorData) { fbb_.AddOffset(GridSystemData2::VT_ADVECTABLEVECTORDATA, advectableVectorData); }
   GridSystemData2Builder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   GridSystemData2Builder &operator=(const GridSystemData2Builder &);
   flatbuffers::Offset<GridSystemData2> Finish() {
@@ -213,10 +79,10 @@ inline flatbuffers::Offset<GridSystemData2> CreateGridSystemData2(flatbuffers::F
     const jet::fbs::Vector2D *gridSpacing = 0,
     const jet::fbs::Vector2D *origin = 0,
     uint64_t velocityIdx = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>>> scalarData = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>>> vectorData = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<ScalarGrid2>>> advectableScalarData = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<VectorGrid2>>> advectableVectorData = 0) {
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>> scalarData = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>>> vectorData = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>> advectableScalarData = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<jet::fbs::VectorGrid2>>> advectableVectorData = 0) {
   GridSystemData2Builder builder_(_fbb);
   builder_.add_velocityIdx(velocityIdx);
   builder_.add_advectableVectorData(advectableVectorData);
@@ -234,11 +100,11 @@ inline flatbuffers::Offset<GridSystemData2> CreateGridSystemData2Direct(flatbuff
     const jet::fbs::Vector2D *gridSpacing = 0,
     const jet::fbs::Vector2D *origin = 0,
     uint64_t velocityIdx = 0,
-    const std::vector<flatbuffers::Offset<ScalarGrid2>> *scalarData = nullptr,
-    const std::vector<flatbuffers::Offset<VectorGrid2>> *vectorData = nullptr,
-    const std::vector<flatbuffers::Offset<ScalarGrid2>> *advectableScalarData = nullptr,
-    const std::vector<flatbuffers::Offset<VectorGrid2>> *advectableVectorData = nullptr) {
-  return CreateGridSystemData2(_fbb, resolution, gridSpacing, origin, velocityIdx, scalarData ? _fbb.CreateVector<flatbuffers::Offset<ScalarGrid2>>(*scalarData) : 0, vectorData ? _fbb.CreateVector<flatbuffers::Offset<VectorGrid2>>(*vectorData) : 0, advectableScalarData ? _fbb.CreateVector<flatbuffers::Offset<ScalarGrid2>>(*advectableScalarData) : 0, advectableVectorData ? _fbb.CreateVector<flatbuffers::Offset<VectorGrid2>>(*advectableVectorData) : 0);
+    const std::vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *scalarData = nullptr,
+    const std::vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *vectorData = nullptr,
+    const std::vector<flatbuffers::Offset<jet::fbs::ScalarGrid2>> *advectableScalarData = nullptr,
+    const std::vector<flatbuffers::Offset<jet::fbs::VectorGrid2>> *advectableVectorData = nullptr) {
+  return CreateGridSystemData2(_fbb, resolution, gridSpacing, origin, velocityIdx, scalarData ? _fbb.CreateVector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>(*scalarData) : 0, vectorData ? _fbb.CreateVector<flatbuffers::Offset<jet::fbs::VectorGrid2>>(*vectorData) : 0, advectableScalarData ? _fbb.CreateVector<flatbuffers::Offset<jet::fbs::ScalarGrid2>>(*advectableScalarData) : 0, advectableVectorData ? _fbb.CreateVector<flatbuffers::Offset<jet::fbs::VectorGrid2>>(*advectableVectorData) : 0);
 }
 
 inline const jet::fbs::GridSystemData2 *GetGridSystemData2(const void *buf) { return flatbuffers::GetRoot<jet::fbs::GridSystemData2>(buf); }

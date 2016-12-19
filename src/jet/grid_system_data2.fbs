@@ -1,22 +1,8 @@
 include "basic_types.fbs";
+include "scalar_grid2.fbs";
+include "vector_grid2.fbs";
 
 namespace jet.fbs;
-
-table ScalarGrid2 {
-    type:string;
-    resolution:Size2;
-    gridSpacing:Vector2D;
-    origin:Vector2D;
-    data:[double];
-}
-
-table VectorGrid2 {
-    type:string;
-    resolution:Size2;
-    gridSpacing:Vector2D;
-    origin:Vector2D;
-    data:[double];
-}
 
 table GridSystemData2 {
     resolution:Size2;

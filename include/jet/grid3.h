@@ -70,23 +70,23 @@ class Grid3 {
     void parallelForEachCellIndex(
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    virtual void serialize(std::ostream* strm) const = 0;
+    //! Serializes the grid instance to the output buffer.
+    virtual void serialize(std::vector<uint8_t>* buffer) const = 0;
 
-    //! Deserializes the input stream \p strm to the grid instance.
-    virtual void deserialize(std::istream* strm) = 0;
-
-    //! Returns true if resolution, grid-spacing and origin are same.
-    bool hasSameShape(const Grid3& other) const;
-
-    //! Swaps the data with other grid.
-    virtual void swap(Grid3* other) = 0;
+    //! Deserializes the input buffer to the grid instance.
+    virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 
     //! Fetches the data into a continuous linear array.
     virtual void getData(std::vector<double>* data) const = 0;
 
     //! Sets the data from a continuous linear array.
     virtual void setData(const std::vector<double>& data) = 0;
+
+    //! Returns true if resolution, grid-spacing and origin are same.
+    bool hasSameShape(const Grid3& other) const;
+
+    //! Swaps the data with other grid.
+    virtual void swap(Grid3* other) = 0;
 
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
@@ -101,12 +101,6 @@ class Grid3 {
 
     //! Sets the size parameters with given grid \p other.
     void setGrid(const Grid3& other);
-
-    //! Serializes the size parameters to given output stream \p strm.
-    void serializeGrid(std::ostream* strm) const;
-
-    //! Deserializes the size parameters from given input stream \p strm.
-    void deserializeGrid(std::istream* strm);
 
  private:
     Size3 _resolution;

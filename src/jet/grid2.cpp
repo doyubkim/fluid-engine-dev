@@ -4,7 +4,6 @@
 #include <jet/grid2.h>
 #include <jet/parallel.h>
 #include <jet/serial.h>
-
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -100,35 +99,4 @@ void Grid2::setGrid(const Grid2& other) {
     _gridSpacing = other._gridSpacing;
     _origin = other._origin;
     _boundingBox = other._boundingBox;
-}
-
-void Grid2::serializeGrid(std::ostream* strm) const {
-    uint64_t res64[2] = { _resolution.x, _resolution.y };
-
-    const char* resAsBytes = reinterpret_cast<const char*>(res64);
-    const char* gsAsBytes = reinterpret_cast<const char*>(&_gridSpacing);
-    const char* orgAsBytes = reinterpret_cast<const char*>(&_origin);
-    const char* boxAsBytes = reinterpret_cast<const char*>(&_boundingBox);
-
-    strm->write(resAsBytes, 2 * sizeof(uint64_t));
-    strm->write(gsAsBytes, 2 * sizeof(double));
-    strm->write(orgAsBytes, 2 * sizeof(double));
-    strm->write(boxAsBytes, 4 * sizeof(double));
-}
-
-void Grid2::deserializeGrid(std::istream* strm) {
-    uint64_t res64[2];
-    char* resAsBytes = reinterpret_cast<char*>(res64);
-    char* gsAsBytes = reinterpret_cast<char*>(&_gridSpacing);
-    char* orgAsBytes = reinterpret_cast<char*>(&_origin);
-    char* boxAsBytes = reinterpret_cast<char*>(&_boundingBox);
-
-    strm->read(resAsBytes, 2 * sizeof(uint64_t));
-    strm->read(gsAsBytes, 2 * sizeof(double));
-    strm->read(orgAsBytes, 2 * sizeof(double));
-    strm->read(boxAsBytes, 4 * sizeof(double));
-
-    _resolution = Size2(
-        static_cast<size_t>(res64[0]),
-        static_cast<size_t>(res64[1]));
 }
