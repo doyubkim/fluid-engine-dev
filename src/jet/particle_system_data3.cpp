@@ -359,9 +359,9 @@ void ParticleSystemData3::deserializeParticleSystemData(
     // Copy scalars
     _radius = fbsParticleSystemData->radius();
     _mass = fbsParticleSystemData->mass();
-    _positionIdx = fbsParticleSystemData->positionIdx();
-    _velocityIdx = fbsParticleSystemData->velocityIdx();
-    _forceIdx = fbsParticleSystemData->forceIdx();
+    _positionIdx = static_cast<size_t>(fbsParticleSystemData->positionIdx());
+    _velocityIdx = static_cast<size_t>(fbsParticleSystemData->velocityIdx());
+    _forceIdx = static_cast<size_t>(fbsParticleSystemData->forceIdx());
 
     // Copy data
     auto fbsScalarDataList = fbsParticleSystemData->scalarDataList();
@@ -372,7 +372,7 @@ void ParticleSystemData3::deserializeParticleSystemData(
 
         auto& newData = *(_scalarDataList.rbegin());
 
-        for (size_t i = 0; i < data->size(); ++i) {
+        for (uint32_t i = 0; i < data->size(); ++i) {
             newData[i] = data->Get(i);
         }
     }
@@ -383,7 +383,7 @@ void ParticleSystemData3::deserializeParticleSystemData(
 
         _vectorDataList.push_back(VectorData(data->size()));
         auto& newData = *(_vectorDataList.rbegin());
-        for (size_t i = 0; i < data->size(); ++i) {
+        for (uint32_t i = 0; i < data->size(); ++i) {
             newData[i] = fbsToJet(*data->Get(i));
         }
     }
@@ -403,12 +403,15 @@ void ParticleSystemData3::deserializeParticleSystemData(
     // Copy neighbor list
     auto fbsNeighborLists = fbsParticleSystemData->neighborLists();
     _neighborLists.resize(fbsNeighborLists->size());
-    for (size_t i = 0; i < fbsNeighborLists->size(); ++i) {
+    for (uint32_t i = 0; i < fbsNeighborLists->size(); ++i) {
         auto fbsNeighborList = fbsNeighborLists->Get(i);
         _neighborLists[i].resize(fbsNeighborList->data()->size());
-        std::copy(
+        std::transform(
             fbsNeighborList->data()->begin(),
             fbsNeighborList->data()->end(),
-            _neighborLists[i].begin());
+            _neighborLists[i].begin(),
+            [](uint64_t val) {
+            return static_cast<size_t>(val);
+        });
     }
 }

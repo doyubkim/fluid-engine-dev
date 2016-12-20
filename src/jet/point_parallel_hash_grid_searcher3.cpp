@@ -398,33 +398,33 @@ void PointParallelHashGridSearcher3::deserialize(
     // Copy points
     auto fbsPoints = fbsSearcher->points();
     _points.resize(fbsPoints->size());
-    for (size_t i = 0; i < fbsPoints->size(); ++i) {
+    for (uint32_t i = 0; i < fbsPoints->size(); ++i) {
         _points[i] = fbsToJet(*fbsPoints->Get(i));
     }
 
     // Copy key/tables
     auto fbsKeys = fbsSearcher->keys();
     _keys.resize(fbsKeys->size());
-    for (size_t i = 0; i < fbsKeys->size(); ++i) {
-        _keys[i] = fbsKeys->Get(i);
+    for (uint32_t i = 0; i < fbsKeys->size(); ++i) {
+        _keys[i] = static_cast<size_t>(fbsKeys->Get(i));
     }
 
     auto fbsStartIndexTable = fbsSearcher->startIndexTable();
     _startIndexTable.resize(fbsStartIndexTable->size());
-    for (size_t i = 0; i < fbsStartIndexTable->size(); ++i) {
-        _startIndexTable[i] = fbsStartIndexTable->Get(i);
+    for (uint32_t i = 0; i < fbsStartIndexTable->size(); ++i) {
+        _startIndexTable[i] = static_cast<size_t>(fbsStartIndexTable->Get(i));
     }
 
     auto fbsEndIndexTable = fbsSearcher->endIndexTable();
     _endIndexTable.resize(fbsEndIndexTable->size());
-    for (size_t i = 0; i < fbsEndIndexTable->size(); ++i) {
-        _endIndexTable[i] = fbsEndIndexTable->Get(i);
+    for (uint32_t i = 0; i < fbsEndIndexTable->size(); ++i) {
+        _endIndexTable[i] = static_cast<size_t>(fbsEndIndexTable->Get(i));
     }
 
     auto fbsSortedIndices = fbsSearcher->sortedIndices();
     _sortedIndices.resize(fbsSortedIndices->size());
-    for (size_t i = 0; i < fbsSortedIndices->size(); ++i) {
-        _sortedIndices[i] = fbsSortedIndices->Get(i);
+    for (uint32_t i = 0; i < fbsSortedIndices->size(); ++i) {
+        _sortedIndices[i] = static_cast<size_t>(fbsSortedIndices->Get(i));
     }
 }
 

@@ -100,7 +100,7 @@ void PointSimpleListSearcher2::deserialize(
     // Copy points
     auto fbsPoints = fbsSearcher->points();
     _points.resize(fbsPoints->size());
-    for (size_t i = 0; i < fbsPoints->size(); ++i) {
+    for (uint32_t i = 0; i < fbsPoints->size(); ++i) {
         _points[i] = fbsToJet(*fbsPoints->Get(i));
     }
 }

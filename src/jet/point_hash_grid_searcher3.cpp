@@ -288,20 +288,23 @@ void PointHashGridSearcher3::deserialize(const std::vector<uint8_t>& buffer) {
     // Copy points
     auto fbsPoints = fbsSearcher->points();
     _points.resize(fbsPoints->size());
-    for (size_t i = 0; i < fbsPoints->size(); ++i) {
+    for (uint32_t i = 0; i < fbsPoints->size(); ++i) {
         _points[i] = fbsToJet(*fbsPoints->Get(i));
     }
 
     // Copy buckets
     auto fbsBuckets = fbsSearcher->buckets();
     _buckets.resize(fbsBuckets->size());
-    for (size_t i = 0; i < fbsBuckets->size(); ++i) {
+    for (uint32_t i = 0; i < fbsBuckets->size(); ++i) {
         auto fbsBucket = fbsBuckets->Get(i);
         _buckets[i].resize(fbsBucket->data()->size());
-        std::copy(
+        std::transform(
             fbsBucket->data()->begin(),
             fbsBucket->data()->end(),
-            _buckets[i].begin());
+            _buckets[i].begin(),
+            [] (uint64_t val) {
+                return static_cast<size_t>(val);
+            });
     }
 }
 

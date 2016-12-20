@@ -313,8 +313,8 @@ void SphSystemData2::deserialize(const std::vector<uint8_t>& buffer) {
     _kernelRadiusOverTargetSpacing
         = fbsSphSystemData->kernelRadiusOverTargetSpacing();
     _kernelRadius = fbsSphSystemData->kernelRadius();
-    _pressureIdx = fbsSphSystemData->pressureIdx();
-    _densityIdx = fbsSphSystemData->densityIdx();
+    _pressureIdx = static_cast<size_t>(fbsSphSystemData->pressureIdx());
+    _densityIdx = static_cast<size_t>(fbsSphSystemData->densityIdx());
 }
 
 void SphSystemData2::set(const SphSystemData2& other) {

@@ -30,11 +30,11 @@ inline fbs::Vector3D jetToFbs(const Vector3D& vec) {
 }
 
 inline Size2 fbsToJet(const fbs::Size2& vec) {
-    return Size2(vec.x(), vec.y());
+    return Size2({vec.x(), vec.y()});
 }
 
 inline Size3 fbsToJet(const fbs::Size3& vec) {
-    return Size3(vec.x(), vec.y(), vec.z());
+    return Size3({vec.x(), vec.y(), vec.z()});
 }
 
 inline Vector2D fbsToJet(const fbs::Vector2D& vec) {

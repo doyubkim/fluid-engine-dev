@@ -255,7 +255,7 @@ void GridSystemData2::deserialize(const std::vector<uint8_t>& buffer) {
         Factory::buildVectorGrid2,
         &_advectableVectorDataList);
 
-    _velocityIdx = gsd->velocityIdx();
+    _velocityIdx = static_cast<size_t>(gsd->velocityIdx());
     _velocity = std::dynamic_pointer_cast<FaceCenteredGrid2>(
         _advectableVectorDataList[_velocityIdx]);
 }
