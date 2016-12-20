@@ -1,8 +1,9 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <jet/array1.h>
+#include <jet/serialization.h>
 #include <gtest/gtest.h>
-#include <sstream>
+#include <vector>
 
 using namespace jet;
 
@@ -150,12 +151,12 @@ TEST(Array1, Serialization) {
     Array1<float> arr1 = {1.f,  2.f,  3.f,  4.f};
 
     // Serialize to in-memoery stream
-    std::stringstream strm1;
-    arr1.serialize(&strm1);
+    std::vector<uint8_t> buffer1;
+    serialize(arr1, &buffer1);
 
     // Deserialize to non-zero array
     Array1<float> arr2 = {5.f, 6.f, 7.f};
-    arr2.deserialize(&strm1);
+    deserialize(buffer1, &arr2);
     EXPECT_EQ(4u, arr2.size());
     EXPECT_EQ(1.f, arr2[0]);
     EXPECT_EQ(2.f, arr2[1]);
@@ -164,10 +165,9 @@ TEST(Array1, Serialization) {
 
     // Serialize zero-sized array
     Array1<float> arr3;
-    std::stringstream strm2;
-    arr3.serialize(&strm2);
+    serialize(arr3, &buffer1);
 
     // Deserialize to non-zero array
-    arr2.deserialize(&strm2);
+    deserialize(buffer1, &arr3);
     EXPECT_EQ(0u, arr3.size());
 }

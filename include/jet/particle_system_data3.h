@@ -4,6 +4,7 @@
 #define INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
 
 #include <jet/array1.h>
+#include <jet/serialization.h>
 #include <jet/point_neighbor_searcher3.h>
 
 #include <memory>
@@ -31,7 +32,7 @@ struct ParticleSystemData3;
 //! single particle has position, velocity, and force attributes by default. But
 //! it can also have additional custom scalar or vector attributes.
 //!
-class ParticleSystemData3 {
+class ParticleSystemData3 : public Serializable {
  public:
     //! Scalar data chunk.
     typedef Array1<double> ScalarData;
@@ -200,10 +201,10 @@ class ParticleSystemData3 {
     void buildNeighborLists(double maxSearchRadius);
 
     //! Serializes this particle system data to the buffer.
-    virtual void serialize(std::vector<uint8_t>* buffer);
+    void serialize(std::vector<uint8_t>* buffer) const override;
 
     //! Deserializes this particle system data from the buffer.
-    virtual void deserialize(const std::vector<uint8_t>& buffer);
+    void deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Copies from other particle system data.
     void set(const ParticleSystemData3& other);
@@ -214,7 +215,8 @@ class ParticleSystemData3 {
  protected:
     void serializeParticleSystemData(
         flatbuffers::FlatBufferBuilder* builder,
-        flatbuffers::Offset<fbs::ParticleSystemData3>* fbsParticleSystemData);
+        flatbuffers::Offset<fbs::ParticleSystemData3>* fbsParticleSystemData)
+        const;
 
     void deserializeParticleSystemData(
         const fbs::ParticleSystemData3* fbsParticleSystemData);

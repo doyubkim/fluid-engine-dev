@@ -236,7 +236,7 @@ void ParticleSystemData2::buildNeighborLists(double maxSearchRadius) {
              << " seconds";
 }
 
-void ParticleSystemData2::serialize(std::vector<uint8_t>* buffer) {
+void ParticleSystemData2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
     flatbuffers::Offset<fbs::ParticleSystemData2> fbsParticleSystemData;
 
@@ -284,7 +284,8 @@ ParticleSystemData2& ParticleSystemData2::operator=(
 
 void ParticleSystemData2::serializeParticleSystemData(
     flatbuffers::FlatBufferBuilder* builder,
-    flatbuffers::Offset<fbs::ParticleSystemData2>* fbsParticleSystemData) {
+    flatbuffers::Offset<fbs::ParticleSystemData2>* fbsParticleSystemData)
+    const {
     // Copy data
     std::vector<flatbuffers::Offset<fbs::ScalarParticleData2>> scalarDataList;
     for (const auto& scalarData : _scalarDataList) {

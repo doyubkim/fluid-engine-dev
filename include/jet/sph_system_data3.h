@@ -149,7 +149,7 @@ class SphSystemData3 : public ParticleSystemData3 {
     void buildNeighborLists();
 
     //! Serializes this SPH system data to the buffer.
-    void serialize(std::vector<uint8_t>* buffer) override;
+    void serialize(std::vector<uint8_t>* buffer) const override;
 
     //! Deserializes this SPH system data from the buffer.
     void deserialize(const std::vector<uint8_t>& buffer) override;

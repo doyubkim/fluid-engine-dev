@@ -5,6 +5,7 @@
 
 #include <jet/size2.h>
 #include <jet/bounding_box2.h>
+#include <jet/serialization.h>
 #include <functional>
 #include <utility>  // just make cpplint happy..
 #include <vector>
@@ -20,7 +21,7 @@ namespace jet {
 //! shape of the grid. The grid structure is axis-aligned and can have different
 //! grid spacing per axis.
 //!
-class Grid2 {
+class Grid2 : public Serializable {
  public:
     //! Function type for mapping data index to actual position.
     typedef std::function<Vector2D(size_t, size_t)> DataPositionFunc;
@@ -69,12 +70,6 @@ class Grid2 {
     //!
     void parallelForEachCellIndex(
         const std::function<void(size_t, size_t)>& func) const;
-
-    //! Serializes the grid instance to the output buffer.
-    virtual void serialize(std::vector<uint8_t>* buffer) const = 0;
-
-    //! Deserializes the input buffer to the grid instance.
-    virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 
     //! Returns true if resolution, grid-spacing and origin are same.
     bool hasSameShape(const Grid2& other) const;

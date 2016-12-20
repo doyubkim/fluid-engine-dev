@@ -276,7 +276,7 @@ void SphSystemData2::computeMass() {
     ParticleSystemData2::setMass(newMass);
 }
 
-void SphSystemData2::serialize(std::vector<uint8_t>* buffer) {
+void SphSystemData2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
     flatbuffers::Offset<fbs::ParticleSystemData2> fbsParticleSystemData;
 

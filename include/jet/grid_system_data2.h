@@ -3,8 +3,9 @@
 #ifndef INCLUDE_JET_GRID_SYSTEM_DATA2_H_
 #define INCLUDE_JET_GRID_SYSTEM_DATA2_H_
 
-#include <jet/scalar_grid2.h>
 #include <jet/face_centered_grid2.h>
+#include <jet/scalar_grid2.h>
+#include <jet/serialization.h>
 #include <memory>
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace jet {
 //! face-centered (MAC) grid by default. It can also have additional scalar or
 //! vector attributes by adding extra data layer.
 //!
-class GridSystemData2 {
+class GridSystemData2 : public Serializable {
  public:
     //! Constructs empty grid system.
     GridSystemData2();
@@ -210,10 +211,10 @@ class GridSystemData2 {
     size_t numberOfAdvectableVectorData() const;
 
     //! Serialize the data to the given buffer.
-    void serialize(std::vector<uint8_t>* buffer) const;
+    void serialize(std::vector<uint8_t>* buffer) const override;
 
     //! Serialize the data from the given buffer.
-    void deserialize(const std::vector<uint8_t>& buffer);
+    void deserialize(const std::vector<uint8_t>& buffer) override;
 
  private:
     Size2 _resolution;

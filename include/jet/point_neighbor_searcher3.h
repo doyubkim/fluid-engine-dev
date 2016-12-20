@@ -4,6 +4,7 @@
 #define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_
 
 #include <jet/array_accessor1.h>
+#include <jet/serialization.h>
 #include <jet/vector3.h>
 #include <functional>
 #include <memory>
@@ -20,7 +21,7 @@ namespace jet {
 //! Once built, the data structure is used to search nearby points for given
 //! origin point.
 //!
-class PointNeighborSearcher3 {
+class PointNeighborSearcher3 : public Serializable {
  public:
     //! Callback function for nearby search query. The first parameter is the
     //! index of the nearby point, and the second is the position of the point.
@@ -71,12 +72,6 @@ class PointNeighborSearcher3 {
     //! \return     Copy of this object.
     //!
     virtual std::shared_ptr<PointNeighborSearcher3> clone() const = 0;
-
-    //! Serializes the neighbor searcher into the buffer.
-    virtual void serialize(std::vector<uint8_t>* buffer) const = 0;
-
-    //! Deserializes the neighbor searcher from the buffer.
-    virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher3 type.

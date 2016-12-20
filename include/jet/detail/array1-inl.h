@@ -161,31 +161,6 @@ void Array<T, 1>::parallelForEachIndex(Callback func) const {
 }
 
 template <typename T>
-void Array<T, 1>::serialize(std::ostream* strm) const {
-    uint64_t s64 = size();
-    const char* sizeAsBytes = reinterpret_cast<const char*>(&s64);
-    strm->write(sizeAsBytes, sizeof(uint64_t));
-
-    if (s64 > 0) {
-        const char* body = reinterpret_cast<const char*>(data());
-        strm->write(body, sizeof(T) * size());
-    }
-}
-
-template <typename T>
-void Array<T, 1>::deserialize(std::istream* strm) {
-    uint64_t s64 = size();
-    char* sizeAsBytes = reinterpret_cast<char*>(&s64);
-    strm->read(sizeAsBytes, sizeof(uint64_t));
-
-    resize(static_cast<size_t>(s64));
-    if (s64 > 0) {
-        char* body = reinterpret_cast<char*>(data());
-        strm->read(body, sizeof(T) * size());
-    }
-}
-
-template <typename T>
 T& Array<T, 1>::operator[](size_t i) {
     return _data[i];
 }

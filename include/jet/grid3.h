@@ -5,6 +5,7 @@
 
 #include <jet/size3.h>
 #include <jet/bounding_box3.h>
+#include <jet/serialization.h>
 #include <functional>
 #include <utility>  // just make cpplint happy..
 #include <string>
@@ -20,7 +21,7 @@ namespace jet {
 //! shape of the grid. The grid structure is axis-aligned and can have different
 //! grid spacing per axis.
 //!
-class Grid3 {
+class Grid3 : public Serializable {
  public:
     //! Function type for mapping data index to actual position.
     typedef std::function<Vector3D(size_t, size_t, size_t)> DataPositionFunc;

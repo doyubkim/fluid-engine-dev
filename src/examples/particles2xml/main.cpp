@@ -105,7 +105,10 @@ int main(int argc, char* argv[]) {
     Array1<Vector3D> positions;
     std::ifstream positionFile(inputFilename.c_str(), std::ifstream::binary);
     if (positionFile) {
-        positions.deserialize(&positionFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(positionFile)),
+            (std::istreambuf_iterator<char>()));
+        deserialize(buffer, &positions);
         positionFile.close();
     } else {
         printf("Cannot read file %s.\n", inputFilename.c_str());
