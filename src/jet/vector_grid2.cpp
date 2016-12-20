@@ -2,7 +2,7 @@
 
 #include <pch.h>
 #include <fbs_helpers.h>
-#include <vector_grid2_generated.h>
+#include <generated/vector_grid2_generated.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
 #include <flatbuffers/flatbuffers.h>
@@ -65,7 +65,7 @@ void VectorGrid2::resize(const Vector2D& gridSpacing, const Vector2D& origin) {
 void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto type = builder.CreateString(gridTypeName());
+    auto type = builder.CreateString(typeName());
     auto fbsResolution = jetToFbs(resolution());
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
@@ -89,7 +89,7 @@ void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
 void VectorGrid2::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetVectorGrid2(buffer.data());
 
-    if (gridTypeName() != std::string(fbsGrid->type()->c_str())) {
+    if (typeName() != std::string(fbsGrid->type()->c_str())) {
         return;
     }
 

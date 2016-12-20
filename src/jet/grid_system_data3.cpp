@@ -3,7 +3,7 @@
 #include <pch.h>
 #include <factory.h>
 #include <fbs_helpers.h>
-#include <grid_system_data3_generated.h>
+#include <generated/grid_system_data3_generated.h>
 #include <jet/grid_system_data3.h>
 #include <flatbuffers/flatbuffers.h>
 #include <algorithm>

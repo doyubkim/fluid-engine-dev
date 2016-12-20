@@ -1,0 +1,17 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table PointHashGridSearcherBucket2 {
+    data:[ulong];
+}
+
+table PointHashGridSearcher2 {
+    gridSpacing:double;
+    resolution:Size2;
+    points:[Vector2D];
+    buckets:[PointHashGridSearcherBucket2];
+
+}
+
+root_type PointHashGridSearcher2;

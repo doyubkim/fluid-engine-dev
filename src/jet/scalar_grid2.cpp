@@ -2,7 +2,7 @@
 
 #include <pch.h>
 #include <fbs_helpers.h>
-#include <scalar_grid2_generated.h>
+#include <generated/scalar_grid2_generated.h>
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid2.h>
@@ -172,7 +172,7 @@ void ScalarGrid2::parallelForEachDataPointIndex(
 void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto type = builder.CreateString(gridTypeName());
+    auto type = builder.CreateString(typeName());
     auto fbsResolution = jetToFbs(resolution());
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
@@ -196,7 +196,7 @@ void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
 void ScalarGrid2::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetScalarGrid2(buffer.data());
 
-    if (gridTypeName() != std::string(fbsGrid->type()->c_str())) {
+    if (typeName() != std::string(fbsGrid->type()->c_str())) {
         return;
     }
 

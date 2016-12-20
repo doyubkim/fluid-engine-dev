@@ -9,7 +9,20 @@
 #include <memory>
 #include <vector>
 
+namespace flatbuffers {
+
+class FlatBufferBuilder;
+template<typename T> struct Offset;
+
+}
+
 namespace jet {
+
+namespace fbs {
+
+struct ParticleSystemData2;
+
+}
 
 //!
 //! \brief      2-D particle system data.
@@ -20,8 +33,6 @@ namespace jet {
 //!
 class ParticleSystemData2 {
  public:
-    JET_NON_COPYABLE(ParticleSystemData2)
-
     //! Scalar data chunk.
     typedef Array1<double> ScalarData;
 
@@ -30,6 +41,12 @@ class ParticleSystemData2 {
 
     //! Default constructor.
     ParticleSystemData2();
+
+    //! Constructs particle system data with given number of particles.
+    explicit ParticleSystemData2(size_t numberOfParticles);
+
+    //! Copy constructor.
+    ParticleSystemData2(const ParticleSystemData2& other);
 
     //! Destructor.
     virtual ~ParticleSystemData2();
@@ -182,12 +199,33 @@ class ParticleSystemData2 {
     //! Builds neighbor lists with given search radius.
     void buildNeighborLists(double maxSearchRadius);
 
+    //! Serializes this particle system data to the buffer.
+    virtual void serialize(std::vector<uint8_t>* buffer);
+
+    //! Deserializes this particle system data from the buffer.
+    virtual void deserialize(const std::vector<uint8_t>& buffer);
+
+    //! Copies from other particle system data.
+    void set(const ParticleSystemData2& other);
+
+    //! Copies from other particle system data.
+    ParticleSystemData2& operator=(const ParticleSystemData2& other);
+
+ protected:
+    void serializeParticleSystemData(
+        flatbuffers::FlatBufferBuilder* builder,
+        flatbuffers::Offset<fbs::ParticleSystemData2>* fbsParticleSystemData);
+
+    void deserializeParticleSystemData(
+        const fbs::ParticleSystemData2* fbsParticleSystemData);
+
  private:
     double _radius = 1e-3;
     double _mass = 1e-3;
-    VectorData _positions;
-    VectorData _velocities;
-    VectorData _forces;
+    size_t _numberOfParticles = 0;
+    size_t _positionIdx;
+    size_t _velocityIdx;
+    size_t _forceIdx;
 
     std::vector<ScalarData> _scalarDataList;
     std::vector<VectorData> _vectorDataList;

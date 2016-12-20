@@ -17,8 +17,15 @@ namespace jet {
 //!
 class PointSimpleListSearcher2 final : public PointNeighborSearcher2 {
  public:
+    JET_NEIGHBOR_SEARCHER2_TYPE_NAME(PointSimpleListSearcher2)
+
+    class Builder;
+
     //! Default constructor.
     PointSimpleListSearcher2();
+
+    //! Copy constructor.
+    PointSimpleListSearcher2(const PointSimpleListSearcher2& other);
 
     //!
     //! \brief      Builds internal structure for given points list.
@@ -55,8 +62,50 @@ class PointSimpleListSearcher2 final : public PointNeighborSearcher2 {
     bool hasNearbyPoint(
         const Vector2D& origin, double radius) const override;
 
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    PointNeighborSearcher2Ptr clone() const override;
+
+    //! Assignment operator.
+    PointSimpleListSearcher2& operator=(const PointSimpleListSearcher2& other);
+
+    //! Copy from the other instance.
+    void set(const PointSimpleListSearcher2& other);
+
+    //! Serializes the neighbor searcher into the buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Returns builder fox PointSimpleListSearcher2.
+    static Builder builder();
+
  private:
     std::vector<Vector2D> _points;
+};
+
+//! Shared pointer for the PointSimpleListSearcher2 type.
+typedef std::shared_ptr<PointSimpleListSearcher2> PointSimpleListSearcher2Ptr;
+
+//!
+//! \brief Front-end to create PointSimpleListSearcher2 objects step by step.
+//!
+class PointSimpleListSearcher2::Builder final
+    : public PointNeighborSearcherBuilder2 {
+ public:
+    //! Builds PointSimpleListSearcher2 instance.
+    PointSimpleListSearcher2 build() const;
+
+    //! Builds shared pointer of PointSimpleListSearcher2 instance.
+    PointSimpleListSearcher2Ptr makeShared() const;
+
+    //! Returns shared pointer of PointNeighborSearcher3 type.
+    PointNeighborSearcher2Ptr buildPointNeighborSearcher() const override;
 };
 
 }  // namespace jet

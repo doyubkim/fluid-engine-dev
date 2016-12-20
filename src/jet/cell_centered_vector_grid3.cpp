@@ -195,3 +195,16 @@ VectorGrid3Ptr CellCenteredVectorGrid3::Builder::build(
             delete obj;
         });
 }
+
+CellCenteredVectorGrid3Ptr
+CellCenteredVectorGrid3::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredVectorGrid3>(
+        new CellCenteredVectorGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredVectorGrid3* obj) {
+            delete obj;
+        });
+}

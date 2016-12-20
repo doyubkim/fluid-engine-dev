@@ -32,7 +32,7 @@ class Grid3 {
     virtual ~Grid3();
 
     //! Returns the type name of derived grid.
-    virtual std::string gridTypeName() const = 0;
+    virtual std::string typeName() const = 0;
 
     //! Returns the grid resolution.
     const Size3& resolution() const;
@@ -110,7 +110,7 @@ class Grid3 {
 };
 
 #define JET_GRID3_TYPE_NAME(DerivedClassName) \
-    std::string gridTypeName() const override { \
+    std::string typeName() const override { \
         return #DerivedClassName; \
     }
 

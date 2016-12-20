@@ -116,13 +116,7 @@ class CellCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
     CellCenteredScalarGrid3 build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid3 instance.
-    CellCenteredScalarGrid3Ptr makeShared() const {
-        return std::make_shared<CellCenteredScalarGrid3>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    CellCenteredScalarGrid3Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredScalarGrid3 instance.

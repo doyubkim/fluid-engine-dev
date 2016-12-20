@@ -20,6 +20,10 @@ namespace jet {
 //!
 class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
  public:
+    JET_NEIGHBOR_SEARCHER3_TYPE_NAME(PointHashGridSearcher3)
+
+    class Builder;
+
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
     //!
@@ -49,6 +53,9 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
         size_t resolutionY,
         size_t resolutionZ,
         double gridSpacing);
+
+    //! Copy constructor.
+    PointHashGridSearcher3(const PointHashGridSearcher3& other);
 
     //! Builds internal acceleration structure for given points list.
     void build(const ConstArrayAccessor1<Vector3D>& points) override;
@@ -117,6 +124,29 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     Point3I getBucketIndex(const Vector3D& position) const;
 
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    PointNeighborSearcher3Ptr clone() const override;
+
+    //! Assignment operator.
+    PointHashGridSearcher3& operator=(const PointHashGridSearcher3& other);
+
+    //! Copy from the other instance.
+    void set(const PointHashGridSearcher3& other);
+
+    //! Serializes the neighbor searcher into the buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Returns builder fox PointHashGridSearcher3.
+    static Builder builder();
+
  private:
     double _gridSpacing = 1.0;
     Point3I _resolution = Point3I(1, 1, 1);
@@ -126,6 +156,35 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     size_t getHashKeyFromPosition(const Vector3D& position) const;
 
     void getNearbyKeys(const Vector3D& position, size_t* bucketIndices) const;
+};
+
+//! Shared pointer for the PointHashGridSearcher3 type.
+typedef std::shared_ptr<PointHashGridSearcher3> PointHashGridSearcher3Ptr;
+
+//!
+//! \brief Front-end to create PointHashGridSearcher3 objects step by step.
+//!
+class PointHashGridSearcher3::Builder final
+    : public PointNeighborSearcherBuilder3 {
+ public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacing);
+
+    //! Builds PointHashGridSearcher3 instance.
+    PointHashGridSearcher3 build() const;
+
+    //! Builds shared pointer of PointHashGridSearcher3 instance.
+    PointHashGridSearcher3Ptr makeShared() const;
+
+    //! Returns shared pointer of PointHashGridSearcher3 type.
+    PointNeighborSearcher3Ptr buildPointNeighborSearcher() const override;
+
+ private:
+    Size3 _resolution{64, 64, 64};
+    double _gridSpacing = 1.0;
 };
 
 }  // namespace jet

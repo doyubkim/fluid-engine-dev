@@ -7,6 +7,8 @@
 #include <jet/vector2.h>
 #include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace jet {
 
@@ -30,6 +32,9 @@ class PointNeighborSearcher2 {
 
     //! Destructor.
     virtual ~PointNeighborSearcher2();
+
+    //! Returns the type name of the derived class.
+    virtual std::string typeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void build(const ConstArrayAccessor1<Vector2D>& points) = 0;
@@ -58,10 +63,40 @@ class PointNeighborSearcher2 {
     //!
     virtual bool hasNearbyPoint(
         const Vector2D& origin, double radius) const = 0;
+
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    virtual std::shared_ptr<PointNeighborSearcher2> clone() const = 0;
+
+    //! Serializes the neighbor searcher into the buffer.
+    virtual void serialize(std::vector<uint8_t>* buffer) const = 0;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher2 type.
 typedef std::shared_ptr<PointNeighborSearcher2> PointNeighborSearcher2Ptr;
+
+//! Abstract base class for 2-D point neighbor searcher builders.
+class PointNeighborSearcherBuilder2 {
+ public:
+    //! Returns shared pointer of PointNeighborSearcher2 type.
+    virtual PointNeighborSearcher2Ptr buildPointNeighborSearcher() const = 0;
+};
+
+//! Shared pointer for the PointNeighborSearcherBuilder2 type.
+typedef std::shared_ptr<PointNeighborSearcherBuilder2>
+    PointNeighborSearcherBuilder2Ptr;
+
+#define JET_NEIGHBOR_SEARCHER2_TYPE_NAME(DerivedClassName) \
+    std::string typeName() const override { \
+        return #DerivedClassName; \
+    }
 
 }  // namespace jet
 

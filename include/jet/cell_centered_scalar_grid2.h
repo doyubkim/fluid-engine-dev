@@ -110,13 +110,7 @@ class CellCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     CellCenteredScalarGrid2 build() const;
 
     //! Builds shared pointer of CellCenteredScalarGrid2 instance.
-    CellCenteredScalarGrid2Ptr makeShared() const {
-        return std::make_shared<CellCenteredScalarGrid2>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    CellCenteredScalarGrid2Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredScalarGrid2 instance.

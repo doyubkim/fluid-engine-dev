@@ -149,3 +149,16 @@ ScalarGrid2Ptr CellCenteredScalarGrid2::Builder::build(
             delete obj;
         });
 }
+
+CellCenteredScalarGrid2Ptr
+CellCenteredScalarGrid2::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredScalarGrid2>(
+        new CellCenteredScalarGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredScalarGrid2* obj) {
+            delete obj;
+        });
+}

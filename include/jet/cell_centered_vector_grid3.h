@@ -130,13 +130,7 @@ class CellCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
     CellCenteredVectorGrid3 build() const;
 
     //! Builds shared pointer of CellCenteredVectorGrid3 instance.
-    CellCenteredVectorGrid3Ptr makeShared() const {
-        return std::make_shared<CellCenteredVectorGrid3>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    CellCenteredVectorGrid3Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of CellCenteredVectorGrid3 instance.

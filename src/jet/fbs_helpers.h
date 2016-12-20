@@ -3,7 +3,7 @@
 #ifndef SRC_JET_FBS_HELPERS_H_
 #define SRC_JET_FBS_HELPERS_H_
 
-#include <basic_types_generated.h>
+#include <generated/basic_types_generated.h>
 #include <jet/size2.h>
 #include <jet/size3.h>
 #include <jet/vector2.h>
@@ -55,7 +55,7 @@ void serializeGrid(
     FbsFactoryFunc func,
     std::vector<flatbuffers::Offset<FbsGridType>>* fbsGridList) {
     for (const auto& grid : gridList) {
-        auto type = builder->CreateString(grid->gridTypeName());
+        auto type = builder->CreateString(grid->typeName());
         auto resolution = jetToFbs(grid->resolution());
         auto gridSpacing = jetToFbs(grid->gridSpacing());
         auto origin = jetToFbs(grid->origin());

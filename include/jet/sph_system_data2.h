@@ -5,6 +5,7 @@
 
 #include <jet/constants.h>
 #include <jet/particle_system_data2.h>
+#include <vector>
 
 namespace jet {
 
@@ -20,16 +21,31 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! Constructs empty SPH system.
     SphSystemData2();
 
+    //! Constructs SPH system data with given number of particles.
+    explicit SphSystemData2(size_t numberOfParticles);
+
+    //! Copy constructor.
+    SphSystemData2(const SphSystemData2& other);
+
     //! Destructor.
     virtual ~SphSystemData2();
 
     //!
-    //! \brief Sets the radius.
+    //! \brief      Sets the radius.
     //!
     //! Sets the radius of the particle system. The radius will be interpreted
     //! as target spacing.
     //!
     void setRadius(double newRadius) override;
+
+    //!
+    //! \brief      Sets the mass of a particle.
+    //!
+    //! Setting the mass of a particle will change the target density.
+    //!
+    //! \param[in]  newMass The new mass.
+    //!
+    void setMass(double newMass) override;
 
     //! Returns the density array accessor (immutable).
     ConstArrayAccessor1<double> densities() const;
@@ -59,9 +75,6 @@ class SphSystemData2 : public ParticleSystemData2 {
 
     //! Returns the target density of this particle system.
     double targetDensity() const;
-
-    //! Returns the mass of a particle in kg.
-    double mass() const;
 
     //!
     //! \brief Sets the target particle spacing in meters.
@@ -164,11 +177,19 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! Builds neighbor lists with kernel radius.
     void buildNeighborLists();
 
- private:
-    //! Mass of a particle in kilograms (kg).
-    //! Mass is determined by the target density and spacing.
-    double _mass;
+    //! Serializes this SPH system data to the buffer.
+    void serialize(std::vector<uint8_t>* buffer) override;
 
+    //! Deserializes this SPH system data from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Copies from other SPH system data.
+    void set(const SphSystemData2& other);
+
+    //! Copies from other SPH system data.
+    SphSystemData2& operator=(const SphSystemData2& other);
+
+ private:
     //! Target density of this particle system in kg/m^2.
     double _targetDensity = kWaterDensity;
 
@@ -182,13 +203,9 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! SPH kernel radius in meters.
     double _kernelRadius;
 
-    size_t _pressureDataId;
+    size_t _pressureIdx;
 
-    size_t _densityDataId;
-
-    //! Do not allow setMass call for SPH-type data.
-    //! Mass is determined by the target density and spacing.
-    void setMass(double newMass) override;
+    size_t _densityIdx;
 
     //! Computes the mass based on the target density and spacing.
     void computeMass();

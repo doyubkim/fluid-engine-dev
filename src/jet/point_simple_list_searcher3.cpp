@@ -1,12 +1,22 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <fbs_helpers.h>
+#include <generated/point_simple_list_searcher3_generated.h>
+
 #include <jet/point_simple_list_searcher3.h>
+
 #include <algorithm>
+#include <vector>
 
 using namespace jet;
 
 PointSimpleListSearcher3::PointSimpleListSearcher3() {
+}
+
+PointSimpleListSearcher3::PointSimpleListSearcher3(
+    const PointSimpleListSearcher3& other) {
+    set(other);
 }
 
 void PointSimpleListSearcher3::build(
@@ -42,4 +52,74 @@ bool PointSimpleListSearcher3::hasNearbyPoint(
     }
 
     return false;
+}
+
+PointNeighborSearcher3Ptr PointSimpleListSearcher3::clone() const {
+    return std::make_shared<PointSimpleListSearcher3>(*this);
+}
+
+PointSimpleListSearcher3&
+PointSimpleListSearcher3::operator=(const PointSimpleListSearcher3& other) {
+    set(other);
+    return *this;
+}
+
+void PointSimpleListSearcher3::set(const PointSimpleListSearcher3& other) {
+    _points = other._points;
+}
+
+void PointSimpleListSearcher3::serialize(
+    std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    // Copy points
+    std::vector<fbs::Vector3D> points;
+    for (const auto& pt : _points) {
+        points.push_back(jetToFbs(pt));
+    }
+
+    auto fbsPoints
+        = builder.CreateVectorOfStructs(points.data(), points.size());
+
+    // Copy the searcher
+    auto fbsSearcher = fbs::CreatePointSimpleListSearcher3(builder, fbsPoints);
+
+    builder.Finish(fbsSearcher);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
+}
+
+void PointSimpleListSearcher3::deserialize(
+    const std::vector<uint8_t>& buffer) {
+    auto fbsSearcher = fbs::GetPointSimpleListSearcher3(buffer.data());
+
+    // Copy points
+    auto fbsPoints = fbsSearcher->points();
+    _points.resize(fbsPoints->size());
+    for (size_t i = 0; i < fbsPoints->size(); ++i) {
+        _points[i] = fbsToJet(*fbsPoints->Get(i));
+    }
+}
+
+PointSimpleListSearcher3
+PointSimpleListSearcher3::Builder::build() const {
+    return PointSimpleListSearcher3();
+}
+
+PointSimpleListSearcher3Ptr
+PointSimpleListSearcher3::Builder::makeShared() const {
+    return std::shared_ptr<PointSimpleListSearcher3>(
+        new PointSimpleListSearcher3(),
+        [] (PointSimpleListSearcher3* obj) {
+            delete obj;
+        });
+}
+
+PointNeighborSearcher3Ptr
+PointSimpleListSearcher3::Builder::buildPointNeighborSearcher() const {
+    return makeShared();
 }

@@ -1,0 +1,34 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table ScalarParticleData2 {
+    data:[double];
+}
+
+table VectorParticleData2 {
+    data:[Vector2D];
+}
+
+table PointNeighborSearcherSerialized2 {
+    type:string;
+    data:[ubyte];
+}
+
+table ParticleNeighborList2 {
+    data:[ulong];
+}
+
+table ParticleSystemData2 {
+    radius:double;
+    mass:double;
+    positionIdx:ulong;
+    velocityIdx:ulong;
+    forceIdx:ulong;
+    scalarDataList:[ScalarParticleData2];
+    vectorDataList:[VectorParticleData2];
+    neighborSearcher:PointNeighborSearcherSerialized2;
+    neighborLists:[ParticleNeighborList2];
+}
+
+root_type ParticleSystemData2;

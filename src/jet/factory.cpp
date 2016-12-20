@@ -8,6 +8,12 @@
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/face_centered_grid3.h>
+#include <jet/point_hash_grid_searcher2.h>
+#include <jet/point_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher2.h>
+#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_simple_list_searcher2.h>
+#include <jet/point_simple_list_searcher3.h>
 #include <jet/vertex_centered_scalar_grid2.h>
 #include <jet/vertex_centered_scalar_grid3.h>
 #include <jet/vertex_centered_vector_grid2.h>
@@ -24,23 +30,34 @@ std::unordered_map<std::string, ScalarGridBuilder3Ptr> sScalarGrid3Builders;
 std::unordered_map<std::string, VectorGridBuilder2Ptr> sVectorGrid2Builders;
 std::unordered_map<std::string, VectorGridBuilder3Ptr> sVectorGrid3Builders;
 
-}
+std::unordered_map<std::string, PointNeighborSearcherBuilder2Ptr>
+    sPointNeighborSearcher2Builders;
+std::unordered_map<std::string, PointNeighborSearcherBuilder3Ptr>
+    sPointNeighborSearcher3Builders;
+
+}  // namespace
 
 
-#define REGISTER_GRID_BUILDER(map, ClassName) \
+#define REGISTER_BUILDER(map, ClassName) \
     map.emplace(#ClassName, std::make_shared<ClassName::Builder>());
 
 #define REGISTER_SCALAR_GRID2_BUILDER(ClassName) \
-    REGISTER_GRID_BUILDER(sScalarGrid2Builders, ClassName)
+    REGISTER_BUILDER(sScalarGrid2Builders, ClassName)
 
 #define REGISTER_SCALAR_GRID3_BUILDER(ClassName) \
-    REGISTER_GRID_BUILDER(sScalarGrid3Builders, ClassName)
+    REGISTER_BUILDER(sScalarGrid3Builders, ClassName)
 
 #define REGISTER_VECTOR_GRID2_BUILDER(ClassName) \
-    REGISTER_GRID_BUILDER(sVectorGrid2Builders, ClassName)
+    REGISTER_BUILDER(sVectorGrid2Builders, ClassName)
 
 #define REGISTER_VECTOR_GRID3_BUILDER(ClassName) \
-    REGISTER_GRID_BUILDER(sVectorGrid3Builders, ClassName)
+    REGISTER_BUILDER(sVectorGrid3Builders, ClassName)
+
+#define REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(ClassName) \
+    REGISTER_BUILDER(sPointNeighborSearcher2Builders, ClassName)
+
+#define REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(ClassName) \
+    REGISTER_BUILDER(sPointNeighborSearcher3Builders, ClassName)
 
 class Registry {
  public:
@@ -58,6 +75,16 @@ class Registry {
         REGISTER_VECTOR_GRID3_BUILDER(CellCenteredVectorGrid3)
         REGISTER_VECTOR_GRID3_BUILDER(FaceCenteredGrid3)
         REGISTER_VECTOR_GRID3_BUILDER(VertexCenteredVectorGrid3)
+
+        REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(PointHashGridSearcher2)
+        REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(
+            PointParallelHashGridSearcher2)
+        REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(PointSimpleListSearcher2)
+
+        REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(PointHashGridSearcher3)
+        REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(
+            PointParallelHashGridSearcher3)
+        REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(PointSimpleListSearcher3)
     }
 };
 
@@ -98,6 +125,28 @@ VectorGrid3Ptr Factory::buildVectorGrid3(const std::string& name) {
     if (result != sVectorGrid3Builders.end()) {
         auto builder = result->second;
         return builder->build({0, 0, 0}, {1, 1, 1}, {0, 0, 0}, {0, 0, 0});
+    } else {
+        return nullptr;
+    }
+}
+
+PointNeighborSearcher2Ptr Factory::buildPointNeighborSearcher2(
+    const std::string& name) {
+    auto result = sPointNeighborSearcher2Builders.find(name);
+    if (result != sPointNeighborSearcher2Builders.end()) {
+        auto builder = result->second;
+        return builder->buildPointNeighborSearcher();
+    } else {
+        return nullptr;
+    }
+}
+
+PointNeighborSearcher3Ptr Factory::buildPointNeighborSearcher3(
+    const std::string& name) {
+    auto result = sPointNeighborSearcher3Builders.find(name);
+    if (result != sPointNeighborSearcher3Builders.end()) {
+        auto builder = result->second;
+        return builder->buildPointNeighborSearcher();
     } else {
         return nullptr;
     }

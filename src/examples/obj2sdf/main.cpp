@@ -74,6 +74,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    if (inputFilename.empty()) {
+        printUsage();
+        exit(EXIT_FAILURE);
+    }
+
+    if (outputFilename.empty()) {
+        printUsage();
+        exit(EXIT_FAILURE);
+    }
+
     TriangleMesh3 triMesh;
 
     std::ifstream objFile(inputFilename.c_str());

@@ -7,6 +7,8 @@
 #include <jet/vector3.h>
 #include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace jet {
 
@@ -30,6 +32,9 @@ class PointNeighborSearcher3 {
 
     //! Destructor.
     virtual ~PointNeighborSearcher3();
+
+    //! Returns the type name of the derived class.
+    virtual std::string typeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void build(const ConstArrayAccessor1<Vector3D>& points) = 0;
@@ -58,10 +63,40 @@ class PointNeighborSearcher3 {
     //!
     virtual bool hasNearbyPoint(
         const Vector3D& origin, double radius) const = 0;
+
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    virtual std::shared_ptr<PointNeighborSearcher3> clone() const = 0;
+
+    //! Serializes the neighbor searcher into the buffer.
+    virtual void serialize(std::vector<uint8_t>* buffer) const = 0;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher3 type.
 typedef std::shared_ptr<PointNeighborSearcher3> PointNeighborSearcher3Ptr;
+
+//! Abstract base class for 3-D point neighbor searcher builders.
+class PointNeighborSearcherBuilder3 {
+ public:
+    //! Returns shared pointer of PointNeighborSearcher3 type.
+    virtual PointNeighborSearcher3Ptr buildPointNeighborSearcher() const = 0;
+};
+
+//! Shared pointer for the PointNeighborSearcherBuilder3 type.
+typedef std::shared_ptr<PointNeighborSearcherBuilder3>
+    PointNeighborSearcherBuilder3Ptr;
+
+#define JET_NEIGHBOR_SEARCHER3_TYPE_NAME(DerivedClassName) \
+    std::string typeName() const override { \
+        return #DerivedClassName; \
+    }
 
 }  // namespace jet
 
