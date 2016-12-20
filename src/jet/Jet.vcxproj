@@ -390,6 +390,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\scalar_grid3.h" />
     <ClInclude Include="..\..\include\jet\semi_lagrangian2.h" />
     <ClInclude Include="..\..\include\jet\semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\serialization.h" />
     <ClInclude Include="..\..\include\jet\serial.h" />
     <ClInclude Include="..\..\include\jet\size.h" />
     <ClInclude Include="..\..\include\jet\size2.h" />
@@ -580,6 +581,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="scalar_grid3.cpp" />
     <ClCompile Include="semi_lagrangian2.cpp" />
     <ClCompile Include="semi_lagrangian3.cpp" />
+    <ClCompile Include="serialization.cpp" />
     <ClCompile Include="sphere2.cpp" />
     <ClCompile Include="sphere3.cpp" />
     <ClCompile Include="sph_solver2.cpp" />

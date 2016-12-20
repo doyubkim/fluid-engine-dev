@@ -111,6 +111,9 @@
     <ClInclude Include="..\..\include\jet\detail\serial-inl.h">
       <Filter>Header Files\detail</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\detail\serialization-inl.h">
+      <Filter>Header Files\detail</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\detail\size2-inl.h">
       <Filter>Header Files\detail</Filter>
     </ClInclude>
@@ -663,6 +666,9 @@
     <ClInclude Include="..\..\include\jet\serial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\serialization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\size.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -897,6 +903,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="semi_lagrangian3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sph_solver2.cpp">

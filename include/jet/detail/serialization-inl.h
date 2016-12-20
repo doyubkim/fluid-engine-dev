@@ -4,6 +4,7 @@
 #define INCLUDE_JET_DETAIL_SERIALIZATION_INL_H_
 
 #include <jet/serialization.h>
+#include <cstring>
 #include <vector>
 
 namespace jet {
