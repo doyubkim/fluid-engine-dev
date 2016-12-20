@@ -177,30 +177,32 @@ void GridSystemData3::serialize(std::vector<uint8_t>* buffer) const {
     auto gridSpacing = jetToFbs(_gridSpacing);
     auto origin = jetToFbs(_origin);
 
-    std::vector<flatbuffers::Offset<fbs::ScalarGrid3>> scalarDataList;
-    std::vector<flatbuffers::Offset<fbs::VectorGrid3>> vectorDataList;
-    std::vector<flatbuffers::Offset<fbs::ScalarGrid3>> advScalarDataList;
-    std::vector<flatbuffers::Offset<fbs::VectorGrid3>> advVectorDataList;
+    std::vector<flatbuffers::Offset<fbs::ScalarGridSerialized3>> scalarDataList;
+    std::vector<flatbuffers::Offset<fbs::VectorGridSerialized3>> vectorDataList;
+    std::vector<flatbuffers::Offset<fbs::ScalarGridSerialized3>>
+        advScalarDataList;
+    std::vector<flatbuffers::Offset<fbs::VectorGridSerialized3>>
+        advVectorDataList;
 
     serializeGrid(
         &builder,
         _scalarDataList,
-        fbs::CreateScalarGrid3,
+        fbs::CreateScalarGridSerialized3,
         &scalarDataList);
     serializeGrid(
         &builder,
         _vectorDataList,
-        fbs::CreateVectorGrid3,
+        fbs::CreateVectorGridSerialized3,
         &vectorDataList);
     serializeGrid(
         &builder,
         _advectableScalarDataList,
-        fbs::CreateScalarGrid3,
+        fbs::CreateScalarGridSerialized3,
         &advScalarDataList);
     serializeGrid(
         &builder,
         _advectableVectorDataList,
-        fbs::CreateVectorGrid3,
+        fbs::CreateVectorGridSerialized3,
         &advVectorDataList);
 
     auto gsd = fbs::CreateGridSystemData3(

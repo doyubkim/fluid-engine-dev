@@ -14,21 +14,17 @@ struct ScalarGrid3;
 
 struct ScalarGrid3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
-    VT_TYPE = 4,
-    VT_RESOLUTION = 6,
-    VT_GRIDSPACING = 8,
-    VT_ORIGIN = 10,
-    VT_DATA = 12
+    VT_RESOLUTION = 4,
+    VT_GRIDSPACING = 6,
+    VT_ORIGIN = 8,
+    VT_DATA = 10
   };
-  const flatbuffers::String *type() const { return GetPointer<const flatbuffers::String *>(VT_TYPE); }
   const jet::fbs::Size3 *resolution() const { return GetStruct<const jet::fbs::Size3 *>(VT_RESOLUTION); }
   const jet::fbs::Vector3D *gridSpacing() const { return GetStruct<const jet::fbs::Vector3D *>(VT_GRIDSPACING); }
   const jet::fbs::Vector3D *origin() const { return GetStruct<const jet::fbs::Vector3D *>(VT_ORIGIN); }
   const flatbuffers::Vector<double> *data() const { return GetPointer<const flatbuffers::Vector<double> *>(VT_DATA); }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_TYPE) &&
-           verifier.Verify(type()) &&
            VerifyField<jet::fbs::Size3>(verifier, VT_RESOLUTION) &&
            VerifyField<jet::fbs::Vector3D>(verifier, VT_GRIDSPACING) &&
            VerifyField<jet::fbs::Vector3D>(verifier, VT_ORIGIN) &&
@@ -41,7 +37,6 @@ struct ScalarGrid3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 struct ScalarGrid3Builder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_type(flatbuffers::Offset<flatbuffers::String> type) { fbb_.AddOffset(ScalarGrid3::VT_TYPE, type); }
   void add_resolution(const jet::fbs::Size3 *resolution) { fbb_.AddStruct(ScalarGrid3::VT_RESOLUTION, resolution); }
   void add_gridSpacing(const jet::fbs::Vector3D *gridSpacing) { fbb_.AddStruct(ScalarGrid3::VT_GRIDSPACING, gridSpacing); }
   void add_origin(const jet::fbs::Vector3D *origin) { fbb_.AddStruct(ScalarGrid3::VT_ORIGIN, origin); }
@@ -49,13 +44,12 @@ struct ScalarGrid3Builder {
   ScalarGrid3Builder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   ScalarGrid3Builder &operator=(const ScalarGrid3Builder &);
   flatbuffers::Offset<ScalarGrid3> Finish() {
-    auto o = flatbuffers::Offset<ScalarGrid3>(fbb_.EndTable(start_, 5));
+    auto o = flatbuffers::Offset<ScalarGrid3>(fbb_.EndTable(start_, 4));
     return o;
   }
 };
 
 inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3(flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> type = 0,
     const jet::fbs::Size3 *resolution = 0,
     const jet::fbs::Vector3D *gridSpacing = 0,
     const jet::fbs::Vector3D *origin = 0,
@@ -65,17 +59,15 @@ inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3(flatbuffers::FlatBuffe
   builder_.add_origin(origin);
   builder_.add_gridSpacing(gridSpacing);
   builder_.add_resolution(resolution);
-  builder_.add_type(type);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3Direct(flatbuffers::FlatBufferBuilder &_fbb,
-    const char *type = nullptr,
     const jet::fbs::Size3 *resolution = 0,
     const jet::fbs::Vector3D *gridSpacing = 0,
     const jet::fbs::Vector3D *origin = 0,
     const std::vector<double> *data = nullptr) {
-  return CreateScalarGrid3(_fbb, type ? _fbb.CreateString(type) : 0, resolution, gridSpacing, origin, data ? _fbb.CreateVector<double>(*data) : 0);
+  return CreateScalarGrid3(_fbb, resolution, gridSpacing, origin, data ? _fbb.CreateVector<double>(*data) : 0);
 }
 
 inline const jet::fbs::ScalarGrid3 *GetScalarGrid3(const void *buf) { return flatbuffers::GetRoot<jet::fbs::ScalarGrid3>(buf); }

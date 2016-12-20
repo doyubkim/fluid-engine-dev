@@ -139,12 +139,6 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     //! Returns the copy of the grid instance.
     std::shared_ptr<VectorGrid2> clone() const override;
 
-    //! Fetches the data into a continuous linear array.
-    void getData(std::vector<double>* data) const override;
-
-    //! Sets the data from a continuous linear array.
-    void setData(const std::vector<double>& data) override;
-
     //!
     //! \brief Invokes the given function \p func for each u-data point.
     //!
@@ -218,6 +212,12 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
         const Vector2D& gridSpacing,
         const Vector2D& origin,
         const Vector2D& initialValue) final;
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  private:
     Array2<double> _dataU;

@@ -92,18 +92,18 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     //!
     std::function<Vector2D(const Vector2D&)> sampler() const override;
 
-    //! Fetches the data into a continuous linear array.
-    void getData(std::vector<double>* data) const override;
-
-    //! Sets the data from a continuous linear array.
-    void setData(const std::vector<double>& data) override;
-
  protected:
     //! Swaps the data storage and predefined samplers with given grid.
     void swapCollocatedVectorGrid(CollocatedVectorGrid2* other);
 
     //! Sets the data storage and predefined samplers with given grid.
     void setCollocatedVectorGrid(const CollocatedVectorGrid2& other);
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  private:
     Array2<Vector2D> _data;

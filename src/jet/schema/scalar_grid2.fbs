@@ -3,7 +3,6 @@ include "basic_types.fbs";
 namespace jet.fbs;
 
 table ScalarGrid2 {
-    type:string;
     resolution:Size2;
     gridSpacing:Vector2D;
     origin:Vector2D;

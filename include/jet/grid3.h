@@ -76,12 +76,6 @@ class Grid3 {
     //! Deserializes the input buffer to the grid instance.
     virtual void deserialize(const std::vector<uint8_t>& buffer) = 0;
 
-    //! Fetches the data into a continuous linear array.
-    virtual void getData(std::vector<double>* data) const = 0;
-
-    //! Sets the data from a continuous linear array.
-    virtual void setData(const std::vector<double>& data) = 0;
-
     //! Returns true if resolution, grid-spacing and origin are same.
     bool hasSameShape(const Grid3& other) const;
 
@@ -101,6 +95,12 @@ class Grid3 {
 
     //! Sets the size parameters with given grid \p other.
     void setGrid(const Grid3& other);
+
+    //! Fetches the data into a continuous linear array.
+    virtual void getData(std::vector<double>* data) const = 0;
+
+    //! Sets the data from a continuous linear array.
+    virtual void setData(const std::vector<double>& data) = 0;
 
  private:
     Size3 _resolution;

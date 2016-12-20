@@ -65,7 +65,6 @@ void VectorGrid2::resize(const Vector2D& gridSpacing, const Vector2D& origin) {
 void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto type = builder.CreateString(typeName());
     auto fbsResolution = jetToFbs(resolution());
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
@@ -75,7 +74,7 @@ void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
     auto data = builder.CreateVector(gridData.data(), gridData.size());
 
     auto fbsGrid = fbs::CreateVectorGrid2(
-        builder, type, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
 
     builder.Finish(fbsGrid);
 
@@ -88,10 +87,6 @@ void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
 
 void VectorGrid2::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetVectorGrid2(buffer.data());
-
-    if (typeName() != std::string(fbsGrid->type()->c_str())) {
-        return;
-    }
 
     resize(
         fbsToJet(*fbsGrid->resolution()),

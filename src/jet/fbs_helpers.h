@@ -56,17 +56,13 @@ void serializeGrid(
     std::vector<flatbuffers::Offset<FbsGridType>>* fbsGridList) {
     for (const auto& grid : gridList) {
         auto type = builder->CreateString(grid->typeName());
-        auto resolution = jetToFbs(grid->resolution());
-        auto gridSpacing = jetToFbs(grid->gridSpacing());
-        auto origin = jetToFbs(grid->origin());
 
-        std::vector<double> gridData;
-        grid->getData(&gridData);
-        auto data = builder->CreateVector(gridData.data(), gridData.size());
-
-        flatbuffers::Offset<FbsGridType> fbsGrid = func(
-            *builder, type, &resolution, &gridSpacing, &origin, data);
-
+        std::vector<uint8_t> gridSerialized;
+        grid->serialize(&gridSerialized);
+        auto fbsGrid = func(
+            *builder, type, builder->CreateVector(
+                gridSerialized.data(),
+                gridSerialized.size()));
         fbsGridList->push_back(fbsGrid);
     }
 }
@@ -78,18 +74,13 @@ void deserializeGrid(
     std::vector<GridType>* gridList) {
     for (const auto& grid : (*fbsGridList)) {
         auto type = grid->type()->c_str();
-        auto resolution = fbsToJet(*grid->resolution());
-        auto gridSpacing = fbsToJet(*grid->gridSpacing());
-        auto origin = fbsToJet(*grid->origin());
-        auto data = grid->data();
+
+        std::vector<uint8_t> gridSerialized(
+            grid->data()->begin(),
+            grid->data()->end());
 
         auto newGrid = factoryFunc(type);
-        newGrid->resize(resolution, gridSpacing, origin);
-
-        std::vector<double> gridData(data->size());
-        std::copy(data->begin(), data->end(), gridData.begin());
-
-        newGrid->setData(gridData);
+        newGrid->deserialize(gridSerialized);
 
         gridList->push_back(newGrid);
     }

@@ -181,7 +181,6 @@ void ScalarGrid3::parallelForEachDataPointIndex(
 void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
 
-    auto type = builder.CreateString(typeName());
     auto fbsResolution = jetToFbs(resolution());
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
@@ -191,7 +190,7 @@ void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
     auto data = builder.CreateVector(gridData.data(), gridData.size());
 
     auto fbsGrid = fbs::CreateScalarGrid3(
-        builder, type, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
 
     builder.Finish(fbsGrid);
 
@@ -204,10 +203,6 @@ void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
 
 void ScalarGrid3::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetScalarGrid3(buffer.data());
-
-    if (typeName() != std::string(fbsGrid->type()->c_str())) {
-        return;
-    }
 
     resize(
         fbsToJet(*fbsGrid->resolution()),

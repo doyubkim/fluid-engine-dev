@@ -157,18 +157,18 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     //! Deserializes the input buffer to the grid instance.
     void deserialize(const std::vector<uint8_t>& buffer) override;
 
-    //! Fetches the data into a continuous linear array.
-    void getData(std::vector<double>* data) const override;
-
-    //! Sets the data from a continuous linear array.
-    void setData(const std::vector<double>& data) override;
-
  protected:
     //! Swaps the data storage and predefined samplers with given grid.
     void swapScalarGrid(ScalarGrid2* other);
 
     //! Sets the data storage and predefined samplers with given grid.
     void setScalarGrid(const ScalarGrid2& other);
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  private:
     Array2<double> _data;
