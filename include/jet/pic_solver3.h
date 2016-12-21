@@ -102,12 +102,7 @@ class PicSolver3::Builder final
     PicSolver3 build() const;
 
     //! Builds shared pointer of PicSolver3 instance.
-    PicSolver3Ptr makeShared() const {
-        return std::make_shared<PicSolver3>(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin);
-    }
+    PicSolver3Ptr makeShared() const;
 };
 
 }  // namespace jet

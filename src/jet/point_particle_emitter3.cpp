@@ -167,4 +167,19 @@ PointParticleEmitter3 PointParticleEmitter3::Builder::build() const {
         _seed);
 }
 
+PointParticleEmitter3Ptr PointParticleEmitter3::Builder::makeShared() const {
+    return std::shared_ptr<PointParticleEmitter3>(
+        new PointParticleEmitter3(
+            _origin,
+            _direction,
+            _speed,
+            _spreadAngleInDegrees,
+            _maxNumberOfNewParticlesPerSecond,
+            _maxNumberOfParticles,
+            _seed),
+        [] (PointParticleEmitter3* obj) {
+            delete obj;
+        });
+}
+
 }  // namespace jet

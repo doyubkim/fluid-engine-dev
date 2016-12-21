@@ -13,6 +13,7 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define APP_NAME "level_set_liquid_sim"
 
@@ -180,19 +181,19 @@ void runExample2(
 
     // Build collider
     auto cyl1 = Cylinder3::builder()
-        .withCenter({1, -0.75 / 2.0, 0.25 * lz})
+        .withCenter({1, 0.375, 0.375})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();
 
     auto cyl2 = Cylinder3::builder()
-        .withCenter({1.5, -0.75 / 2.0, 0.5 * lz})
+        .withCenter({1.5, 0.375, 0.75})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();
 
     auto cyl3 = Cylinder3::builder()
-        .withCenter({2, -0.75 / 2.0, 0.75 * lz})
+        .withCenter({2, 0.375, 1.125})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();
@@ -236,7 +237,10 @@ void runExample3(
     VertexCenteredScalarGrid3 bunnySdf;
     std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
     if (sdfFile) {
-        bunnySdf.deserialize(&sdfFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(sdfFile)),
+            (std::istreambuf_iterator<char>()));
+        bunnySdf.deserialize(buffer);
         sdfFile.close();
     } else {
         fprintf(stderr, "Cannot open bunny.sdf\n");
@@ -288,7 +292,10 @@ void runExample4(
     VertexCenteredScalarGrid3 bunnySdf;
     std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
     if (sdfFile) {
-        bunnySdf.deserialize(&sdfFile);
+        std::vector<uint8_t> buffer(
+            (std::istreambuf_iterator<char>(sdfFile)),
+            (std::istreambuf_iterator<char>()));
+        bunnySdf.deserialize(buffer);
         sdfFile.close();
     } else {
         fprintf(stderr, "Cannot open bunny.sdf\n");

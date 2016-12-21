@@ -171,6 +171,7 @@
 #include <jet/semi_lagrangian2.h>
 #include <jet/semi_lagrangian3.h>
 #include <jet/serial.h>
+#include <jet/serialization.h>
 #include <jet/size.h>
 #include <jet/size2.h>
 #include <jet/size3.h>

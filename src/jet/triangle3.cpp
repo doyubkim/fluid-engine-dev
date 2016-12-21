@@ -287,3 +287,16 @@ Triangle3::Builder::withUvs(const std::array<Vector2D, 3>& uvs) {
 Triangle3 Triangle3::Builder::build() const {
     return Triangle3(_points, _normals, _uvs, _isNormalFlipped);
 }
+
+Triangle3Ptr Triangle3::Builder::makeShared() const {
+    return std::shared_ptr<Triangle3>(
+        new Triangle3(
+            _points,
+            _normals,
+            _uvs,
+            _isNormalFlipped),
+        [] (Triangle3* obj) {
+            delete obj;
+        });
+}
+

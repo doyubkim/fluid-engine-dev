@@ -58,9 +58,7 @@ class ParticleEmitterSet2::Builder final {
     ParticleEmitterSet2 build() const;
 
     //! Builds shared pointer of ParticleEmitterSet2 instance.
-    ParticleEmitterSet2Ptr makeShared() const {
-        return std::make_shared<ParticleEmitterSet2>(_emitters);
-    }
+    ParticleEmitterSet2Ptr makeShared() const;
 
  private:
     std::vector<ParticleEmitter2Ptr> _emitters;

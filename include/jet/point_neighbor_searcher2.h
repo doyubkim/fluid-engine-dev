@@ -4,9 +4,12 @@
 #define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER2_H_
 
 #include <jet/array_accessor1.h>
+#include <jet/serialization.h>
 #include <jet/vector2.h>
 #include <functional>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace jet {
 
@@ -18,7 +21,7 @@ namespace jet {
 //! Once built, the data structure is used to search nearby points for given
 //! origin point.
 //!
-class PointNeighborSearcher2 {
+class PointNeighborSearcher2 : public Serializable {
  public:
     //! Callback function for nearby search query. The first parameter is the
     //! index of the nearby point, and the second is the position of the point.
@@ -30,6 +33,9 @@ class PointNeighborSearcher2 {
 
     //! Destructor.
     virtual ~PointNeighborSearcher2();
+
+    //! Returns the type name of the derived class.
+    virtual std::string typeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
     virtual void build(const ConstArrayAccessor1<Vector2D>& points) = 0;
@@ -58,10 +64,34 @@ class PointNeighborSearcher2 {
     //!
     virtual bool hasNearbyPoint(
         const Vector2D& origin, double radius) const = 0;
+
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    virtual std::shared_ptr<PointNeighborSearcher2> clone() const = 0;
 };
 
 //! Shared pointer for the PointNeighborSearcher2 type.
 typedef std::shared_ptr<PointNeighborSearcher2> PointNeighborSearcher2Ptr;
+
+//! Abstract base class for 2-D point neighbor searcher builders.
+class PointNeighborSearcherBuilder2 {
+ public:
+    //! Returns shared pointer of PointNeighborSearcher2 type.
+    virtual PointNeighborSearcher2Ptr buildPointNeighborSearcher() const = 0;
+};
+
+//! Shared pointer for the PointNeighborSearcherBuilder2 type.
+typedef std::shared_ptr<PointNeighborSearcherBuilder2>
+    PointNeighborSearcherBuilder2Ptr;
+
+#define JET_NEIGHBOR_SEARCHER2_TYPE_NAME(DerivedClassName) \
+    std::string typeName() const override { \
+        return #DerivedClassName; \
+    }
 
 }  // namespace jet
 

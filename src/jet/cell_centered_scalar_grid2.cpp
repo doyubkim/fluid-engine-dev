@@ -133,3 +133,32 @@ CellCenteredScalarGrid2 CellCenteredScalarGrid2::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+ScalarGrid2Ptr CellCenteredScalarGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    double initialVal) const {
+    return std::shared_ptr<CellCenteredScalarGrid2>(
+        new CellCenteredScalarGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (CellCenteredScalarGrid2* obj) {
+            delete obj;
+        });
+}
+
+CellCenteredScalarGrid2Ptr
+CellCenteredScalarGrid2::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredScalarGrid2>(
+        new CellCenteredScalarGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredScalarGrid2* obj) {
+            delete obj;
+        });
+}

@@ -179,3 +179,32 @@ CellCenteredVectorGrid3 CellCenteredVectorGrid3::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VectorGrid3Ptr CellCenteredVectorGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    const Vector3D& initialVal) const {
+    return std::shared_ptr<CellCenteredVectorGrid3>(
+        new CellCenteredVectorGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (CellCenteredVectorGrid3* obj) {
+            delete obj;
+        });
+}
+
+CellCenteredVectorGrid3Ptr
+CellCenteredVectorGrid3::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredVectorGrid3>(
+        new CellCenteredVectorGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredVectorGrid3* obj) {
+            delete obj;
+        });
+}

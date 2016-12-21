@@ -17,8 +17,15 @@ namespace jet {
 //!
 class SurfaceSet3 final : public Surface3 {
  public:
+    class Builder;
+
     //! Constructs an empty surface set.
     SurfaceSet3();
+
+    //! Constructs with a list of other surfaces.
+    explicit SurfaceSet3(
+        const std::vector<Surface3Ptr>& others,
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet3(const SurfaceSet3& other);
@@ -48,6 +55,9 @@ class SurfaceSet3 final : public Surface3 {
     //! Returns the bounding box of this box object.
     BoundingBox3D boundingBox() const override;
 
+    //! Returns builder for SurfaceSet3.
+    static Builder builder();
+
  protected:
     Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
 
@@ -60,6 +70,29 @@ class SurfaceSet3 final : public Surface3 {
 
 //! Shared pointer for the SurfaceSet2 type.
 typedef std::shared_ptr<SurfaceSet3> SurfaceSet3Ptr;
+
+
+//!
+//! \brief Front-end to create SurfaceSet3 objects step by step.
+//!
+class SurfaceSet3::Builder final {
+ public:
+    //! Returns builder with normal direction.
+    Builder& withIsNormalFlipped(bool isNormalFlipped);
+
+    //! Returns builder with other surfaces.
+    Builder& withSurfaces(const std::vector<Surface3Ptr>& others);
+
+    //! Builds SurfaceSet3.
+    SurfaceSet3 build() const;
+
+    //! Builds shared pointer of SurfaceSet3 instance.
+    SurfaceSet3Ptr makeShared() const;
+
+ private:
+    bool _isNormalFlipped = false;
+    std::vector<Surface3Ptr> _surfaces;
+};
 
 }  // namespace jet
 

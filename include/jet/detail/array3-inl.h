@@ -211,8 +211,8 @@ void Array<T, 3>::swap(Array& other) {
 
 template <typename T>
 template <typename Callback>
-void Array<T, 3>::forEach(Callback func) {
-    accessor().forEach(func);
+void Array<T, 3>::forEach(Callback func) const {
+    constAccessor().forEach(func);
 }
 
 template <typename T>
@@ -231,36 +231,6 @@ template <typename T>
 template <typename Callback>
 void Array<T, 3>::parallelForEachIndex(Callback func) const {
     constAccessor().parallelForEachIndex(func);
-}
-
-template <typename T>
-void Array<T, 3>::serialize(std::ostream* strm) const {
-    uint64_t size64[3] = { _size.x, _size.y, _size.z };
-
-    const char* sizeAsBytes = reinterpret_cast<const char*>(&size64);
-    strm->write(sizeAsBytes, 3 * sizeof(uint64_t));
-
-    if (_size.x * _size.y * _size.z > 0) {
-        const char* body = reinterpret_cast<const char*>(data());
-        strm->write(body, sizeof(T) * _size.x * _size.y * _size.z);
-    }
-}
-
-template <typename T>
-void Array<T, 3>::deserialize(std::istream* strm) {
-    uint64_t size64[3];
-    char* sizeAsBytes = reinterpret_cast<char*>(&size64);
-    strm->read(sizeAsBytes, 3 * sizeof(uint64_t));
-
-    Size3 newSize(
-        static_cast<size_t>(size64[0]),
-        static_cast<size_t>(size64[1]),
-        static_cast<size_t>(size64[2]));
-    resize(newSize);
-    if (newSize.x * newSize.y * _size.z > 0) {
-        char* body = reinterpret_cast<char*>(data());
-        strm->read(body, sizeof(T) * newSize.x * newSize.y * _size.z);
-    }
 }
 
 template <typename T>

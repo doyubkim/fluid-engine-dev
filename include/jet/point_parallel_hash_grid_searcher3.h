@@ -8,8 +8,6 @@
 #include <jet/size3.h>
 #include <vector>
 
-class PointParallelHashGridSearcher3Tests;
-
 namespace jet {
 
 //!
@@ -21,6 +19,10 @@ namespace jet {
 //!
 class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
  public:
+    JET_NEIGHBOR_SEARCHER3_TYPE_NAME(PointParallelHashGridSearcher3)
+
+    class Builder;
+
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
     //!
@@ -51,6 +53,9 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
         size_t resolutionY,
         size_t resolutionZ,
         double gridSpacing);
+
+    //! Copy constructor
+    PointParallelHashGridSearcher3(const PointParallelHashGridSearcher3& other);
 
     //!
     //! \brief Builds internal acceleration structure for given points list.
@@ -176,9 +181,31 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     Point3I getBucketIndex(const Vector3D& position) const;
 
- private:
-    friend class PointParallelHashGridSearcher3Tests;
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    PointNeighborSearcher3Ptr clone() const override;
 
+    //! Assignment operator.
+    PointParallelHashGridSearcher3& operator=(
+        const PointParallelHashGridSearcher3& other);
+
+    //! Copy from the other instance.
+    void set(const PointParallelHashGridSearcher3& other);
+
+    //! Serializes the neighbor searcher into the buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Returns builder fox PointParallelHashGridSearcher3.
+    static Builder builder();
+
+ private:
     double _gridSpacing = 1.0;
     Point3I _resolution = Point3I(1, 1, 1);
     std::vector<Vector3D> _points;
@@ -190,6 +217,37 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
     size_t getHashKeyFromPosition(const Vector3D& position) const;
 
     void getNearbyKeys(const Vector3D& position, size_t* bucketIndices) const;
+};
+
+//! Shared pointer for the PointParallelHashGridSearcher3 type.
+typedef std::shared_ptr<PointParallelHashGridSearcher3>
+    PointParallelHashGridSearcher3Ptr;
+
+//!
+//! \brief Front-end to create PointParallelHashGridSearcher3 objects step by
+//!        step.
+//!
+class PointParallelHashGridSearcher3::Builder final
+    : public PointNeighborSearcherBuilder3 {
+ public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size3& resolution);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacing);
+
+    //! Builds PointParallelHashGridSearcher3 instance.
+    PointParallelHashGridSearcher3 build() const;
+
+    //! Builds shared pointer of PointParallelHashGridSearcher3 instance.
+    PointParallelHashGridSearcher3Ptr makeShared() const;
+
+    //! Returns shared pointer of PointNeighborSearcher3 type.
+    PointNeighborSearcher3Ptr buildPointNeighborSearcher() const override;
+
+ private:
+    Size3 _resolution{64, 64, 64};
+    double _gridSpacing = 1.0;
 };
 
 }  // namespace jet

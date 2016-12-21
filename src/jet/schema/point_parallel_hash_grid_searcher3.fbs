@@ -1,0 +1,15 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table PointParallelHashGridSearcher3 {
+    gridSpacing:double;
+    resolution:Size3;
+    points:[Vector3D];
+    keys:[ulong];
+    startIndexTable:[ulong];
+    endIndexTable:[ulong];
+    sortedIndices:[ulong];
+}
+
+root_type PointParallelHashGridSearcher3;

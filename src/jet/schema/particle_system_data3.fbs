@@ -1,0 +1,34 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table ScalarParticleData3 {
+    data:[double];
+}
+
+table VectorParticleData3 {
+    data:[Vector3D];
+}
+
+table PointNeighborSearcherSerialized3 {
+    type:string;
+    data:[ubyte];
+}
+
+table ParticleNeighborList3 {
+    data:[ulong];
+}
+
+table ParticleSystemData3 {
+    radius:double;
+    mass:double;
+    positionIdx:ulong;
+    velocityIdx:ulong;
+    forceIdx:ulong;
+    scalarDataList:[ScalarParticleData3];
+    vectorDataList:[VectorParticleData3];
+    neighborSearcher:PointNeighborSearcherSerialized3;
+    neighborLists:[ParticleNeighborList3];
+}
+
+root_type ParticleSystemData3;

@@ -125,3 +125,14 @@ Sphere2::Builder& Sphere2::Builder::withRadius(double radius) {
 Sphere2 Sphere2::Builder::build() const {
     return Sphere2(_center, _radius, _isNormalFlipped);
 }
+
+Sphere2Ptr Sphere2::Builder::makeShared() const {
+    return std::shared_ptr<Sphere2>(
+        new Sphere2(
+            _center,
+            _radius,
+            _isNormalFlipped),
+        [] (Sphere2* obj) {
+            delete obj;
+    });
+}

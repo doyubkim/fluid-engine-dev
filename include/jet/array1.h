@@ -18,7 +18,7 @@ namespace jet {
 //!
 //! This class represents 1-D array data structure. This class is a simple
 //! wrapper around std::vector with some additional features such as the array
-//! accessor object, parallel for-loop and serialization.
+//! accessor object and parallel for-loop.
 //!
 //! \tparam T - Type to store in the array.
 //!
@@ -125,7 +125,7 @@ class Array<T, 1> final {
     //! \endcode
     //!
     template <typename Callback>
-    void forEach(Callback func);
+    void forEach(Callback func) const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.
@@ -187,30 +187,6 @@ class Array<T, 1> final {
     //!
     template <typename Callback>
     void parallelForEachIndex(Callback func) const;
-
-    //!
-    //! \brief Serializes the content of the array to the output stream \p strm.
-    //!
-    //! This function serializes the array to the given output stream \p strm.
-    //! The first 8 bytes of the stream will have the size of the array
-    //! (uint64_t) and the following stream will be occupied by the array data.
-    //! Thus, if the array has N elements, this function will write
-    //! 8 + sizeof(T) * N bytes to the stream.
-    //!
-    //! \see Array<T, 1>::deserialize
-    //!
-    void serialize(std::ostream* strm) const;
-
-    //!
-    //! \brief Deserializes the input stream \p strm to the array.
-    //!
-    //! This function deserializes the input stream \p strm to the array.
-    //! The first 8 bytes of the stream will have the size of the array
-    //! (uint64_t) and the following stream will be occupied by the array data.
-    //!
-    //! \see Array<T, 1>::serialize
-    //!
-    void deserialize(std::istream* strm);
 
     //! Returns the reference to i-th element.
     T& operator[](size_t i);

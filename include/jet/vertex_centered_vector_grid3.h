@@ -18,6 +18,8 @@ namespace jet {
 //!
 class VertexCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
  public:
+    JET_GRID3_TYPE_NAME(VertexCenteredVectorGrid3)
+
     class Builder;
 
     //! Constructs zero-sized grid.
@@ -124,13 +126,7 @@ class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
     VertexCenteredVectorGrid3 build() const;
 
     //! Builds shared pointer of VertexCenteredVectorGrid3 instance.
-    VertexCenteredVectorGrid3Ptr makeShared() const {
-        return std::make_shared<VertexCenteredVectorGrid3>(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal);
-    }
+    VertexCenteredVectorGrid3Ptr makeShared() const;
 
     //!
     //! \brief Builds shared pointer of VertexCenteredVectorGrid3 instance.
@@ -141,13 +137,7 @@ class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
         const Size3& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
-        const Vector3D& initialVal) const override {
-        return std::make_shared<VertexCenteredVectorGrid3>(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal);
-    }
+        const Vector3D& initialVal) const override;
 
  private:
     Size3 _resolution{1, 1, 1};

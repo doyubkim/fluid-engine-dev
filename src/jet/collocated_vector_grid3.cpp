@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -145,18 +146,6 @@ void CollocatedVectorGrid3::parallelForEachDataPointIndex(
     _data.parallelForEachIndex(func);
 }
 
-void CollocatedVectorGrid3::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-    _data.serialize(strm);
-}
-
-void CollocatedVectorGrid3::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-    _data.deserialize(strm);
-
-    resetSampler();
-}
-
 void CollocatedVectorGrid3::swapCollocatedVectorGrid(
     CollocatedVectorGrid3* other) {
     swapGrid(other);
@@ -191,4 +180,26 @@ void CollocatedVectorGrid3::resetSampler() {
     _linearSampler = LinearArraySampler3<Vector3D, double>(
         _data.constAccessor(), gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
+}
+
+void CollocatedVectorGrid3::getData(std::vector<double>* data) const {
+    size_t size = 3 * dataSize().x * dataSize().y * dataSize().z;
+    data->resize(size);
+    size_t cnt = 0;
+    _data.forEach([&] (const Vector3D& value) {
+        (*data)[cnt++] = value.x;
+        (*data)[cnt++] = value.y;
+        (*data)[cnt++] = value.z;
+    });
+}
+
+void CollocatedVectorGrid3::setData(const std::vector<double>& data) {
+    JET_ASSERT(3 * dataSize().x * dataSize().y * dataSize().z == data.size());
+
+    size_t cnt = 0;
+    _data.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _data(i, j, k).x = data[cnt++];
+        _data(i, j, k).y = data[cnt++];
+        _data(i, j, k).z = data[cnt++];
+    });
 }

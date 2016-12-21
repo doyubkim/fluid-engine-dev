@@ -6,6 +6,7 @@
 #include <jet/point_neighbor_searcher2.h>
 #include <jet/point2.h>
 #include <jet/size2.h>
+
 #include <vector>
 
 namespace jet {
@@ -19,6 +20,10 @@ namespace jet {
 //!
 class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
  public:
+    JET_NEIGHBOR_SEARCHER2_TYPE_NAME(PointHashGridSearcher2)
+
+    class Builder;
+
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
     //!
@@ -46,6 +51,9 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
         size_t resolutionX,
         size_t resolutionY,
         double gridSpacing);
+
+    //! Copy constructor.
+    PointHashGridSearcher2(const PointHashGridSearcher2& other);
 
     //! Builds internal acceleration structure for given points list.
     void build(const ConstArrayAccessor1<Vector2D>& points) override;
@@ -114,6 +122,29 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     Point2I getBucketIndex(const Vector2D& position) const;
 
+    //!
+    //! \brief      Creates a new instance of the object with same properties
+    //!             than original.
+    //!
+    //! \return     Copy of this object.
+    //!
+    PointNeighborSearcher2Ptr clone() const override;
+
+    //! Assignment operator.
+    PointHashGridSearcher2& operator=(const PointHashGridSearcher2& other);
+
+    //! Copy from the other instance.
+    void set(const PointHashGridSearcher2& other);
+
+    //! Serializes the neighbor searcher into the buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the neighbor searcher from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Returns builder fox PointHashGridSearcher2.
+    static Builder builder();
+
  private:
     double _gridSpacing = 1.0;
     Point2I _resolution = Point2I(1, 1);
@@ -123,6 +154,35 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
     size_t getHashKeyFromPosition(const Vector2D& position) const;
 
     void getNearbyKeys(const Vector2D& position, size_t* bucketIndices) const;
+};
+
+//! Shared pointer for the PointHashGridSearcher2 type.
+typedef std::shared_ptr<PointHashGridSearcher2> PointHashGridSearcher2Ptr;
+
+//!
+//! \brief Front-end to create PointHashGridSearcher2 objects step by step.
+//!
+class PointHashGridSearcher2::Builder final
+    : public PointNeighborSearcherBuilder2 {
+ public:
+    //! Returns builder with resolution.
+    Builder& withResolution(const Size2& resolution);
+
+    //! Returns builder with grid spacing.
+    Builder& withGridSpacing(double gridSpacing);
+
+    //! Builds PointHashGridSearcher2 instance.
+    PointHashGridSearcher2 build() const;
+
+    //! Builds shared pointer of PointHashGridSearcher2 instance.
+    PointHashGridSearcher2Ptr makeShared() const;
+
+    //! Returns shared pointer of PointNeighborSearcher3 type.
+    PointNeighborSearcher2Ptr buildPointNeighborSearcher() const override;
+
+ private:
+    Size2 _resolution{64, 64};
+    double _gridSpacing = 1.0;
 };
 
 }  // namespace jet

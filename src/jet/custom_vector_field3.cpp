@@ -128,3 +128,14 @@ CustomVectorField3 CustomVectorField3::Builder::build() const {
     return CustomVectorField3(
         _customFunction, _customDivergenceFunction, _customCurlFunction);
 }
+
+CustomVectorField3Ptr CustomVectorField3::Builder::makeShared() const {
+    return std::shared_ptr<CustomVectorField3>(
+        new CustomVectorField3(
+            _customFunction,
+            _customDivergenceFunction,
+            _customCurlFunction),
+        [] (CustomVectorField3* obj) {
+            delete obj;
+        });
+}

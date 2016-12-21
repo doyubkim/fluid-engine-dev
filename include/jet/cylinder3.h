@@ -88,13 +88,7 @@ class Cylinder3::Builder final {
     Cylinder3 build() const;
 
     //! Builds shared pointer of Cylinder3 instance.
-    Cylinder3Ptr makeShared() const {
-        return std::make_shared<Cylinder3>(
-            _center,
-            _radius,
-            _height,
-            _isNormalFlipped);
-    }
+    Cylinder3Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

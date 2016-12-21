@@ -6,6 +6,7 @@
 #include <jet/array2.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
+#include <vector>
 
 namespace jet {
 
@@ -72,12 +73,6 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     void parallelForEachDataPointIndex(
         const std::function<void(size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    void serialize(std::ostream* strm) const override;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    void deserialize(std::istream* strm) override;
-
     // VectorField2 implementations
 
     //! Returns sampled value at given position \p x.
@@ -103,6 +98,12 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
 
     //! Sets the data storage and predefined samplers with given grid.
     void setCollocatedVectorGrid(const CollocatedVectorGrid2& other);
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  private:
     Array2<Vector2D> _data;

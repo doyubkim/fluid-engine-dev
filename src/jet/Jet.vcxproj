@@ -79,16 +79,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\tbb\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(SolutionDir)external\include;$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\jet;$(SolutionDir)external\src\obj</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -390,6 +390,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\scalar_grid3.h" />
     <ClInclude Include="..\..\include\jet\semi_lagrangian2.h" />
     <ClInclude Include="..\..\include\jet\semi_lagrangian3.h" />
+    <ClInclude Include="..\..\include\jet\serialization.h" />
     <ClInclude Include="..\..\include\jet\serial.h" />
     <ClInclude Include="..\..\include\jet\size.h" />
     <ClInclude Include="..\..\include\jet\size2.h" />
@@ -472,6 +473,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="eno_level_set_solver3.cpp" />
     <ClCompile Include="face_centered_grid2.cpp" />
     <ClCompile Include="face_centered_grid3.cpp" />
+    <ClCompile Include="factory.cpp" />
     <ClCompile Include="fcc_lattice_point_generator.cpp" />
     <ClCompile Include="fdm_cg_solver2.cpp" />
     <ClCompile Include="fdm_cg_solver3.cpp" />
@@ -579,6 +581,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="scalar_grid3.cpp" />
     <ClCompile Include="semi_lagrangian2.cpp" />
     <ClCompile Include="semi_lagrangian3.cpp" />
+    <ClCompile Include="serialization.cpp" />
     <ClCompile Include="sphere2.cpp" />
     <ClCompile Include="sphere3.cpp" />
     <ClCompile Include="sph_solver2.cpp" />

@@ -1,0 +1,12 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table ScalarGrid3 {
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    data:[double];
+}
+
+root_type ScalarGrid3;

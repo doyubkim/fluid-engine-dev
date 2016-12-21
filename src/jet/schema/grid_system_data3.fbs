@@ -1,0 +1,26 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table ScalarGridSerialized3 {
+    type:string;
+    data:[ubyte];
+}
+
+table VectorGridSerialized3 {
+    type:string;
+    data:[ubyte];
+}
+
+table GridSystemData3 {
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    velocityIdx:ulong;
+    scalarData:[ScalarGridSerialized3];
+    vectorData:[VectorGridSerialized3];
+    advectableScalarData:[ScalarGridSerialized3];
+    advectableVectorData:[VectorGridSerialized3];
+}
+
+root_type GridSystemData3;

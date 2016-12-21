@@ -9,6 +9,31 @@ using namespace jet;
 TEST(ParticleSystemData2, Constructors) {
     ParticleSystemData2 particleSystem;
     EXPECT_EQ(0u, particleSystem.numberOfParticles());
+
+    ParticleSystemData2 particleSystem2(100);
+    EXPECT_EQ(100u, particleSystem2.numberOfParticles());
+
+    size_t a0 = particleSystem2.addScalarData(2.0);
+    size_t a1 = particleSystem2.addScalarData(9.0);
+    size_t a2 = particleSystem2.addVectorData({1.0, -3.0});
+
+    ParticleSystemData2 particleSystem3(particleSystem2);
+    EXPECT_EQ(100u, particleSystem3.numberOfParticles());
+    auto as0 = particleSystem3.scalarDataAt(a0);
+    for (size_t i = 0; i < 100; ++i) {
+        EXPECT_DOUBLE_EQ(2.0, as0[i]);
+    }
+
+    auto as1 = particleSystem3.scalarDataAt(a1);
+    for (size_t i = 0; i < 100; ++i) {
+        EXPECT_DOUBLE_EQ(9.0, as1[i]);
+    }
+
+    auto as2 = particleSystem3.vectorDataAt(a2);
+    for (size_t i = 0; i < 100; ++i) {
+        EXPECT_DOUBLE_EQ(1.0, as2[i].x);
+        EXPECT_DOUBLE_EQ(-3.0, as2[i].y);
+    }
 }
 
 TEST(ParticleSystemData2, Resize) {
@@ -48,8 +73,8 @@ TEST(ParticleSystemData2, AddVectorData) {
     size_t a1 = particleSystem.addVectorData(Vector2D(9.0, -2.0));
 
     EXPECT_EQ(12u, particleSystem.numberOfParticles());
-    EXPECT_EQ(0u, a0);
-    EXPECT_EQ(1u, a1);
+    EXPECT_EQ(3u, a0);
+    EXPECT_EQ(4u, a1);
 
     auto as0 = particleSystem.vectorDataAt(a0);
     for (size_t i = 0; i < 12; ++i) {
@@ -211,6 +236,79 @@ TEST(ParticleSystemData2, BuildNeighborLists) {
                     neighbors.end()
                     != std::find(neighbors.begin(), neighbors.end(), ii));
             }
+        }
+    }
+}
+
+TEST(ParticleSystemData2, Serialization) {
+    ParticleSystemData2 particleSystem;
+
+    ParticleSystemData2::VectorData positions = {
+        {0.3, 0.5},
+        {0.6, 0.8},
+        {0.1, 0.8},
+        {0.7, 0.9},
+        {0.3, 0.2},
+        {0.8, 0.3},
+        {0.8, 0.5},
+        {0.4, 0.9},
+        {0.8, 0.6},
+        {0.2, 0.9},
+        {0.1, 0.2},
+        {0.6, 0.9},
+        {0.2, 0.2},
+        {0.5, 0.6},
+        {0.8, 0.4},
+        {0.4, 0.2},
+        {0.2, 0.3},
+        {0.8, 0.6},
+        {0.2, 0.8},
+        {1.0, 0.5}
+    };
+    particleSystem.addParticles(positions);
+
+    size_t a0 = particleSystem.addScalarData(2.0);
+    size_t a1 = particleSystem.addScalarData(9.0);
+    size_t a2 = particleSystem.addVectorData({1.0, -3.0});
+
+    const double radius = 0.4;
+    particleSystem.buildNeighborSearcher(radius);
+    particleSystem.buildNeighborLists(radius);
+
+    std::vector<uint8_t> buffer;
+    particleSystem.serialize(&buffer);
+
+    ParticleSystemData2 particleSystem2;
+    particleSystem2.deserialize(buffer);
+
+    EXPECT_EQ(positions.size(), particleSystem2.numberOfParticles());
+    auto as0 = particleSystem2.scalarDataAt(a0);
+    for (size_t i = 0; i < positions.size(); ++i) {
+        EXPECT_DOUBLE_EQ(2.0, as0[i]);
+    }
+
+    auto as1 = particleSystem2.scalarDataAt(a1);
+    for (size_t i = 0; i < positions.size(); ++i) {
+        EXPECT_DOUBLE_EQ(9.0, as1[i]);
+    }
+
+    auto as2 = particleSystem2.vectorDataAt(a2);
+    for (size_t i = 0; i < positions.size(); ++i) {
+        EXPECT_DOUBLE_EQ(1.0, as2[i].x);
+        EXPECT_DOUBLE_EQ(-3.0, as2[i].y);
+    }
+
+    const auto& neighborLists = particleSystem.neighborLists();
+    const auto& neighborLists2 = particleSystem2.neighborLists();
+    EXPECT_EQ(neighborLists.size(), neighborLists2.size());
+
+    for (size_t i = 0; i < neighborLists.size(); ++i) {
+        const auto& neighbors = neighborLists[i];
+        const auto& neighbors2 = neighborLists2[i];
+        EXPECT_EQ(neighbors.size(), neighbors2.size());
+
+        for (size_t j = 0; j < neighbors.size(); ++j) {
+            EXPECT_EQ(neighbors[j], neighbors2[j]);
         }
     }
 }

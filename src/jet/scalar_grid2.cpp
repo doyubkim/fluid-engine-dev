@@ -1,13 +1,17 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <pch.h>
+#include <fbs_helpers.h>
+#include <generated/scalar_grid2_generated.h>
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid2.h>
 #include <jet/serial.h>
-
+#include <flatbuffers/flatbuffers.h>
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
+#include <string>
 
 using namespace jet;
 
@@ -165,16 +169,42 @@ void ScalarGrid2::parallelForEachDataPointIndex(
     _data.parallelForEachIndex(func);
 }
 
-void ScalarGrid2::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-    _data.serialize(strm);
+void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    auto fbsResolution = jetToFbs(resolution());
+    auto fbsGridSpacing = jetToFbs(gridSpacing());
+    auto fbsOrigin = jetToFbs(origin());
+
+    std::vector<double> gridData;
+    getData(&gridData);
+    auto data = builder.CreateVector(gridData.data(), gridData.size());
+
+    auto fbsGrid = fbs::CreateScalarGrid2(
+        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+
+    builder.Finish(fbsGrid);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
 }
 
-void ScalarGrid2::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-    _data.deserialize(strm);
+void ScalarGrid2::deserialize(const std::vector<uint8_t>& buffer) {
+    auto fbsGrid = fbs::GetScalarGrid2(buffer.data());
 
-    resetSampler();
+    resize(
+        fbsToJet(*fbsGrid->resolution()),
+        fbsToJet(*fbsGrid->gridSpacing()),
+        fbsToJet(*fbsGrid->origin()));
+
+    auto data = fbsGrid->data();
+    std::vector<double> gridData(data->size());
+    std::copy(data->begin(), data->end(), gridData.begin());
+
+    setData(gridData);
 }
 
 void ScalarGrid2::swapScalarGrid(ScalarGrid2* other) {
@@ -197,6 +227,19 @@ void ScalarGrid2::resetSampler() {
         _data.constAccessor(), gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
+
+void ScalarGrid2::getData(std::vector<double>* data) const {
+    size_t size = dataSize().x * dataSize().y;
+    data->resize(size);
+    std::copy(_data.begin(), _data.end(), data->begin());
+}
+
+void ScalarGrid2::setData(const std::vector<double>& data) {
+    JET_ASSERT(dataSize().x * dataSize().y == data.size());
+
+    std::copy(data.begin(), data.end(), _data.begin());
+}
+
 
 ScalarGridBuilder2::ScalarGridBuilder2() {
 }

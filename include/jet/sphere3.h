@@ -86,12 +86,7 @@ class Sphere3::Builder final {
     Sphere3 build() const;
 
     //! Builds shared pointer of Sphere3 instance.
-    Sphere3Ptr makeShared() const {
-        return std::make_shared<Sphere3>(
-            _center,
-            _radius,
-            _isNormalFlipped);
-    }
+    Sphere3Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

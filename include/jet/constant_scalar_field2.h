@@ -44,9 +44,7 @@ class ConstantScalarField2::Builder final {
     ConstantScalarField2 build() const;
 
     //! Builds shared pointer of ConstantScalarField2 instance.
-    ConstantScalarField2Ptr makeShared() const {
-        return std::make_shared<ConstantScalarField2>(_value);
-    }
+    ConstantScalarField2Ptr makeShared() const;
 
  private:
     double _value = 0.0;

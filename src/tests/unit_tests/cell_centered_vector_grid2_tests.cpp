@@ -2,6 +2,7 @@
 
 #include <jet/cell_centered_vector_grid2.h>
 #include <gtest/gtest.h>
+#include <vector>
 
 using namespace jet;
 
@@ -283,12 +284,12 @@ TEST(CellCenteredVectorGrid2, Serialization) {
     });
 
     // Serialize to in-memoery stream
-    std::stringstream strm1;
-    grid1.serialize(&strm1);
+    std::vector<uint8_t> buffer1;
+    grid1.serialize(&buffer1);
 
     // Deserialize to non-zero array
     CellCenteredVectorGrid2 grid2(1, 2, 0.5, 1.0, 0.5, 2.0);
-    grid2.deserialize(&strm1);
+    grid2.deserialize(buffer1);
     EXPECT_EQ(5u, grid2.resolution().x);
     EXPECT_EQ(4u, grid2.resolution().y);
     EXPECT_DOUBLE_EQ(-5.0, grid2.origin().x);
@@ -307,11 +308,11 @@ TEST(CellCenteredVectorGrid2, Serialization) {
 
     // Serialize zero-sized array
     CellCenteredVectorGrid2 grid3;
-    std::stringstream strm2;
-    grid3.serialize(&strm2);
+    std::vector<uint8_t> buffer2;
+    grid3.serialize(&buffer2);
 
     // Deserialize to non-zero array
-    grid2.deserialize(&strm2);
+    grid2.deserialize(buffer2);
     EXPECT_EQ(0u, grid2.resolution().x);
     EXPECT_EQ(0u, grid2.resolution().y);
     EXPECT_DOUBLE_EQ(0.0, grid2.origin().x);

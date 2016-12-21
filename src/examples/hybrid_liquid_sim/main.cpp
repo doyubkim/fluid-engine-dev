@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define APP_NAME "hybrid_liquid_sim"
 
@@ -32,7 +33,9 @@ void saveParticleAsPos(
     std::ofstream file(filename.c_str(), std::ios::binary);
     if (file) {
         printf("Writing %s...\n", filename.c_str());
-        positions.serialize(&file);
+        std::vector<uint8_t> buffer;
+        serialize(positions, &buffer);
+        file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
 }

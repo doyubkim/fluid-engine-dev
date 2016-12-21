@@ -210,3 +210,15 @@ CustomImplicitSurface3 CustomImplicitSurface3::Builder::build() const {
         _resolution,
         _isNormalFlipped);
 }
+
+CustomImplicitSurface3Ptr CustomImplicitSurface3::Builder::makeShared() const {
+    return std::shared_ptr<CustomImplicitSurface3>(
+        new CustomImplicitSurface3(
+            _func,
+            _domain,
+            _resolution,
+            _isNormalFlipped),
+        [] (CustomImplicitSurface3* obj) {
+            delete obj;
+        });
+}

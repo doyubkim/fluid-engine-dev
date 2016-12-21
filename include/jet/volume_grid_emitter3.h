@@ -129,11 +129,7 @@ class VolumeGridEmitter3::Builder final {
     VolumeGridEmitter3 build() const;
 
     //! Builds shared pointer of VolumeGridEmitter3 instance.
-    VolumeGridEmitter3Ptr makeShared() const {
-        return std::make_shared<VolumeGridEmitter3>(
-            _sourceRegion,
-            _isOneShot);
-    }
+    VolumeGridEmitter3Ptr makeShared() const;
 
  private:
     ImplicitSurface3Ptr _sourceRegion;
@@ -142,4 +138,4 @@ class VolumeGridEmitter3::Builder final {
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_VOLUME_GRID_EMITTERf_
+#endif  // INCLUDE_JET_VOLUME_GRID_EMITTER3_H_

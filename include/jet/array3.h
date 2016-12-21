@@ -226,7 +226,7 @@ class Array<T, 3> final {
     //! \endcode
     //!
     template <typename Callback>
-    void forEach(Callback func);
+    void forEach(Callback func) const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.
@@ -300,31 +300,6 @@ class Array<T, 3> final {
     //!
     template <typename Callback>
     void parallelForEachIndex(Callback func) const;
-
-    //!
-    //! \brief Serializes the content of the array to the output stream \p strm.
-    //!
-    //! This function serializes the array to the given output stream \p strm.
-    //! The first 24 bytes of the stream will have the width and height of the
-    //! array (uint64_t) and the following stream will be occupied by the array
-    //! data. Thus, if the size of the array is (width x height x depth), this
-    //! function will write 24 + sizeof(T) * width * height bytes to the stream.
-    //!
-    //! \see Array<T, 3>::deserialize
-    //!
-    void serialize(std::ostream* strm) const;
-
-    //!
-    //! \brief Deserializes the input stream \p strm to the array.
-    //!
-    //! This function deserializes the input stream \p strm to the array.
-    //! The first 24 bytes of the stream will have the width and height of the
-    //! array (uint64_t) and the following stream will be occupied by the
-    //! array data.
-    //!
-    //! \see Array<T, 2>::serialize
-    //!
-    void deserialize(std::istream* strm);
 
     //!
     //! \brief Returns the reference to the i-th element.

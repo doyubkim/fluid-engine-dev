@@ -129,11 +129,7 @@ class VolumeGridEmitter2::Builder final {
     VolumeGridEmitter2 build() const;
 
     //! Builds shared pointer of VolumeGridEmitter2 instance.
-    VolumeGridEmitter2Ptr makeShared() const {
-        return std::make_shared<VolumeGridEmitter2>(
-            _sourceRegion,
-            _isOneShot);
-    }
+    VolumeGridEmitter2Ptr makeShared() const;
 
  private:
     ImplicitSurface2Ptr _sourceRegion;

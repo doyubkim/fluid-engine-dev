@@ -165,3 +165,32 @@ CellCenteredVectorGrid2 CellCenteredVectorGrid2::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+VectorGrid2Ptr CellCenteredVectorGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    const Vector2D& initialVal) const {
+    return std::shared_ptr<CellCenteredVectorGrid2>(
+        new CellCenteredVectorGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (CellCenteredVectorGrid2* obj) {
+            delete obj;
+        });
+}
+
+CellCenteredVectorGrid2Ptr
+CellCenteredVectorGrid2::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredVectorGrid2>(
+        new CellCenteredVectorGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredVectorGrid2* obj) {
+            delete obj;
+        });
+}

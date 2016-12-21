@@ -3,8 +3,9 @@
 #ifndef INCLUDE_JET_GRID_SYSTEM_DATA2_H_
 #define INCLUDE_JET_GRID_SYSTEM_DATA2_H_
 
-#include <jet/scalar_grid2.h>
 #include <jet/face_centered_grid2.h>
+#include <jet/scalar_grid2.h>
+#include <jet/serialization.h>
 #include <memory>
 #include <vector>
 
@@ -18,10 +19,33 @@ namespace jet {
 //! face-centered (MAC) grid by default. It can also have additional scalar or
 //! vector attributes by adding extra data layer.
 //!
-class GridSystemData2 {
+class GridSystemData2 : public Serializable {
  public:
     //! Constructs empty grid system.
     GridSystemData2();
+
+    //!
+    //! \brief      Constructs a grid system with given resolution, grid spacing
+    //!             and origin.
+    //!
+    //! This constructor builds the entire grid layers within the system. Note,
+    //! the resolution is the grid resolution, not the data size of each grid.
+    //! Depending on the layout of the grid, the data point may lie on different
+    //! part of the grid (vertex, cell-center, or face-center), thus can have
+    //! different array size internally. The resolution of the grid means the
+    //! grid cell resolution.
+    //!
+    //! \param[in]  resolution  The resolution.
+    //! \param[in]  gridSpacing The grid spacing.
+    //! \param[in]  origin      The origin.
+    //!
+    GridSystemData2(
+        const Size2& resolution,
+        const Vector2D& gridSpacing,
+        const Vector2D& origin);
+
+    //! Copy constructor.
+    GridSystemData2(const GridSystemData2& other);
 
     //! Destructor.
     virtual ~GridSystemData2();
@@ -186,7 +210,17 @@ class GridSystemData2 {
     //! Returns the number of advectable vector data.
     size_t numberOfAdvectableVectorData() const;
 
+    //! Serialize the data to the given buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Serialize the data from the given buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
  private:
+    Size2 _resolution;
+    Vector2D _gridSpacing;
+    Vector2D _origin;
+
     FaceCenteredGrid2Ptr _velocity;
     size_t _velocityIdx;
     std::vector<ScalarGrid2Ptr> _scalarDataList;

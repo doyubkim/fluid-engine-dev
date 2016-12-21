@@ -6,19 +6,32 @@
 // and Animation", Eurographics 2009 Tutorial
 
 #include <pch.h>
+#include <fbs_helpers.h>
+#include <generated/sph_system_data3_generated.h>
+
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/sph_kernels3.h>
 #include <jet/sph_system_data3.h>
+
 #include <algorithm>
+#include <vector>
 
 namespace jet {
 
-SphSystemData3::SphSystemData3() {
-    _densityDataId = addScalarData();
-    _pressureDataId = addScalarData();
+SphSystemData3::SphSystemData3() : SphSystemData3(0) {
+}
+
+SphSystemData3::SphSystemData3(size_t numberOfParticles)
+: ParticleSystemData3(numberOfParticles) {
+    _densityIdx = addScalarData();
+    _pressureIdx = addScalarData();
 
     setTargetSpacing(_targetSpacing);
+}
+
+SphSystemData3::SphSystemData3(const SphSystemData3& other) {
+    set(other);
 }
 
 SphSystemData3::~SphSystemData3() {
@@ -29,32 +42,39 @@ void SphSystemData3::setRadius(double newRadius) {
     setTargetSpacing(newRadius);
 }
 
+void SphSystemData3::setMass(double newMass) {
+    double incRatio = newMass / mass();
+    _targetDensity *= incRatio;
+    ParticleSystemData3::setMass(newMass);
+}
+
 ConstArrayAccessor1<double> SphSystemData3::densities() const {
-    return scalarDataAt(_densityDataId);
+    return scalarDataAt(_densityIdx);
 }
 
 ArrayAccessor1<double> SphSystemData3::densities() {
-    return scalarDataAt(_densityDataId);
+    return scalarDataAt(_densityIdx);
 }
 
 ConstArrayAccessor1<double> SphSystemData3::pressures() const {
-    return scalarDataAt(_pressureDataId);
+    return scalarDataAt(_pressureIdx);
 }
 
 ArrayAccessor1<double> SphSystemData3::pressures() {
-    return scalarDataAt(_pressureDataId);
+    return scalarDataAt(_pressureIdx);
 }
 
 void SphSystemData3::updateDensities() {
     auto p = positions();
     auto d = densities();
+    const double m = mass();
 
     parallelFor(
         kZeroSize,
         numberOfParticles(),
         [&](size_t i) {
             double sum = sumOfKernelNearby(p[i]);
-            d[i] = _mass * sum;
+            d[i] = m * sum;
         });
 }
 
@@ -66,10 +86,6 @@ void SphSystemData3::setTargetDensity(double targetDensity) {
 
 double SphSystemData3::targetDensity() const {
     return _targetDensity;
-}
-
-double SphSystemData3::mass() const {
-    return _mass;
 }
 
 void SphSystemData3::setTargetSpacing(double spacing) {
@@ -119,13 +135,14 @@ double SphSystemData3::interpolate(
     double sum = 0.0;
     auto d = densities();
     SphStdKernel3 kernel(_kernelRadius);
+    const double m = mass();
 
     neighborSearcher()->forEachNearbyPoint(
         origin,
         _kernelRadius,
         [&] (size_t i, const Vector3D& neighborPosition) {
             double dist = origin.distanceTo(neighborPosition);
-            double weight = _mass / d[i] * kernel(dist);
+            double weight = m / d[i] * kernel(dist);
             sum += weight * values[i];
         });
 
@@ -138,13 +155,14 @@ Vector3D SphSystemData3::interpolate(
     Vector3D sum;
     auto d = densities();
     SphStdKernel3 kernel(_kernelRadius);
+    const double m = mass();
 
     neighborSearcher()->forEachNearbyPoint(
         origin,
         _kernelRadius,
         [&] (size_t i, const Vector3D& neighborPosition) {
             double dist = origin.distanceTo(neighborPosition);
-            double weight = _mass / d[i] * kernel(dist);
+            double weight = m / d[i] * kernel(dist);
             sum += weight * values[i];
         });
 
@@ -160,6 +178,7 @@ Vector3D SphSystemData3::gradientAt(
     const auto& neighbors = neighborLists()[i];
     Vector3D origin = p[i];
     SphSpikyKernel3 kernel(_kernelRadius);
+    const double m = mass();
 
     for (size_t j : neighbors) {
         Vector3D neighborPosition = p[j];
@@ -167,7 +186,7 @@ Vector3D SphSystemData3::gradientAt(
         if (dist > 0.0) {
             Vector3D dir = (neighborPosition - origin) / dist;
             sum
-                += d[i] * _mass
+                += d[i] * m
                 * (values[i] / square(d[i]) + values[j] / square(d[j]))
                 * kernel.gradient(dist, dir);
         }
@@ -185,12 +204,13 @@ double SphSystemData3::laplacianAt(
     const auto& neighbors = neighborLists()[i];
     Vector3D origin = p[i];
     SphSpikyKernel3 kernel(_kernelRadius);
+    const double m = mass();
 
     for (size_t j : neighbors) {
         Vector3D neighborPosition = p[j];
         double dist = origin.distanceTo(neighborPosition);
-        sum += _mass
-            * (values[j] - values[i]) / d[j] * kernel.secondDerivative(dist);
+        sum +=
+            m * (values[j] - values[i]) / d[j] * kernel.secondDerivative(dist);
     }
 
     return sum;
@@ -205,12 +225,13 @@ Vector3D SphSystemData3::laplacianAt(
     const auto& neighbors = neighborLists()[i];
     Vector3D origin = p[i];
     SphSpikyKernel3 kernel(_kernelRadius);
+    const double m = mass();
 
     for (size_t j : neighbors) {
         Vector3D neighborPosition = p[j];
         double dist = origin.distanceTo(neighborPosition);
-        sum += _mass
-            * (values[j] - values[i]) / d[j] * kernel.secondDerivative(dist);
+        sum +=
+            m * (values[j] - values[i]) / d[j] * kernel.secondDerivative(dist);
     }
 
     return sum;
@@ -222,11 +243,6 @@ void SphSystemData3::buildNeighborSearcher() {
 
 void SphSystemData3::buildNeighborLists() {
     ParticleSystemData3::buildNeighborLists(_kernelRadius);
-}
-
-void SphSystemData3::setMass(double newMass) {
-    // Ignore input
-    UNUSED_VARIABLE(newMass);
 }
 
 void SphSystemData3::computeMass() {
@@ -255,9 +271,66 @@ void SphSystemData3::computeMass() {
 
     JET_ASSERT(maxNumberDensity > 0);
 
-    _mass = _targetDensity / maxNumberDensity;
+    double newMass = _targetDensity / maxNumberDensity;
 
-    ParticleSystemData3::setMass(_mass);
+    ParticleSystemData3::setMass(newMass);
+}
+
+void SphSystemData3::serialize(std::vector<uint8_t>* buffer) const {
+    flatbuffers::FlatBufferBuilder builder(1024);
+    flatbuffers::Offset<fbs::ParticleSystemData3> fbsParticleSystemData;
+
+    serializeParticleSystemData(&builder, &fbsParticleSystemData);
+
+    auto fbsSphSystemData = fbs::CreateSphSystemData3(
+        builder,
+        fbsParticleSystemData,
+        _targetDensity,
+        _targetSpacing,
+        _kernelRadiusOverTargetSpacing,
+        _kernelRadius,
+        _pressureIdx,
+        _densityIdx);
+
+    builder.Finish(fbsSphSystemData);
+
+    uint8_t *buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
+}
+
+void SphSystemData3::deserialize(const std::vector<uint8_t>& buffer) {
+    auto fbsSphSystemData = fbs::GetSphSystemData3(buffer.data());
+
+    auto base = fbsSphSystemData->base();
+    deserializeParticleSystemData(base);
+
+    // SPH specific
+    _targetDensity = fbsSphSystemData->targetDensity();
+    _targetSpacing = fbsSphSystemData->targetSpacing();
+    _kernelRadiusOverTargetSpacing
+        = fbsSphSystemData->kernelRadiusOverTargetSpacing();
+    _kernelRadius = fbsSphSystemData->kernelRadius();
+    _pressureIdx = static_cast<size_t>(fbsSphSystemData->pressureIdx());
+    _densityIdx = static_cast<size_t>(fbsSphSystemData->densityIdx());
+}
+
+void SphSystemData3::set(const SphSystemData3& other) {
+    ParticleSystemData3::set(other);
+
+    _targetDensity = other._targetDensity;
+    _targetSpacing = other._targetSpacing;
+    _kernelRadiusOverTargetSpacing = other._kernelRadiusOverTargetSpacing;
+    _kernelRadius = other._kernelRadius;
+    _densityIdx = other._densityIdx;
+    _pressureIdx = other._pressureIdx;
+}
+
+SphSystemData3& SphSystemData3::operator=(const SphSystemData3& other) {
+    set(other);
+    return *this;
 }
 
 }  // namespace jet

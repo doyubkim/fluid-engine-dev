@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -277,34 +278,6 @@ void FaceCenteredGrid2::parallelForEachVIndex(
     _dataV.parallelForEachIndex(func);
 }
 
-void FaceCenteredGrid2::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-
-    const char* orgUAsBytes = reinterpret_cast<const char*>(&_dataOriginU);
-    const char* orgVAsBytes = reinterpret_cast<const char*>(&_dataOriginV);
-
-    strm->write(orgUAsBytes, 2 * sizeof(double));
-    strm->write(orgVAsBytes, 2 * sizeof(double));
-
-    _dataU.serialize(strm);
-    _dataV.serialize(strm);
-}
-
-void FaceCenteredGrid2::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-
-    char* orgUAsBytes = reinterpret_cast<char*>(&_dataOriginU);
-    char* orgVAsBytes = reinterpret_cast<char*>(&_dataOriginV);
-
-    strm->read(orgUAsBytes, 2 * sizeof(double));
-    strm->read(orgVAsBytes, 2 * sizeof(double));
-
-    _dataU.deserialize(strm);
-    _dataV.deserialize(strm);
-
-    resetSampler();
-}
-
 Vector2D FaceCenteredGrid2::sample(const Vector2D& x) const {
     return _sampler(x);
 }
@@ -420,6 +393,30 @@ FaceCenteredGrid2::Builder FaceCenteredGrid2::builder() {
     return Builder();
 }
 
+void FaceCenteredGrid2::getData(std::vector<double>* data) const {
+    size_t size = uSize().x * uSize().y + vSize().x * vSize().y;
+    data->resize(size);
+    size_t cnt = 0;
+    _dataU.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataV.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+}
+
+void FaceCenteredGrid2::setData(const std::vector<double>& data) {
+    JET_ASSERT(uSize().x * uSize().y + vSize().x * vSize().y == data.size());
+
+    size_t cnt = 0;
+    _dataU.forEachIndex([&] (size_t i, size_t j) {
+        _dataU(i, j) = data[cnt++];
+    });
+    _dataV.forEachIndex([&] (size_t i, size_t j) {
+        _dataV(i, j) = data[cnt++];
+    });
+}
+
 
 FaceCenteredGrid2::Builder&
 FaceCenteredGrid2::Builder::withResolution(const Size2& resolution) {
@@ -483,4 +480,32 @@ FaceCenteredGrid2 FaceCenteredGrid2::Builder::build() const {
         _gridSpacing,
         _gridOrigin,
         _initialVal);
+}
+
+FaceCenteredGrid2Ptr FaceCenteredGrid2::Builder::makeShared() const {
+    return std::shared_ptr<FaceCenteredGrid2>(
+        new FaceCenteredGrid2(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (FaceCenteredGrid2* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid2Ptr FaceCenteredGrid2::Builder::build(
+    const Size2& resolution,
+    const Vector2D& gridSpacing,
+    const Vector2D& gridOrigin,
+    const Vector2D& initialVal) const {
+    return std::shared_ptr<FaceCenteredGrid2>(
+        new FaceCenteredGrid2(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (FaceCenteredGrid2* obj) {
+            delete obj;
+        });
 }

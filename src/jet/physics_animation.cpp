@@ -40,6 +40,10 @@ Frame PhysicsAnimation::currentFrame() const {
     return _currentFrame;
 }
 
+void PhysicsAnimation::setCurrentFrame(const Frame& frame) {
+    _currentFrame = frame;
+}
+
 double PhysicsAnimation::currentTimeInSeconds() const {
     return _currentTime;
 }

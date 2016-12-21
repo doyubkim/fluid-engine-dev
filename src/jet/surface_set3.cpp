@@ -5,10 +5,18 @@
 
 #include <algorithm>
 #include <limits>
+#include <vector>
 
 using namespace jet;
 
 SurfaceSet3::SurfaceSet3() {
+}
+
+SurfaceSet3::SurfaceSet3(
+    const std::vector<Surface3Ptr>& others,
+    bool isNormalFlipped)
+: Surface3(isNormalFlipped)
+, _surfaces(others) {
 }
 
 SurfaceSet3::SurfaceSet3(const SurfaceSet3& other) :
@@ -114,4 +122,33 @@ BoundingBox3D SurfaceSet3::boundingBox() const {
     }
 
     return bbox;
+}
+
+SurfaceSet3::Builder SurfaceSet3::builder() {
+    return Builder();
+}
+
+
+SurfaceSet3::Builder&
+SurfaceSet3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+SurfaceSet3::Builder&
+SurfaceSet3::Builder::withSurfaces(const std::vector<Surface3Ptr>& others) {
+    _surfaces = others;
+    return *this;
+}
+
+SurfaceSet3 SurfaceSet3::Builder::build() const {
+    return SurfaceSet3(_surfaces, _isNormalFlipped);
+}
+
+SurfaceSet3Ptr SurfaceSet3::Builder::makeShared() const {
+    return std::shared_ptr<SurfaceSet3>(
+        new SurfaceSet3(_surfaces, _isNormalFlipped),
+        [] (SurfaceSet3* obj) {
+            delete obj;
+        });
 }

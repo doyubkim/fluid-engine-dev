@@ -190,3 +190,14 @@ GridSmokeSolver2::Builder GridSmokeSolver2::builder() {
 GridSmokeSolver2 GridSmokeSolver2::Builder::build() const {
     return GridSmokeSolver2(_resolution, getGridSpacing(), _gridOrigin);
 }
+
+GridSmokeSolver2Ptr GridSmokeSolver2::Builder::makeShared() const {
+    return std::shared_ptr<GridSmokeSolver2>(
+        new GridSmokeSolver2(
+            _resolution,
+            getGridSpacing(),
+            _gridOrigin),
+        [] (GridSmokeSolver2* obj) {
+            delete obj;
+        });
+}

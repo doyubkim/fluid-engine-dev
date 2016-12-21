@@ -5,10 +5,18 @@
 
 #include <algorithm>
 #include <limits>
+#include <vector>
 
 using namespace jet;
 
 SurfaceSet2::SurfaceSet2() {
+}
+
+SurfaceSet2::SurfaceSet2(
+    const std::vector<Surface2Ptr>& others,
+    bool isNormalFlipped)
+: Surface2(isNormalFlipped)
+, _surfaces(others) {
 }
 
 SurfaceSet2::SurfaceSet2(const SurfaceSet2& other) :
@@ -113,4 +121,33 @@ BoundingBox2D SurfaceSet2::boundingBox() const {
     }
 
     return bbox;
+}
+
+SurfaceSet2::Builder SurfaceSet2::builder() {
+    return Builder();
+}
+
+
+SurfaceSet2::Builder&
+SurfaceSet2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return *this;
+}
+
+SurfaceSet2::Builder&
+SurfaceSet2::Builder::withSurfaces(const std::vector<Surface2Ptr>& others) {
+    _surfaces = others;
+    return *this;
+}
+
+SurfaceSet2 SurfaceSet2::Builder::build() const {
+    return SurfaceSet2(_surfaces, _isNormalFlipped);
+}
+
+SurfaceSet2Ptr SurfaceSet2::Builder::makeShared() const {
+    return std::shared_ptr<SurfaceSet2>(
+        new SurfaceSet2(_surfaces, _isNormalFlipped),
+        [] (SurfaceSet2* obj) {
+            delete obj;
+        });
 }

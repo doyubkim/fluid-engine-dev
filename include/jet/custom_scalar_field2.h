@@ -90,12 +90,7 @@ class CustomScalarField2::Builder final {
     CustomScalarField2 build() const;
 
     //! Builds shared pointer of CustomScalarField2 instance.
-    CustomScalarField2Ptr makeShared() const {
-        return std::make_shared<CustomScalarField2>(
-            _customFunction,
-            _customGradientFunction,
-            _customLaplacianFunction);
-    }
+    CustomScalarField2Ptr makeShared() const;
 
  private:
     std::function<double(const Vector2D&)> _customFunction;

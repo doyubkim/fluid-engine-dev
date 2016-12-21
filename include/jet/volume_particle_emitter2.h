@@ -193,17 +193,7 @@ class VolumeParticleEmitter2::Builder final {
     VolumeParticleEmitter2 build() const;
 
     //! Builds shared pointer of VolumeParticleEmitter2 instance.
-    VolumeParticleEmitter2Ptr makeShared() const {
-        return std::make_shared<VolumeParticleEmitter2>(
-            _implicitSurface,
-            _bounds,
-            _spacing,
-            _initialVel,
-            _maxNumberOfParticles,
-            _jitter,
-            _isOneShot,
-            _allowOverlapping);
-    }
+    VolumeParticleEmitter2Ptr makeShared() const;
 
  private:
     ImplicitSurface2Ptr _implicitSurface;

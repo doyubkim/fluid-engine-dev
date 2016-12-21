@@ -86,13 +86,7 @@ class CustomImplicitSurface2::Builder final {
     CustomImplicitSurface2 build() const;
 
     //! Builds shared pointer of CustomImplicitSurface2 instance.
-    CustomImplicitSurface2Ptr makeShared() const {
-        return std::make_shared<CustomImplicitSurface2>(
-            _func,
-            _domain,
-            _resolution,
-            _isNormalFlipped);
-    }
+    CustomImplicitSurface2Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

@@ -189,12 +189,7 @@ class GridSmokeSolver2::Builder final
     GridSmokeSolver2 build() const;
 
     //! Builds shared pointer of GridSmokeSolver2 instance.
-    GridSmokeSolver2Ptr makeShared() const {
-        return std::make_shared<GridSmokeSolver2>(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin);
-    }
+    GridSmokeSolver2Ptr makeShared() const;
 };
 
 }  // namespace jet

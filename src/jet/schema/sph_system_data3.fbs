@@ -1,0 +1,15 @@
+include "particle_system_data3.fbs";
+
+namespace jet.fbs;
+
+table SphSystemData3 {
+    base:ParticleSystemData3;
+    targetDensity:double;
+    targetSpacing:double;
+    kernelRadiusOverTargetSpacing:double;
+    kernelRadius:double;
+    pressureIdx:ulong;
+    densityIdx:ulong;
+}
+
+root_type SphSystemData3;

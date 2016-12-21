@@ -126,7 +126,7 @@ class ArrayAccessor<T, 2> final {
     //! \endcode
     //!
     template <typename Callback>
-    void forEach(Callback func);
+    void forEach(Callback func) const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.

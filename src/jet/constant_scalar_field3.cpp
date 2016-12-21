@@ -36,3 +36,11 @@ ConstantScalarField3::Builder::withValue(double value) {
 ConstantScalarField3 ConstantScalarField3::Builder::build() const {
     return ConstantScalarField3(_value);
 }
+
+ConstantScalarField3Ptr ConstantScalarField3::Builder::makeShared() const {
+    return std::shared_ptr<ConstantScalarField3>(
+        new ConstantScalarField3(_value),
+        [] (ConstantScalarField3* obj) {
+            delete obj;
+        });
+}

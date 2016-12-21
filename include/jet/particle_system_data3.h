@@ -4,12 +4,26 @@
 #define INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
 
 #include <jet/array1.h>
+#include <jet/serialization.h>
 #include <jet/point_neighbor_searcher3.h>
 
 #include <memory>
 #include <vector>
 
+namespace flatbuffers {
+
+class FlatBufferBuilder;
+template<typename T> struct Offset;
+
+}
+
 namespace jet {
+
+namespace fbs {
+
+struct ParticleSystemData3;
+
+}
 
 //!
 //! \brief      3-D particle system data.
@@ -18,10 +32,8 @@ namespace jet {
 //! single particle has position, velocity, and force attributes by default. But
 //! it can also have additional custom scalar or vector attributes.
 //!
-class ParticleSystemData3 {
+class ParticleSystemData3 : public Serializable {
  public:
-    JET_NON_COPYABLE(ParticleSystemData3)
-
     //! Scalar data chunk.
     typedef Array1<double> ScalarData;
 
@@ -30,6 +42,12 @@ class ParticleSystemData3 {
 
     //! Default constructor.
     ParticleSystemData3();
+
+    //! Constructs particle system data with given number of particles.
+    explicit ParticleSystemData3(size_t numberOfParticles);
+
+    //! Copy constructor.
+    ParticleSystemData3(const ParticleSystemData3& other);
 
     //! Destructor.
     virtual ~ParticleSystemData3();
@@ -182,12 +200,34 @@ class ParticleSystemData3 {
     //! Builds neighbor lists with given search radius.
     void buildNeighborLists(double maxSearchRadius);
 
+    //! Serializes this particle system data to the buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes this particle system data from the buffer.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
+    //! Copies from other particle system data.
+    void set(const ParticleSystemData3& other);
+
+    //! Copies from other particle system data.
+    ParticleSystemData3& operator=(const ParticleSystemData3& other);
+
+ protected:
+    void serializeParticleSystemData(
+        flatbuffers::FlatBufferBuilder* builder,
+        flatbuffers::Offset<fbs::ParticleSystemData3>* fbsParticleSystemData)
+        const;
+
+    void deserializeParticleSystemData(
+        const fbs::ParticleSystemData3* fbsParticleSystemData);
+
  private:
     double _radius = 1e-3;
     double _mass = 1e-3;
-    VectorData _positions;
-    VectorData _velocities;
-    VectorData _forces;
+    size_t _numberOfParticles = 0;
+    size_t _positionIdx;
+    size_t _velocityIdx;
+    size_t _forceIdx;
 
     std::vector<ScalarData> _scalarDataList;
     std::vector<VectorData> _vectorDataList;

@@ -226,33 +226,3 @@ TEST(Array2, ParallelForEachIndex) {
         EXPECT_FLOAT_EQ(static_cast<float>(idx), arr1(i, j));
     });
 }
-
-TEST(Array2, Serialization) {
-    Array2<float> arr1(
-        {{1.f,  2.f,  3.f,  4.f},
-         {5.f,  6.f,  7.f,  8.f},
-         {9.f, 10.f, 11.f, 12.f}});
-
-    // Serialize to in-memoery stream
-    std::stringstream strm1;
-    arr1.serialize(&strm1);
-
-    // Deserialize to non-zero array
-    Array2<float> arr2 = {{5.f, 6.f, 7.f}};
-    arr2.deserialize(&strm1);
-    EXPECT_EQ(4u, arr2.width());
-    EXPECT_EQ(3u, arr2.height());
-    for (size_t i = 0; i < 12; ++i) {
-        EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
-    }
-
-    // Serialize zero-sized array
-    Array2<float> arr3;
-    std::stringstream strm2;
-    arr3.serialize(&strm2);
-
-    // Deserialize to non-zero array
-    arr2.deserialize(&strm2);
-    EXPECT_EQ(0u, arr2.width());
-    EXPECT_EQ(0u, arr2.height());
-}

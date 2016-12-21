@@ -9,6 +9,7 @@
 #include <jet/grid3.h>
 #include <jet/scalar_field3.h>
 #include <memory>
+#include <vector>
 
 namespace jet {
 
@@ -131,12 +132,6 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     void parallelForEachDataPointIndex(
         const std::function<void(size_t, size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    void serialize(std::ostream* strm) const override;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    void deserialize(std::istream* strm) override;
-
     // ScalarField3 implementations
 
     //!
@@ -161,12 +156,24 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     //! Returns the Laplacian at given position \p x.
     double laplacian(const Vector3D& x) const override;
 
+    //! Serializes the grid instance to the output buffer.
+    void serialize(std::vector<uint8_t>* buffer) const override;
+
+    //! Deserializes the input buffer to the grid instance.
+    void deserialize(const std::vector<uint8_t>& buffer) override;
+
  protected:
     //! Swaps the data storage and predefined samplers with given grid.
     void swapScalarGrid(ScalarGrid3* other);
 
     //! Sets the data storage and predefined samplers with given grid.
     void setScalarGrid(const ScalarGrid3& other);
+
+    //! Fetches the data into a continuous linear array.
+    void getData(std::vector<double>* data) const override;
+
+    //! Sets the data from a continuous linear array.
+    void setData(const std::vector<double>& data) override;
 
  private:
     Array3<double> _data;

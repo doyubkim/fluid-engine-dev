@@ -119,12 +119,7 @@ class LevelSetLiquidSolver3::Builder final
     LevelSetLiquidSolver3 build() const;
 
     //! Builds shared pointer of LevelSetLiquidSolver3 instance.
-    LevelSetLiquidSolver3Ptr makeShared() const {
-        return std::make_shared<LevelSetLiquidSolver3>(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin);
-    }
+    LevelSetLiquidSolver3Ptr makeShared() const;
 };
 
 }  // namespace jet

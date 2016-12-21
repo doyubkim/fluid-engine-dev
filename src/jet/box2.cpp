@@ -158,3 +158,14 @@ Box2::Builder& Box2::Builder::withBoundingBox(const BoundingBox2D& bbox) {
 Box2 Box2::Builder::build() const {
     return Box2(_lowerCorner, _upperCorner, _isNormalFlipped);
 }
+
+Box2Ptr Box2::Builder::makeShared() const {
+    return std::shared_ptr<Box2>(
+        new Box2(
+            _lowerCorner,
+            _upperCorner,
+            _isNormalFlipped),
+        [] (Box2* obj) {
+            delete obj;
+        });
+}

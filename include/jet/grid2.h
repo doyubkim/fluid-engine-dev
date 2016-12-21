@@ -5,8 +5,11 @@
 
 #include <jet/size2.h>
 #include <jet/bounding_box2.h>
+#include <jet/serialization.h>
 #include <functional>
 #include <utility>  // just make cpplint happy..
+#include <vector>
+#include <string>
 
 namespace jet {
 
@@ -18,7 +21,7 @@ namespace jet {
 //! shape of the grid. The grid structure is axis-aligned and can have different
 //! grid spacing per axis.
 //!
-class Grid2 {
+class Grid2 : public Serializable {
  public:
     //! Function type for mapping data index to actual position.
     typedef std::function<Vector2D(size_t, size_t)> DataPositionFunc;
@@ -28,6 +31,9 @@ class Grid2 {
 
     //! Default destructor.
     virtual ~Grid2();
+
+    //! Returns the type name of derived grid.
+    virtual std::string typeName() const = 0;
 
     //! Returns the grid resolution.
     const Size2& resolution() const;
@@ -65,12 +71,6 @@ class Grid2 {
     void parallelForEachCellIndex(
         const std::function<void(size_t, size_t)>& func) const;
 
-    //! Serializes the grid instance to the output stream \p strm.
-    virtual void serialize(std::ostream* strm) const = 0;
-
-    //! Deserializes the input stream \p strm to the grid instance.
-    virtual void deserialize(std::istream* strm) = 0;
-
     //! Returns true if resolution, grid-spacing and origin are same.
     bool hasSameShape(const Grid2& other) const;
 
@@ -91,11 +91,11 @@ class Grid2 {
     //! Sets the size parameters with given grid \p other.
     void setGrid(const Grid2& other);
 
-    //! Serializes the size parameters to given output stream \p strm.
-    void serializeGrid(std::ostream* strm) const;
+    //! Fetches the data into a continuous linear array.
+    virtual void getData(std::vector<double>* data) const = 0;
 
-    //! Deserializes the size parameters from given input stream \p strm.
-    void deserializeGrid(std::istream* strm);
+    //! Sets the data from a continuous linear array.
+    virtual void setData(const std::vector<double>& data) = 0;
 
  private:
     Size2 _resolution;
@@ -103,6 +103,11 @@ class Grid2 {
     Vector2D _origin;
     BoundingBox2D _boundingBox = BoundingBox2D(Vector2D(), Vector2D());
 };
+
+#define JET_GRID2_TYPE_NAME(DerivedClassName) \
+    std::string typeName() const override { \
+        return #DerivedClassName; \
+    }
 
 }  // namespace jet
 

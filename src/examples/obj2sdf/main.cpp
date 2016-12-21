@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <vector>
 
 using namespace jet;
 
@@ -73,6 +74,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    if (inputFilename.empty()) {
+        printUsage();
+        exit(EXIT_FAILURE);
+    }
+
+    if (outputFilename.empty()) {
+        printUsage();
+        exit(EXIT_FAILURE);
+    }
+
     TriangleMesh3 triMesh;
 
     std::ifstream objFile(inputFilename.c_str());
@@ -121,7 +132,9 @@ int main(int argc, char* argv[]) {
     if (sdfFile) {
         printf("Writing to vertex-centered grid %s\n", outputFilename.c_str());
 
-        grid.serialize(&sdfFile);
+        std::vector<uint8_t> buffer;
+        grid.serialize(&buffer);
+        sdfFile.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         sdfFile.close();
     } else {
         fprintf(stderr, "Failed to write file %s\n", outputFilename.c_str());

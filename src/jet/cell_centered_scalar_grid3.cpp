@@ -142,3 +142,32 @@ CellCenteredScalarGrid3 CellCenteredScalarGrid3::Builder::build() const {
         _gridOrigin,
         _initialVal);
 }
+
+ScalarGrid3Ptr CellCenteredScalarGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    double initialVal) const {
+    return std::shared_ptr<CellCenteredScalarGrid3>(
+        new CellCenteredScalarGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (CellCenteredScalarGrid3* obj) {
+            delete obj;
+        });
+}
+
+CellCenteredScalarGrid3Ptr
+CellCenteredScalarGrid3::Builder::makeShared() const {
+    return std::shared_ptr<CellCenteredScalarGrid3>(
+        new CellCenteredScalarGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (CellCenteredScalarGrid3* obj) {
+            delete obj;
+        });
+}

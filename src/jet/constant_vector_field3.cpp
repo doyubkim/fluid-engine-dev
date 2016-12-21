@@ -35,3 +35,11 @@ ConstantVectorField3::Builder::withValue(const Vector3D& value) {
 ConstantVectorField3 ConstantVectorField3::Builder::build() const {
     return ConstantVectorField3(_value);
 }
+
+ConstantVectorField3Ptr ConstantVectorField3::Builder::makeShared() const {
+    return std::shared_ptr<ConstantVectorField3>(
+        new ConstantVectorField3(_value),
+        [] (ConstantVectorField3* obj) {
+            delete obj;
+        });
+}

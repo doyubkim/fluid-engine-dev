@@ -91,12 +91,7 @@ class Box3::Builder final {
     Box3 build() const;
 
     //! Builds shared pointer of Box3 instance.
-    Box3Ptr makeShared() const {
-        return std::make_shared<Box3>(
-            _lowerCorner,
-            _upperCorner,
-            _isNormalFlipped);
-    }
+    Box3Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;

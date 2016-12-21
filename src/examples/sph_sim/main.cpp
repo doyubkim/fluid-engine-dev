@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #define APP_NAME "sph_sim"
 
@@ -32,7 +33,9 @@ void saveParticleAsPos(
     std::ofstream file(filename.c_str(), std::ios::binary);
     if (file) {
         printf("Writing %s...\n", filename.c_str());
-        positions.serialize(&file);
+        std::vector<uint8_t> buffer;
+        serialize(positions, &buffer);
+        file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
 }
@@ -275,19 +278,19 @@ void runExample3(
 
     // Build collider
     auto cyl1 = Cylinder3::builder()
-        .withCenter({1, -0.75 / 2.0, 0.25 * lz})
+        .withCenter({1, 0.375, 0.375})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();
 
     auto cyl2 = Cylinder3::builder()
-        .withCenter({1.5, -0.75 / 2.0, 0.5 * lz})
+        .withCenter({1.5, 0.375, 0.75})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();
 
     auto cyl3 = Cylinder3::builder()
-        .withCenter({2, -0.75 / 2.0, 0.75 * lz})
+        .withCenter({2, 0.375, 1.125})
         .withRadius(0.1)
         .withHeight(0.75)
         .makeShared();

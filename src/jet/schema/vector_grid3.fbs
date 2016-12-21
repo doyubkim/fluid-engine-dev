@@ -1,0 +1,12 @@
+include "basic_types.fbs";
+
+namespace jet.fbs;
+
+table VectorGrid3 {
+    resolution:Size3;
+    gridSpacing:Vector3D;
+    origin:Vector3D;
+    data:[double];
+}
+
+root_type VectorGrid3;

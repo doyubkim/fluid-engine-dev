@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
+#include <vector>
 
 using namespace jet;
 
@@ -386,40 +387,6 @@ void FaceCenteredGrid3::parallelForEachWIndex(
     _dataW.parallelForEachIndex(func);
 }
 
-void FaceCenteredGrid3::serialize(std::ostream* strm) const {
-    serializeGrid(strm);
-
-    const char* orgUAsBytes = reinterpret_cast<const char*>(&_dataOriginU);
-    const char* orgVAsBytes = reinterpret_cast<const char*>(&_dataOriginV);
-    const char* orgWAsBytes = reinterpret_cast<const char*>(&_dataOriginW);
-
-    strm->write(orgUAsBytes, 3 * sizeof(double));
-    strm->write(orgVAsBytes, 3 * sizeof(double));
-    strm->write(orgWAsBytes, 3 * sizeof(double));
-
-    _dataU.serialize(strm);
-    _dataV.serialize(strm);
-    _dataW.serialize(strm);
-}
-
-void FaceCenteredGrid3::deserialize(std::istream* strm) {
-    deserializeGrid(strm);
-
-    char* orgUAsBytes = reinterpret_cast<char*>(&_dataOriginU);
-    char* orgVAsBytes = reinterpret_cast<char*>(&_dataOriginV);
-    char* orgWAsBytes = reinterpret_cast<char*>(&_dataOriginW);
-
-    strm->read(orgUAsBytes, 3 * sizeof(double));
-    strm->read(orgVAsBytes, 3 * sizeof(double));
-    strm->read(orgWAsBytes, 3 * sizeof(double));
-
-    _dataU.deserialize(strm);
-    _dataV.deserialize(strm);
-    _dataW.deserialize(strm);
-
-    resetSampler();
-}
-
 Vector3D FaceCenteredGrid3::sample(const Vector3D& x) const {
     return _sampler(x);
 }
@@ -559,6 +526,43 @@ FaceCenteredGrid3::Builder FaceCenteredGrid3::builder() {
     return Builder();
 }
 
+void FaceCenteredGrid3::getData(std::vector<double>* data) const {
+    size_t size
+        = uSize().x * uSize().y * uSize().z
+        + vSize().x * vSize().y * vSize().z
+        + wSize().x * wSize().y * wSize().z;
+    data->resize(size);
+    size_t cnt = 0;
+    _dataU.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataV.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+    _dataW.forEach([&] (double value) {
+        (*data)[cnt++] = value;
+    });
+}
+
+void FaceCenteredGrid3::setData(const std::vector<double>& data) {
+    JET_ASSERT(
+          uSize().x * uSize().y * uSize().z
+        + vSize().x * vSize().y * vSize().z
+        + wSize().x * wSize().y * wSize().z
+         == data.size());
+
+    size_t cnt = 0;
+    _dataU.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataU(i, j, k) = data[cnt++];
+    });
+    _dataV.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataV(i, j, k) = data[cnt++];
+    });
+    _dataW.forEachIndex([&] (size_t i, size_t j, size_t k) {
+        _dataW(i, j, k) = data[cnt++];
+    });
+}
+
 
 FaceCenteredGrid3::Builder&
 FaceCenteredGrid3::Builder::withResolution(const Size3& resolution) {
@@ -626,4 +630,32 @@ FaceCenteredGrid3 FaceCenteredGrid3::Builder::build() const {
         _gridSpacing,
         _gridOrigin,
         _initialVal);
+}
+
+FaceCenteredGrid3Ptr FaceCenteredGrid3::Builder::makeShared() const {
+    return std::shared_ptr<FaceCenteredGrid3>(
+        new FaceCenteredGrid3(
+            _resolution,
+            _gridSpacing,
+            _gridOrigin,
+            _initialVal),
+        [] (FaceCenteredGrid3* obj) {
+            delete obj;
+        });
+}
+
+VectorGrid3Ptr FaceCenteredGrid3::Builder::build(
+    const Size3& resolution,
+    const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin,
+    const Vector3D& initialVal) const {
+    return std::shared_ptr<FaceCenteredGrid3>(
+        new FaceCenteredGrid3(
+            resolution,
+            gridSpacing,
+            gridOrigin,
+            initialVal),
+        [] (FaceCenteredGrid3* obj) {
+            delete obj;
+        });
 }

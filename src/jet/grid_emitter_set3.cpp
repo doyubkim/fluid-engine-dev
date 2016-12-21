@@ -46,3 +46,11 @@ GridEmitterSet3::Builder::withEmitters(
 GridEmitterSet3 GridEmitterSet3::Builder::build() const {
     return GridEmitterSet3(_emitters);
 }
+
+GridEmitterSet3Ptr GridEmitterSet3::Builder::makeShared() const {
+    return std::shared_ptr<GridEmitterSet3>(
+        new GridEmitterSet3(_emitters),
+        [] (GridEmitterSet3* obj) {
+            delete obj;
+        });
+}

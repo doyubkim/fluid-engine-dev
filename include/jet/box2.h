@@ -90,12 +90,7 @@ class Box2::Builder final {
     Box2 build() const;
 
     //! Builds shared pointer of Box2 instance.
-    Box2Ptr makeShared() const {
-        return std::make_shared<Box2>(
-            _lowerCorner,
-            _upperCorner,
-            _isNormalFlipped);
-    }
+    Box2Ptr makeShared() const;
 
  private:
     bool _isNormalFlipped = false;
