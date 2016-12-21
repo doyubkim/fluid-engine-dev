@@ -23,7 +23,7 @@ TEST(VolumeGridEmitter3, Velocity) {
     auto grid = CellCenteredVectorGrid3::builder()
         .withResolution({16, 16, 16})
         .withGridSpacing({1.0/16.0, 1.0/16.0, 1.0/16.0})
-        .withGridOrigin({0, 0, 0})
+        .withOrigin({0, 0, 0})
         .makeShared();
 
     auto mapper = [] (double sdf, const Vector3D& pt, const Vector3D& oldVal) {
@@ -65,7 +65,7 @@ TEST(VolumeGridEmitter3, SignedDistance) {
     auto grid = CellCenteredScalarGrid3::builder()
         .withResolution({16, 16, 16})
         .withGridSpacing({1.0/16.0, 1.0/16.0, 1.0/16.0})
-        .withGridOrigin({0, 0, 0})
+        .withOrigin({0, 0, 0})
         .withInitialValue(kMaxD)
         .makeShared();
 
@@ -96,7 +96,7 @@ TEST(VolumeGridEmitter3, StepFunction) {
     auto grid = CellCenteredScalarGrid3::builder()
         .withResolution({16, 16, 16})
         .withGridSpacing({1.0/16.0, 1.0/16.0, 1.0/16.0})
-        .withGridOrigin({0, 0, 0})
+        .withOrigin({0, 0, 0})
         .makeShared();
 
     emitter->addStepFunctionTarget(grid, 3.0, 7.0);

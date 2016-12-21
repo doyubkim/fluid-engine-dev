@@ -447,13 +447,13 @@ FaceCenteredGrid2::Builder::withGridSpacing(
 }
 
 FaceCenteredGrid2::Builder&
-FaceCenteredGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+FaceCenteredGrid2::Builder::withOrigin(const Vector2D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 FaceCenteredGrid2::Builder&
-FaceCenteredGrid2::Builder::withGridOrigin(
+FaceCenteredGrid2::Builder::withOrigin(
     double gridOriginX, double gridOriginY) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

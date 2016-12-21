@@ -206,7 +206,7 @@ TEST(FaceCenteredGrid2, Builder) {
         auto grid = FaceCenteredGrid2::builder()
             .withResolution(5, 2)
             .withGridSpacing(2, 4)
-            .withGridOrigin(-1, 2)
+            .withOrigin(-1, 2)
             .withInitialValue(3, 5)
             .build();
 

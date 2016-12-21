@@ -325,7 +325,7 @@ void runExample3(
     auto solver = GridSmokeSolver3::builder()
         .withResolution({resolutionX, resolutionX / 4 * 5, resolutionX / 2})
         .withDomainSizeX(2.0)
-        .withGridOrigin({-1, -0.15, -0.5})
+        .withOrigin({-1, -0.15, -0.5})
         .makeShared();
 
     // Build emitter

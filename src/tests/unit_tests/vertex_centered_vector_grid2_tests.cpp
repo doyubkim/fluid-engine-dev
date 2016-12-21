@@ -185,7 +185,7 @@ TEST(VertexCenteredVectorGrid2, Builder) {
         auto grid1 = VertexCenteredVectorGrid2::builder()
             .withResolution(3, 8)
             .withGridSpacing(2, 3)
-            .withGridOrigin(1, 5)
+            .withOrigin(1, 5)
             .withInitialValue(4, 7)
             .build();
 

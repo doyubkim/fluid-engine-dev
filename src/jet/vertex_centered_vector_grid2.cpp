@@ -137,13 +137,13 @@ VertexCenteredVectorGrid2::Builder::withGridSpacing(
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+VertexCenteredVectorGrid2::Builder::withOrigin(const Vector2D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withGridOrigin(
+VertexCenteredVectorGrid2::Builder::withOrigin(
     double gridOriginX, double gridOriginY) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

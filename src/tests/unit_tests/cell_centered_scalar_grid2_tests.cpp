@@ -172,7 +172,7 @@ TEST(CellCenteredScalarGrid2, Builder) {
     {
         auto grid1 = CellCenteredScalarGrid2::builder().withResolution(3, 8)
                                                        .withGridSpacing(2, 3)
-                                                       .withGridOrigin(1, 5)
+                                                       .withOrigin(1, 5)
                                                        .withInitialValue(4.0)
                                                        .build();
         EXPECT_EQ(3u, grid1.resolution().x);
