@@ -16,7 +16,7 @@ Every simulator has both 2-D and 3-D implementations.
 
 ## How to Build
 
-To learn how to build, test, and install the SDK, please check out [INSTALL.md](INSTALL.md).
+To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/INSTALL.md).
 
 ## Examples
 
@@ -26,4 +26,4 @@ Here are some of the example simulations generated using Jet framework. Correspo
 
 ## License
 
-Jet is under the MIT license. For more information, check out [LICENSE.md](LICENSE.md). Jet also utilizes other open source codes. Checkout [3RD_PARTY.md](3RD_PARTY.md) for more details.
+Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md). Jet also utilizes other open source codes. Checkout [3RD_PARTY.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for more details.
