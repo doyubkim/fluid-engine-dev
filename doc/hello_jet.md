@@ -8,7 +8,7 @@ Jet framework is a C++ library. To start developing with Jet, begin with includi
 
     #include <jet/jet.h>
 
-This will import all the headers needed into your code. After writing up the code, link your program with `libjet.a` (or jet.lib for Windows). These are all the stuff you will need for the development.
+This will import all the headers needed into your code. After writing up the code, link your program with `libjet.a` (or `jet.lib` for Windows). These are all the stuff you will need for the development.
 
 ## Solver
 

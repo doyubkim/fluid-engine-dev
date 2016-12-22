@@ -92,7 +92,7 @@ For Windows, the binaries and header files will be located under `dist` director
 
 ## Coding Style
 
-Jet uses a modified version of [cpplint.py](https://github.com/google/styleguide/tree/gh-pages/cpplint) for checking the coding style. Please check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md) for the license of `cpplint.py`. Any pull requests must pass the linter. Use `bin/run_linters` (or `bin\run_linters.bat` for Windows) to test the header and source files of the library.
+Jet uses a modified version of [cpplint.py](https://github.com/google/styleguide/tree/gh-pages/cpplint) for checking the coding style. Please check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for the license of `cpplint.py`. Any pull requests must pass the linter. Use `bin/run_linters` (or `bin\run_linters.bat` for Windows) to test the header and source files of the library.
 
 ## Continuous Integration
 
