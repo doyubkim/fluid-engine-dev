@@ -140,11 +140,6 @@ Box3::Builder Box3::builder() {
     return Builder();
 }
 
-Box3::Builder& Box3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Box3::Builder& Box3::Builder::withLowerCorner(const Vector3D& pt) {
     _lowerCorner = pt;
     return *this;

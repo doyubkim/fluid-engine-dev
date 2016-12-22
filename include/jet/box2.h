@@ -72,11 +72,8 @@ typedef std::shared_ptr<Box2> Box2Ptr;
 //!
 //! \brief Front-end to create Box2 objects step by step.
 //!
-class Box2::Builder final {
+class Box2::Builder final : public SurfaceBuilderBase2<Box2::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with lower corner set.
     Builder& withLowerCorner(const Vector2D& pt);
 
@@ -93,7 +90,6 @@ class Box2::Builder final {
     Box2Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector2D _lowerCorner{0, 0};
     Vector2D _upperCorner{1, 1};
 };

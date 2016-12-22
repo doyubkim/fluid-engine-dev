@@ -107,13 +107,13 @@ CellCenteredScalarGrid2::Builder::withGridSpacing(
 }
 
 CellCenteredScalarGrid2::Builder&
-CellCenteredScalarGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+CellCenteredScalarGrid2::Builder::withOrigin(const Vector2D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 CellCenteredScalarGrid2::Builder&
-CellCenteredScalarGrid2::Builder::withGridOrigin(
+CellCenteredScalarGrid2::Builder::withOrigin(
     double gridOriginX, double gridOriginY) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

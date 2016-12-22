@@ -261,12 +261,6 @@ Triangle3::Builder Triangle3::builder() {
 }
 
 Triangle3::Builder&
-Triangle3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
-Triangle3::Builder&
 Triangle3::Builder::withPoints(const std::array<Vector3D, 3>& points) {
     _points = points;
     return *this;

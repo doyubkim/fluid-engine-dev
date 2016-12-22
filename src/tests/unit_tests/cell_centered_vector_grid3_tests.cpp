@@ -245,7 +245,7 @@ TEST(CellCenteredVectorGrid3, Builder) {
         auto grid1 = CellCenteredVectorGrid3::builder()
             .withResolution(3, 8, 5)
             .withGridSpacing(2.0, 3.0, 1.0)
-            .withGridOrigin(5.0, 4.0, 7.0)
+            .withOrigin(5.0, 4.0, 7.0)
             .withInitialValue(8.0, 1.0, 3.0)
             .build();
 

@@ -85,6 +85,25 @@ class Surface3 {
 //! Shared pointer for the Surface3 type.
 typedef std::shared_ptr<Surface3> Surface3Ptr;
 
+//!
+//! \brief Base class for 3-D surface builder.
+//!
+template <typename DerivedBuilder>
+class SurfaceBuilderBase3 {
+ public:
+    //! Returns builder with flipped normal flag.
+    DerivedBuilder& withIsNormalFlipped(bool isNormalFlipped);
+
+ protected:
+    bool _isNormalFlipped = false;
+};
+
+template <typename T>
+T& SurfaceBuilderBase3<T>::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return static_cast<T&>(*this);
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_SURFACE3_H_

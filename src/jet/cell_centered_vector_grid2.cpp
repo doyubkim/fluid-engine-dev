@@ -131,13 +131,13 @@ CellCenteredVectorGrid2::Builder::withGridSpacing(
 }
 
 CellCenteredVectorGrid2::Builder&
-CellCenteredVectorGrid2::Builder::withGridOrigin(const Vector2D& gridOrigin) {
+CellCenteredVectorGrid2::Builder::withOrigin(const Vector2D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 CellCenteredVectorGrid2::Builder&
-CellCenteredVectorGrid2::Builder::withGridOrigin(
+CellCenteredVectorGrid2::Builder::withOrigin(
     double gridOriginX, double gridOriginY) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

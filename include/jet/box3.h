@@ -73,11 +73,8 @@ typedef std::shared_ptr<Box3> Box3Ptr;
 //!
 //! \brief Front-end to create Box3 objects step by step.
 //!
-class Box3::Builder final {
+class Box3::Builder final : public SurfaceBuilderBase3<Box3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with lower corner set.
     Builder& withLowerCorner(const Vector3D& pt);
 
@@ -94,7 +91,6 @@ class Box3::Builder final {
     Box3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector3D _lowerCorner{0, 0, 0};
     Vector3D _upperCorner{1, 1, 1};
 };

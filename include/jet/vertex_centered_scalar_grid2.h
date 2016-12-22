@@ -100,10 +100,10 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     Builder& withGridSpacing(double gridSpacingX, double gridSpacingY);
 
     //! Returns builder with grid origin.
-    Builder& withGridOrigin(const Vector2D& gridOrigin);
+    Builder& withOrigin(const Vector2D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& withGridOrigin(double gridOriginX, double gridOriginY);
+    Builder& withOrigin(double gridOriginX, double gridOriginY);
 
     //! Returns builder with initial value.
     Builder& withInitialValue(double initialVal);

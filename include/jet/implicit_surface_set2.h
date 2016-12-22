@@ -86,7 +86,8 @@ typedef std::shared_ptr<ImplicitSurfaceSet2> ImplicitSurfaceSet2Ptr;
 //!
 //! \brief Front-end to create ImplicitSurfaceSet2 objects step by step.
 //!
-class ImplicitSurfaceSet2::Builder final {
+class ImplicitSurfaceSet2::Builder final
+    : public SurfaceBuilderBase2<ImplicitSurfaceSet2::Builder> {
  public:
     //! Returns builder with surfaces.
     Builder& withSurfaces(const std::vector<ImplicitSurface2Ptr>& surfaces);

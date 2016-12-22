@@ -107,11 +107,6 @@ Sphere2::Builder Sphere2::builder() {
     return Builder();
 }
 
-Sphere2::Builder& Sphere2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Sphere2::Builder& Sphere2::Builder::withCenter(const Vector2D& center) {
     _center = center;
     return *this;

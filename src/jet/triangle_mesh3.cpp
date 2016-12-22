@@ -664,12 +664,6 @@ TriangleMesh3::Builder TriangleMesh3::builder() {
 }
 
 TriangleMesh3::Builder&
-TriangleMesh3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
-TriangleMesh3::Builder&
 TriangleMesh3::Builder::withPoints(const PointArray& points) {
     _points = points;
     return *this;

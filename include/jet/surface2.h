@@ -80,6 +80,25 @@ class Surface2 {
 //! Shared pointer for the Surface2 type.
 typedef std::shared_ptr<Surface2> Surface2Ptr;
 
+//!
+//! \brief Base class for 2-D surface builder.
+//!
+template <typename DerivedBuilder>
+class SurfaceBuilderBase2 {
+ public:
+    //! Returns builder with flipped normal flag.
+    DerivedBuilder& withIsNormalFlipped(bool isNormalFlipped);
+
+ protected:
+    bool _isNormalFlipped = false;
+};
+
+template <typename T>
+T& SurfaceBuilderBase2<T>::withIsNormalFlipped(bool isNormalFlipped) {
+    _isNormalFlipped = isNormalFlipped;
+    return static_cast<T&>(*this);
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_SURFACE2_H_

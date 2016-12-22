@@ -297,7 +297,7 @@ TEST(FaceCenteredGrid3, Builder) {
         auto grid = FaceCenteredGrid3::builder()
             .withResolution(5, 2, 7)
             .withGridSpacing(2.0, 4.0, 1.5)
-            .withGridOrigin(-1.0, 2.0, 7.0)
+            .withOrigin(-1.0, 2.0, 7.0)
             .withInitialValue(3.0, 5.0, -2.0)
             .build();
         EXPECT_EQ(Size3(5, 2, 7), grid.resolution());

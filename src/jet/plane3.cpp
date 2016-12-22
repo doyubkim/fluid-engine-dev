@@ -99,11 +99,6 @@ Plane3::Builder Plane3::builder() {
     return Builder();
 }
 
-Plane3::Builder& Plane3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Plane3::Builder& Plane3::Builder::withNormal(const Vector3D& normal) {
     _normal = normal;
     return *this;

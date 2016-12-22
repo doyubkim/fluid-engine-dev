@@ -117,13 +117,13 @@ VertexCenteredScalarGrid3::Builder::withGridSpacing(
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+VertexCenteredScalarGrid3::Builder::withOrigin(const Vector3D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withGridOrigin(
+VertexCenteredScalarGrid3::Builder::withOrigin(
     double gridOriginX, double gridOriginY, double gridOriginZ) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

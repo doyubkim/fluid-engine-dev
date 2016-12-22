@@ -71,11 +71,8 @@ typedef std::shared_ptr<Sphere3> Sphere3Ptr;
 //!
 //! \brief Front-end to create Sphere3 objects step by step.
 //!
-class Sphere3::Builder final {
+class Sphere3::Builder final : public SurfaceBuilderBase3<Sphere3::Builder>{
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with sphere center.
     Builder& withCenter(const Vector3D& center);
 
@@ -89,7 +86,6 @@ class Sphere3::Builder final {
     Sphere3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector3D _center{0, 0, 0};
     double _radius = 0.0;
 };

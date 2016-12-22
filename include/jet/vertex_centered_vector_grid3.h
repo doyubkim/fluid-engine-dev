@@ -109,10 +109,10 @@ class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
         double gridSpacingX, double gridSpacingY, double gridSpacingZ);
 
     //! Returns builder with grid origin.
-    Builder& withGridOrigin(const Vector3D& gridOrigin);
+    Builder& withOrigin(const Vector3D& gridOrigin);
 
     //! Returns builder with grid origin.
-    Builder& withGridOrigin(
+    Builder& withOrigin(
         double gridOriginX, double gridOriginY, double gridOriginZ);
 
     //! Returns builder with initial value.

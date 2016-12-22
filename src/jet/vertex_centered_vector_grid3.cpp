@@ -144,13 +144,13 @@ VertexCenteredVectorGrid3::Builder::withGridSpacing(
 }
 
 VertexCenteredVectorGrid3::Builder&
-VertexCenteredVectorGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+VertexCenteredVectorGrid3::Builder::withOrigin(const Vector3D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 VertexCenteredVectorGrid3::Builder&
-VertexCenteredVectorGrid3::Builder::withGridOrigin(
+VertexCenteredVectorGrid3::Builder::withOrigin(
     double gridOriginX, double gridOriginY, double gridOriginZ) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

@@ -595,13 +595,13 @@ FaceCenteredGrid3::Builder::withGridSpacing(
 }
 
 FaceCenteredGrid3::Builder&
-FaceCenteredGrid3::Builder::withGridOrigin(const Vector3D& gridOrigin) {
+FaceCenteredGrid3::Builder::withOrigin(const Vector3D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
 FaceCenteredGrid3::Builder&
-FaceCenteredGrid3::Builder::withGridOrigin(
+FaceCenteredGrid3::Builder::withOrigin(
     double gridOriginX, double gridOriginY, double gridOriginZ) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;

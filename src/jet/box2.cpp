@@ -134,11 +134,6 @@ Box2::Builder Box2::builder() {
     return Builder();
 }
 
-Box2::Builder& Box2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Box2::Builder& Box2::Builder::withLowerCorner(const Vector2D& pt) {
     _lowerCorner = pt;
     return *this;

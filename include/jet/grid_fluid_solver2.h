@@ -309,7 +309,7 @@ class GridFluidSolverBuilderBase2 {
     DerivedBuilder& withDomainSizeX(double domainSizeX);
 
     //! Returns builder with grid origin
-    DerivedBuilder& withGridOrigin(const Vector2D& gridOrigin);
+    DerivedBuilder& withOrigin(const Vector2D& gridOrigin);
 
  protected:
     Size2 _resolution{1, 1};
@@ -351,7 +351,7 @@ T& GridFluidSolverBuilderBase2<T>::withDomainSizeX(double domainSizeX) {
 }
 
 template <typename T>
-T& GridFluidSolverBuilderBase2<T>::withGridOrigin(const Vector2D& gridOrigin) {
+T& GridFluidSolverBuilderBase2<T>::withOrigin(const Vector2D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return static_cast<T&>(*this);
 }

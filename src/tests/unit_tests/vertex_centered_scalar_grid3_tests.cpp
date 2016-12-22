@@ -219,7 +219,7 @@ TEST(VertexCenteredScalarGrid3, Builder) {
         auto grid1 = VertexCenteredScalarGrid3::builder()
             .withResolution(3, 8, 5)
             .withGridSpacing(2, 3, 1)
-            .withGridOrigin(5, 4, 7)
+            .withOrigin(5, 4, 7)
             .withInitialValue(8.0)
             .build();
 

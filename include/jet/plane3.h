@@ -74,11 +74,8 @@ typedef std::shared_ptr<Plane3> Plane3Ptr;
 //!
 //! \brief Front-end to create Plane3 objects step by step.
 //!
-class Plane3::Builder final {
+class Plane3::Builder final : public SurfaceBuilderBase3<Plane3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with plane normal.
     Builder& withNormal(const Vector3D& normal);
 
@@ -92,7 +89,6 @@ class Plane3::Builder final {
     Plane3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector3D _normal{0, 1, 0};
     Vector3D _point{0, 0, 0};
 };
