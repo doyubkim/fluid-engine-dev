@@ -87,11 +87,9 @@ typedef std::shared_ptr<Triangle3> Triangle3Ptr;
 //!
 //! \brief Front-end to create Triangle3 objects step by step.
 //!
-class Triangle3::Builder final {
+class Triangle3::Builder final
+    : public SurfaceBuilderBase3<Triangle3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with points.
     Builder& withPoints(const std::array<Vector3D, 3>& points);
 
@@ -108,7 +106,6 @@ class Triangle3::Builder final {
     Triangle3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     std::array<Vector3D, 3> _points;
     std::array<Vector3D, 3> _normals;
     std::array<Vector2D, 3> _uvs;

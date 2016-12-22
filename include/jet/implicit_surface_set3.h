@@ -85,7 +85,8 @@ typedef std::shared_ptr<ImplicitSurfaceSet3> ImplicitSurfaceSet3Ptr;
 //!
 //! \brief Front-end to create ImplicitSurfaceSet3 objects step by step.
 //!
-class ImplicitSurfaceSet3::Builder final {
+class ImplicitSurfaceSet3::Builder final
+    : public SurfaceBuilderBase3<ImplicitSurfaceSet3::Builder> {
  public:
     //! Returns builder with surfaces.
     Builder& withSurfaces(const std::vector<ImplicitSurface3Ptr>& surfaces);

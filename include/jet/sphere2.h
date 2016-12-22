@@ -67,11 +67,8 @@ typedef std::shared_ptr<Sphere2> Sphere2Ptr;
 //!
 //! \brief Front-end to create Sphere2 objects step by step.
 //!
-class Sphere2::Builder final {
+class Sphere2::Builder final : public SurfaceBuilderBase2<Sphere2::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with sphere center.
     Builder& withCenter(const Vector2D& center);
 
@@ -85,7 +82,6 @@ class Sphere2::Builder final {
     Sphere2Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector2D _center{0, 0};
     double _radius = 0.0;
 };

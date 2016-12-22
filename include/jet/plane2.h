@@ -67,11 +67,8 @@ typedef std::shared_ptr<Plane2> Plane2Ptr;
 //!
 //! \brief Front-end to create Plane2 objects step by step.
 //!
-class Plane2::Builder final {
+class Plane2::Builder final : public SurfaceBuilderBase2<Plane2::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with plane normal.
     Builder& withNormal(const Vector2D& normal);
 
@@ -85,7 +82,6 @@ class Plane2::Builder final {
     Plane2Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector2D _normal{0, 1};
     Vector2D _point{0, 0};
 };

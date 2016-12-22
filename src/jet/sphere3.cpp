@@ -108,11 +108,6 @@ Sphere3::Builder Sphere3::builder() {
     return Builder();
 }
 
-Sphere3::Builder& Sphere3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Sphere3::Builder& Sphere3::Builder::withCenter(const Vector3D& center) {
     _center = center;
     return *this;

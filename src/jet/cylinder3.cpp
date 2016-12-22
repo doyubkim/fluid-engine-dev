@@ -236,12 +236,6 @@ Cylinder3::Builder Cylinder3::builder() {
     return Builder();
 }
 
-Cylinder3::Builder&
-Cylinder3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Cylinder3::Builder& Cylinder3::Builder::withCenter(const Vector3D& center) {
     _center = center;
     return *this;

@@ -219,11 +219,9 @@ typedef std::shared_ptr<TriangleMesh3> TriangleMesh3Ptr;
 //!
 //! \brief Front-end to create TriangleMesh3 objects step by step.
 //!
-class TriangleMesh3::Builder final {
+class TriangleMesh3::Builder final
+    : public SurfaceBuilderBase3<TriangleMesh3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with points.
     Builder& withPoints(const PointArray& points);
 
@@ -249,7 +247,6 @@ class TriangleMesh3::Builder final {
     TriangleMesh3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     PointArray _points;
     NormalArray _normals;
     UvArray _uvs;

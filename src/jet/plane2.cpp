@@ -82,11 +82,6 @@ Plane2::Builder Plane2::builder() {
     return Builder();
 }
 
-Plane2::Builder& Plane2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
-
 Plane2::Builder& Plane2::Builder::withNormal(const Vector2D& normal) {
     _normal = normal;
     return *this;

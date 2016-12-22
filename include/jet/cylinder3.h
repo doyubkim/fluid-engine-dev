@@ -70,11 +70,9 @@ typedef std::shared_ptr<Cylinder3> Cylinder3Ptr;
 //!
 //! \brief Front-end to create Cylinder3 objects step by step.
 //!
-class Cylinder3::Builder final {
+class Cylinder3::Builder final
+    : public SurfaceBuilderBase3<Cylinder3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with center.
     Builder& withCenter(const Vector3D& center);
 
@@ -91,7 +89,6 @@ class Cylinder3::Builder final {
     Cylinder3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Vector3D _center{0, 0, 0};
     double _radius = 1.0;
     double _height = 1.0;
