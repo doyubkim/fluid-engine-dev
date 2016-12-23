@@ -64,8 +64,7 @@ _*
 obj
 
 # Doxygen files
-doc/html
-doc/latex
+doc/doxygen/html
 
 # Output files
 *.csv

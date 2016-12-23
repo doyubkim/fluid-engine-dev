@@ -10,6 +10,8 @@
 #include <memory>
 #include <vector>
 
+#ifndef JET_DOXYGEN
+
 namespace flatbuffers {
 
 class FlatBufferBuilder;
@@ -18,12 +20,16 @@ template<typename T> struct Offset;
 }
 
 namespace jet {
-
 namespace fbs {
 
 struct ParticleSystemData3;
 
 }
+}
+
+#endif  // JET_DOXYGEN
+
+namespace jet {
 
 //!
 //! \brief      3-D particle system data.
