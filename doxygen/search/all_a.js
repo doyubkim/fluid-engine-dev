@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['fbs',['fbs',['../namespacejet_1_1fbs.html',1,'jet']]],
   ['jet',['jet',['../namespacejet.html',1,'']]],
   ['jet_2eh',['jet.h',['../jet_8h.html',1,'']]],
   ['jet_5fassert',['JET_ASSERT',['../macros_8h.html#ac15dea66834e4784db3e6bf2601a729b',1,'macros.h']]],
