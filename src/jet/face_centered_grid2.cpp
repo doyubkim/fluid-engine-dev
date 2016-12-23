@@ -255,7 +255,7 @@ void FaceCenteredGrid2::fill(
 }
 
 std::shared_ptr<VectorGrid2> FaceCenteredGrid2::clone() const {
-    return std::make_shared<FaceCenteredGrid2>(*this);
+    return CLONE_W_CUSTOM_DELETER(FaceCenteredGrid2);
 }
 
 void FaceCenteredGrid2::forEachUIndex(

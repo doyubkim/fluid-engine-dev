@@ -52,7 +52,7 @@ Vector2D CellCenteredScalarGrid2::dataOrigin() const {
 }
 
 std::shared_ptr<ScalarGrid2> CellCenteredScalarGrid2::clone() const {
-    return std::make_shared<CellCenteredScalarGrid2>(*this);
+    return CLONE_W_CUSTOM_DELETER(CellCenteredScalarGrid2);
 }
 
 void CellCenteredScalarGrid2::swap(Grid2* other) {

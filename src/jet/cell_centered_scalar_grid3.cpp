@@ -58,7 +58,7 @@ Vector3D CellCenteredScalarGrid3::dataOrigin() const {
 }
 
 std::shared_ptr<ScalarGrid3> CellCenteredScalarGrid3::clone() const {
-    return std::make_shared<CellCenteredScalarGrid3>(*this);
+    return CLONE_W_CUSTOM_DELETER(CellCenteredScalarGrid3);
 }
 
 void CellCenteredScalarGrid3::swap(Grid3* other) {

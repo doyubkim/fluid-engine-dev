@@ -55,7 +55,7 @@ bool PointSimpleListSearcher2::hasNearbyPoint(
 }
 
 PointNeighborSearcher2Ptr PointSimpleListSearcher2::clone() const {
-    return std::make_shared<PointSimpleListSearcher2>(*this);
+    return CLONE_W_CUSTOM_DELETER(PointSimpleListSearcher2);
 }
 
 PointSimpleListSearcher2&

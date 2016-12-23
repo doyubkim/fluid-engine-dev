@@ -94,7 +94,7 @@ void CellCenteredVectorGrid2::fill(const std::function<Vector2D(
 }
 
 std::shared_ptr<VectorGrid2> CellCenteredVectorGrid2::clone() const {
-    return std::make_shared<CellCenteredVectorGrid2>(*this);
+    return CLONE_W_CUSTOM_DELETER(CellCenteredVectorGrid2);
 }
 
 CellCenteredVectorGrid2::Builder CellCenteredVectorGrid2::builder() {
