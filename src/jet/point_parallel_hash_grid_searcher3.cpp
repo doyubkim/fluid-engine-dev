@@ -311,7 +311,7 @@ void PointParallelHashGridSearcher3::getNearbyKeys(
 }
 
 PointNeighborSearcher3Ptr PointParallelHashGridSearcher3::clone() const {
-    return std::make_shared<PointParallelHashGridSearcher3>(*this);
+    return CLONE_W_CUSTOM_DELETER(PointParallelHashGridSearcher3);
 }
 
 PointParallelHashGridSearcher3&

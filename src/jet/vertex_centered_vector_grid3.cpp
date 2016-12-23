@@ -94,7 +94,7 @@ void VertexCenteredVectorGrid3::fill(
 }
 
 std::shared_ptr<VectorGrid3> VertexCenteredVectorGrid3::clone() const {
-    return std::make_shared<VertexCenteredVectorGrid3>(*this);
+    return CLONE_W_CUSTOM_DELETER(VertexCenteredVectorGrid3);
 }
 
 void VertexCenteredVectorGrid3::set(const VertexCenteredVectorGrid3& other) {

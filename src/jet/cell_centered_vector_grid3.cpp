@@ -104,7 +104,7 @@ void CellCenteredVectorGrid3::fill(const std::function<Vector3D(
 }
 
 std::shared_ptr<VectorGrid3> CellCenteredVectorGrid3::clone() const {
-    return std::make_shared<CellCenteredVectorGrid3>(*this);
+    return CLONE_W_CUSTOM_DELETER(CellCenteredVectorGrid3);
 }
 
 CellCenteredVectorGrid3::Builder CellCenteredVectorGrid3::builder() {
