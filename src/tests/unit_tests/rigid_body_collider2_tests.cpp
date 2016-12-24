@@ -122,9 +122,10 @@ TEST(RigidBodyCollider2, VelocityAt) {
     RigidBodyCollider2 collider(
         std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
+    collider.translation = {-1, -2};
+    collider.rotation = 0.1;
     collider.linearVelocity = {1, 3};
     collider.angularVelocity = 4.0;
-    collider.rotationOrigin = {-1, -2};
 
     Vector2D result = collider.velocityAt({5, 7});
     EXPECT_DOUBLE_EQ(-35.0, result.x);

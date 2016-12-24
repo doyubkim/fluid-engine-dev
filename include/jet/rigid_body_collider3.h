@@ -4,6 +4,7 @@
 #define INCLUDE_JET_RIGID_BODY_COLLIDER3_H_
 
 #include <jet/collider3.h>
+#include <jet/quaternion.h>
 
 namespace jet {
 
@@ -17,14 +18,17 @@ class RigidBodyCollider3 final : public Collider3 {
  public:
     class Builder;
 
+    //! Translation of the surface.
+    Vector3D translation;
+
+    //! Rotation of the surface.
+    QuaternionD rotation;
+
     //! Linear velocity of the rigid body.
     Vector3D linearVelocity;
 
     //! Angular velocity of the rigid body.
     Vector3D angularVelocity;
-
-    //! Origin of the rigid body rotation.
-    Vector3D rotationOrigin;
 
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider3(const Surface3Ptr& surface);
@@ -32,15 +36,22 @@ class RigidBodyCollider3 final : public Collider3 {
     //! Constructs a collider with a surface and other parameters.
     RigidBodyCollider3(
         const Surface3Ptr& surface,
+        const Vector3D& translation,
+        const QuaternionD& rotation,
         const Vector3D& linearVelocity,
-        const Vector3D& angularVelocity,
-        const Vector3D& rotationOrigin);
+        const Vector3D& angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
     Vector3D velocityAt(const Vector3D& point) const override;
 
     //! Returns builder fox RigidBodyCollider3.
     static Builder builder();
+
+ private:
+    void getClosestPoint(
+        const Surface3Ptr& surface,
+        const Vector3D& queryPoint,
+        ColliderQueryResult* result) const override;
 };
 
 //! Shared pointer for the RigidBodyCollider3 type.
@@ -55,14 +66,17 @@ class RigidBodyCollider3::Builder final {
     //! Returns builder with surface.
     Builder& withSurface(const Surface3Ptr& surface);
 
+    //! Returns builder with translation.
+    Builder& withTranslation(const Vector3D& translation);
+
+    //! Returns builder with rotation.
+    Builder& withRotation(const QuaternionD& rotation);
+
     //! Returns builder with linear velocity.
     Builder& withLinearVelocity(const Vector3D& linearVelocity);
 
     //! Returns builder with angular velocity.
     Builder& withAngularVelocity(const Vector3D& angularVelocity);
-
-    //! Returns builder with rotation origin.
-    Builder& withRotationOrigin(const Vector3D& rotationOrigin);
 
     //! Builds RigidBodyCollider3.
     RigidBodyCollider3 build() const;
@@ -72,9 +86,10 @@ class RigidBodyCollider3::Builder final {
 
  private:
     Surface3Ptr _surface;
+    Vector3D _translation{0, 0, 0};
+    QuaternionD _rotation{1, 0, 0, 0};
     Vector3D _linearVelocity{0, 0, 0};
     Vector3D _angularVelocity{0, 0, 0};
-    Vector3D _rotationOrigin{0, 0, 0};
 };
 
 }  // namespace jet

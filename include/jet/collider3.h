@@ -93,7 +93,7 @@ class Collider3 {
     void setSurface(const Surface3Ptr& newSurface);
 
     //! Outputs closest point's information.
-    void getClosestPoint(
+    virtual void getClosestPoint(
         const Surface3Ptr& surface,
         const Vector3D& queryPoint,
         ColliderQueryResult* result) const;

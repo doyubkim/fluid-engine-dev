@@ -17,14 +17,17 @@ class RigidBodyCollider2 final : public Collider2 {
  public:
     class Builder;
 
+    //! Translation of the surface.
+    Vector2D translation;
+
+    //! Rotation angle of the surface in radians.
+    double rotation = 0.0;
+
     //! Linear velocity of the rigid body.
     Vector2D linearVelocity;
 
     //! Angular velocity of the rigid body.
     double angularVelocity = 0.0;
-
-    //! Origin of the rigid body rotation.
-    Vector2D rotationOrigin;
 
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider2(const Surface2Ptr& surface);
@@ -32,15 +35,22 @@ class RigidBodyCollider2 final : public Collider2 {
     //! Constructs a collider with a surface and other parameters.
     RigidBodyCollider2(
         const Surface2Ptr& surface,
+        const Vector2D& translation,
+        double rotation,
         const Vector2D& linearVelocity,
-        double angularVelocity,
-        const Vector2D& rotationOrigin);
+        double angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
     Vector2D velocityAt(const Vector2D& point) const override;
 
     //! Returns builder fox RigidBodyCollider2.
     static Builder builder();
+
+ private:
+    void getClosestPoint(
+        const Surface2Ptr& surface,
+        const Vector2D& queryPoint,
+        ColliderQueryResult* result) const override;
 };
 
 //! Shared pointer for the RigidBodyCollider2 type.
@@ -55,14 +65,17 @@ class RigidBodyCollider2::Builder final {
     //! Returns builder with surface.
     Builder& withSurface(const Surface2Ptr& surface);
 
+    //! Returns builder with translation.
+    Builder& withTranslation(const Vector2D& translation);
+
+    //! Returns builder with rotation.
+    Builder& withRotation(double rotation);
+
     //! Returns builder with linear velocity.
     Builder& withLinearVelocity(const Vector2D& linearVelocity);
 
     //! Returns builder with angular velocity.
     Builder& withAngularVelocity(double angularVelocity);
-
-    //! Returns builder with rotation origin.
-    Builder& withRotationOrigin(const Vector2D& rotationOrigin);
 
     //! Builds RigidBodyCollider2.
     RigidBodyCollider2 build() const;
@@ -72,9 +85,10 @@ class RigidBodyCollider2::Builder final {
 
  private:
     Surface2Ptr _surface;
+    Vector2D _translation{0, 0};
+    double _rotation = 0.0;
     Vector2D _linearVelocity{0, 0};
     double _angularVelocity = 0.0;
-    Vector2D _rotationOrigin{0, 0};
 };
 
 }  // namespace jet
