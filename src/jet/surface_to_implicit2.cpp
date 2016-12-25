@@ -7,8 +7,9 @@ using namespace jet;
 
 SurfaceToImplicit2::SurfaceToImplicit2(
     const Surface2Ptr& surface,
-    bool isNormalFlipped_)
-: ImplicitSurface2(isNormalFlipped_)
+    const Transform2& transform,
+    bool isNormalFlipped)
+: ImplicitSurface2(transform, isNormalFlipped)
 , _surface(surface) {
 }
 
@@ -21,35 +22,35 @@ Surface2Ptr SurfaceToImplicit2::surface() const {
     return _surface;
 }
 
-Vector2D SurfaceToImplicit2::closestPoint(
+Vector2D SurfaceToImplicit2::closestPointLocal(
     const Vector2D& otherPoint) const {
     return _surface->closestPoint(otherPoint);
 }
 
-Vector2D SurfaceToImplicit2::actualClosestNormal(
+Vector2D SurfaceToImplicit2::closestNormalLocal(
     const Vector2D& otherPoint) const {
     return _surface->closestNormal(otherPoint);
 }
 
-double SurfaceToImplicit2::closestDistance(
+double SurfaceToImplicit2::closestDistanceLocal(
     const Vector2D& otherPoint) const {
     return _surface->closestDistance(otherPoint);
 }
 
-bool SurfaceToImplicit2::intersects(const Ray2D& ray) const {
+bool SurfaceToImplicit2::intersectsLocal(const Ray2D& ray) const {
     return _surface->intersects(ray);
 }
 
-SurfaceRayIntersection2 SurfaceToImplicit2::actualClosestIntersection(
+SurfaceRayIntersection2 SurfaceToImplicit2::closestIntersectionLocal(
     const Ray2D& ray) const {
     return _surface->closestIntersection(ray);
 }
 
-BoundingBox2D SurfaceToImplicit2::boundingBox() const {
+BoundingBox2D SurfaceToImplicit2::boundingBoxLocal() const {
     return _surface->boundingBox();
 }
 
-double SurfaceToImplicit2::signedDistance(
+double SurfaceToImplicit2::signedDistanceLocal(
     const Vector2D& otherPoint) const {
     Vector2D x = _surface->closestPoint(otherPoint);
     Vector2D n = _surface->closestNormal(otherPoint);
@@ -61,11 +62,6 @@ double SurfaceToImplicit2::signedDistance(
     }
 }
 
-SurfaceToImplicit2::Builder&
-SurfaceToImplicit2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
-}
 
 SurfaceToImplicit2::Builder&
 SurfaceToImplicit2::Builder::withSurface(const Surface2Ptr& surface) {
@@ -75,7 +71,7 @@ SurfaceToImplicit2::Builder::withSurface(const Surface2Ptr& surface) {
 
 SurfaceToImplicit2
 SurfaceToImplicit2::Builder::build() const {
-    return SurfaceToImplicit2(_surface, _isNormalFlipped);
+    return SurfaceToImplicit2(_surface, _transform, _isNormalFlipped);
 }
 
 SurfaceToImplicit2Ptr
@@ -83,6 +79,7 @@ SurfaceToImplicit2::Builder::makeShared() const {
     return std::shared_ptr<SurfaceToImplicit2>(
         new SurfaceToImplicit2(
             _surface,
+            _transform,
             _isNormalFlipped),
         [] (SurfaceToImplicit2* obj) {
             delete obj;

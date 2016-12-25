@@ -7,14 +7,16 @@
 
 using namespace jet;
 
-Sphere3::Sphere3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+Sphere3::Sphere3(const Transform3& transform_, bool isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_) {
 }
 
 Sphere3::Sphere3(
     const Vector3D& center_,
     double radius_,
+    const Transform3& transform_,
     bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_)
 , center(center_)
 , radius(radius_) {
 }
@@ -25,15 +27,15 @@ Sphere3::Sphere3(const Sphere3& other) :
     radius(other.radius) {
 }
 
-Vector3D Sphere3::closestPoint(const Vector3D& otherPoint) const {
-    return radius * closestNormal(otherPoint) + center;
+Vector3D Sphere3::closestPointLocal(const Vector3D& otherPoint) const {
+    return radius * closestNormalLocal(otherPoint) + center;
 }
 
-double Sphere3::closestDistance(const Vector3D& otherPoint) const {
+double Sphere3::closestDistanceLocal(const Vector3D& otherPoint) const {
     return std::fabs(center.distanceTo(otherPoint) - radius);
 }
 
-Vector3D Sphere3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D Sphere3::closestNormalLocal(const Vector3D& otherPoint) const {
     if (center.isSimilar(otherPoint)) {
         return Vector3D(1, 0, 0);
     } else {
@@ -41,7 +43,7 @@ Vector3D Sphere3::actualClosestNormal(const Vector3D& otherPoint) const {
     }
 }
 
-bool Sphere3::intersects(
+bool Sphere3::intersectsLocal(
     const Ray3D& ray) const {
     Vector3D r = ray.origin - center;
     double b = ray.direction.dot(r);
@@ -66,7 +68,7 @@ bool Sphere3::intersects(
     return false;
 }
 
-SurfaceRayIntersection3 Sphere3::actualClosestIntersection(
+SurfaceRayIntersection3 Sphere3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     Vector3D r = ray.origin - center;
@@ -99,7 +101,7 @@ SurfaceRayIntersection3 Sphere3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D Sphere3::boundingBox() const {
+BoundingBox3D Sphere3::boundingBoxLocal() const {
     Vector3D r(radius, radius, radius);
     return BoundingBox3D(center - r, center + r);
 }
@@ -119,7 +121,7 @@ Sphere3::Builder& Sphere3::Builder::withRadius(double radius) {
 }
 
 Sphere3 Sphere3::Builder::build() const {
-    return Sphere3(_center, _radius, _isNormalFlipped);
+    return Sphere3(_center, _radius, _transform, _isNormalFlipped);
 }
 
 Sphere3Ptr Sphere3::Builder::makeShared() const {
@@ -127,6 +129,7 @@ Sphere3Ptr Sphere3::Builder::makeShared() const {
         new Sphere3(
             _center,
             _radius,
+            _transform,
             _isNormalFlipped),
         [] (Sphere3* obj) {
             delete obj;

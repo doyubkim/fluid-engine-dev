@@ -25,10 +25,14 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     //! Constructs an implicit surface set using list of other surfaces.
     ImplicitSurfaceSet3(
         const std::vector<ImplicitSurface3Ptr>& surfaces,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    explicit ImplicitSurfaceSet3(const std::vector<Surface3Ptr>& surfaces);
+    ImplicitSurfaceSet3(
+        const std::vector<Surface3Ptr>& surfaces,
+        const Transform3& transform = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other);
@@ -45,42 +49,35 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     //! Adds an implicit surface instance.
     void addSurface(const ImplicitSurface3Ptr& surface);
 
-    // Surface3 implementations
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox3D boundingBox() const override;
-
-    // ImplicitSurface3 implementations
-
-    //! Returns signed distance from the given point \p otherPoint.
-    double signedDistance(const Vector3D& otherPoint) const override;
-
     //! Returns builder fox ImplicitSurfaceSet3.
     static Builder builder();
 
- protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
-
-    SurfaceRayIntersection3 actualClosestIntersection(
-        const Ray3D& ray) const override;
-
  private:
     std::vector<ImplicitSurface3Ptr> _surfaces;
+
+    // Surface3 implementations
+
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
+        const Ray3D& ray) const override;
+
+    // ImplicitSurface3 implementations
+
+    double signedDistanceLocal(const Vector3D& otherPoint) const override;
 };
 
 //! Shared pointer type for the ImplicitSurfaceSet3.
 typedef std::shared_ptr<ImplicitSurfaceSet3> ImplicitSurfaceSet3Ptr;
+
 
 //!
 //! \brief Front-end to create ImplicitSurfaceSet3 objects step by step.

@@ -21,8 +21,10 @@ inline std::ostream& operator<<(std::ostream& strm, const Vector3D& v) {
     return strm;
 }
 
-TriangleMesh3::TriangleMesh3(bool isNormalFlipped_)
-: Surface3(isNormalFlipped_) {
+TriangleMesh3::TriangleMesh3(
+    const Transform3& transform_,
+    bool isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_) {
 }
 
 TriangleMesh3::TriangleMesh3(
@@ -32,8 +34,9 @@ TriangleMesh3::TriangleMesh3(
     const IndexArray& pointIndices,
     const IndexArray& normalIndices,
     const IndexArray& uvIndices,
+    const Transform3& transform_,
     bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_)
 , _points(points)
 , _normals(normals)
 , _uvs(uvs)
@@ -46,7 +49,7 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
     set(other);
 }
 
-Vector3D TriangleMesh3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D TriangleMesh3::closestPointLocal(const Vector3D& otherPoint) const {
     static const double m = std::numeric_limits<double>::max();
     Vector3D minDistPt(m, m, m);
     double minDistSquared = m;
@@ -65,7 +68,7 @@ Vector3D TriangleMesh3::closestPoint(const Vector3D& otherPoint) const {
     return minDistPt;
 }
 
-Vector3D TriangleMesh3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D TriangleMesh3::closestNormalLocal(const Vector3D& otherPoint) const {
     static const double m = std::numeric_limits<double>::max();
     Vector3D minDistPt(m, m, m);
     Vector3D minDistNormal(1, 0, 0);
@@ -86,7 +89,7 @@ Vector3D TriangleMesh3::actualClosestNormal(const Vector3D& otherPoint) const {
     return minDistNormal;
 }
 
-SurfaceRayIntersection3 TriangleMesh3::actualClosestIntersection(
+SurfaceRayIntersection3 TriangleMesh3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 
@@ -105,7 +108,7 @@ SurfaceRayIntersection3 TriangleMesh3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D TriangleMesh3::boundingBox() const {
+BoundingBox3D TriangleMesh3::boundingBoxLocal() const {
     BoundingBox3D box;
     size_t n = _pointIndices.size();
     for (size_t i = 0; i < n; ++i) {
@@ -117,7 +120,7 @@ BoundingBox3D TriangleMesh3::boundingBox() const {
     return box;
 }
 
-bool TriangleMesh3::intersects(const Ray3D& ray) const {
+bool TriangleMesh3::intersectsLocal(const Ray3D& ray) const {
     size_t n = numberOfTriangles();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
@@ -128,7 +131,7 @@ bool TriangleMesh3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-double TriangleMesh3::closestDistance(const Vector3D& otherPoint) const {
+double TriangleMesh3::closestDistanceLocal(const Vector3D& otherPoint) const {
     double minDist = std::numeric_limits<double>::max();
 
     size_t n = numberOfTriangles();
@@ -707,6 +710,7 @@ TriangleMesh3 TriangleMesh3::Builder::build() const {
         _pointIndices,
         _normalIndices,
         _uvIndices,
+        _transform,
         _isNormalFlipped);
 }
 
@@ -719,6 +723,7 @@ TriangleMesh3Ptr TriangleMesh3::Builder::makeShared() const {
             _pointIndices,
             _normalIndices,
             _uvIndices,
+            _transform,
             _isNormalFlipped),
         [] (TriangleMesh3* obj) {
             delete obj;

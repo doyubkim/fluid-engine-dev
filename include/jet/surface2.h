@@ -6,6 +6,7 @@
 #include <jet/bounding_box2.h>
 #include <jet/constants.h>
 #include <jet/ray2.h>
+#include <jet/transform2.h>
 #include <memory>
 
 namespace jet {
@@ -21,11 +22,16 @@ struct SurfaceRayIntersection2 {
 //! Abstract base class for 2-D surface.
 class Surface2 {
  public:
-    //! Flips normal when calling Surface2::closestNormal(...).
+    //! Local-to-world transform.
+    Transform2 transform;
+
+    //! Flips normal.
     bool isNormalFlipped = false;
 
     //! Constructs a surface with normal direction.
-    explicit Surface2(bool isNormalFlipped = false);
+    Surface2(
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     Surface2(const Surface2& other);
@@ -35,17 +41,17 @@ class Surface2 {
 
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface.
-    virtual Vector2D closestPoint(const Vector2D& otherPoint) const = 0;
+    Vector2D closestPoint(const Vector2D& otherPoint) const;
 
     //! Returns the bounding box of this surface object.
-    virtual BoundingBox2D boundingBox() const = 0;
+    BoundingBox2D boundingBox() const;
 
     //! Returns true if the given \p ray intersects with this surface object.
-    virtual bool intersects(const Ray2D& ray) const;
+    bool intersects(const Ray2D& ray) const;
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface.
-    virtual double closestDistance(const Vector2D& otherPoint) const;
+    double closestDistance(const Vector2D& otherPoint) const;
 
     //! Returns the closest intersection point for given \p ray.
     SurfaceRayIntersection2 closestIntersection(const Ray2D& ray) const;
@@ -55,26 +61,28 @@ class Surface2 {
     Vector2D closestNormal(const Vector2D& otherPoint) const;
 
  protected:
-    //!
-    //! \brief Returns the closest surface normal from the given point
-    //! \p otherPoint.
-    //!
-    //! This function returns the "actual" closest surface normal from the
-    //! given point \p otherPoint, meaning that the return value is not flipped
-    //! regardless how Surface2::isNormalFlipped is set.
-    //!
-    virtual Vector2D actualClosestNormal(const Vector2D& otherPoint) const = 0;
+    //! Returns the closest point from the given point \p otherPoint to the
+    //! surface in local frame.
+    virtual Vector2D closestPointLocal(const Vector2D& otherPoint) const = 0;
 
-    //!
-    //! \brief Returns the closest intersection point for given \p ray.
-    //!
-    //! This function returns the SurfaceRayIntersection2 instance with the
-    //! "actual" closest surface normal from the given point \p otherPoint,
-    //! meaning that the return value is not flipped regardless how
-    //! Surface2::isNormalFlipped is set.
-    //!
-    virtual SurfaceRayIntersection2 actualClosestIntersection(
+    //! Returns the bounding box of this surface object in local frame.
+    virtual BoundingBox2D boundingBoxLocal() const = 0;
+
+    //! Returns the closest intersection point for given \p ray in local frame.
+    virtual SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const = 0;
+
+    //! Returns the normal to the closest point on the surface from the given
+    //! point \p otherPoint in local frame.
+    virtual Vector2D closestNormalLocal(const Vector2D& otherPoint) const = 0;
+
+    //! Returns true if the given \p ray intersects with this surface object
+    //! in local frame.
+    virtual bool intersectsLocal(const Ray2D& ray) const;
+
+    //! Returns the closest distance from the given point \p otherPoint to the
+    //! point on the surface in local frame.
+    virtual double closestDistanceLocal(const Vector2D& otherPoint) const;
 };
 
 //! Shared pointer for the Surface2 type.
@@ -89,13 +97,41 @@ class SurfaceBuilderBase2 {
     //! Returns builder with flipped normal flag.
     DerivedBuilder& withIsNormalFlipped(bool isNormalFlipped);
 
+    //! Returns builder with translation.
+    DerivedBuilder& withTranslation(const Vector2D& translation);
+
+    //! Returns builder with orientation.
+    DerivedBuilder& withOrientation(double orientation);
+
+    //! Returns builder with transform.
+    DerivedBuilder& withTransform(const Transform2& transform);
+
  protected:
     bool _isNormalFlipped = false;
+    Transform2 _transform;
 };
 
 template <typename T>
 T& SurfaceBuilderBase2<T>::withIsNormalFlipped(bool isNormalFlipped) {
     _isNormalFlipped = isNormalFlipped;
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& SurfaceBuilderBase2<T>::withTranslation(const Vector2D& translation) {
+    _transform.setTranslation(translation);
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& SurfaceBuilderBase2<T>::withOrientation(double orientation) {
+    _transform.setOrientation(orientation);
+    return static_cast<T&>(*this);
+}
+
+template <typename T>
+T& SurfaceBuilderBase2<T>::withTransform(const Transform2& transform) {
+    _transform = transform;
     return static_cast<T&>(*this);
 }
 

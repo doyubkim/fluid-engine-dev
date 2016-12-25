@@ -27,39 +27,38 @@ class Cylinder3 final : public Surface3 {
     double height = 1.0;
 
     //! Constructs a cylinder with
-    explicit Cylinder3(bool isNormalFlipped = false);
+    Cylinder3(
+        const Transform3& transform = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Constructs a cylinder with \p center, \p radius, and \p height.
     Cylinder3(
         const Vector3D& center,
         double radius,
         double height,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
     Cylinder3(const Cylinder3& other);
 
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this cylinder object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this cylinder object.
-    BoundingBox3D boundingBox() const override;
-
     //! Returns builder fox Cylinder3.
     static Builder builder();
 
  protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+    // Surface3 implementations
 
-    SurfaceRayIntersection3 actualClosestIntersection(
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
+
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 };
 

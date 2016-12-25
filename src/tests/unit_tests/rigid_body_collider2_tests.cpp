@@ -122,8 +122,8 @@ TEST(RigidBodyCollider2, VelocityAt) {
     RigidBodyCollider2 collider(
         std::make_shared<Plane2>(Vector2D(0, 1), Vector2D(0, 0)));
 
-    collider.translation = {-1, -2};
-    collider.rotation = 0.1;
+    collider.surface()->transform.setTranslation({-1, -2});
+    collider.surface()->transform.setOrientation(0.1);
     collider.linearVelocity = {1, 3};
     collider.angularVelocity = 4.0;
 

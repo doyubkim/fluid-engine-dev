@@ -24,12 +24,15 @@ class Plane3 final : public Surface3 {
     Vector3D point;
 
     //! Constructs a plane that crosses (0, 0, 0) with surface normal (0, 1, 0).
-    explicit Plane3(bool isNormalFlipped = false);
+    Plane3(
+        const Transform3& transform = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Constructs a plane that cross \p point with surface normal \p normal.
     Plane3(
         const Vector3D& normal,
         const Vector3D& point,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Constructs a plane with three points on the surface. The normal will be
@@ -38,32 +41,25 @@ class Plane3 final : public Surface3 {
         const Vector3D& point0,
         const Vector3D& point1,
         const Vector3D& point2,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
     Plane3(const Plane3& other);
 
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this plane object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this plane object.
-    BoundingBox3D boundingBox() const override;
-
     //! Returns builder fox Plane3.
     static Builder builder();
 
  protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 actualClosestIntersection(
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 };
 

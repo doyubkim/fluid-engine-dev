@@ -19,8 +19,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     class Builder;
 
     //! Constructs an instance with generic Surface2 instance.
-    explicit SurfaceToImplicit2(
+    SurfaceToImplicit2(
         const Surface2Ptr& surface,
+        const Transform2& transform = Transform2(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
@@ -29,34 +30,24 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
     //! Returns the raw surface instance.
     Surface2Ptr surface() const;
 
-    // Surface2 implementation
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D closestPoint(const Vector2D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector2D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray2D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox2D boundingBox() const override;
-
-    // ImplicitSurface2 implementations
-
-    //! Returns signed distance from the given point \p otherPoint.
-    double signedDistance(const Vector2D& otherPoint) const override;
-
     //! Returns builder fox SurfaceToImplicit2.
     static Builder builder();
 
  protected:
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
+    Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 actualClosestIntersection(
+    double closestDistanceLocal(const Vector2D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray2D& ray) const override;
+
+    BoundingBox2D boundingBoxLocal() const override;
+
+    Vector2D closestNormalLocal(
+        const Vector2D& otherPoint) const override;
+
+    double signedDistanceLocal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
 
  private:
@@ -70,11 +61,9 @@ typedef std::shared_ptr<SurfaceToImplicit2> SurfaceToImplicit2Ptr;
 //!
 //! \brief Front-end to create SurfaceToImplicit2 objects step by step.
 //!
-class SurfaceToImplicit2::Builder final {
+class SurfaceToImplicit2::Builder final
+    : public SurfaceBuilderBase2<SurfaceToImplicit2::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with surface.
     Builder& withSurface(const Surface2Ptr& surface);
 
@@ -85,7 +74,6 @@ class SurfaceToImplicit2::Builder final {
     SurfaceToImplicit2Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Surface2Ptr _surface;
 };
 

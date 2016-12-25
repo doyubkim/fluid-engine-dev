@@ -19,8 +19,9 @@ class SurfaceToImplicit3 final : public ImplicitSurface3 {
     class Builder;
 
     //! Constructs an instance with generic Surface3 instance.
-    explicit SurfaceToImplicit3(
+    SurfaceToImplicit3(
         const Surface3Ptr& surface,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
@@ -29,34 +30,24 @@ class SurfaceToImplicit3 final : public ImplicitSurface3 {
     //! Returns the raw surface instance.
     Surface3Ptr surface() const;
 
-    // Surface3 implementation
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox3D boundingBox() const override;
-
-    // ImplicitSurface3 implementations
-
-    //! Returns signed distance from the given point \p otherPoint.
-    double signedDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns builder fox SurfaceToImplicit2.
+    //! Returns builder fox SurfaceToImplicit3.
     static Builder builder();
 
  protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
 
-    SurfaceRayIntersection3 actualClosestIntersection(
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    Vector3D closestNormalLocal(
+        const Vector3D& otherPoint) const override;
+
+    double signedDistanceLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 
  private:
@@ -70,11 +61,9 @@ typedef std::shared_ptr<SurfaceToImplicit3> SurfaceToImplicit3Ptr;
 //!
 //! \brief Front-end to create SurfaceToImplicit3 objects step by step.
 //!
-class SurfaceToImplicit3::Builder final {
+class SurfaceToImplicit3::Builder final
+    : public SurfaceBuilderBase3<SurfaceToImplicit3::Builder> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with surface.
     Builder& withSurface(const Surface3Ptr& surface);
 
@@ -85,7 +74,6 @@ class SurfaceToImplicit3::Builder final {
     SurfaceToImplicit3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     Surface3Ptr _surface;
 };
 

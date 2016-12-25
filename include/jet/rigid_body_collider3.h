@@ -18,12 +18,6 @@ class RigidBodyCollider3 final : public Collider3 {
  public:
     class Builder;
 
-    //! Translation of the surface.
-    Vector3D translation;
-
-    //! Rotation of the surface.
-    QuaternionD rotation;
-
     //! Linear velocity of the rigid body.
     Vector3D linearVelocity;
 
@@ -36,8 +30,6 @@ class RigidBodyCollider3 final : public Collider3 {
     //! Constructs a collider with a surface and other parameters.
     RigidBodyCollider3(
         const Surface3Ptr& surface,
-        const Vector3D& translation,
-        const QuaternionD& rotation,
         const Vector3D& linearVelocity,
         const Vector3D& angularVelocity);
 
@@ -46,12 +38,6 @@ class RigidBodyCollider3 final : public Collider3 {
 
     //! Returns builder fox RigidBodyCollider3.
     static Builder builder();
-
- private:
-    void getClosestPoint(
-        const Surface3Ptr& surface,
-        const Vector3D& queryPoint,
-        ColliderQueryResult* result) const override;
 };
 
 //! Shared pointer for the RigidBodyCollider3 type.
@@ -65,12 +51,6 @@ class RigidBodyCollider3::Builder final {
  public:
     //! Returns builder with surface.
     Builder& withSurface(const Surface3Ptr& surface);
-
-    //! Returns builder with translation.
-    Builder& withTranslation(const Vector3D& translation);
-
-    //! Returns builder with rotation.
-    Builder& withRotation(const QuaternionD& rotation);
 
     //! Returns builder with linear velocity.
     Builder& withLinearVelocity(const Vector3D& linearVelocity);
@@ -86,8 +66,6 @@ class RigidBodyCollider3::Builder final {
 
  private:
     Surface3Ptr _surface;
-    Vector3D _translation{0, 0, 0};
-    QuaternionD _rotation{1, 0, 0, 0};
     Vector3D _linearVelocity{0, 0, 0};
     Vector3D _angularVelocity{0, 0, 0};
 };

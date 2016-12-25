@@ -7,15 +7,16 @@
 
 using namespace jet;
 
-const double kDistanceThreshold = 1e-2;
-const double kGradientThreshold = 1e-2;
+const double kDistanceThreshold = 1e-3;
+const double kGradientThreshold = 1e-3;
 
 CustomImplicitSurface2::CustomImplicitSurface2(
     const std::function<double(const Vector2D&)>& func,
     const BoundingBox2D& domain,
     double resolution,
+    const Transform2& transform,
     bool isNormalFlipped)
-: ImplicitSurface2(isNormalFlipped)
+: ImplicitSurface2(transform, isNormalFlipped)
 , _func(func)
 , _domain(domain)
 , _resolution(resolution) {
@@ -24,11 +25,11 @@ CustomImplicitSurface2::CustomImplicitSurface2(
 CustomImplicitSurface2::~CustomImplicitSurface2() {
 }
 
-Vector2D CustomImplicitSurface2::closestPoint(
+Vector2D CustomImplicitSurface2::closestPointLocal(
     const Vector2D& otherPoint) const {
     Vector2D pt = otherPoint;
     while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        Vector2D g = gradient(pt);
+        Vector2D g = gradientLocal(pt);
 
         if (g.length() < kGradientThreshold) {
             break;
@@ -39,12 +40,7 @@ Vector2D CustomImplicitSurface2::closestPoint(
     return pt;
 }
 
-double CustomImplicitSurface2::closestDistance(
-    const Vector2D& otherPoint) const {
-    return std::fabs(signedDistance(otherPoint));
-}
-
-bool CustomImplicitSurface2::intersects(const Ray2D& ray) const {
+bool CustomImplicitSurface2::intersectsLocal(const Ray2D& ray) const {
     BoundingBoxRayIntersection2D intersection
         = _domain.closestIntersection(ray);
 
@@ -77,11 +73,11 @@ bool CustomImplicitSurface2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-BoundingBox2D CustomImplicitSurface2::boundingBox() const {
+BoundingBox2D CustomImplicitSurface2::boundingBoxLocal() const {
     return _domain;
 }
 
-double CustomImplicitSurface2::signedDistance(
+double CustomImplicitSurface2::signedDistanceLocal(
     const Vector2D& otherPoint) const {
     if (_func) {
         return _func(otherPoint);
@@ -90,16 +86,12 @@ double CustomImplicitSurface2::signedDistance(
     }
 }
 
-CustomImplicitSurface2::Builder CustomImplicitSurface2::builder() {
-    return Builder();
-}
-
-Vector2D CustomImplicitSurface2::actualClosestNormal(
+Vector2D CustomImplicitSurface2::closestNormalLocal(
     const Vector2D& otherPoint) const {
     Vector2D pt = otherPoint;
     Vector2D g;
     while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        g = gradient(pt);
+        g = gradientLocal(pt);
 
         if (g.length() < kGradientThreshold) {
             break;
@@ -115,7 +107,7 @@ Vector2D CustomImplicitSurface2::actualClosestNormal(
     return g;
 }
 
-SurfaceRayIntersection2 CustomImplicitSurface2::actualClosestIntersection(
+SurfaceRayIntersection2 CustomImplicitSurface2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 result;
 
@@ -147,7 +139,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::actualClosestIntersection(
                 result.isIntersecting = true;
                 result.t = tSub;
                 result.point = ray.pointAt(tSub);
-                result.normal = gradient(result.point);
+                result.normal = gradientLocal(result.point);
                 if (result.normal.length() > 0.0) {
                     result.normal.normalize();
                 }
@@ -162,7 +154,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::actualClosestIntersection(
     return result;
 }
 
-Vector2D CustomImplicitSurface2::gradient(const Vector2D& x) const {
+Vector2D CustomImplicitSurface2::gradientLocal(const Vector2D& x) const {
     double left = _func(x - Vector2D(0.5 * _resolution, 0.0));
     double right = _func(x + Vector2D(0.5 * _resolution, 0.0));
     double bottom = _func(x - Vector2D(0.0, 0.5 * _resolution));
@@ -173,12 +165,10 @@ Vector2D CustomImplicitSurface2::gradient(const Vector2D& x) const {
         (top - bottom) / _resolution);
 }
 
-
-CustomImplicitSurface2::Builder&
-CustomImplicitSurface2::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
+CustomImplicitSurface2::Builder CustomImplicitSurface2::builder() {
+    return Builder();
 }
+
 
 CustomImplicitSurface2::Builder&
 CustomImplicitSurface2::Builder::withSignedDistanceFunction(
@@ -205,6 +195,7 @@ CustomImplicitSurface2 CustomImplicitSurface2::Builder::build() const {
         _func,
         _domain,
         _resolution,
+        _transform,
         _isNormalFlipped);
 }
 
@@ -214,6 +205,7 @@ CustomImplicitSurface2Ptr CustomImplicitSurface2::Builder::makeShared() const {
             _func,
             _domain,
             _resolution,
+            _transform,
             _isNormalFlipped),
         [] (CustomImplicitSurface2* obj) {
             delete obj;

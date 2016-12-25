@@ -15,13 +15,17 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3() {
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     const std::vector<ImplicitSurface3Ptr>& surfaces,
+    const Transform3& transform,
     bool isNormalFlipped)
-: ImplicitSurface3(isNormalFlipped)
+: ImplicitSurface3(transform, isNormalFlipped)
 , _surfaces(surfaces) {
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    const std::vector<Surface3Ptr>& surfaces) {
+    const std::vector<Surface3Ptr>& surfaces,
+    const Transform3& transform,
+    bool isNormalFlipped)
+: ImplicitSurface3(transform, isNormalFlipped) {
     for (const auto& surface : surfaces) {
         addExplicitSurface(surface);
     }
@@ -48,7 +52,8 @@ void ImplicitSurfaceSet3::addSurface(const ImplicitSurface3Ptr& surface) {
     _surfaces.push_back(surface);
 }
 
-Vector3D ImplicitSurfaceSet3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D ImplicitSurfaceSet3::closestPointLocal(
+    const Vector3D& otherPoint) const {
     Vector3D result(
         kMaxD,
         kMaxD,
@@ -69,7 +74,8 @@ Vector3D ImplicitSurfaceSet3::closestPoint(const Vector3D& otherPoint) const {
     return result;
 }
 
-double ImplicitSurfaceSet3::closestDistance(const Vector3D& otherPoint) const {
+double ImplicitSurfaceSet3::closestDistanceLocal(
+    const Vector3D& otherPoint) const {
     double minimumDistance = kMaxD;
 
     for (const auto& surface : _surfaces) {
@@ -80,7 +86,7 @@ double ImplicitSurfaceSet3::closestDistance(const Vector3D& otherPoint) const {
     return minimumDistance;
 }
 
-Vector3D ImplicitSurfaceSet3::actualClosestNormal(
+Vector3D ImplicitSurfaceSet3::closestNormalLocal(
     const Vector3D& otherPoint) const {
     Vector3D result(1, 0, 0);
 
@@ -99,7 +105,7 @@ Vector3D ImplicitSurfaceSet3::actualClosestNormal(
     return result;
 }
 
-bool ImplicitSurfaceSet3::intersects(const Ray3D& ray) const {
+bool ImplicitSurfaceSet3::intersectsLocal(const Ray3D& ray) const {
     for (const auto& surface : _surfaces) {
         if (surface->intersects(ray)) {
             return true;
@@ -109,7 +115,7 @@ bool ImplicitSurfaceSet3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 ImplicitSurfaceSet3::actualClosestIntersection(
+SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     double tMin = kMaxD;
@@ -127,7 +133,7 @@ SurfaceRayIntersection3 ImplicitSurfaceSet3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D ImplicitSurfaceSet3::boundingBox() const {
+BoundingBox3D ImplicitSurfaceSet3::boundingBoxLocal() const {
     BoundingBox3D bbox;
     for (const auto& surface : _surfaces) {
         bbox.merge(surface->boundingBox());
@@ -136,7 +142,8 @@ BoundingBox3D ImplicitSurfaceSet3::boundingBox() const {
     return bbox;
 }
 
-double ImplicitSurfaceSet3::signedDistance(const Vector3D& otherPoint) const {
+double ImplicitSurfaceSet3::signedDistanceLocal(
+    const Vector3D& otherPoint) const {
     double sdf = kMaxD;
     for (const auto& surface : _surfaces) {
         sdf = std::min(sdf, surface->signedDistance(otherPoint));
@@ -169,12 +176,12 @@ ImplicitSurfaceSet3::Builder::withExplicitSurfaces(
 }
 
 ImplicitSurfaceSet3 ImplicitSurfaceSet3::Builder::build() const {
-    return ImplicitSurfaceSet3(_surfaces, _isNormalFlipped);
+    return ImplicitSurfaceSet3(_surfaces, _transform, _isNormalFlipped);
 }
 
 ImplicitSurfaceSet3Ptr ImplicitSurfaceSet3::Builder::makeShared() const {
     return std::shared_ptr<ImplicitSurfaceSet3>(
-        new ImplicitSurfaceSet3(_surfaces, _isNormalFlipped),
+        new ImplicitSurfaceSet3(_surfaces, _transform, _isNormalFlipped),
         [] (ImplicitSurfaceSet3* obj) {
             delete obj;
         });

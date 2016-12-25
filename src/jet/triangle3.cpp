@@ -47,15 +47,18 @@ inline Vector3D closestNormalOnLine(
     return (n0 + t * (n1 - n0)).normalized();
 }
 
-Triangle3::Triangle3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+Triangle3::Triangle3(
+    const Transform3& transform_,
+    bool isNormalFlipped_) : Surface3(transform_, isNormalFlipped_) {
 }
 
 Triangle3::Triangle3(
     const std::array<Vector3D, 3>& newPoints,
     const std::array<Vector3D, 3>& newNormals,
     const std::array<Vector2D, 3>& newUvs,
+    const Transform3& transform_,
     bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_)
 , points(newPoints)
 , normals(newNormals)
 , uvs(newUvs) {
@@ -68,7 +71,7 @@ Triangle3::Triangle3(const Triangle3& other) :
     uvs(other.uvs) {
 }
 
-Vector3D Triangle3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D Triangle3::closestPointLocal(const Vector3D& otherPoint) const {
     Vector3D n = faceNormal();
     double nd = n.dot(n);
     double d = n.dot(points[0]);
@@ -99,7 +102,7 @@ Vector3D Triangle3::closestPoint(const Vector3D& otherPoint) const {
     return b0 * points[0] + b1 * points[1] + b2 * points[2];
 }
 
-Vector3D Triangle3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D Triangle3::closestNormalLocal(const Vector3D& otherPoint) const {
     Vector3D n = faceNormal();
     double nd = n.dot(n);
     double d = n.dot(points[0]);
@@ -133,7 +136,7 @@ Vector3D Triangle3::actualClosestNormal(const Vector3D& otherPoint) const {
     return (b0 * normals[0] + b1 * normals[1] + b2 * normals[2]).normalized();
 }
 
-bool Triangle3::intersects(const Ray3D& ray) const {
+bool Triangle3::intersectsLocal(const Ray3D& ray) const {
     Vector3D n = faceNormal();
     double nd = n.dot(ray.direction);
 
@@ -168,7 +171,7 @@ bool Triangle3::intersects(const Ray3D& ray) const {
     return true;
 }
 
-SurfaceRayIntersection3 Triangle3::actualClosestIntersection(
+SurfaceRayIntersection3 Triangle3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     Vector3D n = faceNormal();
@@ -222,7 +225,7 @@ SurfaceRayIntersection3 Triangle3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D Triangle3::boundingBox() const {
+BoundingBox3D Triangle3::boundingBoxLocal() const {
     BoundingBox3D box(points[0], points[1]);
     box.merge(points[2]);
     return box;
@@ -279,7 +282,7 @@ Triangle3::Builder::withUvs(const std::array<Vector2D, 3>& uvs) {
 }
 
 Triangle3 Triangle3::Builder::build() const {
-    return Triangle3(_points, _normals, _uvs, _isNormalFlipped);
+    return Triangle3(_points, _normals, _uvs, _transform, _isNormalFlipped);
 }
 
 Triangle3Ptr Triangle3::Builder::makeShared() const {
@@ -288,6 +291,7 @@ Triangle3Ptr Triangle3::Builder::makeShared() const {
             _points,
             _normals,
             _uvs,
+            _transform,
             _isNormalFlipped),
         [] (Triangle3* obj) {
             delete obj;

@@ -11,7 +11,9 @@ namespace jet {
 class ImplicitSurface2 : public Surface2 {
  public:
     //! Default constructor.
-    explicit ImplicitSurface2(bool isNormalFlipped = false);
+    ImplicitSurface2(
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurface2(const ImplicitSurface2& other);
@@ -20,10 +22,15 @@ class ImplicitSurface2 : public Surface2 {
     virtual ~ImplicitSurface2();
 
     //! Returns signed distance from the given point \p otherPoint.
-    virtual double signedDistance(const Vector2D& otherPoint) const = 0;
+    double signedDistance(const Vector2D& otherPoint) const;
 
-    //! Returns closest distance from the given point \p otherPoint.
-    double closestDistance(const Vector2D& otherPoint) const override;
+ protected:
+    //! Returns signed distance from the given point \p otherPoint in local
+    //! space.
+    virtual double signedDistanceLocal(const Vector2D& otherPoint) const = 0;
+
+ private:
+    double closestDistanceLocal(const Vector2D& otherPoint) const override;
 };
 
 //! Shared pointer type for the ImplicitSurface2.

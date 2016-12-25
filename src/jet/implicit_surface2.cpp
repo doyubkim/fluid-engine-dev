@@ -5,8 +5,9 @@
 
 using namespace jet;
 
-ImplicitSurface2::ImplicitSurface2(bool isNormalFlipped_)
-: Surface2(isNormalFlipped_) {
+ImplicitSurface2::ImplicitSurface2(
+    const Transform2& transform, bool isNormalFlipped)
+: Surface2(transform, isNormalFlipped) {
 }
 
 ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other) :
@@ -16,6 +17,11 @@ ImplicitSurface2::ImplicitSurface2(const ImplicitSurface2& other) :
 ImplicitSurface2::~ImplicitSurface2() {
 }
 
-double ImplicitSurface2::closestDistance(const Vector2D& otherPoint) const {
-    return std::fabs(signedDistance(otherPoint));
+double ImplicitSurface2::signedDistance(const Vector2D& otherPoint) const {
+    return signedDistanceLocal(transform.toLocal(otherPoint));
+}
+
+double ImplicitSurface2::closestDistanceLocal(
+    const Vector2D& otherPoint) const {
+    return std::fabs(signedDistanceLocal(otherPoint));
 }

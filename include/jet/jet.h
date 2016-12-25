@@ -190,6 +190,8 @@
 #include <jet/surface_to_implicit2.h>
 #include <jet/surface_to_implicit3.h>
 #include <jet/timer.h>
+#include <jet/transform2.h>
+#include <jet/transform3.h>
 #include <jet/triangle3.h>
 #include <jet/triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>

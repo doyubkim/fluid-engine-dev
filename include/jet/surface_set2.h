@@ -25,6 +25,7 @@ class SurfaceSet2 final : public Surface2 {
     //! Constructs with a list of other surfaces.
     explicit SurfaceSet2(
         const std::vector<Surface2Ptr>& others,
+        const Transform2& transform = Transform2(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
@@ -39,33 +40,26 @@ class SurfaceSet2 final : public Surface2 {
     //! Adds a surface instance.
     void addSurface(const Surface2Ptr& surface);
 
-    // Surface2 implementations
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D closestPoint(const Vector2D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector2D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray2D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox2D boundingBox() const override;
-
     //! Returns builder for SurfaceSet2.
     static Builder builder();
 
- protected:
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
-
-    SurfaceRayIntersection2 actualClosestIntersection(
-        const Ray2D& ray) const override;
-
  private:
     std::vector<Surface2Ptr> _surfaces;
+
+    // Surface2 implementations
+
+    Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
+
+    BoundingBox2D boundingBoxLocal() const override;
+
+    double closestDistanceLocal(const Vector2D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray2D& ray) const override;
+
+    Vector2D closestNormalLocal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 closestIntersectionLocal(
+        const Ray2D& ray) const override;
 };
 
 //! Shared pointer for the SurfaceSet2 type.
@@ -74,11 +68,8 @@ typedef std::shared_ptr<SurfaceSet2> SurfaceSet2Ptr;
 //!
 //! \brief Front-end to create SurfaceSet2 objects step by step.
 //!
-class SurfaceSet2::Builder final {
+class SurfaceSet2::Builder final : public SurfaceBuilderBase2<SurfaceSet2> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with other surfaces.
     Builder& withSurfaces(const std::vector<Surface2Ptr>& others);
 
@@ -89,7 +80,6 @@ class SurfaceSet2::Builder final {
     SurfaceSet2Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     std::vector<Surface2Ptr> _surfaces;
 };
 

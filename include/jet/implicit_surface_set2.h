@@ -25,10 +25,14 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Constructs an implicit surface set using list of other surfaces.
     ImplicitSurfaceSet2(
         const std::vector<ImplicitSurface2Ptr>& surfaces,
+        const Transform2& transform = Transform2(),
         bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    explicit ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces);
+    ImplicitSurfaceSet2(
+        const std::vector<Surface2Ptr>& surfaces,
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
@@ -45,38 +49,30 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Adds an implicit surface instance.
     void addSurface(const ImplicitSurface2Ptr& surface);
 
-    // Surface2 implementations
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D closestPoint(const Vector2D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector2D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray2D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox2D boundingBox() const override;
-
-    // ImplicitSurface2 implementations
-
-    //! Returns signed distance from the given point \p otherPoint.
-    double signedDistance(const Vector2D& otherPoint) const override;
-
     //! Returns builder fox ImplicitSurfaceSet2.
     static Builder builder();
 
- protected:
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
-
-    SurfaceRayIntersection2 actualClosestIntersection(
-        const Ray2D& ray) const override;
-
  private:
     std::vector<ImplicitSurface2Ptr> _surfaces;
+
+    // Surface2 implementations
+
+    Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
+
+    BoundingBox2D boundingBoxLocal() const override;
+
+    double closestDistanceLocal(const Vector2D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray2D& ray) const override;
+
+    Vector2D closestNormalLocal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 closestIntersectionLocal(
+        const Ray2D& ray) const override;
+
+    // ImplicitSurface2 implementations
+
+    double signedDistanceLocal(const Vector2D& otherPoint) const override;
 };
 
 //! Shared pointer type for the ImplicitSurfaceSet2.

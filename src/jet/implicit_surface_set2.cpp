@@ -15,13 +15,17 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2() {
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
     const std::vector<ImplicitSurface2Ptr>& surfaces,
+    const Transform2& transform,
     bool isNormalFlipped)
-: ImplicitSurface2(isNormalFlipped)
+: ImplicitSurface2(transform, isNormalFlipped)
 , _surfaces(surfaces) {
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<Surface2Ptr>& surfaces) {
+    const std::vector<Surface2Ptr>& surfaces,
+    const Transform2& transform,
+    bool isNormalFlipped)
+: ImplicitSurface2(transform, isNormalFlipped) {
     for (const auto& surface : surfaces) {
         addExplicitSurface(surface);
     }
@@ -48,7 +52,8 @@ void ImplicitSurfaceSet2::addSurface(const ImplicitSurface2Ptr& surface) {
     _surfaces.push_back(surface);
 }
 
-Vector2D ImplicitSurfaceSet2::closestPoint(const Vector2D& otherPoint) const {
+Vector2D ImplicitSurfaceSet2::closestPointLocal(
+    const Vector2D& otherPoint) const {
     Vector2D result(
         kMaxD,
         kMaxD);
@@ -68,7 +73,8 @@ Vector2D ImplicitSurfaceSet2::closestPoint(const Vector2D& otherPoint) const {
     return result;
 }
 
-double ImplicitSurfaceSet2::closestDistance(const Vector2D& otherPoint) const {
+double ImplicitSurfaceSet2::closestDistanceLocal(
+    const Vector2D& otherPoint) const {
     double minimumDistance = kMaxD;
 
     for (const auto& surface : _surfaces) {
@@ -79,7 +85,7 @@ double ImplicitSurfaceSet2::closestDistance(const Vector2D& otherPoint) const {
     return minimumDistance;
 }
 
-Vector2D ImplicitSurfaceSet2::actualClosestNormal(
+Vector2D ImplicitSurfaceSet2::closestNormalLocal(
     const Vector2D& otherPoint) const {
     Vector2D result(1, 0);
 
@@ -98,7 +104,7 @@ Vector2D ImplicitSurfaceSet2::actualClosestNormal(
     return result;
 }
 
-bool ImplicitSurfaceSet2::intersects(const Ray2D& ray) const {
+bool ImplicitSurfaceSet2::intersectsLocal(const Ray2D& ray) const {
     for (const auto& surface : _surfaces) {
         if (surface->intersects(ray)) {
             return true;
@@ -108,7 +114,7 @@ bool ImplicitSurfaceSet2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection2 ImplicitSurfaceSet2::actualClosestIntersection(
+SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     double tMin = kMaxD;
@@ -126,7 +132,7 @@ SurfaceRayIntersection2 ImplicitSurfaceSet2::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox2D ImplicitSurfaceSet2::boundingBox() const {
+BoundingBox2D ImplicitSurfaceSet2::boundingBoxLocal() const {
     BoundingBox2D bbox;
     for (const auto& surface : _surfaces) {
         bbox.merge(surface->boundingBox());
@@ -135,7 +141,8 @@ BoundingBox2D ImplicitSurfaceSet2::boundingBox() const {
     return bbox;
 }
 
-double ImplicitSurfaceSet2::signedDistance(const Vector2D& otherPoint) const {
+double ImplicitSurfaceSet2::signedDistanceLocal(
+    const Vector2D& otherPoint) const {
     double sdf = kMaxD;
     for (const auto& surface : _surfaces) {
         sdf = std::min(sdf, surface->signedDistance(otherPoint));
@@ -168,12 +175,12 @@ ImplicitSurfaceSet2::Builder::withExplicitSurfaces(
 }
 
 ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::build() const {
-    return ImplicitSurfaceSet2(_surfaces, _isNormalFlipped);
+    return ImplicitSurfaceSet2(_surfaces, _transform, _isNormalFlipped);
 }
 
 ImplicitSurfaceSet2Ptr ImplicitSurfaceSet2::Builder::makeShared() const {
     return std::shared_ptr<ImplicitSurfaceSet2>(
-        new ImplicitSurfaceSet2(_surfaces, _isNormalFlipped),
+        new ImplicitSurfaceSet2(_surfaces, _transform, _isNormalFlipped),
         [] (ImplicitSurfaceSet2* obj) {
             delete obj;
         });

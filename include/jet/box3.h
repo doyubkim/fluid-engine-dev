@@ -24,45 +24,43 @@ class Box3 final : public Surface3 {
         = BoundingBox3D(Vector3D(), Vector3D(1.0, 1.0, 1.0));
 
     //! Constructs (0, 0, 0) x (1, 1, 1) box.
-    explicit Box3(bool isNormalFlipped = false);
+    Box3(
+        const Transform3& transform = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Constructs a box with given \p lowerCorner and \p upperCorner.
     Box3(
         const Vector3D& lowerCorner,
         const Vector3D& upperCorner,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Constructs a box with BoundingBox3D instance.
     explicit Box3(
         const BoundingBox3D& boundingBox,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
     Box3(const Box3& other);
 
-    // Surface3 implementations
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this box object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox3D boundingBox() const override;
-
     //! Returns builder fox Box3.
     static Builder builder();
 
  protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+    // Surface3 implementations
 
-    SurfaceRayIntersection3 actualClosestIntersection(
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
+
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 };
 

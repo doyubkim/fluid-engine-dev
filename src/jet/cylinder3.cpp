@@ -7,15 +7,19 @@
 
 using namespace jet;
 
-Cylinder3::Cylinder3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+Cylinder3::Cylinder3(
+    const Transform3& transform,
+    bool isNormalFlipped)
+: Surface3(transform, isNormalFlipped) {
 }
 
 Cylinder3::Cylinder3(
     const Vector3D& center_,
     double radius_,
     double height_,
-    bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+    const Transform3& transform,
+    bool isNormalFlipped)
+: Surface3(transform, isNormalFlipped)
 , center(center_)
 , radius(radius_)
 , height(height_) {
@@ -28,7 +32,7 @@ Cylinder3::Cylinder3(const Cylinder3& other) :
     height(other.height) {
 }
 
-Vector3D Cylinder3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D Cylinder3::closestPointLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
     Box2 box(
@@ -41,7 +45,7 @@ Vector3D Cylinder3::closestPoint(const Vector3D& otherPoint) const {
         cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle)) + center;
 }
 
-double Cylinder3::closestDistance(const Vector3D& otherPoint) const {
+double Cylinder3::closestDistanceLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
     Box2 box(
@@ -51,7 +55,7 @@ double Cylinder3::closestDistance(const Vector3D& otherPoint) const {
     return box.closestDistance(rr);
 }
 
-Vector3D Cylinder3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D Cylinder3::closestNormalLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
     Box2 box(
@@ -68,7 +72,7 @@ Vector3D Cylinder3::actualClosestNormal(const Vector3D& otherPoint) const {
     }
 }
 
-bool Cylinder3::intersects(const Ray3D& ray) const {
+bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
     // Calculate intersection with infinite cylinder
     // (dx^2 + dz^2)t^2 + 2(ox.dx + oz.dz)t + ox^2 + oz^2 - r^2 = 0
     Vector3D d = ray.direction;
@@ -138,7 +142,7 @@ bool Cylinder3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection3 Cylinder3::actualClosestIntersection(
+SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 
@@ -226,7 +230,7 @@ SurfaceRayIntersection3 Cylinder3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D Cylinder3::boundingBox() const {
+BoundingBox3D Cylinder3::boundingBoxLocal() const {
     return BoundingBox3D(
         center - Vector3D(radius, 0.5 * height, radius),
         center + Vector3D(radius, 0.5 * height, radius));
@@ -252,7 +256,7 @@ Cylinder3::Builder& Cylinder3::Builder::withHeight(double height) {
 }
 
 Cylinder3 Cylinder3::Builder::build() const {
-    return Cylinder3(_center, _radius, _height, _isNormalFlipped);
+    return Cylinder3(_center, _radius, _height, _transform, _isNormalFlipped);
 }
 
 Cylinder3Ptr Cylinder3::Builder::makeShared() const {
@@ -261,6 +265,7 @@ Cylinder3Ptr Cylinder3::Builder::makeShared() const {
             _center,
             _radius,
             _height,
+            _transform,
             _isNormalFlipped),
         [] (Cylinder3* obj) {
             delete obj;

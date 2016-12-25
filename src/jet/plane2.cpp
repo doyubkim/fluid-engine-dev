@@ -7,14 +7,16 @@
 
 using namespace jet;
 
-Plane2::Plane2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
+Plane2::Plane2(const Transform2& transform_, bool isNormalFlipped_)
+: Surface2(transform_, isNormalFlipped_) {
 }
 
 Plane2::Plane2(
     const Vector2D& normal_,
     const Vector2D& point_,
+    const Transform2& transform_,
     bool isNormalFlipped_)
-: Surface2(isNormalFlipped_)
+: Surface2(transform_, isNormalFlipped_)
 , normal(normal_)
 , point(point_) {
 }
@@ -25,25 +27,21 @@ Plane2::Plane2(const Plane2& other) :
     point(other.point) {
 }
 
-Vector2D Plane2::closestPoint(const Vector2D& otherPoint) const {
+Vector2D Plane2::closestPointLocal(const Vector2D& otherPoint) const {
     Vector2D r = otherPoint - point;
     return r - normal.dot(r) * normal + point;
 }
 
-double Plane2::closestDistance(const Vector2D& otherPoint) const {
-    return (otherPoint - closestPoint(otherPoint)).length();
-}
-
-Vector2D Plane2::actualClosestNormal(const Vector2D& otherPoint) const {
+Vector2D Plane2::closestNormalLocal(const Vector2D& otherPoint) const {
     UNUSED_VARIABLE(otherPoint);
     return normal;
 }
 
-bool Plane2::intersects(const Ray2D& ray) const {
+bool Plane2::intersectsLocal(const Ray2D& ray) const {
     return std::fabs(ray.direction.dot(normal)) > 0;
 }
 
-SurfaceRayIntersection2 Plane2::actualClosestIntersection(
+SurfaceRayIntersection2 Plane2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     double dDotN = ray.direction.dot(normal);
@@ -62,7 +60,7 @@ SurfaceRayIntersection2 Plane2::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox2D Plane2::boundingBox() const {
+BoundingBox2D Plane2::boundingBoxLocal() const {
     if (std::fabs(normal.dot(Vector2D(1, 0)) - 1.0) < kEpsilonD) {
         return BoundingBox2D(
             point - Vector2D(0, kMaxD),
@@ -93,7 +91,7 @@ Plane2::Builder& Plane2::Builder::withPoint(const Vector2D& point) {
 }
 
 Plane2 Plane2::Builder::build() const {
-    return Plane2(_normal, _point, _isNormalFlipped);
+    return Plane2(_normal, _point, _transform, _isNormalFlipped);
 }
 
 Plane2Ptr Plane2::Builder::makeShared() const {
@@ -101,6 +99,7 @@ Plane2Ptr Plane2::Builder::makeShared() const {
         new Plane2(
             _normal,
             _point,
+            _transform,
             _isNormalFlipped),
         [] (Plane2* obj) {
             delete obj;

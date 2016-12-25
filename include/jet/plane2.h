@@ -24,39 +24,33 @@ class Plane2 final : public Surface2 {
     Vector2D point;
 
     //! Constructs a plane that crosses (0, 0) with surface normal (0, 1).
-    explicit Plane2(bool isNormalFlipped = false);
+    Plane2(
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Constructs a plane that cross \p point with surface normal \p normal.
     Plane2(
         const Vector2D& normal,
         const Vector2D& point,
+        const Transform2& transform = Transform2(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
     Plane2(const Plane2& other);
 
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D closestPoint(const Vector2D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector2D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this plane object.
-    bool intersects(const Ray2D& ray) const override;
-
-
-    //! Returns the bounding box of this plane object.
-    BoundingBox2D boundingBox() const override;
-
     //! Returns builder fox Plane2.
     static Builder builder();
 
- protected:
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
+ private:
+    Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 actualClosestIntersection(
+    bool intersectsLocal(const Ray2D& ray) const override;
+
+    BoundingBox2D boundingBoxLocal() const override;
+
+    Vector2D closestNormalLocal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
 };
 

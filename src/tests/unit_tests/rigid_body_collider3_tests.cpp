@@ -133,8 +133,8 @@ TEST(RigidBodyCollider3, VelocityAt) {
 
     collider.linearVelocity = {1, 3, -2};
     collider.angularVelocity = {0, 0, 4};
-    collider.translation = {-1, -2, 2};
-    collider.rotation = QuaternionD({1, 0, 0}, 0.1);
+    collider.surface()->transform.setTranslation({-1, -2, 2});
+    collider.surface()->transform.setOrientation(QuaternionD({1, 0, 0}, 0.1));
 
     Vector3D result = collider.velocityAt({5, 7, 8});
     EXPECT_DOUBLE_EQ(-35.0, result.x);

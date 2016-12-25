@@ -25,6 +25,7 @@ class SurfaceSet3 final : public Surface3 {
     //! Constructs with a list of other surfaces.
     explicit SurfaceSet3(
         const std::vector<Surface3Ptr>& others,
+        const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
     //! Copy constructor.
@@ -39,47 +40,36 @@ class SurfaceSet3 final : public Surface3 {
     //! Adds a surface instance.
     void addSurface(const Surface3Ptr& surface);
 
-    // Surface3 implementations
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this box object.
-    BoundingBox3D boundingBox() const override;
-
     //! Returns builder for SurfaceSet3.
     static Builder builder();
 
- protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
-
-    SurfaceRayIntersection3 actualClosestIntersection(
-        const Ray3D& ray) const override;
-
  private:
     std::vector<Surface3Ptr> _surfaces;
+
+    // Surface3 implementations
+
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
+        const Ray3D& ray) const override;
 };
 
-//! Shared pointer for the SurfaceSet2 type.
+//! Shared pointer for the SurfaceSet3 type.
 typedef std::shared_ptr<SurfaceSet3> SurfaceSet3Ptr;
-
 
 //!
 //! \brief Front-end to create SurfaceSet3 objects step by step.
 //!
-class SurfaceSet3::Builder final {
+class SurfaceSet3::Builder final : public SurfaceBuilderBase3<SurfaceSet3> {
  public:
-    //! Returns builder with normal direction.
-    Builder& withIsNormalFlipped(bool isNormalFlipped);
-
     //! Returns builder with other surfaces.
     Builder& withSurfaces(const std::vector<Surface3Ptr>& others);
 
@@ -90,7 +80,6 @@ class SurfaceSet3::Builder final {
     SurfaceSet3Ptr makeShared() const;
 
  private:
-    bool _isNormalFlipped = false;
     std::vector<Surface3Ptr> _surfaces;
 };
 
