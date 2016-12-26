@@ -101,7 +101,7 @@ class SurfaceBuilderBase3 {
     DerivedBuilder& withTranslation(const Vector3D& translation);
 
     //! Returns builder with orientation.
-    DerivedBuilder& withOrientation(double orientation);
+    DerivedBuilder& withOrientation(const QuaternionD& orientation);
 
     //! Returns builder with transform.
     DerivedBuilder& withTransform(const Transform3& transform);
@@ -124,7 +124,7 @@ T& SurfaceBuilderBase3<T>::withTranslation(const Vector3D& translation) {
 }
 
 template <typename T>
-T& SurfaceBuilderBase3<T>::withOrientation(double orientation) {
+T& SurfaceBuilderBase3<T>::withOrientation(const QuaternionD& orientation) {
     _transform.setOrientation(orientation);
     return static_cast<T&>(*this);
 }
