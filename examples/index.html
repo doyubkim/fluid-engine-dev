@@ -84,7 +84,19 @@
 
 <p><img src="/fluid-engine-dev/assets/images/flip_dam_breaking.png" alt="FLIP Dam-breaking" title="FLIP Dam-breaking" /></p>
 
+<p><a href="https://vimeo.com/197067049">See Video from Vimeo</a></p>
+
 <p>Two columns of water splashing into each other with the interaction colliders. Background grid with 300 x 150 x 200 resolution and 6,892,139 particles are used.</p>
+
+<hr />
+
+<h3 id="dam-breaking-simulation-with-pic-solver">Dam-breaking simulation with PIC solver</h3>
+
+<p><img src="/fluid-engine-dev/assets/images/pic_dam_breaking.png" alt="PIC Dam-breaking" title="PIC Dam-breaking" /></p>
+
+<p><a href="https://vimeo.com/197067142">See Video from Vimeo</a></p>
+
+<p>Using the same simulation configuration from the dam-breaking example above, but with the PIC solver. The generated fluid motion is more viscous.</p>
 
 <hr />
 
@@ -92,15 +104,31 @@
 
 <p><img src="/fluid-engine-dev/assets/images/ls_bunny_drop.png" alt="Level Set Bunny Drop" title="Level Set Bunny Drop" /></p>
 
-<p>Two starnford bunnies are dropped with different viscosity. The top row is simulated with higher viscosity, whereas the bottom row is simulated with zero viscosity. Grid with 200^3 resolution is used.</p>
+<p><a href="https://vimeo.com/197067172">See Video from Vimeo (high viscosity)</a></p>
+
+<p><a href="https://vimeo.com/197067197">See Video from Vimeo (low viscosity)</a></p>
+
+<p>Two starnford bunnies are dropped with different viscosity. The top row is simulated with higher viscosity, whereas the bottom row is simulated with zero viscosity. Grid with 200^3 resolution is used. Cubic spline semi-Lagrangian method is applied for the advection and ENO method is used for level set reinitialization.</p>
 
 <hr />
 
-<h3 id="smoke-simulation-using-stable-fluids-framework">Smoke simulation using stable fluids framework</h3>
+<h3 id="smoke-simulation-using-monotonic-cubic-semi-lagrangian">Smoke simulation using monotonic cubic semi-Lagrangian</h3>
 
-<p><img src="/fluid-engine-dev/assets/images/smoke.png" alt="Smoke" title="Smoke" /></p>
+<p><img src="/fluid-engine-dev/assets/images/smoke_cubic.png" alt="Smoke Cubic" title="Smoke Cubic" /></p>
 
-<p>Hot rising smoke is simulated using stable fluids framework. The buoyancy force and cubic semi-Lagrangian advection creates interesting swirls. Grid with 200 x 240 x 100 resolution is used.</p>
+<p><a href="https://vimeo.com/197067214">See Video from Vimeo</a></p>
+
+<p>Hot rising smoke is simulated using stable fluids framework. The buoyancy force and monotonic cubic semi-Lagrangian advection creates interesting swirls. Grid with 200 x 240 x 100 resolution is used.</p>
+
+<hr />
+
+<h3 id="smoke-simulation-using-monotonic-linear-semi-lagrangian">Smoke simulation using monotonic linear semi-Lagrangian</h3>
+
+<p><img src="/fluid-engine-dev/assets/images/smoke_linear.png" alt="Smoke Linear" title="Smoke Linear" /></p>
+
+<p><a href="https://vimeo.com/197067244">See Video from Vimeo</a></p>
+
+<p>Using the same simulation configuration from the rising smoke example above, but with the linear semi-Lagrangian advection solver. Less swirls are observed.</p>
 
 <hr />
 
