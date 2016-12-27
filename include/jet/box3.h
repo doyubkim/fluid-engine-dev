@@ -52,8 +52,6 @@ class Box3 final : public Surface3 {
 
     Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
 
-    double closestDistanceLocal(const Vector3D& otherPoint) const override;
-
     bool intersectsLocal(const Ray3D& ray) const override;
 
     BoundingBox3D boundingBoxLocal() const override;

@@ -51,8 +51,6 @@ class Box2 final : public Surface2 {
 
     Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
 
-    double closestDistanceLocal(const Vector2D& otherPoint) const override;
-
     bool intersectsLocal(const Ray2D& ray) const override;
 
     BoundingBox2D boundingBoxLocal() const override;

@@ -111,10 +111,6 @@ Vector2D Box2::closestNormalLocal(const Vector2D& otherPoint) const {
     }
 }
 
-double Box2::closestDistanceLocal(const Vector2D& otherPoint) const {
-    return Box2::closestPoint(otherPoint).distanceTo(otherPoint);
-}
-
 bool Box2::intersectsLocal(const Ray2D& ray) const {
     return bound.intersects(ray);
 }

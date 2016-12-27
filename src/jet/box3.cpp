@@ -115,10 +115,6 @@ Vector3D Box3::closestNormalLocal(const Vector3D& otherPoint) const {
     }
 }
 
-double Box3::closestDistanceLocal(const Vector3D& otherPoint) const {
-    return Box3::closestPoint(otherPoint).distanceTo(otherPoint);
-}
-
 bool Box3::intersectsLocal(const Ray3D& ray) const {
     return bound.intersects(ray);
 }
