@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac2fe08b3cfc68f525caa5f3a8fc7f736"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html#ac2fe08b3cfc68f525caa5f3a8fc7f736">~GridSinglePhasePressureSolver2</a> ()</td></tr>
 <tr class="memdesc:ac2fe08b3cfc68f525caa5f3a8fc7f736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#ac2fe08b3cfc68f525caa5f3a8fc7f736">More...</a><br /></td></tr>
 <tr class="separator:ac2fe08b3cfc68f525caa5f3a8fc7f736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed931dd6acfa9958d426a7017a116efc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html#aed931dd6acfa9958d426a7017a116efc">solve</a> (const <a class="el" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a> &amp;input, double timeIntervalInSeconds, <a class="el" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a> *output, const <a class="el" href="classjet_1_1_scalar_field2.html">ScalarField2</a> &amp;boundarySdf=<a class="el" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>), const <a class="el" href="classjet_1_1_scalar_field2.html">ScalarField2</a> &amp;fluidSdf=<a class="el" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) override</td></tr>
-<tr class="memdesc:aed931dd6acfa9958d426a7017a116efc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the pressure term and apply it to the velocity field.  <a href="#aed931dd6acfa9958d426a7017a116efc">More...</a><br /></td></tr>
-<tr class="separator:aed931dd6acfa9958d426a7017a116efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a988fa379eea513ca2add8bcecf9db3a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html#a988fa379eea513ca2add8bcecf9db3a6">solve</a> (const <a class="el" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a> &amp;input, double timeIntervalInSeconds, <a class="el" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a> *output, const <a class="el" href="classjet_1_1_scalar_field2.html">ScalarField2</a> &amp;boundarySdf=<a class="el" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>), const <a class="el" href="classjet_1_1_vector_field2.html">VectorField2</a> &amp;boundaryVelocity=<a class="el" href="classjet_1_1_constant_vector_field2.html">ConstantVectorField2</a>({0, 0}), const <a class="el" href="classjet_1_1_scalar_field2.html">ScalarField2</a> &amp;fluidSdf=<a class="el" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) override</td></tr>
+<tr class="memdesc:a988fa379eea513ca2add8bcecf9db3a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the pressure term and apply it to the velocity field.  <a href="#a988fa379eea513ca2add8bcecf9db3a6">More...</a><br /></td></tr>
+<tr class="separator:a988fa379eea513ca2add8bcecf9db3a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabd30981b008fcf32c6ae9341d527f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#adecbd8620fba3ff62ff9e23b8d86f938">GridBoundaryConditionSolver2Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html#aabd30981b008fcf32c6ae9341d527f70">suggestedBoundaryConditionSolver</a> () const  override</td></tr>
 <tr class="memdesc:aabd30981b008fcf32c6ae9341d527f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the best boundary condition solver for this solver.  <a href="#aabd30981b008fcf32c6ae9341d527f70">More...</a><br /></td></tr>
 <tr class="separator:aabd30981b008fcf32c6ae9341d527f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -227,7 +227,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aed931dd6acfa9958d426a7017a116efc"></a>
+<a class="anchor" id="a988fa379eea513ca2add8bcecf9db3a6"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -261,6 +261,12 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_vector_field2.html">VectorField2</a> &amp;&#160;</td>
+          <td class="paramname"><em>boundaryVelocity</em> = <code><a class="el" href="classjet_1_1_constant_vector_field2.html">ConstantVectorField2</a>({0,&#160;0})</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="classjet_1_1_scalar_field2.html">ScalarField2</a> &amp;&#160;</td>
           <td class="paramname"><em>fluidSdf</em> = <code><a class="el" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)</code>&#160;</td>
         </tr>
@@ -290,7 +296,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classjet_1_1_grid_pressure_solver2.html#a9325b57c9c5dc8180eb59510b63a4143">jet::GridPressureSolver2</a>.</p>
+<p>Implements <a class="el" href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54">jet::GridPressureSolver2</a>.</p>
 
 </div>
 </div>
@@ -334,7 +340,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:34 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

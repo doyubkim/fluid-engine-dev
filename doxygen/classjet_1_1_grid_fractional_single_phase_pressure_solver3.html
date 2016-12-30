@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -123,9 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6ec6538d50118de6c4616ec854c06d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58517a074e350f0943f95b9bd0f15254"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver3.html#a58517a074e350f0943f95b9bd0f15254">~GridFractionalSinglePhasePressureSolver3</a> ()</td></tr>
 <tr class="separator:a58517a074e350f0943f95b9bd0f15254"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bbe7febf3c37d174a4f96ebac38d1f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver3.html#a1bbe7febf3c37d174a4f96ebac38d1f1">solve</a> (const <a class="el" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a> &amp;input, double timeIntervalInSeconds, <a class="el" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a> *output, const <a class="el" href="classjet_1_1_scalar_field3.html">ScalarField3</a> &amp;boundarySdf=<a class="el" href="classjet_1_1_constant_scalar_field3.html">ConstantScalarField3</a>(<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>), const <a class="el" href="classjet_1_1_scalar_field3.html">ScalarField3</a> &amp;fluidSdf=<a class="el" href="classjet_1_1_constant_scalar_field3.html">ConstantScalarField3</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) override</td></tr>
-<tr class="memdesc:a1bbe7febf3c37d174a4f96ebac38d1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the pressure term and apply it to the velocity field.  <a href="#a1bbe7febf3c37d174a4f96ebac38d1f1">More...</a><br /></td></tr>
-<tr class="separator:a1bbe7febf3c37d174a4f96ebac38d1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c7c7eed2e7a8be90693bc182638e3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver3.html#a68c7c7eed2e7a8be90693bc182638e3b">solve</a> (const <a class="el" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a> &amp;input, double timeIntervalInSeconds, <a class="el" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a> *output, const <a class="el" href="classjet_1_1_scalar_field3.html">ScalarField3</a> &amp;boundarySdf=<a class="el" href="classjet_1_1_constant_scalar_field3.html">ConstantScalarField3</a>(<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>), const <a class="el" href="classjet_1_1_vector_field3.html">VectorField3</a> &amp;boundaryVelocity=<a class="el" href="classjet_1_1_constant_vector_field3.html">ConstantVectorField3</a>({0, 0, 0}), const <a class="el" href="classjet_1_1_scalar_field3.html">ScalarField3</a> &amp;fluidSdf=<a class="el" href="classjet_1_1_constant_scalar_field3.html">ConstantScalarField3</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) override</td></tr>
+<tr class="memdesc:a68c7c7eed2e7a8be90693bc182638e3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the pressure term and apply it to the velocity field.  <a href="#a68c7c7eed2e7a8be90693bc182638e3b">More...</a><br /></td></tr>
+<tr class="separator:a68c7c7eed2e7a8be90693bc182638e3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24874419e89331fd6e731cac6f77bee5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#adee60d591e3c908518b353a2f9e97fd2">GridBoundaryConditionSolver3Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver3.html#a24874419e89331fd6e731cac6f77bee5">suggestedBoundaryConditionSolver</a> () const  override</td></tr>
 <tr class="memdesc:a24874419e89331fd6e731cac6f77bee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the best boundary condition solver for this solver.  <a href="#a24874419e89331fd6e731cac6f77bee5">More...</a><br /></td></tr>
 <tr class="separator:a24874419e89331fd6e731cac6f77bee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,7 +224,7 @@ Enright, Doug, et al. "Using the particle level set method and a second order ac
 
 </div>
 </div>
-<a class="anchor" id="a1bbe7febf3c37d174a4f96ebac38d1f1"></a>
+<a class="anchor" id="a68c7c7eed2e7a8be90693bc182638e3b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -258,6 +258,12 @@ Enright, Doug, et al. "Using the particle level set method and a second order ac
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_vector_field3.html">VectorField3</a> &amp;&#160;</td>
+          <td class="paramname"><em>boundaryVelocity</em> = <code><a class="el" href="classjet_1_1_constant_vector_field3.html">ConstantVectorField3</a>({0,&#160;0,&#160;0})</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="classjet_1_1_scalar_field3.html">ScalarField3</a> &amp;&#160;</td>
           <td class="paramname"><em>fluidSdf</em> = <code><a class="el" href="classjet_1_1_constant_scalar_field3.html">ConstantScalarField3</a>(-<a class="el" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)</code>&#160;</td>
         </tr>
@@ -287,7 +293,7 @@ Enright, Doug, et al. "Using the particle level set method and a second order ac
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classjet_1_1_grid_pressure_solver3.html#a5160ffbc9fb1158debc3f39741dc782f">jet::GridPressureSolver3</a>.</p>
+<p>Implements <a class="el" href="classjet_1_1_grid_pressure_solver3.html#ad80ab9fd424e3b09e32d76745c1d88de">jet::GridPressureSolver3</a>.</p>
 
 </div>
 </div>
@@ -331,7 +337,7 @@ Enright, Doug, et al. "Using the particle level set method and a second order ac
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:34 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This is the complete list of members for <a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html#a8ed82f73fe0489aced197a468158cea2">GridPressureSolver2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html#a9325b57c9c5dc8180eb59510b63a4143">solve</a>(const FaceCenteredGrid2 &amp;input, double timeIntervalInSeconds, FaceCenteredGrid2 *output, const ScalarField2 &amp;boundarySdf=ConstantScalarField2(kMaxD), const ScalarField2 &amp;fluidSdf=ConstantScalarField2(-kMaxD))=0</td><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54">solve</a>(const FaceCenteredGrid2 &amp;input, double timeIntervalInSeconds, FaceCenteredGrid2 *output, const ScalarField2 &amp;boundarySdf=ConstantScalarField2(kMaxD), const VectorField2 &amp;boundaryVelocity=ConstantVectorField2({0, 0}), const ScalarField2 &amp;fluidSdf=ConstantScalarField2(-kMaxD))=0</td><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html#a2da468be8869d4b9431955662c390922">suggestedBoundaryConditionSolver</a>() const  =0</td><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html#afcb363e3129292a4c3483329017502c0">~GridPressureSolver2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
@@ -115,7 +115,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:34 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

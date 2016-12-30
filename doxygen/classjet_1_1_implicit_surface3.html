@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -97,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classjet_1_1_implicit_surface3-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">jet::ImplicitSurface3 Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -122,82 +123,97 @@ Inheritance diagram for jet::ImplicitSurface3:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaa3a4b259a9c0c8e4087e4a93447e487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#aaa3a4b259a9c0c8e4087e4a93447e487">ImplicitSurface3</a> (bool <a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a>=false)</td></tr>
-<tr class="memdesc:aaa3a4b259a9c0c8e4087e4a93447e487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#aaa3a4b259a9c0c8e4087e4a93447e487">More...</a><br /></td></tr>
-<tr class="separator:aaa3a4b259a9c0c8e4087e4a93447e487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba9af80dbe243ad375ee4e8b610a33b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#aaba9af80dbe243ad375ee4e8b610a33b">ImplicitSurface3</a> (const <a class="el" href="classjet_1_1_transform3.html">Transform3</a> &amp;<a class="el" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a>=<a class="el" href="classjet_1_1_transform3.html">Transform3</a>(), bool <a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a>=false)</td></tr>
+<tr class="memdesc:aaba9af80dbe243ad375ee4e8b610a33b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#aaba9af80dbe243ad375ee4e8b610a33b">More...</a><br /></td></tr>
+<tr class="separator:aaba9af80dbe243ad375ee4e8b610a33b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e6603c7b18607074f56d6551c59d146"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#a6e6603c7b18607074f56d6551c59d146">ImplicitSurface3</a> (const <a class="el" href="classjet_1_1_implicit_surface3.html">ImplicitSurface3</a> &amp;other)</td></tr>
 <tr class="memdesc:a6e6603c7b18607074f56d6551c59d146"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a6e6603c7b18607074f56d6551c59d146">More...</a><br /></td></tr>
 <tr class="separator:a6e6603c7b18607074f56d6551c59d146"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af573ba09fc9223aa894749395bffd352"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#af573ba09fc9223aa894749395bffd352">~ImplicitSurface3</a> ()</td></tr>
 <tr class="memdesc:af573ba09fc9223aa894749395bffd352"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#af573ba09fc9223aa894749395bffd352">More...</a><br /></td></tr>
 <tr class="separator:af573ba09fc9223aa894749395bffd352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add14506064169942f94d840f31ccef07"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#add14506064169942f94d840f31ccef07">signedDistance</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
-<tr class="memdesc:add14506064169942f94d840f31ccef07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns signed distance from the given point <code>otherPoint</code>.  <a href="#add14506064169942f94d840f31ccef07">More...</a><br /></td></tr>
-<tr class="separator:add14506064169942f94d840f31ccef07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c0a8da69959f4c3b3c31de6233f590c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#a5c0a8da69959f4c3b3c31de6233f590c">closestDistance</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  override</td></tr>
-<tr class="memdesc:a5c0a8da69959f4c3b3c31de6233f590c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns closest distance from the given point <code>otherPoint</code>.  <a href="#a5c0a8da69959f4c3b3c31de6233f590c">More...</a><br /></td></tr>
-<tr class="separator:a5c0a8da69959f4c3b3c31de6233f590c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcc2ee056ab3cd6619e516df7f4387ab"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#adcc2ee056ab3cd6619e516df7f4387ab">signedDistance</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const </td></tr>
+<tr class="memdesc:adcc2ee056ab3cd6619e516df7f4387ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns signed distance from the given point <code>otherPoint</code>.  <a href="#adcc2ee056ab3cd6619e516df7f4387ab">More...</a><br /></td></tr>
+<tr class="separator:adcc2ee056ab3cd6619e516df7f4387ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classjet_1_1_surface3"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classjet_1_1_surface3')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td></tr>
-<tr class="memitem:af8e0572b1bcbf639ce967a21a648f837 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#af8e0572b1bcbf639ce967a21a648f837">Surface3</a> (bool <a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a>=false)</td></tr>
-<tr class="memdesc:af8e0572b1bcbf639ce967a21a648f837 inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a surface with normal direction.  <a href="#af8e0572b1bcbf639ce967a21a648f837">More...</a><br /></td></tr>
-<tr class="separator:af8e0572b1bcbf639ce967a21a648f837 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab40d0cc33540432997403245e6fd41ed inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#ab40d0cc33540432997403245e6fd41ed">Surface3</a> (const <a class="el" href="classjet_1_1_transform3.html">Transform3</a> &amp;<a class="el" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a>=<a class="el" href="classjet_1_1_transform3.html">Transform3</a>(), bool <a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a>=false)</td></tr>
+<tr class="memdesc:ab40d0cc33540432997403245e6fd41ed inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a surface with normal direction.  <a href="#ab40d0cc33540432997403245e6fd41ed">More...</a><br /></td></tr>
+<tr class="separator:ab40d0cc33540432997403245e6fd41ed inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa82c4e98775fa73d3f2f51c9b1c93ccb inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#aa82c4e98775fa73d3f2f51c9b1c93ccb">Surface3</a> (const <a class="el" href="classjet_1_1_surface3.html">Surface3</a> &amp;other)</td></tr>
 <tr class="memdesc:aa82c4e98775fa73d3f2f51c9b1c93ccb inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#aa82c4e98775fa73d3f2f51c9b1c93ccb">More...</a><br /></td></tr>
 <tr class="separator:aa82c4e98775fa73d3f2f51c9b1c93ccb inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad92b45b28ae844407640030159f8daef inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#ad92b45b28ae844407640030159f8daef">~Surface3</a> ()</td></tr>
 <tr class="memdesc:ad92b45b28ae844407640030159f8daef inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#ad92b45b28ae844407640030159f8daef">More...</a><br /></td></tr>
 <tr class="separator:ad92b45b28ae844407640030159f8daef inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16a9ba0ee1da588391140b91d8b16eef inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a16a9ba0ee1da588391140b91d8b16eef">closestPoint</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
-<tr class="separator:a16a9ba0ee1da588391140b91d8b16eef inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16e182e9447f8b0609fad377b17d0835 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a16e182e9447f8b0609fad377b17d0835">boundingBox</a> () const  =0</td></tr>
-<tr class="memdesc:a16e182e9447f8b0609fad377b17d0835 inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounding box of this surface object.  <a href="#a16e182e9447f8b0609fad377b17d0835">More...</a><br /></td></tr>
-<tr class="separator:a16e182e9447f8b0609fad377b17d0835 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9618aba1e14ef8b02c234a006f5f2741 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a9618aba1e14ef8b02c234a006f5f2741">intersects</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const </td></tr>
-<tr class="memdesc:a9618aba1e14ef8b02c234a006f5f2741 inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the given <code>ray</code> intersects with this surface object.  <a href="#a9618aba1e14ef8b02c234a006f5f2741">More...</a><br /></td></tr>
-<tr class="separator:a9618aba1e14ef8b02c234a006f5f2741 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adadb5089ccfd3c1550aee6cb4946ecfe inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#adadb5089ccfd3c1550aee6cb4946ecfe">closestPoint</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const </td></tr>
+<tr class="separator:adadb5089ccfd3c1550aee6cb4946ecfe inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5a76ec1c20dafa22ba4ff6346cb222 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a9c5a76ec1c20dafa22ba4ff6346cb222">boundingBox</a> () const </td></tr>
+<tr class="memdesc:a9c5a76ec1c20dafa22ba4ff6346cb222 inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounding box of this surface object.  <a href="#a9c5a76ec1c20dafa22ba4ff6346cb222">More...</a><br /></td></tr>
+<tr class="separator:a9c5a76ec1c20dafa22ba4ff6346cb222 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b38d3d68a27b0005f71eb7f2c509a7b inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a1b38d3d68a27b0005f71eb7f2c509a7b">intersects</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const </td></tr>
+<tr class="memdesc:a1b38d3d68a27b0005f71eb7f2c509a7b inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the given <code>ray</code> intersects with this surface object.  <a href="#a1b38d3d68a27b0005f71eb7f2c509a7b">More...</a><br /></td></tr>
+<tr class="separator:a1b38d3d68a27b0005f71eb7f2c509a7b inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11bd92396a51540fb11c4c9861bcdf04 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a11bd92396a51540fb11c4c9861bcdf04">closestDistance</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const </td></tr>
+<tr class="separator:a11bd92396a51540fb11c4c9861bcdf04 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc3044b29aee7e3bf9b93112da4f4fe0 inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#afc3044b29aee7e3bf9b93112da4f4fe0">closestIntersection</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const </td></tr>
 <tr class="memdesc:afc3044b29aee7e3bf9b93112da4f4fe0 inherit pub_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection point for given <code>ray</code>.  <a href="#afc3044b29aee7e3bf9b93112da4f4fe0">More...</a><br /></td></tr>
 <tr class="separator:afc3044b29aee7e3bf9b93112da4f4fe0 inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81c13f845434a2c73c9d3976ef8ad44c inherit pub_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a81c13f845434a2c73c9d3976ef8ad44c">closestNormal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const </td></tr>
 <tr class="separator:a81c13f845434a2c73c9d3976ef8ad44c inherit pub_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a49674c27428a3c38ff02a4defc7e6470"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_implicit_surface3.html#a49674c27428a3c38ff02a4defc7e6470">signedDistanceLocal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
+<tr class="separator:a49674c27428a3c38ff02a4defc7e6470"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classjet_1_1_surface3"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classjet_1_1_surface3')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td></tr>
+<tr class="memitem:a02a63f391ec5fff49723104c8ce2e1c0 inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a02a63f391ec5fff49723104c8ce2e1c0">closestPointLocal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
+<tr class="separator:a02a63f391ec5fff49723104c8ce2e1c0 inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38380e0a4816dc9958b0203d69c0334e inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a38380e0a4816dc9958b0203d69c0334e">boundingBoxLocal</a> () const  =0</td></tr>
+<tr class="memdesc:a38380e0a4816dc9958b0203d69c0334e inherit pro_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the bounding box of this surface object in local frame.  <a href="#a38380e0a4816dc9958b0203d69c0334e">More...</a><br /></td></tr>
+<tr class="separator:a38380e0a4816dc9958b0203d69c0334e inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad131852f130e47726a4069bc75ad1375 inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#ad131852f130e47726a4069bc75ad1375">closestIntersectionLocal</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const  =0</td></tr>
+<tr class="memdesc:ad131852f130e47726a4069bc75ad1375 inherit pro_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection point for given <code>ray</code> in local frame.  <a href="#ad131852f130e47726a4069bc75ad1375">More...</a><br /></td></tr>
+<tr class="separator:ad131852f130e47726a4069bc75ad1375 inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ff3fb1fcdb88834d2d0ec9bb675322 inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a50ff3fb1fcdb88834d2d0ec9bb675322">closestNormalLocal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
+<tr class="separator:a50ff3fb1fcdb88834d2d0ec9bb675322 inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac58bc56159325f11c22e38f63f232626 inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#ac58bc56159325f11c22e38f63f232626">intersectsLocal</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const </td></tr>
+<tr class="separator:ac58bc56159325f11c22e38f63f232626 inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_classjet_1_1_surface3"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classjet_1_1_surface3')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td></tr>
+<tr class="memitem:a1d60f2ad53b031bbcef4d4bfb57ded21 inherit pub_attribs_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_transform3.html">Transform3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a></td></tr>
+<tr class="memdesc:a1d60f2ad53b031bbcef4d4bfb57ded21 inherit pub_attribs_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Local-to-world transform.  <a href="#a1d60f2ad53b031bbcef4d4bfb57ded21">More...</a><br /></td></tr>
+<tr class="separator:a1d60f2ad53b031bbcef4d4bfb57ded21 inherit pub_attribs_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb577d017691787910e850b49abfc7c4 inherit pub_attribs_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a> = false</td></tr>
 <tr class="memdesc:acb577d017691787910e850b49abfc7c4 inherit pub_attribs_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flips normal when calling <a class="el" href="classjet_1_1_surface3.html#a81c13f845434a2c73c9d3976ef8ad44c">Surface3::closestNormal</a>(...).  <a href="#acb577d017691787910e850b49abfc7c4">More...</a><br /></td></tr>
 <tr class="separator:acb577d017691787910e850b49abfc7c4 inherit pub_attribs_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classjet_1_1_surface3"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classjet_1_1_surface3')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td></tr>
-<tr class="memitem:afd3bee24201486c99fdb36380bb0683e inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#afd3bee24201486c99fdb36380bb0683e">actualClosestNormal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const  =0</td></tr>
-<tr class="memdesc:afd3bee24201486c99fdb36380bb0683e inherit pro_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest surface normal from the given point <code>otherPoint</code>.  <a href="#afd3bee24201486c99fdb36380bb0683e">More...</a><br /></td></tr>
-<tr class="separator:afd3bee24201486c99fdb36380bb0683e inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8b4344747c5044cbe65f1b286f343a0 inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#ab8b4344747c5044cbe65f1b286f343a0">actualClosestIntersection</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const  =0</td></tr>
-<tr class="memdesc:ab8b4344747c5044cbe65f1b286f343a0 inherit pro_methods_classjet_1_1_surface3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection point for given <code>ray</code>.  <a href="#ab8b4344747c5044cbe65f1b286f343a0">More...</a><br /></td></tr>
-<tr class="separator:ab8b4344747c5044cbe65f1b286f343a0 inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for 3-D implicit surface. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aaa3a4b259a9c0c8e4087e4a93447e487"></a>
+<a class="anchor" id="aaba9af80dbe243ad375ee4e8b610a33b"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">jet::ImplicitSurface3::ImplicitSurface3 </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>isNormalFlipped</em> = <code>false</code></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_transform3.html">Transform3</a> &amp;&#160;</td>
+          <td class="paramname"><em>transform</em> = <code><a class="el" href="classjet_1_1_transform3.html">Transform3</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isNormalFlipped</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Default constructor. </p>
@@ -248,61 +264,48 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a5c0a8da69959f4c3b3c31de6233f590c"></a>
+<a class="anchor" id="adcc2ee056ab3cd6619e516df7f4387ab"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double jet::ImplicitSurface3::closestDistance </td>
+          <td class="memname">double jet::ImplicitSurface3::signedDistance </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;&#160;</td>
           <td class="paramname"><em>otherPoint</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns closest distance from the given point <code>otherPoint</code>. </p>
-
-<p>Reimplemented from <a class="el" href="classjet_1_1_surface3.html#a95d8245e6ab41973933350f39ebd86db">jet::Surface3</a>.</p>
-
-<p>Reimplemented in <a class="el" href="classjet_1_1_implicit_surface_set3.html#a4015d5c7dbaad979c16bcf39d817e66f">jet::ImplicitSurfaceSet3</a>, and <a class="el" href="classjet_1_1_surface_to_implicit3.html#a7d50aacea9ccda85dfca07fa8f71583c">jet::SurfaceToImplicit3</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="add14506064169942f94d840f31ccef07"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual double jet::ImplicitSurface3::signedDistance </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;&#160;</td>
-          <td class="paramname"><em>otherPoint</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns signed distance from the given point <code>otherPoint</code>. </p>
 
-<p>Implemented in <a class="el" href="classjet_1_1_implicit_surface_set3.html#a85ad4bcf040ac59e713e16be8d9dbef2">jet::ImplicitSurfaceSet3</a>, <a class="el" href="classjet_1_1_surface_to_implicit3.html#a997b15a624d69fe665a46de5d118f98a">jet::SurfaceToImplicit3</a>, and <a class="el" href="classjet_1_1_custom_implicit_surface3.html#abf9f1fd0139364ba5f8702572b411023">jet::CustomImplicitSurface3</a>.</p>
+</div>
+</div>
+<a class="anchor" id="a49674c27428a3c38ff02a4defc7e6470"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double jet::ImplicitSurface3::signedDistanceLocal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>otherPoint</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns signed distance from the given point <code>otherPoint</code> in local space. </p>
+
+<p>Implemented in <a class="el" href="classjet_1_1_surface_to_implicit3.html#aec23c1a8a1ee54769c1bda221a84b4bd">jet::SurfaceToImplicit3</a>.</p>
 
 </div>
 </div>
@@ -318,7 +321,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:34 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

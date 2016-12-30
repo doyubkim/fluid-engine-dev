@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -102,23 +102,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#aa4de7d1ad26d8fe26117bcbeb9454f3b">boundingBox</a>() const  override</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#a9c5a76ec1c20dafa22ba4ff6346cb222">boundingBox</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#ae21b91c1d5bd04db485c981207895fcf">builder</a>()</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#ae76273407a685da782016e24185bdd60">closestDistance</a>(const Vector3D &amp;otherPoint) const  override</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#a11bd92396a51540fb11c4c9861bcdf04">closestDistance</a>(const Vector3D &amp;otherPoint) const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_surface3.html#afc3044b29aee7e3bf9b93112da4f4fe0">closestIntersection</a>(const Ray3D &amp;ray) const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#a81c13f845434a2c73c9d3976ef8ad44c">closestNormal</a>(const Vector3D &amp;otherPoint) const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#aff0051bf66732f6e23d83fc8ad94ceb9">closestPoint</a>(const Vector3D &amp;otherPoint) const  override</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#a567f23a0c917afdf142e8d175d1128be">CustomImplicitSurface3</a>(const std::function&lt; double(const Vector3D &amp;)&gt; &amp;func, const BoundingBox3D &amp;domain=BoundingBox3D(), double resolution=1e-3, bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#aaa3a4b259a9c0c8e4087e4a93447e487">ImplicitSurface3</a>(bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_surface3.html#adadb5089ccfd3c1550aee6cb4946ecfe">closestPoint</a>(const Vector3D &amp;otherPoint) const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#a63a47b7690b04f30fe466097c583a26a">CustomImplicitSurface3</a>(const std::function&lt; double(const Vector3D &amp;)&gt; &amp;func, const BoundingBox3D &amp;domain=BoundingBox3D(), double resolution=1e-3, const Transform3 &amp;transform=Transform3(), bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#aaba9af80dbe243ad375ee4e8b610a33b">ImplicitSurface3</a>(const Transform3 &amp;transform=Transform3(), bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#a6e6603c7b18607074f56d6551c59d146">ImplicitSurface3</a>(const ImplicitSurface3 &amp;other)</td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#a77f4cf38073b05f97e51d5d2f8facf91">intersects</a>(const Ray3D &amp;ray) const  override</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_surface3.html#a1b38d3d68a27b0005f71eb7f2c509a7b">intersects</a>(const Ray3D &amp;ray) const </td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a></td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#abf9f1fd0139364ba5f8702572b411023">signedDistance</a>(const Vector3D &amp;otherPoint) const  override</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#af8e0572b1bcbf639ce967a21a648f837">Surface3</a>(bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"><span class="mlabel">explicit</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#adcc2ee056ab3cd6619e516df7f4387ab">signedDistance</a>(const Vector3D &amp;otherPoint) const </td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#ab40d0cc33540432997403245e6fd41ed">Surface3</a>(const Transform3 &amp;transform=Transform3(), bool isNormalFlipped=false)</td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_surface3.html#aa82c4e98775fa73d3f2f51c9b1c93ccb">Surface3</a>(const Surface3 &amp;other)</td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#ae914e00062678873109428b2b480902f">~CustomImplicitSurface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#af573ba09fc9223aa894749395bffd352">~ImplicitSurface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#ad92b45b28ae844407640030159f8daef">~Surface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a></td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html#ae914e00062678873109428b2b480902f">~CustomImplicitSurface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_custom_implicit_surface3.html">jet::CustomImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html#af573ba09fc9223aa894749395bffd352">~ImplicitSurface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_implicit_surface3.html">jet::ImplicitSurface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_surface3.html#ad92b45b28ae844407640030159f8daef">~Surface3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -128,7 +129,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:33 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

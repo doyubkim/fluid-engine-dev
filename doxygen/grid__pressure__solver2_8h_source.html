@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -104,41 +104,45 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="collocated__vector__grid2_8h.html">jet/collocated_vector_grid2.h</a>&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constant__scalar__field2_8h.html">jet/constant_scalar_field2.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="face__centered__grid2_8h.html">jet/face_centered_grid2.h</a>&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="grid__boundary__condition__solver2_8h.html">jet/grid_boundary_condition_solver2.h</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="scalar__grid2_8h.html">jet/scalar_grid2.h</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classjet_1_1_grid_pressure_solver2.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_grid_pressure_solver2.html">GridPressureSolver2</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classjet_1_1_grid_pressure_solver2.html#a8ed82f73fe0489aced197a468158cea2">GridPressureSolver2</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_grid_pressure_solver2.html#afcb363e3129292a4c3483329017502c0">~GridPressureSolver2</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid_pressure_solver2.html#a9325b57c9c5dc8180eb59510b63a4143">solve</a>(</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; input,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">double</span> timeIntervalInSeconds,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>* output,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>),</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; fluidSdf</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(-<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) = 0;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="namespacejet.html#adecbd8620fba3ff62ff9e23b8d86f938">GridBoundaryConditionSolver2Ptr</a></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="classjet_1_1_grid_pressure_solver2.html#a2da468be8869d4b9431955662c390922">suggestedBoundaryConditionSolver</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">   73</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;GridPressureSolver2&gt; <a class="code" href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">GridPressureSolver2Ptr</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constant__vector__field2_8h.html">jet/constant_vector_field2.h</a>&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="face__centered__grid2_8h.html">jet/face_centered_grid2.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="grid__boundary__condition__solver2_8h.html">jet/grid_boundary_condition_solver2.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="scalar__grid2_8h.html">jet/scalar_grid2.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classjet_1_1_grid_pressure_solver2.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_grid_pressure_solver2.html">GridPressureSolver2</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_grid_pressure_solver2.html#a8ed82f73fe0489aced197a468158cea2">GridPressureSolver2</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_grid_pressure_solver2.html#afcb363e3129292a4c3483329017502c0">~GridPressureSolver2</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54">solve</a>(</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; input,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">double</span> timeIntervalInSeconds,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>* output,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>),</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; boundaryVelocity</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            = <a class="code" href="classjet_1_1_constant_vector_field2.html">ConstantVectorField2</a>({0, 0}),</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; fluidSdf</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(-<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) = 0;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="namespacejet.html#adecbd8620fba3ff62ff9e23b8d86f938">GridBoundaryConditionSolver2Ptr</a></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="classjet_1_1_grid_pressure_solver2.html#a2da468be8869d4b9431955662c390922">suggestedBoundaryConditionSolver</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_GRID_PRESSURE_SOLVER2_H_</span></div>
-<div class="ttc" id="classjet_1_1_grid_pressure_solver2_html"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></div><div class="ttdoc">Abstract base class for 2-D grid-based pressure solver. </div><div class="ttdef"><b>Definition:</b> grid_pressure_solver2.h:24</div></div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">   76</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;GridPressureSolver2&gt; <a class="code" href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">GridPressureSolver2Ptr</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_GRID_PRESSURE_SOLVER2_H_</span></div>
+<div class="ttc" id="classjet_1_1_grid_pressure_solver2_html"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html">jet::GridPressureSolver2</a></div><div class="ttdoc">Abstract base class for 2-D grid-based pressure solver. </div><div class="ttdef"><b>Definition:</b> grid_pressure_solver2.h:25</div></div>
 <div class="ttc" id="collocated__vector__grid2_8h_html"><div class="ttname"><a href="collocated__vector__grid2_8h.html">collocated_vector_grid2.h</a></div></div>
 <div class="ttc" id="constants_8h_html"><div class="ttname"><a href="constants_8h.html">constants.h</a></div></div>
+<div class="ttc" id="classjet_1_1_grid_pressure_solver2_html_af1ab7534a13ddc4c4770b47f47081f54"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54">jet::GridPressureSolver2::solve</a></div><div class="ttdeci">virtual void solve(const FaceCenteredGrid2 &amp;input, double timeIntervalInSeconds, FaceCenteredGrid2 *output, const ScalarField2 &amp;boundarySdf=ConstantScalarField2(kMaxD), const VectorField2 &amp;boundaryVelocity=ConstantVectorField2({0, 0}), const ScalarField2 &amp;fluidSdf=ConstantScalarField2(-kMaxD))=0</div><div class="ttdoc">Solves the pressure term and apply it to the velocity field. </div></div>
 <div class="ttc" id="constant__scalar__field2_8h_html"><div class="ttname"><a href="constant__scalar__field2_8h.html">constant_scalar_field2.h</a></div></div>
 <div class="ttc" id="namespacejet_html_a0984cc94edef0529f333bcae63faeaca"><div class="ttname"><a href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">jet::kMaxD</a></div><div class="ttdeci">constexpr double kMaxD</div><div class="ttdoc">Max double. </div><div class="ttdef"><b>Definition:</b> constants.h:85</div></div>
 <div class="ttc" id="classjet_1_1_grid_pressure_solver2_html_afcb363e3129292a4c3483329017502c0"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html#afcb363e3129292a4c3483329017502c0">jet::GridPressureSolver2::~GridPressureSolver2</a></div><div class="ttdeci">virtual ~GridPressureSolver2()</div><div class="ttdoc">Default destructor. </div></div>
@@ -149,11 +153,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespacejet_html_adecbd8620fba3ff62ff9e23b8d86f938"><div class="ttname"><a href="namespacejet.html#adecbd8620fba3ff62ff9e23b8d86f938">jet::GridBoundaryConditionSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; GridBoundaryConditionSolver2 &gt; GridBoundaryConditionSolver2Ptr</div><div class="ttdoc">Shared pointer type for the GridBoundaryConditionSolver2. </div><div class="ttdef"><b>Definition:</b> grid_boundary_condition_solver2.h:93</div></div>
 <div class="ttc" id="classjet_1_1_grid_pressure_solver2_html_a2da468be8869d4b9431955662c390922"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html#a2da468be8869d4b9431955662c390922">jet::GridPressureSolver2::suggestedBoundaryConditionSolver</a></div><div class="ttdeci">virtual GridBoundaryConditionSolver2Ptr suggestedBoundaryConditionSolver() const  =0</div><div class="ttdoc">Returns the best boundary condition solver for this solver. </div></div>
 <div class="ttc" id="grid__boundary__condition__solver2_8h_html"><div class="ttname"><a href="grid__boundary__condition__solver2_8h.html">grid_boundary_condition_solver2.h</a></div></div>
+<div class="ttc" id="constant__vector__field2_8h_html"><div class="ttname"><a href="constant__vector__field2_8h.html">constant_vector_field2.h</a></div></div>
+<div class="ttc" id="classjet_1_1_constant_vector_field2_html"><div class="ttname"><a href="classjet_1_1_constant_vector_field2.html">jet::ConstantVectorField2</a></div><div class="ttdoc">2-D constant vector field. </div><div class="ttdef"><b>Definition:</b> constant_vector_field2.h:12</div></div>
 <div class="ttc" id="classjet_1_1_scalar_field2_html"><div class="ttname"><a href="classjet_1_1_scalar_field2.html">jet::ScalarField2</a></div><div class="ttdoc">Abstract base class for 2-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field2.h:14</div></div>
 <div class="ttc" id="classjet_1_1_face_centered_grid2_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></div><div class="ttdoc">2-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid2.h:22</div></div>
-<div class="ttc" id="namespacejet_html_a20a1a23a5b7f1bcdd2cb9edb2723d3fc"><div class="ttname"><a href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">jet::GridPressureSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; GridPressureSolver2 &gt; GridPressureSolver2Ptr</div><div class="ttdoc">Shared pointer type for the GridPressureSolver2. </div><div class="ttdef"><b>Definition:</b> grid_pressure_solver2.h:73</div></div>
-<div class="ttc" id="classjet_1_1_grid_pressure_solver2_html_a9325b57c9c5dc8180eb59510b63a4143"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html#a9325b57c9c5dc8180eb59510b63a4143">jet::GridPressureSolver2::solve</a></div><div class="ttdeci">virtual void solve(const FaceCenteredGrid2 &amp;input, double timeIntervalInSeconds, FaceCenteredGrid2 *output, const ScalarField2 &amp;boundarySdf=ConstantScalarField2(kMaxD), const ScalarField2 &amp;fluidSdf=ConstantScalarField2(-kMaxD))=0</div><div class="ttdoc">Solves the pressure term and apply it to the velocity field. </div></div>
+<div class="ttc" id="namespacejet_html_a20a1a23a5b7f1bcdd2cb9edb2723d3fc"><div class="ttname"><a href="namespacejet.html#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">jet::GridPressureSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; GridPressureSolver2 &gt; GridPressureSolver2Ptr</div><div class="ttdoc">Shared pointer type for the GridPressureSolver2. </div><div class="ttdef"><b>Definition:</b> grid_pressure_solver2.h:76</div></div>
 <div class="ttc" id="classjet_1_1_grid_pressure_solver2_html_a8ed82f73fe0489aced197a468158cea2"><div class="ttname"><a href="classjet_1_1_grid_pressure_solver2.html#a8ed82f73fe0489aced197a468158cea2">jet::GridPressureSolver2::GridPressureSolver2</a></div><div class="ttdeci">GridPressureSolver2()</div><div class="ttdoc">Default constructor. </div></div>
+<div class="ttc" id="classjet_1_1_vector_field2_html"><div class="ttname"><a href="classjet_1_1_vector_field2.html">jet::VectorField2</a></div><div class="ttdoc">Abstract base class for 2-D vector field. </div><div class="ttdef"><b>Definition:</b> vector_field2.h:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -163,7 +169,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:09 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:32 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

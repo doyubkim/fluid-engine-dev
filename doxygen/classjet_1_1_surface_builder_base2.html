@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0-rc2</a>
+                    <a class="navbar-brand">Jet v1.0.0</a>
                 </div>
             </div>
         </nav>
@@ -114,11 +114,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a14e243648ee9946e7e45880e62974618"><td class="memItemLeft" align="right" valign="top">DerivedBuilder &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a14e243648ee9946e7e45880e62974618">withIsNormalFlipped</a> (bool isNormalFlipped)</td></tr>
 <tr class="memdesc:a14e243648ee9946e7e45880e62974618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder with flipped normal flag.  <a href="#a14e243648ee9946e7e45880e62974618">More...</a><br /></td></tr>
 <tr class="separator:a14e243648ee9946e7e45880e62974618"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96d34cd483b063dfe132b6f7f5e11d39"><td class="memItemLeft" align="right" valign="top">DerivedBuilder &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a96d34cd483b063dfe132b6f7f5e11d39">withTranslation</a> (const <a class="el" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a> &amp;translation)</td></tr>
+<tr class="memdesc:a96d34cd483b063dfe132b6f7f5e11d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder with translation.  <a href="#a96d34cd483b063dfe132b6f7f5e11d39">More...</a><br /></td></tr>
+<tr class="separator:a96d34cd483b063dfe132b6f7f5e11d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46bae8c6415a1c51c7600f7890b225f9"><td class="memItemLeft" align="right" valign="top">DerivedBuilder &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a46bae8c6415a1c51c7600f7890b225f9">withOrientation</a> (double orientation)</td></tr>
+<tr class="memdesc:a46bae8c6415a1c51c7600f7890b225f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder with orientation.  <a href="#a46bae8c6415a1c51c7600f7890b225f9">More...</a><br /></td></tr>
+<tr class="separator:a46bae8c6415a1c51c7600f7890b225f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a693ee592a67eed395dfdee102048cd"><td class="memItemLeft" align="right" valign="top">DerivedBuilder &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a1a693ee592a67eed395dfdee102048cd">withTransform</a> (const <a class="el" href="classjet_1_1_transform2.html">Transform2</a> &amp;transform)</td></tr>
+<tr class="memdesc:a1a693ee592a67eed395dfdee102048cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder with transform.  <a href="#a1a693ee592a67eed395dfdee102048cd">More...</a><br /></td></tr>
+<tr class="separator:a1a693ee592a67eed395dfdee102048cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a8a14867846db1a642baf002f5e0ba37a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a8a14867846db1a642baf002f5e0ba37a">_isNormalFlipped</a> = false</td></tr>
 <tr class="separator:a8a14867846db1a642baf002f5e0ba37a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fbff2b385638b2c26d0cf2d058e600d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_transform2.html">Transform2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_builder_base2.html#a7fbff2b385638b2c26d0cf2d058e600d">_transform</a></td></tr>
+<tr class="separator:a7fbff2b385638b2c26d0cf2d058e600d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename DerivedBuilder&gt;<br />
@@ -146,6 +157,66 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a46bae8c6415a1c51c7600f7890b225f9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a>&lt; T &gt;::withOrientation </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>orientation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns builder with orientation. </p>
+
+</div>
+</div>
+<a class="anchor" id="a1a693ee592a67eed395dfdee102048cd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a>&lt; T &gt;::withTransform </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_transform2.html">Transform2</a> &amp;&#160;</td>
+          <td class="paramname"><em>transform</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns builder with transform. </p>
+
+</div>
+</div>
+<a class="anchor" id="a96d34cd483b063dfe132b6f7f5e11d39"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a>&lt; T &gt;::withTranslation </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a> &amp;&#160;</td>
+          <td class="paramname"><em>translation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns builder with translation. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a8a14867846db1a642baf002f5e0ba37a"></a>
 <div class="memitem">
@@ -169,6 +240,28 @@ template&lt;typename DerivedBuilder&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a7fbff2b385638b2c26d0cf2d058e600d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DerivedBuilder&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_transform2.html">Transform2</a> <a class="el" href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a>&lt; DerivedBuilder &gt;::_transform</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>jet/<a class="el" href="surface2_8h_source.html">surface2.h</a></li>
 </ul>
@@ -181,7 +274,7 @@ template&lt;typename DerivedBuilder&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 22 2016 22:54:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 30 2016 12:19:35 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

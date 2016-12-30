@@ -10,7 +10,7 @@
   <meta name="description" content="This site is for the book, &quot;Fluid Engine Development&quot;, and its source code.">
 
   <link rel="stylesheet" href="/fluid-engine-dev/assets/main.css">
-  <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/code/">
+  <link rel="canonical" href="http://localhost:4000/fluid-engine-dev/code/">
   <link rel="alternate" type="application/rss+xml" title="Fluid Engine Development" href="/fluid-engine-dev/feed.xml">
 
   <!-- Place this tag in your head or just before your close body tag. -->
@@ -76,10 +76,85 @@
   </header>
 
   <div class="post-content">
-    <p>The source code can be cloned or downloaded from the <a href="https://github.com/doyubkim/fluid-engine-dev">Github repository</a>.</p>
+    <h2 id="download">Download</h2>
 
-<!-- Place this tag where you want the button to render. -->
-<p><a class="github-button" href="https://github.com/doyubkim/fluid-engine-dev/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download doyubkim/fluid-engine-dev on GitHub">Download</a></p>
+<p>The source code can be cloned or downloaded from the <a href="https://github.com/doyubkim/fluid-engine-dev">Github repository</a>.</p>
+
+<hr />
+
+<h2 id="the-book-and-the-code">The Book and the Code</h2>
+
+<h3 id="branching">Branching</h3>
+
+<p>The first edition of the book corresponds to the code version 1.0.0. After the release of v1.0.0, the code will evolve, and the book-version of the code will be maintained as a separate branch <code class="highlighter-rouge">book-1st-edition</code> in the GitHub repository. It will take bug fixes only, but no feature addition or API changes to keep in sync with the book.</p>
+
+<h3 id="diff">Diff</h3>
+
+<p>Although I tried not to diverge from the code in the book, several important enhancement and bug fixes were applied to the code after finishing the manuscript for the book. Below is the list of the notable differences between the book and v1.0.0.</p>
+
+<p><strong>Page 63~67</strong></p>
+
+<p>The <code class="highlighter-rouge">Surface3</code> interface has changed. The main idea of this update is to separate world and local coordinates, and let the deriving classes to override local version, only. For example, the book shows <code class="highlighter-rouge">closestPoint</code> is virtual. The new code adds <code class="highlighter-rouge">closestPointLocal</code> as a new virtual function to be overriden and make <code class="highlighter-rouge">closestPoint</code> to be non-virtual.</p>
+
+<p><strong>Page 69</strong></p>
+
+<p>The <code class="highlighter-rouge">ImplicitSurface3</code> interface has change. Similar to the update above, this modification also let the sub-classes to override the function in local frame (<code class="highlighter-rouge">signedDistanceLocal</code>), but keep the world frame version as a non-virtual function.</p>
+
+<p><strong>Page 120~</strong></p>
+
+<p>The member variable <code class="highlighter-rouge">_mass</code> in <code class="highlighter-rouge">SphSystemData3</code> is removed. The new code uses <code class="highlighter-rouge">mass()</code> instead.</p>
+
+<p><strong>Page 184</strong></p>
+
+<p>There was a bug in the code. The fixed version is shown below:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">auto</span> <span class="n">u</span> <span class="o">=</span> <span class="n">velocity</span><span class="o">-&gt;</span><span class="n">uAccessor</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">uPos</span> <span class="o">=</span> <span class="n">velocity</span><span class="o">-&gt;</span><span class="n">uPosition</span><span class="p">();</span>
+
+<span class="n">velocity</span><span class="o">-&gt;</span><span class="n">parallelForEachUIndex</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">j</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Vector3D</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">uPos</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isInsideSdf</span><span class="p">(</span><span class="n">_colliderSdf</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">pt</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="n">Vector3D</span> <span class="n">colliderVel</span> <span class="o">=</span> <span class="n">collider</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">velocityAt</span><span class="p">(</span><span class="n">pt</span><span class="p">);</span>
+        <span class="n">Vector3D</span> <span class="n">vel</span> <span class="o">=</span> <span class="n">velocity</span><span class="o">-&gt;</span><span class="n">sample</span><span class="p">(</span><span class="n">pt</span><span class="p">);</span>
+        <span class="n">Vector3D</span> <span class="n">g</span> <span class="o">=</span> <span class="n">_colliderSdf</span><span class="p">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">pt</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">lengthSquared</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">Vector3D</span> <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="p">.</span><span class="n">normalized</span><span class="p">();</span>
+            <span class="n">Vector3D</span> <span class="n">velr</span> <span class="o">=</span> <span class="n">vel</span> <span class="o">-</span> <span class="n">colliderVel</span><span class="p">;</span>
+            <span class="n">Vector3D</span> <span class="n">velt</span> <span class="o">=</span> <span class="n">projectAndApplyFriction</span><span class="p">(</span>
+                <span class="n">velr</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">collider</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">frictionCoefficient</span><span class="p">());</span>
+
+            <span class="n">Vector3D</span> <span class="n">velp</span> <span class="o">=</span> <span class="n">velt</span> <span class="o">+</span> <span class="n">colliderVel</span><span class="p">;</span>
+            <span class="n">uTemp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">velp</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">uTemp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">colliderVel</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">uTemp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">u</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="n">u</span><span class="p">.</span><span class="n">parallelForEachIndex</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">j</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">u</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">uTemp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p><strong>Page 213~</strong></p>
+
+<p>The interface <code class="highlighter-rouge">GridPressureSolver3::solve</code> has changed to:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">virtual</span> <span class="kt">void</span> <span class="n">solve</span><span class="p">(</span>
+    <span class="k">const</span> <span class="n">FaceCenteredGrid3</span><span class="o">&amp;</span> <span class="n">input</span><span class="p">,</span>
+    <span class="kt">double</span> <span class="n">timeIntervalInSeconds</span><span class="p">,</span>
+    <span class="n">FaceCenteredGrid3</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">ScalarField3</span><span class="o">&amp;</span> <span class="n">boundarySdf</span>
+        <span class="o">=</span> <span class="n">ConstantScalarField3</span><span class="p">(</span><span class="n">kMaxD</span><span class="p">),</span>
+    <span class="k">const</span> <span class="n">VectorField3</span><span class="o">&amp;</span> <span class="n">boundaryVelocity</span>
+        <span class="o">=</span> <span class="n">ConstantVectorField3</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}),</span>
+    <span class="k">const</span> <span class="n">ScalarField3</span><span class="o">&amp;</span> <span class="n">fluidSdf</span>
+        <span class="o">=</span> <span class="n">ConstantScalarField3</span><span class="p">(</span><span class="o">-</span><span class="n">kMaxD</span><span class="p">))</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre>
+</div>
 
   </div>
 
