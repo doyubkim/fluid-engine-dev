@@ -4,6 +4,8 @@
 
 Jet framework is a fluid simulation engine SDK for computer graphics applications that was created by Doyub Kim as part of the book, ["Fluid Engine Development"](https://www.crcpress.com/Fluid-Engine-Development/Kim/p/book/9781498719926). The code is built on C++11 and can be compiled with commonly available compilers such as g++, clang, and Visual Studio. Currently tested platforms are macOS (10.10 or later), Ubuntu (14.04 or later), and Windows (Visual Studio 2015).
 
+The latest code is always available from the `master` branch. But since the code is a living thing, it will evolve and may diverge from the code from the book over time. To find the exact version that is shipped with the book, checkout the branch `book-1st-edition`.
+
 ### Key Features
 * SPH and PCISPH fluid simulators
 * Stable fluids-based smoke simulator
@@ -18,9 +20,13 @@ Every simulator has both 2-D and 3-D implementations.
 
 To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/INSTALL.md).
 
+## Documentations
+
+All the documentations for the framework can be found from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/) including the API reference.
+
 ## Examples
 
-Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/).
+Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/). Find out more demos from [the project website](http://doyubkim.github.io/fluid-engine-dev/examples/).
 
 ![Examples](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/examples.png "Examples")
 
