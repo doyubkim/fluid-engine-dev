@@ -150,7 +150,13 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurface) {
     });
 
     GridSinglePhasePressureSolver3 solver;
-    solver.solve(vel, 1.0, &vel, ConstantScalarField3(kMaxD), fluidSdf);
+    solver.solve(
+        vel,
+        1.0,
+        &vel,
+        ConstantScalarField3(kMaxD),
+        ConstantVectorField3({0, 0, 0}),
+        fluidSdf);
 
     for (size_t k = 0; k < 3; ++k) {
         for (size_t j = 0; j < 3; ++j) {
@@ -215,7 +221,13 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceWithBoundary) {
     });
 
     GridSinglePhasePressureSolver3 solver;
-    solver.solve(vel, 1.0, &vel, boundarySdf, fluidSdf);
+    solver.solve(
+        vel,
+        1.0,
+        &vel,
+        boundarySdf,
+        ConstantVectorField3({0, 0, 0}),
+        fluidSdf);
 
     for (size_t k = 0; k < 3; ++k) {
         for (size_t j = 0; j < 3; ++j) {

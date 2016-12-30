@@ -111,3 +111,56 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithCollider) {
 }
 JET_END_TEST_F
 
+JET_BEGIN_TEST_F(FlipSolver2, RotatingTank) {
+    // Build solver
+    auto solver = FlipSolver2::builder()
+        .withResolution({32, 32})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.25, 0.25})
+        .withUpperCorner({0.75, 0.50})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(1.0 / 64.0)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    // Build collider
+    auto tank = Box2::builder()
+        .withLowerCorner({-0.25, -0.25})
+        .withUpperCorner({ 0.25,  0.25})
+        .withTranslation({0.5, 0.5})
+        .withOrientation(0.0)
+        .withIsNormalFlipped(true)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(tank)
+        .withAngularVelocity(2.0)
+        .makeShared();
+
+    collider->setOnBeginUpdateCallback([&] (Collider2* col, double t, double) {
+        if (t < 1.0) {
+            col->surface()->transform.setOrientation(2.0 * t);
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 2.0;
+        } else {
+            static_cast<RigidBodyCollider2*>(col)->angularVelocity = 0.0;
+        }
+    });
+
+    solver->setCollider(collider);
+
+    for (Frame frame; frame.index < 120; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F

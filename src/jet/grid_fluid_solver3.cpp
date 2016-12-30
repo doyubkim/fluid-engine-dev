@@ -259,6 +259,7 @@ void GridFluidSolver3::computePressure(double timeIntervalInSeconds) {
             timeIntervalInSeconds,
             vel.get(),
             _colliderSdf,
+            _colliderVel,
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -463,6 +464,7 @@ void GridFluidSolver3::beginAdvanceTimeStep(double timeIntervalInSeconds) {
 
     // Reserve memory
     _colliderSdf.resize(res, h, o);
+    _colliderVel.resize(res, h, o);
 
     // Update collider and emitter
     Timer timer;
@@ -488,8 +490,13 @@ void GridFluidSolver3::beginAdvanceTimeStep(double timeIntervalInSeconds) {
         _colliderSdf.fill([&](const Vector3D& pt) {
             return implicitSurface->signedDistance(pt);
         });
+
+        _colliderVel.fill([&] (const Vector3D& pt) {
+            return _collider->velocityAt(pt);
+        });
     } else {
         _colliderSdf.fill(kMaxD);
+        _colliderVel.fill({0, 0, 0});
     }
 
     // Update boundary condition solver

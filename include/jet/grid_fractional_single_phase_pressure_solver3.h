@@ -68,6 +68,8 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
         FaceCenteredGrid3* output,
         const ScalarField3& boundarySdf
             = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity
+            = ConstantVectorField3({0, 0, 0}),
         const ScalarField3& fluidSdf
             = ConstantScalarField3(-kMaxD)) override;
 
@@ -95,11 +97,15 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
     Array3<double> _uWeights;
     Array3<double> _vWeights;
     Array3<double> _wWeights;
+    Array3<double> _uBoundary;
+    Array3<double> _vBoundary;
+    Array3<double> _wBoundary;
     CellCenteredScalarGrid3 _fluidSdf;
 
     void buildWeights(
         const FaceCenteredGrid3& input,
         const ScalarField3& boundarySdf,
+        const VectorField3& boundaryVelocity,
         const ScalarField3& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid3& input);

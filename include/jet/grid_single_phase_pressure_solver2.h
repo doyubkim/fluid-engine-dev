@@ -58,6 +58,8 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
         FaceCenteredGrid2* output,
         const ScalarField2& boundarySdf
             = ConstantScalarField2(kMaxD),
+        const VectorField2& boundaryVelocity
+            = ConstantVectorField2({0, 0}),
         const ScalarField2& fluidSdf
             = ConstantScalarField2(-kMaxD)) override;
 

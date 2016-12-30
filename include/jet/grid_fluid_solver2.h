@@ -5,6 +5,7 @@
 
 #include <jet/advection_solver2.h>
 #include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_vector_grid2.h>
 #include <jet/collider2.h>
 #include <jet/grid_emitter2.h>
 #include <jet/face_centered_grid2.h>
@@ -265,6 +266,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     GridSystemData2Ptr _grids;
     Collider2Ptr _collider;
     CellCenteredScalarGrid2 _colliderSdf;
+    CellCenteredVectorGrid2 _colliderVel;
     GridEmitter2Ptr _emitter;
 
     AdvectionSolver2Ptr _advectionSolver;

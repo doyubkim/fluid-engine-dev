@@ -71,6 +71,8 @@ class GridFractionalSinglePhasePressureSolver2 final :
         FaceCenteredGrid2* output,
         const ScalarField2& boundarySdf
             = ConstantScalarField2(kMaxD),
+        const VectorField2& boundaryVelocity
+            = ConstantVectorField2({0, 0}),
         const ScalarField2& fluidSdf
             = ConstantScalarField2(-kMaxD)) override;
 
@@ -97,11 +99,14 @@ class GridFractionalSinglePhasePressureSolver2 final :
     FdmLinearSystemSolver2Ptr _systemSolver;
     Array2<double> _uWeights;
     Array2<double> _vWeights;
+    Array2<double> _uBoundary;
+    Array2<double> _vBoundary;
     CellCenteredScalarGrid2 _fluidSdf;
 
     void buildWeights(
         const FaceCenteredGrid2& input,
         const ScalarField2& boundarySdf,
+        const VectorField2& boundaryVelocity,
         const ScalarField2& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid2& input);

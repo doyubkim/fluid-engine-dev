@@ -58,6 +58,8 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
         FaceCenteredGrid3* output,
         const ScalarField3& boundarySdf
             = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity
+            = ConstantVectorField3({0, 0, 0}),
         const ScalarField3& fluidSdf
             = ConstantScalarField3(-kMaxD)) override;
 
