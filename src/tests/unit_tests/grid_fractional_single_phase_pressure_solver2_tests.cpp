@@ -1,6 +1,7 @@
 // Copyright (c) 2016 Doyub Kim
 
 #include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_vector_grid2.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <gtest/gtest.h>
@@ -32,7 +33,13 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface) {
     });
 
     GridFractionalSinglePhasePressureSolver2 solver;
-    solver.solve(vel, 1.0, &vel, ConstantScalarField2(kMaxD), fluidSdf);
+    solver.solve(
+        vel,
+        1.0,
+        &vel,
+        ConstantScalarField2(kMaxD),
+        ConstantVectorField2({0, 0}),
+        fluidSdf);
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {

@@ -6,25 +6,32 @@
 
 using namespace jet;
 
-Box2::Box2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
+Box2::Box2(
+    const Transform2& transform,
+    bool isNormalFlipped)
+: Surface2(transform, isNormalFlipped) {
 }
 
 Box2::Box2(
     const Vector2D& lowerCorner,
     const Vector2D& upperCorner,
-    bool isNormalFlipped_) :
-    Box2(BoundingBox2D(lowerCorner, upperCorner), isNormalFlipped_) {
+    const Transform2& transform,
+    bool isNormalFlipped) :
+    Box2(BoundingBox2D(lowerCorner, upperCorner), transform, isNormalFlipped) {
 }
 
-Box2::Box2(const BoundingBox2D& boundingBox, bool isNormalFlipped_)
-: Surface2(isNormalFlipped_)
+Box2::Box2(
+    const BoundingBox2D& boundingBox,
+    const Transform2& transform,
+    bool isNormalFlipped)
+: Surface2(transform, isNormalFlipped)
 , bound(boundingBox) {
 }
 
 Box2::Box2(const Box2& other) : Surface2(other), bound(other.bound) {
 }
 
-Vector2D Box2::closestPoint(const Vector2D& otherPoint) const {
+Vector2D Box2::closestPointLocal(const Vector2D& otherPoint) const {
     if (bound.contains(otherPoint)) {
         Plane2 planes[4] = {
             Plane2(Vector2D(1, 0), bound.upperCorner),
@@ -56,7 +63,7 @@ Vector2D Box2::closestPoint(const Vector2D& otherPoint) const {
     }
 }
 
-Vector2D Box2::actualClosestNormal(const Vector2D& otherPoint) const {
+Vector2D Box2::closestNormalLocal(const Vector2D& otherPoint) const {
     Plane2 planes[4] = {
         Plane2(Vector2D(1, 0), bound.upperCorner),
         Plane2(Vector2D(0, 1), bound.upperCorner),
@@ -104,15 +111,11 @@ Vector2D Box2::actualClosestNormal(const Vector2D& otherPoint) const {
     }
 }
 
-double Box2::closestDistance(const Vector2D& otherPoint) const {
-    return Box2::closestPoint(otherPoint).distanceTo(otherPoint);
-}
-
-bool Box2::intersects(const Ray2D& ray) const {
+bool Box2::intersectsLocal(const Ray2D& ray) const {
     return bound.intersects(ray);
 }
 
-SurfaceRayIntersection2 Box2::actualClosestIntersection(
+SurfaceRayIntersection2 Box2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     BoundingBoxRayIntersection2D bbRayIntersection
@@ -126,7 +129,7 @@ SurfaceRayIntersection2 Box2::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox2D Box2::boundingBox() const {
+BoundingBox2D Box2::boundingBoxLocal() const {
     return bound;
 }
 
@@ -151,7 +154,7 @@ Box2::Builder& Box2::Builder::withBoundingBox(const BoundingBox2D& bbox) {
 }
 
 Box2 Box2::Builder::build() const {
-    return Box2(_lowerCorner, _upperCorner, _isNormalFlipped);
+    return Box2(_lowerCorner, _upperCorner, _transform, _isNormalFlipped);
 }
 
 Box2Ptr Box2::Builder::makeShared() const {
@@ -159,6 +162,7 @@ Box2Ptr Box2::Builder::makeShared() const {
         new Box2(
             _lowerCorner,
             _upperCorner,
+            _transform,
             _isNormalFlipped),
         [] (Box2* obj) {
             delete obj;

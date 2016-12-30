@@ -7,14 +7,16 @@
 
 using namespace jet;
 
-Sphere2::Sphere2(bool isNormalFlipped_) : Surface2(isNormalFlipped_) {
+Sphere2::Sphere2(const Transform2& transform_, bool isNormalFlipped_)
+: Surface2(transform_, isNormalFlipped_) {
 }
 
 Sphere2::Sphere2(
     const Vector2D& center_,
     double radius_,
+    const Transform2& transform_,
     bool isNormalFlipped_)
-: Surface2(isNormalFlipped_)
+: Surface2(transform_, isNormalFlipped_)
 , center(center_)
 , radius(radius_) {
 }
@@ -25,15 +27,15 @@ Sphere2::Sphere2(const Sphere2& other) :
     radius(other.radius) {
 }
 
-Vector2D Sphere2::closestPoint(const Vector2D& otherPoint) const {
-    return radius * closestNormal(otherPoint) + center;
+Vector2D Sphere2::closestPointLocal(const Vector2D& otherPoint) const {
+    return radius * closestNormalLocal(otherPoint) + center;
 }
 
-double Sphere2::closestDistance(const Vector2D& otherPoint) const {
+double Sphere2::closestDistanceLocal(const Vector2D& otherPoint) const {
     return std::fabs(center.distanceTo(otherPoint) - radius);
 }
 
-Vector2D Sphere2::actualClosestNormal(const Vector2D& otherPoint) const {
+Vector2D Sphere2::closestNormalLocal(const Vector2D& otherPoint) const {
     if (center.isSimilar(otherPoint)) {
         return Vector2D(1, 0);
     } else {
@@ -41,7 +43,7 @@ Vector2D Sphere2::actualClosestNormal(const Vector2D& otherPoint) const {
     }
 }
 
-bool Sphere2::intersects(const Ray2D& ray) const {
+bool Sphere2::intersectsLocal(const Ray2D& ray) const {
     Vector2D r = ray.origin - center;
     double b = ray.direction.dot(r);
     double c = r.lengthSquared() - square(radius);
@@ -65,7 +67,7 @@ bool Sphere2::intersects(const Ray2D& ray) const {
     return false;
 }
 
-SurfaceRayIntersection2 Sphere2::actualClosestIntersection(
+SurfaceRayIntersection2 Sphere2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 intersection;
     Vector2D r = ray.origin - center;
@@ -98,7 +100,7 @@ SurfaceRayIntersection2 Sphere2::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox2D Sphere2::boundingBox() const {
+BoundingBox2D Sphere2::boundingBoxLocal() const {
     Vector2D r(radius, radius);
     return BoundingBox2D(center - r, center + r);
 }
@@ -118,7 +120,7 @@ Sphere2::Builder& Sphere2::Builder::withRadius(double radius) {
 }
 
 Sphere2 Sphere2::Builder::build() const {
-    return Sphere2(_center, _radius, _isNormalFlipped);
+    return Sphere2(_center, _radius, _transform, _isNormalFlipped);
 }
 
 Sphere2Ptr Sphere2::Builder::makeShared() const {
@@ -126,6 +128,7 @@ Sphere2Ptr Sphere2::Builder::makeShared() const {
         new Sphere2(
             _center,
             _radius,
+            _transform,
             _isNormalFlipped),
         [] (Sphere2* obj) {
             delete obj;

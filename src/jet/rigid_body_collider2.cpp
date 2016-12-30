@@ -12,16 +12,14 @@ RigidBodyCollider2::RigidBodyCollider2(const Surface2Ptr& surface) {
 RigidBodyCollider2::RigidBodyCollider2(
     const Surface2Ptr& surface,
     const Vector2D& linearVelocity_,
-    double angularVelocity_,
-    const Vector2D& rotationOrigin_)
+    double angularVelocity_)
 : linearVelocity(linearVelocity_)
-, angularVelocity(angularVelocity_)
-, rotationOrigin(rotationOrigin_) {
+, angularVelocity(angularVelocity_) {
     setSurface(surface);
 }
 
 Vector2D RigidBodyCollider2::velocityAt(const Vector2D& point) const {
-    Vector2D r = point - rotationOrigin;
+    Vector2D r = point - surface()->transform.translation();
     return linearVelocity + angularVelocity * Vector2D(-r.y, r.x);
 }
 
@@ -48,19 +46,11 @@ RigidBodyCollider2::Builder::withAngularVelocity(double angularVelocity) {
     return *this;
 }
 
-RigidBodyCollider2::Builder&
-RigidBodyCollider2::Builder::withRotationOrigin(
-    const Vector2D& rotationOrigin) {
-    _rotationOrigin = rotationOrigin;
-    return *this;
-}
-
 RigidBodyCollider2 RigidBodyCollider2::Builder::build() const {
     return RigidBodyCollider2(
         _surface,
         _linearVelocity,
-        _angularVelocity,
-        _rotationOrigin);
+        _angularVelocity);
 }
 
 RigidBodyCollider2Ptr RigidBodyCollider2::Builder::makeShared() const {
@@ -68,8 +58,7 @@ RigidBodyCollider2Ptr RigidBodyCollider2::Builder::makeShared() const {
         new RigidBodyCollider2(
             _surface,
             _linearVelocity,
-            _angularVelocity,
-            _rotationOrigin),
+            _angularVelocity),
         [] (RigidBodyCollider2* obj) {
             delete obj;
     });

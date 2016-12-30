@@ -14,8 +14,9 @@ CustomImplicitSurface3::CustomImplicitSurface3(
     const std::function<double(const Vector3D&)>& func,
     const BoundingBox3D& domain,
     double resolution,
+    const Transform3& transform,
     bool isNormalFlipped)
-: ImplicitSurface3(isNormalFlipped)
+: ImplicitSurface3(transform, isNormalFlipped)
 , _func(func)
 , _domain(domain)
 , _resolution(resolution) {
@@ -24,11 +25,11 @@ CustomImplicitSurface3::CustomImplicitSurface3(
 CustomImplicitSurface3::~CustomImplicitSurface3() {
 }
 
-Vector3D CustomImplicitSurface3::closestPoint(
+Vector3D CustomImplicitSurface3::closestPointLocal(
     const Vector3D& otherPoint) const {
     Vector3D pt = otherPoint;
     while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        Vector3D g = gradient(pt);
+        Vector3D g = gradientLocal(pt);
 
         if (g.length() < kGradientThreshold) {
             break;
@@ -39,12 +40,7 @@ Vector3D CustomImplicitSurface3::closestPoint(
     return pt;
 }
 
-double CustomImplicitSurface3::closestDistance(
-    const Vector3D& otherPoint) const {
-    return std::fabs(signedDistance(otherPoint));
-}
-
-bool CustomImplicitSurface3::intersects(const Ray3D& ray) const {
+bool CustomImplicitSurface3::intersectsLocal(const Ray3D& ray) const {
     BoundingBoxRayIntersection3D intersection
         = _domain.closestIntersection(ray);
 
@@ -77,11 +73,11 @@ bool CustomImplicitSurface3::intersects(const Ray3D& ray) const {
     return false;
 }
 
-BoundingBox3D CustomImplicitSurface3::boundingBox() const {
+BoundingBox3D CustomImplicitSurface3::boundingBoxLocal() const {
     return _domain;
 }
 
-double CustomImplicitSurface3::signedDistance(
+double CustomImplicitSurface3::signedDistanceLocal(
     const Vector3D& otherPoint) const {
     if (_func) {
         return _func(otherPoint);
@@ -90,16 +86,12 @@ double CustomImplicitSurface3::signedDistance(
     }
 }
 
-CustomImplicitSurface3::Builder CustomImplicitSurface3::builder() {
-    return Builder();
-}
-
-Vector3D CustomImplicitSurface3::actualClosestNormal(
+Vector3D CustomImplicitSurface3::closestNormalLocal(
     const Vector3D& otherPoint) const {
     Vector3D pt = otherPoint;
     Vector3D g;
     while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        g = gradient(pt);
+        g = gradientLocal(pt);
 
         if (g.length() < kGradientThreshold) {
             break;
@@ -115,7 +107,7 @@ Vector3D CustomImplicitSurface3::actualClosestNormal(
     return g;
 }
 
-SurfaceRayIntersection3 CustomImplicitSurface3::actualClosestIntersection(
+SurfaceRayIntersection3 CustomImplicitSurface3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 result;
 
@@ -147,7 +139,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::actualClosestIntersection(
                 result.isIntersecting = true;
                 result.t = tSub;
                 result.point = ray.pointAt(tSub);
-                result.normal = gradient(result.point);
+                result.normal = gradientLocal(result.point);
                 if (result.normal.length() > 0.0) {
                     result.normal.normalize();
                 }
@@ -162,7 +154,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::actualClosestIntersection(
     return result;
 }
 
-Vector3D CustomImplicitSurface3::gradient(const Vector3D& x) const {
+Vector3D CustomImplicitSurface3::gradientLocal(const Vector3D& x) const {
     double left = _func(x - Vector3D(0.5 * _resolution, 0.0, 0.0));
     double right = _func(x + Vector3D(0.5 * _resolution, 0.0, 0.0));
     double bottom = _func(x - Vector3D(0.0, 0.5 * _resolution, 0.0));
@@ -176,12 +168,10 @@ Vector3D CustomImplicitSurface3::gradient(const Vector3D& x) const {
         (front - back) / _resolution);
 }
 
-
-CustomImplicitSurface3::Builder&
-CustomImplicitSurface3::Builder::withIsNormalFlipped(bool isNormalFlipped) {
-    _isNormalFlipped = isNormalFlipped;
-    return *this;
+CustomImplicitSurface3::Builder CustomImplicitSurface3::builder() {
+    return Builder();
 }
+
 
 CustomImplicitSurface3::Builder&
 CustomImplicitSurface3::Builder::withSignedDistanceFunction(
@@ -208,6 +198,7 @@ CustomImplicitSurface3 CustomImplicitSurface3::Builder::build() const {
         _func,
         _domain,
         _resolution,
+        _transform,
         _isNormalFlipped);
 }
 
@@ -217,6 +208,7 @@ CustomImplicitSurface3Ptr CustomImplicitSurface3::Builder::makeShared() const {
             _func,
             _domain,
             _resolution,
+            _transform,
             _isNormalFlipped),
         [] (CustomImplicitSurface3* obj) {
             delete obj;

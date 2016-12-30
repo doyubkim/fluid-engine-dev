@@ -264,6 +264,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\detail\size3-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\sph_kernels2-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\sph_kernels3-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\transform2-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\transform3-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\vector-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\vector2-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\vector3-inl.h" />
@@ -410,6 +412,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\surface_to_implicit2.h" />
     <ClInclude Include="..\..\include\jet\surface_to_implicit3.h" />
     <ClInclude Include="..\..\include\jet\timer.h" />
+    <ClInclude Include="..\..\include\jet\transform2.h" />
+    <ClInclude Include="..\..\include\jet\transform3.h" />
     <ClInclude Include="..\..\include\jet\triangle3.h" />
     <ClInclude Include="..\..\include\jet\triangle_mesh3.h" />
     <ClInclude Include="..\..\include\jet\triangle_mesh_to_sdf.h" />

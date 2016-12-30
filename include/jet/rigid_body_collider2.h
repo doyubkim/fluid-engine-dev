@@ -23,9 +23,6 @@ class RigidBodyCollider2 final : public Collider2 {
     //! Angular velocity of the rigid body.
     double angularVelocity = 0.0;
 
-    //! Origin of the rigid body rotation.
-    Vector2D rotationOrigin;
-
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider2(const Surface2Ptr& surface);
 
@@ -33,8 +30,7 @@ class RigidBodyCollider2 final : public Collider2 {
     RigidBodyCollider2(
         const Surface2Ptr& surface,
         const Vector2D& linearVelocity,
-        double angularVelocity,
-        const Vector2D& rotationOrigin);
+        double angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
     Vector2D velocityAt(const Vector2D& point) const override;
@@ -61,9 +57,6 @@ class RigidBodyCollider2::Builder final {
     //! Returns builder with angular velocity.
     Builder& withAngularVelocity(double angularVelocity);
 
-    //! Returns builder with rotation origin.
-    Builder& withRotationOrigin(const Vector2D& rotationOrigin);
-
     //! Builds RigidBodyCollider2.
     RigidBodyCollider2 build() const;
 
@@ -74,7 +67,6 @@ class RigidBodyCollider2::Builder final {
     Surface2Ptr _surface;
     Vector2D _linearVelocity{0, 0};
     double _angularVelocity = 0.0;
-    Vector2D _rotationOrigin{0, 0};
 };
 
 }  // namespace jet

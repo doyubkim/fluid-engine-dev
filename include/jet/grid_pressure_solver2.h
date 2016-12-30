@@ -5,6 +5,7 @@
 
 #include <jet/collocated_vector_grid2.h>
 #include <jet/constant_scalar_field2.h>
+#include <jet/constant_vector_field2.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/grid_boundary_condition_solver2.h>
@@ -55,6 +56,8 @@ class GridPressureSolver2 {
         FaceCenteredGrid2* output,
         const ScalarField2& boundarySdf
             = ConstantScalarField2(kMaxD),
+        const VectorField2& boundaryVelocity
+            = ConstantVectorField2({0, 0}),
         const ScalarField2& fluidSdf
             = ConstantScalarField2(-kMaxD)) = 0;
 

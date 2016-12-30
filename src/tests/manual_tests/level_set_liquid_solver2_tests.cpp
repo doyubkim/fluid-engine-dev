@@ -2,6 +2,7 @@
 
 #include <manual_tests.h>
 
+#include <jet/box2.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/implicit_surface_set2.h>
@@ -491,6 +492,68 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
             filename,
             sizeof(filename),
             "data.#grid2,%04d.npy",
+            frame.index);
+        saveData(output.constAccessor(), filename);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(LevelSetLiquidSolver2, RisingFloor) {
+    // Build solver
+    auto solver = LevelSetLiquidSolver2::builder()
+        .withResolution({5, 10})
+        .withDomainSizeX(1.0)
+        .makeShared();
+    solver->setGravity({0, 0, 0});
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.0, 0.0})
+        .withUpperCorner({1.0, 0.8})
+        .makeShared();
+
+    auto emitter = VolumeGridEmitter2::builder()
+        .withSourceRegion(box)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+    emitter->addSignedDistanceTarget(solver->signedDistanceField());
+
+    // Build collider
+    auto tank = Box2::builder()
+        .withLowerCorner({-1, 0})
+        .withUpperCorner({2, 2})
+        .withIsNormalFlipped(true)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(tank)
+        .makeShared();
+
+    collider->setOnBeginUpdateCallback([] (Collider2* col, double t, double) {
+        col->surface()->transform.setTranslation({0, t});
+        static_cast<RigidBodyCollider2*>(col)->linearVelocity.x = 0.0;
+        static_cast<RigidBodyCollider2*>(col)->linearVelocity.y = 1.0;
+    });
+
+    solver->setCollider(collider);
+
+    char filename[256];
+    Array2<double> output(5, 10);
+    Array2<double> div(5, 10);
+    auto data = solver->gridSystemData();
+    auto sdf = solver->signedDistanceField();
+
+    for (Frame frame(0, 1/100.0); frame.index < 120; ++frame) {
+        solver->update(frame);
+
+        output.forEachIndex([&](size_t i, size_t j) {
+            output(i, j) = 1.0 - smearedHeavisideSdf((*sdf)(i, j) * 5.0);
+        });
+        snprintf(
+            filename,
+            sizeof(filename),
+            "output.#grid2,%04d.npy",
             frame.index);
         saveData(output.constAccessor(), filename);
     }

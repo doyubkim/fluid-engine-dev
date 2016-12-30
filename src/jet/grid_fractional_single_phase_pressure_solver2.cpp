@@ -1,6 +1,11 @@
 // Copyright (c) 2016 Doyub Kim
 
-// Adapted from http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/
+//
+// Adopted the code from:
+// http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/
+// and
+// https://github.com/christopherbatty/FluidRigidCoupling2D
+//
 
 #include <pch.h>
 #include <jet/constants.h>
@@ -29,12 +34,14 @@ void GridFractionalSinglePhasePressureSolver2::solve(
     double timeIntervalInSeconds,
     FaceCenteredGrid2* output,
     const ScalarField2& boundarySdf,
+    const VectorField2& boundaryVelocity,
     const ScalarField2& fluidSdf) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
 
     buildWeights(
         input,
         boundarySdf,
+        boundaryVelocity,
         fluidSdf);
     buildSystem(input);
 
@@ -65,6 +72,7 @@ const FdmVector2& GridFractionalSinglePhasePressureSolver2::pressure() const {
 void GridFractionalSinglePhasePressureSolver2::buildWeights(
     const FaceCenteredGrid2& input,
     const ScalarField2& boundarySdf,
+    const VectorField2& boundaryVelocity,
     const ScalarField2& fluidSdf) {
     Size2 uSize = input.uSize();
     Size2 vSize = input.vSize();
@@ -72,6 +80,8 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
     auto vPos = input.vPosition();
     _uWeights.resize(uSize);
     _vWeights.resize(vSize);
+    _uBoundary.resize(uSize);
+    _vBoundary.resize(vSize);
     _fluidSdf.resize(input.resolution(), input.gridSpacing(), input.origin());
 
     _fluidSdf.fill([&](const Vector2D& x) {
@@ -94,6 +104,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
         }
 
         _uWeights(i, j) = weight;
+        _uBoundary(i, j) = boundaryVelocity.sample(pt).x;
     });
 
     _vWeights.parallelForEachIndex([&](size_t i, size_t j) {
@@ -110,6 +121,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
         }
 
         _vWeights(i, j) = weight;
+        _vBoundary(i, j) = boundaryVelocity.sample(pt).y;
     });
 }
 
@@ -152,6 +164,8 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
             } else {
                 _system.b(i, j) += input.u(i + 1, j) * invH.x;
             }
+
+
 
             if (i > 0) {
                 term = _uWeights(i, j) * invHSqr.x;
@@ -201,6 +215,14 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
             } else {
                 _system.b(i, j) -= input.v(i, j) * invH.y;
             }
+
+            // Accumulate contributions from the moving boundary
+            double boundaryContribution
+                = (1.0 - _uWeights(i + 1, j)) * _uBoundary(i + 1, j) * invH.x
+                - (1.0 - _uWeights(i, j)) * _uBoundary(i, j) * invH.x
+                + (1.0 - _vWeights(i, j + 1)) * _vBoundary(i, j + 1) * invH.y
+                - (1.0 - _vWeights(i, j)) * _vBoundary(i, j) * invH.y;
+            _system.b(i, j) += boundaryContribution;
         } else {
             row.center = 1.0;
         }

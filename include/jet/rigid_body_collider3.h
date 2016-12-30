@@ -4,6 +4,7 @@
 #define INCLUDE_JET_RIGID_BODY_COLLIDER3_H_
 
 #include <jet/collider3.h>
+#include <jet/quaternion.h>
 
 namespace jet {
 
@@ -23,9 +24,6 @@ class RigidBodyCollider3 final : public Collider3 {
     //! Angular velocity of the rigid body.
     Vector3D angularVelocity;
 
-    //! Origin of the rigid body rotation.
-    Vector3D rotationOrigin;
-
     //! Constructs a collider with a surface.
     explicit RigidBodyCollider3(const Surface3Ptr& surface);
 
@@ -33,8 +31,7 @@ class RigidBodyCollider3 final : public Collider3 {
     RigidBodyCollider3(
         const Surface3Ptr& surface,
         const Vector3D& linearVelocity,
-        const Vector3D& angularVelocity,
-        const Vector3D& rotationOrigin);
+        const Vector3D& angularVelocity);
 
     //! Returns the velocity of the collider at given \p point.
     Vector3D velocityAt(const Vector3D& point) const override;
@@ -61,9 +58,6 @@ class RigidBodyCollider3::Builder final {
     //! Returns builder with angular velocity.
     Builder& withAngularVelocity(const Vector3D& angularVelocity);
 
-    //! Returns builder with rotation origin.
-    Builder& withRotationOrigin(const Vector3D& rotationOrigin);
-
     //! Builds RigidBodyCollider3.
     RigidBodyCollider3 build() const;
 
@@ -74,7 +68,6 @@ class RigidBodyCollider3::Builder final {
     Surface3Ptr _surface;
     Vector3D _linearVelocity{0, 0, 0};
     Vector3D _angularVelocity{0, 0, 0};
-    Vector3D _rotationOrigin{0, 0, 0};
 };
 
 }  // namespace jet

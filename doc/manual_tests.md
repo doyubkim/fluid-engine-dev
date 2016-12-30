@@ -150,6 +150,10 @@ Below is the list of the tests and their expected results.
 
         ![DamBreakingWithCollider](img/manual_tests/FlipSolver2/DamBreakingWithCollider/data.gif "DamBreakingWithCollider")
 
+    * RotatingTank
+
+        ![RotatingTank](img/manual_tests/FlipSolver2/RotatingTank/data.gif "RotatingTank")
+
 * FlipSolver3Tests.
     * WaterDrop
 
@@ -158,6 +162,10 @@ Below is the list of the tests and their expected results.
     * DamBreakingWithCollider
 
         ![DamBreakingWithCollider](img/manual_tests/FlipSolver3/DamBreakingWithCollider/data.gif "DamBreakingWithCollider")
+
+    * RotatingTank
+
+        ![RotatingTank](img/manual_tests/FlipSolver3/RotatingTank/data.gif "RotatingTank")
 
 * FmmLevelSetSolver2Tests.
     * ReinitializeSmall
@@ -619,6 +627,10 @@ Below is the list of the tests and their expected results.
     * DropWithGlobalComp
 
         ![Data](img/manual_tests/LevelSetLiquidSolver2/DropWithGlobalComp/data.gif "Data")
+
+    * RisingFloor
+
+        ![Data](img/manual_tests/LevelSetLiquidSolver2/RisingFloor/data.gif "Data")
 
 * LevelSetLiquidSolver3Tests.
     * SubtleSloshing

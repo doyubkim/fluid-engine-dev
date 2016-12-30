@@ -7,14 +7,16 @@
 
 using namespace jet;
 
-Plane3::Plane3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+Plane3::Plane3(const Transform3& transform_, bool isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_) {
 }
 
 Plane3::Plane3(
     const Vector3D& normal,
     const Vector3D& point,
+    const Transform3& transform_,
     bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_)
 , normal(normal)
 , point(point) {
 }
@@ -23,7 +25,8 @@ Plane3::Plane3(
     const Vector3D& point0,
     const Vector3D& point1,
     const Vector3D& point2,
-    bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+    const Transform3& transform_,
+    bool isNormalFlipped_) : Surface3(transform_, isNormalFlipped_) {
     normal = (point1 - point0).cross(point2 - point0).normalized();
     point = point0;
 }
@@ -34,25 +37,21 @@ Plane3::Plane3(const Plane3& other) :
     point(other.point) {
 }
 
-Vector3D Plane3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D Plane3::closestPointLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - point;
     return r - normal.dot(r) * normal + point;
 }
 
-double Plane3::closestDistance(const Vector3D& otherPoint) const {
-    return (otherPoint - closestPoint(otherPoint)).length();
-}
-
-Vector3D Plane3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D Plane3::closestNormalLocal(const Vector3D& otherPoint) const {
     UNUSED_VARIABLE(otherPoint);
     return normal;
 }
 
-bool Plane3::intersects(const Ray3D& ray) const {
+bool Plane3::intersectsLocal(const Ray3D& ray) const {
     return std::fabs(ray.direction.dot(normal)) > 0;
 }
 
-SurfaceRayIntersection3 Plane3::actualClosestIntersection(
+SurfaceRayIntersection3 Plane3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
 
@@ -72,7 +71,7 @@ SurfaceRayIntersection3 Plane3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D Plane3::boundingBox() const {
+BoundingBox3D Plane3::boundingBoxLocal() const {
     static const double eps = std::numeric_limits<double>::epsilon();
     static const double dmax = std::numeric_limits<double>::max();
 
@@ -110,7 +109,7 @@ Plane3::Builder& Plane3::Builder::withPoint(const Vector3D& point) {
 }
 
 Plane3 Plane3::Builder::build() const {
-    return Plane3(_normal, _point, _isNormalFlipped);
+    return Plane3(_normal, _point, _transform, _isNormalFlipped);
 }
 
 Plane3Ptr Plane3::Builder::makeShared() const {
@@ -118,6 +117,7 @@ Plane3Ptr Plane3::Builder::makeShared() const {
         new Plane3(
             _normal,
             _point,
+            _transform,
             _isNormalFlipped),
         [] (Plane3* obj) {
             delete obj;

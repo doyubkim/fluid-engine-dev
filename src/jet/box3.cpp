@@ -6,26 +6,32 @@
 
 using namespace jet;
 
-Box3::Box3(bool isNormalFlipped_) : Surface3(isNormalFlipped_) {
+Box3::Box3(
+    const Transform3& transform,
+    bool isNormalFlipped)
+: Surface3(transform, isNormalFlipped) {
 }
 
 Box3::Box3(
     const Vector3D& lowerCorner,
     const Vector3D& upperCorner,
-    bool isNormalFlipped_) :
-    Box3(BoundingBox3D(lowerCorner, upperCorner), isNormalFlipped_) {
+    const Transform3& transform,
+    bool isNormalFlipped) :
+    Box3(BoundingBox3D(lowerCorner, upperCorner), transform, isNormalFlipped) {
 }
 
-Box3::Box3(const BoundingBox3D& boundingBox, bool isNormalFlipped_)
-: Surface3(isNormalFlipped_)
+Box3::Box3(
+    const BoundingBox3D& boundingBox,
+    const Transform3& transform,
+    bool isNormalFlipped)
+: Surface3(transform, isNormalFlipped)
 , bound(boundingBox) {
 }
 
-Box3::Box3(const Box3& other) :
-    Surface3(other), bound(other.bound) {
+Box3::Box3(const Box3& other) : Surface3(other), bound(other.bound) {
 }
 
-Vector3D Box3::closestPoint(const Vector3D& otherPoint) const {
+Vector3D Box3::closestPointLocal(const Vector3D& otherPoint) const {
     if (bound.contains(otherPoint)) {
         Plane3 planes[6] = {
             Plane3(Vector3D(1, 0, 0), bound.upperCorner),
@@ -59,7 +65,7 @@ Vector3D Box3::closestPoint(const Vector3D& otherPoint) const {
     }
 }
 
-Vector3D Box3::actualClosestNormal(const Vector3D& otherPoint) const {
+Vector3D Box3::closestNormalLocal(const Vector3D& otherPoint) const {
     Plane3 planes[6] = {
         Plane3(Vector3D(1, 0, 0), bound.upperCorner),
         Plane3(Vector3D(0, 1, 0), bound.upperCorner),
@@ -109,15 +115,11 @@ Vector3D Box3::actualClosestNormal(const Vector3D& otherPoint) const {
     }
 }
 
-double Box3::closestDistance(const Vector3D& otherPoint) const {
-    return Box3::closestPoint(otherPoint).distanceTo(otherPoint);
-}
-
-bool Box3::intersects(const Ray3D& ray) const {
+bool Box3::intersectsLocal(const Ray3D& ray) const {
     return bound.intersects(ray);
 }
 
-SurfaceRayIntersection3 Box3::actualClosestIntersection(
+SurfaceRayIntersection3 Box3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
     BoundingBoxRayIntersection3D bbRayIntersection
@@ -132,7 +134,7 @@ SurfaceRayIntersection3 Box3::actualClosestIntersection(
     return intersection;
 }
 
-BoundingBox3D Box3::boundingBox() const {
+BoundingBox3D Box3::boundingBoxLocal() const {
     return bound;
 }
 
@@ -157,7 +159,7 @@ Box3::Builder& Box3::Builder::withBoundingBox(const BoundingBox3D& bbox) {
 }
 
 Box3 Box3::Builder::build() const {
-    return Box3(_lowerCorner, _upperCorner, _isNormalFlipped);
+    return Box3(_lowerCorner, _upperCorner, _transform, _isNormalFlipped);
 }
 
 Box3Ptr Box3::Builder::makeShared() const {
@@ -165,6 +167,7 @@ Box3Ptr Box3::Builder::makeShared() const {
         new Box3(
             _lowerCorner,
             _upperCorner,
+            _transform,
             _isNormalFlipped),
         [] (Box3* obj) {
             delete obj;

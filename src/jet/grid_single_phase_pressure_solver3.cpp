@@ -27,8 +27,10 @@ void GridSinglePhasePressureSolver3::solve(
     double timeIntervalInSeconds,
     FaceCenteredGrid3* output,
     const ScalarField3& boundarySdf,
+    const VectorField3& boundaryVelocity,
     const ScalarField3& fluidSdf) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
+    UNUSED_VARIABLE(boundaryVelocity);
 
     auto pos = input.cellCenterPosition();
     buildMarkers(

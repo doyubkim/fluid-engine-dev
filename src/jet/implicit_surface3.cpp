@@ -5,8 +5,9 @@
 
 using namespace jet;
 
-ImplicitSurface3::ImplicitSurface3(bool isNormalFlipped_)
-: Surface3(isNormalFlipped_) {
+ImplicitSurface3::ImplicitSurface3(
+    const Transform3& transform_, bool isNormalFlipped_)
+: Surface3(transform_, isNormalFlipped_) {
 }
 
 ImplicitSurface3::ImplicitSurface3(const ImplicitSurface3& other) :
@@ -16,6 +17,11 @@ ImplicitSurface3::ImplicitSurface3(const ImplicitSurface3& other) :
 ImplicitSurface3::~ImplicitSurface3() {
 }
 
-double ImplicitSurface3::closestDistance(const Vector3D& otherPoint) const {
-    return std::fabs(signedDistance(otherPoint));
+double ImplicitSurface3::signedDistance(const Vector3D& otherPoint) const {
+    return signedDistanceLocal(transform.toLocal(otherPoint));
+}
+
+double ImplicitSurface3::closestDistanceLocal(
+    const Vector3D& otherPoint) const {
+    return std::fabs(signedDistanceLocal(otherPoint));
 }

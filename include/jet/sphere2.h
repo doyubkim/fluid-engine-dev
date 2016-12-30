@@ -25,38 +25,35 @@ class Sphere2 final : public Surface2 {
     double radius = 1.0;
 
     //! Constructs a sphere with center at (0, 0) and radius of 1.
-    explicit Sphere2(bool isNormalFlipped = false);
+    Sphere2(
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Constructs a sphere with \p center and \p radius.
     Sphere2(
         const Vector2D& center,
-        double radius, bool
-        isNormalFlipped = false);
+        double radius,
+        const Transform2& transform = Transform2(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     Sphere2(const Sphere2& other);
 
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector2D closestPoint(const Vector2D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector2D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this plane object.
-    bool intersects(const Ray2D& ray) const override;
-
-    //! Returns the bounding box of this plane object.
-    BoundingBox2D boundingBox() const override;
-
     //! Returns builder fox Sphere2.
     static Builder builder();
 
- protected:
-    Vector2D actualClosestNormal(const Vector2D& otherPoint) const override;
+ private:
+    Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
 
-    SurfaceRayIntersection2 actualClosestIntersection(
+    double closestDistanceLocal(const Vector2D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray2D& ray) const override;
+
+    BoundingBox2D boundingBoxLocal() const override;
+
+    Vector2D closestNormalLocal(const Vector2D& otherPoint) const override;
+
+    SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
 };
 

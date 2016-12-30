@@ -33,7 +33,9 @@ class TriangleMesh3 final : public Surface3 {
     typedef Vector2DArray UvArray;
 
     //! Default constructor.
-    explicit TriangleMesh3(bool isNormalFlipped = false);
+    TriangleMesh3(
+        const Transform3& transform = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Constructs mesh with points, normals, uvs, and their indices.
     TriangleMesh3(
@@ -43,24 +45,11 @@ class TriangleMesh3 final : public Surface3 {
         const IndexArray& pointIndices,
         const IndexArray& normalIndices,
         const IndexArray& uvIndices,
-        bool isNormalFlipped);
+        const Transform3& transform_ = Transform3(),
+        bool isNormalFlipped = false);
 
     //! Copy constructor.
     TriangleMesh3(const TriangleMesh3& other);
-
-    //! Returns the closest point from the given point \p otherPoint to the
-    //! surface.
-    Vector3D closestPoint(const Vector3D& otherPoint) const override;
-
-    //! Returns the closest distance from the given point \p otherPoint to the
-    //! point on the surface.
-    double closestDistance(const Vector3D& otherPoint) const override;
-
-    //! Returns true if the given \p ray intersects with this mesh object.
-    bool intersects(const Ray3D& ray) const override;
-
-    //! Returns the bounding box of this mesh object.
-    BoundingBox3D boundingBox() const override;
 
     //! Clears all content.
     void clear();
@@ -193,14 +182,17 @@ class TriangleMesh3 final : public Surface3 {
     static Builder builder();
 
  protected:
-    Vector3D actualClosestNormal(const Vector3D& otherPoint) const override;
+    Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
 
-    //! Note, the book has different name and interface. This function used to
-    //! be getClosestIntersection, but now it is simply
-    //! actualClosestIntersection. Also, the book's function do not return
-    //! SurfaceRayIntersection3 instance, but rather takes a pointer to existing
-    //! SurfaceRayIntersection3 instance and modify its contents.
-    SurfaceRayIntersection3 actualClosestIntersection(
+    double closestDistanceLocal(const Vector3D& otherPoint) const override;
+
+    bool intersectsLocal(const Ray3D& ray) const override;
+
+    BoundingBox3D boundingBoxLocal() const override;
+
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
+
+    SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 
  private:

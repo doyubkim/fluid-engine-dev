@@ -256,6 +256,7 @@ void GridFluidSolver2::computePressure(double timeIntervalInSeconds) {
             timeIntervalInSeconds,
             vel.get(),
             _colliderSdf,
+            _colliderVel,
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -441,6 +442,7 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
 
     // Reserve memory
     _colliderSdf.resize(res, h, o);
+    _colliderVel.resize(res, h, o);
 
     // Update collider and emitter
     Timer timer;
@@ -459,21 +461,20 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
         Surface2Ptr surface = _collider->surface();
         ImplicitSurface2Ptr implicitSurface
             = std::dynamic_pointer_cast<ImplicitSurface2>(surface);
-
-        if (implicitSurface != nullptr) {
-            _colliderSdf.fill([&](const Vector2D& pt) {
-                return implicitSurface->signedDistance(pt);
-            });
-        } else {
-            SurfaceToImplicit2 e2i(surface);
-            _colliderSdf.parallelForEachDataPointIndex(
-                [&](size_t i, size_t j) {
-                    Vector2D pt = pos(i, j);
-                    _colliderSdf(i, j) = e2i.signedDistance(pt);
-                });
+        if (implicitSurface == nullptr) {
+            implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
         }
+
+        _colliderSdf.fill([&](const Vector2D& pt) {
+            return implicitSurface->signedDistance(pt);
+        });
+
+        _colliderVel.fill([&] (const Vector2D& pt) {
+            return _collider->velocityAt(pt);
+        });
     } else {
         _colliderSdf.fill(kMaxD);
+        _colliderVel.fill({0, 0});
     }
 
     // Update boundary condition solver

@@ -5,6 +5,7 @@
 
 #include <jet/collocated_vector_grid3.h>
 #include <jet/constant_scalar_field3.h>
+#include <jet/constant_vector_field3.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/grid_boundary_condition_solver3.h>
@@ -55,6 +56,8 @@ class GridPressureSolver3 {
         FaceCenteredGrid3* output,
         const ScalarField3& boundarySdf
             = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity
+            = ConstantVectorField3({0, 0, 0}),
         const ScalarField3& fluidSdf
             = ConstantScalarField3(-kMaxD)) = 0;
 
