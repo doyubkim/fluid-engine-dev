@@ -10,7 +10,7 @@
   <meta name="description" content="This site is for the book, &quot;Fluid Engine Development&quot;, and its source code.">
 
   <link rel="stylesheet" href="/fluid-engine-dev/assets/main.css">
-  <link rel="canonical" href="http://localhost:4000/fluid-engine-dev/code/">
+  <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/code/">
   <link rel="alternate" type="application/rss+xml" title="Fluid Engine Development" href="/fluid-engine-dev/feed.xml">
 
   <!-- Place this tag in your head or just before your close body tag. -->
@@ -94,11 +94,11 @@
 
 <p><strong>Page 63~67</strong></p>
 
-<p>The <code class="highlighter-rouge">Surface3</code> interface has changed. The main idea of this update is to separate world and local coordinates, and let the deriving classes to override local version, only. For example, the book shows <code class="highlighter-rouge">closestPoint</code> is virtual. The new code adds <code class="highlighter-rouge">closestPointLocal</code> as a new virtual function to be overriden and make <code class="highlighter-rouge">closestPoint</code> to be non-virtual.</p>
+<p>The <code class="highlighter-rouge">Surface3</code> interface has changed. The main idea of this update is to separate the world and local coordinates, and let the deriving classes to override the local version only. For example, the book shows <code class="highlighter-rouge">closestPoint</code> is virtual. The new code adds <code class="highlighter-rouge">closestPointLocal</code> as a new virtual function to be overriden and make <code class="highlighter-rouge">closestPoint</code> to be non-virtual.</p>
 
 <p><strong>Page 69</strong></p>
 
-<p>The <code class="highlighter-rouge">ImplicitSurface3</code> interface has change. Similar to the update above, this modification also let the sub-classes to override the function in local frame (<code class="highlighter-rouge">signedDistanceLocal</code>), but keep the world frame version as a non-virtual function.</p>
+<p>The <code class="highlighter-rouge">ImplicitSurface3</code> interface has changed. Similar to the update above, this modification also let the sub-classes to override the function in local frame (<code class="highlighter-rouge">signedDistanceLocal</code>), but keep the world frame version as a non-virtual function.</p>
 
 <p><strong>Page 120~</strong></p>
 
