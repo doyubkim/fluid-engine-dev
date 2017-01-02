@@ -11,7 +11,7 @@ dl, dd, ol, ul, figure {
  * Basic styling
  */
 body {
-  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 300 16px/1.5 "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   color: #111;
   background-color: #fdfdfd;
   -webkit-text-size-adjust: 100%;
@@ -60,7 +60,7 @@ li > ol {
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 400; }
+  font-weight: 300; }
 
 /**
  * Links
@@ -79,7 +79,7 @@ a {
  */
 blockquote {
   color: #828282;
-  border-left: 4px solid #e8e8e8;
+  border-left: 4px solid white;
   padding-left: 15px;
   font-size: 18px;
   letter-spacing: -1px;
@@ -93,7 +93,7 @@ blockquote {
 pre,
 code {
   font-size: 15px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid white;
   border-radius: 3px;
   background-color: #eee; }
 
@@ -157,20 +157,20 @@ hr {
  * Site header
  */
 .site-header {
-  border-top: 5px solid #424242;
-  border-bottom: 1px solid #e8e8e8;
+  border-top: 5px solid #292929;
+  border-bottom: 1px solid white;
   min-height: 56px;
-  position: relative; }
+  position: relative;
+  background-color: #292929; }
 
 .site-title {
   font-size: 26px;
-  font-weight: 300;
+  font-weight: 200;
   line-height: 56px;
-  letter-spacing: -1px;
   margin-bottom: 0;
   float: left; }
   .site-title, .site-title:visited {
-    color: #424242; }
+    color: white; }
 
 .site-nav {
   float: right;
@@ -178,7 +178,7 @@ hr {
   .site-nav .menu-icon {
     display: none; }
   .site-nav .page-link {
-    color: #111;
+    color: white;
     line-height: 1.5; }
     .site-nav .page-link:not(:last-child) {
       margin-right: 20px; }
@@ -188,7 +188,7 @@ hr {
       top: 9px;
       right: 15px;
       background-color: #fdfdfd;
-      border: 1px solid #e8e8e8;
+      border: 1px solid white;
       border-radius: 5px;
       text-align: right; }
       .site-nav .menu-icon {
@@ -200,7 +200,7 @@ hr {
         padding-top: 10px;
         text-align: center; }
         .site-nav .menu-icon > svg path {
-          fill: #424242; }
+          fill: #292929; }
       .site-nav .trigger {
         clear: both;
         display: none; }
@@ -218,8 +218,9 @@ hr {
  * Site footer
  */
 .site-footer {
-  border-top: 1px solid #e8e8e8;
-  padding: 30px 0; }
+  border-top: 1px solid white;
+  padding: 30px 0;
+  background-color: #e8e8e8; }
 
 .footer-heading {
   font-size: 18px;
