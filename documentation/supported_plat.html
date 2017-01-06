@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Performance Tests</title>
-  <meta name="description" content="Introduction">
+  <title>Supported Platforms</title>
+  <meta name="description" content="Since Jet is built on top of standard C++11, the code should be compiled with any modern compilers that supports C++11. The list of the platforms that are te...">
 
   <link rel="stylesheet" href="/fluid-engine-dev/assets/main.css">
-  <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/documentation/perf_tests.html">
+  <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/documentation/supported_plat.html">
   <link rel="alternate" type="application/rss+xml" title="Fluid Engine Development" href="/fluid-engine-dev/feed.xml">
 
   <!-- Place this tag in your head or just before your close body tag. -->
@@ -72,7 +72,7 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Performance Tests</h1>
+    <h1 class="post-title">Supported Platforms</h1>
   </header>
 
   <div class="post-content">
@@ -110,16 +110,16 @@
       </li>
       <li>
         <a href="/fluid-engine-dev/documentation/perf_tests.html">
-          <strong>
+          
           Performance Tests
-          </strong>
+          
         </a>
       </li>
       <li>
         <a href="/fluid-engine-dev/documentation/supported_plat.html">
-          
+          <strong>
           Supported Platforms
-          
+          </strong>
         </a>
       </li>
       <li>
@@ -129,40 +129,22 @@
       </li>
     </ul>
     <hr />
-    <h2 id="introduction">Introduction</h2>
+    <p>Since Jet is built on top of standard C++11, the code should be compiled with any modern compilers that supports C++11. The list of the platforms that are tested are shown below.</p>
 
-<p>The performance test measures the computation timing. To list the entire test cases, run</p>
+<p>CI tested (Travis CI and AppVeyor):</p>
+<ul>
+  <li>Mac OS X 10.10 with Xcode 6.4 (gcc and clang)</li>
+  <li>Mac OS X 10.11 with Xcode 7.3 (gcc and clang)</li>
+  <li>Ubuntu 14.04 (gcc and clang)</li>
+  <li>Windows 10 with Visual Studio 2015</li>
+</ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/list_perf_tests
-</code></pre>
-</div>
-
-<p>To run the tests, execute</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests
-</code></pre>
-</div>
-
-<p>Similar to the unit test and manual test, you can pass the test name pattern to run specific tests, such as</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests Point*
-</code></pre>
-</div>
-
-<p>For Windows, use <code class="highlighter-rouge">bin\list_perf_tests.bat</code> and <code class="highlighter-rouge">bin\perf_tests.bat</code>.</p>
-
-<p>The measured performance for each test will be printed to the console, such as</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>...
-[----------] 1 test from PointHashGridSearcher3
-[ RUN      ] PointHashGridSearcher3.Build
-[----------] PointHashGridSearcher3::build avg. 0.261923 sec.
-[       OK ] PointHashGridSearcher3.Build (2732 ms)
-[----------] 1 test from PointHashGridSearcher3 (2733 ms total)
-...
-</code></pre>
-</div>
-
+<p>Manually tested:</p>
+<ul>
+  <li>macOS 10.12 with Xcode 8.0 (gcc and clang)</li>
+  <li>Ubuntu 16.04 (gcc)</li>
+  <li>SUSE Linux Enterprise Server 12 SP2 (gcc)</li>
+</ul>
 
   </div>
 </div>

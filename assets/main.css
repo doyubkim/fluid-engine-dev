@@ -187,8 +187,8 @@ hr {
       position: absolute;
       top: 9px;
       right: 15px;
-      background-color: #fdfdfd;
-      border: 1px solid white;
+      background-color: #292929;
+      border: 0px;
       border-radius: 5px;
       text-align: right; }
       .site-nav .menu-icon {
@@ -200,7 +200,7 @@ hr {
         padding-top: 10px;
         text-align: center; }
         .site-nav .menu-icon > svg path {
-          fill: #292929; }
+          fill: white; }
       .site-nav .trigger {
         clear: both;
         display: none; }

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Manual (Feature) Tests</title>
-  <meta name="description" content="">
+  <meta name="description" content="Introduction">
 
   <link rel="stylesheet" href="/fluid-engine-dev/assets/main.css">
   <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/documentation/manual_tests.html">
@@ -31,9 +31,9 @@
     <nav class="site-nav">
       <span class="menu-icon" onclick = "void(0)">
         <svg viewBox="0 0 18 15" width="18px" height="15px">
-          <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
-          <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
-          <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          <path fill="#000" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#000" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#000" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
         </svg>
       </span>
 
@@ -79,19 +79,57 @@
     <div class="documentation">
   <div class="blog-post spacing">
     <hr />
-
-<ul>
-  <li><a href="/fluid-engine-dev/documentation/build.html">Build Instruction</a></li>
-  <li><a href="/fluid-engine-dev/documentation/hello.html">Hello, Jet!</a></li>
-  <li><a href="/fluid-engine-dev/documentation/manual_tests.html"><strong>Manual (Feature) Tests</strong></a></li>
-  <li><a href="/fluid-engine-dev/documentation/unit_tests.html">Unit Tests</a></li>
-  <li><a href="/fluid-engine-dev/documentation/perf_tests.html">Performance Tests</a></li>
-  <li><a href="/fluid-engine-dev/doxygen/">Doxygen page for C++ API</a></li>
-</ul>
-
-<hr />
-
-<h2 id="introduction">Introduction</h2>
+    <ul>
+      <li>
+        <a href="/fluid-engine-dev/documentation/build.html">
+          
+          Build Instruction
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/hello.html">
+          
+          Hello, Jet!
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/manual_tests.html">
+          <strong>
+          Manual (Feature) Tests
+          </strong>
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/unit_tests.html">
+          
+          Unit Tests
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/perf_tests.html">
+          
+          Performance Tests
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/supported_plat.html">
+          
+          Supported Platforms
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/doxygen/">
+          Doxygen page for C++ API
+        </a>
+      </li>
+    </ul>
+    <hr />
+    <h2 id="introduction">Introduction</h2>
 
 <p>To test and demonstrate the features of Jet, the SDK comes with a manual test application. The tests are generally more complicated than the unit tests that involves longer run time and collection of API calls. The manual tests are closer to the real-world use cases, so it is useful to take them as SDK examples. The tests normally output data files which can often be rendered into images or even movie clips</p>
 
