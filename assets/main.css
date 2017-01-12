@@ -189,7 +189,6 @@ hr {
       right: 15px;
       background-color: #292929;
       border: 0px;
-      border-radius: 5px;
       text-align: right; }
       .site-nav .menu-icon {
         display: block;
@@ -199,7 +198,7 @@ hr {
         line-height: 0;
         padding-top: 10px;
         text-align: center; }
-        .site-nav .menu-icon > svg path {
+        .site-nav .menu-icon > svg rect {
           fill: white; }
       .site-nav .trigger {
         clear: both;
