@@ -510,3 +510,7 @@ void GridFluidSolver2::updateEmitter(double timeIntervalInSeconds) {
         _emitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
     }
 }
+
+GridFluidSolver2::Builder GridFluidSolver2::builder() {
+    return Builder();
+}

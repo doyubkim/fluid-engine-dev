@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <perf_tests.h>
 #include <jet/fdm_linear_system2.h>
