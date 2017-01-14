@@ -138,6 +138,24 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     //! Assign a new particle system data.
     void setParticleSystemData(const ParticleSystemData2Ptr& newParticles);
 
+    //! Pre-processes before advancing a time-step.
+    void beginAdvanceTimeStep(double timeStepInSeconds);
+
+    //! Post-processes before advancing a time-step.
+    void endAdvanceTimeStep(double timeStepInSeconds);
+
+    //! Accumulates external forces to the force array.
+    void accumulateExternalForces();
+
+    //! Performs forward Euler time-integration.
+    void timeIntegration(double timeStepInSeconds);
+
+    //! Updates collider state.
+    void updateCollider(double timeStepInSeconds);
+
+    //! Updates emitter state.
+    void updateEmitter(double timeStepInSeconds);
+
  private:
     double _dragCoefficient = 1e-4;
     double _restitutionCoefficient = 0.0;
@@ -149,18 +167,6 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     Collider2Ptr _collider;
     ParticleEmitter2Ptr _emitter;
     VectorField2Ptr _wind;
-
-    void beginAdvanceTimeStep(double timeStepInSeconds);
-
-    void endAdvanceTimeStep(double timeStepInSeconds);
-
-    void accumulateExternalForces();
-
-    void timeIntegration(double timeStepInSeconds);
-
-    void updateCollider(double timeStepInSeconds);
-
-    void updateEmitter(double timeStepInSeconds);
 };
 
 //! Shared pointer type for the ParticleSystemSolver2.

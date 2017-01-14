@@ -134,6 +134,7 @@
 #include <jet/particle_system_data3.h>
 #include <jet/particle_system_solver2.h>
 #include <jet/particle_system_solver3.h>
+#include <jet/pbd_fluid_solver2.h>
 #include <jet/pci_sph_solver2.h>
 #include <jet/pci_sph_solver3.h>
 #include <jet/pde.h>
