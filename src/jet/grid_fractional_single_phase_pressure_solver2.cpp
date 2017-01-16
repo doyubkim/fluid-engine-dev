@@ -219,10 +219,14 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
 
             // Accumulate contributions from the moving boundary
             double boundaryContribution
-                = (1.0 - _uWeights(i + 1, j)) * _boundaryVel(uPos(i + 1, j)).x * invH.x
-                - (1.0 - _uWeights(i, j)) * _boundaryVel(uPos(i, j)).x * invH.x
-                + (1.0 - _vWeights(i, j + 1)) * _boundaryVel(vPos(i, j + 1)).y * invH.y
-                - (1.0 - _vWeights(i, j)) * _boundaryVel(vPos(i, j)).y * invH.y;
+                = (1.0 - _uWeights(i + 1, j))
+                    * _boundaryVel(uPos(i + 1, j)).x * invH.x
+                - (1.0 - _uWeights(i, j))
+                    * _boundaryVel(uPos(i, j)).x * invH.x
+                + (1.0 - _vWeights(i, j + 1))
+                    * _boundaryVel(vPos(i, j + 1)).y * invH.y
+                - (1.0 - _vWeights(i, j))
+                    * _boundaryVel(vPos(i, j)).y * invH.y;
             _system.b(i, j) += boundaryContribution;
         } else {
             row.center = 1.0;

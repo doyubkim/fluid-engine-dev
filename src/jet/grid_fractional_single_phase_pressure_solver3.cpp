@@ -276,12 +276,18 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
 
             // Accumulate contributions from the moving boundary
             double boundaryContribution
-             = (1.0 - _uWeights(i + 1, j, k)) * _boundaryVel(uPos(i + 1, j, k)).x * invH.x
-             - (1.0 - _uWeights(i, j, k)) * _boundaryVel(uPos(i, j, k)).x * invH.x
-             + (1.0 - _vWeights(i, j + 1, k)) * _boundaryVel(vPos(i, j + 1, k)).y * invH.y
-             - (1.0 - _vWeights(i, j, k)) * _boundaryVel(vPos(i, j, k)).y * invH.y
-             + (1.0 - _wWeights(i, j, k + 1)) * _boundaryVel(wPos(i, j, k + 1)).y * invH.z
-             - (1.0 - _wWeights(i, j, k)) * _boundaryVel(wPos(i, j, k)).y * invH.z;
+             = (1.0 - _uWeights(i + 1, j, k))
+                * _boundaryVel(uPos(i + 1, j, k)).x * invH.x
+             - (1.0 - _uWeights(i, j, k))
+                * _boundaryVel(uPos(i, j, k)).x * invH.x
+             + (1.0 - _vWeights(i, j + 1, k))
+                * _boundaryVel(vPos(i, j + 1, k)).y * invH.y
+             - (1.0 - _vWeights(i, j, k))
+                * _boundaryVel(vPos(i, j, k)).y * invH.y
+             + (1.0 - _wWeights(i, j, k + 1))
+                * _boundaryVel(wPos(i, j, k + 1)).y * invH.z
+             - (1.0 - _wWeights(i, j, k))
+                * _boundaryVel(wPos(i, j, k)).y * invH.z;
             _system.b(i, j, k) += boundaryContribution;
         } else {
             row.center = 1.0;
