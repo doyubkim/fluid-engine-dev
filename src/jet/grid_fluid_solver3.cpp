@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/array_utils.h>
@@ -243,7 +243,7 @@ void GridFluidSolver3::computeViscosity(double timeIntervalInSeconds) {
             _viscosityCoefficient,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf,
+            *colliderSdf(),
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -258,8 +258,8 @@ void GridFluidSolver3::computePressure(double timeIntervalInSeconds) {
             *vel0,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf,
-            _colliderVel,
+            *colliderSdf(),
+            *colliderVelocityField(),
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -278,7 +278,7 @@ void GridFluidSolver3::computeAdvection(double timeIntervalInSeconds) {
                 *vel,
                 timeIntervalInSeconds,
                 grid.get(),
-                _colliderSdf);
+                *colliderSdf());
             extrapolateIntoCollider(grid.get());
         }
 
@@ -304,7 +304,7 @@ void GridFluidSolver3::computeAdvection(double timeIntervalInSeconds) {
                     *vel,
                     timeIntervalInSeconds,
                     collocated.get(),
-                    _colliderSdf);
+                    *colliderSdf());
                 extrapolateIntoCollider(collocated.get());
                 continue;
             }
@@ -319,7 +319,7 @@ void GridFluidSolver3::computeAdvection(double timeIntervalInSeconds) {
                     *vel,
                     timeIntervalInSeconds,
                     faceCentered.get(),
-                    _colliderSdf);
+                    *colliderSdf());
                 extrapolateIntoCollider(faceCentered.get());
                 continue;
             }
@@ -332,7 +332,7 @@ void GridFluidSolver3::computeAdvection(double timeIntervalInSeconds) {
             *vel0,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf);
+            *colliderSdf());
         applyBoundaryCondition();
     }
 }
@@ -383,7 +383,7 @@ void GridFluidSolver3::extrapolateIntoCollider(ScalarGrid3* grid) {
     Array3<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
     marker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(_colliderSdf.sample(pos(i, j, k)))) {
+        if (isInsideSdf(colliderSdf()->sample(pos(i, j, k)))) {
             marker(i, j, k) = 0;
         } else {
             marker(i, j, k) = 1;
@@ -399,7 +399,7 @@ void GridFluidSolver3::extrapolateIntoCollider(CollocatedVectorGrid3* grid) {
     Array3<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
     marker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(_colliderSdf.sample(pos(i, j, k)))) {
+        if (isInsideSdf(colliderSdf()->sample(pos(i, j, k)))) {
             marker(i, j, k) = 0;
         } else {
             marker(i, j, k) = 1;
@@ -424,7 +424,7 @@ void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {
     Array3<char> wMarker(w.size());
 
     uMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(_colliderSdf.sample(uPos(i, j, k)))) {
+        if (isInsideSdf(colliderSdf()->sample(uPos(i, j, k)))) {
             uMarker(i, j, k) = 0;
         } else {
             uMarker(i, j, k) = 1;
@@ -432,7 +432,7 @@ void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {
     });
 
     vMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(_colliderSdf.sample(vPos(i, j, k)))) {
+        if (isInsideSdf(colliderSdf()->sample(vPos(i, j, k)))) {
             vMarker(i, j, k) = 0;
         } else {
             vMarker(i, j, k) = 1;
@@ -440,7 +440,7 @@ void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {
     });
 
     wMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(_colliderSdf.sample(wPos(i, j, k)))) {
+        if (isInsideSdf(colliderSdf()->sample(wPos(i, j, k)))) {
             wMarker(i, j, k) = 0;
         } else {
             wMarker(i, j, k) = 1;
@@ -453,19 +453,15 @@ void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {
     extrapolateToRegion(grid->wConstAccessor(), wMarker, depth, w);
 }
 
-const CellCenteredScalarGrid3& GridFluidSolver3::colliderSdf() const {
-    return _colliderSdf;
+ScalarField3Ptr GridFluidSolver3::colliderSdf() const {
+    return _boundaryConditionSolver->colliderSdf();
+}
+
+VectorField3Ptr GridFluidSolver3::colliderVelocityField() const {
+    return _boundaryConditionSolver->colliderVelocityField();
 }
 
 void GridFluidSolver3::beginAdvanceTimeStep(double timeIntervalInSeconds) {
-    Size3 res = _grids->resolution();
-    Vector3D h = _grids->gridSpacing();
-    Vector3D o = _grids->origin();
-
-    // Reserve memory
-    _colliderSdf.resize(res, h, o);
-    _colliderVel.resize(res, h, o);
-
     // Update collider and emitter
     Timer timer;
     updateCollider(timeIntervalInSeconds);
@@ -476,28 +472,6 @@ void GridFluidSolver3::beginAdvanceTimeStep(double timeIntervalInSeconds) {
     updateEmitter(timeIntervalInSeconds);
     JET_INFO << "Update emitter took "
              << timer.durationInSeconds() << " seconds";
-
-    // Rasterize collider into SDF
-    if (_collider != nullptr) {
-        auto pos = _colliderSdf.dataPosition();
-        Surface3Ptr surface = _collider->surface();
-        ImplicitSurface3Ptr implicitSurface
-            = std::dynamic_pointer_cast<ImplicitSurface3>(surface);
-        if (implicitSurface == nullptr) {
-            implicitSurface = std::make_shared<SurfaceToImplicit3>(surface);
-        }
-
-        _colliderSdf.fill([&](const Vector3D& pt) {
-            return implicitSurface->signedDistance(pt);
-        });
-
-        _colliderVel.fill([&] (const Vector3D& pt) {
-            return _collider->velocityAt(pt);
-        });
-    } else {
-        _colliderSdf.fill(kMaxD);
-        _colliderVel.fill({0, 0, 0});
-    }
 
     // Update boundary condition solver
     if (_boundaryConditionSolver != nullptr) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER2_H_
 #define INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER2_H_
@@ -97,11 +97,10 @@ class GridFractionalSinglePhasePressureSolver2 final :
  private:
     FdmLinearSystem2 _system;
     FdmLinearSystemSolver2Ptr _systemSolver;
-    Array2<double> _uWeights;
-    Array2<double> _vWeights;
-    Array2<double> _uBoundary;
-    Array2<double> _vBoundary;
-    CellCenteredScalarGrid2 _fluidSdf;
+    Array2<float> _uWeights;
+    Array2<float> _vWeights;
+    Array2<float> _fluidSdf;
+    std::function<Vector2D(const Vector2D&)> _boundaryVel;
 
     void buildWeights(
         const FaceCenteredGrid2& input,

@@ -85,18 +85,19 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
     _uWeights.resize(uSize);
     _vWeights.resize(vSize);
     _wWeights.resize(wSize);
-    _uBoundary.resize(uSize);
-    _vBoundary.resize(vSize);
-    _wBoundary.resize(wSize);
-    _fluidSdf.resize(input.resolution(), input.gridSpacing(), input.origin());
+    _fluidSdf.resize(input.resolution());
 
-    _fluidSdf.fill([&](const Vector3D& x) {
-        return fluidSdf.sample(x);
+    _boundaryVel = boundaryVelocity.sampler();
+
+    auto cellPos = input.cellCenterPosition();
+    _fluidSdf.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        _fluidSdf(i, j, k)
+            = static_cast<float>(fluidSdf.sample(cellPos(i, j, k)));
     });
 
     Vector3D h = input.gridSpacing();
 
-    _uWeights.forEachIndex([&](size_t i, size_t j, size_t k) {
+    _uWeights.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = uPos(i, j, k);
         double phi0 = boundarySdf.sample(pt - Vector3D(0.5 * h.x, 0.0, 0.0));
         double phi1 = boundarySdf.sample(pt + Vector3D(0.5 * h.x, 0.0, 0.0));
@@ -109,8 +110,7 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
             weight = kMinWeight;
         }
 
-        _uWeights(i, j, k) = weight;
-        _uBoundary(i, j, k) = boundaryVelocity.sample(pt).x;
+        _uWeights(i, j, k) = static_cast<float>(weight);
     });
 
     _vWeights.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
@@ -126,8 +126,7 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
             weight = kMinWeight;
         }
 
-        _vWeights(i, j, k) = weight;
-        _vBoundary(i, j, k) = boundaryVelocity.sample(pt).y;
+        _vWeights(i, j, k) = static_cast<float>(weight);
     });
 
     _wWeights.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
@@ -143,20 +142,22 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
             weight = kMinWeight;
         }
 
-        _wWeights(i, j, k) = weight;
-        _wBoundary(i, j, k) = boundaryVelocity.sample(pt).z;
+        _wWeights(i, j, k) = static_cast<float>(weight);
     });
 }
 
 void GridFractionalSinglePhasePressureSolver3::buildSystem(
     const FaceCenteredGrid3& input) {
-    Size3 size = input.resolution();
+    const Size3 size = input.resolution();
+    const auto uPos = input.uPosition();
+    const auto vPos = input.vPosition();
+    const auto wPos = input.wPosition();
     _system.A.resize(size);
     _system.x.resize(size);
     _system.b.resize(size);
 
-    Vector3D invH = 1.0 / input.gridSpacing();
-    Vector3D invHSqr = invH * invH;
+    const Vector3D invH = 1.0 / input.gridSpacing();
+    const Vector3D invHSqr = invH * invH;
 
     // Build linear system
     _system.A.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
@@ -275,12 +276,12 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
 
             // Accumulate contributions from the moving boundary
             double boundaryContribution
-             = (1.0 - _uWeights(i + 1, j, k)) * _uBoundary(i + 1, j, k) * invH.x
-             - (1.0 - _uWeights(i, j, k)) * _uBoundary(i, j, k) * invH.x
-             + (1.0 - _vWeights(i, j + 1, k)) * _vBoundary(i, j + 1, k) * invH.y
-             - (1.0 - _vWeights(i, j, k)) * _vBoundary(i, j, k) * invH.y
-             + (1.0 - _wWeights(i, j, k + 1)) * _wBoundary(i, j, k + 1) * invH.z
-             - (1.0 - _wWeights(i, j, k)) * _wBoundary(i, j, k) * invH.z;
+             = (1.0 - _uWeights(i + 1, j, k)) * _boundaryVel(uPos(i + 1, j, k)).x * invH.x
+             - (1.0 - _uWeights(i, j, k)) * _boundaryVel(uPos(i, j, k)).x * invH.x
+             + (1.0 - _vWeights(i, j + 1, k)) * _boundaryVel(vPos(i, j + 1, k)).y * invH.y
+             - (1.0 - _vWeights(i, j, k)) * _boundaryVel(vPos(i, j, k)).y * invH.y
+             + (1.0 - _wWeights(i, j, k + 1)) * _boundaryVel(wPos(i, j, k + 1)).y * invH.z
+             - (1.0 - _wWeights(i, j, k)) * _boundaryVel(wPos(i, j, k)).y * invH.z;
             _system.b(i, j, k) += boundaryContribution;
         } else {
             row.center = 1.0;

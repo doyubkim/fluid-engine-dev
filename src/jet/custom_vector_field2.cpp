@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/custom_vector_field2.h>
@@ -90,18 +90,44 @@ CustomVectorField2::Builder::withCurlFunction(
     return *this;
 }
 
+CustomVectorField2::Builder&
+CustomVectorField2::Builder::withDerivativeResolution(double resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
 CustomVectorField2 CustomVectorField2::Builder::build() const {
-    return CustomVectorField2(
-        _customFunction, _customDivergenceFunction, _customCurlFunction);
+    if (_customCurlFunction) {
+        return CustomVectorField2(
+            _customFunction,
+            _customDivergenceFunction,
+            _customCurlFunction);
+    } else {
+        return CustomVectorField2(
+            _customFunction,
+            _customDivergenceFunction,
+            _resolution);
+    }
 }
 
 CustomVectorField2Ptr CustomVectorField2::Builder::makeShared() const {
-    return std::shared_ptr<CustomVectorField2>(
-        new CustomVectorField2(
-            _customFunction,
-            _customDivergenceFunction,
-            _customCurlFunction),
-        [] (CustomVectorField2* obj) {
-            delete obj;
-        });
+    if (_customCurlFunction) {
+        return std::shared_ptr<CustomVectorField2>(
+            new CustomVectorField2(
+                _customFunction,
+                _customDivergenceFunction,
+                _customCurlFunction),
+            [] (CustomVectorField2* obj) {
+                delete obj;
+            });
+    } else {
+        return std::shared_ptr<CustomVectorField2>(
+            new CustomVectorField2(
+                _customFunction,
+                _customDivergenceFunction,
+                _resolution),
+            [] (CustomVectorField2* obj) {
+                delete obj;
+            });
+    }
 }

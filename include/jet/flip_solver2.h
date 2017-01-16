@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_FLIP_SOLVER2_H_
 #define INCLUDE_JET_FLIP_SOLVER2_H_
@@ -45,7 +45,8 @@ class FlipSolver2 : public PicSolver2 {
     void transferFromGridsToParticles() override;
 
  private:
-    FaceCenteredGrid2 _delta;
+    Array2<float> _uDelta;
+    Array2<float> _vDelta;
 };
 
 //! Shared pointer type for the FlipSolver2.

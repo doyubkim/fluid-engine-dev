@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_
 #define INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_
@@ -86,6 +86,9 @@ class CustomVectorField3::Builder final {
     Builder& withCurlFunction(
         const std::function<Vector3D(const Vector3D&)>& func);
 
+    //! Returns builder with derivative resolution.
+    Builder& withDerivativeResolution(double resolution);
+
     //! Builds CustomVectorField3.
     CustomVectorField3 build() const;
 
@@ -93,6 +96,7 @@ class CustomVectorField3::Builder final {
     CustomVectorField3Ptr makeShared() const;
 
  private:
+    double _resolution = 1e-3;
     std::function<Vector3D(const Vector3D&)> _customFunction;
     std::function<double(const Vector3D&)> _customDivergenceFunction;
     std::function<Vector3D(const Vector3D&)> _customCurlFunction;

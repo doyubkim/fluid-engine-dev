@@ -1,9 +1,10 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H_
 #define INCLUDE_JET_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H_
 
 #include <jet/cell_centered_scalar_grid2.h>
+#include <jet/custom_vector_field2.h>
 #include <jet/grid_boundary_condition_solver2.h>
 
 #include <memory>
@@ -39,7 +40,10 @@ class GridFractionalBoundaryConditionSolver2
         unsigned int extrapolationDepth = 5) override;
 
     //! Returns the signed distance field of the collider.
-    const CellCenteredScalarGrid2& colliderSdf() const;
+    ScalarField2Ptr colliderSdf() const override;
+
+    //! Returns the velocity field of the collider.
+    VectorField2Ptr colliderVelocityField() const override;
 
  protected:
     //! Invoked when a new collider is set.
@@ -49,7 +53,8 @@ class GridFractionalBoundaryConditionSolver2
         const Vector2D& gridOrigin) override;
 
  private:
-    CellCenteredScalarGrid2 _colliderSdf;
+    CellCenteredScalarGrid2Ptr _colliderSdf;
+    CustomVectorField2Ptr _colliderVel;
 };
 
 //! Shared pointer type for the GridFractionalBoundaryConditionSolver2.

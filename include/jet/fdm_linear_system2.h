@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
@@ -7,15 +7,15 @@
 
 namespace jet {
 
-//! The row of FdmMatrix2 where row corresponds to (i, j, k) grid point.
+//! The row of FdmMatrix2 where row corresponds to (i, j) grid point.
 struct FdmMatrixRow2 {
     //! Diagonal component of the matrix (row, row).
     double center = 0.0;
 
-    //! Off-diagonal element where colum refers to (i+1, j, k) grid point.
+    //! Off-diagonal element where colum refers to (i+1, j) grid point.
     double right = 0.0;
 
-    //! Off-diagonal element where column refers to (i, j+1, k) grid point.
+    //! Off-diagonal element where column refers to (i, j+1) grid point.
     double up = 0.0;
 };
 

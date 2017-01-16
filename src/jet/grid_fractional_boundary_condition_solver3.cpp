@@ -1,8 +1,9 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <physics_helpers.h>
 #include <jet/array_utils.h>
+#include <jet/cell_centered_scalar_grid3.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit3.h>
@@ -22,7 +23,7 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     FaceCenteredGrid3* velocity,
     unsigned int extrapolationDepth) {
     Size3 size = velocity->resolution();
-    if (_colliderSdf.resolution() != size) {
+    if (_colliderSdf == nullptr || _colliderSdf->resolution() != size) {
         updateCollider(
             collider(),
             size,
@@ -49,8 +50,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     // Assign collider's velocity first and initialize markers
     velocity->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = uPos(i, j, k);
-        double phi0 = _colliderSdf.sample(pt - Vector3D(0.5 * h.x, 0.0, 0.0));
-        double phi1 = _colliderSdf.sample(pt + Vector3D(0.5 * h.x, 0.0, 0.0));
+        double phi0 = _colliderSdf->sample(pt - Vector3D(0.5 * h.x, 0.0, 0.0));
+        double phi1 = _colliderSdf->sample(pt + Vector3D(0.5 * h.x, 0.0, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
@@ -65,8 +66,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
 
     velocity->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = vPos(i, j, k);
-        double phi0 = _colliderSdf.sample(pt - Vector3D(0.0, 0.5 * h.y, 0.0));
-        double phi1 = _colliderSdf.sample(pt + Vector3D(0.0, 0.5 * h.y, 0.0));
+        double phi0 = _colliderSdf->sample(pt - Vector3D(0.0, 0.5 * h.y, 0.0));
+        double phi1 = _colliderSdf->sample(pt + Vector3D(0.0, 0.5 * h.y, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
@@ -81,8 +82,8 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
 
     velocity->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = wPos(i, j, k);
-        double phi0 = _colliderSdf.sample(pt - Vector3D(0.0, 0.0, 0.5 * h.z));
-        double phi1 = _colliderSdf.sample(pt + Vector3D(0.0, 0.0, 0.5 * h.z));
+        double phi0 = _colliderSdf->sample(pt - Vector3D(0.0, 0.0, 0.5 * h.z));
+        double phi1 = _colliderSdf->sample(pt + Vector3D(0.0, 0.0, 0.5 * h.z));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
@@ -107,10 +108,10 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     // normal
     velocity->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = uPos(i, j, k);
-        if (isInsideSdf(_colliderSdf.sample(pt))) {
+        if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
-            Vector3D g = _colliderSdf.gradient(pt);
+            Vector3D g = _colliderSdf->gradient(pt);
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
@@ -129,10 +130,10 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
 
     velocity->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = vPos(i, j, k);
-        if (isInsideSdf(_colliderSdf.sample(pt))) {
+        if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
-            Vector3D g = _colliderSdf.gradient(pt);
+            Vector3D g = _colliderSdf->gradient(pt);
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
@@ -151,10 +152,10 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
 
     velocity->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = wPos(i, j, k);
-        if (isInsideSdf(_colliderSdf.sample(pt))) {
+        if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
-            Vector3D g = _colliderSdf.gradient(pt);
+            Vector3D g = _colliderSdf->gradient(pt);
             if (g.lengthSquared() > 0.0) {
                 Vector3D n = g.normalized();
                 Vector3D velr = vel - colliderVel;
@@ -227,16 +228,23 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     }
 }
 
-const CellCenteredScalarGrid3&
-GridFractionalBoundaryConditionSolver3::colliderSdf() const {
+ScalarField3Ptr GridFractionalBoundaryConditionSolver3::colliderSdf() const {
     return _colliderSdf;
+}
+
+VectorField3Ptr
+GridFractionalBoundaryConditionSolver3::colliderVelocityField() const {
+    return _colliderVel;
 }
 
 void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
     const Size3& gridSize,
     const Vector3D& gridSpacing,
     const Vector3D& gridOrigin) {
-    _colliderSdf.resize(gridSize, gridSpacing, gridOrigin);
+    if (_colliderSdf == nullptr) {
+        _colliderSdf = std::make_shared<CellCenteredScalarGrid3>();
+    }
+    _colliderSdf->resize(gridSize, gridSpacing, gridOrigin);
 
     if (collider() != nullptr) {
         Surface3Ptr surface = collider()->surface();
@@ -246,10 +254,24 @@ void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
             implicitSurface = std::make_shared<SurfaceToImplicit3>(surface);
         }
 
-        _colliderSdf.fill([&](const Vector3D& pt) {
+        _colliderSdf->fill([&](const Vector3D& pt) {
             return implicitSurface->signedDistance(pt);
+
+        _colliderVel = CustomVectorField3::builder()
+            .withFunction([&] (const Vector3D& x) {
+                return collider()->velocityAt(x);
+            })
+            .withDerivativeResolution(gridSize.x)
+            .makeShared();
         });
     } else {
-        _colliderSdf.fill(kMaxD);
+        _colliderSdf->fill(kMaxD);
+
+        _colliderVel = CustomVectorField3::builder()
+            .withFunction([] (const Vector3D& x) {
+                return Vector3D();
+            })
+            .withDerivativeResolution(gridSize.x)
+            .makeShared();
     }
 }

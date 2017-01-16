@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_CUSTOM_VECTOR_FIELD2_H_
 #define INCLUDE_JET_CUSTOM_VECTOR_FIELD2_H_
@@ -86,6 +86,9 @@ class CustomVectorField2::Builder final {
     Builder& withCurlFunction(
         const std::function<double(const Vector2D&)>& func);
 
+    //! Returns builder with derivative resolution.
+    Builder& withDerivativeResolution(double resolution);
+
     //! Builds CustomVectorField2.
     CustomVectorField2 build() const;
 
@@ -93,6 +96,7 @@ class CustomVectorField2::Builder final {
     CustomVectorField2Ptr makeShared() const;
 
  private:
+    double _resolution = 1e-3;
     std::function<Vector2D(const Vector2D&)> _customFunction;
     std::function<double(const Vector2D&)> _customDivergenceFunction;
     std::function<double(const Vector2D&)> _customCurlFunction;

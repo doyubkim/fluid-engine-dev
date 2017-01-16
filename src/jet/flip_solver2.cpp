@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/flip_solver2.h>
@@ -22,7 +22,18 @@ void FlipSolver2::transferFromParticlesToGrids() {
     PicSolver2::transferFromParticlesToGrids();
 
     // Store snapshot
-    _delta.set(*gridSystemData()->velocity());
+    auto vel = gridSystemData()->velocity();
+    auto u = gridSystemData()->velocity()->uConstAccessor();
+    auto v = gridSystemData()->velocity()->vConstAccessor();
+    _uDelta.resize(u.size());
+    _vDelta.resize(v.size());
+
+    vel->parallelForEachUIndex([&](size_t i, size_t j) {
+        _uDelta(i, j) = static_cast<float>(u(i, j));
+    });
+    vel->parallelForEachVIndex([&](size_t i, size_t j) {
+        _vDelta(i, j) = static_cast<float>(v(i, j));
+    });
 }
 
 void FlipSolver2::transferFromGridsToParticles() {
@@ -33,16 +44,16 @@ void FlipSolver2::transferFromGridsToParticles() {
 
     // Compute delta
     flow->parallelForEachUIndex([&](size_t i, size_t j) {
-        _delta.u(i, j) = flow->u(i, j) - _delta.u(i, j);
+        flow->u(i, j) -= _uDelta(i, j);
     });
 
     flow->parallelForEachVIndex([&](size_t i, size_t j) {
-        _delta.v(i, j) = flow->v(i, j) - _delta.v(i, j);
+        flow->v(i, j) -= _vDelta(i, j);
     });
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += _delta.sample(positions[i]);
+        velocities[i] += flow->sample(positions[i]);
     });
 }
 
