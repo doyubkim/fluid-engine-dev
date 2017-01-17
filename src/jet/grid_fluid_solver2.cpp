@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/array_utils.h>
@@ -240,7 +240,7 @@ void GridFluidSolver2::computeViscosity(double timeIntervalInSeconds) {
             _viscosityCoefficient,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf,
+            *colliderSdf(),
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -255,8 +255,8 @@ void GridFluidSolver2::computePressure(double timeIntervalInSeconds) {
             *vel0,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf,
-            _colliderVel,
+            *colliderSdf(),
+            *colliderVelocityField(),
             *fluidSdf());
         applyBoundaryCondition();
     }
@@ -275,7 +275,7 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
                 *vel,
                 timeIntervalInSeconds,
                 grid.get(),
-                _colliderSdf);
+                *colliderSdf());
             extrapolateIntoCollider(grid.get());
         }
 
@@ -301,7 +301,7 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
                     *vel,
                     timeIntervalInSeconds,
                     collocated.get(),
-                    _colliderSdf);
+                    *colliderSdf());
                 extrapolateIntoCollider(collocated.get());
                 continue;
             }
@@ -316,7 +316,7 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
                     *vel,
                     timeIntervalInSeconds,
                     faceCentered.get(),
-                    _colliderSdf);
+                    *colliderSdf());
                 extrapolateIntoCollider(faceCentered.get());
                 continue;
             }
@@ -329,7 +329,7 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
             *vel0,
             timeIntervalInSeconds,
             vel.get(),
-            _colliderSdf);
+            *colliderSdf());
         applyBoundaryCondition();
     }
 }
@@ -373,7 +373,7 @@ void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
     Array2<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
     marker.parallelForEachIndex([&](size_t i, size_t j) {
-        if (isInsideSdf(_colliderSdf.sample(pos(i, j)))) {
+        if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
         } else {
             marker(i, j) = 1;
@@ -389,7 +389,7 @@ void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
     Array2<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
     marker.parallelForEachIndex([&](size_t i, size_t j) {
-        if (isInsideSdf(_colliderSdf.sample(pos(i, j)))) {
+        if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
         } else {
             marker(i, j) = 1;
@@ -411,7 +411,7 @@ void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
     Array2<char> vMarker(v.size());
 
     uMarker.parallelForEachIndex([&](size_t i, size_t j) {
-        if (isInsideSdf(_colliderSdf.sample(uPos(i, j)))) {
+        if (isInsideSdf(colliderSdf()->sample(uPos(i, j)))) {
             uMarker(i, j) = 0;
         } else {
             uMarker(i, j) = 1;
@@ -419,7 +419,7 @@ void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
     });
 
     vMarker.parallelForEachIndex([&](size_t i, size_t j) {
-        if (isInsideSdf(_colliderSdf.sample(vPos(i, j)))) {
+        if (isInsideSdf(colliderSdf()->sample(vPos(i, j)))) {
             vMarker(i, j) = 0;
         } else {
             vMarker(i, j) = 1;
@@ -431,19 +431,15 @@ void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
     extrapolateToRegion(grid->vConstAccessor(), vMarker, depth, v);
 }
 
-const CellCenteredScalarGrid2& GridFluidSolver2::colliderSdf() const {
-    return _colliderSdf;
+ScalarField2Ptr GridFluidSolver2::colliderSdf() const {
+    return _boundaryConditionSolver->colliderSdf();
+}
+
+VectorField2Ptr GridFluidSolver2::colliderVelocityField() const {
+    return _boundaryConditionSolver->colliderVelocityField();
 }
 
 void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
-    Size2 res = _grids->resolution();
-    Vector2D h = _grids->gridSpacing();
-    Vector2D o = _grids->origin();
-
-    // Reserve memory
-    _colliderSdf.resize(res, h, o);
-    _colliderVel.resize(res, h, o);
-
     // Update collider and emitter
     Timer timer;
     updateCollider(timeIntervalInSeconds);
@@ -454,28 +450,6 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
     updateEmitter(timeIntervalInSeconds);
     JET_INFO << "Update emitter took "
              << timer.durationInSeconds() << " seconds";
-
-    // Rasterize collider into SDF
-    if (_collider != nullptr) {
-        auto pos = _colliderSdf.dataPosition();
-        Surface2Ptr surface = _collider->surface();
-        ImplicitSurface2Ptr implicitSurface
-            = std::dynamic_pointer_cast<ImplicitSurface2>(surface);
-        if (implicitSurface == nullptr) {
-            implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
-        }
-
-        _colliderSdf.fill([&](const Vector2D& pt) {
-            return implicitSurface->signedDistance(pt);
-        });
-
-        _colliderVel.fill([&] (const Vector2D& pt) {
-            return _collider->velocityAt(pt);
-        });
-    } else {
-        _colliderSdf.fill(kMaxD);
-        _colliderVel.fill({0, 0});
-    }
 
     // Update boundary condition solver
     if (_boundaryConditionSolver != nullptr) {
@@ -509,4 +483,8 @@ void GridFluidSolver2::updateEmitter(double timeIntervalInSeconds) {
     if (_emitter != nullptr) {
         _emitter->update(currentTimeInSeconds(), timeIntervalInSeconds);
     }
+}
+
+GridFluidSolver2::Builder GridFluidSolver2::builder() {
+    return Builder();
 }

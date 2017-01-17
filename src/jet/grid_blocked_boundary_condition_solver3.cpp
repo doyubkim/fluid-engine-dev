@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <physics_helpers.h>
@@ -75,11 +75,12 @@ void GridBlockedBoundaryConditionSolver3::onColliderUpdated(
     GridFractionalBoundaryConditionSolver3::onColliderUpdated(
         gridSize, gridSpacing, gridOrigin);
 
-    const CellCenteredScalarGrid3& sdf = colliderSdf();
+    const auto sdf
+        = std::dynamic_pointer_cast<CellCenteredScalarGrid3>(colliderSdf());
 
     _marker.resize(gridSize);
     _marker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(sdf(i, j, k))) {
+        if (isInsideSdf((*sdf)(i, j, k))) {
             _marker(i, j, k) = kCollider;
         } else {
             _marker(i, j, k) = kFluid;

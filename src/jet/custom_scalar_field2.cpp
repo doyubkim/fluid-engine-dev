@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/custom_scalar_field2.h>
@@ -95,18 +95,44 @@ CustomScalarField2::Builder::withLaplacianFunction(
     return *this;
 }
 
+CustomScalarField2::Builder&
+CustomScalarField2::Builder::withDerivativeResolution(double resolution) {
+    _resolution = resolution;
+    return *this;
+}
+
 CustomScalarField2 CustomScalarField2::Builder::build() const {
-    return CustomScalarField2(
-        _customFunction, _customGradientFunction, _customLaplacianFunction);
+    if (_customLaplacianFunction) {
+        return CustomScalarField2(
+            _customFunction,
+            _customGradientFunction,
+            _customLaplacianFunction);
+    } else {
+        return CustomScalarField2(
+            _customFunction,
+            _customGradientFunction,
+            _resolution);
+    }
 }
 
 CustomScalarField2Ptr CustomScalarField2::Builder::makeShared() const {
-    return std::shared_ptr<CustomScalarField2>(
-        new CustomScalarField2(
-            _customFunction,
-            _customGradientFunction,
-            _customLaplacianFunction),
-        [] (CustomScalarField2* obj) {
-            delete obj;
-        });
+    if (_customLaplacianFunction) {
+        return std::shared_ptr<CustomScalarField2>(
+            new CustomScalarField2(
+                _customFunction,
+                _customGradientFunction,
+                _customLaplacianFunction),
+            [] (CustomScalarField2* obj) {
+                delete obj;
+            });
+    } else {
+        return std::shared_ptr<CustomScalarField2>(
+            new CustomScalarField2(
+                _customFunction,
+                _customGradientFunction,
+                _resolution),
+            [] (CustomScalarField2* obj) {
+                delete obj;
+            });
+    }
 }

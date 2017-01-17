@@ -1,11 +1,10 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_GRID_FLUID_SOLVER2_H_
 #define INCLUDE_JET_GRID_FLUID_SOLVER2_H_
 
 #include <jet/advection_solver2.h>
 #include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_vector_grid2.h>
 #include <jet/collider2.h>
 #include <jet/grid_emitter2.h>
 #include <jet/face_centered_grid2.h>
@@ -255,7 +254,10 @@ class GridFluidSolver2 : public PhysicsAnimation {
     void extrapolateIntoCollider(FaceCenteredGrid2* grid);
 
     //! Returns the signed-distance field representation of the collider.
-    const CellCenteredScalarGrid2& colliderSdf() const;
+    ScalarField2Ptr colliderSdf() const;
+
+    //! Returns the velocity field of the collider.
+    VectorField2Ptr colliderVelocityField() const;
 
  private:
     Vector2D _gravity = Vector2D(0.0, -9.8);
@@ -265,8 +267,6 @@ class GridFluidSolver2 : public PhysicsAnimation {
 
     GridSystemData2Ptr _grids;
     Collider2Ptr _collider;
-    CellCenteredScalarGrid2 _colliderSdf;
-    CellCenteredVectorGrid2 _colliderVel;
     GridEmitter2Ptr _emitter;
 
     AdvectionSolver2Ptr _advectionSolver;

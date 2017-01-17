@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <jet/grid_smoke_solver2.h>
@@ -101,7 +101,7 @@ void GridSmokeSolver2::computeDiffusion(double timeIntervalInSeconds) {
                 _smokeDiffusionCoefficient,
                 timeIntervalInSeconds,
                 den0.get(),
-                colliderSdf());
+                *colliderSdf());
             extrapolateIntoCollider(den.get());
         }
 
@@ -115,7 +115,7 @@ void GridSmokeSolver2::computeDiffusion(double timeIntervalInSeconds) {
                 _temperatureDiffusionCoefficient,
                 timeIntervalInSeconds,
                 temp.get(),
-                colliderSdf());
+                *colliderSdf());
             extrapolateIntoCollider(temp.get());
         }
     }

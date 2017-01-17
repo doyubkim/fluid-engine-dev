@@ -80,12 +80,13 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
     auto vPos = input.vPosition();
     _uWeights.resize(uSize);
     _vWeights.resize(vSize);
-    _uBoundary.resize(uSize);
-    _vBoundary.resize(vSize);
-    _fluidSdf.resize(input.resolution(), input.gridSpacing(), input.origin());
+    _fluidSdf.resize(input.resolution());
+    _boundaryVel = boundaryVelocity.sampler();
 
-    _fluidSdf.fill([&](const Vector2D& x) {
-        return fluidSdf.sample(x);
+    auto cellPos = input.cellCenterPosition();
+    _fluidSdf.parallelForEachIndex([&](size_t i, size_t j) {
+        _fluidSdf(i, j)
+            = static_cast<float>(fluidSdf.sample(cellPos(i, j)));
     });
 
     Vector2D h = input.gridSpacing();
@@ -103,8 +104,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
             weight = kMinWeight;
         }
 
-        _uWeights(i, j) = weight;
-        _uBoundary(i, j) = boundaryVelocity.sample(pt).x;
+        _uWeights(i, j) = static_cast<float>(weight);
     });
 
     _vWeights.parallelForEachIndex([&](size_t i, size_t j) {
@@ -120,20 +120,21 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
             weight = kMinWeight;
         }
 
-        _vWeights(i, j) = weight;
-        _vBoundary(i, j) = boundaryVelocity.sample(pt).y;
+        _vWeights(i, j) = static_cast<float>(weight);
     });
 }
 
 void GridFractionalSinglePhasePressureSolver2::buildSystem(
     const FaceCenteredGrid2& input) {
-    Size2 size = input.resolution();
+    const Size2 size = input.resolution();
+    const auto uPos = input.uPosition();
+    const auto vPos = input.vPosition();
     _system.A.resize(size);
     _system.x.resize(size);
     _system.b.resize(size);
 
-    Vector2D invH = 1.0 / input.gridSpacing();
-    Vector2D invHSqr = invH * invH;
+    const Vector2D invH = 1.0 / input.gridSpacing();
+    const Vector2D invHSqr = invH * invH;
 
     // Build linear system
     _system.A.parallelForEachIndex([&](size_t i, size_t j) {
@@ -218,10 +219,14 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
 
             // Accumulate contributions from the moving boundary
             double boundaryContribution
-                = (1.0 - _uWeights(i + 1, j)) * _uBoundary(i + 1, j) * invH.x
-                - (1.0 - _uWeights(i, j)) * _uBoundary(i, j) * invH.x
-                + (1.0 - _vWeights(i, j + 1)) * _vBoundary(i, j + 1) * invH.y
-                - (1.0 - _vWeights(i, j)) * _vBoundary(i, j) * invH.y;
+                = (1.0 - _uWeights(i + 1, j))
+                    * _boundaryVel(uPos(i + 1, j)).x * invH.x
+                - (1.0 - _uWeights(i, j))
+                    * _boundaryVel(uPos(i, j)).x * invH.x
+                + (1.0 - _vWeights(i, j + 1))
+                    * _boundaryVel(vPos(i, j + 1)).y * invH.y
+                - (1.0 - _vWeights(i, j))
+                    * _boundaryVel(vPos(i, j)).y * invH.y;
             _system.b(i, j) += boundaryContribution;
         } else {
             row.center = 1.0;

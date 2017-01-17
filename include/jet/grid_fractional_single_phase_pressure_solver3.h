@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER3_H_
 #define INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER3_H_
@@ -94,13 +94,11 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
  private:
     FdmLinearSystem3 _system;
     FdmLinearSystemSolver3Ptr _systemSolver;
-    Array3<double> _uWeights;
-    Array3<double> _vWeights;
-    Array3<double> _wWeights;
-    Array3<double> _uBoundary;
-    Array3<double> _vBoundary;
-    Array3<double> _wBoundary;
-    CellCenteredScalarGrid3 _fluidSdf;
+    Array3<float> _uWeights;
+    Array3<float> _vWeights;
+    Array3<float> _wWeights;
+    Array3<float> _fluidSdf;
+    std::function<Vector3D(const Vector3D&)> _boundaryVel;
 
     void buildWeights(
         const FaceCenteredGrid3& input,

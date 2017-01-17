@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_CUSTOM_SCALAR_FIELD3_H_
 #define INCLUDE_JET_CUSTOM_SCALAR_FIELD3_H_
@@ -86,6 +86,9 @@ class CustomScalarField3::Builder final {
     Builder& withLaplacianFunction(
         const std::function<double(const Vector3D&)>& func);
 
+    //! Returns builder with derivative resolution.
+    Builder& withDerivativeResolution(double resolution);
+
     //! Builds CustomScalarField3.
     CustomScalarField3 build() const;
 
@@ -93,6 +96,7 @@ class CustomScalarField3::Builder final {
     CustomScalarField3Ptr makeShared() const;
 
  private:
+    double _resolution = 1e-3;
     std::function<double(const Vector3D&)> _customFunction;
     std::function<Vector3D(const Vector3D&)> _customGradientFunction;
     std::function<double(const Vector3D&)> _customLaplacianFunction;

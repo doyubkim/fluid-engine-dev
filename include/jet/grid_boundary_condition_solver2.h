@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_GRID_BOUNDARY_CONDITION_SOLVER2_H_
 #define INCLUDE_JET_GRID_BOUNDARY_CONDITION_SOLVER2_H_
@@ -6,6 +6,7 @@
 #include <jet/collider2.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid2.h>
+#include <jet/scalar_field2.h>
 
 #include <memory>
 
@@ -63,6 +64,12 @@ class GridBoundaryConditionSolver2 {
     virtual void constrainVelocity(
         FaceCenteredGrid2* velocity,
         unsigned int extrapolationDepth = 5) = 0;
+
+    //! Returns the signed distance field of the collider.
+    virtual ScalarField2Ptr colliderSdf() const = 0;
+
+    //! Returns the velocity field of the collider.
+    virtual VectorField2Ptr colliderVelocityField() const = 0;
 
  protected:
     //! Invoked when a new collider is set.

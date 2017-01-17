@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM3_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM3_H_

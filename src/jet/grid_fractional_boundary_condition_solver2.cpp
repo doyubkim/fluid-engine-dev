@@ -1,8 +1,9 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <pch.h>
 #include <physics_helpers.h>
 #include <jet/array_utils.h>
+#include <jet/cell_centered_scalar_grid3.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit2.h>
@@ -22,7 +23,7 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     FaceCenteredGrid2* velocity,
     unsigned int extrapolationDepth) {
     Size2 size = velocity->resolution();
-    if (_colliderSdf.resolution() != size) {
+    if (_colliderSdf == nullptr || _colliderSdf->resolution() != size) {
         updateCollider(
             collider(),
             size,
@@ -45,8 +46,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     // Assign collider's velocity first and initialize markers
     velocity->parallelForEachUIndex([&](size_t i, size_t j) {
         Vector2D pt = uPos(i, j);
-        double phi0 = _colliderSdf.sample(pt - Vector2D(0.5 * h.x, 0.0));
-        double phi1 = _colliderSdf.sample(pt + Vector2D(0.5 * h.x, 0.0));
+        double phi0 = _colliderSdf->sample(pt - Vector2D(0.5 * h.x, 0.0));
+        double phi1 = _colliderSdf->sample(pt + Vector2D(0.5 * h.x, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
@@ -61,8 +62,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     velocity->parallelForEachVIndex([&](size_t i, size_t j) {
         Vector2D pt = vPos(i, j);
-        double phi0 = _colliderSdf.sample(pt - Vector2D(0.0, 0.5 * h.y));
-        double phi1 = _colliderSdf.sample(pt + Vector2D(0.0, 0.5 * h.y));
+        double phi0 = _colliderSdf->sample(pt - Vector2D(0.0, 0.5 * h.y));
+        double phi1 = _colliderSdf->sample(pt + Vector2D(0.0, 0.5 * h.y));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
@@ -85,10 +86,10 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     // normal
     velocity->parallelForEachUIndex([&](size_t i, size_t j) {
         Vector2D pt = uPos(i, j);
-        if (isInsideSdf(_colliderSdf.sample(pt))) {
+        if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector2D colliderVel = collider()->velocityAt(pt);
             Vector2D vel = velocity->sample(pt);
-            Vector2D g = _colliderSdf.gradient(pt);
+            Vector2D g = _colliderSdf->gradient(pt);
             if (g.lengthSquared() > 0.0) {
                 Vector2D n = g.normalized();
                 Vector2D velr = vel - colliderVel;
@@ -107,10 +108,10 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     velocity->parallelForEachVIndex([&](size_t i, size_t j) {
         Vector2D pt = vPos(i, j);
-        if (isInsideSdf(_colliderSdf.sample(pt))) {
+        if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector2D colliderVel = collider()->velocityAt(pt);
             Vector2D vel = velocity->sample(pt);
-            Vector2D g = _colliderSdf.gradient(pt);
+            Vector2D g = _colliderSdf->gradient(pt);
             if (g.lengthSquared() > 0.0) {
                 Vector2D n = g.normalized();
                 Vector2D velr = vel - colliderVel;
@@ -158,16 +159,24 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     }
 }
 
-const CellCenteredScalarGrid2&
+ScalarField2Ptr
 GridFractionalBoundaryConditionSolver2::colliderSdf() const {
     return _colliderSdf;
+}
+
+VectorField2Ptr
+GridFractionalBoundaryConditionSolver2::colliderVelocityField() const {
+    return _colliderVel;
 }
 
 void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
     const Size2& gridSize,
     const Vector2D& gridSpacing,
     const Vector2D& gridOrigin) {
-    _colliderSdf.resize(gridSize, gridSpacing, gridOrigin);
+    if (_colliderSdf == nullptr) {
+        _colliderSdf = std::make_shared<CellCenteredScalarGrid2>();
+    }
+    _colliderSdf->resize(gridSize, gridSpacing, gridOrigin);
 
     if (collider() != nullptr) {
         Surface2Ptr surface = collider()->surface();
@@ -177,10 +186,24 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
             implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
         }
 
-        _colliderSdf.fill([&](const Vector2D& pt) {
+        _colliderSdf->fill([&](const Vector2D& pt) {
             return implicitSurface->signedDistance(pt);
         });
+
+        _colliderVel = CustomVectorField2::builder()
+            .withFunction([&] (const Vector2D& x) {
+                return collider()->velocityAt(x);
+            })
+            .withDerivativeResolution(gridSpacing.x)
+            .makeShared();
     } else {
-        _colliderSdf.fill(kMaxD);
+        _colliderSdf->fill(kMaxD);
+
+        _colliderVel = CustomVectorField2::builder()
+            .withFunction([] (const Vector2D& x) {
+                return Vector2D();
+            })
+            .withDerivativeResolution(gridSpacing.x)
+            .makeShared();
     }
 }

@@ -3,8 +3,8 @@
 #ifndef SRC_TESTS_PERF_TESTS_PERF_TESTS_H_
 #define SRC_TESTS_PERF_TESTS_PERF_TESTS_H_
 
-#include <chrono>
 #include <string>
+#include <utility>
 #include <vector>
 
 // gtest hack
@@ -25,9 +25,13 @@ extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
 
 }  // namespace testing
 
+size_t getCurrentRSS();
+
+std::pair<double, std::string> makeReadableByteSize(size_t bytes);
+
 #define JET_PRINT_INFO(fmt, ...) \
     testing::internal::ColoredPrintf( \
-        testing::internal::COLOR_YELLOW,  "[----------] "); \
+        testing::internal::COLOR_YELLOW,  "[ STAT     ] "); \
     testing::internal::ColoredPrintf( \
         testing::internal::COLOR_YELLOW, fmt, __VA_ARGS__); \
 
