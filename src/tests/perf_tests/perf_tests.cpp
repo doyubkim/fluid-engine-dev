@@ -5,7 +5,7 @@
 #include <utility>
 
 std::pair<double, std::string> makeReadableByteSize(size_t bytes) {
-    double s = bytes;
+    double s = static_cast<double>(bytes);
     std::string unit = "B";
 
     if (s > 1024) {
