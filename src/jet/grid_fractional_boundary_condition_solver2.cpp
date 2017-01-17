@@ -194,7 +194,7 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
             .withFunction([&] (const Vector2D& x) {
                 return collider()->velocityAt(x);
             })
-            .withDerivativeResolution(gridSize.x)
+            .withDerivativeResolution(gridSpacing.x)
             .makeShared();
     } else {
         _colliderSdf->fill(kMaxD);
@@ -203,7 +203,7 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
             .withFunction([] (const Vector2D& x) {
                 return Vector2D();
             })
-            .withDerivativeResolution(gridSize.x)
+            .withDerivativeResolution(gridSpacing.x)
             .makeShared();
     }
 }

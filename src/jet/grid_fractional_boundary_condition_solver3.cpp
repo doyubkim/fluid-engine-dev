@@ -261,7 +261,7 @@ void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
             .withFunction([&] (const Vector3D& x) {
                 return collider()->velocityAt(x);
             })
-            .withDerivativeResolution(gridSize.x)
+            .withDerivativeResolution(gridSpacing.x)
             .makeShared();
         });
     } else {
@@ -271,7 +271,7 @@ void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
             .withFunction([] (const Vector3D& x) {
                 return Vector3D();
             })
-            .withDerivativeResolution(gridSize.x)
+            .withDerivativeResolution(gridSpacing.x)
             .makeShared();
     }
 }
