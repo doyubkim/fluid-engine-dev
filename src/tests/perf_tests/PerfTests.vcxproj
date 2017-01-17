@@ -19,10 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fdm_iccg_solver3_tests.cpp" />
     <ClCompile Include="fdm_linear_systems_tests.cpp" />
+    <ClCompile Include="flip_solver3_tests.cpp" />
+    <ClCompile Include="get_rss.cpp" />
+    <ClCompile Include="grid_fluid_solver3_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parallel_tests.cpp" />
+    <ClCompile Include="perf_tests.cpp" />
     <ClCompile Include="point_hash_grid_searchers_tests.cpp" />
+    <ClCompile Include="volume_particle_emitter3_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="perf_tests.h" />

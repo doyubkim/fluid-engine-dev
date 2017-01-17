@@ -11,7 +11,7 @@
 using namespace jet;
 
 TEST(VolumeParticleEmitter3, Update) {
-    double dx = 0.1;
+    double dx = 0.2;
     double lx = 30.0;
     double ly = 30.0;
     double lz = 30.0;
@@ -48,5 +48,5 @@ TEST(VolumeParticleEmitter3, Update) {
 
     JET_PRINT_INFO(
         "VolumeParticleEmitter3::build avg. %f sec.\n",
-        timer.durationInSeconds() / 10.0);
+        timer.durationInSeconds());
 }
