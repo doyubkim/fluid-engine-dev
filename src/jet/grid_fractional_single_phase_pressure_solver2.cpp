@@ -104,7 +104,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
             weight = kMinWeight;
         }
 
-        _uWeights(i, j) = weight;
+        _uWeights(i, j) = static_cast<float>(weight);
     });
 
     _vWeights.parallelForEachIndex([&](size_t i, size_t j) {
@@ -120,7 +120,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
             weight = kMinWeight;
         }
 
-        _vWeights(i, j) = weight;
+        _vWeights(i, j) = static_cast<float>(weight);
     });
 }
 
