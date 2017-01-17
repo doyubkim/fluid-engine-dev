@@ -247,30 +247,26 @@ void runExample3(
     const std::string& format,
     double fps) {
     // Build solver
-    // Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
-    Size3 resolution{300, 300, 300};
-    Vector3D gridSpacing(0.1, 0.1, 0.1);
-    auto solver = FlipSolver3::builder()
+    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    auto solver = PicSolver3::builder()
         .withResolution(resolution)
-        .withGridSpacing(gridSpacing)
+        .withDomainSizeX(3.0)
         .makeShared();
 
     auto grids = solver->gridSystemData();
     double dx = grids->gridSpacing().x;
     BoundingBox3D domain = grids->boundingBox();
-    double lx = 1.0;//domain.width();
-    double ly = 1.0;//domain.height();
     double lz = domain.depth();
 
     // Build emitter
     auto box1 = Box3::builder()
         .withLowerCorner({0, 0, 0})
-        .withUpperCorner({0.5 * lx + 0.001, 0.75 * ly + 0.001, 0.75 * lz + 0.001})
+        .withUpperCorner({0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001})
         .makeShared();
 
     auto box2 = Box3::builder()
-        .withLowerCorner({2.5 * lx - 0.001, 0, 0.25 * lz - 0.001})
-        .withUpperCorner({3.5 * lx + 0.001, 0.75 * ly + 0.001, 1.5 * lz + 0.001})
+        .withLowerCorner({2.5 - 0.001, 0, 0.25 * lz - 0.001})
+        .withUpperCorner({3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001})
         .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
@@ -281,7 +277,6 @@ void runExample3(
         .withSurface(boxSet)
         .withMaxRegion(domain)
         .withSpacing(0.5 * dx)
-        .withAllowOverlapping(true)
         .makeShared();
 
     emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
