@@ -44,16 +44,32 @@ void FlipSolver2::transferFromGridsToParticles() {
 
     // Compute delta
     flow->parallelForEachUIndex([&](size_t i, size_t j) {
-        flow->u(i, j) -= _uDelta(i, j);
+        _uDelta(i, j) = static_cast<float>(flow->u(i, j)) - _uDelta(i, j);
     });
 
     flow->parallelForEachVIndex([&](size_t i, size_t j) {
-        flow->v(i, j) -= _vDelta(i, j);
+        _vDelta(i, j) = static_cast<float>(flow->v(i, j)) - _vDelta(i, j);
     });
+
+    LinearArraySampler2<float, float> uSampler(
+        _uDelta.constAccessor(),
+        flow->gridSpacing().castTo<float>(),
+        flow->uOrigin().castTo<float>());
+    LinearArraySampler2<float, float> vSampler(
+        _vDelta.constAccessor(),
+        flow->gridSpacing().castTo<float>(),
+        flow->vOrigin().castTo<float>());
+
+    auto sampler = [uSampler, vSampler](const Vector2D& x) {
+        const auto xf = x.castTo<float>();
+        double u = uSampler(xf);
+        double v = vSampler(xf);
+        return Vector2D(u, v);
+    };
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += flow->sample(positions[i]);
+        velocities[i] += sampler(positions[i]);
     });
 }
 
