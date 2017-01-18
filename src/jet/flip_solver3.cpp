@@ -49,20 +49,44 @@ void FlipSolver3::transferFromGridsToParticles() {
 
     // Compute delta
     flow->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        flow->u(i, j, k) -= _uDelta(i, j, k);
+        _uDelta(i, j, k)
+            = static_cast<float>(flow->u(i, j, k)) - _uDelta(i, j, k);
     });
 
     flow->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        flow->v(i, j, k) -= _vDelta(i, j, k);
+        _vDelta(i, j, k)
+            = static_cast<float>(flow->v(i, j, k)) - _vDelta(i, j, k);
     });
 
     flow->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        flow->w(i, j, k) -= _wDelta(i, j, k);
+        _wDelta(i, j, k)
+            = static_cast<float>(flow->w(i, j, k)) - _wDelta(i, j, k);
     });
+
+    LinearArraySampler3<float, float> uSampler(
+        _uDelta.constAccessor(),
+        flow->gridSpacing().castTo<float>(),
+        flow->uOrigin().castTo<float>());
+    LinearArraySampler3<float, float> vSampler(
+        _vDelta.constAccessor(),
+        flow->gridSpacing().castTo<float>(),
+        flow->vOrigin().castTo<float>());
+    LinearArraySampler3<float, float> wSampler(
+        _wDelta.constAccessor(),
+        flow->gridSpacing().castTo<float>(),
+        flow->wOrigin().castTo<float>());
+
+    auto sampler = [uSampler, vSampler, wSampler](const Vector3D& x) {
+        const auto xf = x.castTo<float>();
+        double u = uSampler(xf);
+        double v = vSampler(xf);
+        double w = wSampler(xf);
+        return Vector3D(u, v, w);
+    };
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += flow->sample(positions[i]);
+        velocities[i] += sampler(positions[i]);
     });
 }
 
