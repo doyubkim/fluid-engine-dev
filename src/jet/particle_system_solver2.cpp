@@ -143,27 +143,10 @@ void ParticleSystemSolver2::beginAdvanceTimeStep(double timeStepInSeconds) {
     JET_INFO << "Update emitter took "
              << timer.durationInSeconds() << " seconds";
 
-    // Allocate buffers
-    size_t n = _particleSystemData->numberOfParticles();
-    _newPositions.resize(n);
-    _newVelocities.resize(n);
-
     onBeginAdvanceTimeStep(timeStepInSeconds);
 }
 
 void ParticleSystemSolver2::endAdvanceTimeStep(double timeStepInSeconds) {
-    // Update data
-    size_t n = _particleSystemData->numberOfParticles();
-    auto positions = _particleSystemData->positions();
-    auto velocities = _particleSystemData->velocities();
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            positions[i] = _newPositions[i];
-            velocities[i] = _newVelocities[i];
-        });
-
     onEndAdvanceTimeStep(timeStepInSeconds);
 }
 
@@ -176,9 +159,9 @@ void ParticleSystemSolver2::onEndAdvanceTimeStep(double timeStepInSeconds) {
 }
 
 void ParticleSystemSolver2::resolveCollision() {
-    resolveCollision(
-        _newPositions.accessor(),
-        _newVelocities.accessor());
+    auto x = _particleSystemData->positions();
+    auto v = _particleSystemData->velocities();
+    resolveCollision(x, v);
 }
 
 void ParticleSystemSolver2::resolveCollision(
@@ -213,19 +196,16 @@ void ParticleSystemSolver2::accumulateExternalForces() {
     auto positions = _particleSystemData->positions();
     const double mass = _particleSystemData->mass();
 
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            // Gravity
-            Vector2D force = mass * _gravity;
+    parallelFor(kZeroSize, n, [&] (size_t i) {
+        // Gravity
+        Vector2D force = mass * _gravity;
 
-            // Wind forces
-            Vector2D relativeVel = velocities[i] - _wind->sample(positions[i]);
-            force += -_dragCoefficient * relativeVel;
+        // Wind forces
+        Vector2D relativeVel = velocities[i] - _wind->sample(positions[i]);
+        force += -_dragCoefficient * relativeVel;
 
-            forces[i] += force;
-        });
+        forces[i] += force;
+    });
 }
 
 void ParticleSystemSolver2::timeIntegration(double timeStepInSeconds) {
@@ -235,19 +215,13 @@ void ParticleSystemSolver2::timeIntegration(double timeStepInSeconds) {
     auto positions = _particleSystemData->positions();
     const double mass = _particleSystemData->mass();
 
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            // Integrate velocity first
-            Vector2D& newVelocity = _newVelocities[i];
-            newVelocity = velocities[i]
-                + timeStepInSeconds * forces[i] / mass;
+    parallelFor(kZeroSize, n, [&] (size_t i) {
+        // Integrate velocity first
+        velocities[i] += timeStepInSeconds * forces[i] / mass;
 
-            // Integrate position.
-            Vector2D& newPosition = _newPositions[i];
-            newPosition = positions[i] + timeStepInSeconds * newVelocity;
-        });
+        // Integrate position.
+        positions[i] += timeStepInSeconds * velocities[i];
+    });
 }
 
 void ParticleSystemSolver2::updateCollider(double timeStepInSeconds) {

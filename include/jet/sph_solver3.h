@@ -76,7 +76,8 @@ class SphSolver3 : public ParticleSystemSolver3 {
     //! \brief Sets the pseudo viscosity coefficient.
     //!
     //! This function sets the pseudo viscosity coefficient which applies
-    //! additional pseudo-physical damping to the system. Default is 10.
+    //! additional pseudo-physical damping to the system. Default is 0.1.
+    //! Should be in range between 0 and 1.
     //!
     void setPseudoViscosityCoefficient(double newPseudoViscosityCoefficient);
 
@@ -169,7 +170,7 @@ class SphSolver3 : public ParticleSystemSolver3 {
     //! Pseudo-viscosity coefficient velocity filtering.
     //! This is a minimum "safety-net" for SPH solver which is quite
     //! sensitive to the parameters.
-    double _pseudoViscosityCoefficient = 10.0;
+    double _pseudoViscosityCoefficient = 0.1;
 
     //! Speed of sound in medium to determin the stiffness of the system.
     //! Ideally, it should be the actual speed of sound in the fluid, but in

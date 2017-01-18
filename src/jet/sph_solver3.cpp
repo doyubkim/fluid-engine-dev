@@ -66,7 +66,7 @@ double SphSolver3::pseudoViscosityCoefficient() const {
 void SphSolver3::setPseudoViscosityCoefficient(
     double newPseudoViscosityCoefficient) {
     _pseudoViscosityCoefficient
-        = std::max(newPseudoViscosityCoefficient, 0.0);
+        = clamp(newPseudoViscosityCoefficient, 0.0, 1.0);
 }
 
 double SphSolver3::speedOfSound() const {
@@ -293,15 +293,12 @@ void SphSolver3::computePseudoViscosity(double timeStepInSeconds) {
             smoothedVelocities[i] = smoothedVelocity;
         });
 
-    double factor = timeStepInSeconds * _pseudoViscosityCoefficient;
-    factor = clamp(factor, 0.0, 1.0);
-
     parallelFor(
         kZeroSize,
         numberOfParticles,
         [&](size_t i) {
             v[i] = lerp(
-                v[i], smoothedVelocities[i], factor);
+                v[i], smoothedVelocities[i], _pseudoViscosityCoefficient);
         });
 }
 

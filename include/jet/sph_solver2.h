@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_SPH_SOLVER2_H_
 #define INCLUDE_JET_SPH_SOLVER2_H_
@@ -29,14 +29,14 @@ class SphSolver2 : public ParticleSystemSolver2 {
     //! Constructs a solver with empty particle set.
     SphSolver2();
 
-    virtual ~SphSolver2();
-
     //! Constructs a solver with target density, spacing, and relative kernel
     //! radius.
     SphSolver2(
         double targetDensity,
         double targetSpacing,
         double relativeKernelRadius);
+
+    virtual ~SphSolver2();
 
     //! Returns the exponent part of the equation-of-state.
     double eosExponent() const;
@@ -76,7 +76,8 @@ class SphSolver2 : public ParticleSystemSolver2 {
     //! \brief Sets the pseudo viscosity coefficient.
     //!
     //! This function sets the pseudo viscosity coefficient which applies
-    //! additional pseudo-physical damping to the system. Default is 10.
+    //! additional pseudo-physical damping to the system. Default is 0.1.
+    //! Should be in range between 0 and 1.
     //!
     void setPseudoViscosityCoefficient(double newPseudoViscosityCoefficient);
 
@@ -169,7 +170,7 @@ class SphSolver2 : public ParticleSystemSolver2 {
     //! Pseudo-viscosity coefficient velocity filtering.
     //! This is a minimum "safety-net" for SPH solver which is quite
     //! sensitive to the parameters.
-    double _pseudoViscosityCoefficient = 10.0;
+    double _pseudoViscosityCoefficient = 0.1;
 
     //! Speed of sound in medium to determin the stiffness of the system.
     //! Ideally, it should be the actual speed of sound in the fluid, but in

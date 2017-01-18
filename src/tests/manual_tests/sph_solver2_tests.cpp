@@ -18,7 +18,7 @@ JET_TESTS(SphSolver2);
 JET_BEGIN_TEST_F(SphSolver2, SteadyState) {
     SphSolver2 solver;
     solver.setViscosityCoefficient(0.1);
-    solver.setPseudoViscosityCoefficient(10.0);
+    solver.setPseudoViscosityCoefficient(1.0/6.0);
 
     SphSystemData2Ptr particles = solver.sphSystemData();
     const double targetSpacing = particles->targetSpacing();

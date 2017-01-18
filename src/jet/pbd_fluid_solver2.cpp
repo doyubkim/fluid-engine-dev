@@ -2,6 +2,7 @@
 
 #include <pch.h>
 #include <physics_helpers.h>
+#include <jet/array_utils.h>
 #include <jet/parallel.h>
 #include <jet/sph_kernels2.h>
 #include <jet/pbd_fluid_solver2.h>
@@ -14,7 +15,7 @@ using namespace jet;
 PbdFluidSolver2::PbdFluidSolver2() {
     setParticleSystemData(std::make_shared<SphSystemData2>());
     setIsUsingFixedSubTimeSteps(true);
-    setNumberOfFixedSubTimeSteps(5);
+    setNumberOfFixedSubTimeSteps(10);
 }
 
 PbdFluidSolver2::PbdFluidSolver2(
@@ -51,14 +52,59 @@ void PbdFluidSolver2::setMaxNumberOfIterations(unsigned int n) {
     _maxNumberOfIterations = n;
 }
 
+double PbdFluidSolver2::lambdaRelaxation() const {
+    return _lambdaRelaxation;
+}
+
+void PbdFluidSolver2::setLambdaRelaxation(double eps) {
+    _lambdaRelaxation = eps;
+}
+
+double PbdFluidSolver2::antiClusteringDenominatorFactor() const {
+    return _antiClusteringDenom;
+}
+
+void PbdFluidSolver2::setAntiClusteringDenominatorFactor(double factor) {
+    _antiClusteringDenom = factor;
+}
+
+double PbdFluidSolver2::antiClusteringStrength() const {
+    return _antiClusteringStrength;
+}
+
+void PbdFluidSolver2::setAntiClusteringStrength(double strength) {
+    _antiClusteringStrength = strength;
+}
+
+double PbdFluidSolver2::antiClusteringExponent() const {
+    return _antiClusteringExp;
+}
+
+void PbdFluidSolver2::setAntiClusteringExponent(double exponent) {
+    _antiClusteringExp = exponent;
+}
+
 SphSystemData2Ptr PbdFluidSolver2::sphSystemData() const {
     return std::dynamic_pointer_cast<SphSystemData2>(particleSystemData());
 }
 
 void PbdFluidSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
-    beginAdvanceTimeStep(timeStepInSeconds);
+    // Clear forces
+    auto particles = sphSystemData();
+    auto forces = particles->forces();
+    setRange1(forces.size(), Vector2D(), &forces);
 
     Timer timer;
+    updateCollider(timeStepInSeconds);
+    JET_INFO << "Update collider took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
+    updateEmitter(timeStepInSeconds);
+    JET_INFO << "Update emitter took "
+             << timer.durationInSeconds() << " seconds";
+
+    timer.reset();
     predictPosition(timeStepInSeconds);
     JET_INFO << "Position prediction took "
              << timer.durationInSeconds() << " seconds";
@@ -68,13 +114,12 @@ void PbdFluidSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
     JET_INFO << "Position update took "
              << timer.durationInSeconds() << " seconds";
 
-    onEndAdvanceTimeStep(timeStepInSeconds);
-}
-
-void PbdFluidSolver2::onEndAdvanceTimeStep(double timeStepInSeconds) {
+    timer.reset();
     computePseudoViscosity(timeStepInSeconds);
+    JET_INFO << "Computing pseudo-viscosity took "
+             << timer.durationInSeconds() << " seconds";
 
-    auto particles = sphSystemData();
+    // Some stats
     size_t numberOfParticles = particles->numberOfParticles();
     auto densities = particles->densities();
 
@@ -127,6 +172,7 @@ void PbdFluidSolver2::updatePosition(double timeStepInSeconds) {
     auto v = particles->velocities();
     auto d = particles->densities();
 
+    const SphStdKernel2 stdKernel(h);
     const SphSpikyKernel2 kernel(h);
 
     ParticleSystemData2::ScalarData lambdas(n);
@@ -158,22 +204,26 @@ void PbdFluidSolver2::updatePosition(double timeStepInSeconds) {
             sumGradC += sumGradCAtCenter.dot(sumGradCAtCenter);
             sumGradC /= targetDensity;
 
-            lambdas[i] = -c / (sumGradC + 1e5);
+            lambdas[i] = -c / (sumGradC + _lambdaRelaxation);
         });
 
         // Update position
+        const double sCorrWdq = stdKernel(_antiClusteringDenom * h);
         parallelFor(kZeroSize, n, [&] (size_t i) {
             const auto& neighbors = neighborLists[i];
             Vector2D origin = x[i];
             Vector2D sum;
 
             for (size_t j : neighbors) {
-                Vector2D neighborPosition = x[j];
-                double dist = origin.distanceTo(neighborPosition);
+                const Vector2D& neighborPosition = x[j];
+                const double dist = origin.distanceTo(neighborPosition);
                 if (dist > 0.0) {
+                    const double sCorr
+                        = -_antiClusteringStrength
+                          * pow(stdKernel(dist) / sCorrWdq, _antiClusteringExp);
                     Vector2D dir = (neighborPosition - origin) / dist;
                     Vector2D gradW = kernel.gradient(dist, dir);
-                    sum += (lambdas[i] + lambdas[j]) * gradW;
+                    sum += (lambdas[i] + lambdas[j] + sCorr) * gradW;
                 }
             }
 
@@ -186,7 +236,7 @@ void PbdFluidSolver2::updatePosition(double timeStepInSeconds) {
         });
 
         // Resolve collision
-        resolveCollision(x, v);
+        resolveCollision();
     }
 }
 
@@ -202,31 +252,28 @@ void PbdFluidSolver2::computePseudoViscosity(double timeStepInSeconds) {
 
     Array1<Vector2D> smoothedVelocities(numberOfParticles);
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            double weightSum = 0.0;
-            Vector2D smoothedVelocity;
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        double weightSum = 0.0;
+        Vector2D smoothedVelocity;
 
-            const auto& neighbors = particles->neighborLists()[i];
-            for (size_t j : neighbors) {
-                double dist = x[i].distanceTo(x[j]);
-                double wj = mass / d[j] * kernel(dist);
-                weightSum += wj;
-                smoothedVelocity += wj * v[j];
-            }
+        const auto& neighbors = particles->neighborLists()[i];
+        for (size_t j : neighbors) {
+            double dist = x[i].distanceTo(x[j]);
+            double wj = mass / d[j] * kernel(dist);
+            weightSum += wj;
+            smoothedVelocity += wj * v[j];
+        }
 
-            double wi = mass / d[i];
-            weightSum += wi;
-            smoothedVelocity += wi * v[i];
+        double wi = mass / d[i];
+        weightSum += wi;
+        smoothedVelocity += wi * v[i];
 
-            if (weightSum > 0.0) {
-                smoothedVelocity /= weightSum;
-            }
+        if (weightSum > 0.0) {
+            smoothedVelocity /= weightSum;
+        }
 
-            smoothedVelocities[i] = smoothedVelocity;
-        });
+        smoothedVelocities[i] = smoothedVelocity;
+    });
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         v[i] = lerp(

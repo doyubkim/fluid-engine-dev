@@ -85,6 +85,7 @@
     <ClCompile Include="particle_system_data2_tests.cpp" />
     <ClCompile Include="particle_system_data3_tests.cpp" />
     <ClCompile Include="particle_system_solvers_tests.cpp" />
+    <ClCompile Include="pbd_fluid_solver2_tests.cpp" />
     <ClCompile Include="pci_sph_solver2_tests.cpp" />
     <ClCompile Include="pci_sph_solver3_tests.cpp" />
     <ClCompile Include="pde_tests.cpp" />

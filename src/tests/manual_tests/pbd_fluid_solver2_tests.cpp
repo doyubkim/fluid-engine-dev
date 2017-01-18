@@ -14,7 +14,8 @@ JET_TESTS(PbdFluidSolver2);
 JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
     // Build solver
     auto solver = PbdFluidSolver2::builder()
-        .withTargetDensity(1.0)
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(0.05)
         .makeShared();
 
     const auto particles = solver->sphSystemData();
@@ -49,6 +50,51 @@ JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
 
     // Simulate
     for (Frame frame; frame.index < 100; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(PbdFluidSolver2, DamBreaking) {
+    // Build solver
+    auto solver = PbdFluidSolver2::builder()
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(0.05)
+        .makeShared();
+
+    const auto particles = solver->sphSystemData();
+    const double targetSpacing = particles->targetSpacing();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({targetSpacing, targetSpacing})
+        .withUpperCorner({0.2, 0.8})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(targetSpacing)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+
+    // Build collider
+    auto anotherBox = Box2::builder()
+        .withLowerCorner({0, 0})
+        .withUpperCorner({1, 1})
+        .withIsNormalFlipped(true)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(anotherBox)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
         saveParticleDataXy(solver->particleSystemData(), frame.index);

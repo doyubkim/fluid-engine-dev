@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_PARTICLE_SYSTEM_SOLVER2_H_
 #define INCLUDE_JET_PARTICLE_SYSTEM_SOLVER2_H_
@@ -138,18 +138,6 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     //! Assign a new particle system data.
     void setParticleSystemData(const ParticleSystemData2Ptr& newParticles);
 
-    //! Pre-processes before advancing a time-step.
-    void beginAdvanceTimeStep(double timeStepInSeconds);
-
-    //! Post-processes before advancing a time-step.
-    void endAdvanceTimeStep(double timeStepInSeconds);
-
-    //! Accumulates external forces to the force array.
-    void accumulateExternalForces();
-
-    //! Performs forward Euler time-integration.
-    void timeIntegration(double timeStepInSeconds);
-
     //! Updates collider state.
     void updateCollider(double timeStepInSeconds);
 
@@ -162,11 +150,21 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
     Vector2D _gravity = Vector2D(0.0, kGravity);
 
     ParticleSystemData2Ptr _particleSystemData;
-    ParticleSystemData2::VectorData _newPositions;
-    ParticleSystemData2::VectorData _newVelocities;
     Collider2Ptr _collider;
     ParticleEmitter2Ptr _emitter;
     VectorField2Ptr _wind;
+
+    //! Pre-processes before advancing a time-step.
+    void beginAdvanceTimeStep(double timeStepInSeconds);
+
+    //! Post-processes before advancing a time-step.
+    void endAdvanceTimeStep(double timeStepInSeconds);
+
+    //! Accumulates external forces to the force array.
+    void accumulateExternalForces();
+
+    //! Performs forward Euler time-integration.
+    void timeIntegration(double timeStepInSeconds);
 };
 
 //! Shared pointer type for the ParticleSystemSolver2.

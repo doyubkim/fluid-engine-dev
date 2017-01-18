@@ -210,6 +210,9 @@
     <ClCompile Include="particle_system_solvers_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pbd_fluid_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="pci_sph_solver2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

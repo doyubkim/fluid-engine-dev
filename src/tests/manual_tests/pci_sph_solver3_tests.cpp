@@ -18,7 +18,7 @@ JET_TESTS(PciSphSolver3);
 JET_BEGIN_TEST_F(PciSphSolver3, SteadyState) {
     PciSphSolver3 solver;
     solver.setViscosityCoefficient(0.1);
-    solver.setPseudoViscosityCoefficient(10.0);
+    solver.setPseudoViscosityCoefficient(1.0/6.0);
 
     SphSystemData3Ptr particles = solver.sphSystemData();
     particles->setTargetDensity(1000.0);
