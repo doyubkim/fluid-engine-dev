@@ -49,15 +49,18 @@ void FlipSolver3::transferFromGridsToParticles() {
 
     // Compute delta
     flow->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        _uDelta(i, j, k) = flow->u(i, j, k) - _uDelta(i, j, k);
+        _uDelta(i, j, k)
+            = static_cast<float>(flow->u(i, j, k)) - _uDelta(i, j, k);
     });
 
     flow->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        _vDelta(i, j, k) = flow->v(i, j, k) - _vDelta(i, j, k);
+        _vDelta(i, j, k)
+            = static_cast<float>(flow->v(i, j, k)) - _vDelta(i, j, k);
     });
 
     flow->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        _wDelta(i, j, k) = flow->w(i, j, k) - _wDelta(i, j, k);
+        _wDelta(i, j, k)
+            = static_cast<float>(flow->w(i, j, k)) - _wDelta(i, j, k);
     });
 
     LinearArraySampler3<float, float> uSampler(

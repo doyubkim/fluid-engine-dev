@@ -285,9 +285,9 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
                 - (1.0 - _vWeights(i, j, k))
                     * _boundaryVel(vPos(i, j, k)).y * invH.y
                 + (1.0 - _wWeights(i, j, k + 1))
-                    * _boundaryVel(wPos(i, j, k + 1)).y * invH.z
+                    * _boundaryVel(wPos(i, j, k + 1)).z * invH.z
                 - (1.0 - _wWeights(i, j, k))
-                    * _boundaryVel(wPos(i, j, k)).y * invH.z;
+                    * _boundaryVel(wPos(i, j, k)).z * invH.z;
             _system.b(i, j, k) += boundaryContribution;
         } else {
             row.center = 1.0;
