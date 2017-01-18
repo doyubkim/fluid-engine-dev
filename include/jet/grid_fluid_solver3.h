@@ -341,6 +341,7 @@ template <typename T>
 T& GridFluidSolverBuilderBase3<T>::withGridSpacing(double gridSpacing) {
     _gridSpacing.x = gridSpacing;
     _gridSpacing.y = gridSpacing;
+    _gridSpacing.z = gridSpacing;
     _useDomainSize = false;
     return static_cast<T&>(*this);
 }

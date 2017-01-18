@@ -256,14 +256,14 @@ void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
 
         _colliderSdf->fill([&](const Vector3D& pt) {
             return implicitSurface->signedDistance(pt);
+        });
 
         _colliderVel = CustomVectorField3::builder()
-            .withFunction([&] (const Vector3D& x) {
-                return collider()->velocityAt(x);
-            })
-            .withDerivativeResolution(gridSpacing.x)
-            .makeShared();
-        });
+        .withFunction([&] (const Vector3D& x) {
+            return collider()->velocityAt(x);
+        })
+        .withDerivativeResolution(gridSpacing.x)
+        .makeShared();
     } else {
         _colliderSdf->fill(kMaxD);
 
