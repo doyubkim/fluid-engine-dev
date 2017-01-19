@@ -93,6 +93,12 @@
     <ClCompile Include="particle_system_solver3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pbf_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pbf_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="pci_sph_solver2_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

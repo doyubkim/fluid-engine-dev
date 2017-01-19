@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_PARTICLE_SYSTEM_SOLVER3_H_
 #define INCLUDE_JET_PARTICLE_SYSTEM_SOLVER3_H_
@@ -138,6 +138,12 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     //! Assign a new particle system data.
     void setParticleSystemData(const ParticleSystemData3Ptr& newParticles);
 
+    //! Updates collider state.
+    void updateCollider(double timeStepInSeconds);
+
+    //! Updates emitter state.
+    void updateEmitter(double timeStepInSeconds);
+
  private:
     double _dragCoefficient = 1e-4;
     double _restitutionCoefficient = 0.0;
@@ -150,17 +156,17 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     ParticleEmitter3Ptr _emitter;
     VectorField3Ptr _wind;
 
+    //! Pre-processes before advancing a time-step.
     void beginAdvanceTimeStep(double timeStepInSeconds);
 
+    //! Post-processes before advancing a time-step.
     void endAdvanceTimeStep(double timeStepInSeconds);
 
+    //! Accumulates external forces to the force array.
     void accumulateExternalForces();
 
+    //! Performs forward Euler time-integration.
     void timeIntegration(double timeStepInSeconds);
-
-    void updateCollider(double timeStepInSeconds);
-
-    void updateEmitter(double timeStepInSeconds);
 };
 
 //! Shared pointer type for the ParticleSystemSolver3.

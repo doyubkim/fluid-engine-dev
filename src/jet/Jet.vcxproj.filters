@@ -555,7 +555,10 @@
     <ClInclude Include="..\..\include\jet\particle_system_solver3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\pbd_fluid_solver2.h">
+    <ClInclude Include="..\..\include\jet\pbf_solver2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\pbf_solver3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\jet\pci_sph_solver2.h">
@@ -821,7 +824,10 @@
     <ClCompile Include="particle_system_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pbd_fluid_solver2.cpp">
+    <ClCompile Include="pbf_solver2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pbf_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pci_sph_solver2.cpp">

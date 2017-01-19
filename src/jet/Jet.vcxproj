@@ -356,7 +356,8 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\particle_system_data3.h" />
     <ClInclude Include="..\..\include\jet\particle_system_solver2.h" />
     <ClInclude Include="..\..\include\jet\particle_system_solver3.h" />
-    <ClInclude Include="..\..\include\jet\pbd_fluid_solver2.h" />
+    <ClInclude Include="..\..\include\jet\pbf_solver2.h" />
+    <ClInclude Include="..\..\include\jet\pbf_solver3.h" />
     <ClInclude Include="..\..\include\jet\pci_sph_solver2.h" />
     <ClInclude Include="..\..\include\jet\pci_sph_solver3.h" />
     <ClInclude Include="..\..\include\jet\pde.h" />
@@ -559,7 +560,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="pbd_solver2.cpp" />
+    <ClCompile Include="pbf_solver2.cpp" />
     <ClCompile Include="pci_sph_solver2.cpp" />
     <ClCompile Include="pci_sph_solver3.cpp" />
     <ClCompile Include="physics_animation.cpp" />

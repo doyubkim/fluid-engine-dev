@@ -1,7 +1,7 @@
 // Copyright (c) 2017 Doyub Kim
 
-#ifndef INCLUDE_JET_PBD_FLUID_SOLVER2_H_
-#define INCLUDE_JET_PBD_FLUID_SOLVER2_H_
+#ifndef INCLUDE_JET_PBF_SOLVER2_H_
+#define INCLUDE_JET_PBF_SOLVER2_H_
 
 #include <jet/constants.h>
 #include <jet/particle_system_solver2.h>
@@ -20,21 +20,21 @@ namespace jet {
 //! \see Macklin, Miles, and Matthias Müller. "Position based fluids."
 //!      ACM Transactions on Graphics (TOG) 32.4 (2013): 104.
 //!
-class PbdFluidSolver2 final : public ParticleSystemSolver2 {
+class PbfSolver2 final : public ParticleSystemSolver2 {
  public:
     class Builder;
 
     //! Constructs a solver with empty particle set.
-    PbdFluidSolver2();
+    PbfSolver2();
 
     //! Constructs a solver with target density, spacing, and relative kernel
     //! radius.
-    PbdFluidSolver2(
+    PbfSolver2(
         double targetDensity,
         double targetSpacing,
         double relativeKernelRadius);
 
-    virtual ~PbdFluidSolver2();
+    virtual ~PbfSolver2();
 
     //! Returns the pseudo viscosity coefficient.
     double pseudoViscosityCoefficient() const;
@@ -62,7 +62,7 @@ class PbdFluidSolver2 final : public ParticleSystemSolver2 {
     //! \brief Sets the relaxation parameter.
     //!
     //! This function sets the relaxation parameter which is used when computing
-    //! the step size (lambda) of the optimization process. Default is 1.
+    //! the step size (lambda) of the optimization process. Default is 0.1.
     //!
     //! \param[in]  eps   The relaxation parameter.
     //!
@@ -89,7 +89,7 @@ class PbdFluidSolver2 final : public ParticleSystemSolver2 {
     //! \brief Sets the strength of the anti-clustering.
     //!
     //! This function sets the strength of the anti-clustering force.
-    //! Default is 0.5e-4. Should be a small number.
+    //! Default is 1e-5. Should be a small number.
     //!
     //! \param[in]  strength The anti-clustering strength.
     //!
@@ -114,15 +114,15 @@ class PbdFluidSolver2 final : public ParticleSystemSolver2 {
     //! Returns the SPH system data.
     SphSystemData2Ptr sphSystemData() const;
 
-    //! Returns builder fox PbdFluidSolver2.
+    //! Returns builder fox PbfSolver2.
     static Builder builder();
 
  private:
     double _pseudoViscosityCoefficient = 0.1;
     unsigned int _maxNumberOfIterations = 10;
-    double _lambdaRelaxation = 1.0;
+    double _lambdaRelaxation = 0.1;
     double _antiClusteringDenom = 0.2;
-    double _antiClusteringStrength = 0.5e-4;
+    double _antiClusteringStrength = 1e-5;
     double _antiClusteringExp = 4.0;
 
     ParticleSystemData2::VectorData _originalPositions;
@@ -136,13 +136,13 @@ class PbdFluidSolver2 final : public ParticleSystemSolver2 {
     void computePseudoViscosity(double timeStepInSeconds);
 };
 
-//! Shared pointer type for the PbdFluidSolver2.
-typedef std::shared_ptr<PbdFluidSolver2> PbdFluidSolver2Ptr;
+//! Shared pointer type for the PbfSolver2.
+typedef std::shared_ptr<PbfSolver2> PbfSolver2Ptr;
 
 //!
-//! \brief Front-end to create PbdFluidSolver2 objects step by step.
+//! \brief Front-end to create PbfSolver2 objects step by step.
 //!
-class PbdFluidSolver2::Builder final {
+class PbfSolver2::Builder final {
  public:
     //! Returns builder with target density.
     Builder& withTargetDensity(double targetDensity);
@@ -153,11 +153,11 @@ class PbdFluidSolver2::Builder final {
     //! Returns builder with relative kernel radius.
     Builder& withRelativeKernelRadius(double relativeKernelRadius);
 
-    //! Builds PbdFluidSolver2.
-    PbdFluidSolver2 build() const;
+    //! Builds PbfSolver2.
+    PbfSolver2 build() const;
 
-    //! Builds shared pointer of PbdFluidSolver2 instance.
-    PbdFluidSolver2Ptr makeShared() const;
+    //! Builds shared pointer of PbfSolver2 instance.
+    PbfSolver2Ptr makeShared() const;
 
  private:
     double _targetDensity = kWaterDensity;
@@ -167,4 +167,4 @@ class PbdFluidSolver2::Builder final {
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_PBD_FLUID_SOLVER2_H_
+#endif  // INCLUDE_JET_PBF_SOLVER2_H_

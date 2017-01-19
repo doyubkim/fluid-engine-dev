@@ -2,18 +2,18 @@
 
 #include <manual_tests.h>
 
-#include <jet/box2.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/pbd_fluid_solver2.h>
-#include <jet/volume_particle_emitter2.h>
+#include <jet/box3.h>
+#include <jet/rigid_body_collider3.h>
+#include <jet/pbf_solver3.h>
+#include <jet/volume_particle_emitter3.h>
 
 using namespace jet;
 
-JET_TESTS(PbdFluidSolver2);
+JET_TESTS(PbfSolver3);
 
-JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
+JET_BEGIN_TEST_F(PbfSolver3, SteadyState) {
     // Build solver
-    auto solver = PbdFluidSolver2::builder()
+    auto solver = PbfSolver3::builder()
         .withTargetDensity(1000.0)
         .withTargetSpacing(0.05)
         .makeShared();
@@ -22,12 +22,12 @@ JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
     const double targetSpacing = particles->targetSpacing();
 
     // Build emitter
-    auto box = Box2::builder()
-        .withLowerCorner({targetSpacing, targetSpacing})
-        .withUpperCorner({1.0 - targetSpacing, 0.5})
+    auto box = Box3::builder()
+        .withLowerCorner({targetSpacing, targetSpacing, targetSpacing})
+        .withUpperCorner({1.0 - targetSpacing, 0.5, 1.0 - targetSpacing})
         .makeShared();
 
-    auto emitter = VolumeParticleEmitter2::builder()
+    auto emitter = VolumeParticleEmitter3::builder()
         .withSurface(box)
         .withSpacing(targetSpacing)
         .withIsOneShot(true)
@@ -36,13 +36,13 @@ JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
     solver->setEmitter(emitter);
 
     // Build collider
-    auto anotherBox = Box2::builder()
-        .withLowerCorner({0, 0})
-        .withUpperCorner({1, 1})
+    auto anotherBox = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({1, 1, 1})
         .withIsNormalFlipped(true)
         .makeShared();
 
-    auto collider = RigidBodyCollider2::builder()
+    auto collider = RigidBodyCollider3::builder()
         .withSurface(anotherBox)
         .makeShared();
 
@@ -57,23 +57,25 @@ JET_BEGIN_TEST_F(PbdFluidSolver2, SteadyState) {
 }
 JET_END_TEST_F
 
-JET_BEGIN_TEST_F(PbdFluidSolver2, DamBreaking) {
+JET_BEGIN_TEST_F(PbfSolver3, DamBreaking) {
     // Build solver
-    auto solver = PbdFluidSolver2::builder()
+    auto solver = PbfSolver3::builder()
         .withTargetDensity(1000.0)
-        .withTargetSpacing(0.05)
+        .withTargetSpacing(0.01)
         .makeShared();
+
+    solver->setMaxNumberOfIterations(20);
 
     const auto particles = solver->sphSystemData();
     const double targetSpacing = particles->targetSpacing();
 
     // Build emitter
-    auto box = Box2::builder()
-        .withLowerCorner({targetSpacing, targetSpacing})
-        .withUpperCorner({0.2, 0.8})
+    auto box = Box3::builder()
+        .withLowerCorner({targetSpacing, targetSpacing, targetSpacing})
+        .withUpperCorner({0.2, 0.8, 0.2})
         .makeShared();
 
-    auto emitter = VolumeParticleEmitter2::builder()
+    auto emitter = VolumeParticleEmitter3::builder()
         .withSurface(box)
         .withSpacing(targetSpacing)
         .withIsOneShot(true)
@@ -82,13 +84,13 @@ JET_BEGIN_TEST_F(PbdFluidSolver2, DamBreaking) {
     solver->setEmitter(emitter);
 
     // Build collider
-    auto anotherBox = Box2::builder()
-        .withLowerCorner({0, 0})
-        .withUpperCorner({1, 1})
+    auto anotherBox = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({1, 1, 1})
         .withIsNormalFlipped(true)
         .makeShared();
 
-    auto collider = RigidBodyCollider2::builder()
+    auto collider = RigidBodyCollider3::builder()
         .withSurface(anotherBox)
         .makeShared();
 

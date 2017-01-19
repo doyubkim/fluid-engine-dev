@@ -5,20 +5,20 @@
 #include <jet/array_utils.h>
 #include <jet/parallel.h>
 #include <jet/sph_kernels2.h>
-#include <jet/pbd_fluid_solver2.h>
+#include <jet/pbf_solver2.h>
 #include <jet/timer.h>
 
 #include <algorithm>
 
 using namespace jet;
 
-PbdFluidSolver2::PbdFluidSolver2() {
+PbfSolver2::PbfSolver2() {
     setParticleSystemData(std::make_shared<SphSystemData2>());
     setIsUsingFixedSubTimeSteps(true);
     setNumberOfFixedSubTimeSteps(10);
 }
 
-PbdFluidSolver2::PbdFluidSolver2(
+PbfSolver2::PbfSolver2(
     double targetDensity,
     double targetSpacing,
     double relativeKernelRadius) {
@@ -31,64 +31,64 @@ PbdFluidSolver2::PbdFluidSolver2(
     setNumberOfFixedSubTimeSteps(5);
 }
 
-PbdFluidSolver2::~PbdFluidSolver2() {
+PbfSolver2::~PbfSolver2() {
 }
 
-double PbdFluidSolver2::pseudoViscosityCoefficient() const {
+double PbfSolver2::pseudoViscosityCoefficient() const {
     return _pseudoViscosityCoefficient;
 }
 
-void PbdFluidSolver2::setPseudoViscosityCoefficient(
+void PbfSolver2::setPseudoViscosityCoefficient(
     double newPseudoViscosityCoefficient) {
     _pseudoViscosityCoefficient
         = clamp(newPseudoViscosityCoefficient, 0.0, 1.0);
 }
 
-unsigned int PbdFluidSolver2::maxNumberOfIterations() const {
+unsigned int PbfSolver2::maxNumberOfIterations() const {
     return _maxNumberOfIterations;
 }
 
-void PbdFluidSolver2::setMaxNumberOfIterations(unsigned int n) {
+void PbfSolver2::setMaxNumberOfIterations(unsigned int n) {
     _maxNumberOfIterations = n;
 }
 
-double PbdFluidSolver2::lambdaRelaxation() const {
+double PbfSolver2::lambdaRelaxation() const {
     return _lambdaRelaxation;
 }
 
-void PbdFluidSolver2::setLambdaRelaxation(double eps) {
+void PbfSolver2::setLambdaRelaxation(double eps) {
     _lambdaRelaxation = eps;
 }
 
-double PbdFluidSolver2::antiClusteringDenominatorFactor() const {
+double PbfSolver2::antiClusteringDenominatorFactor() const {
     return _antiClusteringDenom;
 }
 
-void PbdFluidSolver2::setAntiClusteringDenominatorFactor(double factor) {
+void PbfSolver2::setAntiClusteringDenominatorFactor(double factor) {
     _antiClusteringDenom = factor;
 }
 
-double PbdFluidSolver2::antiClusteringStrength() const {
+double PbfSolver2::antiClusteringStrength() const {
     return _antiClusteringStrength;
 }
 
-void PbdFluidSolver2::setAntiClusteringStrength(double strength) {
+void PbfSolver2::setAntiClusteringStrength(double strength) {
     _antiClusteringStrength = strength;
 }
 
-double PbdFluidSolver2::antiClusteringExponent() const {
+double PbfSolver2::antiClusteringExponent() const {
     return _antiClusteringExp;
 }
 
-void PbdFluidSolver2::setAntiClusteringExponent(double exponent) {
+void PbfSolver2::setAntiClusteringExponent(double exponent) {
     _antiClusteringExp = exponent;
 }
 
-SphSystemData2Ptr PbdFluidSolver2::sphSystemData() const {
+SphSystemData2Ptr PbfSolver2::sphSystemData() const {
     return std::dynamic_pointer_cast<SphSystemData2>(particleSystemData());
 }
 
-void PbdFluidSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
+void PbfSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
     // Clear forces
     auto particles = sphSystemData();
     auto forces = particles->forces();
@@ -133,7 +133,7 @@ void PbdFluidSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
              << maxDensity / particles->targetDensity();
 }
 
-void PbdFluidSolver2::predictPosition(double timeStepInSeconds) {
+void PbfSolver2::predictPosition(double timeStepInSeconds) {
     accumulateForces(timeStepInSeconds);
 
     auto particles = sphSystemData();
@@ -162,7 +162,7 @@ void PbdFluidSolver2::predictPosition(double timeStepInSeconds) {
     particles->updateDensities();
 }
 
-void PbdFluidSolver2::updatePosition(double timeStepInSeconds) {
+void PbfSolver2::updatePosition(double timeStepInSeconds) {
     auto particles = sphSystemData();
     const auto& neighborLists = particles->neighborLists();
     const size_t n = particles->numberOfParticles();
@@ -240,7 +240,7 @@ void PbdFluidSolver2::updatePosition(double timeStepInSeconds) {
     }
 }
 
-void PbdFluidSolver2::computePseudoViscosity(double timeStepInSeconds) {
+void PbfSolver2::computePseudoViscosity(double timeStepInSeconds) {
     auto particles = sphSystemData();
     size_t numberOfParticles = particles->numberOfParticles();
     auto x = particles->positions();
@@ -281,44 +281,44 @@ void PbdFluidSolver2::computePseudoViscosity(double timeStepInSeconds) {
     });
 }
 
-PbdFluidSolver2::Builder PbdFluidSolver2::builder() {
+PbfSolver2::Builder PbfSolver2::builder() {
     return Builder();
 }
 
 
-PbdFluidSolver2::Builder&
-PbdFluidSolver2::Builder::withTargetDensity(double targetDensity) {
+PbfSolver2::Builder&
+PbfSolver2::Builder::withTargetDensity(double targetDensity) {
     _targetDensity = targetDensity;
     return *this;
 }
 
-PbdFluidSolver2::Builder&
-PbdFluidSolver2::Builder::withTargetSpacing(double targetSpacing) {
+PbfSolver2::Builder&
+PbfSolver2::Builder::withTargetSpacing(double targetSpacing) {
     _targetSpacing = targetSpacing;
     return *this;
 }
 
-PbdFluidSolver2::Builder&
-PbdFluidSolver2::Builder::withRelativeKernelRadius(
+PbfSolver2::Builder&
+PbfSolver2::Builder::withRelativeKernelRadius(
     double relativeKernelRadius) {
     _relativeKernelRadius = relativeKernelRadius;
     return *this;
 }
 
-PbdFluidSolver2 PbdFluidSolver2::Builder::build() const {
-    return PbdFluidSolver2(
+PbfSolver2 PbfSolver2::Builder::build() const {
+    return PbfSolver2(
         _targetDensity,
         _targetSpacing,
         _relativeKernelRadius);
 }
 
-PbdFluidSolver2Ptr PbdFluidSolver2::Builder::makeShared() const {
-    return std::shared_ptr<PbdFluidSolver2>(
-        new PbdFluidSolver2(
+PbfSolver2Ptr PbfSolver2::Builder::makeShared() const {
+    return std::shared_ptr<PbfSolver2>(
+        new PbfSolver2(
             _targetDensity,
             _targetSpacing,
             _relativeKernelRadius),
-        [] (PbdFluidSolver2* obj) {
+        [] (PbfSolver2* obj) {
             delete obj;
     });
 }

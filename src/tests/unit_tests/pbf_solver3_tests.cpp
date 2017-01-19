@@ -1,20 +1,20 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
-#include <jet/pbd_fluid_solver2.h>
+#include <jet/pbf_solver3.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(PbdFluidSolver2, UpdateEmpty) {
+TEST(PbfSolver3, UpdateEmpty) {
     // Empty solver test
-    PbdFluidSolver2 solver;
+    PbfSolver3 solver;
     Frame frame(1, 0.01);
     solver.update(frame);
     solver.update(frame);
 }
 
-TEST(PbdFluidSolver2, Parameters) {
-    PbdFluidSolver2 solver;
+TEST(PbfSolver3, Parameters) {
+    PbfSolver3 solver;
 
     solver.setPseudoViscosityCoefficient(0.3);
     EXPECT_DOUBLE_EQ(0.3, solver.pseudoViscosityCoefficient());
