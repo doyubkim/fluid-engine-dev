@@ -561,6 +561,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="pbf_solver2.cpp" />
+    <ClCompile Include="pbf_solver3.cpp" />
     <ClCompile Include="pci_sph_solver2.cpp" />
     <ClCompile Include="pci_sph_solver3.cpp" />
     <ClCompile Include="physics_animation.cpp" />
