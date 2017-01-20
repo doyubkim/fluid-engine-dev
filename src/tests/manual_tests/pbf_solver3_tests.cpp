@@ -3,8 +3,10 @@
 #include <manual_tests.h>
 
 #include <jet/box3.h>
+#include <jet/implicit_surface_set3.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/pbf_solver3.h>
+#include <jet/sphere3.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;
@@ -17,6 +19,8 @@ JET_BEGIN_TEST_F(PbfSolver3, SteadyState) {
         .withTargetDensity(1000.0)
         .withTargetSpacing(0.05)
         .makeShared();
+
+    solver->setAntiClusteringStrength(1e-6);
 
     const auto particles = solver->sphSystemData();
     const double targetSpacing = particles->targetSpacing();
@@ -100,6 +104,57 @@ JET_BEGIN_TEST_F(PbfSolver3, DamBreaking) {
         solver->update(frame);
 
         saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(PbfSolver3, DropOnBall) {
+    auto solver = PbfSolver3::builder()
+        .withTargetDensity(1000.0)
+        .withTargetSpacing(0.02)
+        .makeShared();
+
+    solver->setMaxNumberOfIterations(20);
+
+    auto particles = solver->sphSystemData();
+
+    auto sphere = Sphere3::builder()
+        .withCenter({0.5, 1.0, 0.5})
+        .withRadius(0.15)
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(sphere)
+        .withSpacing(0.02)
+        .makeShared();
+
+    solver->setEmitter(emitter);
+
+    auto anotherSphere = Sphere3::builder()
+        .withCenter({0.5, 0.5, 0.5})
+        .withRadius(0.15)
+        .makeShared();
+
+    auto box = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({1, 2, 1})
+        .withIsNormalFlipped(true)
+        .makeShared();
+
+    auto surfSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({anotherSphere, box})
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(surfSet)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    for (Frame frame; frame.index < 120; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(particles, frame.index);
     }
 }
 JET_END_TEST_F

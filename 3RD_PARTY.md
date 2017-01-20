@@ -446,3 +446,12 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
+---
+
+Jet uses getRSS code from David Robert Nadeau for memory perf tests.
+
+Author:  David Robert Nadeau
+Site:    http://NadeauSoftware.com/
+License: Creative Commons Attribution 3.0 Unported License
+         http://creativecommons.org/licenses/by/3.0/deed.en_US
+

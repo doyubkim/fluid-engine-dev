@@ -43,7 +43,7 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     //! \brief Sets the pseudo viscosity coefficient.
     //!
     //! This function sets the pseudo viscosity coefficient which applies
-    //! additional pseudo-physical damping to the system. Default is 0.1.
+    //! additional pseudo-physical damping to the system. Default is 0.01.
     //! Should be in range between 0 and 1.
     //!
     void setPseudoViscosityCoefficient(double newPseudoViscosityCoefficient);
@@ -54,7 +54,7 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     //!
     //! \brief Sets max number of PBD iterations.
     //!
-    //! This function sets the max number of PBD iterations. Default is 5.
+    //! This function sets the max number of PBD iterations. Default is 10.
     //!
     void setMaxNumberOfIterations(unsigned int n);
 
@@ -62,7 +62,7 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     //! \brief Sets the relaxation parameter.
     //!
     //! This function sets the relaxation parameter which is used when computing
-    //! the step size (lambda) of the optimization process. Default is 0.1.
+    //! the step size (lambda) of the optimization process. Default is 10.0.
     //!
     //! \param[in]  eps   The relaxation parameter.
     //!
@@ -89,7 +89,7 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     //! \brief Sets the strength of the anti-clustering.
     //!
     //! This function sets the strength of the anti-clustering force.
-    //! Default is 1e-5. Should be a small number.
+    //! Default is 1e-9. Should be a small number.
     //!
     //! \param[in]  strength The anti-clustering strength.
     //!
@@ -97,6 +97,19 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
 
     //! Returns the strength of the anti-clustering.
     double antiClusteringStrength() const;
+
+    //!
+    //! \brief Sets the vorticity confinement strength.
+    //!
+    //! This function sets the vorticity confinement strength.
+    //! Default is 0 (no vorticity confinement).
+    //!
+    //! \param[in]  strength The vorticity confinement strength.
+    //!
+    void setVorticityConfinementStrength(double strength);
+
+    //! Returns the vorticity confinement strength.
+    double vorticityConfinementStrength() const;
 
     //!
     //! \brief Sets the exponent of the anti-clustering.
@@ -118,12 +131,13 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     static Builder builder();
 
  private:
-    double _pseudoViscosityCoefficient = 0.1;
+    double _pseudoViscosityCoefficient = 0.01;
     unsigned int _maxNumberOfIterations = 10;
-    double _lambdaRelaxation = 0.1;
+    double _lambdaRelaxation = 10.0;
     double _antiClusteringDenom = 0.2;
-    double _antiClusteringStrength = 1e-5;
+    double _antiClusteringStrength = 1e-9;
     double _antiClusteringExp = 4.0;
+    double _vorticityConfinementStrength = 0.0;
 
     ParticleSystemData3::VectorData _originalPositions;
 
@@ -134,6 +148,8 @@ class PbfSolver3 final : public ParticleSystemSolver3 {
     void updatePosition(double timeStepInSeconds);
 
     void computePseudoViscosity(double timeStepInSeconds);
+
+    void computeVorticityConfinement();
 };
 
 //! Shared pointer type for the PbfSolver3.

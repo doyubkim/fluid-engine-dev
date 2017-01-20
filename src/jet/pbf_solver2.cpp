@@ -84,6 +84,14 @@ void PbfSolver2::setAntiClusteringExponent(double exponent) {
     _antiClusteringExp = exponent;
 }
 
+void PbfSolver2::setVorticityConfinementStrength(double strength) {
+    _vorticityConfinementStrength = strength;
+}
+
+double PbfSolver2::vorticityConfinementStrength() const {
+    return _vorticityConfinementStrength;
+}
+
 SphSystemData2Ptr PbfSolver2::sphSystemData() const {
     return std::dynamic_pointer_cast<SphSystemData2>(particleSystemData());
 }
@@ -134,9 +142,16 @@ void PbfSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
 }
 
 void PbfSolver2::predictPosition(double timeStepInSeconds) {
+    auto particles = sphSystemData();
+
     accumulateForces(timeStepInSeconds);
 
-    auto particles = sphSystemData();
+    if (_vorticityConfinementStrength > 0.0) {
+        particles->buildNeighborSearcher();
+        particles->buildNeighborLists();
+        computeVorticityConfinement();
+    }
+
     const size_t n = particles->numberOfParticles();
     auto forces = particles->forces();
     auto velocities = particles->velocities();
@@ -186,7 +201,7 @@ void PbfSolver2::updatePosition(double timeStepInSeconds) {
             double sumGradC = 0.0;
 
             // Constraint
-            const double c = d[i] / targetDensity - 1.0;;
+            const double c = d[i] / targetDensity - 1.0;
 
             // Gradient from neighbors
             for (size_t j : neighbors) {
@@ -278,6 +293,55 @@ void PbfSolver2::computePseudoViscosity(double timeStepInSeconds) {
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         v[i] = lerp(
             v[i], smoothedVelocities[i], _pseudoViscosityCoefficient);
+    });
+}
+
+void PbfSolver2::computeVorticityConfinement() {
+    auto particles = sphSystemData();
+    const size_t n = particles->numberOfParticles();
+    const auto x = particles->positions();
+    const auto v = particles->velocities();
+    auto f = particles->forces();
+
+    const double targetDensity = particles->targetDensity();
+    const double mass = particles->mass();
+    const SphSpikyKernel2 kernel(particles->kernelRadius());
+
+    // Compute w
+    ParticleSystemData2::ScalarData w(n);
+    parallelFor(kZeroSize, n, [&](size_t i) {
+        const auto& neighbors = particles->neighborLists()[i];
+        for (size_t j : neighbors) {
+            double dist = x[i].distanceTo(x[j]);
+            if (dist > 0.0) {
+                const Vector2D dir = (x[j] - x[i]) / dist;
+                const Vector2D gradW = kernel.gradient(dist, dir);
+                w[i] += (v[j] - v[i]).cross(gradW);
+            }
+        }
+        w[i] *= mass / targetDensity;
+    });
+
+    // Compute force
+    parallelFor(kZeroSize, n, [&](size_t i) {
+        const auto& neighbors = particles->neighborLists()[i];
+        Vector2D gradVor;
+        for (size_t j : neighbors) {
+            const double dist = x[i].distanceTo(x[j]);
+            if (dist > 0.0) {
+                const Vector2D dir = (x[j] - x[i]) / dist;
+                const Vector2D gradW = kernel.gradient(dist, dir);
+                gradVor += std::fabs(w[i]) * gradW;
+            }
+        }
+        gradVor *= mass / targetDensity;
+
+        if (gradVor.lengthSquared() > 0.0) {
+            const Vector2D n = gradVor.normalized();
+
+            // f = e(N x w)
+            f[i] += _vorticityConfinementStrength * w[i] * Vector2D(n.y, -n.x);
+        }
     });
 }
 

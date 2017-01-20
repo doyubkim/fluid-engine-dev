@@ -4,10 +4,11 @@
 
 Jet framework is a fluid simulation engine SDK for computer graphics applications that was created by Doyub Kim as part of the book, ["Fluid Engine Development"](https://www.crcpress.com/Fluid-Engine-Development/Kim/p/book/9781498719926). The code is built on C++11 and can be compiled with commonly available compilers such as g++, clang, and Visual Studio. Currently tested platforms are macOS (10.10 or later), Ubuntu (14.04 or later), and Windows (Visual Studio 2015).
 
-The latest code is always available from the `master` branch. But since the code is a living thing, it will evolve and may diverge from the code from the book over time. To find the exact version that is shipped with the book, checkout the branch `book-1st-edition`.
+The latest code is always available from the [`master`](https://github.com/doyubkim/fluid-engine-dev/tree/master) branch. Since the code is a living thing which evolves over time, the latest from the master could be somewhat different from the code in the book. To find the version that is consistent with the book, checkout the branch [`book-1st-edition`](https://github.com/doyubkim/fluid-engine-dev/tree/book-1st-edition).
 
 ### Key Features
 * SPH and PCISPH fluid simulators
+* Position-based fluid simulators
 * Stable fluids-based smoke simulator
 * Level set-based liquid simulator
 * PIC and FLIP fluid simulators

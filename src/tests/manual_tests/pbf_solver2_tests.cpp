@@ -65,6 +65,7 @@ JET_BEGIN_TEST_F(PbfSolver2, DamBreaking) {
         .makeShared();
 
     solver->setMaxNumberOfIterations(20);
+    solver->setVorticityConfinementStrength(0.01);
 
     const auto particles = solver->sphSystemData();
     const double targetSpacing = particles->targetSpacing();
