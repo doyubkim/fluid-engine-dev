@@ -26,6 +26,12 @@ class ColliderSet3 final : public Collider3 {
     //! Adds a collider to the set.
     void addCollider(const Collider3Ptr& collider);
 
+    //! Returns number of colliders.
+    size_t numberOfColliders() const;
+
+    //! Returns collider at index \p i.
+    Collider3Ptr collider(size_t i) const;
+
     //! Returns builder fox ColliderSet3.
     static Builder builder();
 

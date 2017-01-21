@@ -69,6 +69,12 @@
     <ClCompile Include="cell_centered_vector3_grid_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="collider_set2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collider_set3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="cg_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
