@@ -77,7 +77,7 @@ Once Visual Studio is installed, open the solution file `Jet.sln` using Visual S
 
 ### Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout [unit_tests.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/unit_tests.md), [manual_tests.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/manual_tests.md), and [perf_tests.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/perf_tests.md).
+There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
 
 ### Installing SDK
 
