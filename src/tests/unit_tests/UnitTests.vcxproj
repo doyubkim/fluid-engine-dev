@@ -43,6 +43,8 @@
     <ClCompile Include="cell_centered_vector_grid2_tests.cpp" />
     <ClCompile Include="cell_centered_vector_grid3_tests.cpp" />
     <ClCompile Include="cg_tests.cpp" />
+    <ClCompile Include="collider_set2_tests.cpp" />
+    <ClCompile Include="collider_set3_tests.cpp" />
     <ClCompile Include="cylinder3_tests.cpp" />
     <ClCompile Include="face_centered_grid2_tests.cpp" />
     <ClCompile Include="face_centered_grid3_tests.cpp" />

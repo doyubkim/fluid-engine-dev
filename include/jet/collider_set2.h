@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_COLLIDER_SET2_H_
 #define INCLUDE_JET_COLLIDER_SET2_H_
@@ -25,6 +25,12 @@ class ColliderSet2 final : public Collider2 {
 
     //! Adds a collider to the set.
     void addCollider(const Collider2Ptr& collider);
+
+    //! Returns number of colliders.
+    size_t numberOfColliders() const;
+
+    //! Returns collider at index \p i.
+    Collider2Ptr collider(size_t i) const;
 
     //! Returns builder fox ColliderSet2.
     static Builder builder();
