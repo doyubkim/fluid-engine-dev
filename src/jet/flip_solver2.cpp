@@ -23,7 +23,7 @@ double FlipSolver2::picBlendingFactor() const {
 }
 
 void FlipSolver2::setPicBlendingFactor(double factor) {
-    _picBlendingFactor = factor;
+    _picBlendingFactor = clamp(factor, 0.0, 1.0);
 }
 
 void FlipSolver2::transferFromParticlesToGrids() {
