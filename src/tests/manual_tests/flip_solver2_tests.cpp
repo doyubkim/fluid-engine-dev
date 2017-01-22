@@ -111,6 +111,49 @@ JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithCollider) {
 }
 JET_END_TEST_F
 
+JET_BEGIN_TEST_F(FlipSolver2, DamBreakingWithColliderWithBlending) {
+    // Build solver
+    auto solver = FlipSolver2::builder()
+        .withResolution({100, 100})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    solver->setPicBlendingFactor(0.05);
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.0, 0.0})
+        .withUpperCorner({0.2, 0.8})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(0.005)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    // Build collider
+    auto sphere = Sphere2::builder()
+        .withCenter({0.5, 0.0})
+        .withRadius(0.15)
+        .makeShared();
+
+    auto collider = RigidBodyCollider2::builder()
+        .withSurface(sphere)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
 JET_BEGIN_TEST_F(FlipSolver2, RotatingTank) {
     // Build solver
     auto solver = FlipSolver2::builder()

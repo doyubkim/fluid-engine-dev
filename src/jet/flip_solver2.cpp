@@ -18,6 +18,14 @@ FlipSolver2::FlipSolver2(
 FlipSolver2::~FlipSolver2() {
 }
 
+double FlipSolver2::picBlendingFactor() const {
+    return _picBlendingFactor;
+}
+
+void FlipSolver2::setPicBlendingFactor(double factor) {
+    _picBlendingFactor = factor;
+}
+
 void FlipSolver2::transferFromParticlesToGrids() {
     PicSolver2::transferFromParticlesToGrids();
 
@@ -69,7 +77,12 @@ void FlipSolver2::transferFromGridsToParticles() {
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += sampler(positions[i]);
+        Vector2D flipVel = velocities[i] + sampler(positions[i]);
+        if (_picBlendingFactor > 0.0) {
+            Vector2D picVel = flow->sample(positions[i]);
+            flipVel = lerp(flipVel, picVel, _picBlendingFactor);
+        }
+        velocities[i] = flipVel;
     });
 }
 
