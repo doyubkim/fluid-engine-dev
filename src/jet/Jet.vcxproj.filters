@@ -162,6 +162,12 @@
     <ClInclude Include="..\..\include\jet\animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\apic_solver2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\apic_solver3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1002,6 +1008,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apic_solver2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apic_solver3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="bcc_lattice_point_generator.cpp">

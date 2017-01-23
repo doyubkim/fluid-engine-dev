@@ -54,6 +54,12 @@
     <ClCompile Include="animation_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="apic_solver2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="apic_solver3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="array_utils_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
