@@ -101,6 +101,13 @@ class LinearArraySampler<T, R, 2> final {
         std::array<Point2UI, 4>* indices,
         std::array<R, 4>* weights) const;
 
+    //! Returns the indices of points and their gradient of sampling weight for
+    //! given point.
+    void getCoordinatesAndGradientWeights(
+        const Vector2<R>& pt,
+        std::array<Point2UI, 4>* indices,
+        std::array<Vector2<R>, 4>* weights) const;
+
     //! Returns a funtion object that wraps this instance.
     std::function<T(const Vector2<R>&)> functor() const;
 

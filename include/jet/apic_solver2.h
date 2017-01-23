@@ -43,8 +43,8 @@ class ApicSolver2 : public PicSolver2 {
     void transferFromGridsToParticles() override;
 
  private:
-    Array2<Vector2D> _cX;
-    Array2<Vector2D> _cY;
+    Array1<Vector2D> _cX;
+    Array1<Vector2D> _cY;
 };
 
 //! Shared pointer type for the ApicSolver2.

@@ -155,6 +155,47 @@ void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
 }
 
 template <typename T, typename R>
+void LinearArraySampler2<T, R>::getCoordinatesAndGradientWeights(
+    const Vector2<R>& x,
+    std::array<Point2UI, 4>* indices,
+    std::array<Vector2<R>, 4>* weights) const {
+    ssize_t i, j;
+    R fx, fy;
+
+    JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0);
+
+    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+
+    ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
+    ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
+
+    getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
+
+    ssize_t ip1 = std::min(i + 1, iSize - 1);
+    ssize_t jp1 = std::min(j + 1, jSize - 1);
+
+    (*indices)[0] = Point2UI(i, j);
+    (*indices)[1] = Point2UI(ip1, j);
+    (*indices)[2] = Point2UI(i, jp1);
+    (*indices)[3] = Point2UI(ip1, jp1);
+
+    Vector2<R> invGridSpacing = static_cast<R>(1) / _gridSpacing;
+    (*weights)[0] = Vector2<R>(
+        fy * invGridSpacing.x - invGridSpacing.x,
+        fx * invGridSpacing.y - invGridSpacing.y);
+    (*weights)[1] = Vector2<R>(
+        -fy * invGridSpacing.x + invGridSpacing.x,
+        -fx * invGridSpacing.y);
+    (*weights)[2] = Vector2<R>(
+        -fy * invGridSpacing.x,
+        -fx * invGridSpacing.y + invGridSpacing.y);
+    (*weights)[3] = Vector2<R>(
+        fy * invGridSpacing.x,
+        fx * invGridSpacing.y);
+}
+
+template <typename T, typename R>
 std::function<T(const Vector2<R>&)> LinearArraySampler2<T, R>::functor() const {
     LinearArraySampler sampler(*this);
     return std::bind(

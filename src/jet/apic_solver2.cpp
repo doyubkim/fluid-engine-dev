@@ -20,9 +20,10 @@ ApicSolver2::~ApicSolver2() {
 
 void ApicSolver2::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
-    auto positions = _particles->positions();
-    auto velocities = _particles->velocities();
-    size_t numberOfParticles = _particles->numberOfParticles();
+    auto particles = particleSystemData();
+    auto positions = particles->positions();
+    auto velocities = particles->velocities();
+    size_t numberOfParticles = particles->numberOfParticles();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
@@ -88,16 +89,43 @@ void ApicSolver2::transferFromParticlesToGrids() {
 
 void ApicSolver2::transferFromGridsToParticles() {
     auto flow = gridSystemData()->velocity();
-    auto positions = _particles->positions();
-    auto velocities = _particles->velocities();
-    size_t numberOfParticles = _particles->numberOfParticles();
+    auto particles = particleSystemData();
+    auto positions = particles->positions();
+    auto velocities = particles->velocities();
+    size_t numberOfParticles = particles->numberOfParticles();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
     _cY.resize(numberOfParticles);
+    _cX.set(Vector2D());
+    _cY.set(Vector2D());
+
+    auto u = flow->uAccessor();
+    auto v = flow->vAccessor();
+    LinearArraySampler2<double, double> uSampler(
+        u, flow->gridSpacing(), flow->uOrigin());
+    LinearArraySampler2<double, double> vSampler(
+        v, flow->gridSpacing(), flow->vOrigin());
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
+
+        std::array<Point2UI, 4> indices;
+        std::array<Vector2D, 4> gradWeights;
+
+        // x
+        uSampler.getCoordinatesAndGradientWeights(
+            positions[i], &indices, &gradWeights);
+        for (int j = 0; j < 4; ++j) {
+            _cX[i] += gradWeights[j] * u(indices[j]);
+        }
+
+        // y
+        vSampler.getCoordinatesAndGradientWeights(
+            positions[i], &indices, &gradWeights);
+        for (int j = 0; j < 4; ++j) {
+            _cY[i] += gradWeights[j] * v(indices[j]);
+        }
     });
 }
 
