@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_DETAIL_ARRAY_SAMPLERS2_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY_SAMPLERS2_INL_H_
@@ -83,6 +83,7 @@ LinearArraySampler2<T, R>::LinearArraySampler(
     const Vector2<R>& gridSpacing,
     const Vector2<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
+    _invGridSpacing = static_cast<R>(1) / _gridSpacing;
     _origin = gridOrigin;
     _accessor = accessor;
 }
@@ -91,6 +92,7 @@ template <typename T, typename R>
 LinearArraySampler2<T, R>::LinearArraySampler(
     const LinearArraySampler& other) {
     _gridSpacing = other._gridSpacing;
+    _invGridSpacing = other._invGridSpacing;
     _origin = other._origin;
     _accessor = other._accessor;
 }
@@ -164,35 +166,35 @@ void LinearArraySampler2<T, R>::getCoordinatesAndGradientWeights(
 
     JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0);
 
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    const Vector2<R> normalizedX = (x - _origin) * _invGridSpacing;
 
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
-    ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
+    const ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
+    const ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
 
     getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
     getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
 
-    ssize_t ip1 = std::min(i + 1, iSize - 1);
-    ssize_t jp1 = std::min(j + 1, jSize - 1);
+    const ssize_t ip1 = std::min(i + 1, iSize - 1);
+    const ssize_t jp1 = std::min(j + 1, jSize - 1);
 
     (*indices)[0] = Point2UI(i, j);
     (*indices)[1] = Point2UI(ip1, j);
     (*indices)[2] = Point2UI(i, jp1);
     (*indices)[3] = Point2UI(ip1, jp1);
 
-    Vector2<R> invGridSpacing = static_cast<R>(1) / _gridSpacing;
+
     (*weights)[0] = Vector2<R>(
-        fy * invGridSpacing.x - invGridSpacing.x,
-        fx * invGridSpacing.y - invGridSpacing.y);
+        fy * _invGridSpacing.x - _invGridSpacing.x,
+        fx * _invGridSpacing.y - _invGridSpacing.y);
     (*weights)[1] = Vector2<R>(
-        -fy * invGridSpacing.x + invGridSpacing.x,
-        -fx * invGridSpacing.y);
+        -fy * _invGridSpacing.x + _invGridSpacing.x,
+        -fx * _invGridSpacing.y);
     (*weights)[2] = Vector2<R>(
-        -fy * invGridSpacing.x,
-        -fx * invGridSpacing.y + invGridSpacing.y);
+        -fy * _invGridSpacing.x,
+        -fx * _invGridSpacing.y + _invGridSpacing.y);
     (*weights)[3] = Vector2<R>(
-        fy * invGridSpacing.x,
-        fx * invGridSpacing.y);
+        fy * _invGridSpacing.x,
+        fx * _invGridSpacing.y);
 }
 
 template <typename T, typename R>
