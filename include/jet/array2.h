@@ -115,7 +115,7 @@ class Array<T, 2> final {
     //!
     //! \brief Returns the reference to the i-th element.
     //!
-    //! This function returns the referenece to the i-th element of the array
+    //! This function returns the reference to the i-th element of the array
     //! where i is the index of linearly mapped elements such that
     //! i = x + (width * y) (x and y are the 2-D coordinates of the element).
     //!
@@ -124,7 +124,7 @@ class Array<T, 2> final {
     //!
     //! \brief Returns the const reference to the i-th element.
     //!
-    //! This function returns the const referenece to the i-th element of the
+    //! This function returns the const reference to the i-th element of the
     //! array where i is the index of linearly mapped elements such that
     //! i = x + (width * y) (x and y are the 2-D coordinates of the element).
     //!
@@ -281,7 +281,7 @@ class Array<T, 2> final {
     //!
     //! \brief Returns the reference to the i-th element.
     //!
-    //! This function returns the referenece to the i-th element of the array
+    //! This function returns the reference to the i-th element of the array
     //! where i is the index of linearly mapped elements such that
     //! i = x + (width * y) (x and y are the 2-D coordinates of the element).
     //!
@@ -292,7 +292,7 @@ class Array<T, 2> final {
     //!
     //! \brief Returns the const reference to the i-th element.
     //!
-    //! This function returns the const referenece to the i-th element of the
+    //! This function returns the const reference to the i-th element of the
     //! array where i is the index of linearly mapped elements such that
     //! i = x + (width * y) (x and y are the 2-D coordinates of the element).
     //!
