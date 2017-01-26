@@ -129,6 +129,93 @@ JET_BEGIN_TEST_F(ApicSolver2, DamBreaking) {
 }
 JET_END_TEST_F
 
+JET_BEGIN_TEST_F(ApicSolver2, LeftWall) {
+    // Build solver
+    auto solver = ApicSolver2::builder()
+        .withResolution({32, 32})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.0, 0.0})
+        .withUpperCorner({0.01, 0.5})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(1.0 / 64.0)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    for (Frame frame; frame.index < 100; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(ApicSolver2, RightWall) {
+    // Build solver
+    auto solver = ApicSolver2::builder()
+        .withResolution({32, 32})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({1.0 - 1.0 / 64.0, 0.0})
+        .withUpperCorner({1.0, 0.5})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(1.0 / 64.0)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    for (Frame frame; frame.index < 10; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(ApicSolver2, LeftWallPic) {
+    // Build solver
+    auto solver = PicSolver2::builder()
+        .withResolution({32, 32})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    // Build emitter
+    auto box = Box2::builder()
+        .withLowerCorner({0.0, 0.0})
+        .withUpperCorner({0.01, 0.5})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(1.0 / 64.0)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    for (Frame frame; frame.index < 100; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
 JET_BEGIN_TEST_F(ApicSolver2, DamBreakingWithCollider) {
     // Build solver
     auto solver = ApicSolver2::builder()

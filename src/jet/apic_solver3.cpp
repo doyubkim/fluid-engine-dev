@@ -21,10 +21,12 @@ ApicSolver3::~ApicSolver3() {
 
 void ApicSolver3::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
-    auto particles = particleSystemData();
-    auto positions = particles->positions();
+    const auto particles = particleSystemData();
+    const auto positions = particles->positions();
     auto velocities = particles->velocities();
-    size_t numberOfParticles = particles->numberOfParticles();
+    const size_t numberOfParticles = particles->numberOfParticles();
+    const auto hh = flow->gridSpacing() / 2.0;
+    const auto bbox = flow->boundingBox();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
@@ -38,9 +40,9 @@ void ApicSolver3::transferFromParticlesToGrids() {
     auto u = flow->uAccessor();
     auto v = flow->vAccessor();
     auto w = flow->wAccessor();
-    auto uPos = flow->uPosition();
-    auto vPos = flow->vPosition();
-    auto wPos = flow->wPosition();
+    const auto uPos = flow->uPosition();
+    const auto vPos = flow->vPosition();
+    const auto wPos = flow->wPosition();
     Array3<double> uWeight(u.size());
     Array3<double> vWeight(v.size());
     Array3<double> wWeight(w.size());
@@ -67,28 +69,37 @@ void ApicSolver3::transferFromParticlesToGrids() {
         std::array<Point3UI, 8> indices;
         std::array<double, 8> weights;
 
-        uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        auto uPosClamped = positions[i];
+        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        uPosClamped.z = clamp(uPosClamped.z, hh.z, bbox.upperCorner.z - hh.z);
+        uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
-            double apicTerm = _cX[i].dot(gridPos - positions[i]);
+            double apicTerm = _cX[i].dot(gridPos - uPosClamped);
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
             uWeight(indices[j]) += weights[j];
             _uMarkers(indices[j]) = 1;
         }
 
-        vSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        auto vPosClamped = positions[i];
+        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        vPosClamped.z = clamp(vPosClamped.z, hh.z, bbox.upperCorner.z - hh.z);
+        vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
-            double apicTerm = _cY[i].dot(gridPos - positions[i]);
+            double apicTerm = _cY[i].dot(gridPos - vPosClamped);
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
             vWeight(indices[j]) += weights[j];
             _vMarkers(indices[j]) = 1;
         }
 
-        wSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        auto wPosClamped = positions[i];
+        wPosClamped.x = clamp(wPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        wPosClamped.y = clamp(wPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        wSampler.getCoordinatesAndWeights(wPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
-            double apicTerm = _cZ[i].dot(gridPos - positions[i]);
+            double apicTerm = _cZ[i].dot(gridPos - wPosClamped);
             w(indices[j]) += weights[j] * (velocities[i].z + apicTerm);
             wWeight(indices[j]) += weights[j];
             _wMarkers(indices[j]) = 1;
@@ -113,11 +124,13 @@ void ApicSolver3::transferFromParticlesToGrids() {
 }
 
 void ApicSolver3::transferFromGridsToParticles() {
-    auto flow = gridSystemData()->velocity();
-    auto particles = particleSystemData();
+    const auto flow = gridSystemData()->velocity();
+    const auto particles = particleSystemData();
     auto positions = particles->positions();
     auto velocities = particles->velocities();
-    size_t numberOfParticles = particles->numberOfParticles();
+    const size_t numberOfParticles = particles->numberOfParticles();
+    const auto hh = flow->gridSpacing() / 2.0;
+    const auto bbox = flow->boundingBox();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
@@ -144,22 +157,31 @@ void ApicSolver3::transferFromGridsToParticles() {
         std::array<Vector3D, 8> gradWeights;
 
         // x
+        auto uPosClamped = positions[i];
+        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        uPosClamped.z = clamp(uPosClamped.z, hh.z, bbox.upperCorner.z - hh.z);
         uSampler.getCoordinatesAndGradientWeights(
-            positions[i], &indices, &gradWeights);
+            uPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
 
         // y
+        auto vPosClamped = positions[i];
+        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        vPosClamped.z = clamp(vPosClamped.z, hh.z, bbox.upperCorner.z - hh.z);
         vSampler.getCoordinatesAndGradientWeights(
-            positions[i], &indices, &gradWeights);
+            vPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }
 
         // z
+        auto wPosClamped = positions[i];
+        wPosClamped.x = clamp(wPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        wPosClamped.y = clamp(wPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
         wSampler.getCoordinatesAndGradientWeights(
-            positions[i], &indices, &gradWeights);
+            wPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cZ[i] += gradWeights[j] * w(indices[j]);
         }

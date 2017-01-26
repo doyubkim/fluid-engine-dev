@@ -70,7 +70,7 @@ void printUsage() {
         "   -l, --log: log filename (default is " APP_NAME ".log)\n"
         "   -o, --output: output directory name "
         "(default is " APP_NAME "_output)\n"
-        "   -e, --example: example number (between 1 and 4, default is 1)\n"
+        "   -e, --example: example number (between 1 and 5, default is 1)\n"
         "   -m, --format: particle output format (xyz or pos. default is xyz)\n"
         "   -h, --help: print this message\n");
 }
@@ -399,6 +399,86 @@ void runExample4(
     runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
+// Dam-breaking example (APIC)
+void runExample5(
+    const std::string& rootDir,
+    size_t resolutionX,
+    unsigned int numberOfFrames,
+    const std::string& format,
+    double fps) {
+    // Build solver
+    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    auto solver = ApicSolver3::builder()
+        .withResolution(resolution)
+        .withDomainSizeX(3.0)
+        .makeShared();
+
+    auto grids = solver->gridSystemData();
+    double dx = grids->gridSpacing().x;
+    BoundingBox3D domain = grids->boundingBox();
+    double lz = domain.depth();
+
+    // Build emitter
+    auto box1 = Box3::builder()
+        .withLowerCorner({0, 0, 0})
+        .withUpperCorner({0.5 + 0.001, 0.75 + 0.001, 0.75 * lz + 0.001})
+        .makeShared();
+
+    auto box2 = Box3::builder()
+        .withLowerCorner({2.5 - 0.001, 0, 0.25 * lz - 0.001})
+        .withUpperCorner({3.5 + 0.001, 0.75 + 0.001, 1.5 * lz + 0.001})
+        .makeShared();
+
+    auto boxSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({box1, box2})
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter3::builder()
+        .withSurface(boxSet)
+        .withMaxRegion(domain)
+        .withSpacing(0.5 * dx)
+        .makeShared();
+
+    emitter->setPointGenerator(std::make_shared<GridPointGenerator3>());
+    solver->setParticleEmitter(emitter);
+
+    // Build collider
+    auto cyl1 = Cylinder3::builder()
+        .withCenter({1, 0.375, 0.375})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cyl2 = Cylinder3::builder()
+        .withCenter({1.5, 0.375, 0.75})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cyl3 = Cylinder3::builder()
+        .withCenter({2, 0.375, 1.125})
+        .withRadius(0.1)
+        .withHeight(0.75)
+        .makeShared();
+
+    auto cylSet = ImplicitSurfaceSet3::builder()
+        .withExplicitSurfaces({cyl1, cyl2, cyl3})
+        .makeShared();
+
+    auto collider = RigidBodyCollider3::builder()
+        .withSurface(cylSet)
+        .makeShared();
+
+    solver->setCollider(collider);
+
+    // Print simulation info
+    printf("Running example 4 (dam-breaking with PIC)\n");
+    printInfo(solver);
+
+    // Run simulation
+    runSimulation(rootDir, solver, numberOfFrames, format, fps);
+}
+
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
     unsigned int numberOfFrames = 100;
@@ -483,6 +563,9 @@ int main(int argc, char* argv[]) {
             break;
         case 4:
             runExample4(outputDir, resolutionX, numberOfFrames, format, fps);
+            break;
+        case 5:
+            runExample5(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         default:
             printUsage();

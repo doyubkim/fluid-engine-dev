@@ -225,18 +225,16 @@ CubicArraySampler2<T, R>::CubicArraySampler(
 template <typename T, typename R>
 T CubicArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
     ssize_t i, j;
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
-    ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
+    const ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
+    const ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
     R fx, fy;
 
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon());
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    const Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
 
-    getBarycentric(
-        normalizedX.x, 0, static_cast<ssize_t>(_accessor.width()) - 1, &i, &fx);
-    getBarycentric(
-        normalizedX.y, 0, static_cast<ssize_t>(_accessor.height()) - 1, &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     ssize_t is[4] = {
         std::max(i - 1, kZeroSSize),

@@ -20,10 +20,12 @@ ApicSolver2::~ApicSolver2() {
 
 void ApicSolver2::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
-    auto particles = particleSystemData();
-    auto positions = particles->positions();
+    const auto particles = particleSystemData();
+    const auto positions = particles->positions();
     auto velocities = particles->velocities();
-    size_t numberOfParticles = particles->numberOfParticles();
+    const size_t numberOfParticles = particles->numberOfParticles();
+    const auto hh = flow->gridSpacing() / 2.0;
+    const auto bbox = flow->boundingBox();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
@@ -35,8 +37,8 @@ void ApicSolver2::transferFromParticlesToGrids() {
     // Weighted-average velocity
     auto u = flow->uAccessor();
     auto v = flow->vAccessor();
-    auto uPos = flow->uPosition();
-    auto vPos = flow->vPosition();
+    const auto uPos = flow->uPosition();
+    const auto vPos = flow->vPosition();
     Array2<double> uWeight(u.size());
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());
@@ -56,19 +58,23 @@ void ApicSolver2::transferFromParticlesToGrids() {
         std::array<Point2UI, 4> indices;
         std::array<double, 4> weights;
 
-        uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        auto uPosClamped = positions[i];
+        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = uPos(indices[j].x, indices[j].y);
-            double apicTerm = _cX[i].dot(gridPos - positions[i]);
+            double apicTerm = _cX[i].dot(gridPos - uPosClamped);
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
             uWeight(indices[j]) += weights[j];
             _uMarkers(indices[j]) = 1;
         }
 
-        vSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        auto vPosClamped = positions[i];
+        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = vPos(indices[j].x, indices[j].y);
-            double apicTerm = _cY[i].dot(gridPos - positions[i]);
+            double apicTerm = _cY[i].dot(gridPos - vPosClamped);
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
             vWeight(indices[j]) += weights[j];
             _vMarkers(indices[j]) = 1;
@@ -88,11 +94,13 @@ void ApicSolver2::transferFromParticlesToGrids() {
 }
 
 void ApicSolver2::transferFromGridsToParticles() {
-    auto flow = gridSystemData()->velocity();
+    const auto flow = gridSystemData()->velocity();
     auto particles = particleSystemData();
     auto positions = particles->positions();
     auto velocities = particles->velocities();
-    size_t numberOfParticles = particles->numberOfParticles();
+    const size_t numberOfParticles = particles->numberOfParticles();
+    const auto hh = flow->gridSpacing() / 2.0;
+    const auto bbox = flow->boundingBox();
 
     // Allocate buffers
     _cX.resize(numberOfParticles);
@@ -114,15 +122,19 @@ void ApicSolver2::transferFromGridsToParticles() {
         std::array<Vector2D, 4> gradWeights;
 
         // x
+        auto uPosClamped = positions[i];
+        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
         uSampler.getCoordinatesAndGradientWeights(
-            positions[i], &indices, &gradWeights);
+            uPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
 
         // y
+        auto vPosClamped = positions[i];
+        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
         vSampler.getCoordinatesAndGradientWeights(
-            positions[i], &indices, &gradWeights);
+            vPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }
