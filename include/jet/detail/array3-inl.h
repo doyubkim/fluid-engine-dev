@@ -180,7 +180,7 @@ typename Array<T, 3>::ContainerType::iterator Array<T, 3>::begin() {
 
 template <typename T>
 typename Array<T, 3>::ContainerType::const_iterator Array<T, 3>::begin() const {
-    return _data.begin();
+    return _data.cbegin();
 }
 
 template <typename T>
@@ -190,7 +190,7 @@ typename Array<T, 3>::ContainerType::iterator Array<T, 3>::end() {
 
 template <typename T>
 typename Array<T, 3>::ContainerType::const_iterator Array<T, 3>::end() const {
-    return _data.end();
+    return _data.cend();
 }
 
 template <typename T>
