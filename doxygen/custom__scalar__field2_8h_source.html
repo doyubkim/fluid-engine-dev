@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0</a>
+                    <a class="navbar-brand">Jet v1.0.3</a>
                 </div>
             </div>
         </nav>
@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">custom_scalar_field2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="custom__scalar__field2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
+<a href="custom__scalar__field2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_</span></div>
@@ -155,19 +155,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a72a12d6822033e5e7a375ac46a8f36bd">withLaplacianFunction</a>(</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> std::function&lt;<span class="keywordtype">double</span>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp;)&gt;&amp; func);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classjet_1_1_custom_scalar_field2.html">CustomScalarField2</a> <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a6949dd0f050ef6404476f8a47843edee">build</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a773fc4ecf73b1f110187c50db4665228">withDerivativeResolution</a>(<span class="keywordtype">double</span> resolution);</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    CustomScalarField2Ptr <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a06cbfda2280fb5054cdbe7d65463f133">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classjet_1_1_custom_scalar_field2.html">CustomScalarField2</a> <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a6949dd0f050ef6404476f8a47843edee">build</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt; _customFunction;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt; _customGradientFunction;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt; _customLaplacianFunction;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    CustomScalarField2Ptr <a class="code" href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a06cbfda2280fb5054cdbe7d65463f133">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">double</span> _resolution = 1e-3;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt; _customFunction;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt; _customGradientFunction;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt; _customLaplacianFunction;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_</span></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_html_af3e7dfbf4fe1a9a27abfe702543f5220"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2.html#af3e7dfbf4fe1a9a27abfe702543f5220">jet::CustomScalarField2::sample</a></div><div class="ttdeci">double sample(const Vector2D &amp;x) const  override</div><div class="ttdoc">Returns the sampled value at given position x. </div></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_html_a67cefc4162eb7995ff908b70966071ca"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2.html#a67cefc4162eb7995ff908b70966071ca">jet::CustomScalarField2::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox CustomScalarField2. </div></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_1_1_builder_html_a2cf4f6c6625402f8bec9cfc4bf86dcda"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a2cf4f6c6625402f8bec9cfc4bf86dcda">jet::CustomScalarField2::Builder::withGradientFunction</a></div><div class="ttdeci">Builder &amp; withGradientFunction(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func)</div><div class="ttdoc">Returns builder with divergence function. </div></div>
@@ -179,6 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_1_1_builder_html_a06cbfda2280fb5054cdbe7d65463f133"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a06cbfda2280fb5054cdbe7d65463f133">jet::CustomScalarField2::Builder::makeShared</a></div><div class="ttdeci">CustomScalarField2Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of CustomScalarField2 instance. </div></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_1_1_builder_html_a72a12d6822033e5e7a375ac46a8f36bd"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a72a12d6822033e5e7a375ac46a8f36bd">jet::CustomScalarField2::Builder::withLaplacianFunction</a></div><div class="ttdeci">Builder &amp; withLaplacianFunction(const std::function&lt; double(const Vector2D &amp;)&gt; &amp;func)</div><div class="ttdoc">Returns builder with curl function. </div></div>
+<div class="ttc" id="classjet_1_1_custom_scalar_field2_1_1_builder_html_a773fc4ecf73b1f110187c50db4665228"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2_1_1_builder.html#a773fc4ecf73b1f110187c50db4665228">jet::CustomScalarField2::Builder::withDerivativeResolution</a></div><div class="ttdeci">Builder &amp; withDerivativeResolution(double resolution)</div><div class="ttdoc">Returns builder with derivative resolution. </div></div>
 <div class="ttc" id="namespacejet_html_ae9ce53302886cb0460829f434f301cd3"><div class="ttname"><a href="namespacejet.html#ae9ce53302886cb0460829f434f301cd3">jet::CustomScalarField2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; CustomScalarField2 &gt; CustomScalarField2Ptr</div><div class="ttdoc">Shared pointer type for the CustomScalarField2. </div><div class="ttdef"><b>Definition:</b> custom_scalar_field2.h:69</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:20</div></div>
 <div class="ttc" id="classjet_1_1_custom_scalar_field2_html_aaed5c429d12e9eb66f82019808b5539c"><div class="ttname"><a href="classjet_1_1_custom_scalar_field2.html#aaed5c429d12e9eb66f82019808b5539c">jet::CustomScalarField2::laplacian</a></div><div class="ttdeci">double laplacian(const Vector2D &amp;x) const  override</div><div class="ttdoc">Returns the Laplacian at given position x. </div></div>
@@ -196,7 +200,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 30 2016 12:19:32 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 26 2017 20:22:38 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

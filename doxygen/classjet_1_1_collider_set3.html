@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0</a>
+                    <a class="navbar-brand">Jet v1.0.3</a>
                 </div>
             </div>
         </nav>
@@ -136,9 +136,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a150d383f3bf0ee0780dc3ac2cbdf33af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider_set3.html#a150d383f3bf0ee0780dc3ac2cbdf33af">velocityAt</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;point) const  override</td></tr>
 <tr class="memdesc:a150d383f3bf0ee0780dc3ac2cbdf33af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the velocity of the collider at given <code>point</code>.  <a href="#a150d383f3bf0ee0780dc3ac2cbdf33af">More...</a><br /></td></tr>
 <tr class="separator:a150d383f3bf0ee0780dc3ac2cbdf33af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae02df355b415592651ebc113ca25215a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider_set3.html#ae02df355b415592651ebc113ca25215a">addCollider</a> (const <a class="el" href="namespacejet.html#a6e899b7d976da4e2957b274ca407e051">Collider3Ptr</a> &amp;collider)</td></tr>
+<tr class="memitem:ae02df355b415592651ebc113ca25215a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider_set3.html#ae02df355b415592651ebc113ca25215a">addCollider</a> (const <a class="el" href="namespacejet.html#a6e899b7d976da4e2957b274ca407e051">Collider3Ptr</a> &amp;<a class="el" href="classjet_1_1_collider_set3.html#aad2ecccfa4fb6f08b11fdb866aaf4d0b">collider</a>)</td></tr>
 <tr class="memdesc:ae02df355b415592651ebc113ca25215a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a collider to the set.  <a href="#ae02df355b415592651ebc113ca25215a">More...</a><br /></td></tr>
 <tr class="separator:ae02df355b415592651ebc113ca25215a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1482eade786854202041f74847fc7f4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider_set3.html#ad1482eade786854202041f74847fc7f4">numberOfColliders</a> () const </td></tr>
+<tr class="memdesc:ad1482eade786854202041f74847fc7f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns number of colliders.  <a href="#ad1482eade786854202041f74847fc7f4">More...</a><br /></td></tr>
+<tr class="separator:ad1482eade786854202041f74847fc7f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad2ecccfa4fb6f08b11fdb866aaf4d0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a6e899b7d976da4e2957b274ca407e051">Collider3Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider_set3.html#aad2ecccfa4fb6f08b11fdb866aaf4d0b">collider</a> (size_t i) const </td></tr>
+<tr class="memdesc:aad2ecccfa4fb6f08b11fdb866aaf4d0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns collider at index <code>i</code>.  <a href="#aad2ecccfa4fb6f08b11fdb866aaf4d0b">More...</a><br /></td></tr>
+<tr class="separator:aad2ecccfa4fb6f08b11fdb866aaf4d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classjet_1_1_collider3"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classjet_1_1_collider3')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classjet_1_1_collider3.html">jet::Collider3</a></td></tr>
 <tr class="memitem:a6824f29aeeb454cc6070531b50b6024b inherit pub_methods_classjet_1_1_collider3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_collider3.html#a6824f29aeeb454cc6070531b50b6024b">Collider3</a> ()</td></tr>
 <tr class="memdesc:a6824f29aeeb454cc6070531b50b6024b inherit pub_methods_classjet_1_1_collider3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a6824f29aeeb454cc6070531b50b6024b">More...</a><br /></td></tr>
@@ -277,6 +283,41 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aad2ecccfa4fb6f08b11fdb866aaf4d0b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacejet.html#a6e899b7d976da4e2957b274ca407e051">Collider3Ptr</a> jet::ColliderSet3::collider </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns collider at index <code>i</code>. </p>
+
+</div>
+</div>
+<a class="anchor" id="ad1482eade786854202041f74847fc7f4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t jet::ColliderSet3::numberOfColliders </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns number of colliders. </p>
+
+</div>
+</div>
 <a class="anchor" id="a150d383f3bf0ee0780dc3ac2cbdf33af"></a>
 <div class="memitem">
 <div class="memproto">
@@ -317,7 +358,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 30 2016 12:19:33 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 26 2017 20:22:39 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

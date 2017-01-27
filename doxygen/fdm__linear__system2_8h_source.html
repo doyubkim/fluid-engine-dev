@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0</a>
+                    <a class="navbar-brand">Jet v1.0.3</a>
                 </div>
             </div>
         </nav>
@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">fdm_linear_system2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="fdm__linear__system2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
+<a href="fdm__linear__system2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_</span></div>
@@ -163,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_a3afea5d45a3a9b145942ba11a61da482"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#a3afea5d45a3a9b145942ba11a61da482">jet::FdmBlas2::ScalarType</a></div><div class="ttdeci">double ScalarType</div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:36</div></div>
 <div class="ttc" id="array2_8h_html"><div class="ttname"><a href="array2_8h.html">array2.h</a></div></div>
 <div class="ttc" id="structjet_1_1_fdm_linear_system2_html_a72c4a1c6b1ce7cc8077034af04c609ec"><div class="ttname"><a href="structjet_1_1_fdm_linear_system2.html#a72c4a1c6b1ce7cc8077034af04c609ec">jet::FdmLinearSystem2::A</a></div><div class="ttdeci">FdmMatrix2 A</div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:30</div></div>
-<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html_ae8f257619c0e253ba7f09f71aec44e4c"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html#ae8f257619c0e253ba7f09f71aec44e4c">jet::FdmMatrixRow2::up</a></div><div class="ttdeci">double up</div><div class="ttdoc">Off-diagonal element where column refers to (i, j+1, k) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:19</div></div>
+<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html_ae8f257619c0e253ba7f09f71aec44e4c"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html#ae8f257619c0e253ba7f09f71aec44e4c">jet::FdmMatrixRow2::up</a></div><div class="ttdeci">double up</div><div class="ttdoc">Off-diagonal element where column refers to (i, j+1) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:19</div></div>
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_a06ae4d2ba6afea5ff2065be33e5c874b"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#a06ae4d2ba6afea5ff2065be33e5c874b">jet::FdmBlas2::l2Norm</a></div><div class="ttdeci">static double l2Norm(const FdmVector2 &amp;v)</div><div class="ttdoc">Returns L2-norm of the given vector v. </div></div>
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_a2dfc0dd6d59276b7b5c25e708e9a1905"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#a2dfc0dd6d59276b7b5c25e708e9a1905">jet::FdmBlas2::residual</a></div><div class="ttdeci">static void residual(const FdmMatrix2 &amp;a, const FdmVector2 &amp;x, const FdmVector2 &amp;b, FdmVector2 *result)</div><div class="ttdoc">Computes residual vector (b - ax). </div></div>
 <div class="ttc" id="structjet_1_1_fdm_matrix_row2_html_ae22ca0ffd698d3e21ccefee8bb5b17a5"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html#ae22ca0ffd698d3e21ccefee8bb5b17a5">jet::FdmMatrixRow2::center</a></div><div class="ttdeci">double center</div><div class="ttdoc">Diagonal component of the matrix (row, row). </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:13</div></div>
@@ -176,11 +176,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="structjet_1_1_fdm_linear_system2_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system2.html">jet::FdmLinearSystem2</a></div><div class="ttdoc">Linear system (Ax=b) for 2-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:29</div></div>
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_a9fa655c3b54806748648a5353d93d1c8"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#a9fa655c3b54806748648a5353d93d1c8">jet::FdmBlas2::lInfNorm</a></div><div class="ttdeci">static double lInfNorm(const FdmVector2 &amp;v)</div><div class="ttdoc">Returns Linf-norm of the given vector v. </div></div>
 <div class="ttc" id="structjet_1_1_fdm_linear_system2_html_a0a19920c402b80a1dcf4fc8018f5a196"><div class="ttname"><a href="structjet_1_1_fdm_linear_system2.html#a0a19920c402b80a1dcf4fc8018f5a196">jet::FdmLinearSystem2::x</a></div><div class="ttdeci">FdmVector2 x</div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:31</div></div>
-<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html">jet::FdmMatrixRow2</a></div><div class="ttdoc">The row of FdmMatrix2 where row corresponds to (i, j, k) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:11</div></div>
+<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html">jet::FdmMatrixRow2</a></div><div class="ttdoc">The row of FdmMatrix2 where row corresponds to (i, j) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:11</div></div>
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_a0c093635ec3e8a8c403122752b88b38e"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#a0c093635ec3e8a8c403122752b88b38e">jet::FdmBlas2::mvm</a></div><div class="ttdeci">static void mvm(const FdmMatrix2 &amp;m, const FdmVector2 &amp;v, FdmVector2 *result)</div><div class="ttdoc">Performs matrix-vector multiplication. </div></div>
 <div class="ttc" id="namespacejet_html_a958e1a38f3bbe8055213d59b1edd3b2b"><div class="ttname"><a href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">jet::FdmVector2</a></div><div class="ttdeci">Array2&lt; double &gt; FdmVector2</div><div class="ttdoc">Vector type for 2-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:23</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_012_01_4.html">jet::Array&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D array class. </div><div class="ttdef"><b>Definition:</b> array2.h:37</div></div>
-<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html_a19acf9858031510c6818b6748c8acfc0"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html#a19acf9858031510c6818b6748c8acfc0">jet::FdmMatrixRow2::right</a></div><div class="ttdeci">double right</div><div class="ttdoc">Off-diagonal element where colum refers to (i+1, j, k) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:16</div></div>
+<div class="ttc" id="structjet_1_1_fdm_matrix_row2_html_a19acf9858031510c6818b6748c8acfc0"><div class="ttname"><a href="structjet_1_1_fdm_matrix_row2.html#a19acf9858031510c6818b6748c8acfc0">jet::FdmMatrixRow2::right</a></div><div class="ttdeci">double right</div><div class="ttdoc">Off-diagonal element where colum refers to (i+1, j) grid point. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:16</div></div>
 <div class="ttc" id="structjet_1_1_fdm_blas2_html_ada5a92b9f79026c0a2b9d0a3b442c0ef"><div class="ttname"><a href="structjet_1_1_fdm_blas2.html#ada5a92b9f79026c0a2b9d0a3b442c0ef">jet::FdmBlas2::set</a></div><div class="ttdeci">static void set(double s, FdmVector2 *result)</div><div class="ttdoc">Sets entire element of given vector result with scalar s. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 30 2016 12:19:32 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 26 2017 20:22:38 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

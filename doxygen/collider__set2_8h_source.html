@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0</a>
+                    <a class="navbar-brand">Jet v1.0.3</a>
                 </div>
             </div>
         </nav>
@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">collider_set2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="collider__set2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
+<a href="collider__set2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_COLLIDER_SET2_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_COLLIDER_SET2_H_</span></div>
@@ -118,41 +118,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_collider_set2.html#a188d023939018de5734d4a06d51a0810">velocityAt</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; point) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_collider_set2.html#ad22257875bff926eac7fe6ded1ad009a">addCollider</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#ac21252ec5eb4701d2cdfc2099891d68f">Collider2Ptr</a>&amp; collider);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_collider_set2.html#ad22257875bff926eac7fe6ded1ad009a">addCollider</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#ac21252ec5eb4701d2cdfc2099891d68f">Collider2Ptr</a>&amp; <a class="code" href="classjet_1_1_collider_set2.html#acfb95cdf86036430aeadab59b0205583">collider</a>);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_collider_set2.html#a75612f055b430b3c8b05d7d674d1bf5d">builder</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_collider_set2.html#aa8462d13da8638df99551287f554137c">numberOfColliders</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    std::vector&lt;Collider2Ptr&gt; _colliders;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">   37</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;ColliderSet2&gt; <a class="code" href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">ColliderSet2Ptr</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classjet_1_1_collider_set2_1_1_builder.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">ColliderSet2::Builder</a> final {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#af8ebf5b748b64a628da8e2bb70b830d6">withColliders</a>(<span class="keyword">const</span> std::vector&lt;Collider2Ptr&gt;&amp; others);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classjet_1_1_collider_set2.html">ColliderSet2</a> <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#a19c2cbe7e609f97c3cde0c431e3cc110">build</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ColliderSet2Ptr <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#a64b97f6e1b4824db9574cb0233407b3a">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="namespacejet.html#ac21252ec5eb4701d2cdfc2099891d68f">Collider2Ptr</a> <a class="code" href="classjet_1_1_collider_set2.html#acfb95cdf86036430aeadab59b0205583">collider</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_collider_set2.html#a75612f055b430b3c8b05d7d674d1bf5d">builder</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::vector&lt;Collider2Ptr&gt; _colliders;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">   43</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;ColliderSet2&gt; <a class="code" href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">ColliderSet2Ptr</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classjet_1_1_collider_set2_1_1_builder.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">ColliderSet2::Builder</a> final {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#af8ebf5b748b64a628da8e2bb70b830d6">withColliders</a>(<span class="keyword">const</span> std::vector&lt;Collider2Ptr&gt;&amp; others);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::vector&lt;Collider2Ptr&gt; _colliders;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classjet_1_1_collider_set2.html">ColliderSet2</a> <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#a19c2cbe7e609f97c3cde0c431e3cc110">build</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    ColliderSet2Ptr <a class="code" href="classjet_1_1_collider_set2_1_1_builder.html#a64b97f6e1b4824db9574cb0233407b3a">makeShared</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_COLLIDER_SET2_H_</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::vector&lt;Collider2Ptr&gt; _colliders;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_COLLIDER_SET2_H_</span></div>
 <div class="ttc" id="classjet_1_1_collider_set2_html_a188d023939018de5734d4a06d51a0810"><div class="ttname"><a href="classjet_1_1_collider_set2.html#a188d023939018de5734d4a06d51a0810">jet::ColliderSet2::velocityAt</a></div><div class="ttdeci">Vector2D velocityAt(const Vector2D &amp;point) const  override</div><div class="ttdoc">Returns the velocity of the collider at given point. </div></div>
 <div class="ttc" id="collider2_8h_html"><div class="ttname"><a href="collider2_8h.html">collider2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_collider_set2_html_ad22257875bff926eac7fe6ded1ad009a"><div class="ttname"><a href="classjet_1_1_collider_set2.html#ad22257875bff926eac7fe6ded1ad009a">jet::ColliderSet2::addCollider</a></div><div class="ttdeci">void addCollider(const Collider2Ptr &amp;collider)</div><div class="ttdoc">Adds a collider to the set. </div></div>
 <div class="ttc" id="classjet_1_1_collider2_html"><div class="ttname"><a href="classjet_1_1_collider2.html">jet::Collider2</a></div><div class="ttdoc">Abstract base class for generic collider object. </div><div class="ttdef"><b>Definition:</b> collider2.h:20</div></div>
 <div class="ttc" id="classjet_1_1_collider_set2_1_1_builder_html_a64b97f6e1b4824db9574cb0233407b3a"><div class="ttname"><a href="classjet_1_1_collider_set2_1_1_builder.html#a64b97f6e1b4824db9574cb0233407b3a">jet::ColliderSet2::Builder::makeShared</a></div><div class="ttdeci">ColliderSet2Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of ColliderSet2 instance. </div></div>
-<div class="ttc" id="classjet_1_1_collider_set2_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_collider_set2_1_1_builder.html">jet::ColliderSet2::Builder</a></div><div class="ttdoc">Front-end to create ColliderSet2 objects step by step. </div><div class="ttdef"><b>Definition:</b> collider_set2.h:43</div></div>
-<div class="ttc" id="namespacejet_html_abb60a7d6256a5f84d8b49c3336deb247"><div class="ttname"><a href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">jet::ColliderSet2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ColliderSet2 &gt; ColliderSet2Ptr</div><div class="ttdoc">Shared pointer for the ColliderSet2 type. </div><div class="ttdef"><b>Definition:</b> collider_set2.h:37</div></div>
+<div class="ttc" id="classjet_1_1_collider_set2_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_collider_set2_1_1_builder.html">jet::ColliderSet2::Builder</a></div><div class="ttdoc">Front-end to create ColliderSet2 objects step by step. </div><div class="ttdef"><b>Definition:</b> collider_set2.h:49</div></div>
+<div class="ttc" id="namespacejet_html_abb60a7d6256a5f84d8b49c3336deb247"><div class="ttname"><a href="namespacejet.html#abb60a7d6256a5f84d8b49c3336deb247">jet::ColliderSet2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ColliderSet2 &gt; ColliderSet2Ptr</div><div class="ttdoc">Shared pointer for the ColliderSet2 type. </div><div class="ttdef"><b>Definition:</b> collider_set2.h:43</div></div>
 <div class="ttc" id="classjet_1_1_collider_set2_html_a8fd7f3cb1a5ef701f14bcd1b76f602ff"><div class="ttname"><a href="classjet_1_1_collider_set2.html#a8fd7f3cb1a5ef701f14bcd1b76f602ff">jet::ColliderSet2::ColliderSet2</a></div><div class="ttdeci">ColliderSet2()</div><div class="ttdoc">Default constructor. </div></div>
 <div class="ttc" id="classjet_1_1_collider_set2_1_1_builder_html_af8ebf5b748b64a628da8e2bb70b830d6"><div class="ttname"><a href="classjet_1_1_collider_set2_1_1_builder.html#af8ebf5b748b64a628da8e2bb70b830d6">jet::ColliderSet2::Builder::withColliders</a></div><div class="ttdeci">Builder &amp; withColliders(const std::vector&lt; Collider2Ptr &gt; &amp;others)</div><div class="ttdoc">Returns builder with other colliders. </div></div>
+<div class="ttc" id="classjet_1_1_collider_set2_html_acfb95cdf86036430aeadab59b0205583"><div class="ttname"><a href="classjet_1_1_collider_set2.html#acfb95cdf86036430aeadab59b0205583">jet::ColliderSet2::collider</a></div><div class="ttdeci">Collider2Ptr collider(size_t i) const </div><div class="ttdoc">Returns collider at index i. </div></div>
+<div class="ttc" id="classjet_1_1_collider_set2_html_aa8462d13da8638df99551287f554137c"><div class="ttname"><a href="classjet_1_1_collider_set2.html#aa8462d13da8638df99551287f554137c">jet::ColliderSet2::numberOfColliders</a></div><div class="ttdeci">size_t numberOfColliders() const </div><div class="ttdoc">Returns number of colliders. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
 <div class="ttc" id="classjet_1_1_collider_set2_1_1_builder_html_a19c2cbe7e609f97c3cde0c431e3cc110"><div class="ttname"><a href="classjet_1_1_collider_set2_1_1_builder.html#a19c2cbe7e609f97c3cde0c431e3cc110">jet::ColliderSet2::Builder::build</a></div><div class="ttdeci">ColliderSet2 build() const </div><div class="ttdoc">Builds ColliderSet2. </div></div>
 <div class="ttc" id="surface__set2_8h_html"><div class="ttname"><a href="surface__set2_8h.html">surface_set2.h</a></div></div>
@@ -169,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 30 2016 12:19:32 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 26 2017 20:22:37 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

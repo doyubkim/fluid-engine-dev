@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.0</a>
+                    <a class="navbar-brand">Jet v1.0.3</a>
                 </div>
             </div>
         </nav>
@@ -97,7 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">custom_vector_field3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="custom__vector__field3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
+<a href="custom__vector__field3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_</span></div>
@@ -155,19 +155,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#a84164c4e0ded5415e6fc4657858fdd15">withCurlFunction</a>(</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keyword">const</span> std::function&lt;<a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp;)&gt;&amp; func);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classjet_1_1_custom_vector_field3.html">CustomVectorField3</a> <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#a96e1bcdc3cafc38308bbee4b0db42c95">build</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#a3f478573f36f654abab47825db724bc8">withDerivativeResolution</a>(<span class="keywordtype">double</span> resolution);</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    CustomVectorField3Ptr <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#ab9a5912b69bff16100cbb8a9a34e12a2">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="classjet_1_1_custom_vector_field3.html">CustomVectorField3</a> <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#a96e1bcdc3cafc38308bbee4b0db42c95">build</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt; _customFunction;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    std::function&lt;double(const Vector3D&amp;)&gt; _customDivergenceFunction;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt; _customCurlFunction;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    CustomVectorField3Ptr <a class="code" href="classjet_1_1_custom_vector_field3_1_1_builder.html#ab9a5912b69bff16100cbb8a9a34e12a2">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">double</span> _resolution = 1e-3;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt; _customFunction;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    std::function&lt;double(const Vector3D&amp;)&gt; _customDivergenceFunction;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt; _customCurlFunction;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUSTOM_VECTOR_FIELD3_H_</span></div>
 <div class="ttc" id="classjet_1_1_custom_vector_field3_html_a92804a81f0ea2a2ee119d0a5d16a8727"><div class="ttname"><a href="classjet_1_1_custom_vector_field3.html#a92804a81f0ea2a2ee119d0a5d16a8727">jet::CustomVectorField3::divergence</a></div><div class="ttdeci">double divergence(const Vector3D &amp;x) const  override</div><div class="ttdoc">Returns the divergence at given position x. </div></div>
 <div class="ttc" id="classjet_1_1_custom_vector_field3_1_1_builder_html_a96e1bcdc3cafc38308bbee4b0db42c95"><div class="ttname"><a href="classjet_1_1_custom_vector_field3_1_1_builder.html#a96e1bcdc3cafc38308bbee4b0db42c95">jet::CustomVectorField3::Builder::build</a></div><div class="ttdeci">CustomVectorField3 build() const </div><div class="ttdoc">Builds CustomVectorField3. </div></div>
 <div class="ttc" id="classjet_1_1_custom_vector_field3_html_a1339096deed511e86c82a61d5d0aec16"><div class="ttname"><a href="classjet_1_1_custom_vector_field3.html#a1339096deed511e86c82a61d5d0aec16">jet::CustomVectorField3::curl</a></div><div class="ttdeci">Vector3D curl(const Vector3D &amp;x) const  override</div><div class="ttdoc">Returns the curl at given position x. </div></div>
@@ -177,6 +180,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_custom_vector_field3_html"><div class="ttname"><a href="classjet_1_1_custom_vector_field3.html">jet::CustomVectorField3</a></div><div class="ttdoc">3-D vector field with custom field function. </div><div class="ttdef"><b>Definition:</b> custom_vector_field3.h:11</div></div>
 <div class="ttc" id="classjet_1_1_custom_vector_field3_html_a5c6b27787d642cad31dca661ab7286e1"><div class="ttname"><a href="classjet_1_1_custom_vector_field3.html#a5c6b27787d642cad31dca661ab7286e1">jet::CustomVectorField3::sampler</a></div><div class="ttdeci">std::function&lt; Vector3D(const Vector3D &amp;)&gt; sampler() const  override</div><div class="ttdoc">Returns the sampler function. </div></div>
 <div class="ttc" id="classjet_1_1_vector_field3_html"><div class="ttname"><a href="classjet_1_1_vector_field3.html">jet::VectorField3</a></div><div class="ttdoc">Abstract base class for 3-D vector field. </div><div class="ttdef"><b>Definition:</b> vector_field3.h:14</div></div>
+<div class="ttc" id="classjet_1_1_custom_vector_field3_1_1_builder_html_a3f478573f36f654abab47825db724bc8"><div class="ttname"><a href="classjet_1_1_custom_vector_field3_1_1_builder.html#a3f478573f36f654abab47825db724bc8">jet::CustomVectorField3::Builder::withDerivativeResolution</a></div><div class="ttdeci">Builder &amp; withDerivativeResolution(double resolution)</div><div class="ttdoc">Returns builder with derivative resolution. </div></div>
 <div class="ttc" id="classjet_1_1_custom_vector_field3_1_1_builder_html_ab9a5912b69bff16100cbb8a9a34e12a2"><div class="ttname"><a href="classjet_1_1_custom_vector_field3_1_1_builder.html#ab9a5912b69bff16100cbb8a9a34e12a2">jet::CustomVectorField3::Builder::makeShared</a></div><div class="ttdeci">CustomVectorField3Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of CustomVectorField3 instance. </div></div>
 <div class="ttc" id="vector__field3_8h_html"><div class="ttname"><a href="vector__field3_8h.html">vector_field3.h</a></div></div>
 <div class="ttc" id="namespacejet_html_aa639fb1f416363bf2c84ad6efaf3efe0"><div class="ttname"><a href="namespacejet.html#aa639fb1f416363bf2c84ad6efaf3efe0">jet::CustomVectorField3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; CustomVectorField3 &gt; CustomVectorField3Ptr</div><div class="ttdoc">Shared pointer type for the CustomVectorField3. </div><div class="ttdef"><b>Definition:</b> custom_vector_field3.h:69</div></div>
@@ -196,7 +200,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 30 2016 12:19:32 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 26 2017 20:22:38 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>
