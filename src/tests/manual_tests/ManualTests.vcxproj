@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="advection_solvers_tests.cpp" />
     <ClCompile Include="animation_tests.cpp" />
+    <ClCompile Include="apic_solver2_tests.cpp" />
+    <ClCompile Include="apic_solver3_tests.cpp" />
     <ClCompile Include="array_utils_tests.cpp" />
     <ClCompile Include="field_tests.cpp" />
     <ClCompile Include="flip_solver2_tests.cpp" />

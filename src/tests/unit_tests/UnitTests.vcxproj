@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="animation_tests.cpp" />
+    <ClCompile Include="apic_solver2_tests.cpp" />
+    <ClCompile Include="apic_solver3_tests.cpp" />
     <ClCompile Include="array1_tests.cpp" />
     <ClCompile Include="array2_tests.cpp" />
     <ClCompile Include="array3_tests.cpp" />

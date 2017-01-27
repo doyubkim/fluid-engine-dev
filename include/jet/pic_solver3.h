@@ -51,6 +51,10 @@ class PicSolver3 : public GridFluidSolver3 {
     static Builder builder();
 
  protected:
+    Array3<char> _uMarkers;
+    Array3<char> _vMarkers;
+    Array3<char> _wMarkers;
+
     //! Initializes the simulator.
     void onInitialize() override;
 
@@ -76,10 +80,6 @@ class PicSolver3 : public GridFluidSolver3 {
     size_t _signedDistanceFieldId;
     ParticleSystemData3Ptr _particles;
     ParticleEmitter3Ptr _particleEmitter;
-
-    Array3<char> _uMarkers;
-    Array3<char> _vMarkers;
-    Array3<char> _wMarkers;
 
     void extrapolateVelocityToAir();
 

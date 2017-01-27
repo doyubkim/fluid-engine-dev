@@ -4,6 +4,8 @@
 #include <jet/advection_solver2.h>
 #include <jet/advection_solver3.h>
 #include <jet/animation.h>
+#include <jet/apic_solver2.h>
+#include <jet/apic_solver3.h>
 #include <jet/array.h>
 #include <jet/array1.h>
 #include <jet/array2.h>

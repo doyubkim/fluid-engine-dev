@@ -171,17 +171,17 @@ void PicSolver3::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.forEachIndex([&](size_t i, size_t j, size_t k) {
+    uWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         if (uWeight(i, j, k) > 0.0) {
             u(i, j, k) /= uWeight(i, j, k);
         }
     });
-    vWeight.forEachIndex([&](size_t i, size_t j, size_t k) {
+    vWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         if (vWeight(i, j, k) > 0.0) {
             v(i, j, k) /= vWeight(i, j, k);
         }
     });
-    wWeight.forEachIndex([&](size_t i, size_t j, size_t k) {
+    wWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         if (wWeight(i, j, k) > 0.0) {
             w(i, j, k) /= wWeight(i, j, k);
         }

@@ -153,12 +153,12 @@ void PicSolver2::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.forEachIndex([&](size_t i, size_t j) {
+    uWeight.parallelForEachIndex([&](size_t i, size_t j) {
         if (uWeight(i, j) > 0.0) {
             u(i, j) /= uWeight(i, j);
         }
     });
-    vWeight.forEachIndex([&](size_t i, size_t j) {
+    vWeight.parallelForEachIndex([&](size_t i, size_t j) {
         if (vWeight(i, j) > 0.0) {
             v(i, j) /= vWeight(i, j);
         }

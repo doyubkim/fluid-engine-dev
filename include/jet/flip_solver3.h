@@ -34,6 +34,21 @@ class FlipSolver3 : public PicSolver3 {
     //! Default destructor.
     virtual ~FlipSolver3();
 
+    //! Returns the PIC blending factor.
+    double picBlendingFactor() const;
+
+    //!
+    //! \brief  Sets the PIC blending factor.
+    //!
+    //! This function sets the PIC blendinf factor which mixes FLIP and PIC
+    //! results when transferring velocity from grids to particles in order to
+    //! reduce the noise. The factor can be a value between 0 and 1, where 0
+    //! means no blending and 1 means full PIC. Default is 0.
+    //!
+    //! \param[in]  factor The blending factor.
+    //!
+    void setPicBlendingFactor(double factor);
+
     //! Returns builder fox FlipSolver3.
     static Builder builder();
 
@@ -45,6 +60,7 @@ class FlipSolver3 : public PicSolver3 {
     void transferFromGridsToParticles() override;
 
  private:
+    double _picBlendingFactor = 0.0;
     Array3<float> _uDelta;
     Array3<float> _vDelta;
     Array3<float> _wDelta;

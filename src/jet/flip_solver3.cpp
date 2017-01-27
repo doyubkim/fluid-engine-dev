@@ -18,6 +18,14 @@ FlipSolver3::FlipSolver3(
 FlipSolver3::~FlipSolver3() {
 }
 
+double FlipSolver3::picBlendingFactor() const {
+    return _picBlendingFactor;
+}
+
+void FlipSolver3::setPicBlendingFactor(double factor) {
+    _picBlendingFactor = clamp(factor, 0.0, 1.0);
+}
+
 void FlipSolver3::transferFromParticlesToGrids() {
     PicSolver3::transferFromParticlesToGrids();
 
@@ -86,7 +94,12 @@ void FlipSolver3::transferFromGridsToParticles() {
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += sampler(positions[i]);
+        Vector3D flipVel = velocities[i] + sampler(positions[i]);
+        if (_picBlendingFactor > 0.0) {
+            Vector3D picVel = flow->sample(positions[i]);
+            flipVel = lerp(flipVel, picVel, _picBlendingFactor);
+        }
+        velocities[i] = flipVel;
     });
 }
 
