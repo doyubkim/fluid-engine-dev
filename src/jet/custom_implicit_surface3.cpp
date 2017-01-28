@@ -7,9 +7,6 @@
 
 using namespace jet;
 
-const double kDistanceThreshold = 1e-3;
-const double kGradientThreshold = 1e-3;
-
 CustomImplicitSurface3::CustomImplicitSurface3(
     const std::function<double(const Vector3D&)>& func,
     const BoundingBox3D& domain,
@@ -27,17 +24,13 @@ CustomImplicitSurface3::~CustomImplicitSurface3() {
 
 Vector3D CustomImplicitSurface3::closestPointLocal(
     const Vector3D& otherPoint) const {
-    Vector3D pt = otherPoint;
-    while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        Vector3D g = gradientLocal(pt);
-
-        if (g.length() < kGradientThreshold) {
-            break;
-        }
-
-        pt += g;
+    double sdf = signedDistanceLocal(otherPoint);
+    Vector3D g = gradientLocal(otherPoint);
+    if (isInsideSdf(sdf)) {
+        return otherPoint + sdf * g;
+    } else {
+        return otherPoint - sdf * g;
     }
-    return pt;
 }
 
 bool CustomImplicitSurface3::intersectsLocal(const Ray3D& ray) const {
@@ -88,23 +81,13 @@ double CustomImplicitSurface3::signedDistanceLocal(
 
 Vector3D CustomImplicitSurface3::closestNormalLocal(
     const Vector3D& otherPoint) const {
-    Vector3D pt = otherPoint;
-    Vector3D g;
-    while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        g = gradientLocal(pt);
-
-        if (g.length() < kGradientThreshold) {
-            break;
-        }
-
-        pt += g;
+    Vector3D pt = closestPointLocal(otherPoint);
+    Vector3D g = gradientLocal(pt);
+    if (g.lengthSquared() > 0.0) {
+        return g.normalized();
+    } else {
+        return g;
     }
-
-    if (g.length() > 0.0) {
-        g.normalize();
-    }
-
-    return g;
 }
 
 SurfaceRayIntersection3 CustomImplicitSurface3::closestIntersectionLocal(
