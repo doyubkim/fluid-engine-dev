@@ -122,6 +122,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4b6a09c931920b81d656e662c1c6a38d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_012_01_4.html#a4b6a09c931920b81d656e662c1c6a38d">getCoordinatesAndWeights</a> (const <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt; &amp;pt, std::array&lt; <a class="el" href="namespacejet.html#a6e3f967e103438d13fa7df3e32c9cec7">Point2UI</a>, 4 &gt; *indices, std::array&lt; R, 4 &gt; *weights) const </td></tr>
 <tr class="memdesc:a4b6a09c931920b81d656e662c1c6a38d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the indices of points and their sampling weight for given point.  <a href="#a4b6a09c931920b81d656e662c1c6a38d">More...</a><br /></td></tr>
 <tr class="separator:a4b6a09c931920b81d656e662c1c6a38d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed5ae5ca2b30ba287b5466f65590baac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_012_01_4.html#aed5ae5ca2b30ba287b5466f65590baac">getCoordinatesAndGradientWeights</a> (const <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt; &amp;pt, std::array&lt; <a class="el" href="namespacejet.html#a6e3f967e103438d13fa7df3e32c9cec7">Point2UI</a>, 4 &gt; *indices, std::array&lt; <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt;, 4 &gt; *weights) const </td></tr>
+<tr class="separator:aed5ae5ca2b30ba287b5466f65590baac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab068ce2a67221bf1d593cc6f9e8c33a3"><td class="memItemLeft" align="right" valign="top">std::function&lt; T(const <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_012_01_4.html#ab068ce2a67221bf1d593cc6f9e8c33a3">functor</a> () const </td></tr>
 <tr class="memdesc:ab068ce2a67221bf1d593cc6f9e8c33a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a funtion object that wraps this instance.  <a href="#ab068ce2a67221bf1d593cc6f9e8c33a3">More...</a><br /></td></tr>
 <tr class="separator:ab068ce2a67221bf1d593cc6f9e8c33a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,6 +234,41 @@ template&lt;typename T, typename R&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="aed5ae5ca2b30ba287b5466f65590baac"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename R&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classjet_1_1_linear_array_sampler.html">jet::LinearArraySampler</a>&lt; T, R, 2 &gt;::getCoordinatesAndGradientWeights </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt; &amp;&#160;</td>
+          <td class="paramname"><em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespacejet.html#a6e3f967e103438d13fa7df3e32c9cec7">Point2UI</a>, 4 &gt; *&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; <a class="el" href="namespacejet.html#a0b70f0f2ac776fe9dcbf0bdbf971777c">Vector2</a>&lt; R &gt;, 4 &gt; *&#160;</td>
+          <td class="paramname"><em>weights</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the indices of points and their gradient of sampling weight for given point. </p>
+
+</div>
+</div>
 <a class="anchor" id="a4b6a09c931920b81d656e662c1c6a38d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -300,7 +337,7 @@ template&lt;typename T, typename R&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 26 2017 20:22:40 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 27 2017 20:16:21 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

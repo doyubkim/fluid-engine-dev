@@ -3,6 +3,8 @@ var searchData=
   ['_7eadvectionsolver2',['~AdvectionSolver2',['../classjet_1_1_advection_solver2.html#a3b1fb2bfc2fff4935dc40dd1636f380f',1,'jet::AdvectionSolver2']]],
   ['_7eadvectionsolver3',['~AdvectionSolver3',['../classjet_1_1_advection_solver3.html#aa018c2cb767c3155db5ea1848dad36bb',1,'jet::AdvectionSolver3']]],
   ['_7eanimation',['~Animation',['../classjet_1_1_animation.html#a3f1d383d2bf0aa84c0c265ed9fc989d5',1,'jet::Animation']]],
+  ['_7eapicsolver2',['~ApicSolver2',['../classjet_1_1_apic_solver2.html#ada701a59c062c44d1d1d812bd5e81dc6',1,'jet::ApicSolver2']]],
+  ['_7eapicsolver3',['~ApicSolver3',['../classjet_1_1_apic_solver3.html#a026c9bb03d34c25c8d1f18abe8ea8d63',1,'jet::ApicSolver3']]],
   ['_7ecollider2',['~Collider2',['../classjet_1_1_collider2.html#adfe1b7c1541b3944267fcc5246de3710',1,'jet::Collider2']]],
   ['_7ecollider3',['~Collider3',['../classjet_1_1_collider3.html#a04ee8d2af2ffc56347cad0b27cf889da',1,'jet::Collider3']]],
   ['_7ecollocatedvectorgrid2',['~CollocatedVectorGrid2',['../classjet_1_1_collocated_vector_grid2.html#a8f3393266dfa03969461ec442d7ea5cb',1,'jet::CollocatedVectorGrid2']]],
