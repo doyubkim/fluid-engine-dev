@@ -294,9 +294,9 @@ double FaceCenteredGrid2::divergence(const Vector2D& x) const {
     Vector2D normalizedX = (x - cellCenterOrigin) / gridSpacing();
 
     getBarycentric(
-        normalizedX.x, 0, static_cast<ssize_t>(resolution().x), &i, &fx);
+        normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1, &i, &fx);
     getBarycentric(
-        normalizedX.y, 0, static_cast<ssize_t>(resolution().y), &j, &fy);
+        normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1, &j, &fy);
 
     std::array<Point2UI, 4> indices;
     std::array<double, 4> weights;
@@ -329,9 +329,9 @@ double FaceCenteredGrid2::curl(const Vector2D& x) const {
     Vector2D normalizedX = (x - cellCenterOrigin) / gridSpacing();
 
     getBarycentric(
-        normalizedX.x, 0, static_cast<ssize_t>(resolution().x), &i, &fx);
+        normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1, &i, &fx);
     getBarycentric(
-        normalizedX.y, 0, static_cast<ssize_t>(resolution().y), &j, &fy);
+        normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1, &j, &fy);
 
     std::array<Point2UI, 4> indices;
     std::array<double, 4> weights;

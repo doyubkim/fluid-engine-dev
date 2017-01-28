@@ -38,7 +38,7 @@ T NearestArraySampler1<T, R>::operator()(R x) const {
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size());
 
-    getBarycentric(normalizedX, 0, iSize, &i, &fx);
+    getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
     i = std::min(static_cast<ssize_t>(i + fx + 0.5), iSize - 1);
 
@@ -55,7 +55,7 @@ void NearestArraySampler1<T, R>::getCoordinate(R x, size_t* i) const {
     ssize_t iSize = static_cast<ssize_t>(_accessor.size());
 
     ssize_t _i;
-    getBarycentric(normalizedX, 0, iSize, &_i, &fx);
+    getBarycentric(normalizedX, 0, iSize - 1, &_i, &fx);
 
     *i = std::min(static_cast<ssize_t>(_i + fx + 0.5), iSize - 1);
 }
@@ -95,7 +95,7 @@ T LinearArraySampler1<T, R>::operator()(R x) const {
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size());
 
-    getBarycentric(normalizedX, 0, iSize, &i, &fx);
+    getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
     ssize_t ip1 = std::min(i + 1, iSize - 1);
 
@@ -116,7 +116,7 @@ void LinearArraySampler1<T, R>::getCoordinatesAndWeights(
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
 
-    getBarycentric(normalizedX, 0, iSize, &i, &fx);
+    getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
     ssize_t ip1 = std::min(i + 1, iSize - 1);
 
@@ -161,7 +161,7 @@ T CubicArraySampler1<T, R>::operator()(R x) const {
     JET_ASSERT(_gridSpacing > std::numeric_limits<R>::epsilon());
     R normalizedX = (x - _origin) / _gridSpacing;
 
-    getBarycentric(normalizedX, 0, iSize, &i, &fx);
+    getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
     ssize_t im1 = std::max(i - 1, kZeroSSize);
     ssize_t ip1 = std::min(i + 1, iSize - 1);

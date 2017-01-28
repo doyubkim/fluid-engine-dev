@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_DETAIL_ARRAY_SAMPLERS2_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY_SAMPLERS2_INL_H_
@@ -40,8 +40,8 @@ T NearestArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
 
-    getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
-    getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     i = std::min(static_cast<ssize_t>(i + fx + 0.5), iSize - 1);
     j = std::min(static_cast<ssize_t>(j + fy + 0.5), jSize - 1);
@@ -62,8 +62,8 @@ void NearestArraySampler2<T, R>::getCoordinate(
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
 
-    getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
-    getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     index->x = std::min(static_cast<ssize_t>(i + fx + 0.5), iSize - 1);
     index->y = std::min(static_cast<ssize_t>(j + fy + 0.5), jSize - 1);
@@ -83,6 +83,7 @@ LinearArraySampler2<T, R>::LinearArraySampler(
     const Vector2<R>& gridSpacing,
     const Vector2<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
+    _invGridSpacing = static_cast<R>(1) / _gridSpacing;
     _origin = gridOrigin;
     _accessor = accessor;
 }
@@ -91,6 +92,7 @@ template <typename T, typename R>
 LinearArraySampler2<T, R>::LinearArraySampler(
     const LinearArraySampler& other) {
     _gridSpacing = other._gridSpacing;
+    _invGridSpacing = other._invGridSpacing;
     _origin = other._origin;
     _accessor = other._accessor;
 }
@@ -107,8 +109,8 @@ T LinearArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
 
-    getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
-    getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     ssize_t ip1 = std::min(i + 1, iSize - 1);
     ssize_t jp1 = std::min(j + 1, jSize - 1);
@@ -137,8 +139,8 @@ void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
 
-    getBarycentric(normalizedX.x, 0, iSize, &i, &fx);
-    getBarycentric(normalizedX.y, 0, jSize, &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     ssize_t ip1 = std::min(i + 1, iSize - 1);
     ssize_t jp1 = std::min(j + 1, jSize - 1);
@@ -183,18 +185,16 @@ CubicArraySampler2<T, R>::CubicArraySampler(
 template <typename T, typename R>
 T CubicArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
     ssize_t i, j;
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
-    ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
+    const ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
+    const ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
     R fx, fy;
 
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon());
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    const Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
 
-    getBarycentric(
-        normalizedX.x, 0, static_cast<ssize_t>(_accessor.width()), &i, &fx);
-    getBarycentric(
-        normalizedX.y, 0, static_cast<ssize_t>(_accessor.height()), &j, &fy);
+    getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
 
     ssize_t is[4] = {
         std::max(i - 1, kZeroSSize),

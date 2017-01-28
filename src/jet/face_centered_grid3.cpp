@@ -403,9 +403,9 @@ double FaceCenteredGrid3::divergence(const Vector3D& x) const {
 
     Vector3D normalizedX = (x - cellCenterOrigin) / gridSpacing();
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x), &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y), &j, &fy);
-    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z), &k, &fz);
+    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x) - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
+    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
     std::array<Point3UI, 8> indices;
     std::array<double, 8> weights;
@@ -446,9 +446,9 @@ Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
 
     Vector3D normalizedX = (x - cellCenterOrigin) / gridSpacing();
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x), &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y), &j, &fy);
-    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z), &k, &fz);
+    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x) - 1, &i, &fx);
+    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
+    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
     std::array<Point3UI, 8> indices;
     std::array<double, 8> weights;

@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS3_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS3_H_
@@ -106,6 +106,7 @@ class LinearArraySampler<T, R, 3> final {
 
  private:
     Vector3<R> _gridSpacing;
+    Vector3<R> _invGridSpacing;
     Vector3<R> _origin;
     ConstArrayAccessor3<T> _accessor;
 };
