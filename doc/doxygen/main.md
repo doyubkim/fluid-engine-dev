@@ -4,7 +4,7 @@ Jet framework is a fluid simulation engine SDK for computer graphics application
 * SPH and PCISPH fluid simulators
 * Stable fluids-based smoke simulator
 * Level set-based liquid simulator
-* PIC and FLIP fluid simulators
+* PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO and FMM level set solvers
 * Converters between signed distance function and triangular mesh
 
