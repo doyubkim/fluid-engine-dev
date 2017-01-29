@@ -18,6 +18,7 @@ class CustomImplicitSurface3 final : public ImplicitSurface3 {
         const std::function<double(const Vector3D&)>& func,
         const BoundingBox3D& domain = BoundingBox3D(),
         double resolution = 1e-3,
+        unsigned int maxNumOfIterations = 5,
         const Transform3& transform = Transform3(),
         bool isNormalFlipped = false);
 
@@ -31,6 +32,7 @@ class CustomImplicitSurface3 final : public ImplicitSurface3 {
     std::function<double(const Vector3D&)> _func;
     BoundingBox3D _domain;
     double _resolution = 1e-3;
+    unsigned int _maxNumOfIterations = 5;
 
     Vector3D closestPointLocal(const Vector3D& otherPoint) const override;
 
@@ -68,6 +70,9 @@ class CustomImplicitSurface3::Builder final
     //! Returns builder with resolution.
     Builder& withResolution(double resolution);
 
+    //! Returns builder with number of iterations.
+    Builder& withMaxNumberOfIterations(unsigned int numIter);
+
     //! Builds CustomImplicitSurface3.
     CustomImplicitSurface3 build() const;
 
@@ -78,6 +83,7 @@ class CustomImplicitSurface3::Builder final
     std::function<double(const Vector3D&)> _func;
     BoundingBox3D _domain;
     double _resolution = 1e-3;
+    unsigned int _maxNumOfIterations = 5;
 };
 
 }  // namespace jet

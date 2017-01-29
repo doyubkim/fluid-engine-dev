@@ -18,6 +18,7 @@ class CustomImplicitSurface2 final : public ImplicitSurface2 {
         const std::function<double(const Vector2D&)>& func,
         const BoundingBox2D& domain = BoundingBox2D(),
         double resolution = 1e-3,
+        unsigned int numberOfIterations = 5,
         const Transform2& transform = Transform2(),
         bool isNormalFlipped = false);
 
@@ -31,6 +32,7 @@ class CustomImplicitSurface2 final : public ImplicitSurface2 {
     std::function<double(const Vector2D&)> _func;
     BoundingBox2D _domain;
     double _resolution = 1e-3;
+    unsigned int _maxNumOfIterations = 5;
 
     Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
 
@@ -68,6 +70,9 @@ class CustomImplicitSurface2::Builder final
     //! Returns builder with resolution.
     Builder& withResolution(double resolution);
 
+    //! Returns builder with number of iterations.
+    Builder& withMaxNumberOfIterations(unsigned int numIter);
+
     //! Builds CustomImplicitSurface2.
     CustomImplicitSurface2 build() const;
 
@@ -77,7 +82,8 @@ class CustomImplicitSurface2::Builder final
  private:
     std::function<double(const Vector2D&)> _func;
     BoundingBox2D _domain;
-    double _resolution = 1e-2;
+    double _resolution = 1e-3;
+    unsigned int _maxNumOfIterations = 5;
 };
 
 }  // namespace jet

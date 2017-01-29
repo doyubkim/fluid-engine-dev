@@ -7,19 +7,18 @@
 
 using namespace jet;
 
-const double kDistanceThreshold = 1e-3;
-const double kGradientThreshold = 1e-3;
-
 CustomImplicitSurface2::CustomImplicitSurface2(
     const std::function<double(const Vector2D&)>& func,
     const BoundingBox2D& domain,
     double resolution,
+    unsigned int maxNumOfIterations,
     const Transform2& transform,
     bool isNormalFlipped)
 : ImplicitSurface2(transform, isNormalFlipped)
 , _func(func)
 , _domain(domain)
-, _resolution(resolution) {
+, _resolution(resolution)
+, _maxNumOfIterations(maxNumOfIterations) {
 }
 
 CustomImplicitSurface2::~CustomImplicitSurface2() {
@@ -28,14 +27,13 @@ CustomImplicitSurface2::~CustomImplicitSurface2() {
 Vector2D CustomImplicitSurface2::closestPointLocal(
     const Vector2D& otherPoint) const {
     Vector2D pt = otherPoint;
-    while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        Vector2D g = gradientLocal(pt);
-
-        if (g.length() < kGradientThreshold) {
+    for (unsigned int iter = 0; iter < _maxNumOfIterations; ++iter) {
+        double sdf = signedDistanceLocal(pt);
+        if (std::fabs(sdf) < kEpsilonD) {
             break;
         }
-
-        pt += g;
+        Vector2D g = gradientLocal(pt);
+        pt = pt - sdf * g;
     }
     return pt;
 }
@@ -88,23 +86,13 @@ double CustomImplicitSurface2::signedDistanceLocal(
 
 Vector2D CustomImplicitSurface2::closestNormalLocal(
     const Vector2D& otherPoint) const {
-    Vector2D pt = otherPoint;
-    Vector2D g;
-    while (std::fabs(_func(pt)) < kDistanceThreshold) {
-        g = gradientLocal(pt);
-
-        if (g.length() < kGradientThreshold) {
-            break;
-        }
-
-        pt += g;
+    Vector2D pt = closestPointLocal(otherPoint);
+    Vector2D g = gradientLocal(pt);
+    if (g.lengthSquared() > 0.0) {
+        return g.normalized();
+    } else {
+        return g;
     }
-
-    if (g.length() > 0.0) {
-        g.normalize();
-    }
-
-    return g;
 }
 
 SurfaceRayIntersection2 CustomImplicitSurface2::closestIntersectionLocal(
@@ -190,11 +178,19 @@ CustomImplicitSurface2::Builder::withResolution(double resolution) {
     return *this;
 }
 
+CustomImplicitSurface2::Builder&
+CustomImplicitSurface2::Builder::withMaxNumberOfIterations(
+    unsigned int numIter) {
+    _maxNumOfIterations = numIter;
+    return *this;
+}
+
 CustomImplicitSurface2 CustomImplicitSurface2::Builder::build() const {
     return CustomImplicitSurface2(
         _func,
         _domain,
         _resolution,
+        _maxNumOfIterations,
         _transform,
         _isNormalFlipped);
 }
@@ -205,6 +201,7 @@ CustomImplicitSurface2Ptr CustomImplicitSurface2::Builder::makeShared() const {
             _func,
             _domain,
             _resolution,
+        _maxNumOfIterations,
             _transform,
             _isNormalFlipped),
         [] (CustomImplicitSurface2* obj) {
