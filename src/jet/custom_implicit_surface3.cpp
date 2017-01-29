@@ -11,12 +11,14 @@ CustomImplicitSurface3::CustomImplicitSurface3(
     const std::function<double(const Vector3D&)>& func,
     const BoundingBox3D& domain,
     double resolution,
+    unsigned int maxNumOfIterations,
     const Transform3& transform,
     bool isNormalFlipped)
 : ImplicitSurface3(transform, isNormalFlipped)
 , _func(func)
 , _domain(domain)
-, _resolution(resolution) {
+, _resolution(resolution)
+, _maxNumOfIterations(maxNumOfIterations) {
 }
 
 CustomImplicitSurface3::~CustomImplicitSurface3() {
@@ -24,13 +26,16 @@ CustomImplicitSurface3::~CustomImplicitSurface3() {
 
 Vector3D CustomImplicitSurface3::closestPointLocal(
     const Vector3D& otherPoint) const {
-    double sdf = signedDistanceLocal(otherPoint);
-    Vector3D g = gradientLocal(otherPoint);
-    if (isInsideSdf(sdf)) {
-        return otherPoint + sdf * g;
-    } else {
-        return otherPoint - sdf * g;
+    Vector3D pt = otherPoint;
+    for (unsigned int iter = 0; iter < _maxNumOfIterations; ++iter) {
+        double sdf = signedDistanceLocal(pt);
+        if (std::fabs(sdf) < kEpsilonD) {
+            break;
+        }
+        Vector3D g = gradientLocal(pt);
+        pt = pt - sdf * g;
     }
+    return pt;
 }
 
 bool CustomImplicitSurface3::intersectsLocal(const Ray3D& ray) const {
@@ -176,11 +181,19 @@ CustomImplicitSurface3::Builder::withResolution(double resolution) {
     return *this;
 }
 
+CustomImplicitSurface3::Builder&
+CustomImplicitSurface3::Builder::withMaxNumberOfIterations(
+    unsigned int numIter) {
+    _maxNumOfIterations = numIter;
+    return *this;
+}
+
 CustomImplicitSurface3 CustomImplicitSurface3::Builder::build() const {
     return CustomImplicitSurface3(
         _func,
         _domain,
         _resolution,
+        _maxNumOfIterations,
         _transform,
         _isNormalFlipped);
 }
@@ -191,6 +204,7 @@ CustomImplicitSurface3Ptr CustomImplicitSurface3::Builder::makeShared() const {
             _func,
             _domain,
             _resolution,
+            _maxNumOfIterations,
             _transform,
             _isNormalFlipped),
         [] (CustomImplicitSurface3* obj) {

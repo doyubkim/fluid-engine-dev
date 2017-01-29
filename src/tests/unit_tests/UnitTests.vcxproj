@@ -47,6 +47,8 @@
     <ClCompile Include="cg_tests.cpp" />
     <ClCompile Include="collider_set2_tests.cpp" />
     <ClCompile Include="collider_set3_tests.cpp" />
+    <ClCompile Include="custom_implicit_surface2_tests.cpp" />
+    <ClCompile Include="custom_implicit_surface3_tests.cpp" />
     <ClCompile Include="cylinder3_tests.cpp" />
     <ClCompile Include="face_centered_grid2_tests.cpp" />
     <ClCompile Include="face_centered_grid3_tests.cpp" />
@@ -135,6 +137,9 @@
     <ClCompile Include="vertex_centered_vector_grid3_tests.cpp" />
     <ClCompile Include="volume_particle_emitter2_tests.cpp" />
     <ClCompile Include="volume_particle_emitter3_tests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="unit_tests_utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF6018A6-EC7E-4D2E-856A-DAAB0B336946}</ProjectGuid>

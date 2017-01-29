@@ -84,6 +84,12 @@
     <ClCompile Include="cg_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="custom_implicit_surface2_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_implicit_surface3_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="cylinder3_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -357,5 +363,10 @@
     <ClCompile Include="animation_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="unit_tests_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
