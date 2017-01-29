@@ -47,6 +47,8 @@
     <ClCompile Include="cg_tests.cpp" />
     <ClCompile Include="collider_set2_tests.cpp" />
     <ClCompile Include="collider_set3_tests.cpp" />
+    <ClCompile Include="custom_implicit_surface2_tests.cpp" />
+    <ClCompile Include="custom_implicit_surface3_tests.cpp" />
     <ClCompile Include="cylinder3_tests.cpp" />
     <ClCompile Include="face_centered_grid2_tests.cpp" />
     <ClCompile Include="face_centered_grid3_tests.cpp" />
@@ -136,6 +138,9 @@
     <ClCompile Include="volume_particle_emitter2_tests.cpp" />
     <ClCompile Include="volume_particle_emitter3_tests.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="unit_tests_utils.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF6018A6-EC7E-4D2E-856A-DAAB0B336946}</ProjectGuid>
     <RootNamespace>UnitTests</RootNamespace>
@@ -199,19 +204,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\tests\unit_tests;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
     <LibraryPath>$(SolutionDir)obj\$(Platform)\$(Configuration)\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\tests\unit_tests;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
     <LibraryPath>$(SolutionDir)obj\$(Platform)\$(Configuration)\;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\tests\unit_tests;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
     <LibraryPath>$(SolutionDir)obj\$(Platform)\$(Configuration)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include;$(SolutionDir)src\tests\unit_tests;$(SolutionDir)external\src\gtest\googletest\googletest\include</IncludePath>
     <LibraryPath>$(SolutionDir)obj\$(Platform)\$(Configuration)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
