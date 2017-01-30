@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_SURFACE_TO_IMPLICIT2_H_
 #define INCLUDE_JET_SURFACE_TO_IMPLICIT2_H_
@@ -12,7 +12,10 @@ namespace jet {
 //! \brief 2-D implicit surface wrapper for generic Surface2 instance.
 //!
 //! This class represents 2-D implicit surface that converts Surface2 instance
-//! to an ImplicitSurface2 object.
+//! to an ImplicitSurface2 object. The conversion is made by evaluating closest
+//! point and normal from a given point for the given (explicit) surface. Thus,
+//! this conversion won't work for every single surfaces. Use this class only
+//! for the basic primitives such as Sphere2 or Box2.
 //!
 class SurfaceToImplicit2 final : public ImplicitSurface2 {
  public:

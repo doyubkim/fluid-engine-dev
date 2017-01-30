@@ -333,6 +333,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\implicit_surface3.h" />
     <ClInclude Include="..\..\include\jet\implicit_surface_set2.h" />
     <ClInclude Include="..\..\include\jet\implicit_surface_set3.h" />
+    <ClInclude Include="..\..\include\jet\implicit_triangle_mesh3.h" />
     <ClInclude Include="..\..\include\jet\iterative_level_set_solver2.h" />
     <ClInclude Include="..\..\include\jet\iterative_level_set_solver3.h" />
     <ClInclude Include="..\..\include\jet\jet.h" />
@@ -536,6 +537,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClCompile Include="implicit_surface3.cpp" />
     <ClCompile Include="implicit_surface_set2.cpp" />
     <ClCompile Include="implicit_surface_set3.cpp" />
+    <ClCompile Include="implicit_triangle_mesh3.cpp" />
     <ClCompile Include="iterative_level_set_solver2.cpp" />
     <ClCompile Include="iterative_level_set_solver3.cpp" />
     <ClCompile Include="level_set_liquid_solver2.cpp" />

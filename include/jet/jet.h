@@ -111,6 +111,7 @@
 #include <jet/implicit_surface3.h>
 #include <jet/implicit_surface_set2.h>
 #include <jet/implicit_surface_set3.h>
+#include <jet/implicit_triangle_mesh3.h>
 #include <jet/iterative_level_set_solver2.h>
 #include <jet/iterative_level_set_solver3.h>
 #include <jet/jet.h>
