@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <jet/jet.h>
 #include <pystring/pystring.h>
@@ -339,7 +339,7 @@ void runExample3(
     }
     auto dragon = ImplicitTriangleMesh3::builder()
         .withTriangleMesh(dragonMesh)
-        .withResolutionX(resX)
+        .withResolutionX(resolutionX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
