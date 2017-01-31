@@ -1,5 +1,5 @@
 """
-Copyright (c) 2016 Doyub Kim
+Copyright (c) 2017 Doyub Kim
 """
 
 Import('env', 'os', 'utils')
@@ -12,10 +12,11 @@ lib_env.Append(CPPPATH = [
     os.path.join(script_dir, '../../external/include'),
     os.path.join(script_dir, '../../external/src/obj'),
     script_dir])
+lib_env.Append(CXXFLAGS = ['-fPIC'])
 
 source_patterns = ['*.cpp']
 source = map(lambda x: os.path.relpath(x, script_dir), utils.get_all_files(script_dir, source_patterns))
-source = [s for s in source if not (s.startswith('dx') or s.startswith('win32') or s.endswith('pch.cpp'))]
+source = [s for s in source if not s.endswith('pch.cpp')]
 
 lib = lib_env.Library('jet', source)
 
