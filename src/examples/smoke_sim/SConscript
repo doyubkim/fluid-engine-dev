@@ -1,5 +1,5 @@
 """
-Copyright (c) 2016 Doyub Kim
+Copyright (c) 2017 Doyub Kim
 """
 
 Import('env', 'os', 'utils')
@@ -14,8 +14,8 @@ def from_build_dir(path):
 
 app_env = env.Clone()
 app_env.Append(CPPPATH = [from_root_dir('include'), from_root_dir('external/src/cnpy'), from_root_dir('external/src/pystring'), script_dir])
-app_env.Append(LIBPATH = [from_build_dir('src/jet'), from_build_dir('external/src/cnpy'), from_build_dir('external/src/pystring')])
-app_env.Prepend(LIBS = ['jet', 'cnpy', 'pystring'])
+app_env.Append(LIBPATH = [from_build_dir('src/jet'), from_build_dir('external/src/cnpy'), from_build_dir('external/src/pystring'), from_build_dir('external/src/obj')])
+app_env.Prepend(LIBS = ['jet', 'cnpy', 'obj', 'pystring'])
 
 # TODO: This is BAD! Should be fixed from cnpy
 app_env.Append(CXXFLAGS=['-Wno-sign-compare'])

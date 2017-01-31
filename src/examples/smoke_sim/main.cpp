@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #include <jet/jet.h>
 #include <pystring/pystring.h>
@@ -329,26 +329,17 @@ void runExample3(
         .makeShared();
 
     // Build emitter
-    VertexCenteredScalarGrid3 dragonSdf;
-    std::ifstream sdfFile("dragon.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        dragonSdf.deserialize(buffer);
-        sdfFile.close();
+    auto dragonMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile("resources/dragon.obj");
+    if (objFile) {
+        dragonMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open dragon.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/dragon.obj"
-            " -o dragon.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/dragon.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto dragon = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(dragonSdf.sampler())
-        .withResolution(solver->gridSystemData()->gridSpacing().x)
+    auto dragon = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(dragonMesh)
+        .withResolutionX(resolutionX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()

@@ -486,6 +486,9 @@
     <ClInclude Include="..\..\include\jet\implicit_surface3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\implicit_triangle_mesh3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\jet\iterative_level_set_solver2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1269,6 +1272,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="implicit_surface3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="implicit_triangle_mesh3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="iterative_level_set_solver2.cpp">

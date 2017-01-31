@@ -2,6 +2,7 @@
 
 #include <pch.h>
 #include <jet/surface_to_implicit3.h>
+#include <jet/triangle_mesh3.h>
 
 using namespace jet;
 
@@ -11,6 +12,10 @@ SurfaceToImplicit3::SurfaceToImplicit3(
     bool isNormalFlipped)
 : ImplicitSurface3(transform, isNormalFlipped)
 , _surface(surface) {
+    if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr) {
+        JET_WARN << "Using TriangleMesh3 with SurfaceToImplicit3 can cause "
+                 << "undefined behavior. Use ImplicitTriangleMesh3 instead.";
+    }
 }
 
 SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other) :

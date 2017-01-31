@@ -234,26 +234,17 @@ void runExample3(
     auto grids = solver->gridSystemData();
 
     // Build emitters
-    VertexCenteredScalarGrid3 bunnySdf;
-    std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        bunnySdf.deserialize(buffer);
-        sdfFile.close();
+    auto bunnyMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile("resources/bunny.obj");
+    if (objFile) {
+        bunnyMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open bunny.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/bunny.obj"
-            " -o bunny.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/bunny.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto bunny = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(bunnySdf.sampler())
-        .withResolution(grids->gridSpacing().x)
+    auto bunny = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(bunnyMesh)
+        .withResolutionX(resX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
@@ -289,26 +280,17 @@ void runExample4(
     auto grids = solver->gridSystemData();
 
     // Build emitters
-    VertexCenteredScalarGrid3 bunnySdf;
-    std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        bunnySdf.deserialize(buffer);
-        sdfFile.close();
+    auto bunnyMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile("resources/bunny.obj");
+    if (objFile) {
+        bunnyMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open bunny.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/bunny.obj"
-            " -o bunny.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/bunny.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto bunny = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(bunnySdf.sampler())
-        .withResolution(grids->gridSpacing().x)
+    auto bunny = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(bunnyMesh)
+        .withResolutionX(resX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
