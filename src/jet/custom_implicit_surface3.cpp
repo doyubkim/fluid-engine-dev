@@ -26,7 +26,7 @@ CustomImplicitSurface3::~CustomImplicitSurface3() {
 
 Vector3D CustomImplicitSurface3::closestPointLocal(
     const Vector3D& otherPoint) const {
-    Vector3D pt = otherPoint;
+    Vector3D pt = clamp(otherPoint, _domain.lowerCorner, _domain.upperCorner);
     for (unsigned int iter = 0; iter < _maxNumOfIterations; ++iter) {
         double sdf = signedDistanceLocal(pt);
         if (std::fabs(sdf) < kEpsilonD) {
