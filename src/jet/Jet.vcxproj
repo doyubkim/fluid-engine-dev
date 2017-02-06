@@ -104,11 +104,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)scripts\header_gen.py
-mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+      <Command>python "$(SolutionDir)scripts\header_gen.py"
+mkdir "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)include\jet" "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -125,11 +125,11 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)scripts\header_gen.py
-mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+      <Command>python "$(SolutionDir)scripts\header_gen.py"
+mkdir "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)include\jet" "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -148,11 +148,11 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)scripts\header_gen.py
-mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+      <Command>python "$(SolutionDir)scripts\header_gen.py"
+mkdir "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)include\jet" "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -171,11 +171,11 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>python $(SolutionDir)scripts\header_gen.py
-mkdir $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb $(SolutionDir)dist\$(Platform)\$(Configuration)\
-xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet</Command>
+      <Command>python "$(SolutionDir)scripts\header_gen.py"
+mkdir "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.lib" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)obj\$(Platform)\$(Configuration)\Jet.pdb" "$(SolutionDir)dist\$(Platform)\$(Configuration)\"
+xcopy /y "$(SolutionDir)include\jet" "$(SolutionDir)dist\$(Platform)\$(Configuration)\include\jet"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -259,6 +259,7 @@ xcopy /y $(SolutionDir)include\jet $(SolutionDir)dist\$(Platform)\$(Configuratio
     <ClInclude Include="..\..\include\jet\detail\ray3-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\samplers-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\serial-inl.h" />
+    <ClInclude Include="..\..\include\jet\detail\serialization-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\size-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\size2-inl.h" />
     <ClInclude Include="..\..\include\jet\detail\size3-inl.h" />

@@ -111,9 +111,6 @@
     <ClInclude Include="..\..\include\jet\detail\serial-inl.h">
       <Filter>Header Files\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\jet\detail\serialization-inl.h">
-      <Filter>Header Files\detail</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\jet\detail\size2-inl.h">
       <Filter>Header Files\detail</Filter>
     </ClInclude>
@@ -804,6 +801,21 @@
     <ClInclude Include="marching_squares_table.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\jet\detail\transform2-inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\detail\transform3-inl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\transform2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\transform3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\jet\detail\serialization-inl.h">
+      <Filter>Header Files\detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -861,12 +873,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_particle_emitter3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="point_particle_emitter_set2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="point_particle_emitter_set3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="point_simple_list_searcher2.cpp">
@@ -1296,6 +1302,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="volume_grid_emitter3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_emitter_set2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_emitter_set3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
