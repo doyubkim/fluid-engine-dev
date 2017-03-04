@@ -26,7 +26,7 @@ CustomImplicitSurface2::~CustomImplicitSurface2() {
 
 Vector2D CustomImplicitSurface2::closestPointLocal(
     const Vector2D& otherPoint) const {
-    Vector2D pt = otherPoint;
+    Vector2D pt = clamp(otherPoint, _domain.lowerCorner, _domain.upperCorner);
     for (unsigned int iter = 0; iter < _maxNumOfIterations; ++iter) {
         double sdf = signedDistanceLocal(pt);
         if (std::fabs(sdf) < kEpsilonD) {
