@@ -59,7 +59,10 @@ void ApicSolver2::transferFromParticlesToGrids() {
         std::array<double, 4> weights;
 
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        uPosClamped.y = clamp(
+            uPosClamped.y,
+            bbox.lowerCorner.y + hh.y,
+            bbox.upperCorner.y - hh.y);
         uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = uPos(indices[j].x, indices[j].y);
@@ -70,7 +73,10 @@ void ApicSolver2::transferFromParticlesToGrids() {
         }
 
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        vPosClamped.x = clamp(
+            vPosClamped.x,
+            bbox.lowerCorner.x + hh.x,
+            bbox.upperCorner.x - hh.x);
         vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = vPos(indices[j].x, indices[j].y);
@@ -123,7 +129,10 @@ void ApicSolver2::transferFromGridsToParticles() {
 
         // x
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(uPosClamped.y, hh.y, bbox.upperCorner.y - hh.y);
+        uPosClamped.y = clamp(
+            uPosClamped.y,
+            bbox.lowerCorner.y + hh.y,
+            bbox.upperCorner.y - hh.y);
         uSampler.getCoordinatesAndGradientWeights(
             uPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 4; ++j) {
@@ -132,7 +141,10 @@ void ApicSolver2::transferFromGridsToParticles() {
 
         // y
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(vPosClamped.x, hh.x, bbox.upperCorner.x - hh.x);
+        vPosClamped.x = clamp(
+            vPosClamped.x,
+            bbox.lowerCorner.x + hh.x,
+            bbox.upperCorner.x - hh.x);
         vSampler.getCoordinatesAndGradientWeights(
             vPosClamped, &indices, &gradWeights);
         for (int j = 0; j < 4; ++j) {
