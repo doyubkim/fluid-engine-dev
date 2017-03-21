@@ -1,9 +1,10 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_DETAIL_TRANSFORM2_INL_H_
 #define INCLUDE_JET_DETAIL_TRANSFORM2_INL_H_
 
 #include <jet/transform2.h>
+
 #include <algorithm>
 #include <cmath>
 
@@ -62,7 +63,7 @@ inline Ray2D Transform2::toLocal(const Ray2D& rayInWorld) const {
 
 inline BoundingBox2D Transform2::toLocal(
     const BoundingBox2D& bboxInWorld) const {
-    BoundingBox2D bboxInLocal = bboxInWorld;
+    BoundingBox2D bboxInLocal;
     for (int i = 0; i < 4; ++i) {
         auto cornerInLocal = toLocal(bboxInWorld.corner(i));
         bboxInLocal.lowerCorner
@@ -97,7 +98,7 @@ inline Ray2D Transform2::toWorld(const Ray2D& rayInLocal) const {
 
 inline BoundingBox2D Transform2::toWorld(
     const BoundingBox2D& bboxInLocal) const {
-    BoundingBox2D bboxInWorld = bboxInLocal;
+    BoundingBox2D bboxInWorld;
     for (int i = 0; i < 4; ++i) {
         auto cornerInWorld = toWorld(bboxInLocal.corner(i));
         bboxInWorld.lowerCorner

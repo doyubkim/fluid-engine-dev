@@ -1,9 +1,10 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
 
 #ifndef INCLUDE_JET_DETAIL_TRANSFORM3_INL_H_
 #define INCLUDE_JET_DETAIL_TRANSFORM3_INL_H_
 
 #include <jet/transform3.h>
+
 #include <algorithm>
 #include <cmath>
 
@@ -53,7 +54,7 @@ inline Ray3D Transform3::toLocal(const Ray3D& rayInWorld) const {
 
 inline BoundingBox3D Transform3::toLocal(
     const BoundingBox3D& bboxInWorld) const {
-    BoundingBox3D bboxInLocal = bboxInWorld;
+    BoundingBox3D bboxInLocal;
     for (int i = 0; i < 8; ++i) {
         auto cornerInLocal = toLocal(bboxInWorld.corner(i));
         bboxInLocal.lowerCorner
@@ -81,7 +82,7 @@ inline Ray3D Transform3::toWorld(const Ray3D& rayInLocal) const {
 
 inline BoundingBox3D Transform3::toWorld(
     const BoundingBox3D& bboxInLocal) const {
-    BoundingBox3D bboxInWorld = bboxInLocal;
+    BoundingBox3D bboxInWorld;
     for (int i = 0; i < 8; ++i) {
         auto cornerInWorld = toWorld(bboxInLocal.corner(i));
         bboxInWorld.lowerCorner

@@ -1,6 +1,9 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+
+#include <unit_tests_utils.h>
 
 #include <jet/transform3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -11,9 +14,7 @@ TEST(Transform3, Constructors) {
     EXPECT_EQ(Vector3D(), t1.translation());
     EXPECT_EQ(0.0, t1.orientation().angle());
 
-    Transform3 t2(
-        {2.0, -5.0, 1.0},
-        QuaternionD({0.0, 1.0, 0.0}, kQuaterPiD));
+    Transform3 t2({2.0, -5.0, 1.0}, QuaternionD({0.0, 1.0, 0.0}, kQuaterPiD));
 
     EXPECT_EQ(Vector3D(2.0, -5.0, 1.0), t2.translation());
     EXPECT_EQ(Vector3D(0.0, 1.0, 0.0), t2.orientation().axis());
@@ -21,9 +22,7 @@ TEST(Transform3, Constructors) {
 }
 
 TEST(Transform3, Transform) {
-    Transform3 t(
-        {2.0, -5.0, 1.0},
-        QuaternionD({0.0, 1.0, 0.0}, kHalfPiD));
+    Transform3 t({2.0, -5.0, 1.0}, QuaternionD({0.0, 1.0, 0.0}, kHalfPiD));
 
     auto r1 = t.toWorld({4.0, 1.0, -3.0});
     EXPECT_NEAR(-1.0, r1.x, 1e-9);
@@ -44,4 +43,11 @@ TEST(Transform3, Transform) {
     EXPECT_NEAR(4.0, r4.x, 1e-9);
     EXPECT_NEAR(1.0, r4.y, 1e-9);
     EXPECT_NEAR(-3.0, r4.z, 1e-9);
+
+    BoundingBox3D bbox({-2, -1, -3}, {2, 1, 3});
+    auto r5 = t.toWorld(bbox);
+    EXPECT_BOUNDING_BOX3_EQ(BoundingBox3D({-1, -6, -1}, {5, -4, 3}), r5);
+
+    auto r6 = t.toLocal(r5);
+    EXPECT_BOUNDING_BOX3_EQ(bbox, r6);
 }
