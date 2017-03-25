@@ -55,6 +55,7 @@
 *.png
 *.winmd
 *.appxrecipe
+*.sublime-workspace
 project.lock.json
 src/**/bin/**/*
 src/**/Generated Files/**/*
