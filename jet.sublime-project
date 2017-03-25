@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"ClangFormat": {
+			"style": "file",
+			"format_on_save": true
+		}
+	}
+}
