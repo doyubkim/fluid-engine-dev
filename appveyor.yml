@@ -15,7 +15,6 @@ install:
 
 # scripts to run before build
 before_build:
-  - cmd: bin\run_linters.bat
   - cmd: nuget restore
 
 build:
