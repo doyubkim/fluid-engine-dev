@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 //
 // Copyright (c) 1998-2014, Matt Pharr and Greg Humphreys.
 // All rights reserved.

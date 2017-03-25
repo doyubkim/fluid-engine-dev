@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 """
-Copyright (c) 2016 Doyub Kim
+Copyright (c) 2017 Doyub Kim
+
+I am making my contributions/submissions to this project solely in my personal
+capacity and am not conveying any rights to any intellectual property of any
+third parties.
 """
 
 import inspect
@@ -16,7 +20,11 @@ def main():
     filenames.sort()
     header = os.path.join(dirname, '../include/jet/jet.h')
     with open(header, 'w') as header_file:
-        header_file.write('// Copyright (c) 2016 Doyub Kim\n')
+        header_file.write('// Copyright (c) 2017 Doyub Kim
+
+I am making my contributions/submissions to this project solely in my personal
+capacity and am not conveying any rights to any intellectual property of any
+third parties.\n')
         header_file.write('#ifndef INCLUDE_JET_JET_H_\n')
         header_file.write('#define INCLUDE_JET_JET_H_\n')
         for filename in filenames:
