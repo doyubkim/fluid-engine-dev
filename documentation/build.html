@@ -144,15 +144,18 @@ git submodule update
 
 <h3 id="building-from-macos">Building from macOS</h3>
 
-<p>Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install <a href="http://brew.sh">Homebrew</a> and run</p>
+<p>Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install <a href="http://brew.sh">Homebrew</a> and run the following command line to setup <a href="https://cmake.org/">CMake</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>brew install scons
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install cmake
 </code></pre>
 </div>
 
-<p>This will install <a href="http://scons.org/">Scons</a>. Once installed, build the code by running</p>
+<p>Once CMake is installed, build the code by running</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scons
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir build
+cd build
+cmake ..
+make
 </code></pre>
 </div>
 
@@ -161,26 +164,21 @@ git submodule update
 <div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests
 </code></pre>
 </div>
-
-<p>The library can be installed by running</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>[sudo] scons install --dist=INSTALL_PATH
-</code></pre>
-</div>
-
-<p>This will install the header files and the static library <code class="highlighter-rouge">libjet.a</code> under <code class="highlighter-rouge">INSTALL_PATH</code>.</p>
 
 <h3 id="building-from-ubuntu">Building from Ubuntu</h3>
 
 <p>Jet supports Ubuntu 14.04 or higher. Using <code class="highlighter-rouge">apt-get</code>, install required tools and libraries by running,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install build-essential python scons zlib1g-dev
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install build-essential python cmake
 </code></pre>
 </div>
 
-<p>This will install GNU compilers, pytho, <a href="http://scons.org/">Scons</a> (the build tool), and <a href="www.zlib.net">zlib</a>. Once installed, build the code by running</p>
+<p>This will install GNU compilers, python, and CMake. Once installed, build the code by running</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scons
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir build
+cd build
+cmake ..
+make
 </code></pre>
 </div>
 
@@ -190,41 +188,59 @@ git submodule update
 </code></pre>
 </div>
 
-<p>The library can be installed by running</p>
+<h3 id="building-from-windows">Building from Windows</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[sudo] scons install --dist=INSTALL_PATH
+<p>To build the code on Windows, <a href="https://cmake.org/">CMake</a> and Visual Studio 2015 is required. Windows’ version of CMake is available from <a href="https://cmake.org/">this website</a>, and free version of VS 2015 also can be downloaded from <a href="https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx">Visual Studio Community 2015</a>. In addition to Visual Studio, install <a href="https://www.python.org/">Python</a> (2.7.9 or higher recommended) to run post-build events.</p>
+
+<p>Once everything is installed, run the following commands:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>md build
+cd build
+cmake .. -G"Visual Studio 14 2015 Win64"
 </code></pre>
 </div>
 
-<p>This will install the header files and the static library <code class="highlighter-rouge">libjet.a</code> under <code class="highlighter-rouge">INSTALL_PATH</code>.</p>
+<p>This will generate 64-bit version of VS 2015 solution and projects. Once executed, you can find <code class="highlighter-rouge">jet.sln</code> solution file in the <code class="highlighter-rouge">build</code> directory. Open the solution file and hit <code class="highlighter-rouge">Ctrl + Shift + B</code> to build the entire solution. Set <code class="highlighter-rouge">unit_tests</code> as a start-up project and hit <code class="highlighter-rouge">Ctrl + F5</code> to run the test.</p>
 
-<h3 id="building-from-windows">Building from Windows</h3>
+<p>Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:</p>
 
-<p>To build the code on Windows, Visual Studio 2015 is required. Free version of the tool can be downloaded from <a href="https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx">Visual Studio Community 2015</a>. In addition to Visual Studio, install <a href="https://www.python.org/">Python</a> (2.7.9 or higher recommended) to run post-build events.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>MSBuild jet.sln /p:Configuration=Release
+</code></pre>
+</div>
 
-<p>Once Visual Studio is installed, open the solution file <code class="highlighter-rouge">Jet.sln</code> using Visual Studio. Hit <code class="highlighter-rouge">Ctrl + Shift + B</code> to build the entire solution. Set <code class="highlighter-rouge">UnitTests</code> as a start-up project and hit <code class="highlighter-rouge">Ctrl + F5</code> to run the test. Once built, the distributable files (<code class="highlighter-rouge">jet.lib</code> and the header files) will be located under <code class="highlighter-rouge">dist</code> directory.</p>
+<p>This will build the whole solution in release mode. Once built, run the following command to execute unit tests:</p>
 
-<h2 id="running-tests">Running Tests</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>bin\Release\unit_tests.exe
+</code></pre>
+</div>
 
-<p>There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout <a href="https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/unit_tests.md">unit_tests.md</a>, <a href="https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/manual_tests.md">manual_tests.md</a>, and <a href="https://github.com/doyubkim/fluid-engine-dev/blob/master/doc/perf_tests.md">perf_tests.md</a>.</p>
+<h3 id="running-tests">Running Tests</h3>
 
-<h2 id="installing-sdk">Installing SDK</h2>
+<p>There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from <a href="http://doyubkim.github.io/fluid-engine-dev/documentation/">the project website</a>.</p>
+
+<h3 id="installing-sdk">Installing SDK</h3>
 
 <p>For macOS and Ubuntu platforms, the library can be installed by running</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[sudo] scons install --dist=INSTALL_PATH
+<div class="highlighter-rouge"><pre class="highlight"><code>cmake .. -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
+make
+make install
 </code></pre>
 </div>
 
-<p>This will install the header files and the static library <code class="highlighter-rouge">libjet.a</code> under <code class="highlighter-rouge">INSTALL_PATH</code>.</p>
+<p>This will install the header files and the static library <code class="highlighter-rouge">libjet.a</code> under <code class="highlighter-rouge">_INSTALL_PATH_</code>.</p>
 
-<p>For Windows, the binaries and header files will be located under <code class="highlighter-rouge">dist</code> directory after building the solution.</p>
+<p>For Windows, run:</p>
 
-<h2 id="other-notes">Other Notes</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>cmake .. -G"Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
+</code></pre>
+</div>
+
+<p>Then, build <code class="highlighter-rouge">INSTALL</code> project under <code class="highlighter-rouge">jet.sln</code>. This will install the header files and the static library <code class="highlighter-rouge">jet.lob</code> under <code class="highlighter-rouge">_INSTALL_PATH_</code>.</p>
 
 <h3 id="coding-style">Coding Style</h3>
 
-<p>Jet uses a modified version of <a href="https://github.com/google/styleguide/tree/gh-pages/cpplint">cpplint.py</a> for checking the coding style. Please check out <a href="https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md">3RD_PARTY.md</a> for the license of <code class="highlighter-rouge">cpplint.py</code>. Any pull requests must pass the linter. Use <code class="highlighter-rouge">bin/run_linters</code> (or <code class="highlighter-rouge">bin\run_linters.bat</code> for Windows) to test the header and source files of the library.</p>
+<p>Jet uses clang-format. Checkout <a href="https://github.com/doyubkim/fluid-engine-dev/blob/master/.clang-format"><code class="highlighter-rouge">.clang-format</code></a> file for the style guideline.</p>
 
 <h3 id="continuous-integration">Continuous Integration</h3>
 
