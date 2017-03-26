@@ -4,39 +4,50 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/vector.h>
+#include <jet/vector_n.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(Vector, Constructors) {
-    Vector<double, 5> vec1;
+TEST(VectorN, Constructors) {
+    VectorND empty;
+    EXPECT_EQ(0u, empty.size());
 
-    EXPECT_DOUBLE_EQ(0.0, vec1[0]);
-    EXPECT_DOUBLE_EQ(0.0, vec1[1]);
-    EXPECT_DOUBLE_EQ(0.0, vec1[2]);
-    EXPECT_DOUBLE_EQ(0.0, vec1[3]);
-    EXPECT_DOUBLE_EQ(0.0, vec1[4]);
+    VectorND vec({1.0, 4.0, 3.0, -5.0, 2.0});
 
-    Vector<double, 5> vec2({1.0, 2.0, 3.0, 4.0, 5.0});
+    EXPECT_EQ(5u, vec.size());
+    EXPECT_EQ(1.0, vec[0]);
+    EXPECT_EQ(4.0, vec[1]);
+    EXPECT_EQ(3.0, vec[2]);
+    EXPECT_EQ(-5.0, vec[3]);
+    EXPECT_EQ(2.0, vec[4]);
 
-    EXPECT_DOUBLE_EQ(1.0, vec2[0]);
-    EXPECT_DOUBLE_EQ(2.0, vec2[1]);
-    EXPECT_DOUBLE_EQ(3.0, vec2[2]);
-    EXPECT_DOUBLE_EQ(4.0, vec2[3]);
-    EXPECT_DOUBLE_EQ(5.0, vec2[4]);
+    VectorND vec2(vec);
 
-    Vector<double, 5> vec3(vec2);
+    EXPECT_EQ(5u, vec2.size());
+    EXPECT_EQ(1.0, vec2[0]);
+    EXPECT_EQ(4.0, vec2[1]);
+    EXPECT_EQ(3.0, vec2[2]);
+    EXPECT_EQ(-5.0, vec2[3]);
+    EXPECT_EQ(2.0, vec2[4]);
 
-    EXPECT_DOUBLE_EQ(1.0, vec3[0]);
-    EXPECT_DOUBLE_EQ(2.0, vec3[1]);
-    EXPECT_DOUBLE_EQ(3.0, vec3[2]);
-    EXPECT_DOUBLE_EQ(4.0, vec3[3]);
-    EXPECT_DOUBLE_EQ(5.0, vec3[4]);
+    VectorND vec3(7, 3.14);
+    EXPECT_EQ(7u, vec3.size());
+    for (int i = 0; i < 7; ++i) {
+        EXPECT_EQ(3.14, vec3[i]);
+    }
 }
 
-TEST(Vector, BasicSetters) {
-    Vector<double, 5> vec;
+TEST(VectorN, BasicSetters) {
+    VectorND vec;
+
+    vec.resize(8, 3.0);
+    EXPECT_EQ(8u, vec.size());
+    for (int i = 0; i < 8; ++i) {
+        EXPECT_EQ(3.0, vec[i]);
+    }
+
     vec.set({1.0, 4.0, 3.0, -5.0, 2.0});
 
     EXPECT_EQ(5u, vec.size());
@@ -46,8 +57,7 @@ TEST(Vector, BasicSetters) {
     EXPECT_EQ(-5.0, vec[3]);
     EXPECT_EQ(2.0, vec[4]);
 
-    Vector<double, 5> vec2;
-    vec2.set(4.0);
+    VectorND vec2(3, 4.0);
 
     vec2.set(vec);
     EXPECT_EQ(5u, vec2.size());
@@ -57,11 +67,10 @@ TEST(Vector, BasicSetters) {
     EXPECT_EQ(-5.0, vec2[3]);
     EXPECT_EQ(2.0, vec2[4]);
 
-    Vector<double, 5> vec3;
-    vec3.set(3.14);
+    VectorND vec3(7, 3.14);
     vec2.swap(vec3);
 
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 7; ++i) {
         EXPECT_EQ(3.14, vec2[i]);
     }
     EXPECT_EQ(5u, vec3.size());
@@ -86,8 +95,8 @@ TEST(Vector, BasicSetters) {
     EXPECT_EQ(2.0 / denom, vec3[4]);
 }
 
-TEST(Vector, BasicGetters) {
-    Vector<double, 4> vecA = {+3.0, -1.0, +2.0, 5.0};
+TEST(VectorN, BasicGetters) {
+    VectorND vecA = {+3.0, -1.0, +2.0, 5.0};
 
     EXPECT_EQ(4u, vecA.size());
 
@@ -194,7 +203,7 @@ TEST(Vector, BasicGetters) {
     double dist = vecA.distanceTo(vecB);
     EXPECT_EQ(std::sqrt(151.25), dist);
 
-    Vector<float, 4> vecD = vecA.castTo<float>();
+    VectorNF vecD = vecA.castTo<float>();
     EXPECT_EQ(+3.f, vecD[0]);
     EXPECT_EQ(-1.f, vecD[1]);
     EXPECT_EQ(+2.f, vecD[2]);
@@ -212,10 +221,10 @@ TEST(Vector, BasicGetters) {
     EXPECT_TRUE(vecA.isSimilar(vecB, 1e-7));
 }
 
-TEST(Vector, BinaryOperatorMethods) {
-    Vector<double, 4> vecA = {+3.0, -1.0, +2.0, 5.0};
-    Vector<double, 4> vecB = {+6.0, +2.5, -9.0, 8.0};
-    Vector<double, 4> vecC = vecA.add(vecB);
+TEST(VectorN, BinaryOperatorMethods) {
+    VectorND vecA = {+3.0, -1.0, +2.0, 5.0};
+    VectorND vecB = {+6.0, +2.5, -9.0, 8.0};
+    VectorND vecC = vecA.add(vecB);
 
     EXPECT_EQ(+9.0, vecC[0]);
     EXPECT_EQ(+1.5, vecC[1]);
@@ -268,10 +277,10 @@ TEST(Vector, BinaryOperatorMethods) {
     EXPECT_EQ(37.5, d);
 }
 
-TEST(Vector, BinaryOperators) {
-    Vector<double, 4> vecA = {+3.0, -1.0, +2.0, 5.0};
-    Vector<double, 4> vecB = {+6.0, +2.5, -9.0, 8.0};
-    Vector<double, 4> vecC = vecA + vecB;
+TEST(VectorN, BinaryOperators) {
+    VectorND vecA = {+3.0, -1.0, +2.0, 5.0};
+    VectorND vecB = {+6.0, +2.5, -9.0, 8.0};
+    VectorND vecC = vecA + vecB;
 
     EXPECT_EQ(+9.0, vecC[0]);
     EXPECT_EQ(+1.5, vecC[1]);

@@ -22,9 +22,8 @@ namespace jet {
 template <typename T>
 class Point<T, 2> final {
  public:
-    static_assert(
-        std::is_arithmetic<T>::value,
-        "Point only can be instantiated with arithmetic types");
+    static_assert(std::is_arithmetic<T>::value,
+                  "Point only can be instantiated with arithmetic types");
 
     //! X (or the first) component of the point.
     T x;
@@ -35,17 +34,17 @@ class Point<T, 2> final {
     // MARK: Constructors
 
     //! Constructs default point (0, 0).
-    Point();
+    constexpr Point() : x(0), y(0) {}
 
-    //! Constructs point with given parameters \p x and \p y.
-    Point(T x, T y);
+    //! Constructs point with given parameters \p x_ and \p y_.
+    constexpr Point(T x_, T y_) : x(x_), y(y_) {}
 
     //! Constructs point with initializer list.
     template <typename U>
     Point(const std::initializer_list<U>& lst);
 
     //! Copy constructor.
-    Point(const Point& v);
+    constexpr Point(const Point& v) : x(v.x), y(v.y) {}
 
     // MARK: Basic setters
 
@@ -212,9 +211,9 @@ class Point<T, 2> final {
     bool operator!=(const Point& v) const;
 };
 
-
 //! Type alias for two dimensional point.
-template <typename T> using Point2 = Point<T, 2>;
+template <typename T>
+using Point2 = Point<T, 2>;
 
 //! Positive sign operator.
 template <typename T>
@@ -268,24 +267,24 @@ Point2<T> operator/(T a, const Point2<T>& b);
 template <typename T>
 Point2<T> operator/(const Point2<T>& a, const Point2<T>& b);
 
-//! Returns element-wise min vector: (min(a.x, b.x), min(a.y, b.y)).
+//! Returns element-wise min point: (min(a.x, b.x), min(a.y, b.y)).
 template <typename T>
 Point2<T> min(const Point2<T>& a, const Point2<T>& b);
 
-//! Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)).
+//! Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)).
 template <typename T>
 Point2<T> max(const Point2<T>& a, const Point2<T>& b);
 
-//! Returns element-wise clamped vector.
+//! Returns element-wise clamped point.
 template <typename T>
-Point2<T> clamp(
-    const Point2<T>& v, const Point2<T>& low, const Point2<T>& high);
+Point2<T> clamp(const Point2<T>& v, const Point2<T>& low,
+                const Point2<T>& high);
 
-//! Returns element-wise ceiled vector.
+//! Returns element-wise ceiled point.
 template <typename T>
 Point2<T> ceil(const Point2<T>& a);
 
-//! Returns element-wise floored vector.
+//! Returns element-wise floored point.
 template <typename T>
 Point2<T> floor(const Point2<T>& a);
 

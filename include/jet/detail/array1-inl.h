@@ -9,6 +9,7 @@
 
 #include <jet/constants.h>
 #include <jet/parallel.h>
+
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
 #include <vector>
@@ -16,8 +17,7 @@
 namespace jet {
 
 template <typename T>
-Array<T, 1>::Array() {
-}
+Array<T, 1>::Array() {}
 
 template <typename T>
 Array<T, 1>::Array(size_t size, const T& initVal) {
@@ -32,6 +32,11 @@ Array<T, 1>::Array(const std::initializer_list<T>& lst) {
 template <typename T>
 Array<T, 1>::Array(const Array& other) {
     set(other);
+}
+
+template <typename T>
+Array<T, 1>::Array(Array&& other) {
+    (*this) = std::move(other);
 }
 
 template <typename T>
@@ -183,6 +188,12 @@ Array<T, 1>& Array<T, 1>::operator=(const T& value) {
 template <typename T>
 Array<T, 1>& Array<T, 1>::operator=(const Array& other) {
     set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 1>& Array<T, 1>::operator=(Array&& other) {
+    _data = std::move(other._data);
     return *this;
 }
 

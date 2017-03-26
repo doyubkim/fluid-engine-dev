@@ -5,14 +5,19 @@
 // property of any third parties.
 
 #include <perf_tests.h>
+
 #include <jet/parallel.h>
 #include <jet/timer.h>
+
 #include <gtest/gtest.h>
 
-#include <algorithm>
-#include <functional>
+#ifdef COMPARE_WITH_TBB
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_reduce.h>
+#endif
+
+#include <numeric>
 #include <random>
-#include <vector>
 
 using namespace jet;
 
@@ -36,21 +41,19 @@ TEST(Parallel, For) {
         }
     }
 
-    JET_PRINT_INFO(
-        "serial for-loop avg. %f sec.\n",
-        timer.durationInSeconds() / 20.0);
+    JET_PRINT_INFO("serial for-loop avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
 
     timer.reset();
 
     for (int iter = 0; iter < 20; ++iter) {
-        parallelFor(kZeroSize, N, [&] (size_t i) {
+        parallelFor(kZeroSize, N, [&](size_t i) {
             c[i] = 1.0 / std::sqrt(a[i] / b[i] + 1.0);
         });
     }
 
-    JET_PRINT_INFO(
-        "parallelFor avg. %f sec.\n",
-        timer.durationInSeconds() / 20.0);
+    JET_PRINT_INFO("parallelFor avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
 }
 
 TEST(Parallel, Sort) {
@@ -72,9 +75,8 @@ TEST(Parallel, Sort) {
         a = b;  // This will introduce some noise to the measurement :(
     }
 
-    JET_PRINT_INFO(
-        "std::sort avg. %f sec.\n",
-        timer.durationInSeconds() / 20.0);
+    JET_PRINT_INFO("std::sort avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
 
     timer.reset();
 
@@ -83,13 +85,69 @@ TEST(Parallel, Sort) {
         a = b;  // This will introduce some noise to the measurement :(
     }
 
-    JET_PRINT_INFO(
-        "parallelSort avg. %f sec.\n",
-        timer.durationInSeconds() / 20.0);
+    JET_PRINT_INFO("parallelSort avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
 
     // Check the result
     parallelSort(a.begin(), a.end());
     for (size_t i = 0; i + 1 < a.size(); ++i) {
         EXPECT_LE(a[i], a[i + 1]) << i;
     }
+}
+
+TEST(Parallel, Reduce) {
+    size_t N = (1 << 24) + 7;
+    std::vector<double> a(N);
+
+    std::mt19937 rng;
+    std::uniform_real_distribution<> d(0.0, 1.0);
+
+    for (size_t i = 0; i < N; ++i) {
+        a[i] = d(rng);
+    }
+
+    auto func = [&](size_t start, size_t end, double init) {
+        double result = init;
+        for (size_t i = start; i < end; ++i) {
+            result += a[i];
+        }
+        return result;
+    };
+
+    Timer timer;
+
+    double sum = 0.0;
+    for (int iter = 0; iter < 20; ++iter) {
+        sum += std::accumulate(a.begin(), a.end(), 0.0);
+    }
+
+    JET_PRINT_INFO("serial reduce avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
+
+    timer.reset();
+
+    sum = 0.0;
+    for (int iter = 0; iter < 20; ++iter) {
+        sum +=
+            parallelReduce(kZeroSize, a.size(), 0.0, func, std::plus<double>());
+    }
+
+    JET_PRINT_INFO("parallelReduce avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
+#ifdef COMPARE_WITH_TBB
+    timer.reset();
+
+    sum = 0.0;
+    for (int iter = 0; iter < 20; ++iter) {
+        sum += tbb::parallel_reduce(
+            tbb::blocked_range<double*>(a.data(), a.data() + a.size()), 0.0,
+            [&](const tbb::blocked_range<double*>& r, double init) {
+                return std::accumulate(r.begin(), r.end(), init);
+            },
+            std::plus<double>());
+    }
+
+    JET_PRINT_INFO("parallelReduce avg. %f sec.\n",
+                   timer.durationInSeconds() / 20.0);
+#endif
 }

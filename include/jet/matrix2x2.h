@@ -9,6 +9,7 @@
 
 #include <jet/matrix.h>
 #include <jet/vector2.h>
+
 #include <array>
 #include <limits>
 
@@ -24,9 +25,8 @@ namespace jet {
 template <typename T>
 class Matrix<T, 2, 2> {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Matrix only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Matrix only can be instantiated with floating point types");
 
     // MARK: Constructors
 
@@ -38,9 +38,7 @@ class Matrix<T, 2, 2> {
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    Matrix(
-        T m00, T m01,
-        T m10, T m11);
+    Matrix(T m00, T m01, T m10, T m11);
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -49,9 +47,9 @@ class Matrix<T, 2, 2> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 2, 2> arr = {
-    //!     {1, 2},
-    //!     {9, 3}
+    //! Matrix<float, 2, 2> arr = {
+    //!     {1.f, 2.f},
+    //!     {9.f, 3.f}
     //! };
     //! \endcode
     //!
@@ -69,7 +67,6 @@ class Matrix<T, 2, 2> {
     //! \warning Ordering of the input elements is row-major.
     explicit Matrix(const T* arr);
 
-
     // MARK: Basic setters
 
     //! Sets whole matrix with input scalar.
@@ -77,9 +74,7 @@ class Matrix<T, 2, 2> {
 
     //! Sets this matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    void set(
-        T m00, T m01,
-        T m10, T m11);
+    void set(T m00, T m01, T m10, T m11);
 
     //!
     //! \brief Sets this matrix with given initializer list \p lst.
@@ -88,10 +83,11 @@ class Matrix<T, 2, 2> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 2, 2> arr = {
+    //! Matrix<float, 2, 2> arr;
+    //! arr.set({
     //!     {1, 2},
     //!     {9, 3}
-    //! };
+    //! });
     //! \endcode
     //!
     //! Note the initializer also has 2x2 structure.
@@ -120,14 +116,12 @@ class Matrix<T, 2, 2> {
     //! Sets i-th column with input vector.
     void setColumn(size_t i, const Vector2<T>& col);
 
-
     // MARK: Basic getters
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool isSimilar(
-        const Matrix& m,
-        double tol = std::numeric_limits<double>::epsilon()) const;
+    bool isSimilar(const Matrix& m,
+                   double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
     bool isSquare() const;
@@ -143,7 +137,6 @@ class Matrix<T, 2, 2> {
 
     //! Returns constant pointer of this matrix.
     const T* data() const;
-
 
     // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
@@ -170,7 +163,6 @@ class Matrix<T, 2, 2> {
     //! Returns this matrix / input scalar.
     Matrix div(T s) const;
 
-
     // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
     Matrix radd(T s) const;
@@ -192,7 +184,6 @@ class Matrix<T, 2, 2> {
 
     //! Returns input scalar / this matrix.
     Matrix rdiv(T s) const;
-
 
     // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
@@ -216,14 +207,12 @@ class Matrix<T, 2, 2> {
     //! Divides this matrix with input scalar.
     void idiv(T s);
 
-
     // MARK: Modifiers
     //! Transposes this matrix.
     void transpose();
 
     //! Inverts this matrix.
     void invert();
-
 
     // MARK: Complex getters
 
@@ -303,7 +292,6 @@ class Matrix<T, 2, 2> {
     //! Division assignment with input scalar.
     Matrix& operator/=(T s);
 
-
     // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
@@ -322,7 +310,6 @@ class Matrix<T, 2, 2> {
 
     //! Returns true if is not equal to m.
     bool operator!=(const Matrix& m) const;
-
 
     // MARK: Helpers
     //! Sets all matrix entries to zero.
@@ -345,10 +332,9 @@ class Matrix<T, 2, 2> {
     std::array<T, 4> _elements;
 };
 
-
 //! Type alias for 2x2 matrix.
-template <typename T> using Matrix2x2 = Matrix<T, 2, 2>;
-
+template <typename T>
+using Matrix2x2 = Matrix<T, 2, 2>;
 
 // MARK: Operator overloadings
 //! Returns a matrix with opposite sign.
@@ -395,11 +381,11 @@ Vector2<T> operator*(const Matrix2x2<T>& a, const Vector2<T>& b);
 template <typename T>
 Matrix2x2<T> operator*(const Matrix2x2<T>& a, const Matrix2x2<T>& b);
 
-//! Returns a / b', where every element of matrix b' is b.
+//! Returns a' / b, where every element of matrix a' is a.
 template <typename T>
 Matrix2x2<T> operator/(const Matrix2x2<T>& a, T b);
 
-//! Returns a' / b, where every element of matrix a' is a.
+//! Returns a / b', where every element of matrix b' is b.
 template <typename T>
 Matrix2x2<T> operator/(const T& a, const Matrix2x2<T>& b);
 

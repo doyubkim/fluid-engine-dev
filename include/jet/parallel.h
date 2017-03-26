@@ -24,10 +24,8 @@ namespace jet {
 //! \tparam     T              Value type of a container.
 //!
 template <typename RandomIterator, typename T>
-void parallelFill(
-    const RandomIterator& begin,
-    const RandomIterator& end,
-    const T& value);
+void parallelFill(const RandomIterator& begin, const RandomIterator& end,
+                  const T& value);
 
 //!
 //! \brief      Makes a for-loop from \p beginIndex \p to endIndex in parallel.
@@ -44,10 +42,8 @@ void parallelFill(
 //! \tparam     Function   Function type.
 //!
 template <typename IndexType, typename Function>
-void parallelFor(
-    IndexType beginIndex,
-    IndexType endIndex,
-    const Function& function);
+void parallelFor(IndexType beginIndex, IndexType endIndex,
+                 const Function& function);
 
 //!
 //! \brief      Makes a 2D nested for-loop in parallel.
@@ -67,12 +63,9 @@ void parallelFor(
 //! \tparam     Function   Function type.
 //!
 template <typename IndexType, typename Function>
-void parallelFor(
-    IndexType beginIndexX,
-    IndexType endIndexX,
-    IndexType beginIndexY,
-    IndexType endIndexY,
-    const Function& function);
+void parallelFor(IndexType beginIndexX, IndexType endIndexX,
+                 IndexType beginIndexY, IndexType endIndexY,
+                 const Function& function);
 
 //!
 //! \brief      Makes a 3D nested for-loop in parallel.
@@ -94,14 +87,32 @@ void parallelFor(
 //! \tparam     Function    Function type.
 //!
 template <typename IndexType, typename Function>
-void parallelFor(
-    IndexType beginIndexX,
-    IndexType endIndexX,
-    IndexType beginIndexY,
-    IndexType endIndexY,
-    IndexType beginIndexZ,
-    IndexType endIndexZ,
-    const Function& function);
+void parallelFor(IndexType beginIndexX, IndexType endIndexX,
+                 IndexType beginIndexY, IndexType endIndexY,
+                 IndexType beginIndexZ, IndexType endIndexZ,
+                 const Function& function);
+
+//!
+//! \brief      Performs reduce operation in parallel.
+//!
+//! This function reduces the series of values into a single value using the
+//! provided reduce function.
+//!
+//! \param[in]  beginIndex The begin index.
+//! \param[in]  endIndex   The end index.
+//! \param[in]  identity   Identity value for the reduce operation.
+//! \param[in]  function   The function for reducing subrange.
+//! \param[in]  reduce     The reduce operator.
+//!
+//! \tparam     IndexType  Index type.
+//! \tparam     Value      Value type.
+//! \tparam     Function   Reduce function type.
+//!
+template <typename IndexType, typename Value, typename Function,
+          typename Reduce>
+Value parallelReduce(IndexType beginIndex, IndexType endIndex,
+                     const Value& identity, const Function& func,
+                     const Reduce& reduce);
 
 //!
 //! \brief      Sorts a container in parallel.
@@ -113,7 +124,7 @@ void parallelFor(
 //!
 //! \tparam     RandomIterator Iterator type.
 //!
-template<typename RandomIterator>
+template <typename RandomIterator>
 void parallelSort(RandomIterator begin, RandomIterator end);
 
 //!
@@ -130,11 +141,9 @@ void parallelSort(RandomIterator begin, RandomIterator end);
 //! \tparam     RandomIterator  Iterator type.
 //! \tparam     CompareFunction Compare function type.
 //!
-template<typename RandomIterator, typename CompareFunction>
-void parallelSort(
-    RandomIterator begin,
-    RandomIterator end,
-    CompareFunction compare);
+template <typename RandomIterator, typename CompareFunction>
+void parallelSort(RandomIterator begin, RandomIterator end,
+                  CompareFunction compare);
 
 }  // namespace jet
 

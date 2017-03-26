@@ -9,6 +9,7 @@
 
 #include <jet/macros.h>
 #include <jet/parallel.h>
+
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
 #include <vector>
@@ -16,8 +17,7 @@
 namespace jet {
 
 template <typename T>
-Array<T, 2>::Array() {
-}
+Array<T, 2>::Array() {}
 
 template <typename T>
 Array<T, 2>::Array(const Size2& size, const T& initVal) {
@@ -37,6 +37,11 @@ Array<T, 2>::Array(const std::initializer_list<std::initializer_list<T>>& lst) {
 template <typename T>
 Array<T, 2>::Array(const Array& other) {
     set(other);
+}
+
+template <typename T>
+Array<T, 2>::Array(Array&& other) {
+    (*this) = std::move(other);
 }
 
 template <typename T>
@@ -100,13 +105,13 @@ void Array<T, 2>::resize(size_t width, size_t height, const T& initVal) {
 
 template <typename T>
 T& Array<T, 2>::at(size_t i) {
-    JET_ASSERT(i < _size.x*_size.y);
+    JET_ASSERT(i < _size.x * _size.y);
     return _data[i];
 }
 
 template <typename T>
 const T& Array<T, 2>::at(size_t i) const {
-    JET_ASSERT(i < _size.x*_size.y);
+    JET_ASSERT(i < _size.x * _size.y);
     return _data[i];
 }
 
@@ -240,13 +245,13 @@ const T& Array<T, 2>::operator()(size_t i, size_t j) const {
 }
 
 template <typename T>
-T& Array<T, 2>::operator()(const Point2UI &pt) {
+T& Array<T, 2>::operator()(const Point2UI& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
 
 template <typename T>
-const T& Array<T, 2>::operator()(const Point2UI &pt) const {
+const T& Array<T, 2>::operator()(const Point2UI& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
@@ -260,6 +265,14 @@ Array<T, 2>& Array<T, 2>::operator=(const T& value) {
 template <typename T>
 Array<T, 2>& Array<T, 2>::operator=(const Array& other) {
     set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 2>& Array<T, 2>::operator=(Array&& other) {
+    _data = std::move(other._data);
+    _size = other._size;
+    other._size = Size2();
     return *this;
 }
 

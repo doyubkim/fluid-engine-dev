@@ -16,27 +16,9 @@ namespace jet {
 
 // Constructors
 template <typename T>
-Vector<T, 2>::Vector() :
-    x(0),
-    y(0) {
-}
-
-template <typename T>
-Vector<T, 2>::Vector(T newX, T newY) :
-    x(newX),
-    y(newY) {
-}
-
-template <typename T>
 template <typename U>
 Vector<T, 2>::Vector(const std::initializer_list<U>& lst) {
     set(lst);
-}
-
-template <typename T>
-Vector<T, 2>::Vector(const Vector& v) :
-    x(v.x),
-    y(v.y) {
 }
 
 // Basic setters
@@ -226,7 +208,7 @@ T Vector<T, 2>::sum() const {
 
 template <typename T>
 T Vector<T, 2>::avg() const {
-    return (x + y)/2;
+    return (x + y) / 2;
 }
 
 template <typename T>
@@ -262,17 +244,17 @@ size_t Vector<T, 2>::subminantAxis() const {
 template <typename T>
 Vector<T, 2> Vector<T, 2>::normalized() const {
     T l = length();
-    return Vector(x/l, y/l);
+    return Vector(x / l, y / l);
 }
 
 template <typename T>
 T Vector<T, 2>::length() const {
-    return std::sqrt(x*x + y*y);
+    return std::sqrt(x * x + y * y);
 }
 
 template <typename T>
 T Vector<T, 2>::lengthSquared() const {
-    return x*x + y*y;
+    return x * x + y * y;
 }
 
 template <typename T>
@@ -317,7 +299,7 @@ bool Vector<T, 2>::isEqual(const Vector& other) const {
 template <typename T>
 bool Vector<T, 2>::isSimilar(const Vector& other, T epsilon) const {
     return (std::fabs(x - other.x) < epsilon) &&
-        (std::fabs(y - other.y) < epsilon);
+           (std::fabs(y - other.y) < epsilon);
 }
 
 // Operators
@@ -486,8 +468,8 @@ Vector<T, 2> max(const Vector<T, 2>& a, const Vector<T, 2>& b) {
 }
 
 template <typename T>
-Vector<T, 2> clamp(
-    const Vector<T, 2>& v, const Vector<T, 2>& low, const Vector<T, 2>& high) {
+Vector<T, 2> clamp(const Vector<T, 2>& v, const Vector<T, 2>& low,
+                   const Vector<T, 2>& high) {
     return Vector<T, 2>(clamp(v.x, low.x, high.x), clamp(v.y, low.y, high.y));
 }
 
@@ -503,12 +485,9 @@ Vector<T, 2> floor(const Vector<T, 2>& a) {
 
 // Extensions
 template <typename T>
-Vector<T, 2> monotonicCatmullRom(
-    const Vector<T, 2>& v0,
-    const Vector<T, 2>& v1,
-    const Vector<T, 2>& v2,
-    const Vector<T, 2>& v3,
-    T f) {
+Vector<T, 2> monotonicCatmullRom(const Vector<T, 2>& v0, const Vector<T, 2>& v1,
+                                 const Vector<T, 2>& v2, const Vector<T, 2>& v3,
+                                 T f) {
     static const T two = static_cast<T>(2);
     static const T three = static_cast<T>(3);
 
@@ -517,14 +496,12 @@ Vector<T, 2> monotonicCatmullRom(
     Vector<T, 2> D1 = v2 - v1;
 
     if (std::fabs(D1.x) < std::numeric_limits<T>::epsilon() ||
-        sign(D1.x) != sign(d1.x) ||
-        sign(D1.x) != sign(d2.x)) {
+        sign(D1.x) != sign(d1.x) || sign(D1.x) != sign(d2.x)) {
         d1.x = d2.x = 0;
     }
 
     if (std::fabs(D1.y) < std::numeric_limits<T>::epsilon() ||
-        sign(D1.y) != sign(d1.y) ||
-        sign(D1.y) != sign(d2.y)) {
+        sign(D1.y) != sign(d1.y) || sign(D1.y) != sign(d2.y)) {
         d1.y = d2.y = 0;
     }
 
