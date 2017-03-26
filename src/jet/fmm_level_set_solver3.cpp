@@ -29,6 +29,9 @@ inline double solveQuadNearBoundary(
     size_t i,
     size_t j,
     size_t k) {
+    UNUSED_VARIABLE(markers);
+    UNUSED_VARIABLE(invGridSpacingSqr);
+
     Size3 size = output.size();
 
     bool hasX = false;

@@ -24,8 +24,8 @@ TEST(Samplers, UniformSampleCone) {
         double dot = pt.dot(Vector3D(1, 0, 0));
         EXPECT_LE(std::cos(0.5), dot);
 
-        double dist = pt.length();
-        EXPECT_DOUBLE_EQ(1.0, dist);
+        double d = pt.length();
+        EXPECT_DOUBLE_EQ(1.0, d);
     }
 }
 
@@ -42,8 +42,8 @@ TEST(Samplers, UniformSampleHemisphere) {
         double dot = pt.dot(Vector3D(1, 0, 0));
         EXPECT_LE(std::cos(kHalfPiD), dot);
 
-        double dist = pt.length();
-        EXPECT_DOUBLE_EQ(1.0, dist);
+        double d = pt.length();
+        EXPECT_DOUBLE_EQ(1.0, d);
     }
 }
 
@@ -57,8 +57,8 @@ TEST(Samplers, UniformSampleSphere) {
 
         Vector3D pt = uniformSampleSphere(u1, u2);
 
-        double dist = pt.length();
-        EXPECT_DOUBLE_EQ(1.0, dist);
+        double d = pt.length();
+        EXPECT_DOUBLE_EQ(1.0, d);
     }
 }
 
@@ -72,7 +72,7 @@ TEST(Samplers, UniformSampleDisk) {
 
         Vector2D pt = uniformSampleDisk(u1, u2);
 
-        double dist = pt.length();
-        EXPECT_GE(1.0, dist);
+        double d = pt.length();
+        EXPECT_GE(1.0, d);
     }
 }

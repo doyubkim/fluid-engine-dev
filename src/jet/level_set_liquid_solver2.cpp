@@ -72,6 +72,8 @@ double LevelSetLiquidSolver2::computeVolume() const {
 
 void LevelSetLiquidSolver2::onBeginAdvanceTimeStep(
     double timeIntervalInSeconds) {
+    UNUSED_VARIABLE(timeIntervalInSeconds);
+
     // Measure current volume
     _lastKnownVolume = computeVolume();
 

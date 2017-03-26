@@ -1,32 +1,28 @@
 version: 1.0.3 ({build})
 
+os:
+  - Visual Studio 2015
+
 platform:
-  - x86
   - x64
 
-# build Configuration, i.e. Debug, Release, etc.
 configuration:
-  - Debug
   - Release
 
-# scripts that run after cloning repository
-install:
-  - cmd: git submodule update --init
+clone_folder: c:\jet
 
-# scripts to run before build
+install:
+  - git submodule update --init
+
 before_build:
-  - cmd: nuget restore
+  - md c:\jet\build
+  - cd c:\jet\build
+  - cmake .. -G"Visual Studio 14 2015 Win64"
 
 build:
-  project: Jet.sln
-
-  # enable MSBuild parallel builds
+  project: c:\jet\build\jet.sln
   parallel: true
-
-  # MSBuild verbosity level (quiet|minimal|normal|detailed)
   verbosity: normal
 
-# scripts to run after build
 after_build:
-  # Run unit tests
-  - cmd: bin\unit_tests.bat
+  - c:\jet\build\bin\Release\unit_tests.exe

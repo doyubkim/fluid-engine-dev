@@ -1,4 +1,0 @@
-#!/bin/bash
-arg="$@"
-scons run_hybrid_liquid_sim --hybrid_liquid_sim_args="$arg"
-
