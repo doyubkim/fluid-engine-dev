@@ -201,23 +201,19 @@ void BoundingBox<T, 3>::expand(T delta) {
 
 template <typename T>
 Vector3<T> BoundingBox<T, 3>::corner(size_t idx) const {
-    Vector3<T> result;
-    if (idx & 1) {
-        result.x = upperCorner.x;
-    } else {
-        result.x = lowerCorner.x;
-    }
-    if (idx & 2) {
-        result.y = upperCorner.y;
-    } else {
-        result.y = lowerCorner.y;
-    }
-    if (idx & 4) {
-        result.z = upperCorner.z;
-    } else {
-        result.z = lowerCorner.z;
-    }
-    return result;
+    static const T h = static_cast<T>(1) / 2;
+    static const Vector3<T> offset[8] = {
+        {-h, -h, -h},
+        {+h, -h, -h},
+        {-h, +h, -h},
+        {+h, +h, -h},
+        {-h, -h, +h},
+        {+h, -h, +h},
+        {-h, +h, +h},
+        {+h, +h, +h}
+    };
+
+    return Vector3<T>(width(), height(), depth()) * offset[idx] + midPoint();
 }
 
 }  // namespace jet

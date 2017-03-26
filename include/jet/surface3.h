@@ -18,7 +18,7 @@ namespace jet {
 //! Struct that represents ray-surface intersection point.
 struct SurfaceRayIntersection3 {
     bool isIntersecting = false;
-    double t = kMaxD;
+    double distance = kMaxD;
     Vector3D point;
     Vector3D normal;
 };
@@ -33,9 +33,8 @@ class Surface3 {
     bool isNormalFlipped = false;
 
     //! Constructs a surface with normal direction.
-    Surface3(
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    Surface3(const Transform3& transform = Transform3(),
+             bool isNormalFlipped = false);
 
     //! Copy constructor.
     Surface3(const Surface3& other);

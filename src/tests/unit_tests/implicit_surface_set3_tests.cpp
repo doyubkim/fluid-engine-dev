@@ -7,6 +7,7 @@
 #include <jet/box3.h>
 #include <jet/implicit_surface_set3.h>
 #include <jet/surface_to_implicit3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -41,17 +42,15 @@ TEST(ImplicitSurfaceSet3, SurfaceAt) {
     sset.addExplicitSurface(box1);
     sset.addExplicitSurface(box2);
 
-    auto implicitSurfaceAt0
-        = std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(0));
-    auto implicitSurfaceAt1
-        = std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(1));
+    auto implicitSurfaceAt0 =
+        std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(0));
+    auto implicitSurfaceAt1 =
+        std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(1));
 
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface3>(box1),
-        implicitSurfaceAt0->surface());
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface3>(box2),
-        implicitSurfaceAt1->surface());
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface3>(box1),
+              implicitSurfaceAt0->surface());
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface3>(box2),
+              implicitSurfaceAt1->surface());
 }
 
 TEST(ImplicitSurfaceSet3, AddSurface) {
@@ -66,17 +65,14 @@ TEST(ImplicitSurfaceSet3, AddSurface) {
 
     EXPECT_EQ(2u, sset.numberOfSurfaces());
 
-    auto implicitSurfaceAt0
-        = std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(0));
-    auto implicitSurfaceAt1
-        = std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(1));
+    auto implicitSurfaceAt0 =
+        std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(0));
+    auto implicitSurfaceAt1 =
+        std::dynamic_pointer_cast<SurfaceToImplicit3>(sset.surfaceAt(1));
 
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface3>(box1),
-        implicitSurfaceAt0->surface());
-    EXPECT_EQ(
-        implicitBox,
-        implicitSurfaceAt1);
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface3>(box1),
+              implicitSurfaceAt0->surface());
+    EXPECT_EQ(implicitBox, implicitSurfaceAt1);
 }
 
 TEST(ImplicitSurfaceSet3, ClosestPoint) {
@@ -137,13 +133,13 @@ TEST(ImplicitSurfaceSet3, ClosestIntersection) {
     SurfaceRayIntersection3 result0 = sset.closestIntersection(
         Ray3D(Vector3D(1, 4, 5), Vector3D(-1, -1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(3), result0.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(3), result0.distance);
     EXPECT_EQ(Vector3D(0, 3, 4), result0.point);
 
     SurfaceRayIntersection3 result1 = sset.closestIntersection(
         Ray3D(Vector3D(1, 2.5, 6), Vector3D(-1, -1, 1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(0.75), result1.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(0.75), result1.distance);
     EXPECT_EQ(Vector3D(0.5, 2, 6.5), result1.point);
 
     SurfaceRayIntersection3 result2 = sset.closestIntersection(

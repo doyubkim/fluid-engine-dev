@@ -5,40 +5,30 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/implicit_surface_set3.h>
 #include <jet/surface_to_implicit3.h>
 
-#include <algorithm>
-#include <limits>
-#include <vector>
-
 using namespace jet;
 
-ImplicitSurfaceSet3::ImplicitSurfaceSet3() {
-}
+ImplicitSurfaceSet3::ImplicitSurfaceSet3() {}
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     const std::vector<ImplicitSurface3Ptr>& surfaces,
-    const Transform3& transform,
-    bool isNormalFlipped)
-: ImplicitSurface3(transform, isNormalFlipped)
-, _surfaces(surfaces) {
-}
+    const Transform3& transform, bool isNormalFlipped)
+    : ImplicitSurface3(transform, isNormalFlipped), _surfaces(surfaces) {}
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
-    const std::vector<Surface3Ptr>& surfaces,
-    const Transform3& transform,
+    const std::vector<Surface3Ptr>& surfaces, const Transform3& transform,
     bool isNormalFlipped)
-: ImplicitSurface3(transform, isNormalFlipped) {
+    : ImplicitSurface3(transform, isNormalFlipped) {
     for (const auto& surface : surfaces) {
         addExplicitSurface(surface);
     }
 }
 
-ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other) :
-    ImplicitSurface3(other),
-    _surfaces(other._surfaces) {
-}
+ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
+    : ImplicitSurface3(other), _surfaces(other._surfaces) {}
 
 size_t ImplicitSurfaceSet3::numberOfSurfaces() const {
     return _surfaces.size();
@@ -58,10 +48,7 @@ void ImplicitSurfaceSet3::addSurface(const ImplicitSurface3Ptr& surface) {
 
 Vector3D ImplicitSurfaceSet3::closestPointLocal(
     const Vector3D& otherPoint) const {
-    Vector3D result(
-        kMaxD,
-        kMaxD,
-        kMaxD);
+    Vector3D result(kMaxD, kMaxD, kMaxD);
 
     double minimumDistance = kMaxD;
 
@@ -125,12 +112,11 @@ SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersectionLocal(
     double tMin = kMaxD;
 
     for (const auto& surface : _surfaces) {
-        SurfaceRayIntersection3 localResult =
-            surface->closestIntersection(ray);
+        SurfaceRayIntersection3 localResult = surface->closestIntersection(ray);
 
-        if (localResult.isIntersecting && localResult.t < tMin) {
+        if (localResult.isIntersecting && localResult.distance < tMin) {
             intersection = localResult;
-            tMin = localResult.t;
+            tMin = localResult.distance;
         }
     }
 
@@ -160,10 +146,7 @@ ImplicitSurfaceSet3::Builder ImplicitSurfaceSet3::builder() {
     return Builder();
 }
 
-
-
-ImplicitSurfaceSet3::Builder&
-ImplicitSurfaceSet3::Builder::withSurfaces(
+ImplicitSurfaceSet3::Builder& ImplicitSurfaceSet3::Builder::withSurfaces(
     const std::vector<ImplicitSurface3Ptr>& surfaces) {
     _surfaces = surfaces;
     return *this;
@@ -186,7 +169,5 @@ ImplicitSurfaceSet3 ImplicitSurfaceSet3::Builder::build() const {
 ImplicitSurfaceSet3Ptr ImplicitSurfaceSet3::Builder::makeShared() const {
     return std::shared_ptr<ImplicitSurfaceSet3>(
         new ImplicitSurfaceSet3(_surfaces, _transform, _isNormalFlipped),
-        [] (ImplicitSurfaceSet3* obj) {
-            delete obj;
-        });
+        [](ImplicitSurfaceSet3* obj) { delete obj; });
 }

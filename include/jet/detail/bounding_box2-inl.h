@@ -189,18 +189,15 @@ void BoundingBox<T, 2>::expand(T delta) {
 
 template <typename T>
 Vector2<T> BoundingBox<T, 2>::corner(size_t idx) const {
-    Vector2<T> result;
-    if (idx & 1) {
-        result.x = upperCorner.x;
-    } else {
-        result.x = lowerCorner.x;
-    }
-    if (idx & 2) {
-        result.y = upperCorner.y;
-    } else {
-        result.y = lowerCorner.y;
-    }
-    return result;
+    static const T h = static_cast<T>(1) / 2;
+    static const Vector2<T> offset[4] = {
+        {-h, -h},
+        {+h, -h},
+        {-h, +h},
+        {+h, +h}
+    };
+
+    return Vector2<T>(width(), height()) * offset[idx] + midPoint();
 }
 
 }  // namespace jet

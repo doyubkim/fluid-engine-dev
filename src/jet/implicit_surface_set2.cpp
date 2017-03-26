@@ -5,40 +5,30 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/implicit_surface_set2.h>
 #include <jet/surface_to_implicit2.h>
 
-#include <algorithm>
-#include <limits>
-#include <vector>
-
 using namespace jet;
 
-ImplicitSurfaceSet2::ImplicitSurfaceSet2() {
-}
+ImplicitSurfaceSet2::ImplicitSurfaceSet2() {}
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
     const std::vector<ImplicitSurface2Ptr>& surfaces,
-    const Transform2& transform,
-    bool isNormalFlipped)
-: ImplicitSurface2(transform, isNormalFlipped)
-, _surfaces(surfaces) {
-}
+    const Transform2& transform, bool isNormalFlipped)
+    : ImplicitSurface2(transform, isNormalFlipped), _surfaces(surfaces) {}
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<Surface2Ptr>& surfaces,
-    const Transform2& transform,
+    const std::vector<Surface2Ptr>& surfaces, const Transform2& transform,
     bool isNormalFlipped)
-: ImplicitSurface2(transform, isNormalFlipped) {
+    : ImplicitSurface2(transform, isNormalFlipped) {
     for (const auto& surface : surfaces) {
         addExplicitSurface(surface);
     }
 }
 
-ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other) :
-    ImplicitSurface2(other),
-    _surfaces(other._surfaces) {
-}
+ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
+    : ImplicitSurface2(other), _surfaces(other._surfaces) {}
 
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
@@ -58,9 +48,7 @@ void ImplicitSurfaceSet2::addSurface(const ImplicitSurface2Ptr& surface) {
 
 Vector2D ImplicitSurfaceSet2::closestPointLocal(
     const Vector2D& otherPoint) const {
-    Vector2D result(
-        kMaxD,
-        kMaxD);
+    Vector2D result(kMaxD, kMaxD);
 
     double minimumDistance = kMaxD;
 
@@ -127,9 +115,9 @@ SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersectionLocal(
         SurfaceRayIntersection2 localResult;
         localResult = surface->closestIntersection(ray);
 
-        if (localResult.isIntersecting && localResult.t < tMin) {
+        if (localResult.isIntersecting && localResult.distance < tMin) {
             intersection = localResult;
-            tMin = localResult.t;
+            tMin = localResult.distance;
         }
     }
 
@@ -159,10 +147,7 @@ ImplicitSurfaceSet2::Builder ImplicitSurfaceSet2::builder() {
     return Builder();
 }
 
-
-
-ImplicitSurfaceSet2::Builder&
-ImplicitSurfaceSet2::Builder::withSurfaces(
+ImplicitSurfaceSet2::Builder& ImplicitSurfaceSet2::Builder::withSurfaces(
     const std::vector<ImplicitSurface2Ptr>& surfaces) {
     _surfaces = surfaces;
     return *this;
@@ -185,7 +170,5 @@ ImplicitSurfaceSet2 ImplicitSurfaceSet2::Builder::build() const {
 ImplicitSurfaceSet2Ptr ImplicitSurfaceSet2::Builder::makeShared() const {
     return std::shared_ptr<ImplicitSurfaceSet2>(
         new ImplicitSurfaceSet2(_surfaces, _transform, _isNormalFlipped),
-        [] (ImplicitSurfaceSet2* obj) {
-            delete obj;
-        });
+        [](ImplicitSurfaceSet2* obj) { delete obj; });
 }

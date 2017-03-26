@@ -5,13 +5,11 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/triangle_mesh3.h>
+
 #include <jet/parallel.h>
+#include <jet/triangle_mesh3.h>
+
 #include <obj/obj_parser.hpp>
-#include <algorithm>
-#include <limits>
-#include <string>
-#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
@@ -25,29 +23,24 @@ inline std::ostream& operator<<(std::ostream& strm, const Vector3D& v) {
     return strm;
 }
 
-TriangleMesh3::TriangleMesh3(
-    const Transform3& transform_,
-    bool isNormalFlipped_)
-: Surface3(transform_, isNormalFlipped_) {
-}
+TriangleMesh3::TriangleMesh3(const Transform3& transform_,
+                             bool isNormalFlipped_)
+    : Surface3(transform_, isNormalFlipped_) {}
 
-TriangleMesh3::TriangleMesh3(
-    const PointArray& points,
-    const NormalArray& normals,
-    const UvArray& uvs,
-    const IndexArray& pointIndices,
-    const IndexArray& normalIndices,
-    const IndexArray& uvIndices,
-    const Transform3& transform_,
-    bool isNormalFlipped_)
-: Surface3(transform_, isNormalFlipped_)
-, _points(points)
-, _normals(normals)
-, _uvs(uvs)
-, _pointIndices(pointIndices)
-, _normalIndices(normalIndices)
-, _uvIndices(uvIndices) {
-}
+TriangleMesh3::TriangleMesh3(const PointArray& points,
+                             const NormalArray& normals, const UvArray& uvs,
+                             const IndexArray& pointIndices,
+                             const IndexArray& normalIndices,
+                             const IndexArray& uvIndices,
+                             const Transform3& transform_,
+                             bool isNormalFlipped_)
+    : Surface3(transform_, isNormalFlipped_),
+      _points(points),
+      _normals(normals),
+      _uvs(uvs),
+      _pointIndices(pointIndices),
+      _normalIndices(normalIndices),
+      _uvIndices(uvIndices) {}
 
 TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
     set(other);
@@ -101,10 +94,9 @@ SurfaceRayIntersection3 TriangleMesh3::closestIntersectionLocal(
     double t = std::numeric_limits<double>::max();
     for (size_t i = 0; i < n; ++i) {
         Triangle3 tri = triangle(i);
-        SurfaceRayIntersection3 tmpIntersection
-            = tri.closestIntersection(ray);
-        if (tmpIntersection.t < t) {
-            t = tmpIntersection.t;
+        SurfaceRayIntersection3 tmpIntersection = tri.closestIntersection(ray);
+        if (tmpIntersection.distance < t) {
+            t = tmpIntersection.distance;
             intersection = tmpIntersection;
         }
     }
@@ -192,53 +184,33 @@ double TriangleMesh3::volume() const {
     return vol;
 }
 
-const Vector3D& TriangleMesh3::point(size_t i) const {
-    return _points[i];
-}
+const Vector3D& TriangleMesh3::point(size_t i) const { return _points[i]; }
 
-Vector3D& TriangleMesh3::point(size_t i) {
-    return _points[i];
-}
+Vector3D& TriangleMesh3::point(size_t i) { return _points[i]; }
 
-const Vector3D& TriangleMesh3::normal(size_t i) const {
-    return _normals[i];
-}
+const Vector3D& TriangleMesh3::normal(size_t i) const { return _normals[i]; }
 
-Vector3D& TriangleMesh3::normal(size_t i) {
-    return _normals[i];
-}
+Vector3D& TriangleMesh3::normal(size_t i) { return _normals[i]; }
 
-const Vector2D& TriangleMesh3::uv(size_t i) const {
-    return _uvs[i];
-}
+const Vector2D& TriangleMesh3::uv(size_t i) const { return _uvs[i]; }
 
-Vector2D& TriangleMesh3::uv(size_t i) {
-    return _uvs[i];
-}
+Vector2D& TriangleMesh3::uv(size_t i) { return _uvs[i]; }
 
 const Point3UI& TriangleMesh3::pointIndex(size_t i) const {
     return _pointIndices[i];
 }
 
-Point3UI& TriangleMesh3::pointIndex(size_t i) {
-    return _pointIndices[i];
-}
+Point3UI& TriangleMesh3::pointIndex(size_t i) { return _pointIndices[i]; }
 
 const Point3UI& TriangleMesh3::normalIndex(size_t i) const {
     return _normalIndices[i];
 }
 
-Point3UI& TriangleMesh3::normalIndex(size_t i) {
-    return _normalIndices[i];
-}
+Point3UI& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
 
-const Point3UI& TriangleMesh3::uvIndex(size_t i) const {
-    return _uvIndices[i];
-}
+const Point3UI& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
 
-Point3UI& TriangleMesh3::uvIndex(size_t i) {
-    return _uvIndices[i];
-}
+Point3UI& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
 
 Triangle3 TriangleMesh3::triangle(size_t i) const {
     Triangle3 tri;
@@ -262,49 +234,30 @@ Triangle3 TriangleMesh3::triangle(size_t i) const {
     return tri;
 }
 
-size_t TriangleMesh3::numberOfPoints() const {
-    return _points.size();
-}
+size_t TriangleMesh3::numberOfPoints() const { return _points.size(); }
 
-size_t TriangleMesh3::numberOfNormals() const {
-    return _normals.size();
-}
+size_t TriangleMesh3::numberOfNormals() const { return _normals.size(); }
 
-size_t TriangleMesh3::numberOfUvs() const {
-    return _uvs.size();
-}
+size_t TriangleMesh3::numberOfUvs() const { return _uvs.size(); }
 
-size_t TriangleMesh3::numberOfTriangles() const {
-    return _pointIndices.size();
-}
+size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.size(); }
 
-bool TriangleMesh3::hasNormals() const {
-    return _normals.size() > 0;
-}
+bool TriangleMesh3::hasNormals() const { return _normals.size() > 0; }
 
-bool TriangleMesh3::hasUvs() const {
-    return _uvs.size() > 0;
-}
+bool TriangleMesh3::hasUvs() const { return _uvs.size() > 0; }
 
-void TriangleMesh3::addPoint(const Vector3D& pt) {
-    _points.append(pt);
-}
+void TriangleMesh3::addPoint(const Vector3D& pt) { _points.append(pt); }
 
-void TriangleMesh3::addNormal(const Vector3D& n) {
-    _normals.append(n);
-}
+void TriangleMesh3::addNormal(const Vector3D& n) { _normals.append(n); }
 
-void TriangleMesh3::addUv(const Vector2D& t) {
-    _uvs.append(t);
-}
+void TriangleMesh3::addUv(const Vector2D& t) { _uvs.append(t); }
 
 void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
     _pointIndices.append(newPointIndices);
 }
 
-void TriangleMesh3::addPointNormalTriangle(
-    const Point3UI& newPointIndices,
-    const Point3UI& newNormalIndices) {
+void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
+                                           const Point3UI& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
@@ -313,10 +266,9 @@ void TriangleMesh3::addPointNormalTriangle(
     _normalIndices.append(newNormalIndices);
 }
 
-void TriangleMesh3::addPointUvNormalTriangle(
-    const Point3UI& newPointIndices,
-    const Point3UI& newUvIndices,
-    const Point3UI& newNormalIndices) {
+void TriangleMesh3::addPointNormalUvTriangle(const Point3UI& newPointIndices,
+                                             const Point3UI& newNormalIndices,
+                                             const Point3UI& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
@@ -326,9 +278,8 @@ void TriangleMesh3::addPointUvNormalTriangle(
     _uvIndices.append(newUvIndices);
 }
 
-void TriangleMesh3::addPointUvTriangle(
-    const Point3UI& newPointIndices,
-    const Point3UI& newUvIndices) {
+void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
+                                       const Point3UI& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _uvs.size());
@@ -404,7 +355,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         cosangle = clamp(e0.dot(e1), -1.0, 1.0);
         angle = std::acos(cosangle);
         angleWeights[idx[0]] += angle;
-        pseudoNormals[idx[0]] += angle*normal;
+        pseudoNormals[idx[0]] += angle * normal;
 
         // Angle for point 1
         e0 = pts[2] - pts[1];
@@ -416,7 +367,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         cosangle = clamp(e0.dot(e1), -1.0, 1.0);
         angle = std::acos(cosangle);
         angleWeights[idx[1]] += angle;
-        pseudoNormals[idx[1]] += angle*normal;
+        pseudoNormals[idx[1]] += angle * normal;
 
         // Angle for point 2
         e0 = pts[0] - pts[2];
@@ -428,7 +379,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         cosangle = clamp(e0.dot(e1), -1.0, 1.0);
         angle = std::acos(cosangle);
         angleWeights[idx[2]] += angle;
-        pseudoNormals[idx[2]] += angle*normal;
+        pseudoNormals[idx[2]] += angle * normal;
     }
 
     for (size_t i = 0; i < _points.size(); ++i) {
@@ -442,37 +393,21 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
 }
 
 void TriangleMesh3::scale(double factor) {
-    parallelFor(
-        kZeroSize,
-        numberOfPoints(),
-        [this, factor](size_t i) {
-            _points[i] *= factor;
-        });
+    parallelFor(kZeroSize, numberOfPoints(),
+                [this, factor](size_t i) { _points[i] *= factor; });
 }
 
 void TriangleMesh3::translate(const Vector3D& t) {
-    parallelFor(
-        kZeroSize,
-        numberOfPoints(),
-        [this, t](size_t i) {
-            _points[i] += t;
-        });
+    parallelFor(kZeroSize, numberOfPoints(),
+                [this, t](size_t i) { _points[i] += t; });
 }
 
 void TriangleMesh3::rotate(const Quaternion<double>& q) {
-    parallelFor(
-        kZeroSize,
-        numberOfPoints(),
-        [this, q](size_t i) {
-            _points[i] = q * _points[i];
-        });
+    parallelFor(kZeroSize, numberOfPoints(),
+                [this, q](size_t i) { _points[i] = q * _points[i]; });
 
-    parallelFor(
-        kZeroSize,
-        numberOfNormals(),
-        [this, q](size_t i) {
-            _normals[i] = q * _normals[i];
-        });
+    parallelFor(kZeroSize, numberOfNormals(),
+                [this, q](size_t i) { _normals[i] = q * _normals[i]; });
 }
 
 void TriangleMesh3::writeObj(std::ostream* strm) const {
@@ -514,21 +449,18 @@ void TriangleMesh3::writeObj(std::ostream* strm) const {
 }
 
 bool TriangleMesh3::readObj(std::istream* strm) {
-    obj::obj_parser parser(
-        obj::obj_parser::triangulate_faces
-        | obj::obj_parser::translate_negative_indices);
+    obj::obj_parser parser(obj::obj_parser::triangulate_faces |
+                           obj::obj_parser::translate_negative_indices);
 
-    parser.info_callback(
-        [](size_t lineNumber, const std::string& message){
-            std::cout << lineNumber << " " << message << std::endl;
-        });
-    parser.warning_callback(
-        [](size_t lineNumber, const std::string& message){
-            std::cerr << lineNumber << " " << message << std::endl;
-        });
-    parser.error_callback([](size_t lineNumber, const std::string& message){
-            std::cerr << lineNumber << " " << message << std::endl;
-        });
+    parser.info_callback([](size_t lineNumber, const std::string& message) {
+        std::cout << lineNumber << " " << message << std::endl;
+    });
+    parser.warning_callback([](size_t lineNumber, const std::string& message) {
+        std::cerr << lineNumber << " " << message << std::endl;
+    });
+    parser.error_callback([](size_t lineNumber, const std::string& message) {
+        std::cerr << lineNumber << " " << message << std::endl;
+    });
 
     parser.geometric_vertex_callback(
         [this](obj::float_type x, obj::float_type y, obj::float_type z) {
@@ -552,38 +484,27 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         },
         // triangular_face_geometric_vertices_texture_vertices_callback_type
         [this](const obj::index_2_tuple_type& v0_vt0,
-           const obj::index_2_tuple_type& v1_vt1,
-           const obj::index_2_tuple_type& v2_vt2) {
+               const obj::index_2_tuple_type& v1_vt1,
+               const obj::index_2_tuple_type& v2_vt2) {
             addPointUvTriangle(
-                {
-                    std::get<0>(v0_vt0) - 1,
-                    std::get<0>(v1_vt1) - 1,
-                    std::get<0>(v2_vt2) - 1
-                },
-                {
-                    std::get<1>(v0_vt0) - 1,
-                    std::get<1>(v1_vt1) - 1,
-                    std::get<1>(v2_vt2) - 1
-                });
+                {std::get<0>(v0_vt0) - 1, std::get<0>(v1_vt1) - 1,
+                 std::get<0>(v2_vt2) - 1},
+                {std::get<1>(v0_vt0) - 1, std::get<1>(v1_vt1) - 1,
+                 std::get<1>(v2_vt2) - 1});
         },
         // triangular_face_geometric_vertices_vertex_normals_callback_type
         [this](const obj::index_2_tuple_type& v0_vn0,
-           const obj::index_2_tuple_type& v1_vn1,
-           const obj::index_2_tuple_type& v2_vn2) {
+               const obj::index_2_tuple_type& v1_vn1,
+               const obj::index_2_tuple_type& v2_vn2) {
             addPointNormalTriangle(
-                {
-                    std::get<0>(v0_vn0) - 1,
-                    std::get<0>(v1_vn1) - 1,
-                    std::get<0>(v2_vn2) - 1
-                },
-                {
-                    std::get<1>(v0_vn0) - 1,
-                    std::get<1>(v1_vn1) - 1,
-                    std::get<1>(v2_vn2) - 1
-                });
+                {std::get<0>(v0_vn0) - 1, std::get<0>(v1_vn1) - 1,
+                 std::get<0>(v2_vn2) - 1},
+                {std::get<1>(v0_vn0) - 1, std::get<1>(v1_vn1) - 1,
+                 std::get<1>(v2_vn2) - 1});
         },
         // triangular_face_geometric_vertices_texture_vertices_vertex_normals...
         [this](const obj::index_3_tuple_type& v0_vt0_vn0,
+<<<<<<< HEAD
            const obj::index_3_tuple_type& v1_vt1_vn1,
            const obj::index_3_tuple_type& v2_vt2_vn2) {
             addPointUvNormalTriangle(
@@ -602,25 +523,30 @@ bool TriangleMesh3::readObj(std::istream* strm) {
                     std::get<2>(v1_vt1_vn1) - 1,
                     std::get<2>(v2_vt2_vn2) - 1
                 });
+=======
+               const obj::index_3_tuple_type& v1_vt1_vn1,
+               const obj::index_3_tuple_type& v2_vt2_vn2) {
+            addPointNormalUvTriangle(
+                {std::get<0>(v0_vt0_vn0) - 1, std::get<0>(v1_vt1_vn1) - 1,
+                 std::get<0>(v2_vt2_vn2) - 1},
+                {std::get<1>(v0_vt0_vn0) - 1, std::get<1>(v1_vt1_vn1) - 1,
+                 std::get<1>(v2_vt2_vn2) - 1},
+                {std::get<2>(v0_vt0_vn0) - 1, std::get<2>(v1_vt1_vn1) - 1,
+                 std::get<2>(v2_vt2_vn2) - 1});
+>>>>>>> Introducing spatial query engine
         },
         // quadrilateral_face_geometric_vertices_callback_type
         [](obj::index_type, obj::index_type, obj::index_type, obj::index_type) {
         },
         // quadrilateral_face_geometric_vertices_texture_vertices_callback_type
-        [](const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&) {},
+        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
+           const obj::index_2_tuple_type&, const obj::index_2_tuple_type&) {},
         // quadrilateral_face_geometric_vertices_vertex_normals_callback_type
-        [](const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&) {},
+        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
+           const obj::index_2_tuple_type&, const obj::index_2_tuple_type&) {},
         // quadrilateral_face_geometric_vertices_texture_vertices_vertex_norm...
-        [](const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&) {},
+        [](const obj::index_3_tuple_type&, const obj::index_3_tuple_type&,
+           const obj::index_3_tuple_type&, const obj::index_3_tuple_type&) {},
         // polygonal_face_geometric_vertices_begin_callback_type
         [](obj::index_type, obj::index_type, obj::index_type) {},
         // polygonal_face_geometric_vertices_vertex_callback_type
@@ -628,24 +554,21 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         // polygonal_face_geometric_vertices_end_callback_type
         []() {},
         // polygonal_face_geometric_vertices_texture_vertices_begin_callback_...
-        [](const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
+        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
            const obj::index_2_tuple_type&) {},
         // polygonal_face_geometric_vertices_texture_vertices_vertex_callback...
         [](const obj::index_2_tuple_type&) {},
         // polygonal_face_geometric_vertices_texture_vertices_end_callback_type
         []() {},
         // polygonal_face_geometric_vertices_vertex_normals_begin_callback_type
-        [](const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&,
+        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
            const obj::index_2_tuple_type&) {},
         // polygonal_face_geometric_vertices_vertex_normals_vertex_callback_type
         [](const obj::index_2_tuple_type&) {},
         // polygonal_face_geometric_vertices_vertex_normals_end_callback_type
         []() {},
         // polygonal_face_geometric_vertices_texture_vertices_vertex_normals_...
-        [](const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&,
+        [](const obj::index_3_tuple_type&, const obj::index_3_tuple_type&,
            const obj::index_3_tuple_type&) {},
         // polygonal_face_geometric_vertices_texture_vertices_vertex_normals_...
         [](const obj::index_3_tuple_type&) {},
@@ -666,70 +589,52 @@ TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other) {
     return *this;
 }
 
-TriangleMesh3::Builder TriangleMesh3::builder() {
-    return Builder();
-}
+TriangleMesh3::Builder TriangleMesh3::builder() { return Builder(); }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withPoints(const PointArray& points) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withPoints(
+    const PointArray& points) {
     _points = points;
     return *this;
 }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withNormals(const NormalArray& normals) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withNormals(
+    const NormalArray& normals) {
     _normals = normals;
     return *this;
 }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withUvs(const UvArray& uvs) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withUvs(const UvArray& uvs) {
     _uvs = uvs;
     return *this;
 }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withPointIndices(const IndexArray& pointIndices) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withPointIndices(
+    const IndexArray& pointIndices) {
     _pointIndices = pointIndices;
     return *this;
 }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withNormalIndices(const IndexArray& normalIndices) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withNormalIndices(
+    const IndexArray& normalIndices) {
     _normalIndices = normalIndices;
     return *this;
 }
 
-TriangleMesh3::Builder&
-TriangleMesh3::Builder::withUvIndices(const IndexArray& uvIndices) {
+TriangleMesh3::Builder& TriangleMesh3::Builder::withUvIndices(
+    const IndexArray& uvIndices) {
     _uvIndices = uvIndices;
     return *this;
 }
 
 TriangleMesh3 TriangleMesh3::Builder::build() const {
-    return TriangleMesh3(
-        _points,
-        _normals,
-        _uvs,
-        _pointIndices,
-        _normalIndices,
-        _uvIndices,
-        _transform,
-        _isNormalFlipped);
+    return TriangleMesh3(_points, _normals, _uvs, _pointIndices, _normalIndices,
+                         _uvIndices, _transform, _isNormalFlipped);
 }
 
 TriangleMesh3Ptr TriangleMesh3::Builder::makeShared() const {
     return std::shared_ptr<TriangleMesh3>(
-        new TriangleMesh3(
-            _points,
-            _normals,
-            _uvs,
-            _pointIndices,
-            _normalIndices,
-            _uvIndices,
-            _transform,
-            _isNormalFlipped),
-        [] (TriangleMesh3* obj) {
-            delete obj;
-        });
+        new TriangleMesh3(_points, _normals, _uvs, _pointIndices,
+                          _normalIndices, _uvIndices, _transform,
+                          _isNormalFlipped),
+        [](TriangleMesh3* obj) { delete obj; });
 }

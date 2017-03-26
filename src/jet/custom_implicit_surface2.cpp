@@ -13,20 +13,16 @@ using namespace jet;
 
 CustomImplicitSurface2::CustomImplicitSurface2(
     const std::function<double(const Vector2D&)>& func,
-    const BoundingBox2D& domain,
-    double resolution,
-    unsigned int maxNumOfIterations,
-    const Transform2& transform,
+    const BoundingBox2D& domain, double resolution,
+    unsigned int maxNumOfIterations, const Transform2& transform,
     bool isNormalFlipped)
-: ImplicitSurface2(transform, isNormalFlipped)
-, _func(func)
-, _domain(domain)
-, _resolution(resolution)
-, _maxNumOfIterations(maxNumOfIterations) {
-}
+    : ImplicitSurface2(transform, isNormalFlipped),
+      _func(func),
+      _domain(domain),
+      _resolution(resolution),
+      _maxNumOfIterations(maxNumOfIterations) {}
 
-CustomImplicitSurface2::~CustomImplicitSurface2() {
-}
+CustomImplicitSurface2::~CustomImplicitSurface2() {}
 
 Vector2D CustomImplicitSurface2::closestPointLocal(
     const Vector2D& otherPoint) const {
@@ -43,8 +39,8 @@ Vector2D CustomImplicitSurface2::closestPointLocal(
 }
 
 bool CustomImplicitSurface2::intersectsLocal(const Ray2D& ray) const {
-    BoundingBoxRayIntersection2D intersection
-        = _domain.closestIntersection(ray);
+    BoundingBoxRayIntersection2D intersection =
+        _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;
@@ -103,8 +99,8 @@ SurfaceRayIntersection2 CustomImplicitSurface2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 result;
 
-    BoundingBoxRayIntersection2D intersection
-        = _domain.closestIntersection(ray);
+    BoundingBoxRayIntersection2D intersection =
+        _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
         double tStart, tEnd;
@@ -129,7 +125,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::closestIntersectionLocal(
                 double tSub = t + _resolution * frac;
 
                 result.isIntersecting = true;
-                result.t = tSub;
+                result.distance = tSub;
                 result.point = ray.pointAt(tSub);
                 result.normal = gradientLocal(result.point);
                 if (result.normal.length() > 0.0) {
@@ -152,15 +148,12 @@ Vector2D CustomImplicitSurface2::gradientLocal(const Vector2D& x) const {
     double bottom = _func(x - Vector2D(0.0, 0.5 * _resolution));
     double top = _func(x + Vector2D(0.0, 0.5 * _resolution));
 
-    return Vector2D(
-        (right - left) / _resolution,
-        (top - bottom) / _resolution);
+    return Vector2D((right - left) / _resolution, (top - bottom) / _resolution);
 }
 
 CustomImplicitSurface2::Builder CustomImplicitSurface2::builder() {
     return Builder();
 }
-
 
 CustomImplicitSurface2::Builder&
 CustomImplicitSurface2::Builder::withSignedDistanceFunction(
@@ -169,8 +162,7 @@ CustomImplicitSurface2::Builder::withSignedDistanceFunction(
     return *this;
 }
 
-CustomImplicitSurface2::Builder&
-CustomImplicitSurface2::Builder::withDomain(
+CustomImplicitSurface2::Builder& CustomImplicitSurface2::Builder::withDomain(
     const BoundingBox2D& domain) {
     _domain = domain;
     return *this;
@@ -190,25 +182,15 @@ CustomImplicitSurface2::Builder::withMaxNumberOfIterations(
 }
 
 CustomImplicitSurface2 CustomImplicitSurface2::Builder::build() const {
-    return CustomImplicitSurface2(
-        _func,
-        _domain,
-        _resolution,
-        _maxNumOfIterations,
-        _transform,
-        _isNormalFlipped);
+    return CustomImplicitSurface2(_func, _domain, _resolution,
+                                  _maxNumOfIterations, _transform,
+                                  _isNormalFlipped);
 }
 
 CustomImplicitSurface2Ptr CustomImplicitSurface2::Builder::makeShared() const {
     return std::shared_ptr<CustomImplicitSurface2>(
-        new CustomImplicitSurface2(
-            _func,
-            _domain,
-            _resolution,
-        _maxNumOfIterations,
-            _transform,
-            _isNormalFlipped),
-        [] (CustomImplicitSurface2* obj) {
-            delete obj;
-        });
+        new CustomImplicitSurface2(_func, _domain, _resolution,
+                                   _maxNumOfIterations, _transform,
+                                   _isNormalFlipped),
+        [](CustomImplicitSurface2* obj) { delete obj; });
 }
