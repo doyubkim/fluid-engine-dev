@@ -1,10 +1,15 @@
 version: 1.0.3 ({build})
 
+os:
+  - Visual Studio 2015
+
 platform:
   - x64
 
 configuration:
   - Release
+
+clone_folder: c:\jet
 
 install:
   - git submodule update --init
