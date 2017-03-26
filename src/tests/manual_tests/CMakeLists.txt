@@ -27,7 +27,7 @@ set_target_properties(${target}
 )
 
 # Compile options
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         /wd4018       # -> disable warning: signed/unsigned mismatch (because of cnpy)
         /wd4100       # -> disable warning: unreferenced formal parameter (because of cnpy)

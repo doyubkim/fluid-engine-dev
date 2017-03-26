@@ -27,7 +27,7 @@ set_target_properties(${target}
 )
 
 # Compile options
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     add_definitions(-D_USE_MATH_DEFINES) # for M_PI
 endif ()
 

@@ -22,7 +22,7 @@ set_target_properties(${target}
 )
 
 # Compile options
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         /wd4800       # -> disable warning: 'int': forcing value to bool 'true' or 'false' (performance warning)
         )
