@@ -11,22 +11,15 @@ configuration:
 
 # scripts that run after cloning repository
 install:
-  - cmd: git submodule update --init
+  - git submodule update --init
 
-# scripts to run before build
-before_build:
-  - cmd: nuget restore
-
-build:
-  project: Jet.sln
-
-  # enable MSBuild parallel builds
-  parallel: true
-
-  # MSBuild verbosity level (quiet|minimal|normal|detailed)
-  verbosity: normal
+build_script:
+  - mkdir build
+  - cd build
+  - cmake .. -G"Visual Studio 14 2015 Win64"
+  - MSBuild jet.sln /p:Configuration=${configuration} /p:Platform=${platform}
 
 # scripts to run after build
 after_build:
   # Run unit tests
-  - cmd: bin\unit_tests.bat
+  - cmd: bin\${configuration}\unit_tests.bat

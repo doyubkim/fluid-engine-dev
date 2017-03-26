@@ -1,0 +1,57 @@
+#
+# Copyright (c) 2017 Doyub Kim
+#
+
+# CMake version
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+# Include cmake modules
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# Declare project
+project(jet)
+
+# Set output directories
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+
+# Includes
+include_directories(include)
+include_directories(external)
+include_directories(external/googletest/googletest/include)
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+    include_directories(src/winix)
+endif()
+
+# Compile options
+include(cmake/CompileOptions.cmake)
+
+# Build type - Release by default
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+# Overrides
+set(CMAKE_MACOSX_RPATH ON)
+
+# Project modules
+add_subdirectory(external/cnpy)
+set(gtest_force_shared_crt ON)
+add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
+add_subdirectory(external/pystring)
+add_subdirectory(src/jet)
+add_subdirectory(src/tests/manual_tests)
+add_subdirectory(src/tests/perf_tests)
+add_subdirectory(src/tests/unit_tests)
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+    add_subdirectory(src/winix)
+endif()
+add_subdirectory(src/examples/hello_fluid_sim)
+add_subdirectory(src/examples/hybrid_liquid_sim)
+add_subdirectory(src/examples/level_set_liquid_sim)
+add_subdirectory(src/examples/obj2sdf)
+add_subdirectory(src/examples/particles2obj)
+add_subdirectory(src/examples/particles2xml)
+add_subdirectory(src/examples/smoke_sim)
+add_subdirectory(src/examples/sph_sim)

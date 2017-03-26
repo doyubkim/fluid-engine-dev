@@ -239,30 +239,6 @@ void extrapolateToRegion(
     }
 }
 
-template <typename ArrayType>
-void convertToCsv(const ArrayType& data, std::ostream* strm) {
-    Size2 size = data.size();
-
-    for (size_t j = 0; j < size.y; ++j) {
-        for (size_t i = 0; i < size.x; ++i) {
-            auto val = data(i, j);
-
-            // TODO(doyubkim): Hack to handle char and unsigned char
-            if (sizeof(decltype(val)) == 1) {
-                (*strm) << static_cast<int>(val);
-            } else {
-                (*strm) << val;
-            }
-
-            if (i + 1 < size.x) {
-                (*strm) << ", ";
-            }
-        }
-
-        (*strm) << std::endl;
-    }
-}
-
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_ARRAY_UTILS_INL_H_

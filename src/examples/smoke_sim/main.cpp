@@ -334,7 +334,7 @@ void runExample3(
 
     // Build emitter
     auto dragonMesh = TriangleMesh3::builder().makeShared();
-    std::ifstream objFile("resources/dragon.obj");
+    std::ifstream objFile(RESOURCES_DIR "dragon.obj");
     if (objFile) {
         dragonMesh->readObj(&objFile);
     } else {
@@ -393,7 +393,7 @@ void runExample4(
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
     emitter->addTarget(
         solver->velocity(),
-        [](double sdf, const Vector3D& pt, const Vector3D& oldVal) {
+        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
             if (sdf < 0.05) {
                 return Vector3D(0.5, oldVal.y, oldVal.z);
             } else {
@@ -440,7 +440,7 @@ void runExample5(
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
     emitter->addTarget(
         solver->velocity(),
-        [](double sdf, const Vector3D& pt, const Vector3D& oldVal) {
+        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
             if (sdf < 0.05) {
                 return Vector3D(0.5, oldVal.y, oldVal.z);
             } else {

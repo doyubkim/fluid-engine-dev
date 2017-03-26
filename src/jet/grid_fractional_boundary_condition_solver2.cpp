@@ -204,7 +204,7 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
         _colliderSdf->fill(kMaxD);
 
         _colliderVel = CustomVectorField2::builder()
-            .withFunction([] (const Vector2D& x) {
+            .withFunction([] (const Vector2D&) {
                 return Vector2D();
             })
             .withDerivativeResolution(gridSpacing.x)

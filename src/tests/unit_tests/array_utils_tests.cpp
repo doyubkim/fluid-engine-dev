@@ -157,16 +157,3 @@ TEST(ArrayUtils, ExtrapolateToRegion3) {
         }
     }
 }
-
-TEST(ArrayUtils, converToCsv) {
-    Array2<double> array = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-    std::stringstream strm;
-
-    strm << std::fixed;
-    strm << std::setprecision(2);
-    convertToCsv(array, &strm);
-
-    std::string result = strm.str();
-
-    EXPECT_EQ(std::string("1.00, 2.00, 3.00\n4.00, 5.00, 6.00\n"), result);
-}

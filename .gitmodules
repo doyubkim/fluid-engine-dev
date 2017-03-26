@@ -1,9 +1,3 @@
-[submodule "external/src/cnpy/cnpy"]
-	path = external/src/cnpy/cnpy
-	url = https://github.com/rogersce/cnpy
-[submodule "external/src/gtest/googletest"]
-	path = external/src/gtest/googletest
+[submodule "external/googletest"]
+	path = external/googletest
 	url = https://github.com/google/googletest
-[submodule "external/src/pystring/pystring"]
-	path = external/src/pystring/pystring
-	url = https://github.com/imageworks/pystring

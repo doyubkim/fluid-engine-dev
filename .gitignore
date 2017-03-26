@@ -59,6 +59,8 @@
 project.lock.json
 src/**/bin/**/*
 src/**/Generated Files/**/*
+.idea
+cmake-build-*
 
 # Temp files
 _*
@@ -68,6 +70,7 @@ obj
 doc/doxygen/html
 
 # Output files
+build
 *.csv
 *.log.*
 *.xml

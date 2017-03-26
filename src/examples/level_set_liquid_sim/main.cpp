@@ -239,7 +239,7 @@ void runExample3(
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::builder().makeShared();
-    std::ifstream objFile("resources/bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
     if (objFile) {
         bunnyMesh->readObj(&objFile);
     } else {
@@ -285,7 +285,7 @@ void runExample4(
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::builder().makeShared();
-    std::ifstream objFile("resources/bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
     if (objFile) {
         bunnyMesh->readObj(&objFile);
     } else {
