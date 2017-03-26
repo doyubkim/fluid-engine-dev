@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,45 +97,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">pde.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="pde_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_PDE_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_PDE_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<a href="pde_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_PDE_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_PDE_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#ab5c4c1dde9097108fb71dbb1e05a44aa">upwind1</a>(T* D0, T dx);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;T <a class="code" href="namespacejet.html#ab5c4c1dde9097108fb71dbb1e05a44aa">upwind1</a>(T* D0, T dx, <span class="keywordtype">bool</span> isDirectionPositive);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;T <a class="code" href="namespacejet.html#ac924bc71a1c8eaac6d62807cea168169">cd2</a>(T* D0, T dx);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#a59cbb7286bb3e60489d3642636247a98">eno3</a>(T* D0, T dx);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;T <a class="code" href="namespacejet.html#a59cbb7286bb3e60489d3642636247a98">eno3</a>(T* D0, T dx, <span class="keywordtype">bool</span> isDirectionPositive);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#a18047f1e6fc699eeddb0df5f6d9ba3fb">weno5</a>(T* v, T h, T eps = 1.0e-8);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;T <a class="code" href="namespacejet.html#a18047f1e6fc699eeddb0df5f6d9ba3fb">weno5</a>(T* v, T h, <span class="keywordtype">bool</span> is_velocity_positive, T eps = 1.0e-8);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#include &quot;detail/pde-inl.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#ab5c4c1dde9097108fb71dbb1e05a44aa">upwind1</a>(T* D0, T dx);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;T <a class="code" href="namespacejet.html#ab5c4c1dde9097108fb71dbb1e05a44aa">upwind1</a>(T* D0, T dx, <span class="keywordtype">bool</span> isDirectionPositive);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;T <a class="code" href="namespacejet.html#ac924bc71a1c8eaac6d62807cea168169">cd2</a>(T* D0, T dx);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#a59cbb7286bb3e60489d3642636247a98">eno3</a>(T* D0, T dx);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;T <a class="code" href="namespacejet.html#a59cbb7286bb3e60489d3642636247a98">eno3</a>(T* D0, T dx, <span class="keywordtype">bool</span> isDirectionPositive);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;std::array&lt;T, 2&gt; <a class="code" href="namespacejet.html#a18047f1e6fc699eeddb0df5f6d9ba3fb">weno5</a>(T* v, T h, T eps = 1.0e-8);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;T <a class="code" href="namespacejet.html#a18047f1e6fc699eeddb0df5f6d9ba3fb">weno5</a>(T* v, T h, <span class="keywordtype">bool</span> is_velocity_positive, T eps = 1.0e-8);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PDE_H_</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#include &quot;detail/pde-inl.h&quot;</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PDE_H_</span></div>
 <div class="ttc" id="namespacejet_html_ab5c4c1dde9097108fb71dbb1e05a44aa"><div class="ttname"><a href="namespacejet.html#ab5c4c1dde9097108fb71dbb1e05a44aa">jet::upwind1</a></div><div class="ttdeci">std::array&lt; T, 2 &gt; upwind1(T *D0, T dx)</div><div class="ttdoc">1-st order upwind differencing. D0[1] is the origin. </div></div>
 <div class="ttc" id="namespacejet_html_a18047f1e6fc699eeddb0df5f6d9ba3fb"><div class="ttname"><a href="namespacejet.html#a18047f1e6fc699eeddb0df5f6d9ba3fb">jet::weno5</a></div><div class="ttdeci">std::array&lt; T, 2 &gt; weno5(T *v, T h, T eps=1.0e-8)</div><div class="ttdoc">5th-order Weno. D0[3] is the origin. </div></div>
 <div class="ttc" id="namespacejet_html_a59cbb7286bb3e60489d3642636247a98"><div class="ttname"><a href="namespacejet.html#a59cbb7286bb3e60489d3642636247a98">jet::eno3</a></div><div class="ttdeci">std::array&lt; T, 2 &gt; eno3(T *D0, T dx)</div><div class="ttdoc">3rd-order ENO. D0[3] is the origin. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="namespacejet_html_ac924bc71a1c8eaac6d62807cea168169"><div class="ttname"><a href="namespacejet.html#ac924bc71a1c8eaac6d62807cea168169">jet::cd2</a></div><div class="ttdeci">T cd2(T *D0, T dx)</div><div class="ttdoc">2nd-order central differencing. D0[1] is the origin. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -146,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

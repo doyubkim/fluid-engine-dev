@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,75 +97,79 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">advection_solver2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="advection__solver2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="collocated__vector__grid2_8h.html">jet/collocated_vector_grid2.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constant__scalar__field2_8h.html">jet/constant_scalar_field2.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="face__centered__grid2_8h.html">jet/face_centered_grid2.h</a>&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="scalar__grid2_8h.html">jet/scalar_grid2.h</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespacejet.html">   14</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classjet_1_1_advection_solver2.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_advection_solver2.html">AdvectionSolver2</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classjet_1_1_advection_solver2.html#ab38b5a0b92e2f049cfa309f4b79c36bf">AdvectionSolver2</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_advection_solver2.html#a3b1fb2bfc2fff4935dc40dd1636f380f">~AdvectionSolver2</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>&amp; input,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">double</span> dt,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>* output,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) = 0;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>&amp; input,</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">double</span> dt,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>* output,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>));</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; input,</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">double</span> dt,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>* output,</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>));</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">  109</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;AdvectionSolver2&gt; <a class="code" href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">AdvectionSolver2Ptr</a>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
-<div class="ttc" id="classjet_1_1_scalar_grid2_html"><div class="ttname"><a href="classjet_1_1_scalar_grid2.html">jet::ScalarGrid2</a></div><div class="ttdoc">Abstract base class for 2-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:17</div></div>
+<a href="advection__solver2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="collocated__vector__grid2_8h.html">jet/collocated_vector_grid2.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constant__scalar__field2_8h.html">jet/constant_scalar_field2.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="face__centered__grid2_8h.html">jet/face_centered_grid2.h</a>&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="scalar__grid2_8h.html">jet/scalar_grid2.h</a>&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="namespacejet.html">   18</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classjet_1_1_advection_solver2.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_advection_solver2.html">AdvectionSolver2</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_advection_solver2.html#ab38b5a0b92e2f049cfa309f4b79c36bf">AdvectionSolver2</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_advection_solver2.html#a3b1fb2bfc2fff4935dc40dd1636f380f">~AdvectionSolver2</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>&amp; input,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">double</span> dt,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>* output,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>)) = 0;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>&amp; input,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">double</span> dt,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>* output,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">advect</a>(</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; input,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_field2.html">VectorField2</a>&amp; flow,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">double</span> dt,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>* output,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field2.html">ScalarField2</a>&amp; boundarySdf</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            = <a class="code" href="classjet_1_1_constant_scalar_field2.html">ConstantScalarField2</a>(<a class="code" href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">kMaxD</a>));</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;};</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">  113</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;AdvectionSolver2&gt; <a class="code" href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">AdvectionSolver2Ptr</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_ADVECTION_SOLVER2_H_</span></div>
+<div class="ttc" id="classjet_1_1_scalar_grid2_html"><div class="ttname"><a href="classjet_1_1_scalar_grid2.html">jet::ScalarGrid2</a></div><div class="ttdoc">Abstract base class for 2-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:21</div></div>
 <div class="ttc" id="classjet_1_1_advection_solver2_html_a3b1fb2bfc2fff4935dc40dd1636f380f"><div class="ttname"><a href="classjet_1_1_advection_solver2.html#a3b1fb2bfc2fff4935dc40dd1636f380f">jet::AdvectionSolver2::~AdvectionSolver2</a></div><div class="ttdeci">virtual ~AdvectionSolver2()</div></div>
-<div class="ttc" id="classjet_1_1_advection_solver2_html"><div class="ttname"><a href="classjet_1_1_advection_solver2.html">jet::AdvectionSolver2</a></div><div class="ttdoc">Abstract based class for 2-D grid-based advection solver. </div><div class="ttdef"><b>Definition:</b> advection_solver2.h:22</div></div>
-<div class="ttc" id="classjet_1_1_collocated_vector_grid2_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></div><div class="ttdoc">Abstract base class for 2-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid2.h:14</div></div>
+<div class="ttc" id="classjet_1_1_advection_solver2_html"><div class="ttname"><a href="classjet_1_1_advection_solver2.html">jet::AdvectionSolver2</a></div><div class="ttdoc">Abstract based class for 2-D grid-based advection solver. </div><div class="ttdef"><b>Definition:</b> advection_solver2.h:26</div></div>
+<div class="ttc" id="classjet_1_1_collocated_vector_grid2_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></div><div class="ttdoc">Abstract base class for 2-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid2.h:18</div></div>
 <div class="ttc" id="collocated__vector__grid2_8h_html"><div class="ttname"><a href="collocated__vector__grid2_8h.html">collocated_vector_grid2.h</a></div></div>
 <div class="ttc" id="constants_8h_html"><div class="ttname"><a href="constants_8h.html">constants.h</a></div></div>
 <div class="ttc" id="classjet_1_1_advection_solver2_html_a7c57128a2016f65bd495d2e20569afaf"><div class="ttname"><a href="classjet_1_1_advection_solver2.html#a7c57128a2016f65bd495d2e20569afaf">jet::AdvectionSolver2::advect</a></div><div class="ttdeci">virtual void advect(const ScalarGrid2 &amp;input, const VectorField2 &amp;flow, double dt, ScalarGrid2 *output, const ScalarField2 &amp;boundarySdf=ConstantScalarField2(kMaxD))=0</div><div class="ttdoc">Solves advection equation for given scalar grid. </div></div>
 <div class="ttc" id="constant__scalar__field2_8h_html"><div class="ttname"><a href="constant__scalar__field2_8h.html">constant_scalar_field2.h</a></div></div>
-<div class="ttc" id="namespacejet_html_a0984cc94edef0529f333bcae63faeaca"><div class="ttname"><a href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">jet::kMaxD</a></div><div class="ttdeci">constexpr double kMaxD</div><div class="ttdoc">Max double. </div><div class="ttdef"><b>Definition:</b> constants.h:85</div></div>
+<div class="ttc" id="namespacejet_html_a0984cc94edef0529f333bcae63faeaca"><div class="ttname"><a href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">jet::kMaxD</a></div><div class="ttdeci">constexpr double kMaxD</div><div class="ttdoc">Max double. </div><div class="ttdef"><b>Definition:</b> constants.h:89</div></div>
 <div class="ttc" id="face__centered__grid2_8h_html"><div class="ttname"><a href="face__centered__grid2_8h.html">face_centered_grid2.h</a></div></div>
-<div class="ttc" id="classjet_1_1_constant_scalar_field2_html"><div class="ttname"><a href="classjet_1_1_constant_scalar_field2.html">jet::ConstantScalarField2</a></div><div class="ttdoc">2-D constant scalar field. </div><div class="ttdef"><b>Definition:</b> constant_scalar_field2.h:11</div></div>
+<div class="ttc" id="classjet_1_1_constant_scalar_field2_html"><div class="ttname"><a href="classjet_1_1_constant_scalar_field2.html">jet::ConstantScalarField2</a></div><div class="ttdoc">2-D constant scalar field. </div><div class="ttdef"><b>Definition:</b> constant_scalar_field2.h:15</div></div>
 <div class="ttc" id="scalar__grid2_8h_html"><div class="ttname"><a href="scalar__grid2_8h.html">scalar_grid2.h</a></div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="classjet_1_1_scalar_field2_html"><div class="ttname"><a href="classjet_1_1_scalar_field2.html">jet::ScalarField2</a></div><div class="ttdoc">Abstract base class for 2-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field2.h:14</div></div>
-<div class="ttc" id="classjet_1_1_face_centered_grid2_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></div><div class="ttdoc">2-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid2.h:22</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="classjet_1_1_scalar_field2_html"><div class="ttname"><a href="classjet_1_1_scalar_field2.html">jet::ScalarField2</a></div><div class="ttdoc">Abstract base class for 2-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field2.h:18</div></div>
+<div class="ttc" id="classjet_1_1_face_centered_grid2_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></div><div class="ttdoc">2-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid2.h:26</div></div>
 <div class="ttc" id="classjet_1_1_advection_solver2_html_ab38b5a0b92e2f049cfa309f4b79c36bf"><div class="ttname"><a href="classjet_1_1_advection_solver2.html#ab38b5a0b92e2f049cfa309f4b79c36bf">jet::AdvectionSolver2::AdvectionSolver2</a></div><div class="ttdeci">AdvectionSolver2()</div></div>
-<div class="ttc" id="namespacejet_html_a81c67a3e3b7293a616ae4343001f6dc7"><div class="ttname"><a href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">jet::AdvectionSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; AdvectionSolver2 &gt; AdvectionSolver2Ptr</div><div class="ttdoc">Shared pointer type for the 2-D advection solver. </div><div class="ttdef"><b>Definition:</b> advection_solver2.h:109</div></div>
-<div class="ttc" id="classjet_1_1_vector_field2_html"><div class="ttname"><a href="classjet_1_1_vector_field2.html">jet::VectorField2</a></div><div class="ttdoc">Abstract base class for 2-D vector field. </div><div class="ttdef"><b>Definition:</b> vector_field2.h:14</div></div>
+<div class="ttc" id="namespacejet_html_a81c67a3e3b7293a616ae4343001f6dc7"><div class="ttname"><a href="namespacejet.html#a81c67a3e3b7293a616ae4343001f6dc7">jet::AdvectionSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; AdvectionSolver2 &gt; AdvectionSolver2Ptr</div><div class="ttdoc">Shared pointer type for the 2-D advection solver. </div><div class="ttdef"><b>Definition:</b> advection_solver2.h:113</div></div>
+<div class="ttc" id="classjet_1_1_vector_field2_html"><div class="ttname"><a href="classjet_1_1_vector_field2.html">jet::VectorField2</a></div><div class="ttdoc">Abstract base class for 2-D vector field. </div><div class="ttdef"><b>Definition:</b> vector_field2.h:18</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -175,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

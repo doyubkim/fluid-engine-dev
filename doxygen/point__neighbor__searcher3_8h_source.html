@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,83 +97,87 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">point_neighbor_searcher3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="point__neighbor__searcher3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="array__accessor1_8h.html">jet/array_accessor1.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="serialization_8h.html">jet/serialization.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher3.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_neighbor_searcher3.html">PointNeighborSearcher3</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_serializable.html">Serializable</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(size_t, const Vector3D&amp;)&gt;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">   29</a></span>&#160;        <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">ForEachNearbyPointFunc</a>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a9c293f0473529132941c827146dc3f36">PointNeighborSearcher3</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a8b07d39e29a252eb4ef4a59bed2fba08">~PointNeighborSearcher3</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a51eb66e1f24c77d7647a1b1b6ef2257a">typeName</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a94b495150933ef1946990c14cf9b85d0">build</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html">ConstArrayAccessor1&lt;Vector3D&gt;</a>&amp; points) = 0;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a4e677f663756a2de71d4dda06c28aea3">forEachNearbyPoint</a>(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; origin,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">double</span> radius,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">ForEachNearbyPointFunc</a>&amp; callback) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#ad01a01dae30791e6587f78a9f9b17e1b">hasNearbyPoint</a>(</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; origin, <span class="keywordtype">double</span> radius) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">virtual</span> std::shared_ptr&lt;PointNeighborSearcher3&gt; <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#aed310d1463c6d83f2a6c8eaf219a0061">clone</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">   78</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;PointNeighborSearcher3&gt; <a class="code" href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">PointNeighborSearcher3Ptr</a>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher_builder3.html">   81</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_neighbor_searcher_builder3.html">PointNeighborSearcherBuilder3</a> {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> PointNeighborSearcher3Ptr <a class="code" href="classjet_1_1_point_neighbor_searcher_builder3.html#a2bea7fdc84a43ba3aa002a9c746c1ba4">buildPointNeighborSearcher</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;PointNeighborSearcherBuilder3&gt;</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">   89</a></span>&#160;    <a class="code" href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">PointNeighborSearcherBuilder3Ptr</a>;</div>
+<a href="point__neighbor__searcher3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="array__accessor1_8h.html">jet/array_accessor1.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="serialization_8h.html">jet/serialization.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher3.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_neighbor_searcher3.html">PointNeighborSearcher3</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_serializable.html">Serializable</a> {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(size_t, const Vector3D&amp;)&gt;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">   33</a></span>&#160;        <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">ForEachNearbyPointFunc</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a9c293f0473529132941c827146dc3f36">PointNeighborSearcher3</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a8b07d39e29a252eb4ef4a59bed2fba08">~PointNeighborSearcher3</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a51eb66e1f24c77d7647a1b1b6ef2257a">typeName</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a94b495150933ef1946990c14cf9b85d0">build</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html">ConstArrayAccessor1&lt;Vector3D&gt;</a>&amp; points) = 0;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#a4e677f663756a2de71d4dda06c28aea3">forEachNearbyPoint</a>(</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; origin,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">double</span> radius,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">ForEachNearbyPointFunc</a>&amp; callback) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#ad01a01dae30791e6587f78a9f9b17e1b">hasNearbyPoint</a>(</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; origin, <span class="keywordtype">double</span> radius) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> std::shared_ptr&lt;PointNeighborSearcher3&gt; <a class="code" href="classjet_1_1_point_neighbor_searcher3.html#aed310d1463c6d83f2a6c8eaf219a0061">clone</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">   82</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;PointNeighborSearcher3&gt; <a class="code" href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">PointNeighborSearcher3Ptr</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="classjet_1_1_point_neighbor_searcher_builder3.html">   85</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_neighbor_searcher_builder3.html">PointNeighborSearcherBuilder3</a> {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">virtual</span> PointNeighborSearcher3Ptr <a class="code" href="classjet_1_1_point_neighbor_searcher_builder3.html#a2bea7fdc84a43ba3aa002a9c746c1ba4">buildPointNeighborSearcher</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="point__neighbor__searcher3_8h.html#a9649db3253eee9a4cb0e9c97faf7de75">   91</a></span>&#160;<span class="preprocessor">#define JET_NEIGHBOR_SEARCHER3_TYPE_NAME(DerivedClassName) \</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">    std::string typeName() const override { \</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">        return #DerivedClassName; \</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">    }</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;PointNeighborSearcherBuilder3&gt;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">   93</a></span>&#160;    <a class="code" href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">PointNeighborSearcherBuilder3Ptr</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="point__neighbor__searcher3_8h.html#a9649db3253eee9a4cb0e9c97faf7de75">   95</a></span>&#160;<span class="preprocessor">#define JET_NEIGHBOR_SEARCHER3_TYPE_NAME(DerivedClassName) \</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">    std::string typeName() const override { \</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">        return #DerivedClassName; \</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">    }</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_POINT_NEIGHBOR_SEARCHER3_H_</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_ad01a01dae30791e6587f78a9f9b17e1b"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#ad01a01dae30791e6587f78a9f9b17e1b">jet::PointNeighborSearcher3::hasNearbyPoint</a></div><div class="ttdeci">virtual bool hasNearbyPoint(const Vector3D &amp;origin, double radius) const  =0</div></div>
 <div class="ttc" id="vector3_8h_html"><div class="ttname"><a href="vector3_8h.html">vector3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_a51eb66e1f24c77d7647a1b1b6ef2257a"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#a51eb66e1f24c77d7647a1b1b6ef2257a">jet::PointNeighborSearcher3::typeName</a></div><div class="ttdeci">virtual std::string typeName() const  =0</div><div class="ttdoc">Returns the type name of the derived class. </div></div>
-<div class="ttc" id="classjet_1_1_serializable_html"><div class="ttname"><a href="classjet_1_1_serializable.html">jet::Serializable</a></div><div class="ttdoc">Abstract base class for any serializable class. </div><div class="ttdef"><b>Definition:</b> serialization.h:12</div></div>
-<div class="ttc" id="namespacejet_html_a8b7c010d01db2ffec89c4ed4a8f86987"><div class="ttname"><a href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">jet::PointNeighborSearcherBuilder3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; PointNeighborSearcherBuilder3 &gt; PointNeighborSearcherBuilder3Ptr</div><div class="ttdoc">Shared pointer for the PointNeighborSearcherBuilder3 type. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:89</div></div>
+<div class="ttc" id="classjet_1_1_serializable_html"><div class="ttname"><a href="classjet_1_1_serializable.html">jet::Serializable</a></div><div class="ttdoc">Abstract base class for any serializable class. </div><div class="ttdef"><b>Definition:</b> serialization.h:16</div></div>
+<div class="ttc" id="namespacejet_html_a8b7c010d01db2ffec89c4ed4a8f86987"><div class="ttname"><a href="namespacejet.html#a8b7c010d01db2ffec89c4ed4a8f86987">jet::PointNeighborSearcherBuilder3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; PointNeighborSearcherBuilder3 &gt; PointNeighborSearcherBuilder3Ptr</div><div class="ttdoc">Shared pointer for the PointNeighborSearcherBuilder3 type. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:93</div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_a8b07d39e29a252eb4ef4a59bed2fba08"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#a8b07d39e29a252eb4ef4a59bed2fba08">jet::PointNeighborSearcher3::~PointNeighborSearcher3</a></div><div class="ttdeci">virtual ~PointNeighborSearcher3()</div><div class="ttdoc">Destructor. </div></div>
 <div class="ttc" id="serialization_8h_html"><div class="ttname"><a href="serialization_8h.html">serialization.h</a></div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_a9c293f0473529132941c827146dc3f36"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#a9c293f0473529132941c827146dc3f36">jet::PointNeighborSearcher3::PointNeighborSearcher3</a></div><div class="ttdeci">PointNeighborSearcher3()</div><div class="ttdoc">Default constructor. </div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_a94b495150933ef1946990c14cf9b85d0"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#a94b495150933ef1946990c14cf9b85d0">jet::PointNeighborSearcher3::build</a></div><div class="ttdeci">virtual void build(const ConstArrayAccessor1&lt; Vector3D &gt; &amp;points)=0</div><div class="ttdoc">Builds internal acceleration structure for given points list. </div></div>
-<div class="ttc" id="classjet_1_1_point_neighbor_searcher_builder3_html"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher_builder3.html">jet::PointNeighborSearcherBuilder3</a></div><div class="ttdoc">Abstract base class for 3-D point neighbor searcher builders. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:81</div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="classjet_1_1_point_neighbor_searcher_builder3_html"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher_builder3.html">jet::PointNeighborSearcherBuilder3</a></div><div class="ttdoc">Abstract base class for 3-D point neighbor searcher builders. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:85</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="array__accessor1_8h_html"><div class="ttname"><a href="array__accessor1_8h.html">array_accessor1.h</a></div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_a4e677f663756a2de71d4dda06c28aea3"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#a4e677f663756a2de71d4dda06c28aea3">jet::PointNeighborSearcher3::forEachNearbyPoint</a></div><div class="ttdeci">virtual void forEachNearbyPoint(const Vector3D &amp;origin, double radius, const ForEachNearbyPointFunc &amp;callback) const  =0</div></div>
-<div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_af3b0a563a0fd6d0d6e3cd605dd082e10"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">jet::PointNeighborSearcher3::ForEachNearbyPointFunc</a></div><div class="ttdeci">std::function&lt; void(size_t, const Vector3D &amp;)&gt; ForEachNearbyPointFunc</div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:29</div></div>
-<div class="ttc" id="namespacejet_html_a7765adfb41f969622b2817966fb57c32"><div class="ttname"><a href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">jet::PointNeighborSearcher3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; PointNeighborSearcher3 &gt; PointNeighborSearcher3Ptr</div><div class="ttdoc">Shared pointer for the PointNeighborSearcher3 type. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:78</div></div>
+<div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_af3b0a563a0fd6d0d6e3cd605dd082e10"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#af3b0a563a0fd6d0d6e3cd605dd082e10">jet::PointNeighborSearcher3::ForEachNearbyPointFunc</a></div><div class="ttdeci">std::function&lt; void(size_t, const Vector3D &amp;)&gt; ForEachNearbyPointFunc</div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:33</div></div>
+<div class="ttc" id="namespacejet_html_a7765adfb41f969622b2817966fb57c32"><div class="ttname"><a href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">jet::PointNeighborSearcher3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; PointNeighborSearcher3 &gt; PointNeighborSearcher3Ptr</div><div class="ttdoc">Shared pointer for the PointNeighborSearcher3 type. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:82</div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher_builder3_html_a2bea7fdc84a43ba3aa002a9c746c1ba4"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher_builder3.html#a2bea7fdc84a43ba3aa002a9c746c1ba4">jet::PointNeighborSearcherBuilder3::buildPointNeighborSearcher</a></div><div class="ttdeci">virtual PointNeighborSearcher3Ptr buildPointNeighborSearcher() const  =0</div><div class="ttdoc">Returns shared pointer of PointNeighborSearcher3 type. </div></div>
-<div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html">jet::ConstArrayAccessor&lt; T, 1 &gt;</a></div><div class="ttdoc">1-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor1.h:180</div></div>
-<div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html">jet::PointNeighborSearcher3</a></div><div class="ttdoc">Abstract base class for 3-D neighbor point searcher. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:24</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html">jet::ConstArrayAccessor&lt; T, 1 &gt;</a></div><div class="ttdoc">1-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor1.h:184</div></div>
+<div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html">jet::PointNeighborSearcher3</a></div><div class="ttdoc">Abstract base class for 3-D neighbor point searcher. </div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:28</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
 <div class="ttc" id="classjet_1_1_point_neighbor_searcher3_html_aed310d1463c6d83f2a6c8eaf219a0061"><div class="ttname"><a href="classjet_1_1_point_neighbor_searcher3.html#aed310d1463c6d83f2a6c8eaf219a0061">jet::PointNeighborSearcher3::clone</a></div><div class="ttdeci">virtual std::shared_ptr&lt; PointNeighborSearcher3 &gt; clone() const  =0</div><div class="ttdoc">Creates a new instance of the object with same properties than original. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -184,7 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

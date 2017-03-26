@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,57 +97,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">ray3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="ray3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_RAY3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_RAY3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray_8h.html">jet/ray.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_ray.html">Ray</a>&lt;T, 3&gt; final {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    static_assert(</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        std::is_floating_point&lt;T&gt;::value,</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">   21</a></span>&#160;        <span class="stringliteral">&quot;Ray only can be instantiated with floating point types&quot;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">origin</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">   27</a></span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">direction</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; newOrigin, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; newDirection);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray.html">Ray</a>&amp; other);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> pointAt(T t) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<a href="ray3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_RAY3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_RAY3_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray_8h.html">jet/ray.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_ray.html">Ray</a>&lt;T, 3&gt; final {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    static_assert(</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        std::is_floating_point&lt;T&gt;::value,</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">   25</a></span>&#160;        <span class="stringliteral">&quot;Ray only can be instantiated with floating point types&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">origin</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">   31</a></span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">direction</a>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; newOrigin, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; newDirection);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_ray.html">Ray</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray.html">Ray</a>&amp; other);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespacejet.html#a9225b35b47941ac92827b38bce614916">   43</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">using</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3</a> = <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray&lt;T, 3&gt;</a>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">   46</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">Ray3F</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">   49</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;double&gt;</a> <a class="code" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#include &quot;detail/ray3-inl.h&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> pointAt(T t) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="namespacejet.html#a9225b35b47941ac92827b38bce614916">   47</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">using</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3</a> = <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray&lt;T, 3&gt;</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">   50</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">Ray3F</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">   53</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;double&gt;</a> <a class="code" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_RAY3_H_</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#include &quot;detail/ray3-inl.h&quot;</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_RAY3_H_</span></div>
 <div class="ttc" id="vector3_8h_html"><div class="ttname"><a href="vector3_8h.html">vector3.h</a></div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html_a8c89e76228c6330ef4bb30b8257447b5"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">jet::Ray&lt; T, 3 &gt;::direction</a></div><div class="ttdeci">Vector3&lt; T &gt; direction</div><div class="ttdoc">The direction of the ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:27</div></div>
-<div class="ttc" id="classjet_1_1_ray_html"><div class="ttname"><a href="classjet_1_1_ray.html">jet::Ray</a></div><div class="ttdoc">Class for ray. </div><div class="ttdef"><b>Definition:</b> ray.h:17</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html_a8c89e76228c6330ef4bb30b8257447b5"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html#a8c89e76228c6330ef4bb30b8257447b5">jet::Ray&lt; T, 3 &gt;::direction</a></div><div class="ttdeci">Vector3&lt; T &gt; direction</div><div class="ttdoc">The direction of the ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:31</div></div>
+<div class="ttc" id="classjet_1_1_ray_html"><div class="ttname"><a href="classjet_1_1_ray.html">jet::Ray</a></div><div class="ttdoc">Class for ray. </div><div class="ttdef"><b>Definition:</b> ray.h:21</div></div>
 <div class="ttc" id="ray_8h_html"><div class="ttname"><a href="ray_8h.html">ray.h</a></div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="namespacejet_html_a947c0507f951a0c9199431d54b61cb45"><div class="ttname"><a href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">jet::Ray3D</a></div><div class="ttdeci">Ray3&lt; double &gt; Ray3D</div><div class="ttdoc">Double-type 3-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:49</div></div>
-<div class="ttc" id="namespacejet_html_a9457bfc9d5b84450229d384a7233e321"><div class="ttname"><a href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">jet::Ray3F</a></div><div class="ttdeci">Ray3&lt; float &gt; Ray3F</div><div class="ttdoc">Float-type 3-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:46</div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html_ad926b6d395b70a69d7024f42f7406564"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">jet::Ray&lt; T, 3 &gt;::origin</a></div><div class="ttdeci">Vector3&lt; T &gt; origin</div><div class="ttdoc">The origin of the ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:21</div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html">jet::Ray&lt; T, 3 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:17</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:21</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="namespacejet_html_a947c0507f951a0c9199431d54b61cb45"><div class="ttname"><a href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">jet::Ray3D</a></div><div class="ttdeci">Ray3&lt; double &gt; Ray3D</div><div class="ttdoc">Double-type 3-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:53</div></div>
+<div class="ttc" id="namespacejet_html_a9457bfc9d5b84450229d384a7233e321"><div class="ttname"><a href="namespacejet.html#a9457bfc9d5b84450229d384a7233e321">jet::Ray3F</a></div><div class="ttdeci">Ray3&lt; float &gt; Ray3F</div><div class="ttdoc">Float-type 3-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:50</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html_ad926b6d395b70a69d7024f42f7406564"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564">jet::Ray&lt; T, 3 &gt;::origin</a></div><div class="ttdeci">Vector3&lt; T &gt; origin</div><div class="ttdoc">The origin of the ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:25</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html">jet::Ray&lt; T, 3 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -157,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

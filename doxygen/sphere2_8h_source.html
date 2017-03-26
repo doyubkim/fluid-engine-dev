@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,98 +97,102 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">sphere2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="sphere2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SPHERE2_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SPHERE2_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="surface2_8h.html">jet/surface2.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2.html">Sphere2</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface2.html">Surface2</a> {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">   19</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">center</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">   25</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">radius</a> = 1.0;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform2.html">Transform2</a>&amp; <a class="code" href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">transform</a> = <a class="code" href="classjet_1_1_transform2.html">Transform2</a>(),</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; center,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">double</span> radius,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform2.html">Transform2</a>&amp; <a class="code" href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">transform</a> = <a class="code" href="classjet_1_1_transform2.html">Transform2</a>(),</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_sphere2.html">Sphere2</a>&amp; other);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_sphere2.html#a2fb997ca54817aa7cb373740bc4b2b9f">builder</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> closestPointLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">double</span> closestDistanceLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> intersectsLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; ray) <span class="keyword">const override</span>;</div>
+<a href="sphere2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SPHERE2_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SPHERE2_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="surface2_8h.html">jet/surface2.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2.html">Sphere2</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface2.html">Surface2</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">   23</a></span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">center</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">   29</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">radius</a> = 1.0;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform2.html">Transform2</a>&amp; <a class="code" href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">transform</a> = <a class="code" href="classjet_1_1_transform2.html">Transform2</a>(),</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; center,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">double</span> radius,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform2.html">Transform2</a>&amp; <a class="code" href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">transform</a> = <a class="code" href="classjet_1_1_transform2.html">Transform2</a>(),</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">Sphere2</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_sphere2.html">Sphere2</a>&amp; other);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_sphere2.html#a2fb997ca54817aa7cb373740bc4b2b9f">builder</a>();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> closestPointLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> boundingBoxLocal() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">double</span> closestDistanceLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> closestNormalLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> intersectsLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; ray) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="structjet_1_1_surface_ray_intersection2.html">SurfaceRayIntersection2</a> closestIntersectionLocal(</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; ray) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> boundingBoxLocal() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> closestNormalLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">   61</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Sphere2&gt; <a class="code" href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">Sphere2Ptr</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="structjet_1_1_surface_ray_intersection2.html">SurfaceRayIntersection2</a> closestIntersectionLocal(</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; ray) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2_1_1_builder.html">   67</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Sphere2::Builder</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface_builder_base2.html">SurfaceBuilderBase2</a>&lt;Sphere2::Builder&gt; {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#ab10c621bd1d904fc1fe695e4c054faff">withCenter</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; center);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#a38531df13eb8933c63a26c160242624f">withRadius</a>(<span class="keywordtype">double</span> radius);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html">Sphere2</a> <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#ab164b1b9898ecfe37c24fbc91162b621">build</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Sphere2Ptr <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#a340ae4c0313e7ce4006af150a672f113">makeShared</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _center{0, 0};</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">double</span> _radius = 0.0;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SPHERE2_H_</span></div>
-<div class="ttc" id="structjet_1_1_surface_ray_intersection2_html"><div class="ttname"><a href="structjet_1_1_surface_ray_intersection2.html">jet::SurfaceRayIntersection2</a></div><div class="ttdoc">Struct that represents ray-surface intersection point. </div><div class="ttdef"><b>Definition:</b> surface2.h:15</div></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">   65</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Sphere2&gt; <a class="code" href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">Sphere2Ptr</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classjet_1_1_sphere2_1_1_builder.html">   71</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Sphere2::Builder</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface_builder_base2.html">SurfaceBuilderBase2</a>&lt;Sphere2::Builder&gt; {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#ab10c621bd1d904fc1fe695e4c054faff">withCenter</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; center);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classjet_1_1_sphere2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#a38531df13eb8933c63a26c160242624f">withRadius</a>(<span class="keywordtype">double</span> radius);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="classjet_1_1_sphere2.html">Sphere2</a> <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#ab164b1b9898ecfe37c24fbc91162b621">build</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    Sphere2Ptr <a class="code" href="classjet_1_1_sphere2_1_1_builder.html#a340ae4c0313e7ce4006af150a672f113">makeShared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _center{0, 0};</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">double</span> _radius = 0.0;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SPHERE2_H_</span></div>
+<div class="ttc" id="structjet_1_1_surface_ray_intersection2_html"><div class="ttname"><a href="structjet_1_1_surface_ray_intersection2.html">jet::SurfaceRayIntersection2</a></div><div class="ttdoc">Struct that represents ray-surface intersection point. </div><div class="ttdef"><b>Definition:</b> surface2.h:19</div></div>
 <div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html_a340ae4c0313e7ce4006af150a672f113"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html#a340ae4c0313e7ce4006af150a672f113">jet::Sphere2::Builder::makeShared</a></div><div class="ttdeci">Sphere2Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of Sphere2 instance. </div></div>
-<div class="ttc" id="classjet_1_1_surface_builder_base2_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a></div><div class="ttdoc">Base class for 2-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface2.h:95</div></div>
-<div class="ttc" id="classjet_1_1_surface2_html"><div class="ttname"><a href="classjet_1_1_surface2.html">jet::Surface2</a></div><div class="ttdoc">Abstract base class for 2-D surface. </div><div class="ttdef"><b>Definition:</b> surface2.h:23</div></div>
+<div class="ttc" id="classjet_1_1_surface_builder_base2_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a></div><div class="ttdoc">Base class for 2-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface2.h:99</div></div>
+<div class="ttc" id="classjet_1_1_surface2_html"><div class="ttname"><a href="classjet_1_1_surface2.html">jet::Surface2</a></div><div class="ttdoc">Abstract base class for 2-D surface. </div><div class="ttdef"><b>Definition:</b> surface2.h:27</div></div>
 <div class="ttc" id="classjet_1_1_sphere2_html_a8e263d5a102097f279e98b3de1ff6209"><div class="ttname"><a href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">jet::Sphere2::Sphere2</a></div><div class="ttdeci">Sphere2(const Transform2 &amp;transform=Transform2(), bool isNormalFlipped=false)</div><div class="ttdoc">Constructs a sphere with center at (0, 0) and radius of 1. </div></div>
-<div class="ttc" id="classjet_1_1_sphere2_html_ade0c8beb4ff43b3b48e6b175e6277b9f"><div class="ttname"><a href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">jet::Sphere2::radius</a></div><div class="ttdeci">double radius</div><div class="ttdoc">Radius of the sphere. </div><div class="ttdef"><b>Definition:</b> sphere2.h:25</div></div>
-<div class="ttc" id="classjet_1_1_sphere2_html"><div class="ttname"><a href="classjet_1_1_sphere2.html">jet::Sphere2</a></div><div class="ttdoc">2-D sphere geometry. </div><div class="ttdef"><b>Definition:</b> sphere2.h:17</div></div>
+<div class="ttc" id="classjet_1_1_sphere2_html_ade0c8beb4ff43b3b48e6b175e6277b9f"><div class="ttname"><a href="classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f">jet::Sphere2::radius</a></div><div class="ttdeci">double radius</div><div class="ttdoc">Radius of the sphere. </div><div class="ttdef"><b>Definition:</b> sphere2.h:29</div></div>
+<div class="ttc" id="classjet_1_1_sphere2_html"><div class="ttname"><a href="classjet_1_1_sphere2.html">jet::Sphere2</a></div><div class="ttdoc">2-D sphere geometry. </div><div class="ttdef"><b>Definition:</b> sphere2.h:21</div></div>
 <div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html_ab10c621bd1d904fc1fe695e4c054faff"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html#ab10c621bd1d904fc1fe695e4c054faff">jet::Sphere2::Builder::withCenter</a></div><div class="ttdeci">Builder &amp; withCenter(const Vector2D &amp;center)</div><div class="ttdoc">Returns builder with sphere center. </div></div>
-<div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html">jet::Sphere2::Builder</a></div><div class="ttdoc">Front-end to create Sphere2 objects step by step. </div><div class="ttdef"><b>Definition:</b> sphere2.h:67</div></div>
+<div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html">jet::Sphere2::Builder</a></div><div class="ttdoc">Front-end to create Sphere2 objects step by step. </div><div class="ttdef"><b>Definition:</b> sphere2.h:71</div></div>
 <div class="ttc" id="surface2_8h_html"><div class="ttname"><a href="surface2_8h.html">surface2.h</a></div></div>
-<div class="ttc" id="classjet_1_1_surface2_html_a40785d6f17cfc1690175d3667e03cfff"><div class="ttname"><a href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">jet::Surface2::transform</a></div><div class="ttdeci">Transform2 transform</div><div class="ttdoc">Local-to-world transform. </div><div class="ttdef"><b>Definition:</b> surface2.h:26</div></div>
+<div class="ttc" id="classjet_1_1_surface2_html_a40785d6f17cfc1690175d3667e03cfff"><div class="ttname"><a href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">jet::Surface2::transform</a></div><div class="ttdeci">Transform2 transform</div><div class="ttdoc">Local-to-world transform. </div><div class="ttdef"><b>Definition:</b> surface2.h:30</div></div>
 <div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html_ab164b1b9898ecfe37c24fbc91162b621"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html#ab164b1b9898ecfe37c24fbc91162b621">jet::Sphere2::Builder::build</a></div><div class="ttdeci">Sphere2 build() const </div><div class="ttdoc">Builds Sphere2. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">jet::BoundingBox&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:37</div></div>
-<div class="ttc" id="classjet_1_1_sphere2_html_a9ed401cde166a259044f1899c75ee8ff"><div class="ttname"><a href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">jet::Sphere2::center</a></div><div class="ttdeci">Vector2D center</div><div class="ttdoc">Center of the sphere. </div><div class="ttdef"><b>Definition:</b> sphere2.h:19</div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_012_01_4.html">jet::Ray&lt; T, 2 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray2.h:17</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:20</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">jet::BoundingBox&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:41</div></div>
+<div class="ttc" id="classjet_1_1_sphere2_html_a9ed401cde166a259044f1899c75ee8ff"><div class="ttname"><a href="classjet_1_1_sphere2.html#a9ed401cde166a259044f1899c75ee8ff">jet::Sphere2::center</a></div><div class="ttdeci">Vector2D center</div><div class="ttdoc">Center of the sphere. </div><div class="ttdef"><b>Definition:</b> sphere2.h:23</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_012_01_4.html">jet::Ray&lt; T, 2 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray2.h:21</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="classjet_1_1_sphere2_1_1_builder_html_a38531df13eb8933c63a26c160242624f"><div class="ttname"><a href="classjet_1_1_sphere2_1_1_builder.html#a38531df13eb8933c63a26c160242624f">jet::Sphere2::Builder::withRadius</a></div><div class="ttdeci">Builder &amp; withRadius(double radius)</div><div class="ttdoc">Returns builder with sphere radius. </div></div>
 <div class="ttc" id="classjet_1_1_sphere2_html_a2fb997ca54817aa7cb373740bc4b2b9f"><div class="ttname"><a href="classjet_1_1_sphere2.html#a2fb997ca54817aa7cb373740bc4b2b9f">jet::Sphere2::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox Sphere2. </div></div>
-<div class="ttc" id="namespacejet_html_a4de516abe20a9d562f15a1728a9b25af"><div class="ttname"><a href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">jet::Sphere2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Sphere2 &gt; Sphere2Ptr</div><div class="ttdoc">Shared pointer for the Sphere2 type. </div><div class="ttdef"><b>Definition:</b> sphere2.h:61</div></div>
-<div class="ttc" id="classjet_1_1_surface2_html_a38e1c93319071fff3029a2aab9fbebfc"><div class="ttname"><a href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">jet::Surface2::isNormalFlipped</a></div><div class="ttdeci">bool isNormalFlipped</div><div class="ttdoc">Flips normal. </div><div class="ttdef"><b>Definition:</b> surface2.h:29</div></div>
+<div class="ttc" id="namespacejet_html_a4de516abe20a9d562f15a1728a9b25af"><div class="ttname"><a href="namespacejet.html#a4de516abe20a9d562f15a1728a9b25af">jet::Sphere2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Sphere2 &gt; Sphere2Ptr</div><div class="ttdoc">Shared pointer for the Sphere2 type. </div><div class="ttdef"><b>Definition:</b> sphere2.h:65</div></div>
+<div class="ttc" id="classjet_1_1_surface2_html_a38e1c93319071fff3029a2aab9fbebfc"><div class="ttname"><a href="classjet_1_1_surface2.html#a38e1c93319071fff3029a2aab9fbebfc">jet::Surface2::isNormalFlipped</a></div><div class="ttdeci">bool isNormalFlipped</div><div class="ttdoc">Flips normal. </div><div class="ttdef"><b>Definition:</b> surface2.h:33</div></div>
 <div class="ttc" id="bounding__box2_8h_html"><div class="ttname"><a href="bounding__box2_8h.html">bounding_box2.h</a></div></div>
-<div class="ttc" id="classjet_1_1_transform2_html"><div class="ttname"><a href="classjet_1_1_transform2.html">jet::Transform2</a></div><div class="ttdoc">Represents 2-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform2.h:15</div></div>
+<div class="ttc" id="classjet_1_1_transform2_html"><div class="ttname"><a href="classjet_1_1_transform2.html">jet::Transform2</a></div><div class="ttdoc">Represents 2-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -198,7 +202,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

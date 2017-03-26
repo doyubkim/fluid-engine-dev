@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,82 +97,86 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">vector.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="vector_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_VECTOR_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_VECTOR_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type__helpers_8h.html">jet/type_helpers.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> N&gt;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classjet_1_1_vector.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_vector.html">Vector</a> final {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    static_assert(</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        N &gt; 0,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="stringliteral">&quot;Size of static-sized vector should be greater than zero.&quot;</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    static_assert(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::is_floating_point&lt;T&gt;::value,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="stringliteral">&quot;Vector only can be instantiated with floating point types&quot;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Params&gt;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(Params... params);</div>
+<a href="vector_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_VECTOR_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_VECTOR_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="type__helpers_8h.html">jet/type_helpers.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> N&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classjet_1_1_vector.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_vector.html">Vector</a> final {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    static_assert(</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        N &gt; 0,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="stringliteral">&quot;Size of static-sized vector should be greater than zero.&quot;</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    static_assert(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        std::is_floating_point&lt;T&gt;::value,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="stringliteral">&quot;Vector only can be instantiated with floating point types&quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>();</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Params&gt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(Params... params);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(<span class="keyword">const</span> Vector&amp; other);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">set</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">Vector</a>(<span class="keyword">const</span> Vector&amp; other);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">set</a>(<span class="keyword">const</span> Vector&amp; other);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    Vector&amp; <a class="code" href="classjet_1_1_vector.html#a9f557c457aba933913b3d84a49a8982a">operator=</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">set</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">set</a>(<span class="keyword">const</span> Vector&amp; other);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    Vector&amp; <a class="code" href="classjet_1_1_vector.html#a9f557c457aba933913b3d84a49a8982a">operator=</a>(<span class="keyword">const</span> Vector&amp; other);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> T&amp; <a class="code" href="classjet_1_1_vector.html#a8626d0779651bc92c1d8cf0d771fbd8a">operator[]</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    T&amp; <a class="code" href="classjet_1_1_vector.html#a8626d0779651bc92c1d8cf0d771fbd8a">operator[]</a>(<span class="keywordtype">size_t</span>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::array&lt;T, N&gt; _elements;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Params&gt;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> setAt(<span class="keywordtype">size_t</span> i, T v, Params... params);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> setAt(<span class="keywordtype">size_t</span> i, T v);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;};</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> N&gt;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html">   74</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structjet_1_1_scalar_type.html">ScalarType</a>&lt;<a class="code" href="classjet_1_1_vector.html">Vector</a>&lt;T, N&gt;&gt; {</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">   75</a></span>&#160;    <span class="keyword">typedef</span> T <a class="code" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">value</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#include &quot;detail/vector-inl.h&quot;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    Vector&amp; <a class="code" href="classjet_1_1_vector.html#a9f557c457aba933913b3d84a49a8982a">operator=</a>(<span class="keyword">const</span> std::initializer_list&lt;U&gt;&amp; lst);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Vector&amp; <a class="code" href="classjet_1_1_vector.html#a9f557c457aba933913b3d84a49a8982a">operator=</a>(<span class="keyword">const</span> Vector&amp; other);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">const</span> T&amp; <a class="code" href="classjet_1_1_vector.html#a8626d0779651bc92c1d8cf0d771fbd8a">operator[]</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    T&amp; <a class="code" href="classjet_1_1_vector.html#a8626d0779651bc92c1d8cf0d771fbd8a">operator[]</a>(<span class="keywordtype">size_t</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    std::array&lt;T, N&gt; _elements;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Params&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> setAt(<span class="keywordtype">size_t</span> i, T v, Params... params);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> setAt(<span class="keywordtype">size_t</span> i, T v);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keywordtype">size_t</span> N&gt;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html">   78</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structjet_1_1_scalar_type.html">ScalarType</a>&lt;<a class="code" href="classjet_1_1_vector.html">Vector</a>&lt;T, N&gt;&gt; {</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">   79</a></span>&#160;    <span class="keyword">typedef</span> T <a class="code" href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">value</a>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_VECTOR_H_</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#include &quot;detail/vector-inl.h&quot;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_VECTOR_H_</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
 <div class="ttc" id="type__helpers_8h_html"><div class="ttname"><a href="type__helpers_8h.html">type_helpers.h</a></div></div>
 <div class="ttc" id="constants_8h_html"><div class="ttname"><a href="constants_8h.html">constants.h</a></div></div>
 <div class="ttc" id="classjet_1_1_vector_html_a2c292b0a0c98cf4fc7db986b80a9fa4b"><div class="ttname"><a href="classjet_1_1_vector.html#a2c292b0a0c98cf4fc7db986b80a9fa4b">jet::Vector::Vector</a></div><div class="ttdeci">Vector()</div><div class="ttdoc">Constructs a vector with zeros. </div></div>
 <div class="ttc" id="classjet_1_1_vector_html_a9f557c457aba933913b3d84a49a8982a"><div class="ttname"><a href="classjet_1_1_vector.html#a9f557c457aba933913b3d84a49a8982a">jet::Vector::operator=</a></div><div class="ttdeci">Vector &amp; operator=(const std::initializer_list&lt; U &gt; &amp;lst)</div><div class="ttdoc">Set vector instance with initializer list. </div></div>
 <div class="ttc" id="classjet_1_1_vector_html_a8626d0779651bc92c1d8cf0d771fbd8a"><div class="ttname"><a href="classjet_1_1_vector.html#a8626d0779651bc92c1d8cf0d771fbd8a">jet::Vector::operator[]</a></div><div class="ttdeci">const T &amp; operator[](size_t i) const </div><div class="ttdoc">Returns the const reference to the i -th element. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4_html_a79293b9a9897a0b673a0805d962f1fbe"><div class="ttname"><a href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">jet::ScalarType&lt; Vector&lt; T, N &gt; &gt;::value</a></div><div class="ttdeci">T value</div><div class="ttdef"><b>Definition:</b> vector.h:75</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4_html_a79293b9a9897a0b673a0805d962f1fbe"><div class="ttname"><a href="structjet_1_1_scalar_type_3_01_vector_3_01_t_00_01_n_01_4_01_4.html#a79293b9a9897a0b673a0805d962f1fbe">jet::ScalarType&lt; Vector&lt; T, N &gt; &gt;::value</a></div><div class="ttdeci">T value</div><div class="ttdef"><b>Definition:</b> vector.h:79</div></div>
 <div class="ttc" id="classjet_1_1_vector_html_a59d2c2e8faaa73b1acc283b0be83bd80"><div class="ttname"><a href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">jet::Vector::set</a></div><div class="ttdeci">void set(const std::initializer_list&lt; U &gt; &amp;lst)</div><div class="ttdoc">Set vector instance with initializer list. </div></div>
-<div class="ttc" id="structjet_1_1_scalar_type_html"><div class="ttname"><a href="structjet_1_1_scalar_type.html">jet::ScalarType</a></div><div class="ttdoc">Returns the type of the value itself. </div><div class="ttdef"><b>Definition:</b> type_helpers.h:10</div></div>
-<div class="ttc" id="classjet_1_1_vector_html"><div class="ttname"><a href="classjet_1_1_vector.html">jet::Vector</a></div><div class="ttdoc">Generic N-D vector class. </div><div class="ttdef"><b>Definition:</b> vector.h:21</div></div>
+<div class="ttc" id="structjet_1_1_scalar_type_html"><div class="ttname"><a href="structjet_1_1_scalar_type.html">jet::ScalarType</a></div><div class="ttdoc">Returns the type of the value itself. </div><div class="ttdef"><b>Definition:</b> type_helpers.h:14</div></div>
+<div class="ttc" id="classjet_1_1_vector_html"><div class="ttname"><a href="classjet_1_1_vector.html">jet::Vector</a></div><div class="ttdoc">Generic N-D vector class. </div><div class="ttdef"><b>Definition:</b> vector.h:25</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -182,7 +186,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

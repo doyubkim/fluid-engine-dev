@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,65 +97,69 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">particle_emitter3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="particle__emitter3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="animation_8h.html">jet/animation.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="particle__system__data3_8h.html">jet/particle_system_data3.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classjet_1_1_particle_emitter3.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_particle_emitter3.html">ParticleEmitter3</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(ParticleEmitter3*, double, double)&gt;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">   23</a></span>&#160;        <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classjet_1_1_particle_emitter3.html#ab6bd4d0d98bdf1ea98dce565c8082a72">ParticleEmitter3</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a7c7c810b419fbc21df6fb318742e174c">~ParticleEmitter3</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a55d1b8dd116ea6e9d39519fd6a70b99f">update</a>(<span class="keywordtype">double</span> currentTimeInSeconds, <span class="keywordtype">double</span> timeIntervalInSeconds);</div>
+<a href="particle__emitter3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="animation_8h.html">jet/animation.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="particle__system__data3_8h.html">jet/particle_system_data3.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classjet_1_1_particle_emitter3.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_particle_emitter3.html">ParticleEmitter3</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">typedef</span> std::function&lt;void(ParticleEmitter3*, double, double)&gt;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">   27</a></span>&#160;        <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classjet_1_1_particle_emitter3.html#ab6bd4d0d98bdf1ea98dce565c8082a72">ParticleEmitter3</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a7c7c810b419fbc21df6fb318742e174c">~ParticleEmitter3</a>();</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; <a class="code" href="classjet_1_1_particle_emitter3.html#a393d8459e2ce12c85c2495af9314e35b">target</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a97991367305ab285e3993b94b009fbb4">setTarget</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; particles);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#acecb1c9bb3287876a3b5fecff74e4666">setOnBeginUpdateCallback</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a>&amp; callback);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a852459b263eab6b209d06103c7e50e0e">onSetTarget</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; particles);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a55d1b8dd116ea6e9d39519fd6a70b99f">update</a>(<span class="keywordtype">double</span> currentTimeInSeconds, <span class="keywordtype">double</span> timeIntervalInSeconds);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; <a class="code" href="classjet_1_1_particle_emitter3.html#a393d8459e2ce12c85c2495af9314e35b">target</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a97991367305ab285e3993b94b009fbb4">setTarget</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; particles);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#acecb1c9bb3287876a3b5fecff74e4666">setOnBeginUpdateCallback</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a>&amp; callback);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a0efb5304f1fd43ecc0b506e08fd05bb2">onUpdate</a>(</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">double</span> currentTimeInSeconds,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">double</span> timeIntervalInSeconds) = 0;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a> _particles;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a> _onBeginUpdateCallback;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">   68</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;ParticleEmitter3&gt; <a class="code" href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">ParticleEmitter3Ptr</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
-<div class="ttc" id="namespacejet_html_aa740f4b2df5643417c7bcba6ccb3519b"><div class="ttname"><a href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">jet::ParticleEmitter3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleEmitter3 &gt; ParticleEmitter3Ptr</div><div class="ttdoc">Shared pointer for the ParticleEmitter3 type. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:68</div></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a852459b263eab6b209d06103c7e50e0e">onSetTarget</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a>&amp; particles);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_particle_emitter3.html#a0efb5304f1fd43ecc0b506e08fd05bb2">onUpdate</a>(</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordtype">double</span> currentTimeInSeconds,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordtype">double</span> timeIntervalInSeconds) = 0;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a> _particles;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a> _onBeginUpdateCallback;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">   72</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;ParticleEmitter3&gt; <a class="code" href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">ParticleEmitter3Ptr</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PARTICLE_EMITTER3_H_</span></div>
+<div class="ttc" id="namespacejet_html_aa740f4b2df5643417c7bcba6ccb3519b"><div class="ttname"><a href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">jet::ParticleEmitter3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleEmitter3 &gt; ParticleEmitter3Ptr</div><div class="ttdoc">Shared pointer for the ParticleEmitter3 type. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:72</div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a97991367305ab285e3993b94b009fbb4"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a97991367305ab285e3993b94b009fbb4">jet::ParticleEmitter3::setTarget</a></div><div class="ttdeci">void setTarget(const ParticleSystemData3Ptr &amp;particles)</div><div class="ttdoc">Sets the target particle system to emit. </div></div>
 <div class="ttc" id="animation_8h_html"><div class="ttname"><a href="animation_8h.html">animation.h</a></div></div>
-<div class="ttc" id="classjet_1_1_particle_emitter3_html"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html">jet::ParticleEmitter3</a></div><div class="ttdoc">Abstract base class for 3-D particle emitter. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:14</div></div>
-<div class="ttc" id="classjet_1_1_particle_emitter3_html_ac89f9159149955c0637c1cc5dbbeea89"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">jet::ParticleEmitter3::OnBeginUpdateCallback</a></div><div class="ttdeci">std::function&lt; void(ParticleEmitter3 *, double, double)&gt; OnBeginUpdateCallback</div><div class="ttdoc">Callback function type for update calls. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:23</div></div>
+<div class="ttc" id="classjet_1_1_particle_emitter3_html"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html">jet::ParticleEmitter3</a></div><div class="ttdoc">Abstract base class for 3-D particle emitter. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:18</div></div>
+<div class="ttc" id="classjet_1_1_particle_emitter3_html_ac89f9159149955c0637c1cc5dbbeea89"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">jet::ParticleEmitter3::OnBeginUpdateCallback</a></div><div class="ttdeci">std::function&lt; void(ParticleEmitter3 *, double, double)&gt; OnBeginUpdateCallback</div><div class="ttdoc">Callback function type for update calls. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:27</div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_acecb1c9bb3287876a3b5fecff74e4666"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#acecb1c9bb3287876a3b5fecff74e4666">jet::ParticleEmitter3::setOnBeginUpdateCallback</a></div><div class="ttdeci">void setOnBeginUpdateCallback(const OnBeginUpdateCallback &amp;callback)</div><div class="ttdoc">Sets the callback function to be called when ParticleEmitter3::update function is invoked...</div></div>
 <div class="ttc" id="particle__system__data3_8h_html"><div class="ttname"><a href="particle__system__data3_8h.html">particle_system_data3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a393d8459e2ce12c85c2495af9314e35b"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a393d8459e2ce12c85c2495af9314e35b">jet::ParticleEmitter3::target</a></div><div class="ttdeci">const ParticleSystemData3Ptr &amp; target() const </div><div class="ttdoc">Returns the target particle system to emit. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a0efb5304f1fd43ecc0b506e08fd05bb2"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a0efb5304f1fd43ecc0b506e08fd05bb2">jet::ParticleEmitter3::onUpdate</a></div><div class="ttdeci">virtual void onUpdate(double currentTimeInSeconds, double timeIntervalInSeconds)=0</div><div class="ttdoc">Called when ParticleEmitter3::update is executed. </div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a55d1b8dd116ea6e9d39519fd6a70b99f"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a55d1b8dd116ea6e9d39519fd6a70b99f">jet::ParticleEmitter3::update</a></div><div class="ttdeci">void update(double currentTimeInSeconds, double timeIntervalInSeconds)</div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a7c7c810b419fbc21df6fb318742e174c"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a7c7c810b419fbc21df6fb318742e174c">jet::ParticleEmitter3::~ParticleEmitter3</a></div><div class="ttdeci">virtual ~ParticleEmitter3()</div><div class="ttdoc">Destructor. </div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_ab6bd4d0d98bdf1ea98dce565c8082a72"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#ab6bd4d0d98bdf1ea98dce565c8082a72">jet::ParticleEmitter3::ParticleEmitter3</a></div><div class="ttdeci">ParticleEmitter3()</div><div class="ttdoc">Default constructor. </div></div>
 <div class="ttc" id="classjet_1_1_particle_emitter3_html_a852459b263eab6b209d06103c7e50e0e"><div class="ttname"><a href="classjet_1_1_particle_emitter3.html#a852459b263eab6b209d06103c7e50e0e">jet::ParticleEmitter3::onSetTarget</a></div><div class="ttdeci">virtual void onSetTarget(const ParticleSystemData3Ptr &amp;particles)</div><div class="ttdoc">Called when ParticleEmitter3::setTarget is executed. </div></div>
-<div class="ttc" id="namespacejet_html_a7f43ca538aedb315f3bab6ffd8fce164"><div class="ttname"><a href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">jet::ParticleSystemData3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleSystemData3 &gt; ParticleSystemData3Ptr</div><div class="ttdoc">Shared pointer type of ParticleSystemData3. </div><div class="ttdef"><b>Definition:</b> particle_system_data3.h:246</div></div>
+<div class="ttc" id="namespacejet_html_a7f43ca538aedb315f3bab6ffd8fce164"><div class="ttname"><a href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">jet::ParticleSystemData3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleSystemData3 &gt; ParticleSystemData3Ptr</div><div class="ttdoc">Shared pointer type of ParticleSystemData3. </div><div class="ttdef"><b>Definition:</b> particle_system_data3.h:250</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -165,7 +169,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

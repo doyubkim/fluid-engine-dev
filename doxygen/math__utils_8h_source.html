@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,109 +97,113 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">math_utils.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="math__utils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_MATH_UTILS_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_MATH_UTILS_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="macros_8h.html">jet/macros.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<a href="math__utils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_MATH_UTILS_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_MATH_UTILS_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespacejet.html#a6fb3783ae1253c3597b24471342d05c5">similar</a>(T x, T y, T eps = std::numeric_limits&lt;T&gt;::epsilon());</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a7294203914cb96af3d521ddadd76a960">sign</a>(T x);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#aeecd049a0bb986269e235144e76b8e15">min3</a>(T x, T y, T z);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a1aaba8377a2d62086f79b4e7da58e390">max3</a>(T x, T y, T z);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="macros_8h.html">jet/macros.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="namespacejet.html#a6fb3783ae1253c3597b24471342d05c5">similar</a>(T x, T y, T eps = std::numeric_limits&lt;T&gt;::epsilon());</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a7294203914cb96af3d521ddadd76a960">sign</a>(T x);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#aeecd049a0bb986269e235144e76b8e15">min3</a>(T x, T y, T z);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a7c1c39c18ef0f907991b5b7c09263c3e">minn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a1aaba8377a2d62086f79b4e7da58e390">max3</a>(T x, T y, T z);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#af89a92881039cf038eadfbcb12c9e1cb">maxn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a7c1c39c18ef0f907991b5b7c09263c3e">minn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a43caae82b4e4f3a4e56dbdd24ca3a906">absmin</a>(T x, T y);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a51648e992fe8e634c1e5e62aa349860c">absmax</a>(T x, T y);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#af89a92881039cf038eadfbcb12c9e1cb">maxn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a43caae82b4e4f3a4e56dbdd24ca3a906">absmin</a>(T x, T y);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a72537dd74c0cbd403040ed99539a5cb7">absminn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a51648e992fe8e634c1e5e62aa349860c">absmax</a>(T x, T y);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a360a380d823609897ea66f72e2795399">absmaxn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a72537dd74c0cbd403040ed99539a5cb7">absminn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#aab02736842e0e16d6a7706d9157362a4">square</a>(T x);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a0b343997e3bea528ef2f441b316aec6b">cubic</a>(T x);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a6781428732e17a66e1bbf3b9f12a987a">clamp</a>(T val, T low, T high);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a71b919a9916bdd37bae0478cc9a6cbfb">degreesToRadians</a>(T angleInDegrees);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a306a8c531ec9c095a6f75f54081b7ea3">radiansToDegrees</a>(T angleInRadians);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ad8579cec72414556d646ee7d109975e8">getBarycentric</a>(</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    T x,</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    ssize_t iLow,</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    ssize_t iHigh,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    ssize_t* i,</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    T* t);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#a80b1e9105fbcf7777144dd5832c6fc79">lerp</a>(<span class="keyword">const</span> S&amp; f0, <span class="keyword">const</span> S&amp; f1, T t);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a360a380d823609897ea66f72e2795399">absmaxn</a>(<span class="keyword">const</span> T* x, <span class="keywordtype">size_t</span> n);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#aab02736842e0e16d6a7706d9157362a4">square</a>(T x);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a0b343997e3bea528ef2f441b316aec6b">cubic</a>(T x);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a6781428732e17a66e1bbf3b9f12a987a">clamp</a>(T val, T low, T high);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a71b919a9916bdd37bae0478cc9a6cbfb">degreesToRadians</a>(T angleInDegrees);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#a306a8c531ec9c095a6f75f54081b7ea3">radiansToDegrees</a>(T angleInRadians);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ad8579cec72414556d646ee7d109975e8">getBarycentric</a>(</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    T x,</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    ssize_t iLow,</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    ssize_t iHigh,</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    ssize_t* i,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    T* t);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#afb07c5416e1e6cfbec4c160328c8c0c7">bilerp</a>(</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keyword">const</span> S&amp; f00, <span class="keyword">const</span> S&amp; f10,</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keyword">const</span> S&amp; f01, <span class="keyword">const</span> S&amp; f11,</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    T tx, T ty);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#a4512fa6c05cc08dc7e2a09bec2fb0adf">trilerp</a>(</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keyword">const</span> S&amp; f000, <span class="keyword">const</span> S&amp; f100,</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keyword">const</span> S&amp; f010, <span class="keyword">const</span> S&amp; f110,</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keyword">const</span> S&amp; f001, <span class="keyword">const</span> S&amp; f101,</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keyword">const</span> S&amp; f011, <span class="keyword">const</span> S&amp; f111,</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    T tx, T ty, T tz);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#ad3620a7c124f2e98ea3529fa50a7afcb">catmullRom</a>(</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keyword">const</span> S&amp; f0,</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">const</span> S&amp; f1,</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">const</span> S&amp; f2,</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keyword">const</span> S&amp; f3,</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    T t);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#afdfda6c6a304472e5d4c87f3a8dc79f7">monotonicCatmullRom</a>(</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keyword">const</span> T&amp; f0,</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keyword">const</span> T&amp; f1,</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keyword">const</span> T&amp; f2,</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keyword">const</span> T&amp; f3,</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    T t);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="preprocessor">#include &quot;detail/math_utils-inl.h&quot;</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#a80b1e9105fbcf7777144dd5832c6fc79">lerp</a>(<span class="keyword">const</span> S&amp; f0, <span class="keyword">const</span> S&amp; f1, T t);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#afb07c5416e1e6cfbec4c160328c8c0c7">bilerp</a>(</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">const</span> S&amp; f00, <span class="keyword">const</span> S&amp; f10,</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">const</span> S&amp; f01, <span class="keyword">const</span> S&amp; f11,</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    T tx, T ty);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#a4512fa6c05cc08dc7e2a09bec2fb0adf">trilerp</a>(</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keyword">const</span> S&amp; f000, <span class="keyword">const</span> S&amp; f100,</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keyword">const</span> S&amp; f010, <span class="keyword">const</span> S&amp; f110,</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keyword">const</span> S&amp; f001, <span class="keyword">const</span> S&amp; f101,</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">const</span> S&amp; f011, <span class="keyword">const</span> S&amp; f111,</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    T tx, T ty, T tz);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> S, <span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="keyword">inline</span> S <a class="code" href="namespacejet.html#ad3620a7c124f2e98ea3529fa50a7afcb">catmullRom</a>(</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keyword">const</span> S&amp; f0,</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keyword">const</span> S&amp; f1,</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keyword">const</span> S&amp; f2,</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keyword">const</span> S&amp; f3,</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    T t);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="keyword">inline</span> T <a class="code" href="namespacejet.html#afdfda6c6a304472e5d4c87f3a8dc79f7">monotonicCatmullRom</a>(</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keyword">const</span> T&amp; f0,</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keyword">const</span> T&amp; f1,</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keyword">const</span> T&amp; f2,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keyword">const</span> T&amp; f3,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    T t);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MATH_UTILS_H_</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">#include &quot;detail/math_utils-inl.h&quot;</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MATH_UTILS_H_</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
 <div class="ttc" id="namespacejet_html_afb07c5416e1e6cfbec4c160328c8c0c7"><div class="ttname"><a href="namespacejet.html#afb07c5416e1e6cfbec4c160328c8c0c7">jet::bilerp</a></div><div class="ttdeci">S bilerp(const S &amp;f00, const S &amp;f10, const S &amp;f01, const S &amp;f11, T tx, T ty)</div><div class="ttdoc">Computes bilinear interpolation. </div></div>
 <div class="ttc" id="namespacejet_html_a306a8c531ec9c095a6f75f54081b7ea3"><div class="ttname"><a href="namespacejet.html#a306a8c531ec9c095a6f75f54081b7ea3">jet::radiansToDegrees</a></div><div class="ttdeci">T radiansToDegrees(T angleInRadians)</div><div class="ttdoc">Converts radians to degrees. </div></div>
 <div class="ttc" id="namespacejet_html_a0b343997e3bea528ef2f441b316aec6b"><div class="ttname"><a href="namespacejet.html#a0b343997e3bea528ef2f441b316aec6b">jet::cubic</a></div><div class="ttdeci">T cubic(T x)</div><div class="ttdoc">Returns the cubic of x. </div></div>
@@ -210,7 +214,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="macros_8h_html"><div class="ttname"><a href="macros_8h.html">macros.h</a></div></div>
 <div class="ttc" id="namespacejet_html_aeecd049a0bb986269e235144e76b8e15"><div class="ttname"><a href="namespacejet.html#aeecd049a0bb986269e235144e76b8e15">jet::min3</a></div><div class="ttdeci">T min3(T x, T y, T z)</div><div class="ttdoc">Returns the minimum value among three inputs. </div></div>
 <div class="ttc" id="namespacejet_html_a360a380d823609897ea66f72e2795399"><div class="ttname"><a href="namespacejet.html#a360a380d823609897ea66f72e2795399">jet::absmaxn</a></div><div class="ttdeci">T absmaxn(const T *x, size_t n)</div><div class="ttdoc">Returns absolute maximum among n-elements. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="namespacejet_html_ad8579cec72414556d646ee7d109975e8"><div class="ttname"><a href="namespacejet.html#ad8579cec72414556d646ee7d109975e8">jet::getBarycentric</a></div><div class="ttdeci">void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t *i, T *t)</div><div class="ttdoc">Gets the barycentric coordinate. </div></div>
 <div class="ttc" id="namespacejet_html_a4512fa6c05cc08dc7e2a09bec2fb0adf"><div class="ttname"><a href="namespacejet.html#a4512fa6c05cc08dc7e2a09bec2fb0adf">jet::trilerp</a></div><div class="ttdeci">S trilerp(const S &amp;f000, const S &amp;f100, const S &amp;f010, const S &amp;f110, const S &amp;f001, const S &amp;f101, const S &amp;f011, const S &amp;f111, T tx, T ty, T tz)</div><div class="ttdoc">Computes trilinear interpolation. </div></div>
 <div class="ttc" id="namespacejet_html_a7c1c39c18ef0f907991b5b7c09263c3e"><div class="ttname"><a href="namespacejet.html#a7c1c39c18ef0f907991b5b7c09263c3e">jet::minn</a></div><div class="ttdeci">T minn(const T *x, size_t n)</div><div class="ttdoc">Returns minimum among n-elements. </div></div>
@@ -232,7 +236,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

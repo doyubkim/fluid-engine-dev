@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,76 +97,80 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">transform2.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="transform2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_TRANSFORM2_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_TRANSFORM2_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray2_8h.html">jet/ray2.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector2_8h.html">jet/vector2.h</a>&gt;</span></div>
+<a href="transform2_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_TRANSFORM2_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_TRANSFORM2_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classjet_1_1_transform2.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_transform2.html">Transform2</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classjet_1_1_transform2.html#a7fa52ecfc6d176aa3aaceba605dd7be0">Transform2</a>();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classjet_1_1_transform2.html#a7fa52ecfc6d176aa3aaceba605dd7be0">Transform2</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_transform2.html#a305dd498808c26e25246611882f227c2">translation</a>, <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_transform2.html#aabcc0f8cd92ed6a70db371d3512d68e6">orientation</a>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_transform2.html#a305dd498808c26e25246611882f227c2">translation</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_transform2.html#a3a1994ccd623f437e6d7c752c0322750">setTranslation</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; translation);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_transform2.html#aabcc0f8cd92ed6a70db371d3512d68e6">orientation</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_transform2.html#a2710fc97178f8181c3325d84c03b617d">setOrientation</a>(<span class="keywordtype">double</span> orientation);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; pointInWorld) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#af7942c3ab2051cd828492d5adcdb2c89">toLocalDirection</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; dirInWorld) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; rayInWorld) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; bboxInWorld) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; pointInLocal) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#ac0545b55ab8a321a1ec4840906f150e7">toWorldDirection</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; dirInLocal) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; rayInLocal) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; bboxInLocal) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _translation;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">double</span> _orientation = 0.0;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">double</span> _cosAngle = 1.0;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">double</span> _sinAngle = 0.0;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#include &quot;detail/transform2-inl.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray2_8h.html">jet/ray2.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector2_8h.html">jet/vector2.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classjet_1_1_transform2.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_transform2.html">Transform2</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classjet_1_1_transform2.html#a7fa52ecfc6d176aa3aaceba605dd7be0">Transform2</a>();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="classjet_1_1_transform2.html#a7fa52ecfc6d176aa3aaceba605dd7be0">Transform2</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_transform2.html#a305dd498808c26e25246611882f227c2">translation</a>, <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_transform2.html#aabcc0f8cd92ed6a70db371d3512d68e6">orientation</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_transform2.html#a305dd498808c26e25246611882f227c2">translation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_transform2.html#a3a1994ccd623f437e6d7c752c0322750">setTranslation</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; translation);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_transform2.html#aabcc0f8cd92ed6a70db371d3512d68e6">orientation</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_transform2.html#a2710fc97178f8181c3325d84c03b617d">setOrientation</a>(<span class="keywordtype">double</span> orientation);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; pointInWorld) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#af7942c3ab2051cd828492d5adcdb2c89">toLocalDirection</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; dirInWorld) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; rayInWorld) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> <a class="code" href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">toLocal</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; bboxInWorld) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; pointInLocal) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_transform2.html#ac0545b55ab8a321a1ec4840906f150e7">toWorldDirection</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; dirInLocal) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_012_01_4.html">Ray2D</a>&amp; rayInLocal) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> <a class="code" href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">toWorld</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; bboxInLocal) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _translation;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">double</span> _orientation = 0.0;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">double</span> _cosAngle = 1.0;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">double</span> _sinAngle = 0.0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_TRANSFORM2_H_</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &quot;detail/transform2-inl.h&quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_TRANSFORM2_H_</span></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a9971be9a35f39848e73bc01a14a61aaf"><div class="ttname"><a href="classjet_1_1_transform2.html#a9971be9a35f39848e73bc01a14a61aaf">jet::Transform2::toLocal</a></div><div class="ttdeci">Vector2D toLocal(const Vector2D &amp;pointInWorld) const </div><div class="ttdoc">Transforms a point in world coordinate to the local frame. </div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_aabcc0f8cd92ed6a70db371d3512d68e6"><div class="ttname"><a href="classjet_1_1_transform2.html#aabcc0f8cd92ed6a70db371d3512d68e6">jet::Transform2::orientation</a></div><div class="ttdeci">double orientation() const </div><div class="ttdoc">Returns the orientation in radians. </div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a305dd498808c26e25246611882f227c2"><div class="ttname"><a href="classjet_1_1_transform2.html#a305dd498808c26e25246611882f227c2">jet::Transform2::translation</a></div><div class="ttdeci">const Vector2D &amp; translation() const </div><div class="ttdoc">Returns the translation. </div></div>
 <div class="ttc" id="ray2_8h_html"><div class="ttname"><a href="ray2_8h.html">ray2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a3a1994ccd623f437e6d7c752c0322750"><div class="ttname"><a href="classjet_1_1_transform2.html#a3a1994ccd623f437e6d7c752c0322750">jet::Transform2::setTranslation</a></div><div class="ttdeci">void setTranslation(const Vector2D &amp;translation)</div><div class="ttdoc">Sets the traslation. </div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a2710fc97178f8181c3325d84c03b617d"><div class="ttname"><a href="classjet_1_1_transform2.html#a2710fc97178f8181c3325d84c03b617d">jet::Transform2::setOrientation</a></div><div class="ttdeci">void setOrientation(double orientation)</div><div class="ttdoc">Sets the orientation in radians. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">jet::BoundingBox&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:37</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">jet::BoundingBox&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:41</div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a31d381b8b7db3a0ce9c9e78083ea5934"><div class="ttname"><a href="classjet_1_1_transform2.html#a31d381b8b7db3a0ce9c9e78083ea5934">jet::Transform2::toWorld</a></div><div class="ttdeci">Vector2D toWorld(const Vector2D &amp;pointInLocal) const </div><div class="ttdoc">Transforms a point in local space to the world coordinate. </div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_af7942c3ab2051cd828492d5adcdb2c89"><div class="ttname"><a href="classjet_1_1_transform2.html#af7942c3ab2051cd828492d5adcdb2c89">jet::Transform2::toLocalDirection</a></div><div class="ttdeci">Vector2D toLocalDirection(const Vector2D &amp;dirInWorld) const </div><div class="ttdoc">Transforms a direction in world coordinate to the local frame. </div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_012_01_4.html">jet::Ray&lt; T, 2 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray2.h:17</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_012_01_4.html">jet::Ray&lt; T, 2 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray2.h:21</div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_ac0545b55ab8a321a1ec4840906f150e7"><div class="ttname"><a href="classjet_1_1_transform2.html#ac0545b55ab8a321a1ec4840906f150e7">jet::Transform2::toWorldDirection</a></div><div class="ttdeci">Vector2D toWorldDirection(const Vector2D &amp;dirInLocal) const </div><div class="ttdoc">Transforms a direction in local space to the world coordinate. </div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:20</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="bounding__box2_8h_html"><div class="ttname"><a href="bounding__box2_8h.html">bounding_box2.h</a></div></div>
 <div class="ttc" id="vector2_8h_html"><div class="ttname"><a href="vector2_8h.html">vector2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_transform2_html_a7fa52ecfc6d176aa3aaceba605dd7be0"><div class="ttname"><a href="classjet_1_1_transform2.html#a7fa52ecfc6d176aa3aaceba605dd7be0">jet::Transform2::Transform2</a></div><div class="ttdeci">Transform2()</div><div class="ttdoc">Constructs identity transform. </div></div>
-<div class="ttc" id="classjet_1_1_transform2_html"><div class="ttname"><a href="classjet_1_1_transform2.html">jet::Transform2</a></div><div class="ttdoc">Represents 2-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform2.h:15</div></div>
+<div class="ttc" id="classjet_1_1_transform2_html"><div class="ttname"><a href="classjet_1_1_transform2.html">jet::Transform2</a></div><div class="ttdoc">Represents 2-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -176,7 +180,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

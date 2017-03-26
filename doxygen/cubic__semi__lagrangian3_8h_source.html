@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,42 +97,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">cubic_semi_lagrangian3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="cubic__semi__lagrangian3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="semi__lagrangian3_8h.html">jet/semi_lagrangian3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<a href="cubic__semi__lagrangian3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classjet_1_1_cubic_semi_lagrangian3.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html">CubicSemiLagrangian3</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_semi_lagrangian3.html">SemiLagrangian3</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a0a46c886542803aa129a841db08d61e7">CubicSemiLagrangian3</a>();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::function&lt;double(const Vector3D&amp;)&gt;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#aa366d10d16cb00e091eb1b0da1b774df">getScalarSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a285d697ee374d6b71952600c6c97ce7e">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a285d697ee374d6b71952600c6c97ce7e">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
-<div class="ttc" id="classjet_1_1_semi_lagrangian3_html"><div class="ttname"><a href="classjet_1_1_semi_lagrangian3.html">jet::SemiLagrangian3</a></div><div class="ttdoc">Implementation of 3-D semi-Lagrangian advection solver. </div><div class="ttdef"><b>Definition:</b> semi_lagrangian3.h:22</div></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="semi__lagrangian3_8h.html">jet/semi_lagrangian3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classjet_1_1_cubic_semi_lagrangian3.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html">CubicSemiLagrangian3</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_semi_lagrangian3.html">SemiLagrangian3</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a0a46c886542803aa129a841db08d61e7">CubicSemiLagrangian3</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::function&lt;double(const Vector3D&amp;)&gt;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#aa366d10d16cb00e091eb1b0da1b774df">getScalarSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a285d697ee374d6b71952600c6c97ce7e">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian3.html#a285d697ee374d6b71952600c6c97ce7e">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN3_H_</span></div>
+<div class="ttc" id="classjet_1_1_semi_lagrangian3_html"><div class="ttname"><a href="classjet_1_1_semi_lagrangian3.html">jet::SemiLagrangian3</a></div><div class="ttdoc">Implementation of 3-D semi-Lagrangian advection solver. </div><div class="ttdef"><b>Definition:</b> semi_lagrangian3.h:26</div></div>
 <div class="ttc" id="classjet_1_1_cubic_semi_lagrangian3_html_a285d697ee374d6b71952600c6c97ce7e"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian3.html#a285d697ee374d6b71952600c6c97ce7e">jet::CubicSemiLagrangian3::getVectorSamplerFunc</a></div><div class="ttdeci">std::function&lt; Vector3D(const Vector3D &amp;)&gt; getVectorSamplerFunc(const CollocatedVectorGrid3 &amp;source) const  override</div><div class="ttdoc">Returns spatial interpolation function object for given collocated vector grid. </div></div>
-<div class="ttc" id="classjet_1_1_scalar_grid3_html"><div class="ttname"><a href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></div><div class="ttdoc">Abstract base class for 3-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:17</div></div>
-<div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:14</div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="classjet_1_1_scalar_grid3_html"><div class="ttname"><a href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></div><div class="ttdoc">Abstract base class for 3-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:18</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_cubic_semi_lagrangian3_html_aa366d10d16cb00e091eb1b0da1b774df"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian3.html#aa366d10d16cb00e091eb1b0da1b774df">jet::CubicSemiLagrangian3::getScalarSamplerFunc</a></div><div class="ttdeci">std::function&lt; double(const Vector3D &amp;)&gt; getScalarSamplerFunc(const ScalarGrid3 &amp;source) const  override</div><div class="ttdoc">Returns spatial interpolation function object for given scalar grid. </div></div>
 <div class="ttc" id="semi__lagrangian3_8h_html"><div class="ttname"><a href="semi__lagrangian3_8h.html">semi_lagrangian3.h</a></div></div>
-<div class="ttc" id="classjet_1_1_cubic_semi_lagrangian3_html"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian3.html">jet::CubicSemiLagrangian3</a></div><div class="ttdoc">Implementation of 3-D cubic semi-Lagrangian advection solver. </div><div class="ttdef"><b>Definition:</b> cubic_semi_lagrangian3.h:15</div></div>
-<div class="ttc" id="classjet_1_1_face_centered_grid3_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></div><div class="ttdoc">3-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid3.h:22</div></div>
+<div class="ttc" id="classjet_1_1_cubic_semi_lagrangian3_html"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian3.html">jet::CubicSemiLagrangian3</a></div><div class="ttdoc">Implementation of 3-D cubic semi-Lagrangian advection solver. </div><div class="ttdef"><b>Definition:</b> cubic_semi_lagrangian3.h:19</div></div>
+<div class="ttc" id="classjet_1_1_face_centered_grid3_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></div><div class="ttdoc">3-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid3.h:26</div></div>
 <div class="ttc" id="classjet_1_1_cubic_semi_lagrangian3_html_a0a46c886542803aa129a841db08d61e7"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian3.html#a0a46c886542803aa129a841db08d61e7">jet::CubicSemiLagrangian3::CubicSemiLagrangian3</a></div><div class="ttdeci">CubicSemiLagrangian3()</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -143,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

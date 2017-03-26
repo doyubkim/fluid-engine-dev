@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,56 +97,60 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">serial.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="serial_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SERIAL_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SERIAL_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a515675a4a8fa0d3e8825bdb2784658b1">serialFill</a>(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">const</span> RandomIterator&amp; begin, <span class="keyword">const</span> RandomIterator&amp; end, <span class="keyword">const</span> T&amp; value);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    IndexType beginIndex, IndexType endIndex, <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    IndexType beginIndexX,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    IndexType endIndexX,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    IndexType beginIndexY,</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    IndexType endIndexY,</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    IndexType beginIndexX,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    IndexType endIndexX,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    IndexType beginIndexY,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    IndexType endIndexY,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    IndexType beginIndexZ,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    IndexType endIndexZ,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> RandomIterator&gt;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a23876e01c166592d2eba401078ca0812">serialSort</a>(RandomIterator begin, RandomIterator end);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> SortingFunction&gt;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a23876e01c166592d2eba401078ca0812">serialSort</a>(</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    RandomIterator begin,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    RandomIterator end,</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">const</span> SortingFunction&amp; sortingFunction);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#include &quot;detail/serial-inl.h&quot;</span></div>
+<a href="serial_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SERIAL_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SERIAL_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a515675a4a8fa0d3e8825bdb2784658b1">serialFill</a>(</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">const</span> RandomIterator&amp; begin, <span class="keyword">const</span> RandomIterator&amp; end, <span class="keyword">const</span> T&amp; value);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    IndexType beginIndex, IndexType endIndex, <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    IndexType beginIndexX,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    IndexType endIndexX,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    IndexType beginIndexY,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    IndexType endIndexY,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">serialFor</a>(</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    IndexType beginIndexX,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    IndexType endIndexX,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    IndexType beginIndexY,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    IndexType endIndexY,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    IndexType beginIndexZ,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    IndexType endIndexZ,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> RandomIterator&gt;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a23876e01c166592d2eba401078ca0812">serialSort</a>(RandomIterator begin, RandomIterator end);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> SortingFunction&gt;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a23876e01c166592d2eba401078ca0812">serialSort</a>(</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    RandomIterator begin,</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    RandomIterator end,</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keyword">const</span> SortingFunction&amp; sortingFunction);</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SERIAL_H_</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#include &quot;detail/serial-inl.h&quot;</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SERIAL_H_</span></div>
 <div class="ttc" id="namespacejet_html_afaea5d79adcfb77c76e101bddde4c4ab"><div class="ttname"><a href="namespacejet.html#afaea5d79adcfb77c76e101bddde4c4ab">jet::serialFor</a></div><div class="ttdeci">void serialFor(IndexType beginIndex, IndexType endIndex, const Function &amp;function)</div><div class="ttdoc">Makes a for-loop from beginIndex to endIndex. </div></div>
 <div class="ttc" id="namespacejet_html_a23876e01c166592d2eba401078ca0812"><div class="ttname"><a href="namespacejet.html#a23876e01c166592d2eba401078ca0812">jet::serialSort</a></div><div class="ttdeci">void serialSort(RandomIterator begin, RandomIterator end)</div><div class="ttdoc">Sorts a container. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="namespacejet_html_a515675a4a8fa0d3e8825bdb2784658b1"><div class="ttname"><a href="namespacejet.html#a515675a4a8fa0d3e8825bdb2784658b1">jet::serialFill</a></div><div class="ttdeci">void serialFill(const RandomIterator &amp;begin, const RandomIterator &amp;end, const T &amp;value)</div><div class="ttdoc">Fills from begin to end with value. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -157,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

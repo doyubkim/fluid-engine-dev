@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,35 +97,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">marching_cubes.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="marching__cubes_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_MARCHING_CUBES_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_MARCHING_CUBES_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="array__accessor3_8h.html">jet/array_accessor3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="triangle__mesh3_8h.html">jet/triangle_mesh3.h</a>&gt;</span></div>
+<a href="marching__cubes_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_MARCHING_CUBES_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_MARCHING_CUBES_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a7ad147ec9eaf0fd22e6d943a3ccc17b1">marchingCubes</a>(</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">const</span> ConstArrayAccessor3&lt;double&gt;&amp; grid,</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&amp; gridSize,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&amp; origin,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    TriangleMesh3* mesh,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">double</span> isoValue = 0,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> bndFlag = <a class="code" href="namespacejet.html#ab1cbe25eb13404e6dbf99384f6366f68">kDirectionAll</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MARCHING_CUBES_H_</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="array__accessor3_8h.html">jet/array_accessor3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">jet/constants.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="triangle__mesh3_8h.html">jet/triangle_mesh3.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a7ad147ec9eaf0fd22e6d943a3ccc17b1">marchingCubes</a>(</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">const</span> ConstArrayAccessor3&lt;double&gt;&amp; grid,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&amp; gridSize,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&amp; origin,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    TriangleMesh3* mesh,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">double</span> isoValue = 0,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">int</span> bndFlag = <a class="code" href="namespacejet.html#ab1cbe25eb13404e6dbf99384f6366f68">kDirectionAll</a>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MARCHING_CUBES_H_</span></div>
 <div class="ttc" id="constants_8h_html"><div class="ttname"><a href="constants_8h.html">constants.h</a></div></div>
-<div class="ttc" id="namespacejet_html_ab1cbe25eb13404e6dbf99384f6366f68"><div class="ttname"><a href="namespacejet.html#ab1cbe25eb13404e6dbf99384f6366f68">jet::kDirectionAll</a></div><div class="ttdeci">constexpr int kDirectionAll</div><div class="ttdoc">All direction. </div><div class="ttdef"><b>Definition:</b> constants.h:285</div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html_ab1cbe25eb13404e6dbf99384f6366f68"><div class="ttname"><a href="namespacejet.html#ab1cbe25eb13404e6dbf99384f6366f68">jet::kDirectionAll</a></div><div class="ttdeci">constexpr int kDirectionAll</div><div class="ttdoc">All direction. </div><div class="ttdef"><b>Definition:</b> constants.h:289</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="array__accessor3_8h_html"><div class="ttname"><a href="array__accessor3_8h.html">array_accessor3.h</a></div></div>
 <div class="ttc" id="triangle__mesh3_8h_html"><div class="ttname"><a href="triangle__mesh3_8h.html">triangle_mesh3.h</a></div></div>
 <div class="ttc" id="namespacejet_html_a7ad147ec9eaf0fd22e6d943a3ccc17b1"><div class="ttname"><a href="namespacejet.html#a7ad147ec9eaf0fd22e6d943a3ccc17b1">jet::marchingCubes</a></div><div class="ttdeci">void marchingCubes(const ConstArrayAccessor3&lt; double &gt; &amp;grid, const Vector3D &amp;gridSize, const Vector3D &amp;origin, TriangleMesh3 *mesh, double isoValue=0, int bndFlag=kDirectionAll)</div><div class="ttdoc">Computes marching cubes and extract triangle mesh from grid. </div></div>
-<div class="ttc" id="namespacejet_html_aa4cb0bdd01214ca37f678bb827cc6574"><div class="ttname"><a href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">jet::Vector3D</a></div><div class="ttdeci">Vector3&lt; double &gt; Vector3D</div><div class="ttdoc">Double-type 3D vector. </div><div class="ttdef"><b>Definition:</b> vector3.h:347</div></div>
+<div class="ttc" id="namespacejet_html_aa4cb0bdd01214ca37f678bb827cc6574"><div class="ttname"><a href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">jet::Vector3D</a></div><div class="ttdeci">Vector3&lt; double &gt; Vector3D</div><div class="ttdoc">Double-type 3D vector. </div><div class="ttdef"><b>Definition:</b> vector3.h:351</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -135,7 +139,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

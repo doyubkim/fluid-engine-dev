@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,32 +97,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">fdm_linear_system_solver3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="fdm__linear__system__solver3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="fdm__linear__system3_8h.html">jet/fdm_linear_system3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classjet_1_1_fdm_linear_system_solver3.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_fdm_linear_system_solver3.html">FdmLinearSystemSolver3</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_fdm_linear_system_solver3.html#afde8c681fcdd193adab0cb2b35b34af9">solve</a>(<a class="code" href="structjet_1_1_fdm_linear_system3.html">FdmLinearSystem3</a>* system) = 0;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">   19</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmLinearSystemSolver3&gt; <a class="code" href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">FdmLinearSystemSolver3Ptr</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
+<a href="fdm__linear__system__solver3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="fdm__linear__system3_8h.html">jet/fdm_linear_system3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classjet_1_1_fdm_linear_system_solver3.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_fdm_linear_system_solver3.html">FdmLinearSystemSolver3</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_fdm_linear_system_solver3.html#afde8c681fcdd193adab0cb2b35b34af9">solve</a>(<a class="code" href="structjet_1_1_fdm_linear_system3.html">FdmLinearSystem3</a>* system) = 0;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">   23</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmLinearSystemSolver3&gt; <a class="code" href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">FdmLinearSystemSolver3Ptr</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER3_H_</span></div>
 <div class="ttc" id="classjet_1_1_fdm_linear_system_solver3_html_afde8c681fcdd193adab0cb2b35b34af9"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver3.html#afde8c681fcdd193adab0cb2b35b34af9">jet::FdmLinearSystemSolver3::solve</a></div><div class="ttdeci">virtual bool solve(FdmLinearSystem3 *system)=0</div><div class="ttdoc">Solves the given linear system. </div></div>
-<div class="ttc" id="structjet_1_1_fdm_linear_system3_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system3.html">jet::FdmLinearSystem3</a></div><div class="ttdoc">Linear system (Ax=b) for 3-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system3.h:32</div></div>
-<div class="ttc" id="classjet_1_1_fdm_linear_system_solver3_html"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver3.html">jet::FdmLinearSystemSolver3</a></div><div class="ttdoc">Abstract base class for 3-D finite difference-type linear system solver. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver3.h:12</div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="structjet_1_1_fdm_linear_system3_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system3.html">jet::FdmLinearSystem3</a></div><div class="ttdoc">Linear system (Ax=b) for 3-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system3.h:36</div></div>
+<div class="ttc" id="classjet_1_1_fdm_linear_system_solver3_html"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver3.html">jet::FdmLinearSystemSolver3</a></div><div class="ttdoc">Abstract base class for 3-D finite difference-type linear system solver. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver3.h:16</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="fdm__linear__system3_8h_html"><div class="ttname"><a href="fdm__linear__system3_8h.html">fdm_linear_system3.h</a></div></div>
-<div class="ttc" id="namespacejet_html_ad68cf8d9478ed37793ea0e57a0ace58d"><div class="ttname"><a href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">jet::FdmLinearSystemSolver3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmLinearSystemSolver3 &gt; FdmLinearSystemSolver3Ptr</div><div class="ttdoc">Shared pointer type for the FdmLinearSystemSolver3. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver3.h:19</div></div>
+<div class="ttc" id="namespacejet_html_ad68cf8d9478ed37793ea0e57a0ace58d"><div class="ttname"><a href="namespacejet.html#ad68cf8d9478ed37793ea0e57a0ace58d">jet::FdmLinearSystemSolver3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmLinearSystemSolver3 &gt; FdmLinearSystemSolver3Ptr</div><div class="ttdoc">Shared pointer type for the FdmLinearSystemSolver3. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver3.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -132,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

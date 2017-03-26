@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,106 +97,110 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">iterative_level_set_solver3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="iterative__level__set__solver3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="level__set__solver3_8h.html">jet/level_set_solver3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<a href="iterative__level__set__solver3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="classjet_1_1_iterative_level_set_solver3.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_iterative_level_set_solver3.html">IterativeLevelSetSolver3</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_level_set_solver3.html">LevelSetSolver3</a> {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a17097d49f0f7f81999a2948f827f2b47">IterativeLevelSetSolver3</a>();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a47f6e8a07aa96a5426e8eb73f02cda94">~IterativeLevelSetSolver3</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a16ca972126f7744458ce6d05fbd27f05">reinitialize</a>(</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; inputSdf,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>* outputSdf) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; input,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>* output) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>&amp; input,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>* output) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>&amp; input,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>* output) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a967b032f9b16cd0cbc9dfd8e9f9fb706">maxCfl</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a30fe21eac1789846c9cd4c1e10645ea9">setMaxCfl</a>(<span class="keywordtype">double</span> newMaxCfl);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a237683aee284df812cca47495b87e0ed">getDerivatives</a>(</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a> grid,</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordtype">size_t</span> i,</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordtype">size_t</span> j,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordtype">size_t</span> k,</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        std::array&lt;double, 2&gt;* dx,</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        std::array&lt;double, 2&gt;* dy,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        std::array&lt;double, 2&gt;* dz) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">double</span> _maxCfl = 0.5;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; input,</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; sdf,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <a class="code" href="classjet_1_1_array_accessor_3_01_t_00_013_01_4.html">ArrayAccessor3&lt;double&gt;</a> output);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> distanceToNumberOfIterations(</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordtype">double</span> distance,</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordtype">double</span> dtau);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="level__set__solver3_8h.html">jet/level_set_solver3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classjet_1_1_iterative_level_set_solver3.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_iterative_level_set_solver3.html">IterativeLevelSetSolver3</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_level_set_solver3.html">LevelSetSolver3</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a17097d49f0f7f81999a2948f827f2b47">IterativeLevelSetSolver3</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a47f6e8a07aa96a5426e8eb73f02cda94">~IterativeLevelSetSolver3</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a16ca972126f7744458ce6d05fbd27f05">reinitialize</a>(</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; inputSdf,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>* outputSdf) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>&amp; input,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <a class="code" href="classjet_1_1_scalar_grid3.html">ScalarGrid3</a>* output) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>&amp; input,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="classjet_1_1_collocated_vector_grid3.html">CollocatedVectorGrid3</a>* output) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>&amp; input,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; sdf,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="classjet_1_1_face_centered_grid3.html">FaceCenteredGrid3</a>* output) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a967b032f9b16cd0cbc9dfd8e9f9fb706">maxCfl</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a30fe21eac1789846c9cd4c1e10645ea9">setMaxCfl</a>(<span class="keywordtype">double</span> newMaxCfl);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#a237683aee284df812cca47495b87e0ed">getDerivatives</a>(</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a> grid,</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordtype">size_t</span> i,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">size_t</span> j,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordtype">size_t</span> k,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        std::array&lt;double, 2&gt;* dx,</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        std::array&lt;double, 2&gt;* dy,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        std::array&lt;double, 2&gt;* dz) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">double</span> _maxCfl = 0.5;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">extrapolate</a>(</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; input,</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; sdf,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordtype">double</span> maxDistance,</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <a class="code" href="classjet_1_1_array_accessor_3_01_t_00_013_01_4.html">ArrayAccessor3&lt;double&gt;</a> output);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span> sign(</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; sdf,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordtype">size_t</span> i,</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordtype">size_t</span> j,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordtype">size_t</span> k);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">double</span> pseudoTimeStep(</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a> sdf,</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> distanceToNumberOfIterations(</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordtype">double</span> distance,</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordtype">double</span> dtau);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">double</span> sign(</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a>&amp; sdf,</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing,</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">size_t</span> i,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">size_t</span> j,</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordtype">size_t</span> k);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">double</span> pseudoTimeStep(</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor3&lt;double&gt;</a> sdf,</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; gridSpacing);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;};</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_ITERATIVE_LEVEL_SET_SOLVER3_H_</span></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a237683aee284df812cca47495b87e0ed"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a237683aee284df812cca47495b87e0ed">jet::IterativeLevelSetSolver3::getDerivatives</a></div><div class="ttdeci">virtual void getDerivatives(ConstArrayAccessor3&lt; double &gt; grid, const Vector3D &amp;gridSpacing, size_t i, size_t j, size_t k, std::array&lt; double, 2 &gt; *dx, std::array&lt; double, 2 &gt; *dy, std::array&lt; double, 2 &gt; *dz) const  =0</div><div class="ttdoc">Computes the derivatives for given grid point. </div></div>
-<div class="ttc" id="classjet_1_1_array_accessor_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_accessor_3_01_t_00_013_01_4.html">jet::ArrayAccessor&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor3.h:27</div></div>
-<div class="ttc" id="classjet_1_1_scalar_grid3_html"><div class="ttname"><a href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></div><div class="ttdoc">Abstract base class for 3-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:17</div></div>
-<div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:14</div></div>
+<div class="ttc" id="classjet_1_1_array_accessor_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_accessor_3_01_t_00_013_01_4.html">jet::ArrayAccessor&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor3.h:31</div></div>
+<div class="ttc" id="classjet_1_1_scalar_grid3_html"><div class="ttname"><a href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></div><div class="ttdoc">Abstract base class for 3-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:18</div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a17097d49f0f7f81999a2948f827f2b47"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a17097d49f0f7f81999a2948f827f2b47">jet::IterativeLevelSetSolver3::IterativeLevelSetSolver3</a></div><div class="ttdeci">IterativeLevelSetSolver3()</div><div class="ttdoc">Default constructor. </div></div>
-<div class="ttc" id="classjet_1_1_level_set_solver3_html"><div class="ttname"><a href="classjet_1_1_level_set_solver3.html">jet::LevelSetSolver3</a></div><div class="ttdoc">Abstract base class for 3-D level set solver. </div><div class="ttdef"><b>Definition:</b> level_set_solver3.h:14</div></div>
-<div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html">jet::IterativeLevelSetSolver3</a></div><div class="ttdoc">Abstract base class for 3-D PDE-based iterative level set solver. </div><div class="ttdef"><b>Definition:</b> iterative_level_set_solver3.h:21</div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
-<div class="ttc" id="classjet_1_1_scalar_field3_html"><div class="ttname"><a href="classjet_1_1_scalar_field3.html">jet::ScalarField3</a></div><div class="ttdoc">Abstract base class for 3-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field3.h:14</div></div>
+<div class="ttc" id="classjet_1_1_level_set_solver3_html"><div class="ttname"><a href="classjet_1_1_level_set_solver3.html">jet::LevelSetSolver3</a></div><div class="ttdoc">Abstract base class for 3-D level set solver. </div><div class="ttdef"><b>Definition:</b> level_set_solver3.h:18</div></div>
+<div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html">jet::IterativeLevelSetSolver3</a></div><div class="ttdoc">Abstract base class for 3-D PDE-based iterative level set solver. </div><div class="ttdef"><b>Definition:</b> iterative_level_set_solver3.h:25</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="classjet_1_1_scalar_field3_html"><div class="ttname"><a href="classjet_1_1_scalar_field3.html">jet::ScalarField3</a></div><div class="ttdoc">Abstract base class for 3-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field3.h:18</div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a30fe21eac1789846c9cd4c1e10645ea9"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a30fe21eac1789846c9cd4c1e10645ea9">jet::IterativeLevelSetSolver3::setMaxCfl</a></div><div class="ttdeci">void setMaxCfl(double newMaxCfl)</div><div class="ttdoc">Sets the maximum CFL limit. </div></div>
-<div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">jet::ConstArrayAccessor&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor3.h:266</div></div>
+<div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">jet::ConstArrayAccessor&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor3.h:270</div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a967b032f9b16cd0cbc9dfd8e9f9fb706"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a967b032f9b16cd0cbc9dfd8e9f9fb706">jet::IterativeLevelSetSolver3::maxCfl</a></div><div class="ttdeci">double maxCfl() const </div><div class="ttdoc">Returns the maximum CFL limit. </div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a47f6e8a07aa96a5426e8eb73f02cda94"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a47f6e8a07aa96a5426e8eb73f02cda94">jet::IterativeLevelSetSolver3::~IterativeLevelSetSolver3</a></div><div class="ttdeci">virtual ~IterativeLevelSetSolver3()</div><div class="ttdoc">Default destructor. </div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_aaaa36d7fe9b49af109a981603ce86380"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#aaaa36d7fe9b49af109a981603ce86380">jet::IterativeLevelSetSolver3::extrapolate</a></div><div class="ttdeci">void extrapolate(const ScalarGrid3 &amp;input, const ScalarField3 &amp;sdf, double maxDistance, ScalarGrid3 *output) override</div></div>
 <div class="ttc" id="level__set__solver3_8h_html"><div class="ttname"><a href="level__set__solver3_8h.html">level_set_solver3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver3_html_a16ca972126f7744458ce6d05fbd27f05"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver3.html#a16ca972126f7744458ce6d05fbd27f05">jet::IterativeLevelSetSolver3::reinitialize</a></div><div class="ttdeci">void reinitialize(const ScalarGrid3 &amp;inputSdf, double maxDistance, ScalarGrid3 *outputSdf) override</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:21</div></div>
-<div class="ttc" id="classjet_1_1_face_centered_grid3_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></div><div class="ttdoc">3-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid3.h:22</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
+<div class="ttc" id="classjet_1_1_face_centered_grid3_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></div><div class="ttdoc">3-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid3.h:26</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -206,7 +210,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

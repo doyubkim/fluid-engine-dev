@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.3</a>
+                    <a class="navbar-brand">Jet v1.0.4</a>
                 </div>
             </div>
         </nav>
@@ -97,94 +97,98 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">surface_set3.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="surface__set3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2016 Doyub Kim</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SURFACE_SET3_H_</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SURFACE_SET3_H_</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="surface3_8h.html">jet/surface3.h</a>&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classjet_1_1_surface_set3.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface3.html">Surface3</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keyword">const</span> std::vector&lt;Surface3Ptr&gt;&amp; others,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform3.html">Transform3</a>&amp; <a class="code" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a> = <a class="code" href="classjet_1_1_transform3.html">Transform3</a>(),</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a>&amp; other);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_surface_set3.html#a97e1a0326da4bdb82a4e410393e6a329">numberOfSurfaces</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">Surface3Ptr</a>&amp; <a class="code" href="classjet_1_1_surface_set3.html#a9a7f45f7639384697f51ec237f4b833e">surfaceAt</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_surface_set3.html#a03c54179e21dc33ac7fbea5274625285">addSurface</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">Surface3Ptr</a>&amp; surface);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_surface_set3.html#aa2d4e175e89931ca31845c2b678afc5d">builder</a>();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    std::vector&lt;Surface3Ptr&gt; _surfaces;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Surface3 implementations</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> closestPointLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
+<a href="surface__set3_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright (c) 2017 Doyub Kim</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// I am making my contributions/submissions to this project solely in my</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// personal capacity and am not conveying any rights to any intellectual</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// property of any third parties.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_SURFACE_SET3_H_</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_SURFACE_SET3_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="surface3_8h.html">jet/surface3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classjet_1_1_surface_set3.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface3.html">Surface3</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">const</span> std::vector&lt;Surface3Ptr&gt;&amp; others,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_transform3.html">Transform3</a>&amp; <a class="code" href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">transform</a> = <a class="code" href="classjet_1_1_transform3.html">Transform3</a>(),</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">isNormalFlipped</a> = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">SurfaceSet3</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a>&amp; other);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_surface_set3.html#a97e1a0326da4bdb82a4e410393e6a329">numberOfSurfaces</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">const</span> <a class="code" href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">Surface3Ptr</a>&amp; <a class="code" href="classjet_1_1_surface_set3.html#a9a7f45f7639384697f51ec237f4b833e">surfaceAt</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_surface_set3.html#a03c54179e21dc33ac7fbea5274625285">addSurface</a>(<span class="keyword">const</span> <a class="code" href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">Surface3Ptr</a>&amp; surface);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a> <a class="code" href="classjet_1_1_surface_set3.html#aa2d4e175e89931ca31845c2b678afc5d">builder</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    std::vector&lt;Surface3Ptr&gt; _surfaces;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3D</a> boundingBoxLocal() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// Surface3 implementations</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">double</span> closestDistanceLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> closestPointLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> intersectsLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3D</a>&amp; ray) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3D</a> boundingBoxLocal() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> closestNormalLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">double</span> closestDistanceLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a> closestIntersectionLocal(</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3D</a>&amp; ray) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> intersectsLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3D</a>&amp; ray) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> closestNormalLocal(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; otherPoint) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">   66</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;SurfaceSet3&gt; <a class="code" href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">SurfaceSet3Ptr</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classjet_1_1_surface_set3_1_1_builder.html">   71</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">SurfaceSet3::Builder</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface_builder_base3.html">SurfaceBuilderBase3</a>&lt;SurfaceSet3&gt; {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#abafda9210799021019dc2ba099ebb951">withSurfaces</a>(<span class="keyword">const</span> std::vector&lt;Surface3Ptr&gt;&amp; others);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a> <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#a65277bf968bdffcbfe8f295f6bfd803e">build</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    SurfaceSet3Ptr <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#acd8791d5ed37d3713ddca704c87b6982">makeShared</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    std::vector&lt;Surface3Ptr&gt; _surfaces;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a> closestIntersectionLocal(</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3D</a>&amp; ray) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">   70</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;SurfaceSet3&gt; <a class="code" href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">SurfaceSet3Ptr</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classjet_1_1_surface_set3_1_1_builder.html">   75</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">SurfaceSet3::Builder</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_surface_builder_base3.html">SurfaceBuilderBase3</a>&lt;SurfaceSet3&gt; {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#abafda9210799021019dc2ba099ebb951">withSurfaces</a>(<span class="keyword">const</span> std::vector&lt;Surface3Ptr&gt;&amp; others);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="classjet_1_1_surface_set3.html">SurfaceSet3</a> <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#a65277bf968bdffcbfe8f295f6bfd803e">build</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    SurfaceSet3Ptr <a class="code" href="classjet_1_1_surface_set3_1_1_builder.html#acd8791d5ed37d3713ddca704c87b6982">makeShared</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SURFACE_SET3_H_</span></div>
-<div class="ttc" id="classjet_1_1_transform3_html"><div class="ttname"><a href="classjet_1_1_transform3.html">jet::Transform3</a></div><div class="ttdoc">Represents 3-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform3.h:16</div></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    std::vector&lt;Surface3Ptr&gt; _surfaces;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_SURFACE_SET3_H_</span></div>
+<div class="ttc" id="classjet_1_1_transform3_html"><div class="ttname"><a href="classjet_1_1_transform3.html">jet::Transform3</a></div><div class="ttdoc">Represents 3-D rigid body transform. </div><div class="ttdef"><b>Definition:</b> transform3.h:20</div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_html_ab7e19073cf0c38c0555b95cbc48f7953"><div class="ttname"><a href="classjet_1_1_surface_set3.html#ab7e19073cf0c38c0555b95cbc48f7953">jet::SurfaceSet3::SurfaceSet3</a></div><div class="ttdeci">SurfaceSet3()</div><div class="ttdoc">Constructs an empty surface set. </div></div>
-<div class="ttc" id="classjet_1_1_surface3_html_acb577d017691787910e850b49abfc7c4"><div class="ttname"><a href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">jet::Surface3::isNormalFlipped</a></div><div class="ttdeci">bool isNormalFlipped</div><div class="ttdoc">Flips normal when calling Surface3::closestNormal(...). </div><div class="ttdef"><b>Definition:</b> surface3.h:29</div></div>
-<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">jet::BoundingBox&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:37</div></div>
-<div class="ttc" id="namespacejet_html_a10047feb44339dd6a248529ef3f7eaf5"><div class="ttname"><a href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">jet::Surface3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Surface3 &gt; Surface3Ptr</div><div class="ttdoc">Shared pointer for the Surface3 type. </div><div class="ttdef"><b>Definition:</b> surface3.h:89</div></div>
-<div class="ttc" id="classjet_1_1_surface3_html"><div class="ttname"><a href="classjet_1_1_surface3.html">jet::Surface3</a></div><div class="ttdoc">Abstract base class for 3-D surface. </div><div class="ttdef"><b>Definition:</b> surface3.h:23</div></div>
-<div class="ttc" id="classjet_1_1_surface3_html_a1d60f2ad53b031bbcef4d4bfb57ded21"><div class="ttname"><a href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">jet::Surface3::transform</a></div><div class="ttdeci">Transform3 transform</div><div class="ttdoc">Local-to-world transform. </div><div class="ttdef"><b>Definition:</b> surface3.h:26</div></div>
+<div class="ttc" id="classjet_1_1_surface3_html_acb577d017691787910e850b49abfc7c4"><div class="ttname"><a href="classjet_1_1_surface3.html#acb577d017691787910e850b49abfc7c4">jet::Surface3::isNormalFlipped</a></div><div class="ttdeci">bool isNormalFlipped</div><div class="ttdoc">Flips normal when calling Surface3::closestNormal(...). </div><div class="ttdef"><b>Definition:</b> surface3.h:33</div></div>
+<div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">jet::BoundingBox&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:41</div></div>
+<div class="ttc" id="namespacejet_html_a10047feb44339dd6a248529ef3f7eaf5"><div class="ttname"><a href="namespacejet.html#a10047feb44339dd6a248529ef3f7eaf5">jet::Surface3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Surface3 &gt; Surface3Ptr</div><div class="ttdoc">Shared pointer for the Surface3 type. </div><div class="ttdef"><b>Definition:</b> surface3.h:93</div></div>
+<div class="ttc" id="classjet_1_1_surface3_html"><div class="ttname"><a href="classjet_1_1_surface3.html">jet::Surface3</a></div><div class="ttdoc">Abstract base class for 3-D surface. </div><div class="ttdef"><b>Definition:</b> surface3.h:27</div></div>
+<div class="ttc" id="classjet_1_1_surface3_html_a1d60f2ad53b031bbcef4d4bfb57ded21"><div class="ttname"><a href="classjet_1_1_surface3.html#a1d60f2ad53b031bbcef4d4bfb57ded21">jet::Surface3::transform</a></div><div class="ttdeci">Transform3 transform</div><div class="ttdoc">Local-to-world transform. </div><div class="ttdef"><b>Definition:</b> surface3.h:30</div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_1_1_builder_html_abafda9210799021019dc2ba099ebb951"><div class="ttname"><a href="classjet_1_1_surface_set3_1_1_builder.html#abafda9210799021019dc2ba099ebb951">jet::SurfaceSet3::Builder::withSurfaces</a></div><div class="ttdeci">Builder &amp; withSurfaces(const std::vector&lt; Surface3Ptr &gt; &amp;others)</div><div class="ttdoc">Returns builder with other surfaces. </div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_html_a97e1a0326da4bdb82a4e410393e6a329"><div class="ttname"><a href="classjet_1_1_surface_set3.html#a97e1a0326da4bdb82a4e410393e6a329">jet::SurfaceSet3::numberOfSurfaces</a></div><div class="ttdeci">size_t numberOfSurfaces() const </div><div class="ttdoc">Returns the number of surfaces. </div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_1_1_builder_html_acd8791d5ed37d3713ddca704c87b6982"><div class="ttname"><a href="classjet_1_1_surface_set3_1_1_builder.html#acd8791d5ed37d3713ddca704c87b6982">jet::SurfaceSet3::Builder::makeShared</a></div><div class="ttdeci">SurfaceSet3Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of SurfaceSet3 instance. </div></div>
-<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:14</div></div>
+<div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="surface3_8h_html"><div class="ttname"><a href="surface3_8h.html">surface3.h</a></div></div>
-<div class="ttc" id="classjet_1_1_surface_builder_base3_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base3.html">jet::SurfaceBuilderBase3</a></div><div class="ttdoc">Base class for 3-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface3.h:95</div></div>
+<div class="ttc" id="classjet_1_1_surface_builder_base3_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base3.html">jet::SurfaceBuilderBase3</a></div><div class="ttdoc">Base class for 3-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface3.h:99</div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_html_aa2d4e175e89931ca31845c2b678afc5d"><div class="ttname"><a href="classjet_1_1_surface_set3.html#aa2d4e175e89931ca31845c2b678afc5d">jet::SurfaceSet3::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder for SurfaceSet3. </div></div>
-<div class="ttc" id="namespacejet_html_a4f1c941268547860867b258befcc6a5b"><div class="ttname"><a href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">jet::SurfaceSet3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; SurfaceSet3 &gt; SurfaceSet3Ptr</div><div class="ttdoc">Shared pointer for the SurfaceSet3 type. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:66</div></div>
-<div class="ttc" id="structjet_1_1_surface_ray_intersection3_html"><div class="ttname"><a href="structjet_1_1_surface_ray_intersection3.html">jet::SurfaceRayIntersection3</a></div><div class="ttdoc">Struct that represents ray-surface intersection point. </div><div class="ttdef"><b>Definition:</b> surface3.h:15</div></div>
+<div class="ttc" id="namespacejet_html_a4f1c941268547860867b258befcc6a5b"><div class="ttname"><a href="namespacejet.html#a4f1c941268547860867b258befcc6a5b">jet::SurfaceSet3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; SurfaceSet3 &gt; SurfaceSet3Ptr</div><div class="ttdoc">Shared pointer for the SurfaceSet3 type. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:70</div></div>
+<div class="ttc" id="structjet_1_1_surface_ray_intersection3_html"><div class="ttname"><a href="structjet_1_1_surface_ray_intersection3.html">jet::SurfaceRayIntersection3</a></div><div class="ttdoc">Struct that represents ray-surface intersection point. </div><div class="ttdef"><b>Definition:</b> surface3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_html_a03c54179e21dc33ac7fbea5274625285"><div class="ttname"><a href="classjet_1_1_surface_set3.html#a03c54179e21dc33ac7fbea5274625285">jet::SurfaceSet3::addSurface</a></div><div class="ttdeci">void addSurface(const Surface3Ptr &amp;surface)</div><div class="ttdoc">Adds a surface instance. </div></div>
-<div class="ttc" id="classjet_1_1_surface_set3_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_surface_set3_1_1_builder.html">jet::SurfaceSet3::Builder</a></div><div class="ttdoc">Front-end to create SurfaceSet3 objects step by step. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:71</div></div>
-<div class="ttc" id="classjet_1_1_surface_set3_html"><div class="ttname"><a href="classjet_1_1_surface_set3.html">jet::SurfaceSet3</a></div><div class="ttdoc">3-D surface set. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:18</div></div>
-<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html">jet::Ray&lt; T, 3 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:17</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_surface_set3_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_surface_set3_1_1_builder.html">jet::SurfaceSet3::Builder</a></div><div class="ttdoc">Front-end to create SurfaceSet3 objects step by step. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:75</div></div>
+<div class="ttc" id="classjet_1_1_surface_set3_html"><div class="ttname"><a href="classjet_1_1_surface_set3.html">jet::SurfaceSet3</a></div><div class="ttdoc">3-D surface set. </div><div class="ttdef"><b>Definition:</b> surface_set3.h:22</div></div>
+<div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html">jet::Ray&lt; T, 3 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:21</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_html_a9a7f45f7639384697f51ec237f4b833e"><div class="ttname"><a href="classjet_1_1_surface_set3.html#a9a7f45f7639384697f51ec237f4b833e">jet::SurfaceSet3::surfaceAt</a></div><div class="ttdeci">const Surface3Ptr &amp; surfaceAt(size_t i) const </div><div class="ttdoc">Returns the i-th surface. </div></div>
 <div class="ttc" id="classjet_1_1_surface_set3_1_1_builder_html_a65277bf968bdffcbfe8f295f6bfd803e"><div class="ttname"><a href="classjet_1_1_surface_set3_1_1_builder.html#a65277bf968bdffcbfe8f295f6bfd803e">jet::SurfaceSet3::Builder::build</a></div><div class="ttdeci">SurfaceSet3 build() const </div><div class="ttdoc">Builds SurfaceSet3. </div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -196,7 +200,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 27 2017 20:16:19 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -45,6 +45,7 @@ var searchData=
   ['surfacebuilderbase3_3c_20customimplicitsurface3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; CustomImplicitSurface3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
   ['surfacebuilderbase3_3c_20cylinder3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; Cylinder3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
   ['surfacebuilderbase3_3c_20implicitsurfaceset3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; ImplicitSurfaceSet3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
+  ['surfacebuilderbase3_3c_20implicittrianglemesh3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; ImplicitTriangleMesh3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
   ['surfacebuilderbase3_3c_20plane3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; Plane3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
   ['surfacebuilderbase3_3c_20sphere3_3a_3abuilder_20_3e',['SurfaceBuilderBase3&lt; Sphere3::Builder &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
   ['surfacebuilderbase3_3c_20surfaceset3_20_3e',['SurfaceBuilderBase3&lt; SurfaceSet3 &gt;',['../classjet_1_1_surface_builder_base3.html',1,'jet']]],
