@@ -123,6 +123,7 @@ void cnpy::parse_zip_footer(FILE* fp, unsigned short& nrecs, unsigned int& globa
     assert(comment_len == 0);
 #else
     (void)nrecs;
+    (void)global_header_size;
     (void)global_header_offset;
 #endif
 }

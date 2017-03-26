@@ -41,7 +41,7 @@ set(CMAKE_MACOSX_RPATH ON)
 
 # Project modules
 add_subdirectory(external/cnpy)
-set(gtest_force_shared_crt ON)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
 add_subdirectory(external/pystring)
 add_subdirectory(src/jet)
