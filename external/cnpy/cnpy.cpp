@@ -121,6 +121,9 @@ void cnpy::parse_zip_footer(FILE* fp, unsigned short& nrecs, unsigned int& globa
     assert(disk_start == 0);
     assert(nrecs_on_disk == nrecs);
     assert(comment_len == 0);
+#else
+    (void)nrecs;
+    (void)global_header_offset;
 #endif
 }
 
