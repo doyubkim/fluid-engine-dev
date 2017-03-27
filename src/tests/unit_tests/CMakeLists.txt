@@ -27,13 +27,15 @@ set_target_properties(${target}
 )
 
 # Compile options
+# GCC and Clang compiler options
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
+            -Wno-unused-variable
+            )
+endif ()
 target_compile_options(${target}
     PRIVATE
-
-    PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-
-    INTERFACE
 )
 target_compile_definitions(${target}
     PRIVATE
