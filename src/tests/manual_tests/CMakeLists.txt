@@ -51,6 +51,8 @@ target_compile_definitions(${target}
 
 # Link libraries
 target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LINKER_OPTIONS}
     jet
     cnpy
     gtest
