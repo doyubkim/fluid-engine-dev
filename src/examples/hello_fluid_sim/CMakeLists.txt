@@ -42,4 +42,6 @@ target_compile_options(${target}
 
 # Link libraries
 target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LINKER_OPTIONS}
     jet)
