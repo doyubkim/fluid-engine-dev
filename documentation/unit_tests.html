@@ -131,19 +131,19 @@
     <hr />
     <h2 id="introduction">Introduction</h2>
 
-<p>The unit test contains the minimum validation tests for the code. To discover all the unit test cases from Mac OS X or Linux, run</p>
+<p>The unit test contains the minimum validation tests for the code. We use <code class="highlighter-rouge">gtest</code> for unit testing framework. Thus, after building the code, run the following command to discover all the unit test cases from Mac OS X or Linux:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/list_unit_tests
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests --gtest_list_tests
 </code></pre>
 </div>
 
 <p>or for Windows, run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin\list_unit_tests.bat
+<div class="highlighter-rouge"><pre class="highlight"><code>bin\Release\unit_tests.exe --gtest_list_tests
 </code></pre>
 </div>
 
-<p>As described above, run the following command to launch entire tests from Mac OS X or Linux:</p>
+<p>Run the following command to execute entire tests from Mac OS X or Linux:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests
 </code></pre>
@@ -151,23 +151,23 @@
 
 <p>For Windows, run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin\unit_tests.bat
+<div class="highlighter-rouge"><pre class="highlight"><code>bin\Release\unit_tests.exe
 </code></pre>
 </div>
 
-<p>To run specific tests, such as <code class="highlighter-rouge">VertexCenteredVectorGrid3.Fill</code>, run</p>
+<p>Since we are using <code class="highlighter-rouge">gtest</code>, we can also use filter. In case we want to run a specific test such as <code class="highlighter-rouge">VertexCenteredVectorGrid3.Fill</code>, run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests VertexCenteredVectorGrid3.Fill
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests --gtest_filter="VertexCenteredVectorGrid3.Fill"
 </code></pre>
 </div>
 
 <p>You can also use a pattern to run the tests such as</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests VertexCenteredVectorGrid3.*
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests --gtest_filter="VertexCenteredVectorGrid3.*"
 </code></pre>
 </div>
 
-<p>Replace <code class="highlighter-rouge">bin/unit_tests</code> with <code class="highlighter-rouge">bin\unit_tests.bat</code> for two commands above when running from Windows.</p>
+<p>Replace <code class="highlighter-rouge">bin/unit_tests</code> with <code class="highlighter-rouge">bin\Release\unit_tests.exe</code> for two commands above when running from Windows.</p>
 
   </div>
 </div>

@@ -133,7 +133,7 @@
 
 <p>The performance test measures the computation timing. To list the entire test cases, run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/list_perf_tests
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests --gtest_list_tests
 </code></pre>
 </div>
 
@@ -145,11 +145,11 @@
 
 <p>Similar to the unit test and manual test, you can pass the test name pattern to run specific tests, such as</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests Point*
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests --gtest_filter="Point*"
 </code></pre>
 </div>
 
-<p>For Windows, use <code class="highlighter-rouge">bin\list_perf_tests.bat</code> and <code class="highlighter-rouge">bin\perf_tests.bat</code>.</p>
+<p>For Windows, use <code class="highlighter-rouge">bin\Release\perf_tests.exe</code> command instead.</p>
 
 <p>The measured performance for each test will be printed to the console, such as</p>
 
