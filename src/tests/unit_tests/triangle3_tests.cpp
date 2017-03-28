@@ -96,7 +96,7 @@ TEST(Triangle3, SurfaceGetters) {
     auto cints1 = tri.closestIntersection(Ray3D({0.4, 0.4, -5.0}, {0, 0, 1}));
     EXPECT_TRUE(cints1.isIntersecting);
     EXPECT_VECTOR3_EQ(Vector3D(0.4, 0.4, -1), cints1.point);
-    EXPECT_DOUBLE_EQ(4.0, cints1.t);
+    EXPECT_DOUBLE_EQ(4.0, cints1.distance);
     EXPECT_VECTOR3_EQ(Vector3D(1, 2, 2).normalized(), cints1.normal);
 }
 
