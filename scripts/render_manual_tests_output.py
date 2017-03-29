@@ -33,7 +33,7 @@ if __name__ == '__main__':
             elif render.GRID3_TAG in tags:
                 render.render_grid3(filename)
         except Exception as e:
-            print 'Failed to render', filename
-            print 'Why?'
-            print e
+            print ('Failed to render', filename)
+            print ('Why?')
+            print (e)
 

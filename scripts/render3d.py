@@ -39,7 +39,7 @@ def render_still_trimesh(x, y, z, tri, output_filename):
     ax.set_aspect('equal')
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def obj_to_xyzt(obj_filename):
     vert_x = []
