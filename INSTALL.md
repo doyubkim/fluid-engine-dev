@@ -91,10 +91,6 @@ This will install the header files and the static library `libjet.a` under `INST
 
 For Windows, the binaries and header files will be located under `dist` directory after building the solution.
 
-### Coding Style
-
-Jet uses a modified version of [cpplint.py](https://github.com/google/styleguide/tree/gh-pages/cpplint) for checking the coding style. Please check out [3RD_PARTY.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for the license of `cpplint.py`. Any pull requests must pass the linter. Use `bin/run_linters` (or `bin\run_linters.bat` for Windows) to test the header and source files of the library.
-
 ### Continuous Integration
 
 The build quality is tracked by [Travis CI](https://travis-ci.org/doyubkim/fluid-engine-dev) for Linux and Mac. For Windows, [AppVeyor](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev) is used. Any pull requests must pass all the builds.
