@@ -103,19 +103,19 @@ Vector3D Triangle3::closestNormalLocal(const Vector3D& otherPoint) const {
     Vector3D q = t * n + otherPoint;
 
     Vector3D q01 = (points[1] - points[0]).cross(q - points[0]);
-    if (n.dot(q01)) {
+    if (n.dot(q01) < 0) {
         return closestNormalOnLine(points[0], points[1], normals[0], normals[1],
                                    q);
     }
 
     Vector3D q12 = (points[2] - points[1]).cross(q - points[1]);
-    if (n.dot(q12)) {
+    if (n.dot(q12) < 0) {
         return closestNormalOnLine(points[1], points[2], normals[1], normals[2],
                                    q);
     }
 
     Vector3D q02 = (points[0] - points[2]).cross(q - points[2]);
-    if (n.dot(q02)) {
+    if (n.dot(q02) < 0) {
         return closestNormalOnLine(points[0], points[2], normals[0], normals[2],
                                    q);
     }
