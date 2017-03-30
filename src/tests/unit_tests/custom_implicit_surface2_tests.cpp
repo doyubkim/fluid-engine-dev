@@ -34,7 +34,8 @@ TEST(CustomImplicitSurface2, CloseestPoint) {
         [&](const Vector2D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox2D({0, 0}, {1, 1}), 1e-3);
 
-    for (auto sample : kSamplePoints2) {
+    for (size_t i = 0; i < getNumberOfSamplePoints2(); ++i) {
+        auto sample = getSamplePoints2()[i];
         if ((sample - sphere->center).length() > 0.01) {
             auto refAns = refSurf.closestPoint(sample);
             auto actAns = cis1.closestPoint(sample);
@@ -53,7 +54,8 @@ TEST(CustomImplicitSurface2, CloseestNormal) {
         [&](const Vector2D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox2D({0, 0}, {1, 1}), 1e-3);
 
-    for (auto sample : kSamplePoints2) {
+    for (size_t i = 0; i < getNumberOfSamplePoints2(); ++i) {
+        auto sample = getSamplePoints2()[i];
         auto refAns = refSurf.closestNormal(sample);
         auto actAns = cis1.closestNormal(sample);
 
@@ -70,10 +72,9 @@ TEST(CustomImplicitSurface2, Intersects) {
         [&](const Vector2D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox2D({0, 0}, {1, 1}), 1e-3);
 
-    size_t n = sizeof(kSamplePoints2) / sizeof(kSamplePoints2[0]);
-    for (size_t i = 0; i < n; ++i) {
-        auto x = kSamplePoints2[i];
-        auto d = kSampleDirs2[i];
+    for (size_t i = 0; i < getNumberOfSamplePoints2(); ++i) {
+        auto x = getSamplePoints2()[i];
+        auto d = getSampleDirs2()[i];
         bool refAns = refSurf.intersects(Ray2D(x, d));
         bool actAns = cis1.intersects(Ray2D(x, d));
         EXPECT_EQ(refAns, actAns);
@@ -89,10 +90,9 @@ TEST(CustomImplicitSurface2, ClosestIntersection) {
         [&](const Vector2D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox2D({0, 0}, {1, 1}), 1e-3);
 
-    size_t n = sizeof(kSamplePoints2) / sizeof(kSamplePoints2[0]);
-    for (size_t i = 0; i < n; ++i) {
-        auto x = kSamplePoints2[i];
-        auto d = kSampleDirs2[i];
+    for (size_t i = 0; i < getNumberOfSamplePoints2(); ++i) {
+        auto x = getSamplePoints2()[i];
+        auto d = getSampleDirs2()[i];
         auto refAns = refSurf.closestIntersection(Ray2D(x, d));
         auto actAns = cis1.closestIntersection(Ray2D(x, d));
         EXPECT_EQ(refAns.isIntersecting, actAns.isIntersecting);

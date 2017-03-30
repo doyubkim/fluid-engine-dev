@@ -11,8 +11,8 @@
 using namespace jet;
 
 TEST(ListQueryEngine3, BoxIntersection) {
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    std::vector<Vector3D> points(kSamplePoints3, kSamplePoints3 + numSamples);
+    size_t numSamples = getNumberOfSamplePoints3();
+    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
 
     ListQueryEngine3<Vector3D> engine;
     engine.add(points);
@@ -24,7 +24,7 @@ TEST(ListQueryEngine3, BoxIntersection) {
     BoundingBox3D testBox({0.25, 0.15, 0.3}, {0.5, 0.6, 0.4});
     size_t numIntersections = 0;
     for (size_t i = 0; i < numSamples; ++i) {
-        numIntersections += testFunc(kSamplePoints3[i], testBox);
+        numIntersections += testFunc(getSamplePoints3()[i], testBox);
     }
     bool hasIntersection = numIntersections > 0;
 
@@ -33,7 +33,7 @@ TEST(ListQueryEngine3, BoxIntersection) {
     BoundingBox3D testBox2({0.3, 0.2, 0.1}, {0.6, 0.5, 0.4});
     numIntersections = 0;
     for (size_t i = 0; i < numSamples; ++i) {
-        numIntersections += testFunc(kSamplePoints3[i], testBox2);
+        numIntersections += testFunc(getSamplePoints3()[i], testBox2);
     }
     hasIntersection = numIntersections > 0;
 
@@ -55,11 +55,11 @@ TEST(ListQueryEngine3, RayIntersection) {
         return a.intersects(ray);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
     std::vector<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
-        auto c = kSamplePoints3[i++];
+        auto c = getSamplePoints3()[i++];
         BoundingBox3D box(c, c);
         box.expand(0.1);
         return box;
@@ -68,8 +68,8 @@ TEST(ListQueryEngine3, RayIntersection) {
     engine.add(items);
 
     for (i = 0; i < numSamples / 2; ++i) {
-        Ray3D ray(kSamplePoints3[i + numSamples / 2],
-                  kSampleDirs3[i + numSamples / 2]);
+        Ray3D ray(getSamplePoints3()[i + numSamples / 2],
+                  getSampleDirs3()[i + numSamples / 2]);
         // ad-hoc search
         bool ansInts = false;
         for (size_t j = 0; j < numSamples / 2; ++j) {
@@ -94,11 +94,11 @@ TEST(ListQueryEngine3, ClosestIntersection) {
         return bboxResult.tNear;
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
     std::vector<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
-        auto c = kSamplePoints3[i++];
+        auto c = getSamplePoints3()[i++];
         BoundingBox3D box(c, c);
         box.expand(0.1);
         return box;
@@ -107,8 +107,8 @@ TEST(ListQueryEngine3, ClosestIntersection) {
     engine.add(items);
 
     for (i = 0; i < numSamples / 2; ++i) {
-        Ray3D ray(kSamplePoints3[i + numSamples / 2],
-                  kSampleDirs3[i + numSamples / 2]);
+        Ray3D ray(getSamplePoints3()[i + numSamples / 2],
+                  getSampleDirs3()[i + numSamples / 2]);
         // ad-hoc search
         ClosestIntersectionQueryResult3<BoundingBox3D> ansInts;
         for (size_t j = 0; j < numSamples / 2; ++j) {
@@ -142,20 +142,20 @@ TEST(ListQueryEngine3, NearestNeighbor) {
         return a.distanceTo(b);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    std::vector<Vector3D> points(kSamplePoints3, kSamplePoints3 + numSamples);
+    size_t numSamples = getNumberOfSamplePoints3();
+    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
 
     engine.add(points);
 
     Vector3D testPt(0.5, 0.5, 0.5);
     auto closest = engine.nearest(testPt, distanceFunc);
-    Vector3D answer = kSamplePoints3[0];
+    Vector3D answer = getSamplePoints3()[0];
     double bestDist = testPt.distanceTo(answer);
     for (size_t i = 1; i < numSamples; ++i) {
-        double dist = testPt.distanceTo(kSamplePoints3[i]);
+        double dist = testPt.distanceTo(getSamplePoints3()[i]);
         if (dist < bestDist) {
             bestDist = dist;
-            answer = kSamplePoints3[i];
+            answer = getSamplePoints3()[i];
         }
     }
 

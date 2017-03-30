@@ -47,96 +47,78 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
 }
 
 Vector3D TriangleMesh3::closestPointLocal(const Vector3D& otherPoint) const {
-    static const double m = std::numeric_limits<double>::max();
-    Vector3D minDistPt(m, m, m);
-    double minDistSquared = m;
+    buildBvh();
 
-    size_t n = numberOfTriangles();
-    for (size_t i = 0; i < n; ++i) {
-        Triangle3 tri = triangle(i);
-        Vector3D pt = tri.closestPoint(otherPoint);
-        double distSquared = (otherPoint - pt).lengthSquared();
-        if (distSquared < minDistSquared) {
-            minDistSquared = distSquared;
-            minDistPt = pt;
-        }
-    }
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = triangle(triIdx);
+        return tri.closestDistance(pt);
+    };
 
-    return minDistPt;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+    return triangle(*queryResult.item).closestPoint(otherPoint);
 }
 
 Vector3D TriangleMesh3::closestNormalLocal(const Vector3D& otherPoint) const {
-    static const double m = std::numeric_limits<double>::max();
-    Vector3D minDistPt(m, m, m);
-    Vector3D minDistNormal(1, 0, 0);
-    double minDistSquared = m;
+    buildBvh();
 
-    size_t n = numberOfTriangles();
-    for (size_t i = 0; i < n; ++i) {
-        Triangle3 tri = triangle(i);
-        Vector3D pt = tri.closestPoint(otherPoint);
-        double distSquared = (otherPoint - pt).lengthSquared();
-        if (distSquared < minDistSquared) {
-            minDistSquared = distSquared;
-            minDistPt = pt;
-            minDistNormal = tri.closestNormal(otherPoint);
-        }
-    }
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = triangle(triIdx);
+        return tri.closestDistance(pt);
+    };
 
-    return minDistNormal;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+//    printf("%zu\n", *queryResult.item);
+    return triangle(*queryResult.item).closestNormal(otherPoint);
 }
 
 SurfaceRayIntersection3 TriangleMesh3::closestIntersectionLocal(
     const Ray3D& ray) const {
-    SurfaceRayIntersection3 intersection;
+    buildBvh();
 
-    size_t n = numberOfTriangles();
-    double t = std::numeric_limits<double>::max();
-    for (size_t i = 0; i < n; ++i) {
-        Triangle3 tri = triangle(i);
-        SurfaceRayIntersection3 tmpIntersection = tri.closestIntersection(ray);
-        if (tmpIntersection.distance < t) {
-            t = tmpIntersection.distance;
-            intersection = tmpIntersection;
-        }
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
+        Triangle3 tri = triangle(triIdx);
+        SurfaceRayIntersection3 result = tri.closestIntersection(ray);
+        return result.distance;
+    };
+
+    const auto queryResult = _bvh.closestIntersection(ray, testFunc);
+    SurfaceRayIntersection3 result;
+    result.distance = queryResult.distance;
+    result.isIntersecting = queryResult.item != nullptr;
+    if (queryResult.item != nullptr) {
+        result.point = ray.pointAt(queryResult.distance);
+        result.normal = triangle(*queryResult.item).closestNormal(result.point);
     }
-
-    return intersection;
+    return result;
 }
 
 BoundingBox3D TriangleMesh3::boundingBoxLocal() const {
-    BoundingBox3D box;
-    size_t n = _pointIndices.size();
-    for (size_t i = 0; i < n; ++i) {
-        const Point3UI& face = _pointIndices[i];
-        box.merge(_points[face[0]]);
-        box.merge(_points[face[1]]);
-        box.merge(_points[face[2]]);
-    }
-    return box;
+    buildBvh();
+
+    return _bvh.boundingBox();
 }
 
 bool TriangleMesh3::intersectsLocal(const Ray3D& ray) const {
-    size_t n = numberOfTriangles();
-    for (size_t i = 0; i < n; ++i) {
-        Triangle3 tri = triangle(i);
-        if (tri.intersects(ray)) {
-            return true;
-        }
-    }
-    return false;
+    buildBvh();
+
+    const auto testFunc = [this](const size_t& triIdx, const Ray3D& ray) {
+        Triangle3 tri = triangle(triIdx);
+        return tri.intersects(ray);
+    };
+
+    return _bvh.intersects(ray, testFunc);
 }
 
 double TriangleMesh3::closestDistanceLocal(const Vector3D& otherPoint) const {
-    double minDist = std::numeric_limits<double>::max();
+    buildBvh();
 
-    size_t n = numberOfTriangles();
-    for (size_t i = 0; i < n; ++i) {
-        Triangle3 tri = triangle(i);
-        minDist = std::min(minDist, tri.closestDistance(otherPoint));
-    }
+    const auto distanceFunc = [this](const size_t& triIdx, const Vector3D& pt) {
+        Triangle3 tri = triangle(triIdx);
+        return tri.closestDistance(pt);
+    };
 
-    return minDist;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+    return queryResult.distance;
 }
 
 void TriangleMesh3::clear() {
@@ -146,6 +128,8 @@ void TriangleMesh3::clear() {
     _pointIndices.clear();
     _normalIndices.clear();
     _uvIndices.clear();
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::set(const TriangleMesh3& other) {
@@ -155,6 +139,8 @@ void TriangleMesh3::set(const TriangleMesh3& other) {
     _pointIndices.set(other._pointIndices);
     _normalIndices.set(other._normalIndices);
     _uvIndices.set(other._uvIndices);
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::swap(TriangleMesh3& other) {
@@ -186,7 +172,10 @@ double TriangleMesh3::volume() const {
 
 const Vector3D& TriangleMesh3::point(size_t i) const { return _points[i]; }
 
-Vector3D& TriangleMesh3::point(size_t i) { return _points[i]; }
+Vector3D& TriangleMesh3::point(size_t i) {
+    invalidateBvh();
+    return _points[i];
+}
 
 const Vector3D& TriangleMesh3::normal(size_t i) const { return _normals[i]; }
 
@@ -254,6 +243,7 @@ void TriangleMesh3::addUv(const Vector2D& t) { _uvs.append(t); }
 
 void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
     _pointIndices.append(newPointIndices);
+    invalidateBvh();
 }
 
 void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
@@ -264,11 +254,13 @@ void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
 
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
+
+    invalidateBvh();
 }
 
-void TriangleMesh3::addPointNormalUvTriangle(const Point3UI& newPointIndices,
-                                             const Point3UI& newNormalIndices,
-                                             const Point3UI& newUvIndices) {
+void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
+                                             const Point3UI& newUvIndices,
+                                             const Point3UI& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
@@ -276,6 +268,8 @@ void TriangleMesh3::addPointNormalUvTriangle(const Point3UI& newPointIndices,
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
@@ -285,6 +279,8 @@ void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
     JET_ASSERT(_pointIndices.size() == _uvs.size());
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::addTriangle(const Triangle3& tri) {
@@ -305,6 +301,8 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::setFaceNormal() {
@@ -395,11 +393,13 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
 void TriangleMesh3::scale(double factor) {
     parallelFor(kZeroSize, numberOfPoints(),
                 [this, factor](size_t i) { _points[i] *= factor; });
+    invalidateBvh();
 }
 
 void TriangleMesh3::translate(const Vector3D& t) {
     parallelFor(kZeroSize, numberOfPoints(),
                 [this, t](size_t i) { _points[i] += t; });
+    invalidateBvh();
 }
 
 void TriangleMesh3::rotate(const Quaternion<double>& q) {
@@ -408,6 +408,8 @@ void TriangleMesh3::rotate(const Quaternion<double>& q) {
 
     parallelFor(kZeroSize, numberOfNormals(),
                 [this, q](size_t i) { _normals[i] = q * _normals[i]; });
+
+    invalidateBvh();
 }
 
 void TriangleMesh3::writeObj(std::ostream* strm) const {
@@ -526,7 +528,7 @@ bool TriangleMesh3::readObj(std::istream* strm) {
 =======
                const obj::index_3_tuple_type& v1_vt1_vn1,
                const obj::index_3_tuple_type& v2_vt2_vn2) {
-            addPointNormalUvTriangle(
+            addPointUvNormalTriangle(
                 {std::get<0>(v0_vt0_vn0) - 1, std::get<0>(v1_vt1_vn1) - 1,
                  std::get<0>(v2_vt2_vn2) - 1},
                 {std::get<1>(v0_vt0_vn0) - 1, std::get<1>(v1_vt1_vn1) - 1,
@@ -581,6 +583,8 @@ bool TriangleMesh3::readObj(std::istream* strm) {
     parser.material_name_callback([](const std::string&) {});
     parser.comment_callback([](const std::string&) {});
 
+    invalidateBvh();
+
     return parser.parse(*strm);
 }
 
@@ -590,6 +594,24 @@ TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other) {
 }
 
 TriangleMesh3::Builder TriangleMesh3::builder() { return Builder(); }
+
+void TriangleMesh3::invalidateBvh() { _bvhInvalidated = true; }
+
+void TriangleMesh3::buildBvh() const {
+    if (_bvhInvalidated) {
+        size_t nTris = numberOfTriangles();
+        std::vector<size_t> ids(nTris);
+        std::vector<BoundingBox3D> bounds(nTris);
+        for (size_t i = 0; i < nTris; ++i) {
+            ids[i] = i;
+            bounds[i] = triangle(i).boundingBox();
+        }
+        _bvh.build(ids, bounds);
+        _bvhInvalidated = false;
+    }
+}
+
+//
 
 TriangleMesh3::Builder& TriangleMesh3::Builder::withPoints(
     const PointArray& points) {

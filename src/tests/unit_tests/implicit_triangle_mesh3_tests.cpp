@@ -29,7 +29,8 @@ TEST(ImplicitTriangleMesh3, SignedDistance) {
         .withResolutionX(20)
         .makeShared();
 
-    for (auto sample : kSamplePoints3) {
+    for (size_t i = 0; i < getNumberOfSamplePoints3(); ++i) {
+        auto sample = getSamplePoints3()[i];
         auto refAns = refSurf.signedDistance(sample);
         auto actAns = imesh->signedDistance(sample);
 

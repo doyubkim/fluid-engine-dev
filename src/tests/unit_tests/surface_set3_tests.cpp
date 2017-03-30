@@ -68,13 +68,13 @@ TEST(SurfaceSet3, AddSurface) {
 TEST(SurfaceSet3, ClosestPoint) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
     }
@@ -95,8 +95,8 @@ TEST(SurfaceSet3, ClosestPoint) {
 
     // Use second half of the samples as the query points
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset1.closestPoint(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset1.closestPoint(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_VECTOR3_EQ(expected, actual);
     }
 
@@ -106,13 +106,13 @@ TEST(SurfaceSet3, ClosestPoint) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
     }
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset2.closestPoint(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset2.closestPoint(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_VECTOR3_EQ(expected, actual);
     }
 }
@@ -120,13 +120,13 @@ TEST(SurfaceSet3, ClosestPoint) {
 TEST(SurfaceSet3, ClosestNormal) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
     }
@@ -148,8 +148,8 @@ TEST(SurfaceSet3, ClosestNormal) {
 
     // Use second half of the samples as the query points
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset1.closestNormal(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset1.closestNormal(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_VECTOR3_EQ(expected, actual);
     }
 
@@ -159,13 +159,13 @@ TEST(SurfaceSet3, ClosestNormal) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
     }
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset2.closestNormal(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset2.closestNormal(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_VECTOR3_EQ(expected, actual);
     }
 }
@@ -173,13 +173,13 @@ TEST(SurfaceSet3, ClosestNormal) {
 TEST(SurfaceSet3, ClosestDistance) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
     }
@@ -197,8 +197,8 @@ TEST(SurfaceSet3, ClosestDistance) {
 
     // Use second half of the samples as the query points
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset1.closestDistance(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset1.closestDistance(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_DOUBLE_EQ(expected, actual);
     }
 
@@ -208,13 +208,13 @@ TEST(SurfaceSet3, ClosestDistance) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
     }
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        auto actual = sset2.closestDistance(kSamplePoints3[i]);
-        auto expected = bruteForceSearch(kSamplePoints3[i]);
+        auto actual = sset2.closestDistance(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
         EXPECT_DOUBLE_EQ(expected, actual);
     }
 }
@@ -222,13 +222,13 @@ TEST(SurfaceSet3, ClosestDistance) {
 TEST(SurfaceSet3, Intersects) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
     }
@@ -244,7 +244,7 @@ TEST(SurfaceSet3, Intersects) {
 
     // Use second half of the samples as the query points
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        Ray3D ray(kSamplePoints3[i], kSampleDirs3[i]);
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
         bool actual = sset1.intersects(ray);
         bool expected = bruteForceTest(ray);
         EXPECT_EQ(expected, actual);
@@ -256,12 +256,12 @@ TEST(SurfaceSet3, Intersects) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
     }
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        Ray3D ray(kSamplePoints3[i], kSampleDirs3[i]);
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
         bool actual = sset2.intersects(ray);
         bool expected = bruteForceTest(ray);
         EXPECT_EQ(expected, actual);
@@ -271,13 +271,13 @@ TEST(SurfaceSet3, Intersects) {
 TEST(SurfaceSet3, ClosestIntersection) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
     }
@@ -295,7 +295,7 @@ TEST(SurfaceSet3, ClosestIntersection) {
 
     // Use second half of the samples as the query points
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        Ray3D ray(kSamplePoints3[i], kSampleDirs3[i]);
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
         auto actual = sset1.closestIntersection(ray);
         auto expected = bruteForceTest(ray);
         EXPECT_DOUBLE_EQ(expected.distance, actual.distance);
@@ -310,12 +310,12 @@ TEST(SurfaceSet3, ClosestIntersection) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
     }
     for (size_t i = numSamples / 2; i < numSamples; ++i) {
-        Ray3D ray(kSamplePoints3[i], kSampleDirs3[i]);
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
         auto actual = sset2.closestIntersection(ray);
         auto expected = bruteForceTest(ray);
         EXPECT_DOUBLE_EQ(expected.distance, actual.distance);
@@ -328,14 +328,14 @@ TEST(SurfaceSet3, ClosestIntersection) {
 TEST(SurfaceSet3, BoundingBox) {
     SurfaceSet3 sset1;
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
 
     // Use first half of the samples as the centers of the spheres
     BoundingBox3D answer;
     for (size_t i = 0; i < numSamples / 2; ++i) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
-                       .withCenter(kSamplePoints3[i])
+                       .withCenter(getSamplePoints3()[i])
                        .makeShared();
         sset1.addSurface(sph);
 
@@ -351,7 +351,7 @@ TEST(SurfaceSet3, BoundingBox) {
         auto sph = Sphere3::builder()
                        .withRadius(0.01)
                        .withCenter({0, 0, 0})
-                       .withTranslation(kSamplePoints3[i])
+                       .withTranslation(getSamplePoints3()[i])
                        .makeShared();
         sset2.addSurface(sph);
 

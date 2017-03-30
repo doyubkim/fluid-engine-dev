@@ -22,8 +22,8 @@ TEST(Bvh3, Nearest) {
         return a.distanceTo(b);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    std::vector<Vector3D> points(kSamplePoints3, kSamplePoints3 + numSamples);
+    size_t numSamples = getNumberOfSamplePoints3();
+    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
 
     std::vector<BoundingBox3D> bounds(points.size());
     size_t i = 0;
@@ -41,7 +41,7 @@ TEST(Bvh3, Nearest) {
     ptrdiff_t answerIdx = 0;
     double bestDist = testPt.distanceTo(points[answerIdx]);
     for (i = 1; i < numSamples; ++i) {
-        double dist = testPt.distanceTo(kSamplePoints3[i]);
+        double dist = testPt.distanceTo(getSamplePoints3()[i]);
         if (dist < bestDist) {
             bestDist = dist;
             answerIdx = i;
@@ -60,8 +60,8 @@ TEST(Bvh3, BBoxIntersects) {
         return bbox.overlaps(box);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    std::vector<Vector3D> points(kSamplePoints3, kSamplePoints3 + numSamples);
+    size_t numSamples = getNumberOfSamplePoints3();
+    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
 
     std::vector<BoundingBox3D> bounds(points.size());
     size_t i = 0;
@@ -77,7 +77,7 @@ TEST(Bvh3, BBoxIntersects) {
     BoundingBox3D testBox({0.25, 0.15, 0.3}, {0.5, 0.6, 0.4});
     bool hasOverlaps = false;
     for (i = 0; i < numSamples; ++i) {
-        hasOverlaps |= overlapsFunc(kSamplePoints3[i], testBox);
+        hasOverlaps |= overlapsFunc(getSamplePoints3()[i], testBox);
     }
 
     EXPECT_EQ(hasOverlaps, bvh.intersects(testBox, overlapsFunc));
@@ -85,7 +85,7 @@ TEST(Bvh3, BBoxIntersects) {
     BoundingBox3D testBox2({0.3, 0.2, 0.1}, {0.6, 0.5, 0.4});
     hasOverlaps = false;
     for (i = 0; i < numSamples; ++i) {
-        hasOverlaps |= overlapsFunc(kSamplePoints3[i], testBox2);
+        hasOverlaps |= overlapsFunc(getSamplePoints3()[i], testBox2);
     }
 
     EXPECT_EQ(hasOverlaps, bvh.intersects(testBox2, overlapsFunc));
@@ -98,11 +98,11 @@ TEST(Bvh3, RayIntersects) {
         return a.intersects(ray);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
     std::vector<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
-        auto c = kSamplePoints3[i++];
+        auto c = getSamplePoints3()[i++];
         BoundingBox3D box(c, c);
         box.expand(0.1);
         return box;
@@ -111,8 +111,8 @@ TEST(Bvh3, RayIntersects) {
     bvh.build(items, items);
 
     for (i = 0; i < numSamples / 2; ++i) {
-        Ray3D ray(kSamplePoints3[i + numSamples / 2],
-                  kSampleDirs3[i + numSamples / 2]);
+        Ray3D ray(getSampleDirs3()[i + numSamples / 2],
+                  getSampleDirs3()[i + numSamples / 2]);
         // ad-hoc search
         bool ansInts = false;
         for (size_t j = 0; j < numSamples / 2; ++j) {
@@ -141,11 +141,11 @@ TEST(Bvh3, ClosestIntersection) {
         }
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
+    size_t numSamples = getNumberOfSamplePoints3();
     std::vector<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
-        auto c = kSamplePoints3[i++];
+        auto c = getSamplePoints3()[i++];
         BoundingBox3D box(c, c);
         box.expand(0.1);
         return box;
@@ -154,8 +154,8 @@ TEST(Bvh3, ClosestIntersection) {
     bvh.build(items, items);
 
     for (i = 0; i < numSamples / 2; ++i) {
-        Ray3D ray(kSamplePoints3[i + numSamples / 2],
-                  kSampleDirs3[i + numSamples / 2]);
+        Ray3D ray(getSamplePoints3()[i + numSamples / 2],
+                  getSampleDirs3()[i + numSamples / 2]);
         // ad-hoc search
         ClosestIntersectionQueryResult3<BoundingBox3D> ansInts;
         for (size_t j = 0; j < numSamples / 2; ++j) {
@@ -181,8 +181,8 @@ TEST(Bvh3, ForEachOverlappingItems) {
         return bbox.contains(pt);
     };
 
-    size_t numSamples = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    std::vector<Vector3D> points(kSamplePoints3, kSamplePoints3 + numSamples);
+    size_t numSamples = getNumberOfSamplePoints3();
+    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
 
     std::vector<BoundingBox3D> bounds(points.size());
     size_t i = 0;
@@ -198,7 +198,7 @@ TEST(Bvh3, ForEachOverlappingItems) {
     BoundingBox3D testBox({0.3, 0.2, 0.1}, {0.6, 0.5, 0.4});
     size_t numOverlaps = 0;
     for (i = 0; i < numSamples; ++i) {
-        numOverlaps += overlapsFunc(kSamplePoints3[i], testBox);
+        numOverlaps += overlapsFunc(getSamplePoints3()[i], testBox);
     }
 
     size_t measured = 0;

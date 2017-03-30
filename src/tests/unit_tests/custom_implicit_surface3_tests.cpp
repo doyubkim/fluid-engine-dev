@@ -36,7 +36,8 @@ TEST(CustomImplicitSurface3, CloseestPoint) {
         [&](const Vector3D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox3D({0, 0, 0}, {1, 1, 1}), 1e-3);
 
-    for (auto sample : kSamplePoints3) {
+    for (size_t i = 0; i < getNumberOfSamplePoints3(); ++i) {
+        auto sample = getSamplePoints3()[i];
         if ((sample - sphere->center).length() > 0.01) {
             auto refAns = refSurf.closestPoint(sample);
             auto actAns = cis1.closestPoint(sample);
@@ -57,7 +58,8 @@ TEST(CustomImplicitSurface3, CloseestNormal) {
         [&](const Vector3D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox3D({0, 0, 0}, {1, 1, 1}), 1e-3);
 
-    for (auto sample : kSamplePoints3) {
+    for (size_t i = 0; i < getNumberOfSamplePoints3(); ++i) {
+        auto sample = getSamplePoints3()[i];
         auto refAns = refSurf.closestNormal(sample);
         auto actAns = cis1.closestNormal(sample);
 
@@ -76,10 +78,9 @@ TEST(CustomImplicitSurface3, Intersects) {
         [&](const Vector3D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox3D({0, 0, 0}, {1, 1, 1}), 1e-3);
 
-    size_t n = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    for (size_t i = 0; i < n; ++i) {
-        auto x = kSamplePoints3[i];
-        auto d = kSampleDirs3[i];
+    for (size_t i = 0; i < getNumberOfSamplePoints3(); ++i) {
+        auto x = getSamplePoints3()[i];
+        auto d = getSampleDirs3()[i];
         bool refAns = refSurf.intersects(Ray3D(x, d));
         bool actAns = cis1.intersects(Ray3D(x, d));
         EXPECT_EQ(refAns, actAns);
@@ -97,10 +98,9 @@ TEST(CustomImplicitSurface3, ClosestIntersection) {
         [&](const Vector3D& pt) { return refSurf.signedDistance(pt); },
         BoundingBox3D({0, 0, 0}, {1, 1, 1}), 1e-3);
 
-    size_t n = sizeof(kSamplePoints3) / sizeof(kSamplePoints3[0]);
-    for (size_t i = 0; i < n; ++i) {
-        auto x = kSamplePoints3[i];
-        auto d = kSampleDirs3[i];
+    for (size_t i = 0; i < getNumberOfSamplePoints3(); ++i) {
+        auto x = getSamplePoints3()[i];
+        auto d = getSampleDirs3()[i];
         auto refAns = refSurf.closestIntersection(Ray3D(x, d));
         auto actAns = cis1.closestIntersection(Ray3D(x, d));
         EXPECT_EQ(refAns.isIntersecting, actAns.isIntersecting);
