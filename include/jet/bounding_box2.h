@@ -8,8 +8,8 @@
 #define INCLUDE_JET_BOUNDING_BOX2_H_
 
 #include <jet/bounding_box.h>
-#include <jet/vector2.h>
 #include <jet/ray2.h>
+#include <jet/vector2.h>
 #include <limits>
 
 namespace jet {
@@ -55,7 +55,6 @@ class BoundingBox<T, 2> {
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
-
     //! Returns width of the box.
     T width() const;
 
@@ -90,7 +89,6 @@ class BoundingBox<T, 2> {
     //! Returns squared diagonal length of this box.
     T diagonalLengthSquared() const;
 
-
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void reset();
 
@@ -107,10 +105,14 @@ class BoundingBox<T, 2> {
 
     //! Returns corner position. Index starts from x-first order.
     Vector2<T> corner(size_t idx) const;
+
+    //! Returns the clamped point.
+    Vector2<T> clamp(const Vector2<T>& pt) const;
 };
 
 //! Type alias for 2-D BoundingBox.
-template <typename T> using BoundingBox2 = BoundingBox<T, 2>;
+template <typename T>
+using BoundingBox2 = BoundingBox<T, 2>;
 
 //! Float-type 2-D BoundingBox.
 typedef BoundingBox2<float> BoundingBox2F;

@@ -118,6 +118,8 @@ class Octree final : public IntersectionQueryEngine3<T>,
     struct Node {
         size_t firstChild = kMaxSize;
         std::vector<size_t> items;
+
+        bool isLeaf() const;
     };
 
     size_t _maxDepth = 1;
@@ -128,11 +130,6 @@ class Octree final : public IntersectionQueryEngine3<T>,
     void build(size_t nodeIdx, size_t currentDepth,
                const BoundingBox3D& currentBound,
                const BoxIntersectionTestFunc3<T>& overlapsFunc);
-
-    NearestNeighborQueryResult3<T> nearest(
-        const Vector3D& pt, const NearestNeighborDistanceFunc3<T>& distanceFunc,
-        size_t nodeIdx, const BoundingBox3D& currentBound,
-        NearestNeighborQueryResult3<T> best) const;
 
     bool intersects(const BoundingBox3D& box,
                     const BoxIntersectionTestFunc3<T>& testFunc, size_t nodeIdx,

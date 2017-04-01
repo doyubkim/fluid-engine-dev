@@ -146,27 +146,27 @@ constexpr double halfPi<double>() {
 // MARK: Pi/4
 
 //! Float-type pi/4.
-constexpr float kQuaterPiF = 0.785398163397448309615660845819875721f;
+constexpr float kQuarterPiF = 0.785398163397448309615660845819875721f;
 
 //! Double-type pi/4.
-constexpr double kQuaterPiD = 0.785398163397448309615660845819875721;
+constexpr double kQuarterPiD = 0.785398163397448309615660845819875721;
 
 //! Pi/4 for type T.
 template <typename T>
-constexpr T quaterPi() {
-    return static_cast<T>(kQuaterPiD);
+constexpr T quarterPi() {
+    return static_cast<T>(kQuarterPiD);
 }
 
 //! Pi/2 for float.
 template <>
-constexpr float quaterPi<float>() {
-    return kQuaterPiF;
+constexpr float quarterPi<float>() {
+    return kQuarterPiF;
 }
 
 //! Pi/2 for double.
 template <>
-constexpr double quaterPi<double>() {
-    return kQuaterPiD;
+constexpr double quarterPi<double>() {
+    return kQuarterPiD;
 }
 
 // MARK: 2*Pi

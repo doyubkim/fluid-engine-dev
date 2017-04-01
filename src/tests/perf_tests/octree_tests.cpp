@@ -16,33 +16,39 @@
 
 using namespace jet;
 
-TEST(Octree, Nearest) {
+class OctreeTests : public ::testing::Test {
+ protected:
     TriangleMesh3 triMesh;
-
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
-    ASSERT_TRUE(file);
-
-    if (file) {
-        triMesh.readObj(&file);
-        file.close();
-    }
-
-    std::vector<Triangle3> triangles;
-    BoundingBox3D bound;
-    for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
-        auto tri = triMesh.triangle(i);
-        triangles.push_back(tri);
-        bound.merge(tri.boundingBox());
-    }
-
-    const auto triBoxTestFunc = [](const Triangle3& tri, const BoundingBox3D& box) {
-        // TODO: Implement actual intersecting test
-        return tri.boundingBox().overlaps(box);
-    };
-
     Octree<Triangle3> octree;
-    octree.build(triangles, bound, triBoxTestFunc, 4);
 
+    virtual void SetUp() {
+        std::ifstream file(RESOURCES_DIR "bunny.obj");
+        ASSERT_TRUE(file);
+
+        if (file) {
+            triMesh.readObj(&file);
+            file.close();
+        }
+
+        std::vector<Triangle3> triangles;
+        BoundingBox3D bound;
+        for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
+            auto tri = triMesh.triangle(i);
+            triangles.push_back(tri);
+            bound.merge(tri.boundingBox());
+        }
+
+        const auto triBoxTestFunc = [](const Triangle3& tri,
+                                       const BoundingBox3D& box) {
+            // TODO: Implement actual intersecting test
+            return tri.boundingBox().overlaps(box);
+        };
+
+        octree.build(triangles, bound, triBoxTestFunc, 6);
+    }
+};
+
+TEST_F(OctreeTests, Nearest) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
     const auto makeVec = [&]() { return Vector3D(d(rng), d(rng), d(rng)); };
@@ -65,33 +71,7 @@ TEST(Octree, Nearest) {
     EXPECT_EQ(n, results.size());
 }
 
-TEST(Octree, RayIntersects) {
-    TriangleMesh3 triMesh;
-
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
-    ASSERT_TRUE(file);
-
-    if (file) {
-        triMesh.readObj(&file);
-        file.close();
-    }
-
-    std::vector<Triangle3> triangles;
-    BoundingBox3D bound;
-    for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
-        auto tri = triMesh.triangle(i);
-        triangles.push_back(tri);
-        bound.merge(tri.boundingBox());
-    }
-
-    const auto triBoxTestFunc = [](const Triangle3& tri, const BoundingBox3D& box) {
-        // TODO: Implement actual intersecting test
-        return tri.boundingBox().overlaps(box);
-    };
-
-    Octree<Triangle3> octree;
-    octree.build(triangles, bound, triBoxTestFunc, 4);
-
+TEST_F(OctreeTests, RayIntersects) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
     const auto makeVec = [&]() { return Vector3D(d(rng), d(rng), d(rng)); };
@@ -105,8 +85,8 @@ TEST(Octree, RayIntersects) {
     Timer timer;
     size_t n = 1000;
     for (size_t i = 0; i < n; ++i) {
-        results.push_back(
-            octree.intersects(Ray3D(makeVec(), makeVec().normalized()), testFunc));
+        results.push_back(octree.intersects(
+            Ray3D(makeVec(), makeVec().normalized()), testFunc));
     }
 
     JET_PRINT_INFO("Octree::intersects calls took %f sec.\n",

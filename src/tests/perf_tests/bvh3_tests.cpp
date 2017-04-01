@@ -16,28 +16,33 @@
 
 using namespace jet;
 
-TEST(Bvh3, Nearest) {
+class Bvh3Tests : public ::testing::Test {
+ protected:
     TriangleMesh3 triMesh;
-
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
-    ASSERT_TRUE(file);
-
-    if (file) {
-        triMesh.readObj(&file);
-        file.close();
-    }
-
-    std::vector<Triangle3> triangles;
-    std::vector<BoundingBox3D> bounds;
-    for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
-        auto tri = triMesh.triangle(i);
-        triangles.push_back(tri);
-        bounds.push_back(tri.boundingBox());
-    }
-
     Bvh3<Triangle3> bvh;
-    bvh.build(triangles, bounds);
 
+    virtual void SetUp() {
+        std::ifstream file(RESOURCES_DIR "bunny.obj");
+        ASSERT_TRUE(file);
+
+        if (file) {
+            triMesh.readObj(&file);
+            file.close();
+        }
+
+        std::vector<Triangle3> triangles;
+        std::vector<BoundingBox3D> bounds;
+        for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
+            auto tri = triMesh.triangle(i);
+            triangles.push_back(tri);
+            bounds.push_back(tri.boundingBox());
+        }
+
+        bvh.build(triangles, bounds);
+    }
+};
+
+TEST_F(Bvh3Tests, Nearest) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
     const auto makeVec = [&]() { return Vector3D(d(rng), d(rng), d(rng)); };
@@ -60,28 +65,7 @@ TEST(Bvh3, Nearest) {
     EXPECT_EQ(n, results.size());
 }
 
-TEST(Bvh3, RayIntersects) {
-    TriangleMesh3 triMesh;
-
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
-    ASSERT_TRUE(file);
-
-    if (file) {
-        triMesh.readObj(&file);
-        file.close();
-    }
-
-    std::vector<Triangle3> triangles;
-    std::vector<BoundingBox3D> bounds;
-    for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
-        auto tri = triMesh.triangle(i);
-        triangles.push_back(tri);
-        bounds.push_back(tri.boundingBox());
-    }
-
-    Bvh3<Triangle3> bvh;
-    bvh.build(triangles, bounds);
-
+TEST_F(Bvh3Tests, RayIntersects) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
     const auto makeVec = [&]() { return Vector3D(d(rng), d(rng), d(rng)); };

@@ -8,8 +8,8 @@
 #define INCLUDE_JET_BOUNDING_BOX3_H_
 
 #include <jet/bounding_box.h>
-#include <jet/vector3.h>
 #include <jet/ray3.h>
+#include <jet/vector3.h>
 #include <limits>
 
 namespace jet {
@@ -55,7 +55,6 @@ class BoundingBox<T, 3> {
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
-
     //! Returns width of the box.
     T width() const;
 
@@ -93,7 +92,6 @@ class BoundingBox<T, 3> {
     //! Returns squared diagonal length of this box.
     T diagonalLengthSquared() const;
 
-
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void reset();
 
@@ -110,10 +108,14 @@ class BoundingBox<T, 3> {
 
     //! Returns corner position. Index starts from x-first order.
     Vector3<T> corner(size_t idx) const;
+
+    //! Returns the clamped point.
+    Vector3<T> clamp(const Vector3<T>& pt) const;
 };
 
 //! Type alias for 3-D BoundingBox.
-template <typename T> using BoundingBox3 = BoundingBox<T, 3>;
+template <typename T>
+using BoundingBox3 = BoundingBox<T, 3>;
 
 //! Float-type 3-D BoundingBox.
 typedef BoundingBox3<float> BoundingBox3F;

@@ -83,25 +83,13 @@ NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
     best.distance = kMaxD;
     best.item = nullptr;
 
-    // prepare to traverse BVH for box
+    // Prepare to traverse BVH
     static const int kMaxTreeDepth = 8 * sizeof(size_t);
     const Node* todo[kMaxTreeDepth];
     size_t todoPos = 0;
 
-    // traverse BVH nodes for box
+    // Traverse BVH nodes
     const Node* node = _nodes.data();
-    const auto checkBound = [pt](const BoundingBox2D& bound,
-                                 const NearestNeighborQueryResult2<T>& best) {
-        if (pt.x < bound.lowerCorner.x - best.distance ||
-            pt.x > bound.upperCorner.x + best.distance ||
-            pt.y < bound.lowerCorner.y - best.distance ||
-            pt.y > bound.upperCorner.y + best.distance) {
-            return false;
-        } else {
-            return true;
-        }
-    };
-
     while (node != nullptr) {
         if (node->isLeaf()) {
             double dist = distanceFunc(_items[node->item], pt);
@@ -110,7 +98,7 @@ NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
                 best.item = &_items[node->item];
             }
 
-            // grab next node to process from todo queue
+            // Grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -119,20 +107,51 @@ NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
                 break;
             }
         } else {
-            // get node children pointers for box
-            const Node* firstChild = node + 1;
-            const Node* secondChild = (Node*)&_nodes[node->child];
+            const double bestDistSqr = best.distance * best.distance;
 
-            // advance to next child node, possibly enqueue other child
-            if (!checkBound(firstChild->bound, best)) {
-                node = secondChild;
-            } else if (!checkBound(secondChild->bound, best)) {
-                node = firstChild;
-            } else {
-                // enqueue secondChild in todo queue
+            const Node* left = node + 1;
+            const Node* right = &_nodes[node->child];
+
+            // If pt is inside the box, then the closestLeft and Right will be
+            // identical to pt. This will make distMinLeftSqr and
+            // distMinRightSqr zero, meaning that such a box will have higher
+            // priority.
+            Vector2D closestLeft = left->bound.clamp(pt);
+            Vector2D closestRight = right->bound.clamp(pt);
+
+            double distMinLeftSqr = closestLeft.distanceSquaredTo(pt);
+            double distMinRightSqr = closestRight.distanceSquaredTo(pt);
+
+            bool shouldVisitLeft = distMinLeftSqr < bestDistSqr;
+            bool shouldVisitRight = distMinRightSqr < bestDistSqr;
+
+            const Node* firstChild;
+            const Node* secondChild;
+            if (shouldVisitLeft && shouldVisitRight) {
+                if (distMinLeftSqr < distMinRightSqr) {
+                    firstChild = left;
+                    secondChild = right;
+                } else {
+                    firstChild = right;
+                    secondChild = left;
+                }
+
+                // Enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;
+            } else if (shouldVisitLeft) {
+                node = left;
+            } else if (shouldVisitRight) {
+                node = right;
+            } else {
+                if (todoPos > 0) {
+                    // Dequeue
+                    --todoPos;
+                    node = todo[todoPos];
+                } else {
+                    break;
+                }
             }
         }
     }
@@ -161,7 +180,7 @@ bool Bvh2<T>::intersects(const BoundingBox2D& box,
                 return true;
             }
 
-            // grab next node to process from todo queue
+            // grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -180,7 +199,7 @@ bool Bvh2<T>::intersects(const BoundingBox2D& box,
             } else if (!secondChild->bound.overlaps(box)) {
                 node = firstChild;
             } else {
-                // enqueue secondChild in todo queue
+                // enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;
@@ -212,7 +231,7 @@ bool Bvh2<T>::intersects(const Ray2D& ray,
                 return true;
             }
 
-            // grab next node to process from todo queue
+            // grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -238,7 +257,7 @@ bool Bvh2<T>::intersects(const Ray2D& ray,
             } else if (!secondChild->bound.intersects(ray)) {
                 node = firstChild;
             } else {
-                // enqueue secondChild in todo queue
+                // enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;
@@ -271,7 +290,7 @@ void Bvh2<T>::forEachIntersectingItem(
                 visitorFunc(_items[node->item]);
             }
 
-            // grab next node to process from todo queue
+            // grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -290,7 +309,7 @@ void Bvh2<T>::forEachIntersectingItem(
             } else if (!secondChild->bound.overlaps(box)) {
                 node = firstChild;
             } else {
-                // enqueue secondChild in todo queue
+                // enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;
@@ -321,7 +340,7 @@ void Bvh2<T>::forEachIntersectingItem(
                 visitorFunc(_items[node->item]);
             }
 
-            // grab next node to process from todo queue
+            // grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -347,7 +366,7 @@ void Bvh2<T>::forEachIntersectingItem(
             } else if (!secondChild->bound.intersects(ray)) {
                 node = firstChild;
             } else {
-                // enqueue secondChild in todo queue
+                // enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;
@@ -383,7 +402,7 @@ ClosestIntersectionQueryResult2<T> Bvh2<T>::closestIntersection(
                 best.item = _items.data() + node->item;
             }
 
-            // grab next node to process from todo queue
+            // grab next node to process from todo stack
             if (todoPos > 0) {
                 // Dequeue
                 --todoPos;
@@ -409,7 +428,7 @@ ClosestIntersectionQueryResult2<T> Bvh2<T>::closestIntersection(
             } else if (!secondChild->bound.intersects(ray)) {
                 node = firstChild;
             } else {
-                // enqueue secondChild in todo queue
+                // enqueue secondChild in todo stack
                 todo[todoPos] = secondChild;
                 ++todoPos;
                 node = firstChild;

@@ -118,6 +118,8 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
     struct Node {
         size_t firstChild = kMaxSize;
         std::vector<size_t> items;
+
+        bool isLeaf() const;
     };
 
     size_t _maxDepth = 1;
@@ -128,11 +130,6 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
     void build(size_t nodeIdx, size_t currentDepth,
                const BoundingBox2D& currentBound,
                const BoxIntersectionTestFunc2<T>& overlapsFunc);
-
-    NearestNeighborQueryResult2<T> nearest(
-        const Vector2D& pt, const NearestNeighborDistanceFunc2<T>& distanceFunc,
-        size_t nodeIdx, const BoundingBox2D& currentBound,
-        NearestNeighborQueryResult2<T> best) const;
 
     bool intersects(const BoundingBox2D& box,
                     const BoxIntersectionTestFunc2<T>& testFunc, size_t nodeIdx,

@@ -11,8 +11,16 @@
 #include <jet/octree.h>
 
 #include <numeric>
+#include <stack>
 
 namespace jet {
+
+template <typename T>
+bool Octree<T>::Node::isLeaf() const {
+    return firstChild == kMaxSize;
+}
+
+//
 
 template <typename T>
 Octree<T>::Octree() {}
@@ -58,7 +66,70 @@ NearestNeighborQueryResult3<T> Octree<T>::nearest(
     best.distance = kMaxD;
     best.item = nullptr;
 
-    return nearest(pt, distanceFunc, 0, _bbox, best);
+    // Prepare to traverse octree
+    std::stack<std::pair<const Node*, BoundingBox3D>> todo;
+
+    // Traverse octree nodes
+    const Node* node = _nodes.data();
+    BoundingBox3D bound = _bbox;
+    while (node != nullptr) {
+        if (node->isLeaf()) {
+            for (size_t itemIdx : node->items) {
+                double d = distanceFunc(_items[itemIdx], pt);
+                if (d < best.distance) {
+                    best.distance = d;
+                    best.item = &_items[itemIdx];
+                }
+            }
+
+            // Grab next node to process from todo stack
+            if (todo.empty()) {
+                break;
+            } else {
+                node = todo.top().first;
+                bound = todo.top().second;
+                todo.pop();
+            }
+        } else {
+            const double bestDistSqr = best.distance * best.distance;
+
+            typedef std::tuple<const Node*, double, BoundingBox3D> NodeDistBox;
+            std::array<NodeDistBox, 8> childDistSqrPairs;
+            const auto midPoint = bound.midPoint();
+            for (int i = 0; i < 8; ++i) {
+                const Node* child = &_nodes[node->firstChild + i];
+                const auto childBound =
+                        BoundingBox3D(bound.corner(i), midPoint);
+                Vector3D cp = childBound.clamp(pt);
+                double distMinSqr = cp.distanceSquaredTo(pt);
+
+                childDistSqrPairs[i] =
+                        std::make_tuple(child, distMinSqr, childBound);
+            }
+            std::sort(childDistSqrPairs.begin(), childDistSqrPairs.end(),
+                      [](const NodeDistBox& a, const NodeDistBox& b) {
+                          return std::get<1>(a) > std::get<1>(b);
+                      });
+
+            for (int i = 0; i < 8; ++i) {
+                const auto& childPair = childDistSqrPairs[i];
+                if (std::get<1>(childPair) < bestDistSqr) {
+                    todo.emplace(std::get<0>(childPair),
+                                 std::get<2>(childPair));
+                }
+            }
+
+            if (todo.empty()) {
+                break;
+            }
+
+            node = todo.top().first;
+            bound = todo.top().second;
+            todo.pop();
+        }
+    }
+
+    return best;
 }
 
 template <typename T>
@@ -183,43 +254,6 @@ void Octree<T>::build(size_t nodeIdx, size_t depth, const BoundingBox3D& bound,
             build(firstChild + i, depth + 1, bboxPerNode[i], testFunc);
         }
     }
-}
-
-template <typename T>
-NearestNeighborQueryResult3<T> Octree<T>::nearest(
-    const Vector3D& pt, const NearestNeighborDistanceFunc3<T>& distanceFunc,
-    size_t nodeIdx, const BoundingBox3D& bound,
-    NearestNeighborQueryResult3<T> best) const {
-    if (pt.x < bound.lowerCorner.x - best.distance ||
-        pt.x > bound.upperCorner.x + best.distance ||
-        pt.y < bound.lowerCorner.y - best.distance ||
-        pt.y > bound.upperCorner.y + best.distance ||
-        pt.z < bound.lowerCorner.z - best.distance ||
-        pt.z > bound.upperCorner.z + best.distance) {
-        return best;
-    }
-
-    const Node& node = _nodes[nodeIdx];
-
-    if (node.items.size() > 0) {
-        for (size_t itemIdx : node.items) {
-            double d = distanceFunc(_items[itemIdx], pt);
-            if (d < best.distance) {
-                best.distance = d;
-                best.item = &_items[itemIdx];
-            }
-        }
-    }
-
-    if (node.firstChild != kMaxSize) {
-        auto midPoint = bound.midPoint();
-        for (int i = 0; i < 8; ++i) {
-            best = nearest(pt, distanceFunc, node.firstChild + i,
-                           BoundingBox3D(bound.corner(i), midPoint), best);
-        }
-    }
-
-    return best;
 }
 
 template <typename T>

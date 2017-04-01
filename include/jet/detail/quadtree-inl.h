@@ -11,8 +11,16 @@
 #include <jet/quadtree.h>
 
 #include <numeric>
+#include <stack>
 
 namespace jet {
+
+template <typename T>
+bool Quadtree<T>::Node::isLeaf() const {
+    return firstChild == kMaxSize;
+}
+
+//
 
 template <typename T>
 Quadtree<T>::Quadtree() {}
@@ -31,8 +39,7 @@ void Quadtree<T>::build(const std::vector<T>& items, const BoundingBox2D& bound,
     // Normalize bounding box
     _bbox = bound;
     double maxEdgeLen = std::max(_bbox.width(), _bbox.height());
-    _bbox.upperCorner =
-        _bbox.lowerCorner + Vector2D(maxEdgeLen, maxEdgeLen);
+    _bbox.upperCorner = _bbox.lowerCorner + Vector2D(maxEdgeLen, maxEdgeLen);
 
     // Build
     _nodes.resize(1);
@@ -58,7 +65,70 @@ NearestNeighborQueryResult2<T> Quadtree<T>::nearest(
     best.distance = kMaxD;
     best.item = nullptr;
 
-    return nearest(pt, distanceFunc, 0, _bbox, best);
+    // Prepare to traverse octree
+    std::stack<std::pair<const Node*, BoundingBox2D>> todo;
+
+    // Traverse octree nodes
+    const Node* node = _nodes.data();
+    BoundingBox2D bound = _bbox;
+    while (node != nullptr) {
+        if (node->isLeaf()) {
+            for (size_t itemIdx : node->items) {
+                double d = distanceFunc(_items[itemIdx], pt);
+                if (d < best.distance) {
+                    best.distance = d;
+                    best.item = &_items[itemIdx];
+                }
+            }
+
+            // Grab next node to process from todo stack
+            if (todo.empty()) {
+                break;
+            } else {
+                node = todo.top().first;
+                bound = todo.top().second;
+                todo.pop();
+            }
+        } else {
+            const double bestDistSqr = best.distance * best.distance;
+
+            typedef std::tuple<const Node*, double, BoundingBox2D> NodeDistBox;
+            std::array<NodeDistBox, 4> childDistSqrPairs;
+            const auto midPoint = bound.midPoint();
+            for (int i = 0; i < 4; ++i) {
+                const Node* child = &_nodes[node->firstChild + i];
+                const auto childBound =
+                    BoundingBox2D(bound.corner(i), midPoint);
+                Vector2D cp = childBound.clamp(pt);
+                double distMinSqr = cp.distanceSquaredTo(pt);
+
+                childDistSqrPairs[i] =
+                    std::make_tuple(child, distMinSqr, childBound);
+            }
+            std::sort(childDistSqrPairs.begin(), childDistSqrPairs.end(),
+                      [](const NodeDistBox& a, const NodeDistBox& b) {
+                          return std::get<1>(a) > std::get<1>(b);
+                      });
+
+            for (int i = 0; i < 4; ++i) {
+                const auto& childPair = childDistSqrPairs[i];
+                if (std::get<1>(childPair) < bestDistSqr) {
+                    todo.emplace(std::get<0>(childPair),
+                                 std::get<2>(childPair));
+                }
+            }
+
+            if (todo.empty()) {
+                break;
+            }
+
+            node = todo.top().first;
+            bound = todo.top().second;
+            todo.pop();
+        }
+    }
+
+    return best;
 }
 
 template <typename T>
@@ -185,41 +255,6 @@ void Quadtree<T>::build(size_t nodeIdx, size_t depth,
             build(firstChild + i, depth + 1, bboxPerNode[i], testFunc);
         }
     }
-}
-
-template <typename T>
-NearestNeighborQueryResult2<T> Quadtree<T>::nearest(
-    const Vector2D& pt, const NearestNeighborDistanceFunc2<T>& distanceFunc,
-    size_t nodeIdx, const BoundingBox2D& bound,
-    NearestNeighborQueryResult2<T> best) const {
-    if (pt.x < bound.lowerCorner.x - best.distance ||
-        pt.x > bound.upperCorner.x + best.distance ||
-        pt.y < bound.lowerCorner.y - best.distance ||
-        pt.y > bound.upperCorner.y + best.distance) {
-        return best;
-    }
-
-    const Node& node = _nodes[nodeIdx];
-
-    if (node.items.size() > 0) {
-        for (size_t itemIdx : node.items) {
-            double d = distanceFunc(_items[itemIdx], pt);
-            if (d < best.distance) {
-                best.distance = d;
-                best.item = &_items[itemIdx];
-            }
-        }
-    }
-
-    if (node.firstChild != kMaxSize) {
-        auto midPoint = bound.midPoint();
-        for (int i = 0; i < 4; ++i) {
-            best = nearest(pt, distanceFunc, node.firstChild + i,
-                           BoundingBox2D(bound.corner(i), midPoint), best);
-        }
-    }
-
-    return best;
 }
 
 template <typename T>
