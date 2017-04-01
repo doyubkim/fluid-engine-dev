@@ -212,10 +212,10 @@ NearestNeighborQueryResult3<T> Octree<T>::nearest(
     }
 
     if (node.firstChild != kMaxSize) {
+        auto midPoint = bound.midPoint();
         for (int i = 0; i < 8; ++i) {
-            best =
-                nearest(pt, distanceFunc, node.firstChild + i,
-                        BoundingBox3D(bound.corner(i), bound.midPoint()), best);
+            best = nearest(pt, distanceFunc, node.firstChild + i,
+                           BoundingBox3D(bound.corner(i), midPoint), best);
         }
     }
 

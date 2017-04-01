@@ -27,6 +27,7 @@ set_target_properties(${target}
 )
 
 # Compile options
+
 target_compile_options(${target}
     PRIVATE
 
@@ -34,6 +35,10 @@ target_compile_options(${target}
     ${DEFAULT_COMPILE_OPTIONS}
 
     INTERFACE
+)
+target_compile_definitions(${target}
+    PRIVATE
+    RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../../resources/"
 )
 
 # Link libraries

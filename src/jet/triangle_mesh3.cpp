@@ -506,26 +506,6 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         },
         // triangular_face_geometric_vertices_texture_vertices_vertex_normals...
         [this](const obj::index_3_tuple_type& v0_vt0_vn0,
-<<<<<<< HEAD
-           const obj::index_3_tuple_type& v1_vt1_vn1,
-           const obj::index_3_tuple_type& v2_vt2_vn2) {
-            addPointUvNormalTriangle(
-                {
-                    std::get<0>(v0_vt0_vn0) - 1,
-                    std::get<0>(v1_vt1_vn1) - 1,
-                    std::get<0>(v2_vt2_vn2) - 1
-                },
-                {
-                    std::get<1>(v0_vt0_vn0) - 1,
-                    std::get<1>(v1_vt1_vn1) - 1,
-                    std::get<1>(v2_vt2_vn2) - 1
-                },
-                {
-                    std::get<2>(v0_vt0_vn0) - 1,
-                    std::get<2>(v1_vt1_vn1) - 1,
-                    std::get<2>(v2_vt2_vn2) - 1
-                });
-=======
                const obj::index_3_tuple_type& v1_vt1_vn1,
                const obj::index_3_tuple_type& v2_vt2_vn2) {
             addPointUvNormalTriangle(
@@ -535,7 +515,6 @@ bool TriangleMesh3::readObj(std::istream* strm) {
                  std::get<1>(v2_vt2_vn2) - 1},
                 {std::get<2>(v0_vt0_vn0) - 1, std::get<2>(v1_vt1_vn1) - 1,
                  std::get<2>(v2_vt2_vn2) - 1});
->>>>>>> Introducing spatial query engine
         },
         // quadrilateral_face_geometric_vertices_callback_type
         [](obj::index_type, obj::index_type, obj::index_type, obj::index_type) {
