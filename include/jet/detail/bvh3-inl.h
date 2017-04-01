@@ -122,8 +122,15 @@ NearestNeighborQueryResult3<T> Bvh3<T>::nearest(
             }
         } else {
             // get node children pointers for box
-            const Node* firstChild = node + 1;
-            const Node* secondChild = (Node*)&_nodes[node->child];
+            const Node* firstChild;
+            const Node* secondChild;
+            if (pt[node->flags] < (node + 1)->bound.upperCorner[node->flags]) {
+                firstChild = node + 1;
+                secondChild = (Node*)&_nodes[node->child];
+            } else {
+                firstChild = (Node*)&_nodes[node->child];
+                secondChild = node + 1;
+            }
 
             // advance to next child node, possibly enqueue other child
             if (!checkBound(firstChild->bound, best)) {
