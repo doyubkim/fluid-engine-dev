@@ -9,6 +9,7 @@
 
 #include <jet/bounding_box3.h>
 #include <jet/constants.h>
+
 #include <functional>
 
 namespace jet {

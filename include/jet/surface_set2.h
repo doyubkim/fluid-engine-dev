@@ -7,7 +7,9 @@
 #ifndef INCLUDE_JET_SURFACE_SET2_H_
 #define INCLUDE_JET_SURFACE_SET2_H_
 
+#include <jet/bvh2.h>
 #include <jet/surface2.h>
+
 #include <vector>
 
 namespace jet {
@@ -27,10 +29,9 @@ class SurfaceSet2 final : public Surface2 {
     SurfaceSet2();
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet2(
-        const std::vector<Surface2Ptr>& others,
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    explicit SurfaceSet2(const std::vector<Surface2Ptr>& others,
+                         const Transform2& transform = Transform2(),
+                         bool isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet2(const SurfaceSet2& other);
@@ -49,6 +50,8 @@ class SurfaceSet2 final : public Surface2 {
 
  private:
     std::vector<Surface2Ptr> _surfaces;
+    mutable Bvh2<Surface2Ptr> _bvh;
+    mutable bool _bvhInvalidated = true;
 
     // Surface2 implementations
 
@@ -64,6 +67,10 @@ class SurfaceSet2 final : public Surface2 {
 
     SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer for the SurfaceSet2 type.
