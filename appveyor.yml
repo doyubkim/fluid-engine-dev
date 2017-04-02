@@ -2,10 +2,10 @@ version: 1.0.4 ({build})
 
 environment:
   matrix:
-    - APPVEYOR_WORKER_IMAGE: Visual Studio 2015
-      GENERATOR: "Visual Studio 14 2015 Win64"
-    - APPVEYOR_WORKER_IMAGE: Visual Studio 2017
+    - os: Visual Studio 2017
       GENERATOR: "Visual Studio 15 2017 Win64"
+    - os: Visual Studio 2015
+      GENERATOR: "Visual Studio 14 2015 Win64"
 
 platform:
   - x64
@@ -19,6 +19,7 @@ install:
   - git submodule update --init
 
 before_build:
+  - echo "%GENERATOR%"
   - md c:\jet\build
   - cd c:\jet\build
   - cmake .. -G "%GENERATOR%"
