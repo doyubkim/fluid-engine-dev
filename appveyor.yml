@@ -1,11 +1,10 @@
+# Adopted from pbrt-v3
+
 version: 1.0.4 ({build})
 
-environment:
-  matrix:
-    - os: Visual Studio 2017
-      GENERATOR: "Visual Studio 15 2017 Win64"
-    - os: Visual Studio 2015
-      GENERATOR: "Visual Studio 14 2015 Win64"
+os:
+  - Visual Studio 2017
+  - Visual Studio 2015
 
 platform:
   - x64
@@ -16,13 +15,18 @@ configuration:
 clone_folder: c:\jet
 
 install:
+  # os detection
+  - ps: if ($env:VS150COMNTOOLS -gt 0) { $env:VS_VER = 15 } else { $env:VS_VER = 14 }
+  - echo %VS_VER%
+  - set PATH=C:\Program Files (x86)\MSBuild\%VS_VER%.0\Bin;%PATH%
+  - echo %PATH%
   - git submodule update --init
 
 before_build:
   - echo "%GENERATOR%"
   - md c:\jet\build
   - cd c:\jet\build
-  - cmake .. -G "%GENERATOR%"
+  - ps: if ($env:VS_VER -eq 15) {cmake -G "Visual Studio 15 2017 Win64" ..} else {cmake -G "Visual Studio 14 2015 Win64" ..}
 
 build:
   project: c:\jet\build\jet.sln
