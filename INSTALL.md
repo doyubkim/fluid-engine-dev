@@ -71,7 +71,7 @@ cd build
 cmake .. -G"Visual Studio 14 2015 Win64"
 ```
 
-This will generate 64-bit version of VS 2015 solution and projects. Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
+This will generate 64-bit version of VS 2015 solution and projects. (To build with Visual Studio 2017, just replace the parameter with `Visual Studio 15 2017 Win64`.) Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
 
 Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:
 
@@ -107,7 +107,7 @@ For Windows, run:
 cmake .. -G"Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
 ```
 
-Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lob` under `_INSTALL_PATH_`.
+Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lib` under `_INSTALL_PATH_`.
 
 ### Coding Style
 
