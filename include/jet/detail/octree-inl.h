@@ -29,8 +29,6 @@ template <typename T>
 void Octree<T>::build(const std::vector<T>& items, const BoundingBox3D& bound,
                       const BoxIntersectionTestFunc3<T>& testFunc,
                       size_t maxDepth) {
-    JET_ASSERT(items.size() == itemBounds.size());
-
     // Reset items
     _maxDepth = maxDepth;
     _items = items;

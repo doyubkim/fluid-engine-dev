@@ -76,7 +76,7 @@ void Bvh2<T>::clear() {
 }
 
 template <typename T>
-NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
+inline NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
     const Vector2D& pt,
     const NearestNeighborDistanceFunc2<T>& distanceFunc) const {
     NearestNeighborQueryResult2<T> best;
@@ -160,8 +160,8 @@ NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
 }
 
 template <typename T>
-bool Bvh2<T>::intersects(const BoundingBox2D& box,
-                         const BoxIntersectionTestFunc2<T>& testFunc) const {
+inline bool Bvh2<T>::intersects(const BoundingBox2D& box,
+                                const BoxIntersectionTestFunc2<T>& testFunc) const {
     if (!_bound.overlaps(box)) {
         return false;
     }
@@ -211,8 +211,8 @@ bool Bvh2<T>::intersects(const BoundingBox2D& box,
 }
 
 template <typename T>
-bool Bvh2<T>::intersects(const Ray2D& ray,
-                         const RayIntersectionTestFunc2<T>& testFunc) const {
+inline bool Bvh2<T>::intersects(const Ray2D& ray,
+                                const RayIntersectionTestFunc2<T>& testFunc) const {
     if (!_bound.intersects(ray)) {
         return false;
     }
@@ -269,7 +269,7 @@ bool Bvh2<T>::intersects(const Ray2D& ray,
 }
 
 template <typename T>
-void Bvh2<T>::forEachIntersectingItem(
+inline void Bvh2<T>::forEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
     const IntersectionVisitorFunc2<T>& visitorFunc) const {
     if (!_bound.overlaps(box)) {
@@ -319,7 +319,7 @@ void Bvh2<T>::forEachIntersectingItem(
 }
 
 template <typename T>
-void Bvh2<T>::forEachIntersectingItem(
+inline void Bvh2<T>::forEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
     const IntersectionVisitorFunc2<T>& visitorFunc) const {
     if (!_bound.intersects(ray)) {
@@ -376,7 +376,7 @@ void Bvh2<T>::forEachIntersectingItem(
 }
 
 template <typename T>
-ClosestIntersectionQueryResult2<T> Bvh2<T>::closestIntersection(
+inline ClosestIntersectionQueryResult2<T> Bvh2<T>::closestIntersection(
     const Ray2D& ray, const GetRayIntersectionFunc2<T>& testFunc) const {
     ClosestIntersectionQueryResult2<T> best;
     best.distance = kMaxD;

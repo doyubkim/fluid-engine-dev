@@ -29,8 +29,6 @@ template <typename T>
 void Quadtree<T>::build(const std::vector<T>& items, const BoundingBox2D& bound,
                         const BoxIntersectionTestFunc2<T>& testFunc,
                         size_t maxDepth) {
-    JET_ASSERT(items.size() == itemBounds.size());
-
     // Reset items
     _maxDepth = maxDepth;
     _items = items;

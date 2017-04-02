@@ -264,7 +264,7 @@ void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
-    JET_ASSERT(_pointIndices.size() == _uvs.size());
+    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
