@@ -16,7 +16,7 @@ clone_folder: c:\jet
 
 install:
   # os detection
-  - ps: if ($env:VS150COMNTOOLS -gt 0) { $env:VS_VER = 15 } else { $env:VS_VER = 14 }
+  - ps: if ($env:VS140COMNTOOLS -gt 0) { $env:VS_VER = 14 } else { $env:VS_VER = 15 }
   - echo %VS_VER%
   - set PATH=C:\Program Files (x86)\MSBuild\%VS_VER%.0\Bin;%PATH%
   - echo %PATH%
