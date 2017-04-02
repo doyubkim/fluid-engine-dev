@@ -61,7 +61,7 @@ bin/unit_tests
 
 ### Building from Windows
 
-To build the code on Windows, [CMake](https://cmake.org/) and Visual Studio 2015 is required. Windows' version of CMake is available from [this website](https://cmake.org/), and free version of VS 2015 also can be downloaded from [Visual Studio Community 2015](https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher recommended) to run post-build events.
+To build the code on Windows, [CMake](https://cmake.org/) and Visual Studio 2015 or higher is required. Windows' version of CMake is available from [this website](https://cmake.org/), and free version of VS 2015/2017 also can be downloaded from [Visual Studio Community](https://www.visualstudio.com/vs/community/). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher recommended) to run custom build events.
 
 Once everything is installed, run the following commands:
 
@@ -71,7 +71,7 @@ cd build
 cmake .. -G"Visual Studio 14 2015 Win64"
 ```
 
-This will generate 64-bit version of VS 2015 solution and projects. Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
+This will generate 64-bit version of VS 2015 solution and projects. Replace the option with `Visual Studio 15 2016 Win64` to build with VS 2017. Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
 
 Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:
 
@@ -107,7 +107,7 @@ For Windows, run:
 cmake .. -G"Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
 ```
 
-Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lob` under `_INSTALL_PATH_`.
+Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lib` under `_INSTALL_PATH_`.
 
 ### Coding Style
 
