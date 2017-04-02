@@ -1,17 +1,8 @@
 version: 1.0.4 ({build})
 
-environment:
-  matrix:
-    - os: Visual Studio 2015
-      before_build:
-        - cmd: md c:\jet\build
-        - cmd: cd c:\jet\build
-        - cmd: cmake .. -G "Visual Studio 14 2015 Win64"
-    - os: Visual Studio 2017
-      before_build:
-        - cmd: md c:\jet\build
-        - cmd: cd c:\jet\build
-        - cmd: cmake .. -G "Visual Studio 15 2017 Win64"
+os:
+  - Visual Studio 2015
+  - Visual Studio 2017
 
 platform:
   - x64
@@ -23,6 +14,11 @@ clone_folder: c:\jet
 
 install:
   - git submodule update --init
+
+before_build:
+  - md c:\jet\build
+  - cd c:\jet\build
+  - cmake ..
 
 build:
   project: c:\jet\build\jet.sln
