@@ -1,8 +1,17 @@
 version: 1.0.4 ({build})
 
-os:
-  - Visual Studio 2015
-  - Visual Studio 2017
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      before_build:
+        - md c:\jet\build
+        - cd c:\jet\build
+        - cmake .. -G "Visual Studio 14 2015 Win64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      before_build:
+        - md c:\jet\build
+        - cd c:\jet\build
+        - cmake .. -G "Visual Studio 15 2017 Win64"
 
 platform:
   - x64
@@ -13,13 +22,7 @@ configuration:
 clone_folder: c:\jet
 
 install:
-  - ps: if ($env:VS150COMNTOOLS -gt 0) { $env:VS_VERSION = 15 } else { $env:VS_VERSION = 14 }
   - git submodule update --init
-
-before_build:
-  - md c:\jet\build
-  - cd c:\jet\build
-  - ps: if ($env:VS_VERSION -eq 14) {cmake .. -G "Visual Studio 14 2015 Win64"} else {cmake .. -G "Visual Studio 15 2017 Win64"}
 
 build:
   project: c:\jet\build\jet.sln
