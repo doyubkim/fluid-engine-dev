@@ -71,7 +71,7 @@ cd build
 cmake .. -G"Visual Studio 14 2015 Win64"
 ```
 
-This will generate 64-bit version of VS 2015 solution and projects. (To use Visual Studio 2017, just replace the generator with `Visual Studio 15 2017`.) Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
+This will generate 64-bit version of VS 2015 solution and projects. (To build with Visual Studio 2017, just replace the parameter with `Visual Studio 15 2017 Win64`.) Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
 
 Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:
 
