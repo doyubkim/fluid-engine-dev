@@ -19,7 +19,7 @@ install:
 before_build:
   - md c:\jet\build
   - cd c:\jet\build
-  - ps: if ($env:VS_VER -eq 14) {cmake .. -G "Visual Studio 14 2015 Win64"} else {cmake .. -G "Visual Studio 15 2017 Win64"}
+  - ps: if ($env:VS_VERSION -eq 14) {cmake .. -G "Visual Studio 14 2015 Win64"} else {cmake .. -G "Visual Studio 15 2017 Win64"}
 
 build:
   project: c:\jet\build\jet.sln
