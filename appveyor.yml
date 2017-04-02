@@ -13,7 +13,7 @@ configuration:
 clone_folder: c:\jet
 
 install:
-  - ps: if ($env:VS140COMNTOOLS -gt 0) { $env:VS_VERSION = 14 } else { $env:VS_VERSION = 15 }
+  - ps: if ($env:VS150COMNTOOLS -gt 0) { $env:VS_VERSION = 15 } else { $env:VS_VERSION = 14 }
   - git submodule update --init
 
 before_build:
