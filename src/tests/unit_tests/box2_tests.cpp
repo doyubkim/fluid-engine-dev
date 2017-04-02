@@ -5,6 +5,7 @@
 // property of any third parties.
 
 #include <jet/box2.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -69,64 +70,46 @@ TEST(Box2, ClosestDistance) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 
     double result0 = box.closestDistance(Vector2D(-2, 4));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(-2, 4).distanceTo(Vector2D(-1, 3)),
-        result0);
+    EXPECT_DOUBLE_EQ(Vector2D(-2, 4).distanceTo(Vector2D(-1, 3)), result0);
 
     double result1 = box.closestDistance(Vector2D(1, 5));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(1, 5).distanceTo(Vector2D(1, 3)),
-        result1);
+    EXPECT_DOUBLE_EQ(Vector2D(1, 5).distanceTo(Vector2D(1, 3)), result1);
 
     double result2 = box.closestDistance(Vector2D(9, 5));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(9, 5).distanceTo(Vector2D(5, 3)),
-        result2);
+    EXPECT_DOUBLE_EQ(Vector2D(9, 5).distanceTo(Vector2D(5, 3)), result2);
 
     double result3 = box.closestDistance(Vector2D(-2, 2.4));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(-2, 2.4).distanceTo(Vector2D(-1, 2.4)),
-        result3);
+    EXPECT_DOUBLE_EQ(Vector2D(-2, 2.4).distanceTo(Vector2D(-1, 2.4)), result3);
 
     double result4 = box.closestDistance(Vector2D(1, 2.6));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(1, 2.6).distanceTo(Vector2D(1, 3)),
-        result4);
+    EXPECT_DOUBLE_EQ(Vector2D(1, 2.6).distanceTo(Vector2D(1, 3)), result4);
 
     double result5 = box.closestDistance(Vector2D(9, 2.2));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(9, 2.2).distanceTo(Vector2D(5, 2.2)),
-        result5);
+    EXPECT_DOUBLE_EQ(Vector2D(9, 2.2).distanceTo(Vector2D(5, 2.2)), result5);
 
     double result6 = box.closestDistance(Vector2D(-2, 1));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(-2, 1).distanceTo(Vector2D(-1, 2)),
-        result6);
+    EXPECT_DOUBLE_EQ(Vector2D(-2, 1).distanceTo(Vector2D(-1, 2)), result6);
 
     double result7 = box.closestDistance(Vector2D(1, 0));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(1, 0).distanceTo(Vector2D(1, 2)),
-        result7);
+    EXPECT_DOUBLE_EQ(Vector2D(1, 0).distanceTo(Vector2D(1, 2)), result7);
 
     double result8 = box.closestDistance(Vector2D(9, -1));
-    EXPECT_DOUBLE_EQ(
-        Vector2D(9, -1).distanceTo(Vector2D(5, 2)),
-        result8);
+    EXPECT_DOUBLE_EQ(Vector2D(9, -1).distanceTo(Vector2D(5, 2)), result8);
 }
 
 TEST(Box2, Intersects) {
     Box2 box(Vector2D(-1, 2), Vector2D(5, 3));
 
-    bool result0 = box.intersects(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
+    bool result0 =
+        box.intersects(Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0);
 
-    bool result1 = box.intersects(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
+    bool result1 =
+        box.intersects(Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1);
 
-    bool result2 = box.intersects(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
+    bool result2 =
+        box.intersects(Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
     EXPECT_FALSE(result2);
 }
 
@@ -136,13 +119,13 @@ TEST(Box2, ClosestIntersection) {
     SurfaceRayIntersection2 result0 = box.closestIntersection(
         Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.distance);
     EXPECT_EQ(Vector2D(0, 3), result0.point);
 
     SurfaceRayIntersection2 result1 = box.closestIntersection(
         Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.distance);
     EXPECT_EQ(Vector2D(0.5, 2), result1.point);
 
     SurfaceRayIntersection2 result2 = box.closestIntersection(
@@ -176,9 +159,10 @@ TEST(Box2, ClosestNormal) {
 }
 
 TEST(Box2, Builder) {
-    Box2 box = Box2::builder().withLowerCorner({-3.0, -2.0})
-                              .withUpperCorner({5.0, 4.0})
-                              .build();
+    Box2 box = Box2::builder()
+                   .withLowerCorner({-3.0, -2.0})
+                   .withUpperCorner({5.0, 4.0})
+                   .build();
 
     EXPECT_EQ(Vector2D(-3.0, -2.0), box.bound.lowerCorner);
     EXPECT_EQ(Vector2D(5.0, 4.0), box.bound.upperCorner);

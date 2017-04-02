@@ -5,56 +5,44 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/box2.h>
 #include <jet/cylinder3.h>
 #include <jet/plane3.h>
 
 using namespace jet;
 
-Cylinder3::Cylinder3(
-    const Transform3& transform,
-    bool isNormalFlipped)
-: Surface3(transform, isNormalFlipped) {
-}
+Cylinder3::Cylinder3(const Transform3& transform, bool isNormalFlipped)
+    : Surface3(transform, isNormalFlipped) {}
 
-Cylinder3::Cylinder3(
-    const Vector3D& center_,
-    double radius_,
-    double height_,
-    const Transform3& transform,
-    bool isNormalFlipped)
-: Surface3(transform, isNormalFlipped)
-, center(center_)
-, radius(radius_)
-, height(height_) {
-}
+Cylinder3::Cylinder3(const Vector3D& center_, double radius_, double height_,
+                     const Transform3& transform, bool isNormalFlipped)
+    : Surface3(transform, isNormalFlipped),
+      center(center_),
+      radius(radius_),
+      height(height_) {}
 
-Cylinder3::Cylinder3(const Cylinder3& other) :
-    Surface3(other),
-    center(other.center),
-    radius(other.radius),
-    height(other.height) {
-}
+Cylinder3::Cylinder3(const Cylinder3& other)
+    : Surface3(other),
+      center(other.center),
+      radius(other.radius),
+      height(other.height) {}
 
 Vector3D Cylinder3::closestPointLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(
-        Vector2D(-radius, -0.5 * height),
-        Vector2D(radius, 0.5 * height));
+    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
 
     Vector2D cp = box.closestPoint(rr);
     double angle = std::atan2(r.z, r.x);
-    return Vector3D(
-        cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle)) + center;
+    return Vector3D(cp.x * std::cos(angle), cp.y, cp.x * std::sin(angle)) +
+           center;
 }
 
 double Cylinder3::closestDistanceLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(
-        Vector2D(-radius, -0.5 * height),
-        Vector2D(radius, 0.5 * height));
+    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
 
     return box.closestDistance(rr);
 }
@@ -62,9 +50,7 @@ double Cylinder3::closestDistanceLocal(const Vector3D& otherPoint) const {
 Vector3D Cylinder3::closestNormalLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - center;
     Vector2D rr(std::sqrt(r.x * r.x + r.z * r.z), r.y);
-    Box2 box(
-        Vector2D(-radius, -0.5 * height),
-        Vector2D(radius, 0.5 * height));
+    Box2 box(Vector2D(-radius, -0.5 * height), Vector2D(radius, 0.5 * height));
 
     Vector2D cn = box.closestNormal(rr);
     if (cn.y > 0) {
@@ -88,7 +74,7 @@ bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
     double C = o.lengthSquared() - square(radius);
 
     BoundingBox3D bbox = boundingBox();
-    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
+    Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
     Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
 
     SurfaceRayIntersection3 upperIntersection =
@@ -98,13 +84,13 @@ bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
         lowerPlane.closestIntersection(ray);
 
     // In case the ray does not intersect with infinite cylinder
-    if (A < kEpsilonD || B*B - A*C < 0.0) {
+    if (A < kEpsilonD || B * B - A * C < 0.0) {
         // Check if the ray is inside the infinite cylinder
         Vector3D r = ray.origin - center;
         Vector2D rr(r.x, r.z);
         if (rr.lengthSquared() <= square(radius)) {
-            if (upperIntersection.isIntersecting
-                || lowerIntersection.isIntersecting) {
+            if (upperIntersection.isIntersecting ||
+                lowerIntersection.isIntersecting) {
                 return true;
             }
         }
@@ -112,8 +98,8 @@ bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
         return false;
     }
 
-    double t1 = (-B + std::sqrt(B*B - A*C)) / A;
-    double t2 = (-B - std::sqrt(B*B - A*C)) / A;
+    double t1 = (-B + std::sqrt(B * B - A * C)) / A;
+    double t2 = (-B - std::sqrt(B * B - A * C)) / A;
     double tCylinder = t2;
 
     if (t2 < 0.0) {
@@ -122,8 +108,8 @@ bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
 
     Vector3D pointOnCylinder = ray.pointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height
-        || pointOnCylinder.y <= center.y + 0.5 * height) {
+    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+        pointOnCylinder.y <= center.y + 0.5 * height) {
         return true;
     }
 
@@ -161,7 +147,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
     double C = o.lengthSquared() - square(radius);
 
     BoundingBox3D bbox = boundingBox();
-    Plane3 upperPlane(Vector3D(0,  1, 0), bbox.upperCorner);
+    Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
     Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
 
     SurfaceRayIntersection3 upperIntersection =
@@ -170,11 +156,11 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
     SurfaceRayIntersection3 lowerIntersection =
         lowerPlane.closestIntersection(ray);
 
-    intersection.t = kMaxD;
+    intersection.distance = kMaxD;
     intersection.isIntersecting = false;
 
     // In case the ray does not intersect with infinite cylinder
-    if (A < kEpsilonD || B*B - A*C < 0.0) {
+    if (A < kEpsilonD || B * B - A * C < 0.0) {
         // Check if the ray is inside the infinite cylinder
         Vector3D r = ray.origin - center;
         Vector2D rr(r.x, r.z);
@@ -182,8 +168,8 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
             if (upperIntersection.isIntersecting) {
                 intersection = upperIntersection;
             }
-            if (lowerIntersection.isIntersecting
-                && lowerIntersection.t < intersection.t) {
+            if (lowerIntersection.isIntersecting &&
+                lowerIntersection.distance < intersection.distance) {
                 intersection = lowerIntersection;
             }
         }
@@ -191,8 +177,8 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
         return intersection;
     }
 
-    double t1 = (-B + std::sqrt(B*B - A*C)) / A;
-    double t2 = (-B - std::sqrt(B*B - A*C)) / A;
+    double t1 = (-B + std::sqrt(B * B - A * C)) / A;
+    double t2 = (-B - std::sqrt(B * B - A * C)) / A;
     double tCylinder = t2;
 
     if (t2 < 0.0) {
@@ -201,10 +187,10 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
 
     Vector3D pointOnCylinder = ray.pointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height
-        || pointOnCylinder.y <= center.y + 0.5 * height) {
+    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+        pointOnCylinder.y <= center.y + 0.5 * height) {
         intersection.isIntersecting = true;
-        intersection.t = tCylinder;
+        intersection.distance = tCylinder;
         intersection.point = pointOnCylinder;
         intersection.normal = pointOnCylinder - center;
         intersection.normal.y = 0.0;
@@ -216,7 +202,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
         r.y = 0.0;
         if (r.lengthSquared() > square(radius)) {
             upperIntersection.isIntersecting = false;
-        } else if (upperIntersection.t < intersection.t) {
+        } else if (upperIntersection.distance < intersection.distance) {
             intersection = upperIntersection;
         }
     }
@@ -226,7 +212,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
         r.y = 0.0;
         if (r.lengthSquared() > square(radius)) {
             lowerIntersection.isIntersecting = false;
-        } else if (lowerIntersection.t < intersection.t) {
+        } else if (lowerIntersection.distance < intersection.distance) {
             intersection = lowerIntersection;
         }
     }
@@ -235,14 +221,11 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
 }
 
 BoundingBox3D Cylinder3::boundingBoxLocal() const {
-    return BoundingBox3D(
-        center - Vector3D(radius, 0.5 * height, radius),
-        center + Vector3D(radius, 0.5 * height, radius));
+    return BoundingBox3D(center - Vector3D(radius, 0.5 * height, radius),
+                         center + Vector3D(radius, 0.5 * height, radius));
 }
 
-Cylinder3::Builder Cylinder3::builder() {
-    return Builder();
-}
+Cylinder3::Builder Cylinder3::builder() { return Builder(); }
 
 Cylinder3::Builder& Cylinder3::Builder::withCenter(const Vector3D& center) {
     _center = center;
@@ -265,13 +248,6 @@ Cylinder3 Cylinder3::Builder::build() const {
 
 Cylinder3Ptr Cylinder3::Builder::makeShared() const {
     return std::shared_ptr<Cylinder3>(
-        new Cylinder3(
-            _center,
-            _radius,
-            _height,
-            _transform,
-            _isNormalFlipped),
-        [] (Cylinder3* obj) {
-            delete obj;
-        });
+        new Cylinder3(_center, _radius, _height, _transform, _isNormalFlipped),
+        [](Cylinder3* obj) { delete obj; });
 }

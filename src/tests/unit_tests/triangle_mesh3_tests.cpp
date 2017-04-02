@@ -4,8 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <unit_tests_utils.h>
+
 #include <jet/triangle_mesh3.h>
-#include <gtest/gtest.h>
 
 using namespace jet;
 
@@ -15,6 +16,179 @@ TEST(TriangleMesh3, Constructors) {
     EXPECT_EQ(0u, mesh1.numberOfNormals());
     EXPECT_EQ(0u, mesh1.numberOfUvs());
     EXPECT_EQ(0u, mesh1.numberOfTriangles());
+}
+
+TEST(TriangleMesh3, ReadObj) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    EXPECT_EQ(56u, mesh.numberOfPoints());
+    EXPECT_EQ(96u, mesh.numberOfNormals());
+    EXPECT_EQ(76u, mesh.numberOfUvs());
+    EXPECT_EQ(108u, mesh.numberOfTriangles());
+}
+
+TEST(TriangleMesh3, ClosestPoint) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    const auto bruteForceSearch = [&](const Vector3D& pt) {
+        double minDist2 = kMaxD;
+        Vector3D result;
+        for (size_t i = 0; i < mesh.numberOfTriangles(); ++i) {
+            Triangle3 tri = mesh.triangle(i);
+            auto localResult = tri.closestPoint(pt);
+            double localDist2 = pt.distanceSquaredTo(localResult);
+            if (localDist2 < minDist2) {
+                minDist2 = localDist2;
+                result = localResult;
+            }
+        }
+        return result;
+    };
+
+    size_t numSamples = getNumberOfSamplePoints3();
+    for (size_t i = 0; i < numSamples; ++i) {
+        auto actual = mesh.closestPoint(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
+        EXPECT_VECTOR3_EQ(expected, actual);
+    }
+}
+
+TEST(TriangleMesh3, ClosestNormal) {
+    std::string objStr = getSphereTriMesh5x5Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    const auto bruteForceSearch = [&](const Vector3D& pt) {
+        double minDist2 = kMaxD;
+        Vector3D result;
+        for (size_t i = 0; i < mesh.numberOfTriangles(); ++i) {
+            Triangle3 tri = mesh.triangle(i);
+            auto localResult = tri.closestNormal(pt);
+            auto closestPt = tri.closestPoint(pt);
+            double localDist2 = pt.distanceSquaredTo(closestPt);
+            if (localDist2 < minDist2) {
+                minDist2 = localDist2;
+                result = localResult;
+            }
+        }
+        return result;
+    };
+
+    size_t numSamples = getNumberOfSamplePoints3();
+    for (size_t i = 0; i < numSamples; ++i) {
+        auto actual = mesh.closestNormal(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
+        EXPECT_VECTOR3_NEAR(expected, actual, 1e-9);
+    }
+}
+
+TEST(TriangleMesh3, ClosestDistance) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    const auto bruteForceSearch = [&](const Vector3D& pt) {
+        double minDist = kMaxD;
+        for (size_t i = 0; i < mesh.numberOfTriangles(); ++i) {
+            Triangle3 tri = mesh.triangle(i);
+            auto localResult = tri.closestDistance(pt);
+            if (localResult < minDist) {
+                minDist = localResult;
+            }
+        }
+        return minDist;
+    };
+
+    size_t numSamples = getNumberOfSamplePoints3();
+    for (size_t i = 0; i < numSamples; ++i) {
+        auto actual = mesh.closestDistance(getSamplePoints3()[i]);
+        auto expected = bruteForceSearch(getSamplePoints3()[i]);
+        EXPECT_DOUBLE_EQ(expected, actual);
+    }
+}
+
+
+TEST(TriangleMesh3, Intersects) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    size_t numSamples = getNumberOfSamplePoints3();
+
+    const auto bruteForceTest = [&](const Ray3D& ray) {
+        for (size_t i = 0; i < mesh.numberOfTriangles(); ++i) {
+            Triangle3 tri = mesh.triangle(i);
+            if (tri.intersects(ray)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    for (size_t i = 0; i < numSamples; ++i) {
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
+        bool actual = mesh.intersects(ray);
+        bool expected = bruteForceTest(ray);
+        EXPECT_EQ(expected, actual);
+    }
+}
+
+TEST(TriangleMesh3, ClosestIntersection) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    size_t numSamples = getNumberOfSamplePoints3();
+
+    const auto bruteForceTest = [&](const Ray3D& ray) {
+        SurfaceRayIntersection3 result{};
+        for (size_t i = 0; i < mesh.numberOfTriangles(); ++i) {
+            Triangle3 tri = mesh.triangle(i);
+            auto localResult = tri.closestIntersection(ray);
+            if (localResult.distance < result.distance) {
+                result = localResult;
+            }
+        }
+        return result;
+    };
+
+    for (size_t i = 0; i < numSamples; ++i) {
+        Ray3D ray(getSamplePoints3()[i], getSampleDirs3()[i]);
+        auto actual = mesh.closestIntersection(ray);
+        auto expected = bruteForceTest(ray);
+        EXPECT_DOUBLE_EQ(expected.distance, actual.distance);
+        EXPECT_VECTOR3_EQ(expected.point, actual.point);
+        EXPECT_VECTOR3_EQ(expected.normal, actual.normal);
+        EXPECT_EQ(expected.isIntersecting, actual.isIntersecting);
+    }
+}
+
+TEST(TriangleMesh3, BoundingBox) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    EXPECT_BOUNDING_BOX3_EQ(
+        BoundingBox3D({-0.5, -0.5, -0.5}, {0.5, 0.5, 0.5}),
+        mesh.boundingBox());
 }
 
 TEST(TriangleMesh3, Builder) {

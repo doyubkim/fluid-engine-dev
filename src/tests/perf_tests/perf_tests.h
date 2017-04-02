@@ -35,7 +35,7 @@ std::pair<double, std::string> makeReadableByteSize(size_t bytes);
 
 #define JET_PRINT_INFO(fmt, ...) \
     testing::internal::ColoredPrintf( \
-        testing::internal::COLOR_YELLOW,  "[ STAT     ] "); \
+        testing::internal::COLOR_YELLOW,  "[   STAT   ] "); \
     testing::internal::ColoredPrintf( \
         testing::internal::COLOR_YELLOW, fmt, __VA_ARGS__); \
 

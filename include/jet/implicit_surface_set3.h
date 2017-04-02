@@ -7,7 +7,9 @@
 #ifndef INCLUDE_JET_IMPLICIT_SURFACE_SET3_H_
 #define INCLUDE_JET_IMPLICIT_SURFACE_SET3_H_
 
+#include <jet/bvh3.h>
 #include <jet/implicit_surface3.h>
+
 #include <vector>
 
 namespace jet {
@@ -27,16 +29,14 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     ImplicitSurfaceSet3();
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet3(
-        const std::vector<ImplicitSurface3Ptr>& surfaces,
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    ImplicitSurfaceSet3(const std::vector<ImplicitSurface3Ptr>& surfaces,
+                        const Transform3& transform = Transform3(),
+                        bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet3(
-        const std::vector<Surface3Ptr>& surfaces,
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    ImplicitSurfaceSet3(const std::vector<Surface3Ptr>& surfaces,
+                        const Transform3& transform = Transform3(),
+                        bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other);
@@ -58,6 +58,8 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
 
  private:
     std::vector<ImplicitSurface3Ptr> _surfaces;
+    mutable Bvh3<ImplicitSurface3Ptr> _bvh;
+    mutable bool _bvhInvalidated = true;
 
     // Surface3 implementations
 
@@ -77,11 +79,14 @@ class ImplicitSurfaceSet3 final : public ImplicitSurface3 {
     // ImplicitSurface3 implementations
 
     double signedDistanceLocal(const Vector3D& otherPoint) const override;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer type for the ImplicitSurfaceSet3.
 typedef std::shared_ptr<ImplicitSurfaceSet3> ImplicitSurfaceSet3Ptr;
-
 
 //!
 //! \brief Front-end to create ImplicitSurfaceSet3 objects step by step.
@@ -93,8 +98,7 @@ class ImplicitSurfaceSet3::Builder final
     Builder& withSurfaces(const std::vector<ImplicitSurface3Ptr>& surfaces);
 
     //! Returns builder with explicit surfaces.
-    Builder& withExplicitSurfaces(
-        const std::vector<Surface3Ptr>& surfaces);
+    Builder& withExplicitSurfaces(const std::vector<Surface3Ptr>& surfaces);
 
     //! Builds ImplicitSurfaceSet3.
     ImplicitSurfaceSet3 build() const;

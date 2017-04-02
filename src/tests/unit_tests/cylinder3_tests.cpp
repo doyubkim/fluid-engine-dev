@@ -5,8 +5,8 @@
 // property of any third parties.
 
 #include <jet/cylinder3.h>
+
 #include <gtest/gtest.h>
-#include <limits>
 
 using namespace jet;
 
@@ -104,15 +104,15 @@ TEST(Cylinder3, closestIntersection) {
 
     auto result1 = cyl.closestIntersection(Ray3D({7, 2, 3}, {-1, 0, 0}));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(2.0, result1.t);
+    EXPECT_DOUBLE_EQ(2.0, result1.distance);
 
     auto result2 = cyl.closestIntersection(Ray3D({1, 6, 2}, {0, -1, 0}));
     EXPECT_TRUE(result2.isIntersecting);
-    EXPECT_DOUBLE_EQ(1.0, result2.t);
+    EXPECT_DOUBLE_EQ(1.0, result2.distance);
 
     auto result3 = cyl.closestIntersection(Ray3D({1, 2, 3}, {0, 1, 0}));
     EXPECT_TRUE(result3.isIntersecting);
-    EXPECT_DOUBLE_EQ(3.0, result3.t);
+    EXPECT_DOUBLE_EQ(3.0, result3.distance);
 
     auto result4 = cyl.closestIntersection(Ray3D({6, -5, 3}, {0, 0, 1}));
     EXPECT_FALSE(result4.isIntersecting);
@@ -156,10 +156,10 @@ TEST(Cylinder3, ClosestNormal) {
 
 TEST(Cylinder3, Builder) {
     Cylinder3 cyl2 = Cylinder3::builder()
-        .withCenter({1, 2, 3})
-        .withRadius(4.0)
-        .withHeight(5.0)
-        .build();
+                         .withCenter({1, 2, 3})
+                         .withRadius(4.0)
+                         .withHeight(5.0)
+                         .build();
 
     EXPECT_FALSE(cyl2.isNormalFlipped);
     EXPECT_DOUBLE_EQ(1.0, cyl2.center.x);

@@ -8,12 +8,13 @@
 #define INCLUDE_JET_TRIANGLE_MESH3_H_
 
 #include <jet/array1.h>
+#include <jet/bvh3.h>
 #include <jet/point3.h>
 #include <jet/quaternion.h>
 #include <jet/surface3.h>
 #include <jet/triangle3.h>
+
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
@@ -206,6 +207,13 @@ class TriangleMesh3 final : public Surface3 {
     IndexArray _pointIndices;
     IndexArray _normalIndices;
     IndexArray _uvIndices;
+
+    mutable Bvh3<size_t> _bvh;
+    mutable bool _bvhInvalidated = true;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.

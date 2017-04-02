@@ -31,6 +31,8 @@
 #include <jet/bounding_box3.h>
 #include <jet/box2.h>
 #include <jet/box3.h>
+#include <jet/bvh2.h>
+#include <jet/bvh3.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/cell_centered_vector_grid2.h>
@@ -117,6 +119,8 @@
 #include <jet/implicit_surface_set2.h>
 #include <jet/implicit_surface_set3.h>
 #include <jet/implicit_triangle_mesh3.h>
+#include <jet/intersection_query_engine2.h>
+#include <jet/intersection_query_engine3.h>
 #include <jet/iterative_level_set_solver2.h>
 #include <jet/iterative_level_set_solver3.h>
 #include <jet/jet.h>
@@ -125,6 +129,8 @@
 #include <jet/level_set_solver2.h>
 #include <jet/level_set_solver3.h>
 #include <jet/level_set_utils.h>
+#include <jet/list_query_engine2.h>
+#include <jet/list_query_engine3.h>
 #include <jet/logging.h>
 #include <jet/macros.h>
 #include <jet/marching_cubes.h>
@@ -133,6 +139,9 @@
 #include <jet/matrix2x2.h>
 #include <jet/matrix3x3.h>
 #include <jet/matrix4x4.h>
+#include <jet/nearest_neighbor_query_engine2.h>
+#include <jet/nearest_neighbor_query_engine3.h>
+#include <jet/octree.h>
 #include <jet/parallel.h>
 #include <jet/particle_emitter2.h>
 #include <jet/particle_emitter3.h>
@@ -165,6 +174,7 @@
 #include <jet/point_particle_emitter3.h>
 #include <jet/point_simple_list_searcher2.h>
 #include <jet/point_simple_list_searcher3.h>
+#include <jet/quadtree.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
 #include <jet/ray2.h>

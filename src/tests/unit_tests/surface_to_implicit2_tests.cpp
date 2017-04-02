@@ -6,6 +6,7 @@
 
 #include <jet/box2.h>
 #include <jet/surface_to_implicit2.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -53,16 +54,16 @@ TEST(SurfaceToImplicit2, Intersects) {
     auto box = std::make_shared<Box2>(BoundingBox2D({-1, 2}, {5, 3}));
     SurfaceToImplicit2 s2i(box);
 
-    bool result0 = s2i.intersects(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
+    bool result0 =
+        s2i.intersects(Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0);
 
-    bool result1 = s2i.intersects(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
+    bool result1 =
+        s2i.intersects(Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1);
 
-    bool result2 = s2i.intersects(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
+    bool result2 =
+        s2i.intersects(Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
     EXPECT_FALSE(result2);
 }
 
@@ -73,13 +74,13 @@ TEST(SurfaceToImplicit2, ClosestIntersection) {
     SurfaceRayIntersection2 result0 = s2i.closestIntersection(
         Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.distance);
     EXPECT_EQ(Vector2D(0, 3), result0.point);
 
     SurfaceRayIntersection2 result1 = s2i.closestIntersection(
         Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.distance);
     EXPECT_EQ(Vector2D(0.5, 2), result1.point);
 
     SurfaceRayIntersection2 result2 = s2i.closestIntersection(

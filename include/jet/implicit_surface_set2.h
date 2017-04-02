@@ -7,7 +7,9 @@
 #ifndef INCLUDE_JET_IMPLICIT_SURFACE_SET2_H_
 #define INCLUDE_JET_IMPLICIT_SURFACE_SET2_H_
 
+#include <jet/bvh2.h>
 #include <jet/implicit_surface2.h>
+
 #include <vector>
 
 namespace jet {
@@ -27,16 +29,14 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     ImplicitSurfaceSet2();
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(
-        const std::vector<ImplicitSurface2Ptr>& surfaces,
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    ImplicitSurfaceSet2(const std::vector<ImplicitSurface2Ptr>& surfaces,
+                        const Transform2& transform = Transform2(),
+                        bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(
-        const std::vector<Surface2Ptr>& surfaces,
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces,
+                        const Transform2& transform = Transform2(),
+                        bool isNormalFlipped = false);
 
     //! Copy constructor.
     ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
@@ -58,6 +58,8 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
 
  private:
     std::vector<ImplicitSurface2Ptr> _surfaces;
+    mutable Bvh2<ImplicitSurface2Ptr> _bvh;
+    mutable bool _bvhInvalidated = true;
 
     // Surface2 implementations
 
@@ -77,11 +79,14 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     // ImplicitSurface2 implementations
 
     double signedDistanceLocal(const Vector2D& otherPoint) const override;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer type for the ImplicitSurfaceSet2.
 typedef std::shared_ptr<ImplicitSurfaceSet2> ImplicitSurfaceSet2Ptr;
-
 
 //!
 //! \brief Front-end to create ImplicitSurfaceSet2 objects step by step.
@@ -93,8 +98,7 @@ class ImplicitSurfaceSet2::Builder final
     Builder& withSurfaces(const std::vector<ImplicitSurface2Ptr>& surfaces);
 
     //! Returns builder with explicit surfaces.
-    Builder& withExplicitSurfaces(
-        const std::vector<Surface2Ptr>& surfaces);
+    Builder& withExplicitSurfaces(const std::vector<Surface2Ptr>& surfaces);
 
     //! Builds ImplicitSurfaceSet2.
     ImplicitSurfaceSet2 build() const;

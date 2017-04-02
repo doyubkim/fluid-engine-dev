@@ -18,11 +18,11 @@ TEST(Transform3, Constructors) {
     EXPECT_EQ(Vector3D(), t1.translation());
     EXPECT_EQ(0.0, t1.orientation().angle());
 
-    Transform3 t2({2.0, -5.0, 1.0}, QuaternionD({0.0, 1.0, 0.0}, kQuaterPiD));
+    Transform3 t2({2.0, -5.0, 1.0}, QuaternionD({0.0, 1.0, 0.0}, kQuarterPiD));
 
     EXPECT_EQ(Vector3D(2.0, -5.0, 1.0), t2.translation());
     EXPECT_EQ(Vector3D(0.0, 1.0, 0.0), t2.orientation().axis());
-    EXPECT_DOUBLE_EQ(kQuaterPiD, t2.orientation().angle());
+    EXPECT_DOUBLE_EQ(kQuarterPiD, t2.orientation().angle());
 }
 
 TEST(Transform3, Transform) {

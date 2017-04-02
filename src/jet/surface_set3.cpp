@@ -5,33 +5,25 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/surface_set3.h>
 
-#include <algorithm>
-#include <limits>
-#include <vector>
+#include <jet/surface_set3.h>
 
 using namespace jet;
 
-SurfaceSet3::SurfaceSet3() {
-}
+SurfaceSet3::SurfaceSet3() {}
 
-SurfaceSet3::SurfaceSet3(
-    const std::vector<Surface3Ptr>& others,
-    const Transform3& transform,
-    bool isNormalFlipped)
-: Surface3(transform, isNormalFlipped)
-, _surfaces(others) {
+SurfaceSet3::SurfaceSet3(const std::vector<Surface3Ptr>& others,
+                         const Transform3& transform, bool isNormalFlipped)
+    : Surface3(transform, isNormalFlipped), _surfaces(others) {
+    invalidateBvh();
 }
 
 SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
-: Surface3(other)
-, _surfaces(other._surfaces) {
+    : Surface3(other), _surfaces(other._surfaces) {
+    invalidateBvh();
 }
 
-size_t SurfaceSet3::numberOfSurfaces() const {
-    return _surfaces.size();
-}
+size_t SurfaceSet3::numberOfSurfaces() const { return _surfaces.size(); }
 
 const Surface3Ptr& SurfaceSet3::surfaceAt(size_t i) const {
     return _surfaces[i];
@@ -39,103 +31,100 @@ const Surface3Ptr& SurfaceSet3::surfaceAt(size_t i) const {
 
 void SurfaceSet3::addSurface(const Surface3Ptr& surface) {
     _surfaces.push_back(surface);
+    invalidateBvh();
 }
 
 Vector3D SurfaceSet3::closestPointLocal(const Vector3D& otherPoint) const {
-    Vector3D result(
-        std::numeric_limits<double>::max(),
-        std::numeric_limits<double>::max(),
-        std::numeric_limits<double>::max());
+    buildBvh();
 
-    double minimumDistance = std::numeric_limits<double>::max();
+    const auto distanceFunc = [](const Surface3Ptr& surface,
+                                 const Vector3D& pt) {
+        return surface->closestDistance(pt);
+    };
 
-    for (const auto& surface : _surfaces) {
-        Vector3D localClosestPoint = surface->closestPoint(otherPoint);
-        double localDistance = surface->closestDistance(otherPoint);
-
-        if (localDistance < minimumDistance) {
-            result = localClosestPoint;
-            minimumDistance = localDistance;
-        }
-    }
-
-    return result;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+    return (*queryResult.item)->closestPoint(otherPoint);
 }
 
 Vector3D SurfaceSet3::closestNormalLocal(const Vector3D& otherPoint) const {
-    Vector3D result(1, 0, 0);
+    buildBvh();
 
-    double minimumDistance = std::numeric_limits<double>::max();
+    const auto distanceFunc = [](const Surface3Ptr& surface,
+                                 const Vector3D& pt) {
+        return surface->closestDistance(pt);
+    };
 
-    for (const auto& surface : _surfaces) {
-        Vector3D localClosestNormal = surface->closestNormal(otherPoint);
-        double localDistance = surface->closestDistance(otherPoint);
-
-        if (localDistance < minimumDistance) {
-            result = localClosestNormal;
-            minimumDistance = localDistance;
-        }
-    }
-
-    return result;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+    return (*queryResult.item)->closestNormal(otherPoint);
 }
 
 double SurfaceSet3::closestDistanceLocal(const Vector3D& otherPoint) const {
-    double minimumDistance = std::numeric_limits<double>::max();
+    buildBvh();
 
-    for (const auto& surface : _surfaces) {
-        double localDistance = surface->closestDistance(otherPoint);
+    const auto distanceFunc = [](const Surface3Ptr& surface,
+                                 const Vector3D& pt) {
+        return surface->closestDistance(pt);
+    };
 
-        minimumDistance = std::min(minimumDistance, localDistance);
-    }
-
-    return minimumDistance;
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+    return queryResult.distance;
 }
 
 bool SurfaceSet3::intersectsLocal(const Ray3D& ray) const {
-    for (const auto& surface : _surfaces) {
-        if (surface->intersects(ray)) {
-            return true;
-        }
-    }
+    buildBvh();
 
-    return false;
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
+        return surface->intersects(ray);
+    };
+
+    return _bvh.intersects(ray, testFunc);
 }
 
 SurfaceRayIntersection3 SurfaceSet3::closestIntersectionLocal(
     const Ray3D& ray) const {
-    SurfaceRayIntersection3 intersection;
-    double tMin = std::numeric_limits<double>::max();
+    buildBvh();
 
-    for (const auto& surface : _surfaces) {
-        SurfaceRayIntersection3 localResult =
-            surface->closestIntersection(ray);
+    const auto testFunc = [](const Surface3Ptr& surface, const Ray3D& ray) {
+        SurfaceRayIntersection3 result = surface->closestIntersection(ray);
+        return result.distance;
+    };
 
-        if (localResult.isIntersecting && localResult.t < tMin) {
-            intersection = localResult;
-            tMin = localResult.t;
-        }
+    const auto queryResult = _bvh.closestIntersection(ray, testFunc);
+    SurfaceRayIntersection3 result;
+    result.distance = queryResult.distance;
+    result.isIntersecting = queryResult.item != nullptr;
+    if (queryResult.item != nullptr) {
+        result.point = ray.pointAt(queryResult.distance);
+        result.normal = (*queryResult.item)->closestNormal(result.point);
     }
-
-    return intersection;
+    return result;
 }
 
 BoundingBox3D SurfaceSet3::boundingBoxLocal() const {
-    BoundingBox3D bbox;
-    for (const auto& surface : _surfaces) {
-        bbox.merge(surface->boundingBox());
+    buildBvh();
+
+    return _bvh.boundingBox();
+}
+
+void SurfaceSet3::invalidateBvh() { _bvhInvalidated = true; }
+
+void SurfaceSet3::buildBvh() const {
+    if (_bvhInvalidated) {
+        std::vector<BoundingBox3D> bounds(_surfaces.size());
+        for (size_t i = 0; i < _surfaces.size(); ++i) {
+            bounds[i] = _surfaces[i]->boundingBox();
+        }
+        _bvh.build(_surfaces, bounds);
+        _bvhInvalidated = false;
     }
-
-    return bbox;
 }
 
-SurfaceSet3::Builder SurfaceSet3::builder() {
-    return Builder();
-}
+// SurfaceSet3::Builder
 
+SurfaceSet3::Builder SurfaceSet3::builder() { return Builder(); }
 
-SurfaceSet3::Builder&
-SurfaceSet3::Builder::withSurfaces(const std::vector<Surface3Ptr>& others) {
+SurfaceSet3::Builder& SurfaceSet3::Builder::withSurfaces(
+    const std::vector<Surface3Ptr>& others) {
     _surfaces = others;
     return *this;
 }
@@ -147,7 +136,5 @@ SurfaceSet3 SurfaceSet3::Builder::build() const {
 SurfaceSet3Ptr SurfaceSet3::Builder::makeShared() const {
     return std::shared_ptr<SurfaceSet3>(
         new SurfaceSet3(_surfaces, _transform, _isNormalFlipped),
-        [] (SurfaceSet3* obj) {
-            delete obj;
-        });
+        [](SurfaceSet3* obj) { delete obj; });
 }

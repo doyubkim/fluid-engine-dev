@@ -7,6 +7,7 @@
 #include <jet/box2.h>
 #include <jet/implicit_surface_set2.h>
 #include <jet/surface_to_implicit2.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -41,17 +42,15 @@ TEST(ImplicitSurfaceSet2, SurfaceAt) {
     sset.addExplicitSurface(box1);
     sset.addExplicitSurface(box2);
 
-    auto implicitSurfaceAt0
-        = std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(0));
-    auto implicitSurfaceAt1
-        = std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(1));
+    auto implicitSurfaceAt0 =
+        std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(0));
+    auto implicitSurfaceAt1 =
+        std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(1));
 
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface2>(box1),
-        implicitSurfaceAt0->surface());
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface2>(box2),
-        implicitSurfaceAt1->surface());
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface2>(box1),
+              implicitSurfaceAt0->surface());
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface2>(box2),
+              implicitSurfaceAt1->surface());
 }
 
 TEST(ImplicitSurfaceSet2, AddSurface) {
@@ -66,17 +65,14 @@ TEST(ImplicitSurfaceSet2, AddSurface) {
 
     EXPECT_EQ(2u, sset.numberOfSurfaces());
 
-    auto implicitSurfaceAt0
-        = std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(0));
-    auto implicitSurfaceAt1
-        = std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(1));
+    auto implicitSurfaceAt0 =
+        std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(0));
+    auto implicitSurfaceAt1 =
+        std::dynamic_pointer_cast<SurfaceToImplicit2>(sset.surfaceAt(1));
 
-    EXPECT_EQ(
-        std::dynamic_pointer_cast<Surface2>(box1),
-        implicitSurfaceAt0->surface());
-    EXPECT_EQ(
-        implicitBox,
-        implicitSurfaceAt1);
+    EXPECT_EQ(std::dynamic_pointer_cast<Surface2>(box1),
+              implicitSurfaceAt0->surface());
+    EXPECT_EQ(implicitBox, implicitSurfaceAt1);
 }
 
 TEST(ImplicitSurfaceSet2, ClosestPoint) {
@@ -115,16 +111,16 @@ TEST(ImplicitSurfaceSet2, Intersects) {
     auto box = std::make_shared<Box2>(BoundingBox2D({-1, 2}, {5, 3}));
     sset.addExplicitSurface(box);
 
-    bool result0 = sset.intersects(
-        Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
+    bool result0 =
+        sset.intersects(Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0);
 
-    bool result1 = sset.intersects(
-        Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
+    bool result1 =
+        sset.intersects(Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1);
 
-    bool result2 = sset.intersects(
-        Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
+    bool result2 =
+        sset.intersects(Ray2D(Vector2D(1, 1), Vector2D(-1, -1).normalized()));
     EXPECT_FALSE(result2);
 }
 
@@ -136,13 +132,13 @@ TEST(ImplicitSurfaceSet2, ClosestIntersection) {
     SurfaceRayIntersection2 result0 = sset.closestIntersection(
         Ray2D(Vector2D(1, 4), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(2), result0.distance);
     EXPECT_EQ(Vector2D(0, 3), result0.point);
 
     SurfaceRayIntersection2 result1 = sset.closestIntersection(
         Ray2D(Vector2D(1, 2.5), Vector2D(-1, -1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(0.5), result1.distance);
     EXPECT_EQ(Vector2D(0.5, 2), result1.point);
 
     SurfaceRayIntersection2 result2 = sset.closestIntersection(
