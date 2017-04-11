@@ -524,7 +524,7 @@ size_t Bvh2<T>::qsplit(size_t* itemIndices, size_t numItems, double pivot,
     size_t ret = 0;
     for (size_t i = 0; i < numItems; ++i) {
         BoundingBox2D b = _itemBounds[itemIndices[i]];
-        centroid = 0.5f * (b.upperCorner[axis] + b.upperCorner[axis]);
+        centroid = 0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
         if (centroid < pivot) {
             std::swap(itemIndices[i], itemIndices[ret]);
             ret++;
