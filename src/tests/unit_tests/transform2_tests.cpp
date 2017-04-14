@@ -11,10 +11,10 @@ TEST(Transform2, Constructors) {
     EXPECT_EQ(Vector2D(), t1.translation());
     EXPECT_EQ(0.0, t1.orientation());
 
-    Transform2 t2({2.0, -5.0}, kQuaterPiD);
+    Transform2 t2({2.0, -5.0}, kQuarterPiD);
 
     EXPECT_EQ(Vector2D(2.0, -5.0), t2.translation());
-    EXPECT_EQ(kQuaterPiD, t2.orientation());
+    EXPECT_EQ(kQuarterPiD, t2.orientation());
 }
 
 TEST(Transform2, Transform) {
