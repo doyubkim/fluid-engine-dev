@@ -12,5 +12,7 @@ var searchData=
   ['boundingboxrayintersection3d',['BoundingBoxRayIntersection3D',['../namespacejet.html#a488fa4716566da199eb4b9160443ff66',1,'jet']]],
   ['boundingboxrayintersection3f',['BoundingBoxRayIntersection3F',['../namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3',1,'jet']]],
   ['box2ptr',['Box2Ptr',['../namespacejet.html#a6e8c53d0fd03480fdfbbef60ed9251d7',1,'jet']]],
-  ['box3ptr',['Box3Ptr',['../namespacejet.html#a6d06ffc343d95b10e1c261188ebf99d2',1,'jet']]]
+  ['box3ptr',['Box3Ptr',['../namespacejet.html#a6d06ffc343d95b10e1c261188ebf99d2',1,'jet']]],
+  ['boxintersectiontestfunc2',['BoxIntersectionTestFunc2',['../namespacejet.html#a565da1157e890ae03f7a08129f33250a',1,'jet']]],
+  ['boxintersectiontestfunc3',['BoxIntersectionTestFunc3',['../namespacejet.html#abbc74f5e8a90dadfaf166d75d64d59b3',1,'jet']]]
 ];

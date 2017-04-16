@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -252,13 +252,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_face_centered_grid3.html#a18b17b72fbdfab4305156af671fbd352">jet::FaceCenteredGrid3</a>
 , <a class="el" href="structjet_1_1_fdm_blas2.html#ada5a92b9f79026c0a2b9d0a3b442c0ef">jet::FdmBlas2</a>
 , <a class="el" href="structjet_1_1_fdm_blas3.html#a0f18c080596e6307aa3b2c1874b3cde7">jet::FdmBlas3</a>
+, <a class="el" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">jet::Matrix&lt; T, M, N &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#ac0403acd6813ccf7ec338f0e1e473880">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#abb36d5d72f58917484d14382cae8913e">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#aa9694b83cf4f8700f2c6ea2b7d212560">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr.html#a7975c3dfe47b9b2669abe298500093fe">jet::MatrixCsr&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a3b2432041978716f23bceee715166743">jet::MatrixMxN&lt; T &gt;</a>
 , <a class="el" href="classjet_1_1_particle_system_data2.html#a349dd427fac5b3b68d1c2439ceed093f">jet::ParticleSystemData2</a>
 , <a class="el" href="classjet_1_1_particle_system_data3.html#a53aff01bfab7aa6a490ab9634f70fdac">jet::ParticleSystemData3</a>
 , <a class="el" href="classjet_1_1_point.html#ac9544bb7fa78cf45ca8bb8b8d9232d69">jet::Point&lt; T, N &gt;</a>
-, <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#a3c225e3911cd60e7471917264aa5f742">jet::Point&lt; T, 2 &gt;</a>
+, <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#abba9fee5acf9924dde797e94b03f19fb">jet::Point&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_013_01_4.html#a2a0135494dc146fb8cf2d3c3e837960d">jet::Point&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_point_hash_grid_searcher2.html#ac352d9f463b7b4b2c2073874a0e3b0c3">jet::PointHashGridSearcher2</a>
 , <a class="el" href="classjet_1_1_point_hash_grid_searcher3.html#a5338da4b8aa143cea2caa06668f879b4">jet::PointHashGridSearcher3</a>
@@ -270,10 +273,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_sph_system_data2.html#a73deba1f880dbf765eaf626f73431d3d">jet::SphSystemData2</a>
 , <a class="el" href="classjet_1_1_sph_system_data3.html#a51cf0c9da3c523158465801e5424c625">jet::SphSystemData3</a>
 , <a class="el" href="classjet_1_1_triangle_mesh3.html#a37abf05b96b17a9830f81b0dfd1d8a3e">jet::TriangleMesh3</a>
-, <a class="el" href="classjet_1_1_vector.html#a59d2c2e8faaa73b1acc283b0be83bd80">jet::Vector&lt; T, N &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#a2eb63a1a23058359078540b1c5a3f646">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#ac02cdbdd3f69ea651d46dd689c41af83">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a8a295c4cc652497c53311547d64a0bcc">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a1bd6bbbf47f99317c5a240ce6a6605ae">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a5d0a92e5a8e0152e9ea597c9013ad43a">jet::VectorN&lt; T &gt;</a>
 , <a class="el" href="classjet_1_1_vertex_centered_scalar_grid2.html#a58c276f0c61275ab5d39a86f2aff7827">jet::VertexCenteredScalarGrid2</a>
 , <a class="el" href="classjet_1_1_vertex_centered_scalar_grid3.html#a1128ece921e0bfc00f77b703ba8cb9ea">jet::VertexCenteredScalarGrid3</a>
 , <a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a6699ff72b3be0c0bf060f99e1c8534c7">jet::VertexCenteredVectorGrid2</a>
@@ -318,9 +322,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_collocated_vector_grid3.html#a97ff37be6691fffafa173cb227ebfedc">jet::CollocatedVectorGrid3</a>
 </li>
 <li>setColumn()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a9df34eea53e1d239bfdf8326dc6b85d2">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#a3b3bec02b65b3821b8bdb995418b8148">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a9df34eea53e1d239bfdf8326dc6b85d2">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a787f6f62e3175b4bf518eeed63449223">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#add239f345e24066dd9bb322b5d434369">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#ae1137e7c0c907f1ca18e4a32bea449ce">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>setCurrentFrame()
 : <a class="el" href="classjet_1_1_physics_animation.html#ae8dd7acaa02e6e1361725589b0bb9bd9">jet::PhysicsAnimation</a>
@@ -339,9 +345,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_logging.html#aba09ddaadcfd6391d54ab164c8d7633d">jet::Logging</a>
 </li>
 <li>setDiagonal()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#abf05bde791ba14f42c4b7ec60afbc8e4">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#a055140a0a188b9227a3699a500924fcf">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#abf05bde791ba14f42c4b7ec60afbc8e4">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a132beb44b7b4e340033761e85c87be1e">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a1a878760b604d9c42f6609c80dca3969">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a7cfeae143b067182702a2d16b9db5936">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>setDiffusionSolver()
 : <a class="el" href="classjet_1_1_grid_fluid_solver2.html#a5ec4d1d5346c7b2ba8e76c69b197004a">jet::GridFluidSolver2</a>
@@ -350,6 +358,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setDragCoefficient()
 : <a class="el" href="classjet_1_1_particle_system_solver2.html#ab5f812333435a31455bb70c5dd886c1e">jet::ParticleSystemSolver2</a>
 , <a class="el" href="classjet_1_1_particle_system_solver3.html#af6237589f90e87380762b406cc80bf15">jet::ParticleSystemSolver3</a>
+</li>
+<li>setElement()
+: <a class="el" href="classjet_1_1_matrix_csr.html#a2b5eba10c87c757b2a12d56a47297823">jet::MatrixCsr&lt; T &gt;</a>
 </li>
 <li>setEmitter()
 : <a class="el" href="classjet_1_1_grid_fluid_solver2.html#a4c8471aabb946a14c2a1d427e395b47d">jet::GridFluidSolver2</a>
@@ -467,9 +478,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_physics_animation.html#a417110cb681c5aade139a0f48a95e8ab">jet::PhysicsAnimation</a>
 </li>
 <li>setOffDiagonal()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a9d7b6dcd06606992b931f888ddc0ddaa">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#aa6c77150f6efea5fd0783292a7ba1d8e">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a9d7b6dcd06606992b931f888ddc0ddaa">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a05ee4d4eaa67a0cd2242e8d0f7c82274">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a747ef91505de07687041277c6e341101">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#ae0187051c07fe4c20fdb99d041ef7d7a">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>setOnBeginUpdateCallback()
 : <a class="el" href="classjet_1_1_collider2.html#ae6317bc4a47b3e2293f2819b39664228">jet::Collider2</a>
@@ -522,9 +535,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_particle_system_solver3.html#a2985e43d64db3a9d10370055de53104f">jet::ParticleSystemSolver3</a>
 </li>
 <li>setRow()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a7eeb9f00b38cd81a08d8888db3397864">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#a4e697de10cd7dc713ee367ca15151bc3">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a7eeb9f00b38cd81a08d8888db3397864">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a89e9513d3237f9a0d294cce25d7352b4">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a9ce3f872e2c5f727dfa3e6b530431029">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a60ba750fe6664c3a2d6d6816e9231d66">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>setScalarGrid()
 : <a class="el" href="classjet_1_1_scalar_grid2.html#a2eca3f11c0b6d7f611053383e6dccfdd">jet::ScalarGrid2</a>
@@ -598,9 +613,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setZero()
 : <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#a1fb9cacdd7f15c5d850129dd7b7c60a1">jet::Point&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_013_01_4.html#a182363bdc0d72b2e76f4225e8de3a7b0">jet::Point&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#ab64aaea51a260ce12bb13ec187f0713d">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a4d33511f5186aaba9cbb9ec1890dffdb">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a0a44913a2368416b4014ccaf80deada2">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a46b0b351250b08602d4ed7f6a5850f1d">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a713e24f416eefeb924a6375c9e6d6368">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>signedDistance()
 : <a class="el" href="classjet_1_1_implicit_surface2.html#a156d990a3dfc87bf14b64896bb17c8f3">jet::ImplicitSurface2</a>
@@ -628,6 +645,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html#ae97095e67a6efb1f39b851aaa5d75b0f">jet::ConstArrayAccessor&lt; T, 1 &gt;</a>
 , <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html#a4a784ca6539d91a5ddc68d35a765ee51">jet::ConstArrayAccessor&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html#ab9ff459392b21285030cb456d3f8cd48">jet::ConstArrayAccessor&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix.html#a9d4ca7f4633ec1e5671da717c6d64b9a">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_binary_op.html#a061aafe8e386fb06be5aa7f362c66cc3">jet::MatrixBinaryOp&lt; T, E1, E2, Op &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_constant.html#aa9129d8d8815108ee61dc8dfb49f47df">jet::MatrixConstant&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr.html#a799b6388c52948cbe0cac0b2e9fdfb24">jet::MatrixCsr&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr_matrix_mul.html#a5da89d4219c0d19918bcffbdfd5eaba2">jet::MatrixCsrMatrixMul&lt; T, ME &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr_vector_mul.html#ab4c17e4e79262c9914e62a548740dcba">jet::MatrixCsrVectorMul&lt; T, VE &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_diagonal.html#a143389ef4d33ad2c15641dfd7e673743">jet::MatrixDiagonal&lt; T, E &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_expression.html#a3306e89d81ab018d49e9ad77e0ff2f74">jet::MatrixExpression&lt; T, E &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_identity.html#ae81ca5e6531909db948e3ca476cb7a82">jet::MatrixIdentity&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mul.html#a61e185c880701dbbcca594a5655d6358">jet::MatrixMul&lt; T, E1, E2 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a792e79018eb7a05a805d81b4f3df3292">jet::MatrixMxN&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_scalar_binary_op.html#a7750d26a62147c58ff226799685b8ad5">jet::MatrixScalarBinaryOp&lt; T, E, Op &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_triangular.html#ab61cbf0fd0bc88953b00fceb38384e58">jet::MatrixTriangular&lt; T, E &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_unary_op.html#a985d66e273d9a11b6058dc52f7d020af">jet::MatrixUnaryOp&lt; T, E, Op &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_vector_mul.html#ab9970b79c1a629c62157cfc113cc6b4a">jet::MatrixVectorMul&lt; T, ME, VE &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#a6ccc381da01a24c4349126ce388e79ad">jet::Vector&lt; T, N &gt;</a>
+, <a class="el" href="classjet_1_1_vector_binary_op.html#af9f3ac11c07f8d4bde9c3264b43d1237">jet::VectorBinaryOp&lt; T, E1, E2, Op &gt;</a>
+, <a class="el" href="classjet_1_1_vector_expression.html#a75b333ef08f4066953792cf1c3800b47">jet::VectorExpression&lt; T, E &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a5da5b01a4477506f7f07e0a5ef3b637a">jet::VectorN&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_vector_scalar_binary_op.html#a7c5bd08fa0e6061d4ef77c68718b2fa6">jet::VectorScalarBinaryOp&lt; T, E, Op &gt;</a>
+, <a class="el" href="classjet_1_1_vector_unary_op.html#a84c14a19511edef85307b42a856808a2">jet::VectorUnaryOp&lt; T, E, Op &gt;</a>
 </li>
 <li>smokeDecayFactor()
 : <a class="el" href="classjet_1_1_grid_smoke_solver2.html#aa4bb96592b3f5744f143d9ac9ff32c25">jet::GridSmokeSolver2</a>
@@ -656,12 +694,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_fdm_jacobi_solver3.html#a25bb7f2ad4921ae61d28b93039e32b57">jet::FdmJacobiSolver3</a>
 , <a class="el" href="classjet_1_1_fdm_linear_system_solver2.html#a0aa00e7d302dbc51e997ad6f87dd4341">jet::FdmLinearSystemSolver2</a>
 , <a class="el" href="classjet_1_1_fdm_linear_system_solver3.html#afde8c681fcdd193adab0cb2b35b34af9">jet::FdmLinearSystemSolver3</a>
-, <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver2.html#a67e4f764a537dbbc1705cb0d46132139">jet::GridBackwardEulerDiffusionSolver2</a>
-, <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver3.html#a8b6130d7802f699706fdbaa97ebbb3e7">jet::GridBackwardEulerDiffusionSolver3</a>
+, <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver2.html#ad32acf7b25aeaf6e69f4245adf391a95">jet::GridBackwardEulerDiffusionSolver2</a>
+, <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver3.html#a03b1508bc53a7ee3e95ec2b803b433f8">jet::GridBackwardEulerDiffusionSolver3</a>
 , <a class="el" href="classjet_1_1_grid_diffusion_solver2.html#aed74797806e3da1e6f3da8bf792c7b89">jet::GridDiffusionSolver2</a>
-, <a class="el" href="classjet_1_1_grid_diffusion_solver3.html#a11e5ec8823d1cb23fbc78f41a3a07010">jet::GridDiffusionSolver3</a>
-, <a class="el" href="classjet_1_1_grid_forward_euler_diffusion_solver2.html#ad84348bf12da1243a6f120270b82409a">jet::GridForwardEulerDiffusionSolver2</a>
-, <a class="el" href="classjet_1_1_grid_forward_euler_diffusion_solver3.html#a77ef5bfc699ec5fd4fce4697618a9a60">jet::GridForwardEulerDiffusionSolver3</a>
+, <a class="el" href="classjet_1_1_grid_diffusion_solver3.html#a7aaf3cdc38f732715bd66af30a511778">jet::GridDiffusionSolver3</a>
+, <a class="el" href="classjet_1_1_grid_forward_euler_diffusion_solver2.html#a27f8d80e33cf9b9714a1181afe5af1f7">jet::GridForwardEulerDiffusionSolver2</a>
+, <a class="el" href="classjet_1_1_grid_forward_euler_diffusion_solver3.html#a813f148d1ed83b531617a7433015e84f">jet::GridForwardEulerDiffusionSolver3</a>
 , <a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver2.html#aa8987a054fbd429869fbdc05a629c7c5">jet::GridFractionalSinglePhasePressureSolver2</a>
 , <a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver3.html#a68c7c7eed2e7a8be90693bc182638e3b">jet::GridFractionalSinglePhasePressureSolver3</a>
 , <a class="el" href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54">jet::GridPressureSolver2</a>
@@ -690,66 +728,77 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_sphere2.html#a8e263d5a102097f279e98b3de1ff6209">jet::Sphere2</a>
 </li>
 <li>Sphere3()
-: <a class="el" href="classjet_1_1_sphere3.html#a381efda587431c70cc6f6c213b62d335">jet::Sphere3</a>
+: <a class="el" href="classjet_1_1_sphere3.html#a73b12c3258bf089909a59c4aa453cea4">jet::Sphere3</a>
 </li>
 <li>SphSolver2()
-: <a class="el" href="classjet_1_1_sph_solver2.html#adb1676b1108bceaa1d3f5b0d22275eea">jet::SphSolver2</a>
+: <a class="el" href="classjet_1_1_sph_solver2.html#a644cacb49f440a0fdb2a19b701b304ef">jet::SphSolver2</a>
 </li>
 <li>SphSolver3()
-: <a class="el" href="classjet_1_1_sph_solver3.html#a030ebc2b052a6b47fba7df8c1e3740b5">jet::SphSolver3</a>
+: <a class="el" href="classjet_1_1_sph_solver3.html#a36bb8268fe90a31780c807cdcb0beda9">jet::SphSolver3</a>
 </li>
 <li>SphSpikyKernel2()
-: <a class="el" href="structjet_1_1_sph_spiky_kernel2.html#ac74956f913251648075d868161f9b5b6">jet::SphSpikyKernel2</a>
+: <a class="el" href="structjet_1_1_sph_spiky_kernel2.html#a71539e018286c73aeee402e2a4f52219">jet::SphSpikyKernel2</a>
 </li>
 <li>SphSpikyKernel3()
-: <a class="el" href="structjet_1_1_sph_spiky_kernel3.html#ac5b9a17c244efba06deaba5e0fcf2283">jet::SphSpikyKernel3</a>
+: <a class="el" href="structjet_1_1_sph_spiky_kernel3.html#a0fc024d0633f559f270f46ee4efffa86">jet::SphSpikyKernel3</a>
 </li>
 <li>SphStdKernel2()
-: <a class="el" href="structjet_1_1_sph_std_kernel2.html#a81158dce52586c0871a7a50a66cf9b5a">jet::SphStdKernel2</a>
+: <a class="el" href="structjet_1_1_sph_std_kernel2.html#a191d9e0db8db41065fb560c74db94f92">jet::SphStdKernel2</a>
 </li>
 <li>SphStdKernel3()
-: <a class="el" href="structjet_1_1_sph_std_kernel3.html#a5277b38cac2ad4afb131de7dc6f3035c">jet::SphStdKernel3</a>
+: <a class="el" href="structjet_1_1_sph_std_kernel3.html#a97b58214b1890015e0b8d4cdf340394b">jet::SphStdKernel3</a>
 </li>
 <li>sphSystemData()
 : <a class="el" href="classjet_1_1_sph_solver2.html#ab85effc5c36217c4bc61769fd19da662">jet::SphSolver2</a>
 , <a class="el" href="classjet_1_1_sph_solver3.html#a191b09cc0ba2bea0d9e37029b9c6b5ce">jet::SphSolver3</a>
 </li>
 <li>SphSystemData2()
-: <a class="el" href="classjet_1_1_sph_system_data2.html#ade8779ace1a8361a6f7b318622e6d99b">jet::SphSystemData2</a>
+: <a class="el" href="classjet_1_1_sph_system_data2.html#a44b492f003a5e149a7e4d46b7b92eb43">jet::SphSystemData2</a>
 </li>
 <li>SphSystemData3()
-: <a class="el" href="classjet_1_1_sph_system_data3.html#a214486b78c25e3f5533ccea7965d377c">jet::SphSystemData3</a>
+: <a class="el" href="classjet_1_1_sph_system_data3.html#a23f9f4fe2bfe3bb6e8b248a1fe593d85">jet::SphSystemData3</a>
 </li>
 <li>startIndexTable()
 : <a class="el" href="classjet_1_1_point_parallel_hash_grid_searcher2.html#a223f653989d1aa1600b73d3d44ad48a1">jet::PointParallelHashGridSearcher2</a>
 , <a class="el" href="classjet_1_1_point_parallel_hash_grid_searcher3.html#a3f366da4fb654dca47d9a8a42c161801">jet::PointParallelHashGridSearcher3</a>
 </li>
 <li>strictLowerTri()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#ac197da0c88b2b9df5d2675303f99df87">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#a0a268ac3da54ad1d2c8ce7dccab1e5dc">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#ac197da0c88b2b9df5d2675303f99df87">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a5c0ce7330a9977b331e9e963ec102bdf">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#aee4ba2d0ab18df13d58c58e1a7a7803d">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#abace64522b42c229a59f36a12575399b">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>strictUpperTri()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a368e21ea97ab44b587a8cbd7e0ef462b">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#a0354a4ae630ca0013e5a5b0cd309d9cb">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a368e21ea97ab44b587a8cbd7e0ef462b">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a9f6a099c1bdebb19eb2336a781ea2f04">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a5624b4c216872cdb7f638e322ba997e5">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a84507a1906d102d3b63d2e40499a40eb">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 <li>sub()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#adb62b3c584e185af61c2cc2a805948b6">jet::Matrix&lt; T, 2, 2 &gt;</a>
-, <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a306846c0ec96dde8746b0faa50b85b0d">jet::Matrix&lt; T, 3, 3 &gt;</a>
-, <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a0438552b5d8f03162b986572596a3365">jet::Matrix&lt; T, 4, 4 &gt;</a>
-, <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#a5675c421e855bf2ac801ae14b13c8d31">jet::Point&lt; T, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#aa459517010564b64fbd61cf7a508f5f3">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#adb62b3c584e185af61c2cc2a805948b6">jet::Matrix&lt; T, 2, 2 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a15a592e251cc750fd6dd844a9092baa0">jet::Matrix&lt; T, 3, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#acd313bcc185ce4f751e9ef7bb1e1c621">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr.html#ad5ca0b0c7b32f497952636028f15e441">jet::MatrixCsr&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a90791db3f797093af9fe6a5ca310690e">jet::MatrixMxN&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#a94333970e4261e27f1577252c7b43726">jet::Point&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_013_01_4.html#a0d31afea77c6c4771db0f408a13d7d3a">jet::Point&lt; T, 3 &gt;</a>
-, <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a4d79530338500dede15f788e49acf23c">jet::Vector&lt; T, 2 &gt;</a>
-, <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#aabb8a03ad8e760bb8e3b92019fee50cd">jet::Vector&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#aff53994e128f4fd8dd9290611a871d66">jet::Vector&lt; T, N &gt;</a>
+, <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#ad64dd62072b140247550123d824744b7">jet::Vector&lt; T, 2 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#ac2091e8a25072dcdda18eef84152fe3b">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a9bd4bbc9bf5b17fc06f4de82b703d882">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#ab0e19bea9b6bec679a1a5c1e391b95c3">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>subminantAxis()
 : <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#a5ed9a95c9702de15ce7860596cccba9c">jet::Point&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_013_01_4.html#a26f95997cdd3d469621352ded7000309">jet::Point&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#a66cb372eee1e926d6e89a907601cf45f">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a69ae583834586963dc89c1b3acd7990e">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a443b0c5dd98dd86263c075beb09e1a48">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a9ec4c7954933654690ae2d55f166aeb2">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a14e9558958062e062d71c8622d0b8bc1">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>suggestedBoundaryConditionSolver()
 : <a class="el" href="classjet_1_1_grid_fractional_single_phase_pressure_solver2.html#a5036018fdc96b701534bfac8e7f3da24">jet::GridFractionalSinglePhasePressureSolver2</a>
@@ -760,14 +809,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_grid_single_phase_pressure_solver3.html#a8a9a0c7dea9183b7bc9f42d5cc69f393">jet::GridSinglePhasePressureSolver3</a>
 </li>
 <li>sum()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a38cbcdb9aaf3293d9ef23301781c4701">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#ac7ab8cebd9672481a5d0b91c75af3460">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a38cbcdb9aaf3293d9ef23301781c4701">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#ac63f0017779ed23404c5a06845baf539">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a9f50e76c055b275aa526a95e59c77042">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_csr.html#a56b24767b6e521ed28cc8201dd4522b2">jet::MatrixCsr&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#ad7c8beb479ed1f79b25a55f45737fcdf">jet::MatrixMxN&lt; T &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_012_01_4.html#aab3460ed492d319d3e5b6bc89568fc42">jet::Point&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_point_3_01_t_00_013_01_4.html#af1e08bc0449b08406971bd188373afa2">jet::Point&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#abc4cdcee3351c945106b1502ed51ec60">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#ae5c162e7359ed239f17511f05e09a26e">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#ac346343849572c22def7ce7b32c75085">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#adce3e6413efdaf92b58c69e613e0c8fb">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a0fa16a7c639146304f89bbb1c9d997c6">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>sumOfKernelNearby()
 : <a class="el" href="classjet_1_1_sph_system_data2.html#a55bb01a1003b233ef38d5e4c74a29294">jet::SphSystemData2</a>
@@ -780,7 +834,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_surface_to_implicit3.html#a4544fbeb4d7173b45bf9326a305b4a7d">jet::SurfaceToImplicit3</a>
 </li>
 <li>Surface2()
-: <a class="el" href="classjet_1_1_surface2.html#aa5d30705be08e42fd3b1a56c1e479173">jet::Surface2</a>
+: <a class="el" href="classjet_1_1_surface2.html#a5791aa4be106bd475b4414ada0d00b58">jet::Surface2</a>
 </li>
 <li>Surface3()
 : <a class="el" href="classjet_1_1_surface3.html#ab40d0cc33540432997403245e6fd41ed">jet::Surface3</a>
@@ -801,7 +855,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_surface_to_implicit2.html#a02a4acf0ee19418fa9f2175e2613acd1">jet::SurfaceToImplicit2</a>
 </li>
 <li>SurfaceToImplicit3()
-: <a class="el" href="classjet_1_1_surface_to_implicit3.html#acb5a5c68d1efca7920347cd20077f2ec">jet::SurfaceToImplicit3</a>
+: <a class="el" href="classjet_1_1_surface_to_implicit3.html#ace895ed9484e24f84b1051e199cf5205">jet::SurfaceToImplicit3</a>
 </li>
 <li>swap()
 : <a class="el" href="classjet_1_1_array_3_01_t_00_011_01_4.html#a8cda3257980ee166e525f163ff3595a6">jet::Array&lt; T, 1 &gt;</a>
@@ -819,6 +873,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_grid2.html#a057875a62eb8ca508d1498aa5cdc978a">jet::Grid2</a>
 , <a class="el" href="classjet_1_1_grid3.html#a1b4b7ffe5562190c2b77ff70913b1f0f">jet::Grid3</a>
 , <a class="el" href="classjet_1_1_triangle_mesh3.html#a2e754c049dd50f75fa47ef9876004b57">jet::TriangleMesh3</a>
+, <a class="el" href="classjet_1_1_vector.html#a635792d271f6516ff2e03b1fc31ecae3">jet::Vector&lt; T, N &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a33579061321974e29a8228186ce0be0d">jet::VectorN&lt; T &gt;</a>
 , <a class="el" href="classjet_1_1_vertex_centered_scalar_grid2.html#a0e54190794d5d76d99643f4c2fbf691b">jet::VertexCenteredScalarGrid2</a>
 , <a class="el" href="classjet_1_1_vertex_centered_scalar_grid3.html#a8f5f5063def163559c48b1f8ed2194e2">jet::VertexCenteredScalarGrid3</a>
 , <a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a98f43e4eddf1690c99c69c5e2fddf2e0">jet::VertexCenteredVectorGrid2</a>
@@ -846,7 +902,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:30 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:42 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

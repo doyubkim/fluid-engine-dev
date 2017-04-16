@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['getrayintersectionfunc2',['GetRayIntersectionFunc2',['../namespacejet.html#a4bff91c92d66dcd79737416b61a66644',1,'jet']]],
+  ['getrayintersectionfunc3',['GetRayIntersectionFunc3',['../namespacejet.html#a65c0fa3a59951f3922be832c039dd3d3',1,'jet']]],
   ['gridbackwardeulerdiffusionsolver2ptr',['GridBackwardEulerDiffusionSolver2Ptr',['../namespacejet.html#a242a807b47aa42c8277b410fb75b8ed4',1,'jet']]],
   ['gridbackwardeulerdiffusionsolver3ptr',['GridBackwardEulerDiffusionSolver3Ptr',['../namespacejet.html#ab8a2136108aeb6a2562c6d24c177f855',1,'jet']]],
   ['gridblockedboundaryconditionsolver2ptr',['GridBlockedBoundaryConditionSolver2Ptr',['../namespacejet.html#a06027d287e2e85b768a5414d94daaffb',1,'jet']]],

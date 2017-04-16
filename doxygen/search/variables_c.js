@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['origin',['origin',['../classjet_1_1_ray_3_01_t_00_012_01_4.html#afaeb1e5fc10a7387fcfda114f5b3f2cd',1,'jet::Ray&lt; T, 2 &gt;::origin()'],['../classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564',1,'jet::Ray&lt; T, 3 &gt;::origin()']]]
+  ['maxnumberoflevels',['maxNumberOfLevels',['../structjet_1_1_mg_parameters.html#a805a801103a46fda8371b72eecd3ec1b',1,'jet::MgParameters']]],
+  ['maxtolerance',['maxTolerance',['../structjet_1_1_mg_parameters.html#a17d94ec2750cfe6a15e689d985321cfd',1,'jet::MgParameters']]]
 ];

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -108,17 +108,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="matrix3x3_8h.html">jet/matrix3x3.h</a>&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector4_8h.html">jet/vector4.h</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_matrix.html">Matrix</a>&lt;T, 4, 4&gt; {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    static_assert(</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        std::is_floating_point&lt;T&gt;::value,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="stringliteral">&quot;Matrix only can be instantiated with floating point types&quot;</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_matrix.html">Matrix</a>&lt;T, 4, 4&gt; {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    static_assert(std::is_floating_point&lt;T&gt;::value,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                  <span class="stringliteral">&quot;Matrix only can be instantiated with floating point types&quot;</span>);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// MARK: Constructors</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
@@ -126,303 +126,329 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(T s);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        T m00, T m01, T m02,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        T m10, T m11, T m12,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        T m20, T m21, T m22);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        T m00, T m01, T m02, T m03,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        T m10, T m11, T m12, T m13,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        T m20, T m21, T m22, T m23,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        T m30, T m31, T m32, T m33);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> std::initializer_list&lt;std::initializer_list&lt;U&gt;&gt;&amp; lst);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20, T m21,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;           T m22, T m23, T m30, T m31, T m32, T m33);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> std::initializer_list&lt;std::initializer_list&lt;U&gt;&gt;&amp; lst);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> T* arr);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// MARK: Basic setters</span></div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">Matrix</a>(<span class="keyword">const</span> T* arr);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">// MARK: Basic setters</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> set(T s);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span> set(</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        T m00, T m01, T m02,</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        T m10, T m11, T m12,</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        T m20, T m21, T m22);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">void</span> set(</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        T m00, T m01, T m02, T m03,</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        T m10, T m11, T m12, T m13,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        T m20, T m21, T m22, T m23,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        T m30, T m31, T m32, T m33);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">void</span> set(<span class="keyword">const</span> std::initializer_list&lt;std::initializer_list&lt;U&gt;&gt;&amp; lst);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">void</span> set(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">void</span> set(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">void</span> set(<span class="keyword">const</span> T* arr);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">void</span> setDiagonal(T s);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(T s);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;             T m21, T m22, T m23, T m30, T m31, T m32, T m33);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(<span class="keyword">const</span> std::initializer_list&lt;std::initializer_list&lt;U&gt;&gt;&amp; lst);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">set</a>(<span class="keyword">const</span> T* arr);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a055140a0a188b9227a3699a500924fcf">setDiagonal</a>(T s);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#aa6c77150f6efea5fd0783292a7ba1d8e">setOffDiagonal</a>(T s);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a4e697de10cd7dc713ee367ca15151bc3">setRow</a>(<span class="keywordtype">size_t</span> i, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; row);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a3b3bec02b65b3821b8bdb995418b8148">setColumn</a>(<span class="keywordtype">size_t</span> i, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; col);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">// MARK: Basic getters</span></div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">void</span> setOffDiagonal(T s);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">void</span> setRow(<span class="keywordtype">size_t</span> i, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; row);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">void</span> setColumn(<span class="keywordtype">size_t</span> i, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; col);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">// MARK: Basic getters</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">bool</span> isSimilar(</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m,</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordtype">double</span> tol = std::numeric_limits&lt;double&gt;::epsilon()) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">bool</span> isSquare() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">size_t</span> rows() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">size_t</span> cols() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_matrix.html#ae237d288222c84e7c17a12d2dd001004">isSimilar</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                   <span class="keywordtype">double</span> tol = std::numeric_limits&lt;double&gt;::epsilon()) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_matrix.html#ab52c4142bbe9d8d8d71cd1c006dd46a3">isSquare</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_matrix.html#a6d75f592d2a4da3b2f16577bbdc09790">rows</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_matrix.html#a1cf60d0a62a7c8cb4033a81b58f3be2b">cols</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    T* <a class="code" href="classjet_1_1_matrix.html#af2d831b3d4381bda1016679a422f2907">data</a>();</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keyword">const</span> T* <a class="code" href="classjet_1_1_matrix.html#af2d831b3d4381bda1016679a422f2907">data</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix&lt;T, 3, 3&gt;</a> matrix3() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">// MARK: Binary operator methods - new instance = this instance (+) input</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a1142118436b52f66d5b3c54dbeea0f52">add</a>(T s) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    T* data();</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a1142118436b52f66d5b3c54dbeea0f52">add</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">const</span> T* data() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ada967cf0fe84f7dddd6546b6d89af089">sub</a>(T s) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix&lt;T, 3, 3&gt;</a> matrix3() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ada967cf0fe84f7dddd6546b6d89af089">sub</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">// MARK: Binary operator methods - new instance = this instance (+) input</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> add(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> add(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> sub(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> sub(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> mul(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a> mul(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; v) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> mul(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> div(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">// MARK: Binary operator methods - new instance = input (+) this instance</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> radd(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ac9b249acb5dafc175ddd7846b7ed08f8">mul</a>(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a> <a class="code" href="classjet_1_1_matrix.html#ac9b249acb5dafc175ddd7846b7ed08f8">mul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; v) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ac9b249acb5dafc175ddd7846b7ed08f8">mul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a1f7aa4548fccb0a5a7aec1b4a1e31327">div</a>(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">// MARK: Binary operator methods - new instance = input (+) this instance</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a98f61ead9b8a3b70baa5293bc41f5e31">radd</a>(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a98f61ead9b8a3b70baa5293bc41f5e31">radd</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#afd8bfaa6de0caee00bc106afb225876b">rsub</a>(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#afd8bfaa6de0caee00bc106afb225876b">rsub</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a9c9e9acf2b4a358644b68b59a2cd186a">rmul</a>(T s) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a9c9e9acf2b4a358644b68b59a2cd186a">rmul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> radd(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a706c296c01b02f222aae14dca16b1e01">rdiv</a>(T s) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> rsub(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> rsub(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> rmul(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> rmul(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> rdiv(T s) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="comment">// MARK: Augmented operator methods - this instance (+)= input</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a5486ce62ed920cfc00d1835fdd31d557">iadd</a>(T s);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a5486ce62ed920cfc00d1835fdd31d557">iadd</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a2f5c3c8452a5120cbce04f3f8dc9e024">isub</a>(T s);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a2f5c3c8452a5120cbce04f3f8dc9e024">isub</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a2ba7545e88753e026098e5408be01d15">imul</a>(T s);</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="comment">// MARK: Augmented operator methods - this instance (+)= input</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> iadd(T s);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordtype">void</span> iadd(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordtype">void</span> isub(T s);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">void</span> isub(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">void</span> imul(T s);</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keywordtype">void</span> imul(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">void</span> imul(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordtype">void</span> idiv(T s);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a2ba7545e88753e026098e5408be01d15">imul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m33);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#a2ba7545e88753e026098e5408be01d15">imul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#ab5217a82d32730a6c0dcbb5aa5e380c6">idiv</a>(T s);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="comment">// MARK: Modifiers</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#afe8dbcca0240a1f3cb1641e76654f227">transpose</a>();</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_matrix.html#ac3755c472a03add78c025b77256454cf">invert</a>();</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment">// MARK: Complex getters</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment"></span>    T <a class="code" href="classjet_1_1_matrix.html#ac7ab8cebd9672481a5d0b91c75af3460">sum</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#a9f919b80a6c0383c3301e1d630328852">avg</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#ac4ae0f9e42d7ca3e0c4a5ff086524f0c">min</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">// MARK: Modifiers</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> transpose();</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordtype">void</span> invert();</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment">// MARK: Complex getters</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment"></span>    T sum() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#a67a807ce3e0844fc9dbcaf637ec3ce9c">max</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#af99ff465da0d6020567a8e5eb90d6186">absmin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#a49dc7b1e8ee27f04a50d64c9e4789bec">absmax</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#a0ce9406daa9dcb5636bb05e364176542">trace</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    T avg() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    T <a class="code" href="classjet_1_1_matrix.html#af7785479f98ddbe0e1566ef2e86816ac">determinant</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    T <a class="code" href="namespacejet.html#ab1e91b34d4ea068f3ddb39c498791ff5">min</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a49a9d0c4c58448c331bc3663df7aba40">diagonal</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    T <a class="code" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">max</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a2368e8b2d606d3af54001523d2e5fc53">offDiagonal</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    T <a class="code" href="namespacejet.html#a43caae82b4e4f3a4e56dbdd24ca3a906">absmin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a0a268ac3da54ad1d2c8ce7dccab1e5dc">strictLowerTri</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    T <a class="code" href="namespacejet.html#a51648e992fe8e634c1e5e62aa349860c">absmax</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a0354a4ae630ca0013e5a5b0cd309d9cb">strictUpperTri</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    T trace() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#aa2001bcd68011afb5e5c0c4e48bd1e16">lowerTri</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    T determinant() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ae784195ce901c3e5738d3f3304df3d28">upperTri</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> diagonal() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#acf4345a531e06ccf1a1b902cc74c8860">transposed</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> offDiagonal() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a9ca4be2c6ab4305c21f36e433b8fff59">inverse</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> strictLowerTri() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix&lt;U, 4, 4&gt;</a> <a class="code" href="classjet_1_1_matrix.html#ab318184573e5c7896eed2f143271ea4a">castTo</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> strictUpperTri() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> lowerTri() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> upperTri() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> transposed() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a> inverse() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix&lt;U, 4, 4&gt;</a> castTo() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="comment">// MARK: Setter operators</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="comment">// MARK: Setter operators</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment"></span>    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#aba76cd186018059eb8f29bb722714765">operator=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#a2c9ed1c4dda0e63a0f56fdde7e9011f1">operator+=</a>(T s);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#a2c9ed1c4dda0e63a0f56fdde7e9011f1">operator+=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#a474ad27d04b43020bf71c0ae47834b9e">operator-=</a>(T s);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#a474ad27d04b43020bf71c0ae47834b9e">operator-=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#acfd50c2b8ace00ac86b9e6cef4511a50">operator*=</a>(T s);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#acfd50c2b8ace00ac86b9e6cef4511a50">operator*=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator+=(T s);</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator+=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator-=(T s);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator-=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#acfd50c2b8ace00ac86b9e6cef4511a50">operator*=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m);</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; <a class="code" href="classjet_1_1_matrix.html#a3f4770687ef6010fd330f4343abe7cc7">operator/=</a>(T s);</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="comment">// MARK: Getter operators</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment"></span>    T&amp; <a class="code" href="classjet_1_1_matrix.html#a177fb99bf4865f96ce5e79663d05afa0">operator[]</a>(<span class="keywordtype">size_t</span> i);</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator*=(T s);</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keyword">const</span> T&amp; <a class="code" href="classjet_1_1_matrix.html#a177fb99bf4865f96ce5e79663d05afa0">operator[]</a>(<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator*=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    T&amp; <a class="code" href="classjet_1_1_matrix_expression.html#a59582f8c17c5810ae159fa600449338c">operator()</a>(<span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j);</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator*=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; m);</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; operator/=(T s);</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keyword">const</span> T&amp; <a class="code" href="classjet_1_1_matrix_expression.html#a59582f8c17c5810ae159fa600449338c">operator()</a>(<span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_matrix.html#a6631c0dc073fd581ccbd2e20fb4ba318">operator==</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_matrix.html#a6b9b54818a9a951244884cfd285601bf">operator!=</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">// MARK: Getter operators</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment"></span>    T&amp; operator[](<span class="keywordtype">size_t</span> i);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">// MARK: Helpers</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment"></span>    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#a3b3fb4769f58a7ee429e1bd0bb9e487d">makeZero</a>();</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="keyword">const</span> T&amp; operator[](<span class="keywordtype">size_t</span> i) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> <a class="code" href="classjet_1_1_matrix.html#ae800bf0d0bc22fbdd4fa474b5065d825">makeIdentity</a>();</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    T&amp; operator()(<span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j);</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeScaleMatrix(T sx, T sy, T sz);</div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keyword">const</span> T&amp; operator()(<span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeScaleMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; s);</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordtype">bool</span> operator==(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordtype">bool</span> operator!=(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a>&amp; m) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeRotationMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; axis, T rad);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeTranslationMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; t);</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment">// MARK: Helpers</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment"></span>    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeZero();</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    std::array&lt;T, 16&gt; _elements;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;};</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeIdentity();</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeScaleMatrix(T sx, T sy, T sz);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeScaleMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; s);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="namespacejet.html#a3ac9b111123ebcce67decb65b667f11c">  381</a></span>&#160;<span class="keyword">using</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4</a> = <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix&lt;T, 4, 4&gt;</a>;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">// Operator overloadings</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a);</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeRotationMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; axis, T rad);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix.html">Matrix</a> makeTranslationMatrix(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; t);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    std::array&lt;T, 16&gt; _elements;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;};</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
-<div class="line"><a name="l00400"></a><span class="lineno"><a class="line" href="namespacejet.html#a3ac9b111123ebcce67decb65b667f11c">  400</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">using</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4</a> = <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix&lt;T, 4, 4&gt;</a>;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="comment">// Operator overloadings</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a);</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;</div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">operator+</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;<a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;</div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;<a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a08170db120c708b320297d7317318b4a">operator-</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;</div>
 <div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(T a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">operator/</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;</div>
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_014_01_4.html">Vector4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">operator/</a>(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; b);</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">Matrix3x3&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
+<div class="line"><a name="l00449"></a><span class="lineno"><a class="line" href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">  449</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;float&gt;</a> <a class="code" href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">Matrix4x4F</a>;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;</div>
+<div class="line"><a name="l00452"></a><span class="lineno"><a class="line" href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">  452</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;double&gt;</a> <a class="code" href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">Matrix4x4D</a>;</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">operator*</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">operator/</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; a, T b);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;<a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a> <a class="code" href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">operator/</a>(<span class="keyword">const</span> T&amp; a, <span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;T&gt;</a>&amp; b);</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;</div>
-<div class="line"><a name="l00469"></a><span class="lineno"><a class="line" href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">  469</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;float&gt;</a> <a class="code" href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">Matrix4x4F</a>;</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;</div>
-<div class="line"><a name="l00472"></a><span class="lineno"><a class="line" href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">  472</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">Matrix4x4&lt;double&gt;</a> <a class="code" href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">Matrix4x4D</a>;</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;<span class="preprocessor">#include &quot;detail/matrix4x4-inl.h&quot;</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MATRIX4X4_H_</span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="preprocessor">#include &quot;detail/matrix4x4-inl.h&quot;</span></div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_MATRIX4X4_H_</span></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a2368e8b2d606d3af54001523d2e5fc53"><div class="ttname"><a href="classjet_1_1_matrix.html#a2368e8b2d606d3af54001523d2e5fc53">jet::Matrix::offDiagonal</a></div><div class="ttdeci">MatrixDiagonal&lt; T, Matrix &gt; offDiagonal() const </div><div class="ttdoc">Returns off-diagonal part of this matrix. </div></div>
 <div class="ttc" id="namespacejet_html_a3b649da2a45018539d84c3bafcf310ca"><div class="ttname"><a href="namespacejet.html#a3b649da2a45018539d84c3bafcf310ca">jet::operator*</a></div><div class="ttdeci">Matrix2x2&lt; T &gt; operator*(const Matrix2x2&lt; T &gt; &amp;a, T b)</div><div class="ttdoc">Returns a * b&#39;, where every element of matrix b&#39; is b. </div></div>
 <div class="ttc" id="matrix3x3_8h_html"><div class="ttname"><a href="matrix3x3_8h.html">matrix3x3.h</a></div></div>
-<div class="ttc" id="namespacejet_html_a6ab0caa50c8337805a48a13f7f6052cc"><div class="ttname"><a href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">jet::Matrix4x4F</a></div><div class="ttdeci">Matrix4x4&lt; float &gt; Matrix4x4F</div><div class="ttdoc">Float-type 4x4 matrix. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:469</div></div>
-<div class="ttc" id="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">jet::Matrix&lt; T, 3, 3 &gt;</a></div><div class="ttdoc">3-D matrix class. </div><div class="ttdef"><b>Definition:</b> matrix3x3.h:27</div></div>
-<div class="ttc" id="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4_html"><div class="ttname"><a href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">jet::Matrix&lt; T, 4, 4 &gt;</a></div><div class="ttdoc">4-D matrix class. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:26</div></div>
-<div class="ttc" id="namespacejet_html_a51648e992fe8e634c1e5e62aa349860c"><div class="ttname"><a href="namespacejet.html#a51648e992fe8e634c1e5e62aa349860c">jet::absmax</a></div><div class="ttdeci">T absmax(T x, T y)</div><div class="ttdoc">Returns the absolute maximum value among the two inputs. </div></div>
-<div class="ttc" id="namespacejet_html_ab6c11397418ee5dac392caa8252eeeba"><div class="ttname"><a href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">jet::max</a></div><div class="ttdeci">Point2&lt; T &gt; max(const Point2&lt; T &gt; &amp;a, const Point2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)). </div></div>
+<div class="ttc" id="namespacejet_html_a6ab0caa50c8337805a48a13f7f6052cc"><div class="ttname"><a href="namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc">jet::Matrix4x4F</a></div><div class="ttdeci">Matrix4x4&lt; float &gt; Matrix4x4F</div><div class="ttdoc">Float-type 4x4 matrix. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:449</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ac9b249acb5dafc175ddd7846b7ed08f8"><div class="ttname"><a href="classjet_1_1_matrix.html#ac9b249acb5dafc175ddd7846b7ed08f8">jet::Matrix::mul</a></div><div class="ttdeci">MatrixScalarMul&lt; T, Matrix &gt; mul(const T &amp;s) const </div><div class="ttdoc">Returns this matrix * input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a1142118436b52f66d5b3c54dbeea0f52"><div class="ttname"><a href="classjet_1_1_matrix.html#a1142118436b52f66d5b3c54dbeea0f52">jet::Matrix::add</a></div><div class="ttdeci">MatrixScalarAdd&lt; T, Matrix &gt; add(const T &amp;s) const </div><div class="ttdoc">Returns this matrix + input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a6d75f592d2a4da3b2f16577bbdc09790"><div class="ttname"><a href="classjet_1_1_matrix.html#a6d75f592d2a4da3b2f16577bbdc09790">jet::Matrix::rows</a></div><div class="ttdeci">constexpr size_t rows() const </div><div class="ttdoc">Returns number of rows of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ada967cf0fe84f7dddd6546b6d89af089"><div class="ttname"><a href="classjet_1_1_matrix.html#ada967cf0fe84f7dddd6546b6d89af089">jet::Matrix::sub</a></div><div class="ttdeci">MatrixScalarSub&lt; T, Matrix &gt; sub(const T &amp;s) const </div><div class="ttdoc">Returns this matrix - input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a5486ce62ed920cfc00d1835fdd31d557"><div class="ttname"><a href="classjet_1_1_matrix.html#a5486ce62ed920cfc00d1835fdd31d557">jet::Matrix::iadd</a></div><div class="ttdeci">void iadd(const T &amp;s)</div><div class="ttdoc">Adds input scalar to this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_af7785479f98ddbe0e1566ef2e86816ac"><div class="ttname"><a href="classjet_1_1_matrix.html#af7785479f98ddbe0e1566ef2e86816ac">jet::Matrix::determinant</a></div><div class="ttdeci">T determinant() const </div><div class="ttdoc">Returns determinant of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a474ad27d04b43020bf71c0ae47834b9e"><div class="ttname"><a href="classjet_1_1_matrix.html#a474ad27d04b43020bf71c0ae47834b9e">jet::Matrix::operator-=</a></div><div class="ttdeci">Matrix &amp; operator-=(const T &amp;s)</div><div class="ttdoc">Subtraction assignment with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a3b3fb4769f58a7ee429e1bd0bb9e487d"><div class="ttname"><a href="classjet_1_1_matrix.html#a3b3fb4769f58a7ee429e1bd0bb9e487d">jet::Matrix::makeZero</a></div><div class="ttdeci">static MatrixConstant&lt; T &gt; makeZero()</div><div class="ttdoc">Makes a M x N matrix with zeros. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a6b915ddbbc8a20e1d695a8d5424ccbb5"><div class="ttname"><a href="classjet_1_1_matrix.html#a6b915ddbbc8a20e1d695a8d5424ccbb5">jet::Matrix::set</a></div><div class="ttdeci">void set(const T &amp;s)</div><div class="ttdoc">Sets whole matrix with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html">jet::Matrix&lt; T, 3, 3 &gt;</a></div><div class="ttdoc">3-D matrix class. </div><div class="ttdef"><b>Definition:</b> matrix3x3.h:28</div></div>
+<div class="ttc" id="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4_html"><div class="ttname"><a href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html">jet::Matrix&lt; T, 4, 4 &gt;</a></div><div class="ttdoc">4-D matrix class. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:27</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_af99ff465da0d6020567a8e5eb90d6186"><div class="ttname"><a href="classjet_1_1_matrix.html#af99ff465da0d6020567a8e5eb90d6186">jet::Matrix::absmin</a></div><div class="ttdeci">T absmin() const </div><div class="ttdoc">Returns absolute minimum among all elements. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ae800bf0d0bc22fbdd4fa474b5065d825"><div class="ttname"><a href="classjet_1_1_matrix.html#ae800bf0d0bc22fbdd4fa474b5065d825">jet::Matrix::makeIdentity</a></div><div class="ttdeci">static MatrixIdentity&lt; T &gt; makeIdentity()</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a6b9b54818a9a951244884cfd285601bf"><div class="ttname"><a href="classjet_1_1_matrix.html#a6b9b54818a9a951244884cfd285601bf">jet::Matrix::operator!=</a></div><div class="ttdeci">bool operator!=(const MatrixExpression&lt; T, E &gt; &amp;m) const </div><div class="ttdoc">Returns true if is not equal to m. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_aa2001bcd68011afb5e5c0c4e48bd1e16"><div class="ttname"><a href="classjet_1_1_matrix.html#aa2001bcd68011afb5e5c0c4e48bd1e16">jet::Matrix::lowerTri</a></div><div class="ttdeci">MatrixTriangular&lt; T, Matrix &gt; lowerTri() const </div><div class="ttdoc">Returns lower triangle part of this matrix (including the diagonal). </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_aa6c77150f6efea5fd0783292a7ba1d8e"><div class="ttname"><a href="classjet_1_1_matrix.html#aa6c77150f6efea5fd0783292a7ba1d8e">jet::Matrix::setOffDiagonal</a></div><div class="ttdeci">void setOffDiagonal(const T &amp;s)</div><div class="ttdoc">Sets off-diagonal elements with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a2c9ed1c4dda0e63a0f56fdde7e9011f1"><div class="ttname"><a href="classjet_1_1_matrix.html#a2c9ed1c4dda0e63a0f56fdde7e9011f1">jet::Matrix::operator+=</a></div><div class="ttdeci">Matrix &amp; operator+=(const T &amp;s)</div><div class="ttdoc">Addition assignment with input scalar. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_html_a9478dfc82a35b2c5d21544e45363aae1"><div class="ttname"><a href="classjet_1_1_matrix.html#a9478dfc82a35b2c5d21544e45363aae1">jet::Matrix::Matrix</a></div><div class="ttdeci">Matrix()</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_afd8bfaa6de0caee00bc106afb225876b"><div class="ttname"><a href="classjet_1_1_matrix.html#afd8bfaa6de0caee00bc106afb225876b">jet::Matrix::rsub</a></div><div class="ttdeci">MatrixScalarRSub&lt; T, Matrix &gt; rsub(const T &amp;s) const </div><div class="ttdoc">Returns input scalar - this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a3f4770687ef6010fd330f4343abe7cc7"><div class="ttname"><a href="classjet_1_1_matrix.html#a3f4770687ef6010fd330f4343abe7cc7">jet::Matrix::operator/=</a></div><div class="ttdeci">Matrix &amp; operator/=(const T &amp;s)</div><div class="ttdoc">Division assignment with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a055140a0a188b9227a3699a500924fcf"><div class="ttname"><a href="classjet_1_1_matrix.html#a055140a0a188b9227a3699a500924fcf">jet::Matrix::setDiagonal</a></div><div class="ttdeci">void setDiagonal(const T &amp;s)</div><div class="ttdoc">Sets diagonal elements with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ab52c4142bbe9d8d8d71cd1c006dd46a3"><div class="ttname"><a href="classjet_1_1_matrix.html#ab52c4142bbe9d8d8d71cd1c006dd46a3">jet::Matrix::isSquare</a></div><div class="ttdeci">constexpr bool isSquare() const </div><div class="ttdoc">Returns true if this matrix is a square matrix. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
-<div class="ttc" id="classjet_1_1_matrix_html"><div class="ttname"><a href="classjet_1_1_matrix.html">jet::Matrix</a></div><div class="ttdoc">Static-sized M x N matrix class. </div><div class="ttdef"><b>Definition:</b> matrix.h:26</div></div>
-<div class="ttc" id="classjet_1_1_vector_3_01_t_00_014_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_014_01_4.html">jet::Vector&lt; T, 4 &gt;</a></div><div class="ttdoc">4-D vector class. </div><div class="ttdef"><b>Definition:</b> vector4.h:24</div></div>
-<div class="ttc" id="namespacejet_html_a1c02480e94b1563b961386dedc9d18a7"><div class="ttname"><a href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">jet::Matrix4x4D</a></div><div class="ttdeci">Matrix4x4&lt; double &gt; Matrix4x4D</div><div class="ttdoc">Double-type 4x4 matrix. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:472</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a9ca4be2c6ab4305c21f36e433b8fff59"><div class="ttname"><a href="classjet_1_1_matrix.html#a9ca4be2c6ab4305c21f36e433b8fff59">jet::Matrix::inverse</a></div><div class="ttdeci">Matrix inverse() const </div><div class="ttdoc">Returns inverse matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a4e697de10cd7dc713ee367ca15151bc3"><div class="ttname"><a href="classjet_1_1_matrix.html#a4e697de10cd7dc713ee367ca15151bc3">jet::Matrix::setRow</a></div><div class="ttdeci">void setRow(size_t i, const VectorExpression&lt; T, E &gt; &amp;row)</div><div class="ttdoc">Sets i-th row with input vector. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_afe8dbcca0240a1f3cb1641e76654f227"><div class="ttname"><a href="classjet_1_1_matrix.html#afe8dbcca0240a1f3cb1641e76654f227">jet::Matrix::transpose</a></div><div class="ttdeci">void transpose()</div><div class="ttdoc">Transposes this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html"><div class="ttname"><a href="classjet_1_1_matrix.html">jet::Matrix</a></div><div class="ttdoc">Static-sized M x N matrix class. </div><div class="ttdef"><b>Definition:</b> matrix.h:29</div></div>
+<div class="ttc" id="classjet_1_1_vector_3_01_t_00_014_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_014_01_4.html">jet::Vector&lt; T, 4 &gt;</a></div><div class="ttdoc">4-D vector class. </div><div class="ttdef"><b>Definition:</b> vector4.h:25</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ae784195ce901c3e5738d3f3304df3d28"><div class="ttname"><a href="classjet_1_1_matrix.html#ae784195ce901c3e5738d3f3304df3d28">jet::Matrix::upperTri</a></div><div class="ttdeci">MatrixTriangular&lt; T, Matrix &gt; upperTri() const </div><div class="ttdoc">Returns upper triangle part of this matrix (including the diagonal). </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ae237d288222c84e7c17a12d2dd001004"><div class="ttname"><a href="classjet_1_1_matrix.html#ae237d288222c84e7c17a12d2dd001004">jet::Matrix::isSimilar</a></div><div class="ttdeci">bool isSimilar(const MatrixExpression&lt; T, E &gt; &amp;other, double tol=std::numeric_limits&lt; double &gt;::epsilon()) const </div></div>
+<div class="ttc" id="namespacejet_html_a1c02480e94b1563b961386dedc9d18a7"><div class="ttname"><a href="namespacejet.html#a1c02480e94b1563b961386dedc9d18a7">jet::Matrix4x4D</a></div><div class="ttdeci">Matrix4x4&lt; double &gt; Matrix4x4D</div><div class="ttdoc">Double-type 4x4 matrix. </div><div class="ttdef"><b>Definition:</b> matrix4x4.h:452</div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a1cf60d0a62a7c8cb4033a81b58f3be2b"><div class="ttname"><a href="classjet_1_1_matrix.html#a1cf60d0a62a7c8cb4033a81b58f3be2b">jet::Matrix::cols</a></div><div class="ttdeci">constexpr size_t cols() const </div><div class="ttdoc">Returns number of columns of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a0a268ac3da54ad1d2c8ce7dccab1e5dc"><div class="ttname"><a href="classjet_1_1_matrix.html#a0a268ac3da54ad1d2c8ce7dccab1e5dc">jet::Matrix::strictLowerTri</a></div><div class="ttdeci">MatrixTriangular&lt; T, Matrix &gt; strictLowerTri() const </div><div class="ttdoc">Returns strictly lower triangle part of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a9c9e9acf2b4a358644b68b59a2cd186a"><div class="ttname"><a href="classjet_1_1_matrix.html#a9c9e9acf2b4a358644b68b59a2cd186a">jet::Matrix::rmul</a></div><div class="ttdeci">MatrixScalarMul&lt; T, Matrix &gt; rmul(const T &amp;s) const </div><div class="ttdoc">Returns input scalar * this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a98f61ead9b8a3b70baa5293bc41f5e31"><div class="ttname"><a href="classjet_1_1_matrix.html#a98f61ead9b8a3b70baa5293bc41f5e31">jet::Matrix::radd</a></div><div class="ttdeci">MatrixScalarAdd&lt; T, Matrix &gt; radd(const T &amp;s) const </div><div class="ttdoc">Returns input scalar + this matrix. </div></div>
 <div class="ttc" id="namespacejet_html_a289ca53fd037408c255aa7cccc7478e0"><div class="ttname"><a href="namespacejet.html#a289ca53fd037408c255aa7cccc7478e0">jet::operator+</a></div><div class="ttdeci">Matrix2x2&lt; T &gt; operator+(const Matrix2x2&lt; T &gt; &amp;a, const Matrix2x2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns a + b (element-size). </div></div>
-<div class="ttc" id="namespacejet_html_a43caae82b4e4f3a4e56dbdd24ca3a906"><div class="ttname"><a href="namespacejet.html#a43caae82b4e4f3a4e56dbdd24ca3a906">jet::absmin</a></div><div class="ttdeci">T absmin(T x, T y)</div><div class="ttdoc">Returns the absolute minimum value among the two inputs. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a2f5c3c8452a5120cbce04f3f8dc9e024"><div class="ttname"><a href="classjet_1_1_matrix.html#a2f5c3c8452a5120cbce04f3f8dc9e024">jet::Matrix::isub</a></div><div class="ttdeci">void isub(const T &amp;s)</div><div class="ttdoc">Subtracts input scalar from this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a1f7aa4548fccb0a5a7aec1b4a1e31327"><div class="ttname"><a href="classjet_1_1_matrix.html#a1f7aa4548fccb0a5a7aec1b4a1e31327">jet::Matrix::div</a></div><div class="ttdeci">MatrixScalarDiv&lt; T, Matrix &gt; div(const T &amp;s) const </div><div class="ttdoc">Returns this matrix / input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a706c296c01b02f222aae14dca16b1e01"><div class="ttname"><a href="classjet_1_1_matrix.html#a706c296c01b02f222aae14dca16b1e01">jet::Matrix::rdiv</a></div><div class="ttdeci">MatrixScalarRDiv&lt; T, Matrix &gt; rdiv(const T &amp;s) const </div><div class="ttdoc">Returns input matrix / this scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a177fb99bf4865f96ce5e79663d05afa0"><div class="ttname"><a href="classjet_1_1_matrix.html#a177fb99bf4865f96ce5e79663d05afa0">jet::Matrix::operator[]</a></div><div class="ttdeci">T &amp; operator[](size_t i)</div><div class="ttdoc">Returns reference of i-th element. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_aba76cd186018059eb8f29bb722714765"><div class="ttname"><a href="classjet_1_1_matrix.html#aba76cd186018059eb8f29bb722714765">jet::Matrix::operator=</a></div><div class="ttdeci">Matrix &amp; operator=(const E &amp;m)</div><div class="ttdoc">Assigns input matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_acfd50c2b8ace00ac86b9e6cef4511a50"><div class="ttname"><a href="classjet_1_1_matrix.html#acfd50c2b8ace00ac86b9e6cef4511a50">jet::Matrix::operator*=</a></div><div class="ttdeci">Matrix &amp; operator*=(const T &amp;s)</div><div class="ttdoc">Multiplication assignment with input scalar. </div></div>
 <div class="ttc" id="namespacejet_html_a08170db120c708b320297d7317318b4a"><div class="ttname"><a href="namespacejet.html#a08170db120c708b320297d7317318b4a">jet::operator-</a></div><div class="ttdeci">Matrix2x2&lt; T &gt; operator-(const Matrix2x2&lt; T &gt; &amp;a)</div><div class="ttdoc">Returns a matrix with opposite sign. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ac3755c472a03add78c025b77256454cf"><div class="ttname"><a href="classjet_1_1_matrix.html#ac3755c472a03add78c025b77256454cf">jet::Matrix::invert</a></div><div class="ttdeci">void invert()</div><div class="ttdoc">Inverts this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a6631c0dc073fd581ccbd2e20fb4ba318"><div class="ttname"><a href="classjet_1_1_matrix.html#a6631c0dc073fd581ccbd2e20fb4ba318">jet::Matrix::operator==</a></div><div class="ttdeci">bool operator==(const MatrixExpression&lt; T, E &gt; &amp;m) const </div><div class="ttdoc">Returns true if is equal to m. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_expression_html_a59582f8c17c5810ae159fa600449338c"><div class="ttname"><a href="classjet_1_1_matrix_expression.html#a59582f8c17c5810ae159fa600449338c">jet::MatrixExpression&lt; T, Matrix&lt; T, M, N &gt; &gt;::operator()</a></div><div class="ttdeci">const Matrix&lt; T, M, N &gt; &amp; operator()() const</div><div class="ttdoc">Returns actual implementation (the subclass). </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a49a9d0c4c58448c331bc3663df7aba40"><div class="ttname"><a href="classjet_1_1_matrix.html#a49a9d0c4c58448c331bc3663df7aba40">jet::Matrix::diagonal</a></div><div class="ttdeci">MatrixDiagonal&lt; T, Matrix &gt; diagonal() const </div><div class="ttdoc">Returns diagonal part of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_af2d831b3d4381bda1016679a422f2907"><div class="ttname"><a href="classjet_1_1_matrix.html#af2d831b3d4381bda1016679a422f2907">jet::Matrix::data</a></div><div class="ttdeci">T * data()</div><div class="ttdoc">Returns data pointer of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ac7ab8cebd9672481a5d0b91c75af3460"><div class="ttname"><a href="classjet_1_1_matrix.html#ac7ab8cebd9672481a5d0b91c75af3460">jet::Matrix::sum</a></div><div class="ttdeci">T sum() const </div><div class="ttdoc">Returns sum of all elements. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a67a807ce3e0844fc9dbcaf637ec3ce9c"><div class="ttname"><a href="classjet_1_1_matrix.html#a67a807ce3e0844fc9dbcaf637ec3ce9c">jet::Matrix::max</a></div><div class="ttdeci">T max() const </div><div class="ttdoc">Returns maximum among all elements. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ab318184573e5c7896eed2f143271ea4a"><div class="ttname"><a href="classjet_1_1_matrix.html#ab318184573e5c7896eed2f143271ea4a">jet::Matrix::castTo</a></div><div class="ttdeci">MatrixTypeCast&lt; U, Matrix, T &gt; castTo() const </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a49dc7b1e8ee27f04a50d64c9e4789bec"><div class="ttname"><a href="classjet_1_1_matrix.html#a49dc7b1e8ee27f04a50d64c9e4789bec">jet::Matrix::absmax</a></div><div class="ttdeci">T absmax() const </div><div class="ttdoc">Returns absolute maximum among all elements. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a2ba7545e88753e026098e5408be01d15"><div class="ttname"><a href="classjet_1_1_matrix.html#a2ba7545e88753e026098e5408be01d15">jet::Matrix::imul</a></div><div class="ttdeci">void imul(const T &amp;s)</div><div class="ttdoc">Multiplies input scalar to this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a9f919b80a6c0383c3301e1d630328852"><div class="ttname"><a href="classjet_1_1_matrix.html#a9f919b80a6c0383c3301e1d630328852">jet::Matrix::avg</a></div><div class="ttdeci">T avg() const </div><div class="ttdoc">Returns average of all elements. </div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
-<div class="ttc" id="namespacejet_html_a6f76d8db4546f9176e25f4e729a2c3f3"><div class="ttname"><a href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">jet::operator/</a></div><div class="ttdeci">Matrix2x2&lt; T &gt; operator/(const Matrix2x2&lt; T &gt; &amp;a, T b)</div><div class="ttdoc">Returns a / b&#39;, where every element of matrix b&#39; is b. </div></div>
-<div class="ttc" id="namespacejet_html_ab1e91b34d4ea068f3ddb39c498791ff5"><div class="ttname"><a href="namespacejet.html#ab1e91b34d4ea068f3ddb39c498791ff5">jet::min</a></div><div class="ttdeci">Point2&lt; T &gt; min(const Point2&lt; T &gt; &amp;a, const Point2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns element-wise min vector: (min(a.x, b.x), min(a.y, b.y)). </div></div>
+<div class="ttc" id="namespacejet_html_a6f76d8db4546f9176e25f4e729a2c3f3"><div class="ttname"><a href="namespacejet.html#a6f76d8db4546f9176e25f4e729a2c3f3">jet::operator/</a></div><div class="ttdeci">Matrix2x2&lt; T &gt; operator/(const Matrix2x2&lt; T &gt; &amp;a, T b)</div><div class="ttdoc">Returns a&#39; / b, where every element of matrix a&#39; is a. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a3b3bec02b65b3821b8bdb995418b8148"><div class="ttname"><a href="classjet_1_1_matrix.html#a3b3bec02b65b3821b8bdb995418b8148">jet::Matrix::setColumn</a></div><div class="ttdeci">void setColumn(size_t j, const VectorExpression&lt; T, E &gt; &amp;col)</div><div class="ttdoc">Sets j-th column with input vector. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a0354a4ae630ca0013e5a5b0cd309d9cb"><div class="ttname"><a href="classjet_1_1_matrix.html#a0354a4ae630ca0013e5a5b0cd309d9cb">jet::Matrix::strictUpperTri</a></div><div class="ttdeci">MatrixTriangular&lt; T, Matrix &gt; strictUpperTri() const </div><div class="ttdoc">Returns strictly upper triangle part of this matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ab5217a82d32730a6c0dcbb5aa5e380c6"><div class="ttname"><a href="classjet_1_1_matrix.html#ab5217a82d32730a6c0dcbb5aa5e380c6">jet::Matrix::idiv</a></div><div class="ttdeci">void idiv(const T &amp;s)</div><div class="ttdoc">Divides this matrix with input scalar. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_a0ce9406daa9dcb5636bb05e364176542"><div class="ttname"><a href="classjet_1_1_matrix.html#a0ce9406daa9dcb5636bb05e364176542">jet::Matrix::trace</a></div><div class="ttdeci">T trace() const </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_acf4345a531e06ccf1a1b902cc74c8860"><div class="ttname"><a href="classjet_1_1_matrix.html#acf4345a531e06ccf1a1b902cc74c8860">jet::Matrix::transposed</a></div><div class="ttdeci">Matrix&lt; T, N, M &gt; transposed() const </div><div class="ttdoc">Returns transposed matrix. </div></div>
+<div class="ttc" id="classjet_1_1_matrix_html_ac4ae0f9e42d7ca3e0c4a5ff086524f0c"><div class="ttname"><a href="classjet_1_1_matrix.html#ac4ae0f9e42d7ca3e0c4a5ff086524f0c">jet::Matrix::min</a></div><div class="ttdeci">T min() const </div><div class="ttdoc">Returns minimum among all elements. </div></div>
 <div class="ttc" id="vector4_8h_html"><div class="ttname"><a href="vector4_8h.html">vector4.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -433,7 +459,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:36 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

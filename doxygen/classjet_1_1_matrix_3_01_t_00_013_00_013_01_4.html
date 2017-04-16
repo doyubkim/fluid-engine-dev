@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -505,10 +505,10 @@ template&lt;typename U &gt; </div>
 
 <p>Constructs a matrix with given initializer list <code>lst</code>. </p>
 <p>This constructor will build a matrix with given initializer list <code>lst</code> such as</p>
-<div class="fragment"><div class="line">Matrix&lt;int, 3, 3&gt; arr = {</div>
-<div class="line">    {1, 2, 4},</div>
-<div class="line">    {9, 3, 5},</div>
-<div class="line">    {4, 8, 1}</div>
+<div class="fragment"><div class="line">Matrix&lt;float, 3, 3&gt; arr = {</div>
+<div class="line">    {1.f, 2.f, 4.f},</div>
+<div class="line">    {9.f, 3.f, 5.f},</div>
+<div class="line">    {4.f, 8.f, 1.f}</div>
 <div class="line">};</div>
 </div><!-- fragment --><p>Note the initializer also has 3x3 structure.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1894,11 +1894,12 @@ template&lt;typename U &gt; </div>
 
 <p>Sets a matrix with given initializer list <code>lst</code>. </p>
 <p>This function will fill the matrix with given initializer list <code>lst</code> such as</p>
-<div class="fragment"><div class="line">Matrix&lt;int, 3, 3&gt; arr = {</div>
-<div class="line">    {1, 2, 4},</div>
-<div class="line">    {9, 3, 5},</div>
-<div class="line">    {4, 8, 1}</div>
-<div class="line">};</div>
+<div class="fragment"><div class="line">Matrix&lt;float, 3, 3&gt; arr;</div>
+<div class="line">arr.set({</div>
+<div class="line">    {1.f, 2.f, 4.f},</div>
+<div class="line">    {9.f, 3.f, 5.f},</div>
+<div class="line">    {4.f, 8.f, 1.f}</div>
+<div class="line">});</div>
 </div><!-- fragment --><p>Note the initializer also has 3x3 structure.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -2233,7 +2234,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:38 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

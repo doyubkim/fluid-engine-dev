@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -179,17 +179,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_fdm_jacobi_solver2.html#acc9dc85136c4a2d550399785e374d917">jet::FdmJacobiSolver2</a>
 , <a class="el" href="classjet_1_1_fdm_jacobi_solver3.html#a56edc68cfcabde89e23b4a4a5f575285">jet::FdmJacobiSolver3</a>
 </li>
+<li>lastResidualNorm
+: <a class="el" href="structjet_1_1_mg_result.html#abd8c0a45bde8dd3eba6a273ae1150d0c">jet::MgResult</a>
+</li>
 <li>length()
 : <a class="el" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html#a12d10e597eba45b7ad3faaa319a5838f">jet::BoundingBox&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#ac4b29c8bf9e74d48753dd5f7fb8d3120">jet::BoundingBox&lt; T, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#ae2a9f67b12c2149a9b7ceed13544d938">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a52a6278366ef5945f0dafa837c5964e5">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#ad06d141f886c27751060bd331a0a6325">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a7dfaa3becc81535ed5eae82d8f4ef777">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#ac8106f2f376fb340cd1f8dd4722765f5">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>lengthSquared()
-: <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#acb1b2d0458ae4009b26f29dba351c6d6">jet::Vector&lt; T, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_vector.html#aac66a22786f64da8cbb8a843cedf2f36">jet::Vector&lt; T, N &gt;</a>
+, <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#acb1b2d0458ae4009b26f29dba351c6d6">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a36b4eb314bf70e51098bacd7b0ac036c">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a6962988e7e68e83f3e467ed4a7833995">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a23126daffd3e5e53dcfbddf8bc2a6ccf">jet::VectorN&lt; T &gt;</a>
+</li>
+<li>levels
+: <a class="el" href="structjet_1_1_mg_matrix.html#a8359784f2bd9731c7a5bc57be190416b">jet::MgMatrix&lt; BlasType &gt;</a>
+, <a class="el" href="structjet_1_1_mg_vector.html#a1e299c3373a167a8d30817b8cae6b007">jet::MgVector&lt; BlasType &gt;</a>
 </li>
 <li>LevelSetLiquidSolver2()
 : <a class="el" href="classjet_1_1_level_set_liquid_solver2.html#a504fff946396f654feda3aad58092e02">jet::LevelSetLiquidSolver2</a>
@@ -210,7 +221,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>LinearArraySampler()
 : <a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_011_01_4.html#a7e9e490bc1685e6b7bc1ebf319b2a204">jet::LinearArraySampler&lt; T, R, 1 &gt;</a>
 , <a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_012_01_4.html#a90917b82b6d7d3fb1e2546b945269637">jet::LinearArraySampler&lt; T, R, 2 &gt;</a>
-, <a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_013_01_4.html#a51da19c7c6d0d2d7120705336049cec5">jet::LinearArraySampler&lt; T, R, 3 &gt;</a>
+, <a class="el" href="classjet_1_1_linear_array_sampler_3_01_t_00_01_r_00_013_01_4.html#a64538deddce45349f14049843f778a50">jet::LinearArraySampler&lt; T, R, 3 &gt;</a>
 </li>
 <li>linearVelocity
 : <a class="el" href="classjet_1_1_rigid_body_collider2.html#ac9ed77ebada083efa19285958b4c2b0c">jet::RigidBodyCollider2</a>
@@ -230,9 +241,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a5ae59adcd0c5de56ac8a54355ea554b5">jet::BoundingBox&lt; T, 3 &gt;</a>
 </li>
 <li>lowerTri()
-: <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a90f89111b4234697553e9c77a4fe85e3">jet::Matrix&lt; T, 2, 2 &gt;</a>
+: <a class="el" href="classjet_1_1_matrix.html#aa2001bcd68011afb5e5c0c4e48bd1e16">jet::Matrix&lt; T, M, N &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_3_01_t_00_012_00_012_01_4.html#a90f89111b4234697553e9c77a4fe85e3">jet::Matrix&lt; T, 2, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_013_00_013_01_4.html#a61385cecf9938e7efa459a1ea27b557b">jet::Matrix&lt; T, 3, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_matrix_3_01_t_00_014_00_014_01_4.html#a81df8b413c0bb7b826cbe7ef237674ba">jet::Matrix&lt; T, 4, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_matrix_mx_n.html#a30707e5ff6420b8dd0b39521addb683c">jet::MatrixMxN&lt; T &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -244,7 +257,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:30 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:42 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

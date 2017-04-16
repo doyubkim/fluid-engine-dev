@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -107,8 +107,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_BOUNDING_BOX3_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box_8h.html">jet/bounding_box.h</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray3_8h.html">jet/ray3.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="ray3_8h.html">jet/ray3.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="vector3_8h.html">jet/vector3.h</a>&gt;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;limits&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
@@ -135,76 +135,78 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_bounding_box.html#a99f79e344c8730bb782130a4217866b6">BoundingBox</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box.html">BoundingBox</a>&amp; other);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    T width() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    T height() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    T depth() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    T length(<span class="keywordtype">size_t</span> axis);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_bounding_box.html#a86611eeb96176e4de30f0c034b968792">overlaps</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box.html">BoundingBox</a>&amp; other) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_bounding_box.html#ad807dddf183ce72eddb91c66410c9ffe">contains</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; point) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">bool</span> intersects(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;T&gt;</a>&amp; ray) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;T&gt;</a> closestIntersection(</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;T&gt;</a>&amp; ray) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_bounding_box.html#aa19bcd48aa954a975a911a82854d589e">midPoint</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    T <a class="code" href="classjet_1_1_bounding_box.html#a36499858d383ffae7f2fe5815c848b4e">diagonalLength</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    T <a class="code" href="classjet_1_1_bounding_box.html#a0246fa0a72b116d9acc6d0013d4a5cc3">diagonalLengthSquared</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#a4720ae6751777635a0f6fba572775705">reset</a>();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad126d2b017cf947ae5b01371276056d9">merge</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; point);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad126d2b017cf947ae5b01371276056d9">merge</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box.html">BoundingBox</a>&amp; other);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad3f7ebf7730ee219be1546d626321662">expand</a>(T delta);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> corner(<span class="keywordtype">size_t</span> idx) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;};</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="namespacejet.html#a0e2b871ed0630581afc28c459e1f3407">  116</a></span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">using</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3</a> = <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox&lt;T, 3&gt;</a>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">  119</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">BoundingBox3F</a>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">  122</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3&lt;double&gt;</a> <a class="code" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">  125</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">BoundingBoxRayIntersection3F</a>;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">  128</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;double&gt;</a> <a class="code" href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">BoundingBoxRayIntersection3D</a>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    T width() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    T height() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    T depth() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    T length(<span class="keywordtype">size_t</span> axis);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_bounding_box.html#a86611eeb96176e4de30f0c034b968792">overlaps</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box.html">BoundingBox</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_bounding_box.html#ad807dddf183ce72eddb91c66410c9ffe">contains</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; point) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> intersects(<span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;T&gt;</a>&amp; ray) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;T&gt;</a> closestIntersection(</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_ray_3_01_t_00_013_01_4.html">Ray3&lt;T&gt;</a>&amp; ray) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="classjet_1_1_bounding_box.html#aa19bcd48aa954a975a911a82854d589e">midPoint</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    T <a class="code" href="classjet_1_1_bounding_box.html#a36499858d383ffae7f2fe5815c848b4e">diagonalLength</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    T <a class="code" href="classjet_1_1_bounding_box.html#a0246fa0a72b116d9acc6d0013d4a5cc3">diagonalLengthSquared</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#a4720ae6751777635a0f6fba572775705">reset</a>();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad126d2b017cf947ae5b01371276056d9">merge</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; point);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad126d2b017cf947ae5b01371276056d9">merge</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box.html">BoundingBox</a>&amp; other);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_bounding_box.html#ad3f7ebf7730ee219be1546d626321662">expand</a>(T delta);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> corner(<span class="keywordtype">size_t</span> idx) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a> <a class="code" href="namespacejet.html#a6781428732e17a66e1bbf3b9f12a987a">clamp</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3&lt;T&gt;</a>&amp; pt) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;};</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="namespacejet.html#a0e2b871ed0630581afc28c459e1f3407">  118</a></span>&#160;<span class="keyword">using</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3</a> = <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox&lt;T, 3&gt;</a>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">  121</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">BoundingBox3F</a>;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">  124</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">BoundingBox3&lt;double&gt;</a> <a class="code" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">  127</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;float&gt;</a> <a class="code" href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">BoundingBoxRayIntersection3F</a>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">  130</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="structjet_1_1_bounding_box_ray_intersection3.html">BoundingBoxRayIntersection3&lt;double&gt;</a> <a class="code" href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">BoundingBoxRayIntersection3D</a>;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#include &quot;detail/bounding_box3-inl.h&quot;</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_BOUNDING_BOX3_H_</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#include &quot;detail/bounding_box3-inl.h&quot;</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_BOUNDING_BOX3_H_</span></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_a86611eeb96176e4de30f0c034b968792"><div class="ttname"><a href="classjet_1_1_bounding_box.html#a86611eeb96176e4de30f0c034b968792">jet::BoundingBox::overlaps</a></div><div class="ttdeci">bool overlaps(const BoundingBox &amp;other) const </div><div class="ttdoc">Returns true of this box and other box overlaps. </div></div>
-<div class="ttc" id="namespacejet_html_a4b14a57be857f1f6dd55419957536e42"><div class="ttname"><a href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">jet::BoundingBox3F</a></div><div class="ttdeci">BoundingBox3&lt; float &gt; BoundingBox3F</div><div class="ttdoc">Float-type 3-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:119</div></div>
+<div class="ttc" id="namespacejet_html_a4b14a57be857f1f6dd55419957536e42"><div class="ttname"><a href="namespacejet.html#a4b14a57be857f1f6dd55419957536e42">jet::BoundingBox3F</a></div><div class="ttdeci">BoundingBox3&lt; float &gt; BoundingBox3F</div><div class="ttdoc">Float-type 3-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:121</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html"><div class="ttname"><a href="classjet_1_1_bounding_box.html">jet::BoundingBox</a></div><div class="ttdoc">Generic N-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box.h:21</div></div>
 <div class="ttc" id="vector3_8h_html"><div class="ttname"><a href="vector3_8h.html">vector3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html">jet::BoundingBox&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:41</div></div>
 <div class="ttc" id="ray3_8h_html"><div class="ttname"><a href="ray3_8h.html">ray3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_aa19bcd48aa954a975a911a82854d589e"><div class="ttname"><a href="classjet_1_1_bounding_box.html#aa19bcd48aa954a975a911a82854d589e">jet::BoundingBox::midPoint</a></div><div class="ttdeci">VectorType midPoint() const </div><div class="ttdoc">Returns the mid-point of this box. </div></div>
-<div class="ttc" id="namespacejet_html_ab6c11397418ee5dac392caa8252eeeba"><div class="ttname"><a href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">jet::max</a></div><div class="ttdeci">Point2&lt; T &gt; max(const Point2&lt; T &gt; &amp;a, const Point2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)). </div></div>
+<div class="ttc" id="namespacejet_html_ab6c11397418ee5dac392caa8252eeeba"><div class="ttname"><a href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">jet::max</a></div><div class="ttdeci">Point2&lt; T &gt; max(const Point2&lt; T &gt; &amp;a, const Point2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)). </div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_ad126d2b017cf947ae5b01371276056d9"><div class="ttname"><a href="classjet_1_1_bounding_box.html#ad126d2b017cf947ae5b01371276056d9">jet::BoundingBox::merge</a></div><div class="ttdeci">void merge(const VectorType &amp;point)</div><div class="ttdoc">Merges this and other point. </div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_ad3f7ebf7730ee219be1546d626321662"><div class="ttname"><a href="classjet_1_1_bounding_box.html#ad3f7ebf7730ee219be1546d626321662">jet::BoundingBox::expand</a></div><div class="ttdeci">void expand(T delta)</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_a36499858d383ffae7f2fe5815c848b4e"><div class="ttname"><a href="classjet_1_1_bounding_box.html#a36499858d383ffae7f2fe5815c848b4e">jet::BoundingBox::diagonalLength</a></div><div class="ttdeci">T diagonalLength() const </div><div class="ttdoc">Returns diagonal length of this box. </div></div>
 <div class="ttc" id="structjet_1_1_bounding_box_ray_intersection3_html_ad6a925159b27dbbb3895817ea9df9a8f"><div class="ttname"><a href="structjet_1_1_bounding_box_ray_intersection3.html#ad6a925159b27dbbb3895817ea9df9a8f">jet::BoundingBoxRayIntersection3::isIntersecting</a></div><div class="ttdeci">bool isIntersecting</div><div class="ttdoc">True if the box and ray intersects. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:25</div></div>
-<div class="ttc" id="namespacejet_html_ac0bbbebc469afcf1115598bc36bd7a64"><div class="ttname"><a href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">jet::BoundingBox3D</a></div><div class="ttdeci">BoundingBox3&lt; double &gt; BoundingBox3D</div><div class="ttdoc">Double-type 3-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:122</div></div>
+<div class="ttc" id="namespacejet_html_ac0bbbebc469afcf1115598bc36bd7a64"><div class="ttname"><a href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">jet::BoundingBox3D</a></div><div class="ttdeci">BoundingBox3&lt; double &gt; BoundingBox3D</div><div class="ttdoc">Double-type 3-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:124</div></div>
 <div class="ttc" id="structjet_1_1_bounding_box_ray_intersection3_html"><div class="ttname"><a href="structjet_1_1_bounding_box_ray_intersection3.html">jet::BoundingBoxRayIntersection3</a></div><div class="ttdoc">3-D box-ray intersection result. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:23</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_013_01_4_html_a5ae59adcd0c5de56ac8a54355ea554b5"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a5ae59adcd0c5de56ac8a54355ea554b5">jet::BoundingBox&lt; T, 3 &gt;::lowerCorner</a></div><div class="ttdeci">Vector3&lt; T &gt; lowerCorner</div><div class="ttdoc">Upper corner of the bounding box. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:44</div></div>
+<div class="ttc" id="namespacejet_html_a6781428732e17a66e1bbf3b9f12a987a"><div class="ttname"><a href="namespacejet.html#a6781428732e17a66e1bbf3b9f12a987a">jet::clamp</a></div><div class="ttdeci">T clamp(T val, T low, T high)</div><div class="ttdoc">Returns the clamped value. </div></div>
 <div class="ttc" id="structjet_1_1_bounding_box_ray_intersection3_html_a9da54cdfc43a4fe5fc1ff0d2d4c38265"><div class="ttname"><a href="structjet_1_1_bounding_box_ray_intersection3.html#a9da54cdfc43a4fe5fc1ff0d2d4c38265">jet::BoundingBoxRayIntersection3::tFar</a></div><div class="ttdeci">T tFar</div><div class="ttdoc">Distance to the second (and the last) intersection point. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:31</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_a4720ae6751777635a0f6fba572775705"><div class="ttname"><a href="classjet_1_1_bounding_box.html#a4720ae6751777635a0f6fba572775705">jet::BoundingBox::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Resets this box to initial state (min=infinite, max=-infinite). </div></div>
-<div class="ttc" id="namespacejet_html_a488fa4716566da199eb4b9160443ff66"><div class="ttname"><a href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">jet::BoundingBoxRayIntersection3D</a></div><div class="ttdeci">BoundingBoxRayIntersection3&lt; double &gt; BoundingBoxRayIntersection3D</div><div class="ttdoc">Double-type 3-D box-ray intersection result. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:128</div></div>
+<div class="ttc" id="namespacejet_html_a488fa4716566da199eb4b9160443ff66"><div class="ttname"><a href="namespacejet.html#a488fa4716566da199eb4b9160443ff66">jet::BoundingBoxRayIntersection3D</a></div><div class="ttdeci">BoundingBoxRayIntersection3&lt; double &gt; BoundingBoxRayIntersection3D</div><div class="ttdoc">Double-type 3-D box-ray intersection result. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:130</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_a0246fa0a72b116d9acc6d0013d4a5cc3"><div class="ttname"><a href="classjet_1_1_bounding_box.html#a0246fa0a72b116d9acc6d0013d4a5cc3">jet::BoundingBox::diagonalLengthSquared</a></div><div class="ttdeci">T diagonalLengthSquared() const </div><div class="ttdoc">Returns squared diagonal length of this box. </div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_a99f79e344c8730bb782130a4217866b6"><div class="ttname"><a href="classjet_1_1_bounding_box.html#a99f79e344c8730bb782130a4217866b6">jet::BoundingBox::BoundingBox</a></div><div class="ttdeci">BoundingBox()</div><div class="ttdoc">Default constructor. </div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_013_01_4_html_a03e9e5b12032c18c600d98c24cbe0971"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a03e9e5b12032c18c600d98c24cbe0971">jet::BoundingBox&lt; T, 3 &gt;::upperCorner</a></div><div class="ttdeci">Vector3&lt; T &gt; upperCorner</div><div class="ttdoc">Upper corner of the bounding box. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:47</div></div>
@@ -213,7 +215,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_ray_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_ray_3_01_t_00_013_01_4.html">jet::Ray&lt; T, 3 &gt;</a></div><div class="ttdoc">Class for 2-D ray. </div><div class="ttdef"><b>Definition:</b> ray3.h:21</div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_html_ad807dddf183ce72eddb91c66410c9ffe"><div class="ttname"><a href="classjet_1_1_bounding_box.html#ad807dddf183ce72eddb91c66410c9ffe">jet::BoundingBox::contains</a></div><div class="ttdeci">bool contains(const VectorType &amp;point) const </div><div class="ttdoc">Returns true if the input point is inside of this box. </div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
-<div class="ttc" id="namespacejet_html_a2d242b5cca39c5760b6fcc56b3fb2aa3"><div class="ttname"><a href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">jet::BoundingBoxRayIntersection3F</a></div><div class="ttdeci">BoundingBoxRayIntersection3&lt; float &gt; BoundingBoxRayIntersection3F</div><div class="ttdoc">Float-type 3-D box-ray intersection result. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:125</div></div>
+<div class="ttc" id="namespacejet_html_a2d242b5cca39c5760b6fcc56b3fb2aa3"><div class="ttname"><a href="namespacejet.html#a2d242b5cca39c5760b6fcc56b3fb2aa3">jet::BoundingBoxRayIntersection3F</a></div><div class="ttdeci">BoundingBoxRayIntersection3&lt; float &gt; BoundingBoxRayIntersection3F</div><div class="ttdoc">Float-type 3-D box-ray intersection result. </div><div class="ttdef"><b>Definition:</b> bounding_box3.h:127</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -223,7 +225,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:36 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

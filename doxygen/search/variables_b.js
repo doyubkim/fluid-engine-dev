@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['normal',['normal',['../structjet_1_1_collider2_1_1_collider_query_result.html#a245ffb54f42ac81600d6d9125a016792',1,'jet::Collider2::ColliderQueryResult::normal()'],['../structjet_1_1_collider3_1_1_collider_query_result.html#a12392b6e22b45ac4dca6f97c7a6eca2d',1,'jet::Collider3::ColliderQueryResult::normal()'],['../classjet_1_1_plane2.html#a2243223d1fdb92718724e340de7b07c3',1,'jet::Plane2::normal()'],['../classjet_1_1_plane3.html#a66188138ff2be96dd2b623ae9bf6ae91',1,'jet::Plane3::normal()'],['../structjet_1_1_surface_ray_intersection2.html#a9b77faa47b65cadf3633377d7b0d3b41',1,'jet::SurfaceRayIntersection2::normal()'],['../structjet_1_1_surface_ray_intersection3.html#a6d1b6087a46d6f57cffc671aae7ab746',1,'jet::SurfaceRayIntersection3::normal()']]],
-  ['normals',['normals',['../classjet_1_1_triangle3.html#adfcf7dfb8fac816c96057f9328357cab',1,'jet::Triangle3']]]
+  ['lastresidualnorm',['lastResidualNorm',['../structjet_1_1_mg_result.html#abd8c0a45bde8dd3eba6a273ae1150d0c',1,'jet::MgResult']]],
+  ['levels',['levels',['../structjet_1_1_mg_matrix.html#a8359784f2bd9731c7a5bc57be190416b',1,'jet::MgMatrix::levels()'],['../structjet_1_1_mg_vector.html#a1e299c3373a167a8d30817b8cae6b007',1,'jet::MgVector::levels()']]],
+  ['linearvelocity',['linearVelocity',['../classjet_1_1_rigid_body_collider2.html#ac9ed77ebada083efa19285958b4c2b0c',1,'jet::RigidBodyCollider2::linearVelocity()'],['../classjet_1_1_rigid_body_collider3.html#ae39a2e27c63bd20ae2f1f8654ada3789',1,'jet::RigidBodyCollider3::linearVelocity()']]],
+  ['lowercorner',['lowerCorner',['../classjet_1_1_bounding_box.html#a9311a4b080f6d2eeeb1e3d8b930d4e54',1,'jet::BoundingBox::lowerCorner()'],['../classjet_1_1_bounding_box_3_01_t_00_012_01_4.html#a41206fda9136fc45d9dada1da2d3cb46',1,'jet::BoundingBox&lt; T, 2 &gt;::lowerCorner()'],['../classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a5ae59adcd0c5de56ac8a54355ea554b5',1,'jet::BoundingBox&lt; T, 3 &gt;::lowerCorner()']]]
 ];

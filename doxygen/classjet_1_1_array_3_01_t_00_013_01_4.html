@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -113,6 +113,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Public Types</h2></td></tr>
 <tr class="memitem:afb7357dabeec50a844e699f50e79d26d"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#afb7357dabeec50a844e699f50e79d26d">ContainerType</a></td></tr>
 <tr class="separator:afb7357dabeec50a844e699f50e79d26d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36f234cb486da7ddceb87d11602a3f13"><td class="memItemLeft" align="right" valign="top">typedef ContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a></td></tr>
+<tr class="separator:a36f234cb486da7ddceb87d11602a3f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5d561ef1c4520c2b8712d5e9dffce4"><td class="memItemLeft" align="right" valign="top">typedef ContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a></td></tr>
+<tr class="separator:a9c5d561ef1c4520c2b8712d5e9dffce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -129,6 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a65b364018cf252153c455ec1a275c93e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a65b364018cf252153c455ec1a275c93e">Array</a> (const <a class="el" href="classjet_1_1_array.html">Array</a> &amp;other)</td></tr>
 <tr class="memdesc:a65b364018cf252153c455ec1a275c93e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#a65b364018cf252153c455ec1a275c93e">More...</a><br /></td></tr>
 <tr class="separator:a65b364018cf252153c455ec1a275c93e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08cd858b8080f47ef3562700d26b0bab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a08cd858b8080f47ef3562700d26b0bab">Array</a> (<a class="el" href="classjet_1_1_array.html">Array</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:a08cd858b8080f47ef3562700d26b0bab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="#a08cd858b8080f47ef3562700d26b0bab">More...</a><br /></td></tr>
+<tr class="separator:a08cd858b8080f47ef3562700d26b0bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f157dd3433b233f5e6634590bb4169f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a5f157dd3433b233f5e6634590bb4169f">set</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:a5f157dd3433b233f5e6634590bb4169f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets entire array with given <code>value</code>.  <a href="#a5f157dd3433b233f5e6634590bb4169f">More...</a><br /></td></tr>
 <tr class="separator:a5f157dd3433b233f5e6634590bb4169f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,18 +185,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2876beffc8f82a24d466e1acdf17bd39"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a2876beffc8f82a24d466e1acdf17bd39">data</a> ()</td></tr>
 <tr class="memdesc:a2876beffc8f82a24d466e1acdf17bd39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the raw pointer to the array data.  <a href="#a2876beffc8f82a24d466e1acdf17bd39">More...</a><br /></td></tr>
 <tr class="separator:a2876beffc8f82a24d466e1acdf17bd39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea8c25fd19650097f72bfeeb893c697c"><td class="memItemLeft" align="right" valign="top">ContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#aea8c25fd19650097f72bfeeb893c697c">begin</a> ()</td></tr>
-<tr class="memdesc:aea8c25fd19650097f72bfeeb893c697c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the array.  <a href="#aea8c25fd19650097f72bfeeb893c697c">More...</a><br /></td></tr>
-<tr class="separator:aea8c25fd19650097f72bfeeb893c697c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb17cc8e83d5daaf0cce011b11e405ac"><td class="memItemLeft" align="right" valign="top">ContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#adb17cc8e83d5daaf0cce011b11e405ac">begin</a> () const </td></tr>
-<tr class="memdesc:adb17cc8e83d5daaf0cce011b11e405ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin const iterator of the array.  <a href="#adb17cc8e83d5daaf0cce011b11e405ac">More...</a><br /></td></tr>
-<tr class="separator:adb17cc8e83d5daaf0cce011b11e405ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab3c9d1d9230196b4c692f90f1234954"><td class="memItemLeft" align="right" valign="top">ContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#aab3c9d1d9230196b4c692f90f1234954">end</a> ()</td></tr>
-<tr class="memdesc:aab3c9d1d9230196b4c692f90f1234954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the array.  <a href="#aab3c9d1d9230196b4c692f90f1234954">More...</a><br /></td></tr>
-<tr class="separator:aab3c9d1d9230196b4c692f90f1234954"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56312519a1b6106c611c78e53596a0fe"><td class="memItemLeft" align="right" valign="top">ContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a56312519a1b6106c611c78e53596a0fe">end</a> () const </td></tr>
-<tr class="memdesc:a56312519a1b6106c611c78e53596a0fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end const iterator of the array.  <a href="#a56312519a1b6106c611c78e53596a0fe">More...</a><br /></td></tr>
-<tr class="separator:a56312519a1b6106c611c78e53596a0fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7603fff9d251734e20195de5b9dba32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#ae7603fff9d251734e20195de5b9dba32">begin</a> ()</td></tr>
+<tr class="memdesc:ae7603fff9d251734e20195de5b9dba32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the array.  <a href="#ae7603fff9d251734e20195de5b9dba32">More...</a><br /></td></tr>
+<tr class="separator:ae7603fff9d251734e20195de5b9dba32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a341962f1336aeefbd6bc538716c1e6a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a341962f1336aeefbd6bc538716c1e6a4">begin</a> () const </td></tr>
+<tr class="memdesc:a341962f1336aeefbd6bc538716c1e6a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin const iterator of the array.  <a href="#a341962f1336aeefbd6bc538716c1e6a4">More...</a><br /></td></tr>
+<tr class="separator:a341962f1336aeefbd6bc538716c1e6a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75d4eb0e3ccace5d62013f9e8ddb0ae8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a75d4eb0e3ccace5d62013f9e8ddb0ae8">end</a> ()</td></tr>
+<tr class="memdesc:a75d4eb0e3ccace5d62013f9e8ddb0ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the array.  <a href="#a75d4eb0e3ccace5d62013f9e8ddb0ae8">More...</a><br /></td></tr>
+<tr class="separator:a75d4eb0e3ccace5d62013f9e8ddb0ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70ac59ca9bc840e73049d074f853064f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a70ac59ca9bc840e73049d074f853064f">end</a> () const </td></tr>
+<tr class="memdesc:a70ac59ca9bc840e73049d074f853064f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end const iterator of the array.  <a href="#a70ac59ca9bc840e73049d074f853064f">More...</a><br /></td></tr>
+<tr class="separator:a70ac59ca9bc840e73049d074f853064f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1305ba5f0646f59eb33b4a8d289a94e"><td class="memItemLeft" align="right" valign="top">const T *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#ae1305ba5f0646f59eb33b4a8d289a94e">data</a> () const </td></tr>
 <tr class="memdesc:ae1305ba5f0646f59eb33b4a8d289a94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the const raw pointer to the array data.  <a href="#ae1305ba5f0646f59eb33b4a8d289a94e">More...</a><br /></td></tr>
 <tr class="separator:ae1305ba5f0646f59eb33b4a8d289a94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -242,6 +249,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a51fe1b76c00a6206c43bb4aa2205f34d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array.html">Array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a51fe1b76c00a6206c43bb4aa2205f34d">operator=</a> (const <a class="el" href="classjet_1_1_array.html">Array</a> &amp;other)</td></tr>
 <tr class="memdesc:a51fe1b76c00a6206c43bb4aa2205f34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies given array <code>other</code> to this array.  <a href="#a51fe1b76c00a6206c43bb4aa2205f34d">More...</a><br /></td></tr>
 <tr class="separator:a51fe1b76c00a6206c43bb4aa2205f34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a0b25d48d2339fd07b4d0e08671c1c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array.html">Array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a87a0b25d48d2339fd07b4d0e08671c1c">operator=</a> (<a class="el" href="classjet_1_1_array.html">Array</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:a87a0b25d48d2339fd07b4d0e08671c1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment.  <a href="#a87a0b25d48d2339fd07b4d0e08671c1c">More...</a><br /></td></tr>
+<tr class="separator:a87a0b25d48d2339fd07b4d0e08671c1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08bdfc7c05137e1407be89b945a9dca9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_array.html">Array</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a08bdfc7c05137e1407be89b945a9dca9">operator=</a> (const std::initializer_list&lt; std::initializer_list&lt; std::initializer_list&lt; T &gt;&gt;&gt; &amp;lst)</td></tr>
 <tr class="separator:a08bdfc7c05137e1407be89b945a9dca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93a4e4383581945f57c6e8cbf5be8ad1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a93a4e4383581945f57c6e8cbf5be8ad1">operator ArrayAccessor3&lt; T &gt;</a> ()</td></tr>
@@ -272,6 +282,20 @@ class jet::Array&lt; T, 3 &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="a9c5d561ef1c4520c2b8712d5e9dffce4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef ContainerType::const_iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::<a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="afb7357dabeec50a844e699f50e79d26d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -280,6 +304,20 @@ template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">typedef std::vector&lt;T&gt; <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::<a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#afb7357dabeec50a844e699f50e79d26d">ContainerType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a36f234cb486da7ddceb87d11602a3f13"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef ContainerType::iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::<a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -461,6 +499,26 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a08cd858b8080f47ef3562700d26b0bab"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::<a class="el" href="classjet_1_1_array.html">Array</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classjet_1_1_array.html">Array</a>&lt; T, 3 &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Move constructor. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a216f3a53f530724bc2953b3615f9d0fc"></a>
 <div class="memitem">
@@ -635,14 +693,14 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aea8c25fd19650097f72bfeeb893c697c"></a>
+<a class="anchor" id="ae7603fff9d251734e20195de5b9dba32"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">ContainerType::iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::begin </td>
+          <td class="memname"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a> <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -654,14 +712,14 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="adb17cc8e83d5daaf0cce011b11e405ac"></a>
+<a class="anchor" id="a341962f1336aeefbd6bc538716c1e6a4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">ContainerType::const_iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::begin </td>
+          <td class="memname"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a> <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -768,14 +826,14 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="aab3c9d1d9230196b4c692f90f1234954"></a>
+<a class="anchor" id="a75d4eb0e3ccace5d62013f9e8ddb0ae8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">ContainerType::iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::end </td>
+          <td class="memname"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a36f234cb486da7ddceb87d11602a3f13">Iterator</a> <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -787,14 +845,14 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a56312519a1b6106c611c78e53596a0fe"></a>
+<a class="anchor" id="a70ac59ca9bc840e73049d074f853064f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">ContainerType::const_iterator <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::end </td>
+          <td class="memname"><a class="el" href="classjet_1_1_array_3_01_t_00_013_01_4.html#a9c5d561ef1c4520c2b8712d5e9dffce4">ConstIterator</a> <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1084,6 +1142,26 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Copies given array <code>other</code> to this array. </p>
+
+</div>
+</div>
+<a class="anchor" id="a87a0b25d48d2339fd07b4d0e08671c1c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_array.html">Array</a>&amp; <a class="el" href="classjet_1_1_array.html">jet::Array</a>&lt; T, 3 &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classjet_1_1_array.html">Array</a>&lt; T, 3 &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Move assignment. </p>
 
 </div>
 </div>
@@ -1437,7 +1515,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:37 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

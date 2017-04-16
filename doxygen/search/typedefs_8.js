@@ -9,5 +9,21 @@ var searchData=
   ['matrix4x4',['Matrix4x4',['../namespacejet.html#a3ac9b111123ebcce67decb65b667f11c',1,'jet']]],
   ['matrix4x4d',['Matrix4x4D',['../namespacejet.html#a1c02480e94b1563b961386dedc9d18a7',1,'jet']]],
   ['matrix4x4f',['Matrix4x4F',['../namespacejet.html#a6ab0caa50c8337805a48a13f7f6052cc',1,'jet']]],
-  ['matrixtype',['MatrixType',['../structjet_1_1_blas.html#a466a91ca330e473146ad1384cec32cb4',1,'jet::Blas::MatrixType()'],['../structjet_1_1_fdm_blas2.html#abb4ba6bc637b8adf2751dfc06a120ecf',1,'jet::FdmBlas2::MatrixType()'],['../structjet_1_1_fdm_blas3.html#a41dd9f05674732cf5a4b9cf9feb8ae93',1,'jet::FdmBlas3::MatrixType()']]]
+  ['matrixadd',['MatrixAdd',['../namespacejet.html#a719b4e654034352c529363b6e0d57ee4',1,'jet']]],
+  ['matrixcsrd',['MatrixCsrD',['../namespacejet.html#a7bb628ab692961b5fdf88f52ce9b5c92',1,'jet']]],
+  ['matrixcsrf',['MatrixCsrF',['../namespacejet.html#a2092b0a906be343df7b10f54902f90a1',1,'jet']]],
+  ['matrixmxnd',['MatrixMxND',['../namespacejet.html#aac4b7bcc10f42a21210255f95d503453',1,'jet']]],
+  ['matrixmxnf',['MatrixMxNF',['../namespacejet.html#a2855164256a18dfad8c24936096965c3',1,'jet']]],
+  ['matrixscalaradd',['MatrixScalarAdd',['../namespacejet.html#a0a6d6acc32ceeede81ba05c326771108',1,'jet']]],
+  ['matrixscalardiv',['MatrixScalarDiv',['../namespacejet.html#a9cfc8b88eec8df47947dd7840bed760b',1,'jet']]],
+  ['matrixscalarmul',['MatrixScalarMul',['../namespacejet.html#aa1efbb7089f6c0a1137333a4e4ac29d0',1,'jet']]],
+  ['matrixscalarrdiv',['MatrixScalarRDiv',['../namespacejet.html#a5fe0b4193940aa678f4ebfd7baa7367c',1,'jet']]],
+  ['matrixscalarrsub',['MatrixScalarRSub',['../namespacejet.html#a9e9fda080d9afa3ca43d9b080375a52a',1,'jet']]],
+  ['matrixscalarsub',['MatrixScalarSub',['../namespacejet.html#a289e97e8a0487ffbbcb468d101782ce8',1,'jet']]],
+  ['matrixsub',['MatrixSub',['../namespacejet.html#ac8118c219a5bcc6acedc0a5c5b7b2763',1,'jet']]],
+  ['matrixtype',['MatrixType',['../structjet_1_1_blas.html#a466a91ca330e473146ad1384cec32cb4',1,'jet::Blas::MatrixType()'],['../structjet_1_1_fdm_blas2.html#abb4ba6bc637b8adf2751dfc06a120ecf',1,'jet::FdmBlas2::MatrixType()'],['../structjet_1_1_fdm_blas3.html#a41dd9f05674732cf5a4b9cf9feb8ae93',1,'jet::FdmBlas3::MatrixType()']]],
+  ['matrixtypecast',['MatrixTypeCast',['../namespacejet.html#a4f64eb50570fb18ae5479e51ac117737',1,'jet']]],
+  ['mgcorrectfunc',['MgCorrectFunc',['../namespacejet.html#a2d6fbf104421d282a4867706a6ed8f20',1,'jet']]],
+  ['mgrelaxfunc',['MgRelaxFunc',['../namespacejet.html#a0bfd46d4033fcf698a8852386041068b',1,'jet']]],
+  ['mgrestrictfunc',['MgRestrictFunc',['../namespacejet.html#adbf323d2e2b49c42464b64e652361319',1,'jet']]]
 ];

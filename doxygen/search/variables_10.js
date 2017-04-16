@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['up',['up',['../structjet_1_1_fdm_matrix_row2.html#ae8f257619c0e253ba7f09f71aec44e4c',1,'jet::FdmMatrixRow2::up()'],['../structjet_1_1_fdm_matrix_row3.html#a4b1795443360132a84dccf3e71607497',1,'jet::FdmMatrixRow3::up()']]],
-  ['uppercorner',['upperCorner',['../classjet_1_1_bounding_box.html#ab4ee4bbb84f41f93d0152109486af393',1,'jet::BoundingBox::upperCorner()'],['../classjet_1_1_bounding_box_3_01_t_00_012_01_4.html#a96348875f0c39fe9d43529aa2d40943f',1,'jet::BoundingBox&lt; T, 2 &gt;::upperCorner()'],['../classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a03e9e5b12032c18c600d98c24cbe0971',1,'jet::BoundingBox&lt; T, 3 &gt;::upperCorner()']]],
-  ['uvs',['uvs',['../classjet_1_1_triangle3.html#a2d008578db9537b317d47d41268aba42',1,'jet::Triangle3']]]
+  ['radius',['radius',['../classjet_1_1_cylinder3.html#a2e6dba1eaa97145602babc811a8dd54b',1,'jet::Cylinder3::radius()'],['../classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f',1,'jet::Sphere2::radius()'],['../classjet_1_1_sphere3.html#acad47180fcdf0c3b3dac5a3d52b41565',1,'jet::Sphere3::radius()']]],
+  ['relaxfunc',['relaxFunc',['../structjet_1_1_mg_parameters.html#aeb1b598b3ae80acf17729b2f9ac16ef3',1,'jet::MgParameters']]],
+  ['restrictfunc',['restrictFunc',['../structjet_1_1_mg_parameters.html#ac40bd8e31aa238f4b6454ef5baf80087',1,'jet::MgParameters']]],
+  ['right',['right',['../structjet_1_1_fdm_matrix_row2.html#a19acf9858031510c6818b6748c8acfc0',1,'jet::FdmMatrixRow2::right()'],['../structjet_1_1_fdm_matrix_row3.html#ae03a3d3e21a541d65bca4c65ed3770a9',1,'jet::FdmMatrixRow3::right()']]]
 ];

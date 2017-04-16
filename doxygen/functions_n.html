@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -137,9 +137,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
+<li>nearest()
+: <a class="el" href="classjet_1_1_bvh2.html#a1ec9a667b193f1fd3300ce51d09e394f">jet::Bvh2&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_bvh3.html#a4abb860a19114d46bc1370be6c530576">jet::Bvh3&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_list_query_engine2.html#aba5ab9a7aeb218a7235f8a95c272a1ce">jet::ListQueryEngine2&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_list_query_engine3.html#a34789850c00a910a4960f2b475c05eca">jet::ListQueryEngine3&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_nearest_neighbor_query_engine2.html#a94c915352a4409315431c3fa7f4ae6ad">jet::NearestNeighborQueryEngine2&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_nearest_neighbor_query_engine3.html#ae13e3a0e4dc4803984f2e1e8c71e099e">jet::NearestNeighborQueryEngine3&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_octree.html#aa1aecf5cf89073176de90dfa67d00065">jet::Octree&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_quadtree.html#a8ce24043bb5e90ea3ea2e478bd2b7e34">jet::Quadtree&lt; T &gt;</a>
+</li>
 <li>NearestArraySampler()
 : <a class="el" href="classjet_1_1_nearest_array_sampler_3_01_t_00_01_r_00_011_01_4.html#a3a5a33ac4a97c0b94da58e96fa2a95ed">jet::NearestArraySampler&lt; T, R, 1 &gt;</a>
-, <a class="el" href="classjet_1_1_nearest_array_sampler_3_01_t_00_01_r_00_012_01_4.html#a5815c179c643dae3bc91c79fe41f1c92">jet::NearestArraySampler&lt; T, R, 2 &gt;</a>
+, <a class="el" href="classjet_1_1_nearest_array_sampler_3_01_t_00_01_r_00_012_01_4.html#a75ff9978069d59f5c170764cc52ad288">jet::NearestArraySampler&lt; T, R, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_nearest_array_sampler_3_01_t_00_01_r_00_013_01_4.html#abe5f029f2898e0391c88824f8f5d1c85">jet::NearestArraySampler&lt; T, R, 3 &gt;</a>
 </li>
 <li>negativePressureScale()
@@ -158,6 +168,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver2.html#a14d0e1001c2b8304ab3c3d46860abb9ba997cdc2ff033200c0b038c9ad2efc194">jet::GridBackwardEulerDiffusionSolver2</a>
 , <a class="el" href="classjet_1_1_grid_backward_euler_diffusion_solver3.html#a2b73ebdebdfd4794286df7fec61c24b6a27001a18d14632e726b9ad1284586bb1">jet::GridBackwardEulerDiffusionSolver3</a>
 </li>
+<li>nonZero()
+: <a class="el" href="classjet_1_1_matrix_csr.html#a3b1c69cd1fda3e75285ba4f90d349182">jet::MatrixCsr&lt; T &gt;</a>
+</li>
+<li>nonZeroBegin()
+: <a class="el" href="classjet_1_1_matrix_csr.html#a5cc97e3bf58e2d5f0a6c45e47e6f07fe">jet::MatrixCsr&lt; T &gt;</a>
+</li>
+<li>NonZeroContainerType
+: <a class="el" href="classjet_1_1_matrix_csr.html#ad92ed2ae5cbdf37824902e9e805da419">jet::MatrixCsr&lt; T &gt;</a>
+</li>
+<li>nonZeroData()
+: <a class="el" href="classjet_1_1_matrix_csr.html#a75a3aeb65c6f528e4839ece147a5f7a6">jet::MatrixCsr&lt; T &gt;</a>
+</li>
+<li>nonZeroEnd()
+: <a class="el" href="classjet_1_1_matrix_csr.html#a4f9919fb33c48dd3811c2202c8432426">jet::MatrixCsr&lt; T &gt;</a>
+</li>
+<li>NonZeroIterator
+: <a class="el" href="classjet_1_1_matrix_csr.html#a3af3757c5f9143a90781e5fb9495c608">jet::MatrixCsr&lt; T &gt;</a>
+</li>
 <li>normal
 : <a class="el" href="structjet_1_1_collider2_1_1_collider_query_result.html#a245ffb54f42ac81600d6d9125a016792">jet::Collider2::ColliderQueryResult</a>
 , <a class="el" href="structjet_1_1_collider3_1_1_collider_query_result.html#a12392b6e22b45ac4dca6f97c7a6eca2d">jet::Collider3::ColliderQueryResult</a>
@@ -175,15 +203,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>normalize()
 : <a class="el" href="classjet_1_1_quaternion.html#a72ca05b8a2c22a781548d8ce0ecb258c">jet::Quaternion&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#a1e28bbbd2e0a39c6d49a61d6e4e23c81">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a69e8590f4f7d8a64d0fb6a0a43630ae7">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a1b500b0f280939be064eb2ee9f0886fe">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#ac6ad723219b84d1d1279d5df2876c708">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a0240d076abe7647cb90df04b67c64962">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>normalized()
 : <a class="el" href="classjet_1_1_quaternion.html#ae5af45be18490278cede491ab1222777">jet::Quaternion&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_vector.html#a7741acfab1d9e3f08e519a54bf45ad37">jet::Vector&lt; T, N &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_012_01_4.html#a1efa569c4b27f43f4417872b223335e9">jet::Vector&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a81ee08af007cbc728d31e89070482c0a">jet::Vector&lt; T, 3 &gt;</a>
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_014_01_4.html#a97db0e95ea53f1792cc7b9c9c91e1774">jet::Vector&lt; T, 4 &gt;</a>
+, <a class="el" href="classjet_1_1_vector_n.html#a34d59f174ef9ce6d7e949249362db9df">jet::VectorN&lt; T &gt;</a>
 </li>
 <li>normals
 : <a class="el" href="classjet_1_1_triangle3.html#adfcf7dfb8fac816c96057f9328357cab">jet::Triangle3</a>
@@ -196,12 +228,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classjet_1_1_grid_system_data2.html#ac07b32f5356ee4092a68ff6ab896a161">jet::GridSystemData2</a>
 , <a class="el" href="classjet_1_1_grid_system_data3.html#a478dd6def35cd3f111e27ae5142263a4">jet::GridSystemData3</a>
 </li>
+<li>numberOfCoarsestIter
+: <a class="el" href="structjet_1_1_mg_parameters.html#ad7a18e369160cb4413838ae7e1c15425">jet::MgParameters&lt; BlasType &gt;</a>
+</li>
 <li>numberOfColliders()
 : <a class="el" href="classjet_1_1_collider_set2.html#aa8462d13da8638df99551287f554137c">jet::ColliderSet2</a>
 , <a class="el" href="classjet_1_1_collider_set3.html#ad1482eade786854202041f74847fc7f4">jet::ColliderSet3</a>
 </li>
+<li>numberOfCorrectionIter
+: <a class="el" href="structjet_1_1_mg_parameters.html#a214fddefb6fe74d3640c9169251c1565">jet::MgParameters&lt; BlasType &gt;</a>
+</li>
+<li>numberOfFinalIter
+: <a class="el" href="structjet_1_1_mg_parameters.html#a5d4ac66f21aa06c1e1c70f19fceb0ace">jet::MgParameters&lt; BlasType &gt;</a>
+</li>
 <li>numberOfFixedSubTimeSteps()
 : <a class="el" href="classjet_1_1_physics_animation.html#a8708d82eea1231085433077ada7a343c">jet::PhysicsAnimation</a>
+</li>
+<li>numberOfItems()
+: <a class="el" href="classjet_1_1_bvh2.html#ab2a161be78df8f5f64624c4c8d6a8dd5">jet::Bvh2&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_bvh3.html#a6a79a6498f5f905212fdfbc05917f581">jet::Bvh3&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_octree.html#af6657b112513407f4dd2807f186f1e7f">jet::Octree&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_quadtree.html#a42af0f914a9e029e34c619eda7b2166b">jet::Quadtree&lt; T &gt;</a>
+</li>
+<li>numberOfNodes()
+: <a class="el" href="classjet_1_1_octree.html#a2a045fd3a72a7a1b8d1a3d579c29b055">jet::Octree&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_quadtree.html#aeb15695d34af34b8931d3aa5b64f87df">jet::Quadtree&lt; T &gt;</a>
+</li>
+<li>numberOfNonZeros()
+: <a class="el" href="classjet_1_1_matrix_csr.html#ad6d6ff1ae2ed1d03298fd5cd2f76c0c3">jet::MatrixCsr&lt; T &gt;</a>
 </li>
 <li>numberOfNormals()
 : <a class="el" href="classjet_1_1_triangle_mesh3.html#aa5b4389f9f68926580020faca4fc9ed3">jet::TriangleMesh3</a>
@@ -212,6 +266,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>numberOfPoints()
 : <a class="el" href="classjet_1_1_triangle_mesh3.html#a517ace33d79f6b4ce656cf22b423ea95">jet::TriangleMesh3</a>
+</li>
+<li>numberOfRestrictionIter
+: <a class="el" href="structjet_1_1_mg_parameters.html#a32e901b876c269eb1ee2159207ff4c0d">jet::MgParameters&lt; BlasType &gt;</a>
 </li>
 <li>numberOfScalarData()
 : <a class="el" href="classjet_1_1_grid_system_data2.html#abe2c93e2090b2bd653f755426e516447">jet::GridSystemData2</a>
@@ -250,7 +307,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:30 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:42 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

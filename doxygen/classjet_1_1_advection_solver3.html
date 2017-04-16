@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -228,11 +228,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Solves advection equation for given scalar grid. </p>
-<p>The implementation of this virtual function should solve advection equation for given scalar field <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in scalar field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
+<p>The implementation of this virtual function should solve advection equation for given scalar field <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in scalar field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>Input scalar grid. </td></tr>
-    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
+    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic statically-sized N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
     <tr><td class="paramname">dt</td><td>Time-step for the advection. </td></tr>
     <tr><td class="paramname">output</td><td>Output scalar grid. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Boundary interface defined by signed-distance field. </td></tr>
@@ -295,11 +295,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Solves advection equation for given collocated vector grid. </p>
-<p>The implementation of this virtual function should solve advection equation for given collocated vector grid <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in vector field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
+<p>The implementation of this virtual function should solve advection equation for given collocated vector grid <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in vector field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>Input vector grid. </td></tr>
-    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
+    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic statically-sized N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
     <tr><td class="paramname">dt</td><td>Time-step for the advection. </td></tr>
     <tr><td class="paramname">output</td><td>Output vector grid. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Boundary interface defined by signed-distance field. </td></tr>
@@ -362,11 +362,11 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Solves advection equation for given face-centered vector grid. </p>
-<p>The implementation of this virtual function should solve advection equation for given face-centered vector field <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in vector field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max vector: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
+<p>The implementation of this virtual function should solve advection equation for given face-centered vector field <code>input</code> and underlying vector field <code>flow</code> that carries the input field. The solution after solving the equation for given time-step <code>dt</code> should be stored in vector field <code>output</code>. The boundary interface is given by a signed-distance field. The field is negative inside the boundary. By default, a constant field with max double value (kMaxD or <a class="el" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba" title="Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)). ">std::numeric_limists&lt;double&gt;::max()</a>) is used, meaning no boundary.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>Input vector grid. </td></tr>
-    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
+    <tr><td class="paramname">flow</td><td><a class="el" href="classjet_1_1_vector.html" title="Generic statically-sized N-D vector class. ">Vector</a> field that advects the input field. </td></tr>
     <tr><td class="paramname">dt</td><td>Time-step for the advection. </td></tr>
     <tr><td class="paramname">output</td><td>Output vector grid. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Boundary interface defined by signed-distance field. </td></tr>
@@ -390,7 +390,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:37 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

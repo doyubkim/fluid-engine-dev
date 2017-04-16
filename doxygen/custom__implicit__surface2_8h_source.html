@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.4</a>
+                    <a class="navbar-brand">Jet v1.0.5</a>
                 </div>
             </div>
         </nav>
@@ -179,14 +179,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUSTOM_IMPLICIT_SURFACE2_H_</span></div>
 <div class="ttc" id="structjet_1_1_surface_ray_intersection2_html"><div class="ttname"><a href="structjet_1_1_surface_ray_intersection2.html">jet::SurfaceRayIntersection2</a></div><div class="ttdoc">Struct that represents ray-surface intersection point. </div><div class="ttdef"><b>Definition:</b> surface2.h:19</div></div>
-<div class="ttc" id="classjet_1_1_surface_builder_base2_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a></div><div class="ttdoc">Base class for 2-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface2.h:99</div></div>
+<div class="ttc" id="classjet_1_1_surface_builder_base2_html"><div class="ttname"><a href="classjet_1_1_surface_builder_base2.html">jet::SurfaceBuilderBase2</a></div><div class="ttdoc">Base class for 2-D surface builder. </div><div class="ttdef"><b>Definition:</b> surface2.h:98</div></div>
 <div class="ttc" id="classjet_1_1_custom_implicit_surface2_html_a8a7cf16a13428ac8358798f0e581564b"><div class="ttname"><a href="classjet_1_1_custom_implicit_surface2.html#a8a7cf16a13428ac8358798f0e581564b">jet::CustomImplicitSurface2::CustomImplicitSurface2</a></div><div class="ttdeci">CustomImplicitSurface2(const std::function&lt; double(const Vector2D &amp;)&gt; &amp;func, const BoundingBox2D &amp;domain=BoundingBox2D(), double resolution=1e-3, unsigned int numberOfIterations=5, const Transform2 &amp;transform=Transform2(), bool isNormalFlipped=false)</div><div class="ttdoc">Constructs an implicit surface using the given signed-distance function. </div></div>
 <div class="ttc" id="classjet_1_1_custom_implicit_surface2_1_1_builder_html_a943a156aee12b8a93adbdaf9ad25f53d"><div class="ttname"><a href="classjet_1_1_custom_implicit_surface2_1_1_builder.html#a943a156aee12b8a93adbdaf9ad25f53d">jet::CustomImplicitSurface2::Builder::withDomain</a></div><div class="ttdeci">Builder &amp; withDomain(const BoundingBox2D &amp;domain)</div><div class="ttdoc">Returns builder with domain. </div></div>
 <div class="ttc" id="namespacejet_html_a462b68a736f9253b0e07fac66381f5ba"><div class="ttname"><a href="namespacejet.html#a462b68a736f9253b0e07fac66381f5ba">jet::CustomImplicitSurface2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; CustomImplicitSurface2 &gt; CustomImplicitSurface2Ptr</div><div class="ttdoc">Shared pointer type for the CustomImplicitSurface2. </div><div class="ttdef"><b>Definition:</b> custom_implicit_surface2.h:58</div></div>
 <div class="ttc" id="classjet_1_1_custom_implicit_surface2_html_aaa74afeeebf8ec3b51273c4ad2d7b087"><div class="ttname"><a href="classjet_1_1_custom_implicit_surface2.html#aaa74afeeebf8ec3b51273c4ad2d7b087">jet::CustomImplicitSurface2::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder for CustomImplicitSurface2. </div></div>
 <div class="ttc" id="classjet_1_1_surface2_html_a40785d6f17cfc1690175d3667e03cfff"><div class="ttname"><a href="classjet_1_1_surface2.html#a40785d6f17cfc1690175d3667e03cfff">jet::Surface2::transform</a></div><div class="ttdeci">Transform2 transform</div><div class="ttdoc">Local-to-world transform. </div><div class="ttdef"><b>Definition:</b> surface2.h:30</div></div>
 <div class="ttc" id="classjet_1_1_custom_implicit_surface2_1_1_builder_html_a0d9d8557f596ac653e6c7f6fb96baf08"><div class="ttname"><a href="classjet_1_1_custom_implicit_surface2_1_1_builder.html#a0d9d8557f596ac653e6c7f6fb96baf08">jet::CustomImplicitSurface2::Builder::withMaxNumberOfIterations</a></div><div class="ttdeci">Builder &amp; withMaxNumberOfIterations(unsigned int numIter)</div><div class="ttdoc">Returns builder with number of iterations. </div></div>
-<div class="ttc" id="namespacejet_html_a5aab42e0c17fc83967ff244b816cf071"><div class="ttname"><a href="namespacejet.html#a5aab42e0c17fc83967ff244b816cf071">jet::BoundingBox2D</a></div><div class="ttdeci">BoundingBox2&lt; double &gt; BoundingBox2D</div><div class="ttdoc">Double-type 2-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:119</div></div>
+<div class="ttc" id="namespacejet_html_a5aab42e0c17fc83967ff244b816cf071"><div class="ttname"><a href="namespacejet.html#a5aab42e0c17fc83967ff244b816cf071">jet::BoundingBox2D</a></div><div class="ttdeci">BoundingBox2&lt; double &gt; BoundingBox2D</div><div class="ttdoc">Double-type 2-D BoundingBox. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:121</div></div>
 <div class="ttc" id="classjet_1_1_implicit_surface2_html"><div class="ttname"><a href="classjet_1_1_implicit_surface2.html">jet::ImplicitSurface2</a></div><div class="ttdoc">Abstract base class for 2-D implicit surface. </div><div class="ttdef"><b>Definition:</b> implicit_surface2.h:15</div></div>
 <div class="ttc" id="classjet_1_1_custom_implicit_surface2_html"><div class="ttname"><a href="classjet_1_1_custom_implicit_surface2.html">jet::CustomImplicitSurface2</a></div><div class="ttdoc">Custom 2-D implicit surface using arbitrary function. </div><div class="ttdef"><b>Definition:</b> custom_implicit_surface2.h:16</div></div>
 <div class="ttc" id="scalar__field2_8h_html"><div class="ttname"><a href="scalar__field2_8h.html">scalar_field2.h</a></div></div>
@@ -212,7 +212,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 26 2017 00:22:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 15 2017 22:59:36 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

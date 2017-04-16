@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['radius',['radius',['../classjet_1_1_cylinder3.html#a2e6dba1eaa97145602babc811a8dd54b',1,'jet::Cylinder3::radius()'],['../classjet_1_1_sphere2.html#ade0c8beb4ff43b3b48e6b175e6277b9f',1,'jet::Sphere2::radius()'],['../classjet_1_1_sphere3.html#acad47180fcdf0c3b3dac5a3d52b41565',1,'jet::Sphere3::radius()']]],
-  ['right',['right',['../structjet_1_1_fdm_matrix_row2.html#a19acf9858031510c6818b6748c8acfc0',1,'jet::FdmMatrixRow2::right()'],['../structjet_1_1_fdm_matrix_row3.html#ae03a3d3e21a541d65bca4c65ed3770a9',1,'jet::FdmMatrixRow3::right()']]]
+  ['origin',['origin',['../classjet_1_1_ray_3_01_t_00_012_01_4.html#afaeb1e5fc10a7387fcfda114f5b3f2cd',1,'jet::Ray&lt; T, 2 &gt;::origin()'],['../classjet_1_1_ray_3_01_t_00_013_01_4.html#ad926b6d395b70a69d7024f42f7406564',1,'jet::Ray&lt; T, 3 &gt;::origin()']]]
 ];

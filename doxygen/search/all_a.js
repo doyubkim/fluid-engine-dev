@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['j',['j',['../structjet_1_1_matrix_csr_1_1_element.html#a2fec58af9936e736be0d4a572302d249',1,'jet::MatrixCsr::Element']]],
   ['jet',['jet',['../namespacejet.html',1,'']]],
   ['jet_2eh',['jet.h',['../jet_8h.html',1,'']]],
   ['jet_5fassert',['JET_ASSERT',['../macros_8h.html#ac15dea66834e4784db3e6bf2601a729b',1,'macros.h']]],
