@@ -217,7 +217,7 @@ template <typename T>
 void MatrixCsr<T>::addElement(const Element& element) {
     ssize_t numRowsToAdd = (ssize_t)element.i - (ssize_t)_size.x + 1;
     if (numRowsToAdd > 0) {
-        for (size_t i = 0; i < numRowsToAdd; ++i) {
+        for (ssize_t i = 0; i < numRowsToAdd; ++i) {
             addRow({}, {});
         }
     }
