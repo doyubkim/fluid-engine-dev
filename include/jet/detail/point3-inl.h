@@ -17,37 +17,9 @@ namespace jet {
 
 // Constructors
 template <typename T>
-Point<T, 3>::Point() :
-    x(0),
-    y(0),
-    z(0) {
-}
-
-template <typename T>
-Point<T, 3>::Point(T newX, T newY, T newZ) :
-    x(newX),
-    y(newY),
-    z(newZ) {
-}
-
-template <typename T>
-Point<T, 3>::Point(const Point2<T>& pt, T newZ) :
-    x(pt.x),
-    y(pt.y),
-    z(newZ) {
-}
-
-template <typename T>
 template <typename U>
 Point<T, 3>::Point(const std::initializer_list<U>& lst) {
     set(lst);
-}
-
-template <typename T>
-Point<T, 3>::Point(const Point& v) :
-    x(v.x),
-    y(v.y),
-    z(v.z) {
 }
 
 // Basic setters
@@ -255,24 +227,21 @@ T Point<T, 3>::absmax() const {
 template <typename T>
 size_t Point<T, 3>::dominantAxis() const {
     return (std::fabs(x) > std::fabs(y))
-        ? ((std::fabs(x) > std::fabs(z)) ? 0 : 2)
-        : ((std::fabs(y) > std::fabs(z)) ? 1 : 2);
+               ? ((std::fabs(x) > std::fabs(z)) ? 0 : 2)
+               : ((std::fabs(y) > std::fabs(z)) ? 1 : 2);
 }
 
 template <typename T>
 size_t Point<T, 3>::subminantAxis() const {
     return (std::fabs(x) < std::fabs(y))
-        ? ((std::fabs(x) < std::fabs(z)) ? 0 : 2)
-        : ((std::fabs(y) < std::fabs(z)) ? 1 : 2);
+               ? ((std::fabs(x) < std::fabs(z)) ? 0 : 2)
+               : ((std::fabs(y) < std::fabs(z)) ? 1 : 2);
 }
 
 template <typename T>
 template <typename U>
 Point3<U> Point<T, 3>::castTo() const {
-    return Point3<U>(
-        static_cast<U>(x),
-        static_cast<U>(y),
-        static_cast<U>(z));
+    return Point3<U>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z));
 }
 
 template <typename T>
@@ -363,7 +332,6 @@ bool Point<T, 3>::operator!=(const Point& v) const {
     return !isEqual(v);
 }
 
-
 template <typename T>
 Point<T, 3> operator+(const Point<T, 3>& a) {
     return a;
@@ -436,23 +404,21 @@ Point<T, 3> operator/(const Point<T, 3>& a, const Point<T, 3>& b) {
 
 template <typename T>
 Point<T, 3> min(const Point<T, 3>& a, const Point<T, 3>& b) {
-    return Point<T, 3>(
-        std::min(a.x, b.x), std::min(a.y, b.y), std::min(a.z, b.z));
+    return Point<T, 3>(std::min(a.x, b.x), std::min(a.y, b.y),
+                       std::min(a.z, b.z));
 }
 
 template <typename T>
 Point<T, 3> max(const Point<T, 3>& a, const Point<T, 3>& b) {
-    return Point<T, 3>(
-        std::max(a.x, b.x), std::max(a.y, b.y), std::max(a.z, b.z));
+    return Point<T, 3>(std::max(a.x, b.x), std::max(a.y, b.y),
+                       std::max(a.z, b.z));
 }
 
 template <typename T>
-Point<T, 3> clamp(
-    const Point<T, 3>& v, const Point<T, 3>& low, const Point<T, 3>& high) {
-    return Point<T, 3>(
-        clamp(v.x, low.x, high.x),
-        clamp(v.y, low.y, high.y),
-        clamp(v.z, low.z, high.z));
+Point<T, 3> clamp(const Point<T, 3>& v, const Point<T, 3>& low,
+                  const Point<T, 3>& high) {
+    return Point<T, 3>(clamp(v.x, low.x, high.x), clamp(v.y, low.y, high.y),
+                       clamp(v.z, low.z, high.z));
 }
 
 template <typename T>

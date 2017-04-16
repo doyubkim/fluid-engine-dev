@@ -9,6 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_accessor1.h>
+
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -30,6 +31,8 @@ template <typename T>
 class Array<T, 1> final {
  public:
     typedef std::vector<T> ContainerType;
+    typedef typename ContainerType::iterator Iterator;
+    typedef typename ContainerType::const_iterator ConstIterator;
 
     //! Constructs zero-sized 1-D array.
     Array();
@@ -55,6 +58,9 @@ class Array<T, 1> final {
 
     //! Copy constructor.
     Array(const Array& other);
+
+    //! Move constructor.
+    Array(Array&& other);
 
     //! Sets entire array with given \p value.
     void set(const T& value);
@@ -87,16 +93,16 @@ class Array<T, 1> final {
     const T* const data() const;
 
     //! Returns the begin iterator of the array.
-    typename ContainerType::iterator begin();
+    Iterator begin();
 
     //! Returns the begin const iterator of the array.
-    typename ContainerType::const_iterator begin() const;
+    ConstIterator begin() const;
 
     //! Returns the end iterator of the array.
-    typename ContainerType::iterator end();
+    Iterator end();
 
     //! Returns the end const iterator of the array.
-    typename ContainerType::const_iterator end() const;
+    ConstIterator end() const;
 
     //! Returns the array accessor.
     ArrayAccessor1<T> accessor();
@@ -204,6 +210,9 @@ class Array<T, 1> final {
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
 
+    //! Move assignment.
+    Array& operator=(Array&& other);
+
     //! Copies given initializer list \p lst to this array.
     Array& operator=(const std::initializer_list<T>& lst);
 
@@ -218,7 +227,8 @@ class Array<T, 1> final {
 };
 
 //! Type alias for 1-D array.
-template <typename T> using Array1 = Array<T, 1>;
+template <typename T>
+using Array1 = Array<T, 1>;
 
 }  // namespace jet
 

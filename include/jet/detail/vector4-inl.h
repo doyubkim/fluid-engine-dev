@@ -17,40 +17,9 @@ namespace jet {
 
 // Constructors
 template <typename T>
-Vector<T, 4>::Vector() :
-    x(0),
-    y(0),
-    z(0) {
-}
-
-template <typename T>
-Vector<T, 4>::Vector(T newX, T newY, T newZ, T newW) :
-    x(newX),
-    y(newY),
-    z(newZ),
-    w(newW) {
-}
-
-template <typename T>
-Vector<T, 4>::Vector(const Vector<T, 3>& pt, T newW) :
-    x(pt.x),
-    y(pt.y),
-    z(pt.z),
-    w(newW) {
-}
-
-template <typename T>
 template <typename U>
 Vector<T, 4>::Vector(const std::initializer_list<U>& lst) {
     set(lst);
-}
-
-template <typename T>
-Vector<T, 4>::Vector(const Vector& v) :
-    x(v.x),
-    y(v.y),
-    z(v.z),
-    w(v.w) {
 }
 
 // Basic setters
@@ -264,7 +233,7 @@ T Vector<T, 4>::sum() const {
 
 template <typename T>
 T Vector<T, 4>::avg() const {
-    return (x + y + z + w)/4;
+    return (x + y + z + w) / 4;
 }
 
 template <typename T>
@@ -290,23 +259,23 @@ T Vector<T, 4>::absmax() const {
 template <typename T>
 size_t Vector<T, 4>::dominantAxis() const {
     return (std::fabs(x) > std::fabs(y))
-        ? ((std::fabs(x) > std::fabs(z))
-            ? ((std::fabs(x) > std::fabs(w)) ? 0 : 3)
-            : ((std::fabs(x) > std::fabs(w)) ? 2 : 3))
-        : ((std::fabs(y) > std::fabs(z))
-            ? ((std::fabs(y) > std::fabs(w)) ? 1 : 3)
-            : ((std::fabs(z) > std::fabs(w)) ? 2 : 3));
+               ? ((std::fabs(x) > std::fabs(z))
+                      ? ((std::fabs(x) > std::fabs(w)) ? 0 : 3)
+                      : ((std::fabs(x) > std::fabs(w)) ? 2 : 3))
+               : ((std::fabs(y) > std::fabs(z))
+                      ? ((std::fabs(y) > std::fabs(w)) ? 1 : 3)
+                      : ((std::fabs(z) > std::fabs(w)) ? 2 : 3));
 }
 
 template <typename T>
 size_t Vector<T, 4>::subminantAxis() const {
     return (std::fabs(x) < std::fabs(y))
-        ? ((std::fabs(x) < std::fabs(z))
-            ? ((std::fabs(x) < std::fabs(w)) ? 0 : 3)
-            : ((std::fabs(x) < std::fabs(w)) ? 2 : 3))
-        : ((std::fabs(y) < std::fabs(z))
-            ? ((std::fabs(y) < std::fabs(w)) ? 1 : 3)
-            : ((std::fabs(z) < std::fabs(w)) ? 2 : 3));
+               ? ((std::fabs(x) < std::fabs(z))
+                      ? ((std::fabs(x) < std::fabs(w)) ? 0 : 3)
+                      : ((std::fabs(x) < std::fabs(w)) ? 2 : 3))
+               : ((std::fabs(y) < std::fabs(z))
+                      ? ((std::fabs(y) < std::fabs(w)) ? 1 : 3)
+                      : ((std::fabs(z) < std::fabs(w)) ? 2 : 3));
 }
 
 template <typename T>
@@ -338,11 +307,8 @@ T Vector<T, 4>::distanceSquaredTo(const Vector<T, 4>& other) const {
 template <typename T>
 template <typename U>
 Vector<U, 4> Vector<T, 4>::castTo() const {
-    return Vector<U, 4>(
-        static_cast<U>(x),
-        static_cast<U>(y),
-        static_cast<U>(z),
-        static_cast<U>(w));
+    return Vector<U, 4>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z),
+                        static_cast<U>(w));
 }
 
 template <typename T>
@@ -353,9 +319,9 @@ bool Vector<T, 4>::isEqual(const Vector& other) const {
 template <typename T>
 bool Vector<T, 4>::isSimilar(const Vector& other, T epsilon) const {
     return (std::fabs(x - other.x) < epsilon) &&
-        (std::fabs(y - other.y) < epsilon) &&
-        (std::fabs(z - other.z) < epsilon) &&
-        (std::fabs(w - other.w) < epsilon);
+           (std::fabs(y - other.y) < epsilon) &&
+           (std::fabs(z - other.z) < epsilon) &&
+           (std::fabs(w - other.w) < epsilon);
 }
 
 // Operators
@@ -442,7 +408,6 @@ bool Vector<T, 4>::operator!=(const Vector& v) const {
     return x != v.x || y != v.y || z != v.z || w != v.w;
 }
 
-
 template <typename T>
 Vector<T, 4> operator+(const Vector<T, 4>& a) {
     return a;
@@ -515,54 +480,40 @@ Vector<T, 4> operator/(const Vector<T, 4>& a, const Vector<T, 4>& b) {
 
 template <typename T>
 Vector<T, 4> min(const Vector<T, 4>& a, const Vector<T, 4>& b) {
-    return Vector<T, 4>(
-        std::min(a.x, b.x),
-        std::min(a.y, b.y),
-        std::min(a.z, b.z),
-        std::min(a.w, b.w));
+    return Vector<T, 4>(std::min(a.x, b.x), std::min(a.y, b.y),
+                        std::min(a.z, b.z), std::min(a.w, b.w));
 }
 
 template <typename T>
 Vector<T, 4> max(const Vector<T, 4>& a, const Vector<T, 4>& b) {
-    return Vector<T, 4>(
-        std::max(a.x, b.x),
-        std::max(a.y, b.y),
-        std::max(a.z, b.z),
-        std::max(a.w, b.w));
+    return Vector<T, 4>(std::max(a.x, b.x), std::max(a.y, b.y),
+                        std::max(a.z, b.z), std::max(a.w, b.w));
 }
 
 template <typename T>
-Vector<T, 4> clamp(
-    const Vector<T, 4>& v,
-    const Vector<T, 4>& low,
-    const Vector<T, 4>& high) {
-    return Vector<T, 4>(
-        clamp(v.x, low.x, high.x),
-        clamp(v.y, low.y, high.y),
-        clamp(v.z, low.z, high.z),
-        clamp(v.w, low.w, high.w));
+Vector<T, 4> clamp(const Vector<T, 4>& v, const Vector<T, 4>& low,
+                   const Vector<T, 4>& high) {
+    return Vector<T, 4>(clamp(v.x, low.x, high.x), clamp(v.y, low.y, high.y),
+                        clamp(v.z, low.z, high.z), clamp(v.w, low.w, high.w));
 }
 
 template <typename T>
 Vector<T, 4> ceil(const Vector<T, 4>& a) {
-    return Vector<T, 4>(
-        std::ceil(a.x), std::ceil(a.y), std::ceil(a.z), std::ceil(a.w));
+    return Vector<T, 4>(std::ceil(a.x), std::ceil(a.y), std::ceil(a.z),
+                        std::ceil(a.w));
 }
 
 template <typename T>
 Vector<T, 4> floor(const Vector<T, 4>& a) {
-    return Vector<T, 4>(
-        std::floor(a.x), std::floor(a.y), std::floor(a.z), std::floor(a.w));
+    return Vector<T, 4>(std::floor(a.x), std::floor(a.y), std::floor(a.z),
+                        std::floor(a.w));
 }
 
 // Extensions
 template <typename T>
-Vector<T, 4> monotonicCatmullRom(
-    const Vector<T, 4>& v0,
-    const Vector<T, 4>& v1,
-    const Vector<T, 4>& v2,
-    const Vector<T, 4>& v3,
-    T f) {
+Vector<T, 4> monotonicCatmullRom(const Vector<T, 4>& v0, const Vector<T, 4>& v1,
+                                 const Vector<T, 4>& v2, const Vector<T, 4>& v3,
+                                 T f) {
     static const T two = static_cast<T>(2);
     static const T three = static_cast<T>(3);
 
@@ -571,26 +522,22 @@ Vector<T, 4> monotonicCatmullRom(
     Vector<T, 4> D1 = v2 - v1;
 
     if (std::fabs(D1.x) < std::numeric_limits<float>::epsilon() ||
-        sign(D1.x) != sign(d1.x) ||
-        sign(D1.x) != sign(d2.x)) {
+        sign(D1.x) != sign(d1.x) || sign(D1.x) != sign(d2.x)) {
         d1.x = d2.x = 0;
     }
 
     if (std::fabs(D1.y) < std::numeric_limits<float>::epsilon() ||
-        sign(D1.y) != sign(d1.y) ||
-        sign(D1.y) != sign(d2.y)) {
+        sign(D1.y) != sign(d1.y) || sign(D1.y) != sign(d2.y)) {
         d1.y = d2.y = 0;
     }
 
     if (std::fabs(D1.z) < std::numeric_limits<float>::epsilon() ||
-        sign(D1.z) != sign(d1.z) ||
-        sign(D1.z) != sign(d2.z)) {
+        sign(D1.z) != sign(d1.z) || sign(D1.z) != sign(d2.z)) {
         d1.z = d2.z = 0;
     }
 
     if (std::fabs(D1.w) < std::numeric_limits<float>::epsilon() ||
-        sign(D1.w) != sign(d1.w) ||
-        sign(D1.w) != sign(d2.w)) {
+        sign(D1.w) != sign(d1.w) || sign(D1.w) != sign(d2.w)) {
         d1.w = d2.w = 0;
     }
 
@@ -605,4 +552,3 @@ Vector<T, 4> monotonicCatmullRom(
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_VECTOR4_INL_H_
-

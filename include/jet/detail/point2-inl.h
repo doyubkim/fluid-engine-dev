@@ -17,27 +17,9 @@ namespace jet {
 
 // Constructors
 template <typename T>
-Point<T, 2>::Point() :
-    x(0),
-    y(0) {
-}
-
-template <typename T>
-Point<T, 2>::Point(T newX, T newY) :
-    x(newX),
-    y(newY) {
-}
-
-template <typename T>
 template <typename U>
 Point<T, 2>::Point(const std::initializer_list<U>& lst) {
     set(lst);
-}
-
-template <typename T>
-Point<T, 2>::Point(const Point& v) :
-    x(v.x),
-    y(v.y) {
 }
 
 // Basic setters

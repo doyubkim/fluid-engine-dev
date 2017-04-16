@@ -9,6 +9,7 @@
 
 #include <jet/matrix.h>
 #include <jet/vector3.h>
+
 #include <array>
 #include <limits>
 
@@ -26,9 +27,8 @@ namespace jet {
 template <typename T>
 class Matrix<T, 3, 3> {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Matrix only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Matrix only can be instantiated with floating point types");
 
     // MARK: Constructors
 
@@ -40,10 +40,7 @@ class Matrix<T, 3, 3> {
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    Matrix(
-        T m00, T m01, T m02,
-        T m10, T m11, T m12,
-        T m20, T m21, T m22);
+    Matrix(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -52,10 +49,10 @@ class Matrix<T, 3, 3> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 3, 3> arr = {
-    //!     {1, 2, 4},
-    //!     {9, 3, 5},
-    //!     {4, 8, 1}
+    //! Matrix<float, 3, 3> arr = {
+    //!     {1.f, 2.f, 4.f},
+    //!     {9.f, 3.f, 5.f},
+    //!     {4.f, 8.f, 1.f}
     //! };
     //! \endcode
     //!
@@ -73,7 +70,6 @@ class Matrix<T, 3, 3> {
     //! \warning Ordering of the input elements is row-major.
     explicit Matrix(const T* arr);
 
-
     // MARK: Basic setters
 
     //! Sets whole matrix with input scalar.
@@ -81,10 +77,7 @@ class Matrix<T, 3, 3> {
 
     //! Sets this matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    void set(
-        T m00, T m01, T m02,
-        T m10, T m11, T m12,
-        T m20, T m21, T m22);
+    void set(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);
 
     //!
     //! \brief Sets a matrix with given initializer list \p lst.
@@ -93,11 +86,12 @@ class Matrix<T, 3, 3> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 3, 3> arr = {
-    //!     {1, 2, 4},
-    //!     {9, 3, 5},
-    //!     {4, 8, 1}
-    //! };
+    //! Matrix<float, 3, 3> arr;
+    //! arr.set({
+    //!     {1.f, 2.f, 4.f},
+    //!     {9.f, 3.f, 5.f},
+    //!     {4.f, 8.f, 1.f}
+    //! });
     //! \endcode
     //!
     //! Note the initializer also has 3x3 structure.
@@ -126,14 +120,12 @@ class Matrix<T, 3, 3> {
     //! Sets i-th column with input vector.
     void setColumn(size_t i, const Vector3<T>& col);
 
-
     // MARK: Basic getters
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool isSimilar(
-        const Matrix& m,
-        double tol = std::numeric_limits<double>::epsilon()) const;
+    bool isSimilar(const Matrix& m,
+                   double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
     bool isSquare() const;
@@ -149,7 +141,6 @@ class Matrix<T, 3, 3> {
 
     //! Returns constant pointer of this matrix.
     const T* data() const;
-
 
     // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
@@ -176,7 +167,6 @@ class Matrix<T, 3, 3> {
     //! Returns this matrix / input scalar.
     Matrix div(T s) const;
 
-
     // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
     Matrix radd(T s) const;
@@ -198,7 +188,6 @@ class Matrix<T, 3, 3> {
 
     //! Returns input scalar / this matrix.
     Matrix rdiv(T s) const;
-
 
     // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
@@ -222,14 +211,12 @@ class Matrix<T, 3, 3> {
     //! Divides this matrix with input scalar.
     void idiv(T s);
 
-
     // MARK: Modifiers
     //! Transposes this matrix.
     void transpose();
 
     //! Inverts this matrix.
     void invert();
-
 
     // MARK: Complex getters
     //! Returns sum of all elements.
@@ -308,7 +295,6 @@ class Matrix<T, 3, 3> {
     //! Division assignment with input scalar.
     Matrix& operator/=(T s);
 
-
     // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
@@ -327,7 +313,6 @@ class Matrix<T, 3, 3> {
 
     //! Returns true if is not equal to m.
     bool operator!=(const Matrix& m) const;
-
 
     // MARK: Helpers
     //! Sets all matrix entries to zero.
@@ -351,8 +336,8 @@ class Matrix<T, 3, 3> {
 };
 
 //! Type alias for 3x3 matrix.
-template <typename T> using Matrix3x3 = Matrix<T, 3, 3>;
-
+template <typename T>
+using Matrix3x3 = Matrix<T, 3, 3>;
 
 // Operator overloadings
 //! Returns a matrix with opposite sign.
@@ -399,19 +384,11 @@ Vector3<T> operator*(const Matrix3x3<T>& a, const Vector3<T>& b);
 template <typename T>
 Matrix3x3<T> operator*(const Matrix3x3<T>& a, const Matrix3x3<T>& b);
 
-//! Returns a * b.
-template <typename T>
-Matrix3x3<T> operator*(const Matrix3x3<T>& a, const Matrix3x3<T>& b);
-
-//! Returns a * b.
-template <typename T>
-Matrix3x3<T> operator*(const Matrix3x3<T>& a, const Matrix3x3<T>& b);
-
-//! Returns a / b', where every element of matrix b' is b.
+//! Returns a' / b, where every element of matrix a' is a.
 template <typename T>
 Matrix3x3<T> operator/(const Matrix3x3<T>& a, T b);
 
-//! Returns a' / b, where every element of matrix a' is a.
+//! Returns a / b', where every element of matrix b' is b.
 template <typename T>
 Matrix3x3<T> operator/(T a, const Matrix3x3<T>& b);
 

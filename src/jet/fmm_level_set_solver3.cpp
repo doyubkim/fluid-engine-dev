@@ -218,9 +218,6 @@ inline double solveQuad(
 
     if (det > 0.0) {
         solution = (-b + std::sqrt(det)) / a;
-
-        if (a*solution*solution + 2*b*solution + c > 1e-6)
-            printf("%f, %f\n", a*solution*solution + 2*b*solution + c, det);
     }
 
     return solution;

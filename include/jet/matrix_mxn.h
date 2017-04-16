@@ -4,54 +4,42 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_MATRIX_H_
-#define INCLUDE_JET_MATRIX_H_
+#ifndef INCLUDE_JET_MATRIX_MXN_H_
+#define INCLUDE_JET_MATRIX_MXN_H_
 
-#include <jet/macros.h>
+#include <jet/array2.h>
 #include <jet/matrix_expression.h>
-
-#include <array>
-#include <type_traits>
+#include <jet/vector_n.h>
 
 namespace jet {
 
+// MARK: MatrixMxN
+
 //!
-//! \brief Static-sized M x N matrix class.
+//! \brief M x N matrix class.
 //!
-//! This class defines M x N row-major matrix data where its size is determined
-//! statically at compile time.
+//! This class defines M x N row-major matrix.
 //!
-//! \tparam T - Real number type.
-//! \tparam M - Number of rows.
-//! \tparam N - Number of columns.
+//! \tparam T Type of the element.
 //!
-template <typename T, size_t M, size_t N>
-class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
+template <typename T>
+class MatrixMxN final : public MatrixExpression<T, MatrixMxN<T>> {
  public:
     static_assert(
-        M > 0,
-        "Number of rows for static-sized matrix should be greater than zero.");
-    static_assert(
-        N > 0,
-        "Number of columns for static-sized matrix should be greater than "
-        "zero.");
-    static_assert(!(M == 2 && N == 2) && !(M == 3 && N == 3) &&
-                      !(M == 4 && N == 4),
-                  "Use specialized matrix for 2z2, 3x3, and 4x4 matricies.");
-    static_assert(std::is_floating_point<T>::value,
-                  "Matrix only can be instantiated with floating point types");
+        std::is_floating_point<T>::value,
+        "MatrixMxN only can be instantiated with floating point types");
 
-    typedef std::array<T, M * N> ContainerType;
-    typedef typename ContainerType::iterator Iterator;
-    typedef typename ContainerType::const_iterator ConstIterator;
+    typedef Array2<T> ContainerType;
+    typedef typename ContainerType::Iterator Iterator;
+    typedef typename ContainerType::ConstIterator ConstIterator;
 
-    //! Default constructor.
-    //! \warning This constructor will create zero matrix.
-    Matrix();
+    // MARK: Constructors
 
-    //! Constructs matrix instance with parameters.
-    template <typename... Params>
-    explicit Matrix(Params... params);
+    //! Constructs an empty matrix.
+    MatrixMxN();
+
+    //! Constructs m x n constant value matrix.
+    MatrixMxN(size_t m, size_t n, const T& s = T(0));
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -60,23 +48,32 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<float, 3, 4> mat = {
+    //! MatrixMxN<float> mat = {
     //!     {1.f, 2.f, 4.f, 3.f},
     //!     {9.f, 3.f, 5.f, 1.f},
     //!     {4.f, 8.f, 1.f, 5.f}
     //! };
     //! \endcode
     //!
+    //! Note the initializer has 4x3 structure which will create 4x3 matrix.
+    //!
     //! \param lst Initializer list that should be copy to the new matrix.
     //!
-    Matrix(const std::initializer_list<std::initializer_list<T>>& lst);
+    MatrixMxN(const std::initializer_list<std::initializer_list<T>>& lst);
 
     //! Constructs a matrix with expression template.
     template <typename E>
-    Matrix(const MatrixExpression<T, E>& other);
+    MatrixMxN(const MatrixExpression<T, E>& other);
+
+    //! Constructs a m x n matrix with input array.
+    //! \warning Ordering of the input elements is row-major.
+    MatrixMxN(size_t m, size_t n, const T* arr);
 
     //! Copy constructor.
-    Matrix(const Matrix& other);
+    MatrixMxN(const MatrixMxN& other);
+
+    //! Move constructor.
+    MatrixMxN(MatrixMxN&& other);
 
     // MARK: Basic setters
 
@@ -93,13 +90,15 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<float, 3, 4> mat;
+    //! MatrixMxN<float> mat;
     //! mat.set({
     //!     {1.f, 2.f, 4.f, 3.f},
     //!     {9.f, 3.f, 5.f, 1.f},
     //!     {4.f, 8.f, 1.f, 5.f}
     //! });
     //! \endcode
+    //!
+    //! Note the initializer has 4x3 structure which will resize to 4x3 matrix.
     //!
     //! \param lst Initializer list that should be copy to the new matrix.
     //!
@@ -108,6 +107,10 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     //! Copies from input matrix expression.
     template <typename E>
     void set(const MatrixExpression<T, E>& other);
+
+    //! Copies from input array.
+    //! \warning Ordering of the input elements is row-major.
+    void set(size_t m, size_t n, const T* arr);
 
     //! Sets diagonal elements with input scalar.
     void setDiagonal(const T& s);
@@ -134,16 +137,16 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
                    double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
-    constexpr bool isSquare() const;
+    bool isSquare() const;
 
     //! Returns the size of this matrix.
-    constexpr Size2 size() const;
+    Size2 size() const;
 
     //! Returns number of rows of this matrix.
-    constexpr size_t rows() const;
+    size_t rows() const;
 
     //! Returns number of columns of this matrix.
-    constexpr size_t cols() const;
+    size_t cols() const;
 
     //! Returns data pointer of this matrix.
     T* data();
@@ -166,57 +169,58 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     // MARK: Binary operator methods - new instance = this instance (+) input
 
     //! Returns this matrix + input scalar.
-    MatrixScalarAdd<T, Matrix> add(const T& s) const;
+    MatrixScalarAdd<T, MatrixMxN> add(const T& s) const;
 
     //! Returns this matrix + input matrix (element-wise).
     template <typename E>
-    MatrixAdd<T, Matrix, E> add(const E& m) const;
+    MatrixAdd<T, MatrixMxN, E> add(const E& m) const;
 
     //! Returns this matrix - input scalar.
-    MatrixScalarSub<T, Matrix> sub(const T& s) const;
+    MatrixScalarSub<T, MatrixMxN> sub(const T& s) const;
 
     //! Returns this matrix - input matrix (element-wise).
     template <typename E>
-    MatrixSub<T, Matrix, E> sub(const E& m) const;
+    MatrixSub<T, MatrixMxN, E> sub(const E& m) const;
 
     //! Returns this matrix * input scalar.
-    MatrixScalarMul<T, Matrix> mul(const T& s) const;
+    MatrixScalarMul<T, MatrixMxN> mul(const T& s) const;
 
     //! Returns this matrix * input vector.
     template <typename VE>
-    MatrixVectorMul<T, Matrix, VE> mul(const VectorExpression<T, VE>& v) const;
+    MatrixVectorMul<T, MatrixMxN, VE> mul(
+        const VectorExpression<T, VE>& v) const;
 
     //! Returns this matrix * input matrix.
-    template <size_t L>
-    MatrixMul<T, Matrix, Matrix<T, N, L>> mul(const Matrix<T, N, L>& m) const;
+    template <typename E>
+    MatrixMul<T, MatrixMxN, E> mul(const E& m) const;
 
     //! Returns this matrix / input scalar.
-    MatrixScalarDiv<T, Matrix> div(const T& s) const;
+    MatrixScalarDiv<T, MatrixMxN> div(const T& s) const;
 
     // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
-    MatrixScalarAdd<T, Matrix> radd(const T& s) const;
+    MatrixScalarAdd<T, MatrixMxN> radd(const T& s) const;
 
     //! Returns input matrix + this matrix (element-wise).
     template <typename E>
-    MatrixAdd<T, Matrix, E> radd(const E& m) const;
+    MatrixAdd<T, MatrixMxN, E> radd(const E& m) const;
 
     //! Returns input scalar - this matrix.
-    MatrixScalarRSub<T, Matrix> rsub(const T& s) const;
+    MatrixScalarRSub<T, MatrixMxN> rsub(const T& s) const;
 
     //! Returns input matrix - this matrix (element-wise).
     template <typename E>
-    MatrixSub<T, Matrix, E> rsub(const E& m) const;
+    MatrixSub<T, MatrixMxN, E> rsub(const E& m) const;
 
     //! Returns input scalar * this matrix.
-    MatrixScalarMul<T, Matrix> rmul(const T& s) const;
+    MatrixScalarMul<T, MatrixMxN> rmul(const T& s) const;
 
     //! Returns input matrix * this matrix.
-    template <size_t L>
-    MatrixMul<T, Matrix<T, N, L>, Matrix> rmul(const Matrix<T, N, L>& m) const;
+    template <typename E>
+    MatrixMul<T, E, MatrixMxN> rmul(const E& m) const;
 
     //! Returns input matrix / this scalar.
-    MatrixScalarRDiv<T, Matrix> rdiv(const T& s) const;
+    MatrixScalarRDiv<T, MatrixMxN> rdiv(const T& s) const;
 
     // MARK: Augmented operator methods - this instance (+)= input
 
@@ -283,64 +287,68 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     T determinant() const;
 
     //! Returns diagonal part of this matrix.
-    MatrixDiagonal<T, Matrix> diagonal() const;
+    MatrixDiagonal<T, MatrixMxN> diagonal() const;
 
     //! Returns off-diagonal part of this matrix.
-    MatrixDiagonal<T, Matrix> offDiagonal() const;
+    MatrixDiagonal<T, MatrixMxN> offDiagonal() const;
 
     //! Returns strictly lower triangle part of this matrix.
-    MatrixTriangular<T, Matrix> strictLowerTri() const;
+    MatrixTriangular<T, MatrixMxN> strictLowerTri() const;
 
     //! Returns strictly upper triangle part of this matrix.
-    MatrixTriangular<T, Matrix> strictUpperTri() const;
+    MatrixTriangular<T, MatrixMxN> strictUpperTri() const;
 
     //! Returns lower triangle part of this matrix (including the diagonal).
-    MatrixTriangular<T, Matrix> lowerTri() const;
+    MatrixTriangular<T, MatrixMxN> lowerTri() const;
 
     //! Returns upper triangle part of this matrix (including the diagonal).
-    MatrixTriangular<T, Matrix> upperTri() const;
+    MatrixTriangular<T, MatrixMxN> upperTri() const;
 
     //! Returns transposed matrix.
-    Matrix<T, N, M> transposed() const;
+    MatrixMxN transposed() const;
 
     //! Returns inverse matrix.
-    Matrix inverse() const;
+    MatrixMxN inverse() const;
 
+    //! Type-casts to different value-typed matrix.
     template <typename U>
-    MatrixTypeCast<U, Matrix, T> castTo() const;
+    MatrixTypeCast<U, MatrixMxN, T> castTo() const;
 
     // MARK: Setter operators
 
     //! Assigns input matrix.
     template <typename E>
-    Matrix& operator=(const E& m);
+    MatrixMxN& operator=(const E& m);
 
     //! Copies to this matrix.
-    Matrix& operator=(const Matrix& other);
+    MatrixMxN& operator=(const MatrixMxN& other);
+
+    //! Moves to this matrix.
+    MatrixMxN& operator=(MatrixMxN&& other);
 
     //! Addition assignment with input scalar.
-    Matrix& operator+=(const T& s);
+    MatrixMxN& operator+=(const T& s);
 
     //! Addition assignment with input matrix (element-wise).
     template <typename E>
-    Matrix& operator+=(const E& m);
+    MatrixMxN& operator+=(const E& m);
 
     //! Subtraction assignment with input scalar.
-    Matrix& operator-=(const T& s);
+    MatrixMxN& operator-=(const T& s);
 
     //! Subtraction assignment with input matrix (element-wise).
     template <typename E>
-    Matrix& operator-=(const E& m);
+    MatrixMxN& operator-=(const E& m);
 
     //! Multiplication assignment with input scalar.
-    Matrix& operator*=(const T& s);
+    MatrixMxN& operator*=(const T& s);
 
     //! Multiplication assignment with input matrix.
     template <typename E>
-    Matrix& operator*=(const E& m);
+    MatrixMxN& operator*=(const E& m);
 
     //! Division assignment with input scalar.
-    Matrix& operator/=(const T& s);
+    MatrixMxN& operator/=(const T& s);
 
     // MARK: Getter operators
 
@@ -424,25 +432,69 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     template <typename Callback>
     void forEachIndex(Callback func) const;
 
+    //!
+    //! \brief Iterates the matrix and invoke given \p func for each index in
+    //!     parallel.
+    //!
+    //! This function iterates the matrix elements and invoke the callback
+    //! function \p func. The callback function takes matrix's element as its
+    //! input. The order of execution will be non-deterministic since it runs in
+    //! parallel. Below is the sample usage:
+    //!
+    //! \code{.cpp}
+    //! MatrixMxN<double> mat(100, 200, 4.0);
+    //! mat.parallelForEach([](double& elem) {
+    //!     elem *= 2.0;
+    //! });
+    //! \endcode
+    //!
+    //! The parameter type of the callback function doesn't have to be T&, but
+    //! const T& or T can be used as well.
+    //!
+    template <typename Callback>
+    void parallelForEach(Callback func);
+
+    //!
+    //! \brief Iterates the matrix and invoke given \p func for each index in
+    //!     parallel using multi-threading.
+    //!
+    //! This function iterates the matrix elements and invoke the callback
+    //! function \p func in parallel using multi-threading. The callback
+    //! function takes two parameters which are the (i, j) indices of the
+    //! matrix. The order of execution will be non-deterministic since it runs
+    //! in parallel. Below is the sample usage:
+    //!
+    //! \code{.cpp}
+    //! MatrixMxN<double> mat(100, 200, 4.0);
+    //! mat.parallelForEachIndex([&](size_t i, size_t j) {
+    //!     mat(i, j) *= 2;
+    //! });
+    //! \endcode
+    //!
+    template <typename Callback>
+    void parallelForEachIndex(Callback func) const;
+
     // MARK: Builders
 
-    //! Makes a M x N matrix with zeros.
-    static MatrixConstant<T> makeZero();
+    //! Makes a m x n matrix with zeros.
+    static MatrixConstant<T> makeZero(size_t m, size_t n);
 
-    //! Makes a M x N matrix with all diagonal elements to 1, and other elements
+    //! Makes a m x m matrix with all diagonal elements to 1, and other elements
     //! to 0.
-    static MatrixIdentity<T> makeIdentity();
+    static MatrixIdentity<T> makeIdentity(size_t m);
 
  private:
     ContainerType _elements;
-
-    template <typename... Params>
-    void setRowAt(size_t i, T v, Params... params);
-    void setRowAt(size_t i, T v);
 };
+
+//! Float-type M x N matrix.
+typedef MatrixMxN<float> MatrixMxNF;
+
+//! Double-type M x N matrix.
+typedef MatrixMxN<double> MatrixMxND;
 
 }  // namespace jet
 
-#include "detail/matrix-inl.h"
+#include "detail/matrix_mxn-inl.h"
 
-#endif  // INCLUDE_JET_MATRIX_H_
+#endif  // INCLUDE_JET_MATRIX_MXN_H_

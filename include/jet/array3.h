@@ -9,6 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_accessor3.h>
+
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -42,6 +43,8 @@ template <typename T>
 class Array<T, 3> final {
  public:
     typedef std::vector<T> ContainerType;
+    typedef typename ContainerType::iterator Iterator;
+    typedef typename ContainerType::const_iterator ConstIterator;
 
     //! Constructs zero-sized 3-D array.
     Array();
@@ -57,8 +60,8 @@ class Array<T, 3> final {
     //! \param height Initial height of the array.
     //! \param depth Initial depth of the array.
     //! \param initVal Initial value of each array element.
-    explicit Array(
-        size_t width, size_t height, size_t depth, const T& initVal = T());
+    explicit Array(size_t width, size_t height, size_t depth,
+                   const T& initVal = T());
 
     //!
     //! \brief Constructs 3-D array with given initializer list \p lst.
@@ -81,12 +84,14 @@ class Array<T, 3> final {
     //!
     //! \param lst Initializer list that should be copy to the new array.
     //!
-    Array(
-        const std::initializer_list<
-            std::initializer_list<std::initializer_list<T>>>& lst);
+    Array(const std::initializer_list<
+          std::initializer_list<std::initializer_list<T>>>& lst);
 
     //! Copy constructor.
     Array(const Array& other);
+
+    //! Move constructor.
+    Array(Array&& other);
 
     //! Sets entire array with given \p value.
     void set(const T& value);
@@ -115,9 +120,8 @@ class Array<T, 3> final {
     //!
     //! \param lst Initializer list that should be copy to the new array.
     //!
-    void set(
-        const std::initializer_list<
-            std::initializer_list<std::initializer_list<T>>>& lst);
+    void set(const std::initializer_list<
+             std::initializer_list<std::initializer_list<T>>>& lst);
 
     //! Clears the array and resizes to zero.
     void clear();
@@ -127,8 +131,8 @@ class Array<T, 3> final {
 
     //! Resizes the array with size \p width x \p height and fill the new
     //! element with \p initVal.
-    void resize(
-        size_t width, size_t height, size_t depth, const T& initVal = T());
+    void resize(size_t width, size_t height, size_t depth,
+                const T& initVal = T());
 
     //!
     //! \brief Returns the reference to the i-th element.
@@ -178,16 +182,16 @@ class Array<T, 3> final {
     T* data();
 
     //! Returns the begin iterator of the array.
-    typename ContainerType::iterator begin();
+    Iterator begin();
 
     //! Returns the begin const iterator of the array.
-    typename ContainerType::const_iterator begin() const;
+    ConstIterator begin() const;
 
     //! Returns the end iterator of the array.
-    typename ContainerType::iterator end();
+    Iterator end();
 
     //! Returns the end const iterator of the array.
-    typename ContainerType::const_iterator end() const;
+    ConstIterator end() const;
 
     //! Returns the const raw pointer to the array data.
     const T* const data() const;
@@ -347,6 +351,9 @@ class Array<T, 3> final {
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
 
+    //! Move assignment.
+    Array& operator=(Array&& other);
+
     //!
     //! Copies given initializer list \p lst to this array.
     //!
@@ -368,9 +375,8 @@ class Array<T, 3> final {
     //!
     //! \param lst Initializer list that should be copy to the new array.
     //!
-    Array& operator=(
-        const std::initializer_list<
-            std::initializer_list<std::initializer_list<T>>>& lst);
+    Array& operator=(const std::initializer_list<
+                     std::initializer_list<std::initializer_list<T>>>& lst);
 
     //! Casts to array accessor.
     operator ArrayAccessor3<T>();
@@ -384,7 +390,8 @@ class Array<T, 3> final {
 };
 
 //! Type alias for 3-D array.
-template <typename T> using Array3 = Array<T, 3>;
+template <typename T>
+using Array3 = Array<T, 3>;
 
 }  // namespace jet
 
