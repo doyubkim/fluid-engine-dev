@@ -100,7 +100,7 @@ void printInfo(const PicSolver3Ptr& solver) {
 void runSimulation(
     const std::string& rootDir,
     const PicSolver3Ptr& solver,
-    size_t numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     auto particles = solver->particleSystemData();
