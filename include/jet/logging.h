@@ -67,6 +67,12 @@ class Logging {
 
     //! Returns the header string.
     static std::string getHeader(LoggingLevel level);
+
+    //! Mutes the logger.
+    static void mute();
+
+    //! Un-mutes the logger.
+    static void unmute();
 };
 
 //! Info-level logger.

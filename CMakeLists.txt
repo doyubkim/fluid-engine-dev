@@ -7,7 +7,7 @@
 #
 
 # CMake version
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -23,6 +23,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 # Includes
 include_directories(include)
 include_directories(external)
+include_directories(external/pybind11/include)
 include_directories(external/googletest/googletest/include)
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     include_directories(src/winix)
@@ -30,6 +31,7 @@ endif()
 
 # Compile options
 include(cmake/CompileOptions.cmake)
+add_definitions(-DVERSION_INFO="1.0.5")
 
 # Build type - Release by default
 if (NOT CMAKE_BUILD_TYPE)
@@ -74,3 +76,6 @@ add_subdirectory(src/examples/particles2obj)
 add_subdirectory(src/examples/particles2xml)
 add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
+
+add_subdirectory(external/pybind11)
+add_subdirectory(src/python)
