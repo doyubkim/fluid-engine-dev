@@ -66,8 +66,7 @@ TEST(GridFluidSolver2, GravityOnly) {
     solver.resizeGrid(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
     solver.velocity()->fill(Vector2D());
 
-    Frame frame(0, 1.0 / 60.0);
-    frame.timeIntervalInSeconds = 0.01;
+    Frame frame(0, 0.01);
     solver.update(frame);
 
     solver.velocity()->forEachUIndex([&](size_t i, size_t j) {

@@ -76,8 +76,7 @@ TEST(GridFluidSolver3, GravityOnly) {
         Vector3D());
     solver.velocity()->fill(Vector3D());
 
-    Frame frame(0, 1.0 / 60.0);
-    frame.timeIntervalInSeconds = 0.01;
+    Frame frame(0, 0.01);
     solver.update(frame);
 
     solver.velocity()->forEachUIndex([&](size_t i, size_t j, size_t k) {
