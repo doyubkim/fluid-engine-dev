@@ -28,11 +28,7 @@ void Frame::advance() {
     ++index;
 }
 
-<<<<<<< HEAD
 void Frame::advance(int delta) {
-=======
-void Frame::advance(int32_t delta) {
->>>>>>> [WIP] Python binding first attempt
     index += delta;
 }
 
