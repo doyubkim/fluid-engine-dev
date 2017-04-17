@@ -5,18 +5,18 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/constants.h>
 #include <jet/physics_animation.h>
 #include <jet/timer.h>
+
 #include <limits>
 
 using namespace jet;
 
-PhysicsAnimation::PhysicsAnimation() {
-}
+PhysicsAnimation::PhysicsAnimation() { _currentFrame.index = -1; }
 
-PhysicsAnimation::~PhysicsAnimation() {
-}
+PhysicsAnimation::~PhysicsAnimation() {}
 
 bool PhysicsAnimation::isUsingFixedSubTimeSteps() const {
     return _isUsingFixedSubTimeSteps;
@@ -36,21 +36,17 @@ void PhysicsAnimation::setNumberOfFixedSubTimeSteps(
 }
 
 void PhysicsAnimation::advanceSingleFrame() {
-    ++_currentFrame;
-    update(_currentFrame);
+    Frame f = _currentFrame;
+    update(++f);
 }
 
-Frame PhysicsAnimation::currentFrame() const {
-    return _currentFrame;
-}
+Frame PhysicsAnimation::currentFrame() const { return _currentFrame; }
 
 void PhysicsAnimation::setCurrentFrame(const Frame& frame) {
     _currentFrame = frame;
 }
 
-double PhysicsAnimation::currentTimeInSeconds() const {
-    return _currentTime;
-}
+double PhysicsAnimation::currentTimeInSeconds() const { return _currentTime; }
 
 unsigned int PhysicsAnimation::numberOfSubTimeSteps(
     double timeIntervalInSeconds) const {
@@ -62,15 +58,17 @@ unsigned int PhysicsAnimation::numberOfSubTimeSteps(
 
 void PhysicsAnimation::onUpdate(const Frame& frame) {
     if (frame.index > _currentFrame.index) {
-        unsigned int numberOfFrames = frame.index - _currentFrame.index;
+        if (_currentFrame.index < 0) {
+            initialize();
+        }
 
-        for (unsigned int i = 0; i < numberOfFrames; ++i) {
+        int32_t numberOfFrames = frame.index - _currentFrame.index;
+
+        for (int32_t i = 0; i < numberOfFrames; ++i) {
             advanceTimeStep(frame.timeIntervalInSeconds);
         }
 
         _currentFrame = frame;
-    } else if (frame.index == 0 && !_hasInitialized) {
-        initialize();
     }
 }
 
@@ -81,21 +79,19 @@ void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
         JET_INFO << "Using fixed sub-timesteps: " << _numberOfFixedSubTimeSteps;
 
         // Perform fixed time-stepping
-        const double actualTimeInterval
-            = timeIntervalInSeconds
-            / static_cast<double>(_numberOfFixedSubTimeSteps);
+        const double actualTimeInterval =
+            timeIntervalInSeconds /
+            static_cast<double>(_numberOfFixedSubTimeSteps);
 
         for (unsigned int i = 0; i < _numberOfFixedSubTimeSteps; ++i) {
             JET_INFO << "Begin onAdvanceTimeStep: " << actualTimeInterval
-                     << " (1/" << 1.0 / actualTimeInterval
-                     << ") seconds";
+                     << " (1/" << 1.0 / actualTimeInterval << ") seconds";
 
             Timer timer;
             onAdvanceTimeStep(actualTimeInterval);
 
             JET_INFO << "End onAdvanceTimeStep (took "
-                     << timer.durationInSeconds()
-                     << " seconds)";
+                     << timer.durationInSeconds() << " seconds)";
 
             _currentTime += actualTimeInterval;
         }
@@ -106,21 +102,19 @@ void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
         double remainingTime = timeIntervalInSeconds;
         while (remainingTime > kEpsilonD) {
             unsigned int numSteps = numberOfSubTimeSteps(remainingTime);
-            double actualTimeInterval
-                = remainingTime / static_cast<double>(numSteps);
+            double actualTimeInterval =
+                remainingTime / static_cast<double>(numSteps);
 
             JET_INFO << "Number of remaining sub-timesteps: " << numSteps;
 
             JET_INFO << "Begin onAdvanceTimeStep: " << actualTimeInterval
-                     << " (1/" << 1.0 / actualTimeInterval
-                     << ") seconds";
+                     << " (1/" << 1.0 / actualTimeInterval << ") seconds";
 
             Timer timer;
             onAdvanceTimeStep(actualTimeInterval);
 
             JET_INFO << "End onAdvanceTimeStep (took "
-                     << timer.durationInSeconds()
-                     << " seconds)";
+                     << timer.durationInSeconds() << " seconds)";
 
             remainingTime -= actualTimeInterval;
             _currentTime += actualTimeInterval;
@@ -128,10 +122,7 @@ void PhysicsAnimation::advanceTimeStep(double timeIntervalInSeconds) {
     }
 }
 
-void PhysicsAnimation::initialize() {
-    onInitialize();
-    _hasInitialized = true;
-}
+void PhysicsAnimation::initialize() { onInitialize(); }
 
 void PhysicsAnimation::onInitialize() {
     // Do nothing

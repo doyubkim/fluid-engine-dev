@@ -12,8 +12,8 @@ using namespace jet;
 TEST(SphSolver3, UpdateEmpty) {
     // Empty solver test
     SphSolver3 solver;
-    Frame frame(1, 0.01);
-    solver.update(frame);
+    Frame frame(0, 0.01);
+    solver.update(frame++);
     solver.update(frame);
 }
 

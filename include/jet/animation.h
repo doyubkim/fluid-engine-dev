@@ -20,7 +20,7 @@ namespace jet {
 //!
 struct Frame final {
     //! Frame index.
-    unsigned int index = 0;
+    int index = 0;
 
     //! Time interval in seconds between two adjacent frames.
     double timeIntervalInSeconds = 1.0 / 60.0;
@@ -29,7 +29,7 @@ struct Frame final {
     Frame();
 
     //! Constructs Frame instance with given time interval.
-    Frame(unsigned int newIndex, double newTimeIntervalInSeconds);
+    Frame(int newIndex, double newTimeIntervalInSeconds);
 
     //! Returns the elapsed time in seconds.
     double timeInSeconds() const;
@@ -39,7 +39,7 @@ struct Frame final {
 
     //! Advances multiple frames.
     //! \param delta Number of frames to advance.
-    void advance(unsigned int delta);
+    void advance(int delta);
 
     //! Advances single frame (prefix).
     Frame& operator++();

@@ -58,7 +58,7 @@ TEST(GridFluidSolver3, MinimumResolution) {
     solver.resizeGrid(Size3(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
     solver.velocity()->fill(Vector3D());
 
-    Frame frame(1, 1.0 / 60.0);
+    Frame frame(0, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
     solver.update(frame);
 }
@@ -76,7 +76,7 @@ TEST(GridFluidSolver3, GravityOnly) {
         Vector3D());
     solver.velocity()->fill(Vector3D());
 
-    Frame frame(1, 1.0 / 60.0);
+    Frame frame(0, 1.0 / 60.0);
     frame.timeIntervalInSeconds = 0.01;
     solver.update(frame);
 
