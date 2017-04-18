@@ -52,8 +52,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -186,8 +185,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -237,8 +235,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 240; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->center = Vector2D(domain.midPoint().x, 0.75 - std::cos(t));
         collider->linearVelocity = Vector2D(0, std::sin(t));
@@ -289,8 +286,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -342,8 +338,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 240; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
         sphere->center = Vector2D(domain.midPoint().x, 0.75 - std::cos(t));
         collider->linearVelocity = Vector2D(0, std::sin(t));
@@ -395,8 +390,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -440,8 +434,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {
@@ -485,8 +478,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
     saveData(output.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex([&](size_t i, size_t j) {

@@ -136,7 +136,6 @@ class PhysicsAnimation : public Animation {
     Frame _currentFrame;
     bool _isUsingFixedSubTimeSteps = true;
     unsigned int _numberOfFixedSubTimeSteps = 1;
-    bool _hasInitialized = false;
     double _currentTime = 0.0;
 
     void onUpdate(const Frame& frame) final;
@@ -151,4 +150,3 @@ typedef std::shared_ptr<PhysicsAnimation> PhysicsAnimationPtr;
 }  // namespace jet
 
 #endif  // INCLUDE_JET_PHYSICS_ANIMATION_H_
-

@@ -47,8 +47,7 @@ JET_BEGIN_TEST_F(SphSolver2, SteadyState) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 100; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 100; frame.advance()) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
@@ -98,8 +97,7 @@ JET_BEGIN_TEST_F(SphSolver2, WaterDrop) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);
@@ -150,8 +148,7 @@ JET_BEGIN_TEST_F(SphSolver2, WaterDropLargeDt) {
 
     saveParticleDataXy(particles, 0);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         saveParticleDataXy(particles, frame.index);

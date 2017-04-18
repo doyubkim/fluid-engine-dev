@@ -15,7 +15,7 @@ using namespace jet;
 Frame::Frame() {
 }
 
-Frame::Frame(unsigned int newIndex, double newTimeIntervalInSeconds)
+Frame::Frame(int newIndex, double newTimeIntervalInSeconds)
     : index(newIndex)
     , timeIntervalInSeconds(newTimeIntervalInSeconds) {
 }
@@ -28,7 +28,7 @@ void Frame::advance() {
     ++index;
 }
 
-void Frame::advance(unsigned int delta) {
+void Frame::advance(int delta) {
     index += delta;
 }
 

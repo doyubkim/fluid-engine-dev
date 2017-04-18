@@ -27,7 +27,7 @@ using namespace jet;
 void saveParticleAsPos(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
     copyRange1(
         particles->positions(), particles->numberOfParticles(), &positions);
@@ -47,7 +47,7 @@ void saveParticleAsPos(
 void saveParticleAsXyz(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
     copyRange1(
         particles->positions(), particles->numberOfParticles(), &positions);
@@ -100,7 +100,7 @@ void printInfo(const PicSolver3Ptr& solver) {
 void runSimulation(
     const std::string& rootDir,
     const PicSolver3Ptr& solver,
-    size_t numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     auto particles = solver->particleSystemData();
@@ -125,7 +125,7 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -186,7 +186,7 @@ void runExample1(
 void runExample2(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -247,7 +247,7 @@ void runExample2(
 void runExample3(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -327,7 +327,7 @@ void runExample3(
 void runExample4(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -407,7 +407,7 @@ void runExample4(
 void runExample5(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -485,7 +485,7 @@ void runExample5(
 
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
-    unsigned int numberOfFrames = 100;
+    int numberOfFrames = 100;
     double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
@@ -514,7 +514,7 @@ int main(int argc, char* argv[]) {
                 resolutionX = static_cast<size_t>(atoi(optarg));
                 break;
             case 'f':
-                numberOfFrames = static_cast<size_t>(atoi(optarg));
+                numberOfFrames = atoi(optarg);
                 break;
             case 'p':
                 fps = atof(optarg);
