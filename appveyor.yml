@@ -8,13 +8,9 @@ os:
 
 platform:
   - x64
-  - x86
 
 matrix:
   fast_finish: true  # Stop remaining jobs after a job failure
-  exclude:
-    - image: Visual Studio 2015
-      platform: x86
 
 configuration:
   - Release
@@ -43,3 +39,5 @@ build:
 
 after_build:
   - c:\jet\build\bin\Release\unit_tests.exe
+  - ps: $env:PYTHONPATH = "C:\jet\build\lib\Release"
+  - c:\jet\src\tests\python_tests\main.py

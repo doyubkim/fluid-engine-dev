@@ -12,28 +12,57 @@
 namespace py = pybind11;
 using namespace jet;
 
+namespace {
+
+inline void parseResizeParams(py::args args, py::kwargs kwargs,
+                              Size3& resolution, Vector3D& gridSpacing,
+                              Vector3D& gridOrigin) {
+    // See if we have list of parameters
+    if (args.size() <= 3) {
+        if (args.size() > 0) {
+            resolution = tupleToSize3(py::tuple(args[0]));
+        }
+        if (args.size() > 1) {
+            gridSpacing = tupleToVector3D(py::tuple(args[1]));
+        }
+        if (args.size() > 2) {
+            gridOrigin = tupleToVector3D(py::tuple(args[2]));
+        }
+    } else {
+        throw std::invalid_argument("Too many arguments.");
+    }
+
+    // Parse out keyword args
+    if (kwargs.contains("resolution")) {
+        resolution = tupleToSize3(py::tuple(kwargs["resolution"]));
+    }
+    if (kwargs.contains("gridSpacing")) {
+        gridSpacing = tupleToVector3D(py::tuple(kwargs["gridSpacing"]));
+    }
+    if (kwargs.contains("gridOrigin")) {
+        gridOrigin = tupleToVector3D(py::tuple(kwargs["gridOrigin"]));
+    }
+}
+}
+
 void addFlipSolver3(py::module& m) {
     py::class_<FlipSolver3, FlipSolver3Ptr>(m, "FlipSolver3")
         // CTOR
         .def("__init__",
-             [](FlipSolver3& instance, py::kwargs kwargs) {
+             [](FlipSolver3& instance, py::args args, py::kwargs kwargs) {
                  Size3 resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
-                 if (kwargs.contains("resolution")) {
-                     resolution = tupleToSize3(py::tuple(kwargs["resolution"]));
-                 }
-                 if (kwargs.contains("gridSpacing")) {
-                     gridSpacing =
-                         tupleToVector3D(py::tuple(kwargs["gridSpacing"]));
-                 }
-                 if (kwargs.contains("gridOrigin")) {
-                     gridOrigin =
-                         tupleToVector3D(py::tuple(kwargs["gridOrigin"]));
-                 }
+
+                 parseResizeParams(args, kwargs, resolution, gridSpacing,
+                                   gridOrigin);
+
                  new (&instance)
                      FlipSolver3(resolution, gridSpacing, gridOrigin);
-             })
+             },
+             "Constructs FlipSolver3\n\n"
+             "This method constructs FlipSolver3 with resolution, gridSpacing, "
+             "and gridOrigin.")
         // Animation
         .def("update", [](FlipSolver3& instance,
                           const Frame& frame) { instance.update(frame); })
@@ -73,8 +102,12 @@ void addFlipSolver3(py::module& m) {
                           instance.setGravity(tupleToVector3D(val));
                       })
         .def_property("viscosityCoefficient",
-                      &FlipSolver3::viscosityCoefficient,
-                      &FlipSolver3::setViscosityCoefficient)
+                      [](const FlipSolver3& instance) {
+                          return instance.viscosityCoefficient();
+                      },
+                      [](FlipSolver3& instance, double val) {
+                          instance.setViscosityCoefficient(val);
+                      })
         .def("cfl", &FlipSolver3::cfl)
         .def_property(
             "maxCfl",
@@ -88,28 +121,20 @@ void addFlipSolver3(py::module& m) {
                           instance.setClosedDomainBoundaryFlag(val);
                       })
         .def("resizeGrid",
-             [](FlipSolver3& instance, py::kwargs kwargs) {
+             [](FlipSolver3& instance, py::args args, py::kwargs kwargs) {
                  Size3 resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
-                 if (kwargs.contains("resolution")) {
-                     resolution = tupleToSize3(py::tuple(kwargs["resolution"]));
-                 }
-                 if (kwargs.contains("gridSpacing")) {
-                     gridSpacing =
-                         tupleToVector3D(py::tuple(kwargs["gridSpacing"]));
-                 }
-                 if (kwargs.contains("gridOrigin")) {
-                     gridOrigin =
-                         tupleToVector3D(py::tuple(kwargs["gridOrigin"]));
-                 }
+
+                 parseResizeParams(args, kwargs, resolution, gridSpacing,
+                                   gridOrigin);
+
                  instance.resizeGrid(resolution, gridSpacing, gridOrigin);
              })
-        .def_property_readonly(
-            "gridResolution",
-            [](const FlipSolver3& instance) {
-                return size3ToTuple(instance.gridResolution());
-            })
+        .def_property_readonly("resolution",
+                               [](const FlipSolver3& instance) {
+                                   return size3ToTuple(instance.resolution());
+                               })
         .def_property_readonly(
             "gridSpacing",
             [](const FlipSolver3& instance) {

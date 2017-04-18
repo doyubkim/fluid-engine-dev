@@ -137,7 +137,7 @@ void GridFluidSolver2::resizeGrid(
     _grids->resize(newSize, newGridSpacing, newGridOrigin);
 }
 
-Size2 GridFluidSolver2::gridResolution() const {
+Size2 GridFluidSolver2::resolution() const {
     return _grids->resolution();
 }
 

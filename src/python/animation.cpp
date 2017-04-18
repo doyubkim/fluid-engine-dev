@@ -14,7 +14,35 @@ using namespace jet;
 
 void addFrame(pybind11::module& m) {
     py::class_<Frame>(m, "Frame")
-        .def(py::init<int, double>())
+        .def("__init__",
+             [](Frame& instance, py::args args, py::kwargs kwargs) {
+                 int index = 0;
+                 double timeIntervalInSeconds = 1.0 / 60.0;
+
+                 // See if we have list of parameters
+                 if (args.size() <= 2) {
+                     if (args.size() > 0) {
+                         index = args[0].cast<size_t>();
+                     }
+                     if (args.size() > 1) {
+                         timeIntervalInSeconds = args[1].cast<double>();
+                     }
+                 } else {
+                     throw std::invalid_argument("Too many arguments.");
+                 }
+
+                 if (kwargs.contains("index")) {
+                     index = kwargs["index"].cast<size_t>();
+                 }
+                 if (kwargs.contains("timeIntervalInSeconds")) {
+                     timeIntervalInSeconds =
+                         kwargs["timeIntervalInSeconds"].cast<size_t>();
+                 }
+                 new (&instance) Frame(index, timeIntervalInSeconds);
+             },
+             "Constructs Frame\n\n"
+             "This method constructs Frame with index and "
+             "timeIntervalInSeconds.")
         .def_readwrite("index", &Frame::index)
         .def_readwrite("timeIntervalInSeconds", &Frame::timeIntervalInSeconds)
         .def("timeInSeconds", &Frame::timeInSeconds)
@@ -23,6 +51,4 @@ void addFrame(pybind11::module& m) {
              py::arg("delta") = 1);
 }
 
-void addAnimation(pybind11::module& m) {
-    (void)m;
-}
+void addAnimation(pybind11::module& m) { (void)m; }

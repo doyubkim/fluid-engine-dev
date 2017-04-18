@@ -139,7 +139,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    Size2 gridResolution() const;
+    Size2 resolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.

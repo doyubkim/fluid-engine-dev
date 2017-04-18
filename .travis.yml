@@ -2,11 +2,6 @@ language: cpp
 
 matrix:
   include:
-    # Test Ubuntu 14.04 + clang
-    - os: linux
-      dist: trusty
-      sudo: required
-      compiler: clang
     # Test Ubuntu 14.04 + gcc
     - os: linux
       dist: trusty
@@ -35,3 +30,5 @@ script:
   - cmake ..
   - make
   - bin/unit_tests
+  - export PYTHONPATH=lib
+  - python ../src/tests/python_tests/main.py
