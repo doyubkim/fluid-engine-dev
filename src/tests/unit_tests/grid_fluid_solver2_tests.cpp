@@ -37,8 +37,8 @@ TEST(GridFluidSolver2, ResizeGridSystemData) {
 
     solver.resizeGrid(Size2(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
 
-    EXPECT_EQ(1u, solver.gridResolution().x);
-    EXPECT_EQ(2u, solver.gridResolution().y);
+    EXPECT_EQ(1u, solver.resolution().x);
+    EXPECT_EQ(2u, solver.resolution().y);
     EXPECT_EQ(3.0, solver.gridSpacing().x);
     EXPECT_EQ(4.0, solver.gridSpacing().y);
     EXPECT_EQ(5.0, solver.gridOrigin().x);

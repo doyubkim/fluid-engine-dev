@@ -41,9 +41,9 @@ TEST(GridFluidSolver3, ResizeGridSystemData) {
         Vector3D(4.0, 5.0, 6.0),
         Vector3D(7.0, 8.0, 9.0));
 
-    EXPECT_EQ(1u, solver.gridResolution().x);
-    EXPECT_EQ(2u, solver.gridResolution().y);
-    EXPECT_EQ(3u, solver.gridResolution().z);
+    EXPECT_EQ(1u, solver.resolution().x);
+    EXPECT_EQ(2u, solver.resolution().y);
+    EXPECT_EQ(3u, solver.resolution().z);
     EXPECT_EQ(4.0, solver.gridSpacing().x);
     EXPECT_EQ(5.0, solver.gridSpacing().y);
     EXPECT_EQ(6.0, solver.gridSpacing().z);
