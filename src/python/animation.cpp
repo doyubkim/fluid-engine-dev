@@ -22,7 +22,7 @@ void addFrame(pybind11::module& m) {
                  // See if we have list of parameters
                  if (args.size() <= 2) {
                      if (args.size() > 0) {
-                         index = args[0].cast<size_t>();
+                         index = args[0].cast<int>();
                      }
                      if (args.size() > 1) {
                          timeIntervalInSeconds = args[1].cast<double>();
@@ -32,11 +32,11 @@ void addFrame(pybind11::module& m) {
                  }
 
                  if (kwargs.contains("index")) {
-                     index = kwargs["index"].cast<size_t>();
+                     index = kwargs["index"].cast<int>();
                  }
                  if (kwargs.contains("timeIntervalInSeconds")) {
                      timeIntervalInSeconds =
-                         kwargs["timeIntervalInSeconds"].cast<size_t>();
+                         kwargs["timeIntervalInSeconds"].cast<double>();
                  }
                  new (&instance) Frame(index, timeIntervalInSeconds);
              },
