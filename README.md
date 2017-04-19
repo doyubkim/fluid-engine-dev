@@ -30,24 +30,22 @@ All the documentations for the framework can be found from [the project website]
 
 Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/). Find out more demos from [the project website](http://doyubkim.github.io/fluid-engine-dev/examples/).
 
-https://github.com/doyubkim/fluid-engine-dev/raw/master/
-
 ### FLIP Simulation Example
 
-![FLIP Example](doc/img/flip_dam_breaking.png "FLIP Example")
+![FLIP Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/flip_dam_breaking.png "FLIP Example")
 
 ### PIC Simulation Example
 
-![PIC Example](doc/img/pic_dam_breaking.png "PIC Example")
+![PIC Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/pic_dam_breaking.png "PIC Example")
 
 ### Level Set Example with Different Viscosity
 
-![Level Set Example](doc/img/ls_bunny_drop.png "Level Set Example ")
+![Level Set Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/ls_bunny_drop.png "Level Set Example ")
 
 ### Smoke Simulation with Different Advection Methods
 
-![Cubic-smoke Example](doc/img/smoke_cubic.png "Cubic-smoke Example")
-![Linear-smoke Example](doc/img/smoke_linear.png "Linear-smoke Example")
+![Cubic-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_cubic.png "Cubic-smoke Example")
+![Linear-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_linear.png "Linear-smoke Example")
 
 ## License
 
