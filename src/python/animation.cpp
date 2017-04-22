@@ -51,4 +51,9 @@ void addFrame(pybind11::module& m) {
              py::arg("delta") = 1);
 }
 
-void addAnimation(pybind11::module& m) { (void)m; }
+void addAnimation(pybind11::module& m) {
+    py::class_<Animation, AnimationPtr>(m, "Animation")
+        .def("update", [](Animation& instance, const Frame& frame) {
+            instance.update(frame);
+        });
+}

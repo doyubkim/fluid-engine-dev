@@ -5,8 +5,22 @@
 // property of any third parties.
 
 #include "animation.h"
-#include "flip_solver3.h"
+#include "bounding_box.h"
+#include "flip_solver.h"
+#include "grid_fluid_solver.h"
+#include "implicit_surface3.h"
 #include "logging.h"
+#include "particle_emitter.h"
+#include "physics_animation.h"
+#include "pic_solver.h"
+#include "quaternion.h"
+#include "ray.h"
+#include "size.h"
+#include "sphere.h"
+#include "surface.h"
+#include "transform.h"
+#include "vector.h"
+#include "volume_particle_emitter.h"
 
 #include <pybind11/pybind11.h>
 
@@ -16,10 +30,38 @@ PYBIND11_PLUGIN(pyjet) {
     py::module m("pyjet",
                  "Fluid simulation engine for computer graphics applications");
 
-    addAnimation(m);
-    addFlipSolver3(m);
+    // Trivial basic types
+    addBoundingBox3D(m);
+    addBoundingBox3F(m);
     addFrame(m);
+    addQuaternionD(m);
+    addQuaternionF(m);
+    addRay3D(m);
+    addRay3F(m);
+    addSize2(m);
+    addSize3(m);
+    addTransform3(m);
+    addVector3D(m);
+    addVector3F(m);
+
+    // Trivial APIs
     addLogging(m);
+
+    // Animations
+    addAnimation(m);
+    addPhysicsAnimation(m);
+    addGridFluidSolver3(m);
+    addPicSolver3(m);
+    addFlipSolver3(m);
+
+    // Surfaces
+    addSurface3(m);
+    addSphere3(m);
+    addImplicitSurface3(m);
+
+    // Particle emitters
+    addParticleEmitter3(m);
+    addVolumeParticleEmitter3(m);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = py::str(VERSION_INFO);
