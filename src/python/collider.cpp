@@ -4,12 +4,14 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_PYTHON_RAY_H_
-#define SRC_PYTHON_RAY_H_
+#include "collider.h"
+#include "pybind11_utils.h"
 
-#include <pybind11/pybind11.h>
+#include <jet/collider3.h>
 
-void addRay3F(pybind11::module& m);
-void addRay3D(pybind11::module& m);
+namespace py = pybind11;
+using namespace jet;
 
-#endif  // SRC_PYTHON_RAY_H_
+void addCollider3(py::module& m) {
+    py::class_<Collider3, Collider3Ptr>(m, "Collider3");
+}

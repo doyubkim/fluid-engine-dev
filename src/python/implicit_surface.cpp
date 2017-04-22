@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "implicit_surface3.h"
+#include "implicit_surface.h"
 #include "pybind11_utils.h"
 
 #include <jet/implicit_surface3.h>

@@ -6,15 +6,18 @@
 
 #include "animation.h"
 #include "bounding_box.h"
+#include "collider.h"
 #include "flip_solver.h"
 #include "grid_fluid_solver.h"
-#include "implicit_surface3.h"
+#include "implicit_surface.h"
 #include "logging.h"
 #include "particle_emitter.h"
+#include "particle_system_data.h"
 #include "physics_animation.h"
 #include "pic_solver.h"
 #include "quaternion.h"
 #include "ray.h"
+#include "rigid_body_collider.h"
 #include "size.h"
 #include "sphere.h"
 #include "surface.h"
@@ -54,14 +57,21 @@ PYBIND11_PLUGIN(pyjet) {
     addPicSolver3(m);
     addFlipSolver3(m);
 
-    // Surfaces
-    addSurface3(m);
-    addSphere3(m);
-    addImplicitSurface3(m);
+    // Colliders
+    addCollider3(m);
+    addRigidBodyCollider3(m);
 
     // Particle emitters
     addParticleEmitter3(m);
     addVolumeParticleEmitter3(m);
+
+    // Particle systems
+    addParticleSystemData3(m);
+
+    // Surfaces
+    addSurface3(m);
+    addSphere3(m);
+    addImplicitSurface3(m);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = py::str(VERSION_INFO);

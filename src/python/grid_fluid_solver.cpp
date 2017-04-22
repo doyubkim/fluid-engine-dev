@@ -41,5 +41,13 @@ void addGridFluidSolver3(py::module& m) {
              })
         .def_property_readonly("resolution", &GridFluidSolver3::resolution)
         .def_property_readonly("gridSpacing", &GridFluidSolver3::gridSpacing)
-        .def_property_readonly("gridOrigin", &GridFluidSolver3::gridOrigin);
+        .def_property_readonly("gridOrigin", &GridFluidSolver3::gridOrigin)
+        .def_property(
+            "collider",
+            [](const GridFluidSolver3& instance) {
+                return instance.collider();
+            },
+            [](GridFluidSolver3& instance, const Collider3Ptr& collider) {
+                instance.setCollider(collider);
+            });
 }

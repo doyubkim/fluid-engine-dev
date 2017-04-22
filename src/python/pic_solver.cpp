@@ -29,6 +29,8 @@ void addPicSolver3(py::module& m) {
              "Constructs PicSolver3\n\n"
              "This method constructs PicSolver3 with resolution, gridSpacing, "
              "and gridOrigin.")
+        .def_property_readonly("particleSystemData",
+                               &PicSolver3::particleSystemData)
         .def_property("particleEmitter", &PicSolver3::particleEmitter,
                       &PicSolver3::setParticleEmitter);
 }

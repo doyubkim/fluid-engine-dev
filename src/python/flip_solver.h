@@ -4,11 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_PYTHON_FLIP_SOLVER3_H_
-#define SRC_PYTHON_FLIP_SOLVER3_H_
+#ifndef SRC_PYTHON_FLIP_SOLVER_H_
+#define SRC_PYTHON_FLIP_SOLVER_H_
 
 #include <pybind11/pybind11.h>
 
 void addFlipSolver3(pybind11::module& m);
 
-#endif  // SRC_PYTHON_FLIP_SOLVER3_H_
+#endif  // SRC_PYTHON_FLIP_SOLVER_H_

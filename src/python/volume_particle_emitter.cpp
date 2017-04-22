@@ -89,7 +89,7 @@ void addVolumeParticleEmitter3(py::module& m) {
                      maxNumberOfParticles = kwargs["maxNumberOfParticles"].cast<size_t>();
                  }
                  if (kwargs.contains("jitter")) {
-                     jitter = kwargs["jitter"].cast<size_t>();
+                     jitter = kwargs["jitter"].cast<double>();
                  }
                  if (kwargs.contains("isOneShot")) {
                      isOneShot = kwargs["isOneShot"].cast<bool>();

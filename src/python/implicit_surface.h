@@ -4,12 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_PYTHON_RAY_H_
-#define SRC_PYTHON_RAY_H_
+#ifndef SRC_PYTHON_IMPLICIT_SURFACE_H_
+#define SRC_PYTHON_IMPLICIT_SURFACE_H_
 
 #include <pybind11/pybind11.h>
 
-void addRay3F(pybind11::module& m);
-void addRay3D(pybind11::module& m);
+void addImplicitSurface3(pybind11::module& m);
 
-#endif  // SRC_PYTHON_RAY_H_
+#endif  // SRC_PYTHON_IMPLICIT_SURFACE_H_
