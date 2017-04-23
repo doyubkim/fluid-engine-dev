@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from pyjet import *
+import numpy as np
+import matplotlib.pyplot as plt
 
 def main():
     solver = FlipSolver3(resolution=(32, 64, 32), domainSizeX=1.0)
@@ -16,7 +18,13 @@ def main():
     frame = Frame()
     while frame.index < 120:
         solver.update(frame)
+        pos = np.array(solver.particleSystemData.positions, copy=False)
         frame.advance()
+
+    fig, ax = plt.subplots()
+    ax.set_aspect('equal')
+    ax.scatter(pos[:,0], pos[:,1])
+    plt.show()
 
 if __name__ == '__main__':
     Logging.mute()

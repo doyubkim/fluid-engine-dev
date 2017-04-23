@@ -5,6 +5,7 @@
 // property of any third parties.
 
 #include "animation.h"
+#include "array_accessor1.h"
 #include "bounding_box.h"
 #include "collider.h"
 #include "flip_solver.h"
@@ -34,6 +35,7 @@ PYBIND11_PLUGIN(pyjet) {
                  "Fluid simulation engine for computer graphics applications");
 
     // Trivial basic types
+    addArrayAccessor1(m);
     addBoundingBox3D(m);
     addBoundingBox3F(m);
     addFrame(m);

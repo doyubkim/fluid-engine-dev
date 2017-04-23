@@ -38,5 +38,21 @@ void addParticleSystemData3(py::module& m) {
                  new (&instance) ParticleSystemData3(numberOfParticles);
              })
         .def_property_readonly("numberOfParticles",
-                               &ParticleSystemData3::numberOfParticles);
+                               &ParticleSystemData3::numberOfParticles)
+        .def_property_readonly(
+            "positions",
+            [](ParticleSystemData3& instance) { return instance.positions(); })
+        .def_property_readonly(
+            "velocities",
+            [](ParticleSystemData3& instance) { return instance.velocities(); })
+        .def_property_readonly(
+            "forces",
+            [](ParticleSystemData3& instance) { return instance.forces(); })
+        .def("scalarDataAt",
+             [](ParticleSystemData3& instance, size_t idx) {
+                 return instance.scalarDataAt(idx);
+             })
+        .def("vectorDataAt", [](ParticleSystemData3& instance, size_t idx) {
+            return instance.vectorDataAt(idx);
+        });
 }
