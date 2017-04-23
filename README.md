@@ -1,8 +1,8 @@
 # Fluid Engine Dev - Jet
 
-[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE.md) [![Build Status](https://travis-ci.org/doyubkim/fluid-engine-dev.svg?branch=master)](https://travis-ci.org/doyubkim/fluid-engine-dev) [![Build status](https://ci.appveyor.com/api/projects/status/kulihlhy43vbwou6/branch/master?svg=true)](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev/branch/master)
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE.md) [![Build Status](https://travis-ci.org/doyubkim/fluid-engine-dev.svg?branch=python)](https://travis-ci.org/doyubkim/fluid-engine-dev) [![Build status](https://ci.appveyor.com/api/projects/status/kulihlhy43vbwou6/branch/python?svg=true)](https://ci.appveyor.com/project/doyubkim/fluid-engine-dev/branch/python)
 
-Jet framework is a fluid simulation engine SDK for computer graphics applications that was created by Doyub Kim as part of the book, ["Fluid Engine Development"](https://www.crcpress.com/Fluid-Engine-Development/Kim/p/book/9781498719926). The code is built on C++11 and can be compiled with most of the commonly available compilers such as g++, clang++, or Microsoft Visual Studio. Jet currently supports macOS (10.10 or later), Ubuntu (14.04 or later), and Windows (Visual Studio 2015 or later). Other untested platforms that support C++11 also should be able to build Jet.
+Jet framework is a fluid simulation engine SDK for computer graphics applications that was created by Doyub Kim as part of the book, ["Fluid Engine Development"](https://www.crcpress.com/Fluid-Engine-Development/Kim/p/book/9781498719926). The code is built on C++11 and can be compiled with most of the commonly available compilers such as g++, clang++, or Microsoft Visual Studio. Jet currently supports macOS (10.10 or later), Ubuntu (14.04 or later), and Windows (Visual Studio 2015 or later). Other untested platforms that support C++11 also should be able to build Jet. The framework also provides Python API for better productivity.
 
 The latest code is always available from the [`master`](https://github.com/doyubkim/fluid-engine-dev/tree/master) branch. Since the code evolves over time, the latest from the master could be somewhat different from the code in the book. To find the version that is consistent with the book, check out the branch [`book-1st-edition`](https://github.com/doyubkim/fluid-engine-dev/tree/book-1st-edition).
 
@@ -15,6 +15,7 @@ The latest code is always available from the [`master`](https://github.com/doyub
 * PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO, and FMM level set solvers
 * Converters between signed distance function and triangular mesh
+* C++ and Python API
 
 Every simulator has both 2-D and 3-D implementations.
 

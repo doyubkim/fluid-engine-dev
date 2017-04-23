@@ -12,6 +12,7 @@ import re
 import sys
 import platform
 import subprocess
+import multiprocessing
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -55,7 +56,7 @@ class CMakeBuild(build_ext):
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
-            build_args += ['--', '-j2']
+            build_args += ['--', '-j%d' % multiprocessing.cpu_count(), 'pyjet']
 
         env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),

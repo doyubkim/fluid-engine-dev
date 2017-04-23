@@ -39,5 +39,5 @@ build:
 
 after_build:
   - c:\jet\build\bin\Release\unit_tests.exe
-  - ps: $env:PYTHONPATH = "C:\jet\build\lib\Release"
-  - c:\jet\src\tests\python_tests\main.py
+  - pip install --user c:\jet
+  - python c:\jet\src\tests\python_tests\main.py

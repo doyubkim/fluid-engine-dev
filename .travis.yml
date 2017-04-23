@@ -30,5 +30,5 @@ script:
   - cmake ..
   - make
   - bin/unit_tests
-  - export PYTHONPATH=lib
+  - pip install --user ..
   - python ../src/tests/python_tests/main.py
