@@ -13,47 +13,60 @@ namespace py = pybind11;
 using namespace jet;
 
 void addFrame(pybind11::module& m) {
-    py::class_<Frame>(m, "Frame")
+    py::class_<Frame>(m, "Frame", R"pbdoc(
+        Representation of an animation frame.
+
+        This struct holds current animation frame index and frame interval in
+        seconds.
+        )pbdoc")
         .def("__init__",
-             [](Frame& instance, py::args args, py::kwargs kwargs) {
-                 int index = 0;
-                 double timeIntervalInSeconds = 1.0 / 60.0;
-
-                 // See if we have list of parameters
-                 if (args.size() <= 2) {
-                     if (args.size() > 0) {
-                         index = args[0].cast<int>();
-                     }
-                     if (args.size() > 1) {
-                         timeIntervalInSeconds = args[1].cast<double>();
-                     }
-                 } else {
-                     throw std::invalid_argument("Too many arguments.");
-                 }
-
-                 if (kwargs.contains("index")) {
-                     index = kwargs["index"].cast<int>();
-                 }
-                 if (kwargs.contains("timeIntervalInSeconds")) {
-                     timeIntervalInSeconds =
-                         kwargs["timeIntervalInSeconds"].cast<double>();
-                 }
+             [](Frame& instance, int index, double timeIntervalInSeconds) {
                  new (&instance) Frame(index, timeIntervalInSeconds);
              },
-             "Constructs Frame\n\n"
-             "This method constructs Frame with index and "
-             "timeIntervalInSeconds.")
-        .def_readwrite("index", &Frame::index)
-        .def_readwrite("timeIntervalInSeconds", &Frame::timeIntervalInSeconds)
-        .def("timeInSeconds", &Frame::timeInSeconds)
+             R"pbdoc(
+             Constructs Frame
+
+             This method constructs Frame with index and time interval (in seconds).
+
+             Parameters
+             ----------
+             - index : The index (default is 0).
+
+             - timeIntervalInSeconds :
+                 The time interval in seconds (default is 1.0 / 60.0).
+             )pbdoc",
+             py::arg("index") = 0,
+             py::arg("timeIntervalInSeconds") = 1.0 / 60.0)
+        .def_readwrite("index", &Frame::index,
+                       R"pbdoc(Index of the frame)pbdoc")
+        .def_readwrite("timeIntervalInSeconds", &Frame::timeIntervalInSeconds,
+                       R"pbdoc(Time interval of the frame in seconds)pbdoc")
+        .def("timeInSeconds", &Frame::timeInSeconds,
+             R"pbdoc(Elapsed time in seconds)pbdoc")
         .def("advance",
              [](Frame& instance, int delta) { instance.advance(delta); },
-             py::arg("delta") = 1);
+             py::arg("delta") = 1,
+             R"pbdoc(
+             Advances multiple frames.
+
+             Parameters
+             ----------
+             - delta : Number of frames to advance.
+             )pbdoc");
 }
 
 void addAnimation(pybind11::module& m) {
-    py::class_<Animation, AnimationPtr>(m, "Animation")
+    py::class_<Animation, AnimationPtr>(m, "Animation", R"pbdoc(
+        Abstract base class for animation-related class.
+
+        This class represents the animation logic in very abstract level.
+        Generally animation is a function of time and/or its previous state.
+        This base class provides a virtual function update() which can be
+        overriden by its sub-classes to implement their own state update logic.
+        )pbdoc")
         .def("update", [](Animation& instance, const Frame& frame) {
             instance.update(frame);
-        });
+        }, R"pbdoc(
+        Updates animation state for given `frame`.
+        )pbdoc");
 }

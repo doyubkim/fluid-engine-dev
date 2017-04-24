@@ -31,8 +31,9 @@
 namespace py = pybind11;
 
 PYBIND11_PLUGIN(pyjet) {
-    py::module m("pyjet",
-                 "Fluid simulation engine for computer graphics applications");
+    py::module m("pyjet", R"pbdoc(
+        Fluid simulation engine for computer graphics applications
+    )pbdoc");
 
     // Trivial basic types
     addArrayAccessor1(m);

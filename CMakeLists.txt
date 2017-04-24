@@ -79,5 +79,7 @@ add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
 
 add_subdirectory(external/pybind11)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+if (BUILD_FROM_PIP)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+endif()
 add_subdirectory(src/python)
