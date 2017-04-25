@@ -128,7 +128,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     Vector3D _initialVel;
     PointGenerator3Ptr _pointsGen;
 
-    size_t _maxNumberOfParticles = std::numeric_limits<size_t>::max();
+    size_t _maxNumberOfParticles = kMaxSize;
     size_t _numberOfEmittedParticles = 0;
 
     double _jitter = 0.0;

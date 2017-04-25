@@ -40,7 +40,7 @@ struct BoundingBoxRayIntersection3 {
 template <typename T>
 class BoundingBox<T, 3> {
  public:
-    //! Upper corner of the bounding box.
+    //! Lower corner of the bounding box.
     Vector3<T> lowerCorner;
 
     //! Upper corner of the bounding box.
@@ -98,7 +98,7 @@ class BoundingBox<T, 3> {
     //! Merges this and other point.
     void merge(const Vector3<T>& point);
 
-    //! Merges this and other boxes.
+    //! Merges this and other box.
     void merge(const BoundingBox& other);
 
     //! Expands this box by given delta to all direction.
