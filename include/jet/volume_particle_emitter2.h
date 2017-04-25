@@ -125,7 +125,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     Vector2D _initialVel;
     PointGenerator2Ptr _pointsGen;
 
-    size_t _maxNumberOfParticles;
+    size_t _maxNumberOfParticles = kMaxSize;
     size_t _numberOfEmittedParticles = 0;
 
     double _jitter = 0.0;
