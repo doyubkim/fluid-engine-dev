@@ -10,7 +10,7 @@
 set(target jet)
 
 # Define
-set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 
 # Includes
 include_directories(

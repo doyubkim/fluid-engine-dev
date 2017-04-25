@@ -86,6 +86,10 @@ ImplicitTriangleMesh3::Builder ImplicitTriangleMesh3::builder() {
     return ImplicitTriangleMesh3::Builder();
 }
 
+const VertexCenteredScalarGrid3& ImplicitTriangleMesh3::grid() const {
+    return _grid;
+}
+
 
 ImplicitTriangleMesh3::Builder&
 ImplicitTriangleMesh3::Builder::withTriangleMesh(const TriangleMesh3Ptr& mesh) {

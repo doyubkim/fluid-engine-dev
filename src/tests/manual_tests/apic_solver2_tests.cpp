@@ -6,8 +6,8 @@
 
 #include <manual_tests.h>
 
-#include <jet/box2.h>
 #include <jet/apic_solver2.h>
+#include <jet/box2.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
 #include <jet/volume_particle_emitter2.h>
@@ -19,21 +19,21 @@ JET_TESTS(ApicSolver2);
 JET_BEGIN_TEST_F(ApicSolver2, SteadyState) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({32, 32})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({32, 32})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({0.0, 0.0})
-        .withUpperCorner({1.0, 0.5})
-        .makeShared();
+                   .withLowerCorner({0.0, 0.0})
+                   .withUpperCorner({1.0, 0.5})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(1.0 / 64.0)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(1.0 / 64.0)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -48,24 +48,22 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, Rotation) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({10, 10})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({10, 10})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     solver->setGravity({0, 0});
     solver->setPressureSolver(nullptr);
 
     // Build emitter
-    auto box = Sphere2::builder()
-        .withCenter({0.5, 0.5})
-        .withRadius(0.4)
-        .makeShared();
+    auto box =
+        Sphere2::builder().withCenter({0.5, 0.5}).withRadius(0.4).makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(1.0 / 20.0)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(1.0 / 20.0)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -107,21 +105,21 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, DamBreaking) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({100, 100})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({100, 100})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({0.0, 0.0})
-        .withUpperCorner({0.2, 0.8})
-        .makeShared();
+                   .withLowerCorner({0.0, 0.0})
+                   .withUpperCorner({0.2, 0.8})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(0.005)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(0.005)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -136,21 +134,21 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, LeftWall) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({32, 32})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({32, 32})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({0.0, 0.0})
-        .withUpperCorner({0.01, 0.5})
-        .makeShared();
+                   .withLowerCorner({0.0, 0.0})
+                   .withUpperCorner({0.01, 0.5})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(1.0 / 64.0)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(1.0 / 64.0)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -165,21 +163,21 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, RightWall) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({32, 32})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({32, 32})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({1.0 - 1.0 / 64.0, 0.0})
-        .withUpperCorner({1.0, 0.5})
-        .makeShared();
+                   .withLowerCorner({1.0 - 1.0 / 64.0, 0.0})
+                   .withUpperCorner({1.0, 0.5})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(1.0 / 64.0)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(1.0 / 64.0)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -194,21 +192,21 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, LeftWallPic) {
     // Build solver
     auto solver = PicSolver2::builder()
-        .withResolution({32, 32})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({32, 32})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({0.0, 0.0})
-        .withUpperCorner({0.01, 0.5})
-        .makeShared();
+                   .withLowerCorner({0.0, 0.0})
+                   .withUpperCorner({0.01, 0.5})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(1.0 / 64.0)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(1.0 / 64.0)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
@@ -223,37 +221,112 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(ApicSolver2, DamBreakingWithCollider) {
     // Build solver
     auto solver = ApicSolver2::builder()
-        .withResolution({100, 100})
-        .withDomainSizeX(1.0)
-        .makeShared();
+                      .withResolution({100, 100})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
 
     // Build emitter
     auto box = Box2::builder()
-        .withLowerCorner({0.0, 0.0})
-        .withUpperCorner({0.2, 0.8})
-        .makeShared();
+                   .withLowerCorner({0.0, 0.0})
+                   .withUpperCorner({0.2, 0.8})
+                   .makeShared();
 
     auto emitter = VolumeParticleEmitter2::builder()
-        .withSurface(box)
-        .withSpacing(0.005)
-        .withIsOneShot(true)
-        .makeShared();
+                       .withSurface(box)
+                       .withSpacing(0.005)
+                       .withIsOneShot(true)
+                       .makeShared();
 
     solver->setParticleEmitter(emitter);
 
     // Build collider
-    auto sphere = Sphere2::builder()
-        .withCenter({0.5, 0.0})
-        .withRadius(0.15)
-        .makeShared();
+    auto sphere =
+        Sphere2::builder().withCenter({0.5, 0.0}).withRadius(0.15).makeShared();
 
-    auto collider = RigidBodyCollider2::builder()
-        .withSurface(sphere)
-        .makeShared();
+    auto collider =
+        RigidBodyCollider2::builder().withSurface(sphere).makeShared();
 
     solver->setCollider(collider);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(ApicSolver2, Circular) {
+    // Build solver
+    auto solver = ApicSolver2::builder()
+                      .withResolution({40, 40})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
+
+    // Build collider
+    auto sphere = Sphere2::builder()
+                      .withCenter({0.5, 0.5})
+                      .withRadius(0.4)
+                      .withIsNormalFlipped(true)
+                      .makeShared();
+
+    auto collider =
+        RigidBodyCollider2::builder().withSurface(sphere).makeShared();
+
+    solver->setCollider(collider);
+
+    // Manually emit particles
+    size_t resX = solver->gridResolution().x;
+    std::mt19937 rng;
+    std::uniform_real_distribution<> dist(0, 1);
+    for (int i = 0; i < 4 * resX * resX; ++i) {
+        Vector2D pt{dist(rng), dist(rng)};
+        if ((pt - sphere->center).length() < sphere->radius && pt.x > 0.5) {
+            solver->particleSystemData()->addParticle(pt);
+        }
+    }
+
+    for (Frame frame(0, 0.01); frame.index < 240; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(ApicSolver2, CircularWithFriction) {
+    // Build solver
+    auto solver = ApicSolver2::builder()
+                      .withResolution({40, 40})
+                      .withDomainSizeX(1.0)
+                      .makeShared();
+
+    // Build collider
+    auto sphere = Sphere2::builder()
+                      .withCenter({0.5, 0.5})
+                      .withRadius(0.4)
+                      .withIsNormalFlipped(true)
+                      .makeShared();
+
+    auto collider =
+        RigidBodyCollider2::builder().withSurface(sphere).makeShared();
+    // Sticky boundary
+    collider->setFrictionCoefficient(100.0);
+
+    solver->setCollider(collider);
+
+    // Manually emit particles
+    size_t resX = solver->gridResolution().x;
+    std::mt19937 rng;
+    std::uniform_real_distribution<> dist(0, 1);
+    for (int i = 0; i < 4 * resX * resX; ++i) {
+        Vector2D pt{dist(rng), dist(rng)};
+        if ((pt - sphere->center).length() < sphere->radius && pt.x > 0.5) {
+            solver->particleSystemData()->addParticle(pt);
+        }
+    }
+
+    for (Frame frame(0, 0.01); frame.index < 240; ++frame) {
         solver->update(frame);
 
         saveParticleDataXy(solver->particleSystemData(), frame.index);
