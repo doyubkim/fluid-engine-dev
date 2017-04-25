@@ -9,6 +9,8 @@
 
 #include <pybind11/pybind11.h>
 
+void addBoundingBox2F(pybind11::module& m);
+void addBoundingBox2D(pybind11::module& m);
 void addBoundingBox3F(pybind11::module& m);
 void addBoundingBox3D(pybind11::module& m);
 

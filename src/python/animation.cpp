@@ -30,10 +30,8 @@ void addFrame(pybind11::module& m) {
 
              Parameters
              ----------
-             - index : The index (default is 0).
-
-             - timeIntervalInSeconds :
-                 The time interval in seconds (default is 1.0 / 60.0).
+             - arg0 : The index (default is 0).
+             - arg1 : The time interval in seconds (default is 1.0 / 60.0).
              )pbdoc",
              py::arg("index") = 0,
              py::arg("timeIntervalInSeconds") = 1.0 / 60.0)
@@ -51,7 +49,7 @@ void addFrame(pybind11::module& m) {
 
              Parameters
              ----------
-             - delta : Number of frames to advance.
+             - arg0 : Number of frames to advance.
              )pbdoc");
 }
 

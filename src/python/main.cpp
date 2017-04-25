@@ -37,18 +37,20 @@ PYBIND11_PLUGIN(pyjet) {
 
     // Trivial basic types
     addArrayAccessor1(m);
+    addVector3D(m);
+    addVector3F(m);
+    addRay3D(m);
+    addRay3F(m);
+//    addBoundingBox2D(m);
+//    addBoundingBox2F(m);
     addBoundingBox3D(m);
     addBoundingBox3F(m);
     addFrame(m);
     addQuaternionD(m);
     addQuaternionF(m);
-    addRay3D(m);
-    addRay3F(m);
     addSize2(m);
     addSize3(m);
     addTransform3(m);
-    addVector3D(m);
-    addVector3F(m);
 
     // Trivial APIs
     addLogging(m);
