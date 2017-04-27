@@ -477,7 +477,7 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
     // Manually emit particles
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(0, 1);
-    for (int i = 0; i < 8 * resolutionX * resolutionX * resolutionX; ++i) {
+    for (size_t i = 0; i < 8 * resolutionX * resolutionX * resolutionX; ++i) {
         Vector3D pt{dist(rng), dist(rng), dist(rng)};
         if ((pt - sphere->center).length() < sphere->radius && pt.x > 0.5) {
             solver->particleSystemData()->addParticle(pt);
