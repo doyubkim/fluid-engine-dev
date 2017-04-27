@@ -5,6 +5,7 @@
 // property of any third parties.
 
 #include "animation.h"
+#include "apic_solver.h"
 #include "array_accessor1.h"
 #include "bounding_box.h"
 #include "collider.h"
@@ -41,8 +42,8 @@ PYBIND11_PLUGIN(pyjet) {
     addVector3F(m);
     addRay3D(m);
     addRay3F(m);
-//    addBoundingBox2D(m);
-//    addBoundingBox2F(m);
+//    addBoundingBox2D(m);  // after Ray2D is done
+//    addBoundingBox2F(m);  // after Ray2F is done
     addBoundingBox3D(m);
     addBoundingBox3F(m);
     addFrame(m);
@@ -60,9 +61,13 @@ PYBIND11_PLUGIN(pyjet) {
     addPhysicsAnimation(m);
     addGridFluidSolver3(m);
     addPicSolver3(m);
+//    addFlipSolver2(m);  // after Vector2D is ready
     addFlipSolver3(m);
+//    addApicSolver2(m);  // after Vector2D is ready
+    addApicSolver3(m);
 
     // Colliders
+    addCollider2(m);
     addCollider3(m);
     addRigidBodyCollider3(m);
 

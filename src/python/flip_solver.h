@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addFlipSolver2(pybind11::module& m);
 void addFlipSolver3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_FLIP_SOLVER_H_

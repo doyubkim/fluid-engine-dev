@@ -235,6 +235,40 @@ inline QuaternionD objectToQuaternionD(const pybind11::object& obj) {
 ////////////////////////////////////////////////////////////////////////////////
 
 inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
+                                  Size2& resolution, Vector2D& gridSpacing,
+                                  Vector2D& gridOrigin) {
+    // See if we have list of parameters
+    if (args.size() <= 3) {
+        if (args.size() > 0) {
+            resolution = objectToSize2(pybind11::object(args[0]));
+        }
+        if (args.size() > 1) {
+            gridSpacing = objectToVector2D(pybind11::object(args[1]));
+        }
+        if (args.size() > 2) {
+            gridOrigin = objectToVector2D(pybind11::object(args[2]));
+        }
+    } else {
+        throw std::invalid_argument("Too many arguments.");
+    }
+
+    // Parse out keyword args
+    if (kwargs.contains("resolution")) {
+        resolution = objectToSize2(pybind11::object(kwargs["resolution"]));
+    }
+    if (kwargs.contains("gridSpacing")) {
+        gridSpacing = objectToVector2D(pybind11::object(kwargs["gridSpacing"]));
+    }
+    if (kwargs.contains("gridOrigin")) {
+        gridOrigin = objectToVector2D(pybind11::object(kwargs["gridOrigin"]));
+    }
+    if (kwargs.contains("domainSizeX")) {
+        double domainSizeX = kwargs["domainSizeX"].cast<double>();
+        gridSpacing.set(domainSizeX / static_cast<double>(resolution.x));
+    }
+}
+
+inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
                                   Size3& resolution, Vector3D& gridSpacing,
                                   Vector3D& gridOrigin) {
     // See if we have list of parameters
