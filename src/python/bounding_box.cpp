@@ -44,8 +44,8 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Lower corner of the bounding box.
-             - arg1 : Upper corner of the bounding box.
+             - lowerCorner : Lower corner of the bounding box.
+             - upperCorner : Upper corner of the bounding box.
              )pbdoc",
              py::arg("lowerCorner") = Vector2F(kMaxF, kMaxF),
              py::arg("upperCorner") = Vector2F(-kMaxF, -kMaxF))
@@ -62,15 +62,17 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : 0 or 1.
-             )pbdoc")
+             - axis : 0 or 1.
+             )pbdoc",
+             py::arg("axis"))
         .def("overlaps", &BoundingBox2F::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
-             - arg0 : Other bounding box to test with.
-             )pbdoc")
+             - other : Other bounding box to test with.
+             )pbdoc",
+             py::arg("other"))
         .def("contains",
              [](const BoundingBox2F& instance, py::object point) {
                  return instance.contains(objectToVector2F(point));
@@ -80,16 +82,18 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Point to test.
-             )pbdoc")
+             - point : Point to test.
+             )pbdoc",
+             py::arg("point"))
         .def("intersects", &BoundingBox2F::intersects,
              R"pbdoc(
              Returns true if the input ray is intersecting with this box.
 
              Parameters
              ----------
-             - arg0 : Ray to test.
-             )pbdoc")
+             - ray : Ray to test.
+             )pbdoc",
+             py::arg("ray"))
         .def("closestIntersection", &BoundingBox2F::closestIntersection,
              R"pbdoc(
              Returns closest intersection for given ray.
@@ -101,8 +105,9 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Ray to test.
-             )pbdoc")
+             - ray : Ray to test.
+             )pbdoc",
+             py::arg("ray"))
         .def("midPoint", &BoundingBox2F::midPoint, R"pbdoc(
              Returns the mid-point of this box.)pbdoc")
         .def("diagonalLength", &BoundingBox2F::diagonalLength, R"pbdoc(
@@ -131,8 +136,9 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Other point or bounding box to test with.
-             )pbdoc")
+             - other : Other point or bounding box to test with.
+             )pbdoc",
+             py::arg("other"))
         .def("expand", &BoundingBox2F::expand, R"pbdoc(
              Expands this box by given delta to all direction.
 
@@ -141,22 +147,25 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Amount to expand.
-             )pbdoc")
+             - delta : Amount to expand.
+             )pbdoc",
+             py::arg("delta"))
         .def("corner", &BoundingBox2F::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
-             - arg0 : Index of the corner.
-             )pbdoc")
+             - idx : Index of the corner.
+             )pbdoc",
+             py::arg("idx"))
         .def("clamp", &BoundingBox2F::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
-             - arg0 : Point to clamp.
-             )pbdoc");
+             - point : Point to clamp.
+             )pbdoc",
+             py::arg("point"));
 }
 
 void addBoundingBox2D(pybind11::module& m) {
@@ -209,14 +218,16 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0 or 1.
-             )pbdoc")
+             )pbdoc",
+             py::arg("axis"))
         .def("overlaps", &BoundingBox2D::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc")
+             )pbdoc",
+             py::arg("other"))
         .def("contains",
              [](const BoundingBox2D& instance, py::object point) {
                  return instance.contains(objectToVector2D(point));
@@ -227,7 +238,8 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - point : Point to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("point"))
         .def("intersects", &BoundingBox2D::intersects,
              R"pbdoc(
              Returns true if the input ray is intersecting with this box.
@@ -235,7 +247,8 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - ray : Ray to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("ray"))
         .def("closestIntersection", &BoundingBox2D::closestIntersection,
              R"pbdoc(
              Returns closest intersection for given ray.
@@ -248,7 +261,8 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - ray : Ray to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("ray"))
         .def("midPoint", &BoundingBox2D::midPoint, R"pbdoc(
              Returns the mid-point of this box.)pbdoc")
         .def("diagonalLength", &BoundingBox2D::diagonalLength, R"pbdoc(
@@ -278,7 +292,8 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - other : Other point or bounding box to test with.
-             )pbdoc")
+             )pbdoc",
+             py::arg("other"))
         .def("expand", &BoundingBox2D::expand, R"pbdoc(
              Expands this box by given delta to all direction.
 
@@ -288,21 +303,24 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc")
+             )pbdoc",
+             py::arg("delta"))
         .def("corner", &BoundingBox2D::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc")
+             )pbdoc",
+             py::arg("idx"))
         .def("clamp", &BoundingBox2D::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc");
+             )pbdoc",
+             py::arg("point"));
 }
 
 void addBoundingBox3F(pybind11::module& m) {
@@ -336,8 +354,8 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Lower corner of the bounding box.
-             - arg1 : Upper corner of the bounding box.
+             - lowerCorner : Lower corner of the bounding box.
+             - upperCorner : Upper corner of the bounding box.
              )pbdoc",
              py::arg("lowerCorner") = Vector3F(kMaxF, kMaxF, kMaxF),
              py::arg("upperCorner") = Vector3F(-kMaxF, -kMaxF, -kMaxF))
@@ -356,15 +374,17 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : 0, 1, or 2.
-             )pbdoc")
+             - axis : 0, 1, or 2.
+             )pbdoc",
+             py::arg("axis"))
         .def("overlaps", &BoundingBox3F::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
-             - arg0 : Other bounding box to test with.
-             )pbdoc")
+             - other : Other bounding box to test with.
+             )pbdoc",
+             py::arg("other"))
         .def("contains",
              [](const BoundingBox3F& instance, py::object point) {
                  return instance.contains(objectToVector3F(point));
@@ -374,16 +394,18 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Point to test.
-             )pbdoc")
+             - point : Point to test.
+             )pbdoc",
+             py::arg("point"))
         .def("intersects", &BoundingBox3F::intersects,
              R"pbdoc(
              Returns true if the input ray is intersecting with this box.
 
              Parameters
              ----------
-             - arg0 : Ray to test.
-             )pbdoc")
+             - ray : Ray to test.
+             )pbdoc",
+             py::arg("ray"))
         .def("closestIntersection", &BoundingBox3F::closestIntersection,
              R"pbdoc(
              Returns closest intersection for given ray.
@@ -395,8 +417,9 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Ray to test.
-             )pbdoc")
+             - ray : Ray to test.
+             )pbdoc",
+             py::arg("ray"))
         .def("midPoint", &BoundingBox3F::midPoint, R"pbdoc(
              Returns the mid-point of this box.)pbdoc")
         .def("diagonalLength", &BoundingBox3F::diagonalLength, R"pbdoc(
@@ -425,8 +448,9 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Other point or bounding box to test with.
-             )pbdoc")
+             - other : Other point or bounding box to test with.
+             )pbdoc",
+             py::arg("other"))
         .def("expand", &BoundingBox3F::expand, R"pbdoc(
              Expands this box by given delta to all direction.
 
@@ -435,22 +459,25 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : Amount to expand.
-             )pbdoc")
+             - delta : Amount to expand.
+             )pbdoc",
+             py::arg("delta"))
         .def("corner", &BoundingBox3F::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
-             - arg0 : Index of the corner.
-             )pbdoc")
+             - idx : Index of the corner.
+             )pbdoc",
+             py::arg("idx"))
         .def("clamp", &BoundingBox3F::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
-             - arg0 : Point to clamp.
-             )pbdoc");
+             - point : Point to clamp.
+             )pbdoc",
+             py::arg("point"));
 }
 
 void addBoundingBox3D(pybind11::module& m) {
@@ -505,14 +532,16 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0, 1, or 2.
-             )pbdoc")
+             )pbdoc",
+             py::arg("axis"))
         .def("overlaps", &BoundingBox3D::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc")
+             )pbdoc",
+             py::arg("other"))
         .def("contains",
              [](const BoundingBox3D& instance, py::object point) {
                  return instance.contains(objectToVector3D(point));
@@ -523,7 +552,8 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - point : Point to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("point"))
         .def("intersects", &BoundingBox3D::intersects,
              R"pbdoc(
              Returns true if the input ray is intersecting with this box.
@@ -531,7 +561,8 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - ray : Ray to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("ray"))
         .def("closestIntersection", &BoundingBox3D::closestIntersection,
              R"pbdoc(
              Returns closest intersection for given ray.
@@ -544,7 +575,8 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - ray : Ray to test.
-             )pbdoc")
+             )pbdoc",
+             py::arg("ray"))
         .def("midPoint", &BoundingBox3D::midPoint, R"pbdoc(
              Returns the mid-point of this box.)pbdoc")
         .def("diagonalLength", &BoundingBox3D::diagonalLength, R"pbdoc(
@@ -574,7 +606,8 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - other : Other point or bounding box to test with.
-             )pbdoc")
+             )pbdoc",
+             py::arg("other"))
         .def("expand", &BoundingBox3D::expand, R"pbdoc(
              Expands this box by given delta to all direction.
 
@@ -584,19 +617,22 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc")
+             )pbdoc",
+             py::arg("delta"))
         .def("corner", &BoundingBox3D::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc")
+             )pbdoc",
+             py::arg("idx"))
         .def("clamp", &BoundingBox3D::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc");
+             )pbdoc",
+             py::arg("point"));
 }

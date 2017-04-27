@@ -30,8 +30,8 @@ void addFrame(pybind11::module& m) {
 
              Parameters
              ----------
-             - arg0 : The index (default is 0).
-             - arg1 : The time interval in seconds (default is 1.0 / 60.0).
+             - index : The index (default is 0).
+             - timeIntervalInSeconds : The time interval in seconds (default is 1.0 / 60.0).
              )pbdoc",
              py::arg("index") = 0,
              py::arg("timeIntervalInSeconds") = 1.0 / 60.0)
@@ -43,14 +43,14 @@ void addFrame(pybind11::module& m) {
              R"pbdoc(Elapsed time in seconds)pbdoc")
         .def("advance",
              [](Frame& instance, int delta) { instance.advance(delta); },
-             py::arg("delta") = 1,
              R"pbdoc(
              Advances multiple frames.
 
              Parameters
              ----------
-             - arg0 : Number of frames to advance.
-             )pbdoc");
+             - delta : Number of frames to advance.
+             )pbdoc",
+             py::arg("delta") = 1);
 }
 
 void addAnimation(pybind11::module& m) {
@@ -62,9 +62,14 @@ void addAnimation(pybind11::module& m) {
         This base class provides a virtual function update() which can be
         overriden by its sub-classes to implement their own state update logic.
         )pbdoc")
-        .def("update", [](Animation& instance, const Frame& frame) {
-            instance.update(frame);
-        }, R"pbdoc(
-        Updates animation state for given `frame`.
-        )pbdoc");
+        .def("update", [](Animation& instance,
+                          const Frame& frame) { instance.update(frame); },
+             R"pbdoc(
+             Updates animation state for given `frame`.
+
+             Parameters
+             ----------
+             - frame : Number of frames to advance.
+             )pbdoc",
+             py::arg("frame"));
 }
