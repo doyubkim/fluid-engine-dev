@@ -39,6 +39,9 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3 {
     //! Returns builder fox ImplicitTriangleMesh3.
     static Builder builder();
 
+    //! Returns grid data.
+    const VertexCenteredScalarGrid3& grid() const;
+
  private:
     TriangleMesh3Ptr _mesh;
     VertexCenteredScalarGrid3 _grid;

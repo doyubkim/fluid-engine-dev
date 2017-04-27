@@ -172,6 +172,9 @@ inline void createDirectory(const std::string& dirname) {
         std::string getTestDirectoryName(const std::string& name) { \
             return pystring::os::path::join(_testCollectionDir, name); \
         } \
+        std::string getResourceFileName(const std::string& name) { \
+            return pystring::os::path::join(RESOURCES_DIR, name); \
+        } \
     }; \
 
 #define JET_BEGIN_TEST_F(testSetName, testCaseNmae) \
