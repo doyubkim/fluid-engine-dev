@@ -458,7 +458,7 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
     auto solver = ApicSolver3::builder()
-                      .withResolution({30, 30, 30})
+                      .withResolution({resolutionX, resolutionX, resolutionX})
                       .withDomainSizeX(1.0)
                       .makeShared();
 
@@ -475,10 +475,9 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
     solver->setCollider(collider);
 
     // Manually emit particles
-    size_t resX = solver->gridResolution().x;
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(0, 1);
-    for (int i = 0; i < 8 * resX * resX * resX; ++i) {
+    for (int i = 0; i < 8 * resolutionX * resolutionX * resolutionX; ++i) {
         Vector3D pt{dist(rng), dist(rng), dist(rng)};
         if ((pt - sphere->center).length() < sphere->radius && pt.x > 0.5) {
             solver->particleSystemData()->addParticle(pt);
