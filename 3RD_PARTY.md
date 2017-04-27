@@ -414,3 +414,7 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
+---
+
+Jet uses portion of Fluid3D by Christopher Batty.
+Original code from: https://github.com/christopherbatty/Fluid3D
