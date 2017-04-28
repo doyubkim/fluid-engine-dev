@@ -31,10 +31,13 @@ void addBoundingBox2F(pybind11::module& m) {
         2-D axis-aligned bounding box class (32-bit float).
         )pbdoc")
         .def("__init__",
-             [](BoundingBox2F& instance, py::object lowerCorner,
-                py::object upperCorner) {
-                 new (&instance) BoundingBox2F(objectToVector2F(lowerCorner),
-                                               objectToVector2F(upperCorner));
+             [](BoundingBox2F& instance, py::args args) {
+                 if (args.size() == 2) {
+                     new (&instance) BoundingBox2F(objectToVector2F(args[0]),
+                                                   objectToVector2F(args[1]));
+                 } else if (args.size() == 0) {
+                     new (&instance) BoundingBox2F();
+                 }
              },
              R"pbdoc(
              Constructs BoundingBox2F
@@ -44,11 +47,9 @@ void addBoundingBox2F(pybind11::module& m) {
 
              Parameters
              ----------
-             - lowerCorner : Lower corner of the bounding box.
-             - upperCorner : Upper corner of the bounding box.
-             )pbdoc",
-             py::arg("lowerCorner") = Vector2F(kMaxF, kMaxF),
-             py::arg("upperCorner") = Vector2F(-kMaxF, -kMaxF))
+             - `*args` : Lower and upper corner of the bounding box. If empty,
+                         empty box will be created. Must be size of 0 or 2.
+             )pbdoc")
         .def_readwrite("lowerCorner", &BoundingBox2F::lowerCorner, R"pbdoc(
              Lower corner of the bounding box.)pbdoc")
         .def_readwrite("upperCorner", &BoundingBox2F::upperCorner, R"pbdoc(
@@ -186,10 +187,13 @@ void addBoundingBox2D(pybind11::module& m) {
         2-D axis-aligned bounding box class (64-bit float).
         )pbdoc")
         .def("__init__",
-             [](BoundingBox2D& instance, py::object lowerCorner,
-                py::object upperCorner) {
-                 new (&instance) BoundingBox2D(objectToVector2D(lowerCorner),
-                                               objectToVector2D(upperCorner));
+             [](BoundingBox2D& instance, py::args args) {
+                 if (args.size() == 2) {
+                     new (&instance) BoundingBox2D(objectToVector2D(args[0]),
+                                                   objectToVector2D(args[1]));
+                 } else if (args.size() == 0) {
+                     new (&instance) BoundingBox2D();
+                 }
              },
              R"pbdoc(
              Constructs BoundingBox2D
@@ -199,11 +203,9 @@ void addBoundingBox2D(pybind11::module& m) {
 
              Parameters
              ----------
-             - lowerCorner : Lower corner of the bounding box.
-             - upperCorner : Upper corner of the bounding box.
-             )pbdoc",
-             py::arg("lowerCorner") = Vector2D(kMaxD, kMaxD),
-             py::arg("upperCorner") = Vector2D(-kMaxD, -kMaxD))
+             - `*args` : Lower and upper corner of the bounding box. If empty,
+                         empty box will be created. Must be size of 0 or 2.
+             )pbdoc")
         .def_readwrite("lowerCorner", &BoundingBox2D::lowerCorner, R"pbdoc(
              Lower corner of the bounding box.)pbdoc")
         .def_readwrite("upperCorner", &BoundingBox2D::upperCorner, R"pbdoc(
@@ -341,10 +343,13 @@ void addBoundingBox3F(pybind11::module& m) {
         3-D axis-aligned bounding box class (32-bit float).
         )pbdoc")
         .def("__init__",
-             [](BoundingBox3F& instance, py::object lowerCorner,
-                py::object upperCorner) {
-                 new (&instance) BoundingBox3F(objectToVector3F(lowerCorner),
-                                               objectToVector3F(upperCorner));
+             [](BoundingBox3F& instance, py::args args) {
+                 if (args.size() == 2) {
+                     new (&instance) BoundingBox3F(objectToVector3F(args[0]),
+                                                   objectToVector3F(args[1]));
+                 } else if (args.size() == 0) {
+                     new (&instance) BoundingBox3F();
+                 }
              },
              R"pbdoc(
              Constructs BoundingBox3F
@@ -354,11 +359,9 @@ void addBoundingBox3F(pybind11::module& m) {
 
              Parameters
              ----------
-             - lowerCorner : Lower corner of the bounding box.
-             - upperCorner : Upper corner of the bounding box.
-             )pbdoc",
-             py::arg("lowerCorner") = Vector3F(kMaxF, kMaxF, kMaxF),
-             py::arg("upperCorner") = Vector3F(-kMaxF, -kMaxF, -kMaxF))
+             - `*args` : Lower and upper corner of the bounding box. If empty,
+                         empty box will be created. Must be size of 0 or 2.
+             )pbdoc")
         .def_readwrite("lowerCorner", &BoundingBox3F::lowerCorner, R"pbdoc(
              Lower corner of the bounding box.)pbdoc")
         .def_readwrite("upperCorner", &BoundingBox3F::upperCorner, R"pbdoc(
@@ -498,10 +501,13 @@ void addBoundingBox3D(pybind11::module& m) {
         3-D axis-aligned bounding box class (64-bit float).
         )pbdoc")
         .def("__init__",
-             [](BoundingBox3D& instance, py::object lowerCorner,
-                py::object upperCorner) {
-                 new (&instance) BoundingBox3D(objectToVector3D(lowerCorner),
-                                               objectToVector3D(upperCorner));
+             [](BoundingBox3D& instance, py::args args) {
+                 if (args.size() == 2) {
+                     new (&instance) BoundingBox3D(objectToVector3D(args[0]),
+                                                   objectToVector3D(args[1]));
+                 } else if (args.size() == 0) {
+                     new (&instance) BoundingBox3D();
+                 }
              },
              R"pbdoc(
              Constructs BoundingBox3D
@@ -511,11 +517,9 @@ void addBoundingBox3D(pybind11::module& m) {
 
              Parameters
              ----------
-             - lowerCorner : Lower corner of the bounding box.
-             - upperCorner : Upper corner of the bounding box.
-             )pbdoc",
-             py::arg("lowerCorner") = Vector3D(kMaxD, kMaxD, kMaxD),
-             py::arg("upperCorner") = Vector3D(-kMaxD, -kMaxD, -kMaxD))
+             - `*args` : Lower and upper corner of the bounding box. If empty,
+                         empty box will be created. Must be size of 0 or 2.
+             )pbdoc")
         .def_readwrite("lowerCorner", &BoundingBox3D::lowerCorner, R"pbdoc(
              Lower corner of the bounding box.)pbdoc")
         .def_readwrite("upperCorner", &BoundingBox3D::upperCorner, R"pbdoc(
