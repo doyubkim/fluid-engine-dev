@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addRigidBodyCollider2(pybind11::module& m);
 void addRigidBodyCollider3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_RIGID_BODY_COLLIDER_H_

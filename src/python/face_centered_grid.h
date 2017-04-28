@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_PYTHON_PARTICLE_EMITTER_H_
-#define SRC_PYTHON_PARTICLE_EMITTER_H_
+#ifndef SRC_PYTHON_FACE_CENTERED_GRID_H_
+#define SRC_PYTHON_FACE_CENTERED_GRID_H_
 
 #include <pybind11/pybind11.h>
 
-void addParticleEmitter2(pybind11::module& m);
-void addParticleEmitter3(pybind11::module& m);
+void addFaceCenteredGrid2(pybind11::module& m);
+void addFaceCenteredGrid3(pybind11::module& m);
 
-#endif  // SRC_PYTHON_PARTICLE_EMITTER_H_
+#endif  // SRC_PYTHON_FACE_CENTERED_GRID_H_

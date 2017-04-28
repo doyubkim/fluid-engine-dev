@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addParticleSystemData2(pybind11::module& m);
 void addParticleSystemData3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_PARTICLE_SYSTEM_DATA_H_

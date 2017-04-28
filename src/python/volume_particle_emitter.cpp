@@ -7,11 +7,120 @@
 #include "volume_particle_emitter.h"
 #include "pybind11_utils.h"
 
+#include <jet/surface_to_implicit2.h>
 #include <jet/surface_to_implicit3.h>
+#include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
 
 namespace py = pybind11;
 using namespace jet;
+
+void addVolumeParticleEmitter2(py::module& m) {
+    py::class_<VolumeParticleEmitter2, VolumeParticleEmitter2Ptr,
+               ParticleEmitter2>(m, "VolumeParticleEmitter2")
+        // CTOR
+        .def("__init__",
+             [](VolumeParticleEmitter2& instance, py::args args,
+                py::kwargs kwargs) {
+
+                 ImplicitSurface2Ptr implicitSurface;
+                 BoundingBox2D bounds;
+                 double spacing = 0.1;
+                 Vector2D initialVel;
+                 size_t maxNumberOfParticles = kMaxSize;
+                 double jitter = 0.0;
+                 bool isOneShot = true;
+                 bool allowOverlapping = false;
+                 uint32_t seed = 0;
+
+                 const auto parseImplicitSurface = [&](py::object arg) {
+                     if (py::isinstance<ImplicitSurface2>(arg)) {
+                         implicitSurface = arg.cast<ImplicitSurface2Ptr>();
+                         bounds = implicitSurface->boundingBox();
+                     } else if (py::isinstance<Surface2>(arg)) {
+                         auto surface = arg.cast<Surface2Ptr>();
+                         implicitSurface =
+                             std::make_shared<SurfaceToImplicit2>(surface);
+                         bounds = surface->boundingBox();
+                     } else {
+                         throw std::invalid_argument(
+                             "Unknown type for implicitSurface.");
+                     }
+                 };
+
+                 if (args.size() >= 3 && args.size() <= 9) {
+                     parseImplicitSurface(args[0]);
+
+                     bounds = args[1].cast<BoundingBox2D>();
+                     spacing = args[2].cast<double>();
+
+                     if (args.size() > 3) {
+                         initialVel = objectToVector2D(py::object(args[3]));
+                     }
+                     if (args.size() > 4) {
+                         maxNumberOfParticles = args[4].cast<size_t>();
+                     }
+                     if (args.size() > 5) {
+                         jitter = args[5].cast<double>();
+                     }
+                     if (args.size() > 6) {
+                         isOneShot = args[6].cast<bool>();
+                     }
+                     if (args.size() > 7) {
+                         allowOverlapping = args[7].cast<bool>();
+                     }
+                     if (args.size() > 8) {
+                         seed = args[8].cast<uint32_t>();
+                     }
+                 } else if (args.size() > 0) {
+                     throw std::invalid_argument("Too few/many arguments.");
+                 }
+
+                 if (kwargs.contains("implicitSurface")) {
+                     parseImplicitSurface(kwargs["implicitSurface"]);
+                 }
+                 if (kwargs.contains("bounds")) {
+                     bounds = kwargs["bounds"].cast<BoundingBox2D>();
+                 }
+                 if (kwargs.contains("spacing")) {
+                     spacing = kwargs["spacing"].cast<double>();
+                 }
+                 if (kwargs.contains("initialVel")) {
+                     initialVel = objectToVector2D(kwargs["initialVel"]);
+                 }
+                 if (kwargs.contains("maxNumberOfParticles")) {
+                     maxNumberOfParticles =
+                         kwargs["maxNumberOfParticles"].cast<size_t>();
+                 }
+                 if (kwargs.contains("jitter")) {
+                     jitter = kwargs["jitter"].cast<double>();
+                 }
+                 if (kwargs.contains("isOneShot")) {
+                     isOneShot = kwargs["isOneShot"].cast<bool>();
+                 }
+                 if (kwargs.contains("allowOverlapping")) {
+                     allowOverlapping = kwargs["allowOverlapping"].cast<bool>();
+                 }
+                 if (kwargs.contains("seed")) {
+                     seed = kwargs["seed"].cast<uint32_t>();
+                 }
+
+                 new (&instance) VolumeParticleEmitter2(
+                     implicitSurface, bounds, spacing, initialVel,
+                     maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
+                     seed);
+             },
+             R"pbdoc(
+             Constructs VolumeParticleEmitter2
+
+             This method constructs VolumeParticleEmitter2 with implicit 
+             surface, bounding box, particle spacing, initial velocity 
+             (optional), max number of particles (optional), jitter 
+             (optional), whether it's one shot or not (optional), whether it 
+             should allow overlapping or not (optional), and random seed 
+             (optional).
+             )pbdoc");
+}
 
 void addVolumeParticleEmitter3(py::module& m) {
     py::class_<VolumeParticleEmitter3, VolumeParticleEmitter3Ptr,
@@ -41,7 +150,8 @@ void addVolumeParticleEmitter3(py::module& m) {
                              std::make_shared<SurfaceToImplicit3>(surface);
                          bounds = surface->boundingBox();
                      } else {
-                         throw std::invalid_argument("Unknown type for implicitSurface.");
+                         throw std::invalid_argument(
+                             "Unknown type for implicitSurface.");
                      }
                  };
 
@@ -86,7 +196,8 @@ void addVolumeParticleEmitter3(py::module& m) {
                      initialVel = objectToVector3D(kwargs["initialVel"]);
                  }
                  if (kwargs.contains("maxNumberOfParticles")) {
-                     maxNumberOfParticles = kwargs["maxNumberOfParticles"].cast<size_t>();
+                     maxNumberOfParticles =
+                         kwargs["maxNumberOfParticles"].cast<size_t>();
                  }
                  if (kwargs.contains("jitter")) {
                      jitter = kwargs["jitter"].cast<double>();
@@ -106,11 +217,14 @@ void addVolumeParticleEmitter3(py::module& m) {
                      maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
                      seed);
              },
-             "Constructs VolumeParticleEmitter3\n\n"
-             "This method constructs VolumeParticleEmitter3 with implicit "
-             "surface, bounding box, particle spacing, initial velocity "
-             "(optional), max number of particles (optional), jitter "
-             "(optional), whether it's one shot or not (optional), whether it "
-             "should allow overlapping or not (optional), and random seed "
-             "(optional).");
+             R"pbdoc(
+             Constructs VolumeParticleEmitter3
+
+             This method constructs VolumeParticleEmitter3 with implicit
+             surface, bounding box, particle spacing, initial velocity
+             (optional), max number of particles (optional), jitter
+             (optional), whether it's one shot or not (optional), whether it
+             should allow overlapping or not (optional), and random seed
+             (optional).
+             )pbdoc");
 }

@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addVolumeParticleEmitter2(pybind11::module& m);
 void addVolumeParticleEmitter3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_VOLUME_PARTICLE_EMITTER_H_

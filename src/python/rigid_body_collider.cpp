@@ -7,10 +7,63 @@
 #include "rigid_body_collider.h"
 #include "pybind11_utils.h"
 
+#include <jet/rigid_body_collider2.h>
 #include <jet/rigid_body_collider3.h>
 
 namespace py = pybind11;
 using namespace jet;
+
+void addRigidBodyCollider2(py::module& m) {
+    py::class_<RigidBodyCollider2, RigidBodyCollider2Ptr, Collider2>(
+        m, "RigidBodyCollider2")
+        .def(
+            "__init__",
+            [](RigidBodyCollider2& instance, py::args args, py::kwargs kwargs) {
+                Surface2Ptr surface;
+                Vector2D linearVelocity;
+                double angularVelocity;
+
+                if (args.size() >= 1 && args.size() <= 3) {
+                    surface = args[0].cast<Surface2Ptr>();
+                    if (args.size() > 1) {
+                        linearVelocity = objectToVector2D(args[1]);
+                    }
+                    if (args.size() > 2) {
+                        angularVelocity = args[2].cast<double>();
+                    }
+                } else if (args.size() > 0) {
+                    throw std::invalid_argument("Too few/many arguments.");
+                }
+
+                if (kwargs.contains("surface")) {
+                    surface = kwargs["surface"].cast<Surface2Ptr>();
+                }
+                if (kwargs.contains("linearVelocity")) {
+                    linearVelocity = objectToVector2D(kwargs["linearVelocity"]);
+                }
+                if (kwargs.contains("angularVelocity")) {
+                    angularVelocity = kwargs["angularVelocity"].cast<double>();
+                }
+
+                new (&instance) RigidBodyCollider2(surface, linearVelocity,
+                                                   angularVelocity);
+            },
+            "Constructs RigidBodyCollider2\n\n"
+            "This method constructs RigidBodyCollider2 with surface, linear "
+            "velocity (optional), and angular velocity (optional).")
+        .def_property("linearVelocity",
+                      [](const RigidBodyCollider2& instance) {
+                          return instance.linearVelocity;
+                      },
+                      [](RigidBodyCollider2& instance, py::object obj) {
+                          instance.linearVelocity = objectToVector2D(obj);
+                      })
+        .def_readwrite("angularVelocity", &RigidBodyCollider2::angularVelocity)
+        .def("velocityAt",
+             [](const RigidBodyCollider2& instance, py::object obj) {
+                 return instance.velocityAt(objectToVector2D(obj));
+             });
+}
 
 void addRigidBodyCollider3(py::module& m) {
     py::class_<RigidBodyCollider3, RigidBodyCollider3Ptr, Collider3>(
