@@ -122,14 +122,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;T <a class="code" href="namespacejet.html#a1484b2651a993cdadd18bc857bf2c474">fractionInsideSdf</a>(T phi0, T phi1);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#include &quot;detail/level_set_utils-inl.h&quot;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_LEVEL_SET_UTILS_H_</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;T <a class="code" href="namespacejet.html#a0e88dd3fca6ae366a8e420b4ebe1d2b2">fractionInside</a>(T phiBottomLeft, T phiBottomRight, T phiTopLeft,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                 T phiTopRight);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#include &quot;detail/level_set_utils-inl.h&quot;</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_LEVEL_SET_UTILS_H_</span></div>
 <div class="ttc" id="macros_8h_html"><div class="ttname"><a href="macros_8h.html">macros.h</a></div></div>
 <div class="ttc" id="namespacejet_html_a1484b2651a993cdadd18bc857bf2c474"><div class="ttname"><a href="namespacejet.html#a1484b2651a993cdadd18bc857bf2c474">jet::fractionInsideSdf</a></div><div class="ttdeci">T fractionInsideSdf(T phi0, T phi1)</div><div class="ttdoc">Returns the fraction occupied by the implicit surface. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="namespacejet_html_a0e88dd3fca6ae366a8e420b4ebe1d2b2"><div class="ttname"><a href="namespacejet.html#a0e88dd3fca6ae366a8e420b4ebe1d2b2">jet::fractionInside</a></div><div class="ttdeci">T fractionInside(T phiBottomLeft, T phiBottomRight, T phiTopLeft, T phiTopRight)</div><div class="ttdoc">Returns the fraction occupied by the implicit surface. </div></div>
 <div class="ttc" id="namespacejet_html_a8cf2661c8b17d2131d7facf4419e7de7"><div class="ttname"><a href="namespacejet.html#a8cf2661c8b17d2131d7facf4419e7de7">jet::smearedDeltaSdf</a></div><div class="ttdeci">T smearedDeltaSdf(T phi)</div><div class="ttdoc">Returns smeared delta function. </div></div>
 <div class="ttc" id="namespacejet_html_a71a9344a17047e33ff539ff9eb7d2ee1"><div class="ttname"><a href="namespacejet.html#a71a9344a17047e33ff539ff9eb7d2ee1">jet::smearedHeavisideSdf</a></div><div class="ttdeci">T smearedHeavisideSdf(T phi)</div><div class="ttdoc">Returns smeared Heaviside function. </div></div>
 <div class="ttc" id="namespacejet_html_a9a456bdd4f808913ea4fc92eabea9273"><div class="ttname"><a href="namespacejet.html#a9a456bdd4f808913ea4fc92eabea9273">jet::isInsideSdf</a></div><div class="ttdeci">bool isInsideSdf(T phi)</div><div class="ttdoc">Returns true if phi is inside the implicit surface (< 0). </div></div>
@@ -142,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 15 2017 22:59:36 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

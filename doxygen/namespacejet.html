@@ -439,7 +439,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 2-D grid-based pressure solver.  <a href="classjet_1_1_grid_pressure_solver2.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_pressure_solver3.html">GridPressureSolver3</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 2-D grid-based pressure solver.  <a href="classjet_1_1_grid_pressure_solver3.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for 3-D grid-based pressure solver.  <a href="classjet_1_1_grid_pressure_solver3.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html">GridSinglePhasePressureSolver2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">2-D single-phase pressure solver.  <a href="classjet_1_1_grid_single_phase_pressure_solver2.html#details">More...</a><br /></td></tr>
@@ -1274,7 +1274,7 @@ Typedefs</h2></td></tr>
 <tr class="memdesc:a20a1a23a5b7f1bcdd2cb9edb2723d3fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="classjet_1_1_grid_pressure_solver2.html" title="Abstract base class for 2-D grid-based pressure solver. ">GridPressureSolver2</a>.  <a href="#a20a1a23a5b7f1bcdd2cb9edb2723d3fc">More...</a><br /></td></tr>
 <tr class="separator:a20a1a23a5b7f1bcdd2cb9edb2723d3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba08390c7bdb2cfce07e7f5c379efd90"><td class="memItemLeft" align="right" valign="top">typedef std::shared_ptr&lt; <a class="el" href="classjet_1_1_grid_pressure_solver3.html">GridPressureSolver3</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#aba08390c7bdb2cfce07e7f5c379efd90">GridPressureSolver3Ptr</a></td></tr>
-<tr class="memdesc:aba08390c7bdb2cfce07e7f5c379efd90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="classjet_1_1_grid_pressure_solver3.html" title="Abstract base class for 2-D grid-based pressure solver. ">GridPressureSolver3</a>.  <a href="#aba08390c7bdb2cfce07e7f5c379efd90">More...</a><br /></td></tr>
+<tr class="memdesc:aba08390c7bdb2cfce07e7f5c379efd90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="classjet_1_1_grid_pressure_solver3.html" title="Abstract base class for 3-D grid-based pressure solver. ">GridPressureSolver3</a>.  <a href="#aba08390c7bdb2cfce07e7f5c379efd90">More...</a><br /></td></tr>
 <tr class="separator:aba08390c7bdb2cfce07e7f5c379efd90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affd6fff1b11e13d952809d485e0babd1"><td class="memItemLeft" align="right" valign="top">typedef std::shared_ptr&lt; <a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html">GridSinglePhasePressureSolver2</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#affd6fff1b11e13d952809d485e0babd1">GridSinglePhasePressureSolver2Ptr</a></td></tr>
 <tr class="memdesc:affd6fff1b11e13d952809d485e0babd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared pointer type for the <a class="el" href="classjet_1_1_grid_single_phase_pressure_solver2.html" title="2-D single-phase pressure solver. ">GridSinglePhasePressureSolver2</a>.  <a href="#affd6fff1b11e13d952809d485e0babd1">More...</a><br /></td></tr>
@@ -2004,6 +2004,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a1484b2651a993cdadd18bc857bf2c474"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a1484b2651a993cdadd18bc857bf2c474">fractionInsideSdf</a> (T phi0, T phi1)</td></tr>
 <tr class="memdesc:a1484b2651a993cdadd18bc857bf2c474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the fraction occupied by the implicit surface.  <a href="#a1484b2651a993cdadd18bc857bf2c474">More...</a><br /></td></tr>
 <tr class="separator:a1484b2651a993cdadd18bc857bf2c474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e88dd3fca6ae366a8e420b4ebe1d2b2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a0e88dd3fca6ae366a8e420b4ebe1d2b2"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a0e88dd3fca6ae366a8e420b4ebe1d2b2">fractionInside</a> (T phiBottomLeft, T phiBottomRight, T phiTopLeft, T phiTopRight)</td></tr>
+<tr class="memdesc:a0e88dd3fca6ae366a8e420b4ebe1d2b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the fraction occupied by the implicit surface.  <a href="#a0e88dd3fca6ae366a8e420b4ebe1d2b2">More...</a><br /></td></tr>
+<tr class="separator:a0e88dd3fca6ae366a8e420b4ebe1d2b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ad147ec9eaf0fd22e6d943a3ccc17b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a7ad147ec9eaf0fd22e6d943a3ccc17b1">marchingCubes</a> (const <a class="el" href="namespacejet.html#aa128b02a930e560c59b66ffe1ddaded9">ConstArrayAccessor3</a>&lt; double &gt; &amp;grid, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;gridSize, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;origin, <a class="el" href="classjet_1_1_triangle_mesh3.html">TriangleMesh3</a> *mesh, double isoValue=0, int bndFlag=<a class="el" href="namespacejet.html#ab1cbe25eb13404e6dbf99384f6366f68">kDirectionAll</a>)</td></tr>
 <tr class="memdesc:a7ad147ec9eaf0fd22e6d943a3ccc17b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes marching cubes and extract triangle mesh from grid.  <a href="#a7ad147ec9eaf0fd22e6d943a3ccc17b1">More...</a><br /></td></tr>
 <tr class="separator:a7ad147ec9eaf0fd22e6d943a3ccc17b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4475,7 +4479,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Shared pointer type for the <a class="el" href="classjet_1_1_grid_pressure_solver3.html" title="Abstract base class for 2-D grid-based pressure solver. ">GridPressureSolver3</a>. </p>
+<p>Shared pointer type for the <a class="el" href="classjet_1_1_grid_pressure_solver3.html" title="Abstract base class for 3-D grid-based pressure solver. ">GridPressureSolver3</a>. </p>
 
 </div>
 </div>
@@ -8471,6 +8475,65 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns element-wise floored vector. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0e88dd3fca6ae366a8e420b4ebe1d2b2"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T jet::fractionInside </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>phiBottomLeft</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>phiBottomRight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>phiTopLeft</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>phiTopRight</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the fraction occupied by the implicit surface. </p>
+<p>Given four signed distance values (square corners), determine what fraction of the square is "inside". The original implementation can be found from Christopher Batty's variational fluid code at <a href="https://github.com/christopherbatty/Fluid3D">https://github.com/christopherbatty/Fluid3D</a>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Value type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">phiBottomLeft</td><td>The level set value on the bottom-left corner. </td></tr>
+    <tr><td class="paramname">phiBottomRight</td><td>The level set value on the bottom-right corner. </td></tr>
+    <tr><td class="paramname">phiTopLeft</td><td>The level set value on the top-left corner. </td></tr>
+    <tr><td class="paramname">phiTopRight</td><td>The level set value on the top-right corner.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The fraction occupied by the implicit surface. </dd></dl>
 
 </div>
 </div>
@@ -16680,7 +16743,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 15 2017 22:59:37 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Abstract base class for 2-D grid-based pressure solver.  
+<p>Abstract base class for 3-D grid-based pressure solver.  
  <a href="classjet_1_1_grid_pressure_solver3.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="grid__pressure__solver3_8h_source.html">jet/grid_pressure_solver3.h</a>&gt;</code></p>
@@ -134,8 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aad1ebc5cc69c98a8cbc1d3fa79f26d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Abstract base class for 2-D grid-based pressure solver. </p>
-<p>This class represents a 2-D grid-based pressure solver interface which can be used as a sub-step of <a class="el" href="classjet_1_1_grid_fluid_solver2.html" title="Abstract base class for grid-based 2-D fluid solver. ">GridFluidSolver2</a>. Inheriting classes must implement the core <a class="el" href="classjet_1_1_grid_pressure_solver2.html#af1ab7534a13ddc4c4770b47f47081f54" title="Solves the pressure term and apply it to the velocity field. ">GridPressureSolver2::solve</a> function as well as the helper function <a class="el" href="classjet_1_1_grid_pressure_solver2.html#a2da468be8869d4b9431955662c390922" title="Returns the best boundary condition solver for this solver. ">GridPressureSolver2::suggestedBoundaryConditionSolver</a>. </p>
+<div class="textblock"><p>Abstract base class for 3-D grid-based pressure solver. </p>
+<p>This class represents a 3-D grid-based pressure solver interface which can be used as a sub-step of <a class="el" href="classjet_1_1_grid_fluid_solver3.html" title="Abstract base class for grid-based 3-D fluid solver. ">GridFluidSolver3</a>. Inheriting classes must implement the core <a class="el" href="classjet_1_1_grid_pressure_solver3.html#ad80ab9fd424e3b09e32d76745c1d88de" title="Solves the pressure term and apply it to the velocity field. ">GridPressureSolver3::solve</a> function as well as the helper function <a class="el" href="classjet_1_1_grid_pressure_solver3.html#aad1ebc5cc69c98a8cbc1d3fa79f26d51" title="Returns the best boundary condition solver for this solver. ">GridPressureSolver3::suggestedBoundaryConditionSolver</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab4b02365f1fbcdad802a1153fedd39a8"></a>
 <div class="memitem">
@@ -293,7 +293,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 15 2017 22:59:38 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

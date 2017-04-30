@@ -168,7 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> _initialVel;</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="namespacejet.html#aa4b13c6b13b9d9deb9a0a4ec80c58b6d">PointGenerator3Ptr</a> _pointsGen;</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">size_t</span> _maxNumberOfParticles = <a class="code" href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">std::numeric_limits&lt;size_t&gt;::max</a>();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">size_t</span> _maxNumberOfParticles = <a class="code" href="namespacejet.html#a58876cb0edd1d93a60db2d2fd47eefd2">kMaxSize</a>;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">size_t</span> _numberOfEmittedParticles = 0;</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">double</span> _jitter = 0.0;</div>
@@ -246,7 +246,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_volume_particle_emitter3_html_a0fe93622973db7270cbaa3f5aeb4796b"><div class="ttname"><a href="classjet_1_1_volume_particle_emitter3.html#a0fe93622973db7270cbaa3f5aeb4796b">jet::VolumeParticleEmitter3::isOneShot</a></div><div class="ttdeci">bool isOneShot() const </div><div class="ttdoc">Returns true if particles should be emitted just once. </div></div>
 <div class="ttc" id="classjet_1_1_volume_particle_emitter3_1_1_builder_html_a626f2798c11f5c3a3b10287fac8ba583"><div class="ttname"><a href="classjet_1_1_volume_particle_emitter3_1_1_builder.html#a626f2798c11f5c3a3b10287fac8ba583">jet::VolumeParticleEmitter3::Builder::withMaxNumberOfParticles</a></div><div class="ttdeci">Builder &amp; withMaxNumberOfParticles(size_t maxNumberOfParticles)</div><div class="ttdoc">Returns builder with max number of particles. </div></div>
 <div class="ttc" id="classjet_1_1_volume_particle_emitter3_html_affc400a017c974885133b19fc4e4d9f4"><div class="ttname"><a href="classjet_1_1_volume_particle_emitter3.html#affc400a017c974885133b19fc4e4d9f4">jet::VolumeParticleEmitter3::allowOverlapping</a></div><div class="ttdeci">bool allowOverlapping() const </div><div class="ttdoc">Returns trhe if particles can be overlapped. </div></div>
-<div class="ttc" id="namespacejet_html_ab6c11397418ee5dac392caa8252eeeba"><div class="ttname"><a href="namespacejet.html#ab6c11397418ee5dac392caa8252eeeba">jet::max</a></div><div class="ttdeci">Point2&lt; T &gt; max(const Point2&lt; T &gt; &amp;a, const Point2&lt; T &gt; &amp;b)</div><div class="ttdoc">Returns element-wise max point: (max(a.x, b.x), max(a.y, b.y)). </div></div>
 <div class="ttc" id="classjet_1_1_volume_particle_emitter3_1_1_builder_html_a51d8de9ac9b88515f922f1c734337eaa"><div class="ttname"><a href="classjet_1_1_volume_particle_emitter3_1_1_builder.html#a51d8de9ac9b88515f922f1c734337eaa">jet::VolumeParticleEmitter3::Builder::withAllowOverlapping</a></div><div class="ttdeci">Builder &amp; withAllowOverlapping(bool allowOverlapping)</div><div class="ttdoc">Returns builder with overlapping flag. </div></div>
 <div class="ttc" id="namespacejet_html_a58876cb0edd1d93a60db2d2fd47eefd2"><div class="ttname"><a href="namespacejet.html#a58876cb0edd1d93a60db2d2fd47eefd2">jet::kMaxSize</a></div><div class="ttdeci">constexpr size_t kMaxSize</div><div class="ttdoc">Max size_t. </div><div class="ttdef"><b>Definition:</b> constants.h:80</div></div>
 <div class="ttc" id="classjet_1_1_volume_particle_emitter3_html_aa3e1f5d4d38b2fb4744f440ad4674d14"><div class="ttname"><a href="classjet_1_1_volume_particle_emitter3.html#aa3e1f5d4d38b2fb4744f440ad4674d14">jet::VolumeParticleEmitter3::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox VolumeParticleEmitter3. </div></div>
@@ -287,7 +286,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 15 2017 22:59:37 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>
