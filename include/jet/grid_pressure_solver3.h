@@ -19,12 +19,12 @@
 namespace jet {
 
 //!
-//! \brief Abstract base class for 2-D grid-based pressure solver.
+//! \brief Abstract base class for 3-D grid-based pressure solver.
 //!
-//! This class represents a 2-D grid-based pressure solver interface which can
-//! be used as a sub-step of GridFluidSolver2. Inheriting classes must implement
-//! the core GridPressureSolver2::solve function as well as the helper function
-//! GridPressureSolver2::suggestedBoundaryConditionSolver.
+//! This class represents a 3-D grid-based pressure solver interface which can
+//! be used as a sub-step of GridFluidSolver3. Inheriting classes must implement
+//! the core GridPressureSolver3::solve function as well as the helper function
+//! GridPressureSolver3::suggestedBoundaryConditionSolver.
 //!
 class GridPressureSolver3 {
  public:
