@@ -9,6 +9,7 @@
 #include "apic_solver.h"
 #include "array_accessor1.h"
 #include "bounding_box.h"
+#include "collocated_vector_grid.h"
 #include "collider.h"
 #include "constants.h"
 #include "face_centered_grid.h"
@@ -37,6 +38,12 @@
 #include "vector_field.h"
 #include "vector_grid.h"
 #include "volume_particle_emitter.h"
+#include "scalar_field.h"
+#include "scalar_grid.h"
+#include "cell_centered_scalar_grid.h"
+#include "cell_centered_vector_grid.h"
+#include "vertex_centered_scalar_grid.h"
+#include "vertex_centered_vector_grid.h"
 
 #include <pybind11/pybind11.h>
 
@@ -52,12 +59,16 @@ PYBIND11_PLUGIN(pyjet) {
 
     // Trivial basic types
     addArrayAccessor1(m);
+    addVector2D(m);
+    addVector2F(m);
     addVector3D(m);
     addVector3F(m);
+    addRay2D(m);
+    addRay2F(m);
     addRay3D(m);
     addRay3F(m);
-//    addBoundingBox2D(m);  // after Ray2D is done
-//    addBoundingBox2F(m);  // after Ray2F is done
+    addBoundingBox2D(m);
+    addBoundingBox2F(m);
     addBoundingBox3D(m);
     addBoundingBox3F(m);
     addFrame(m);
@@ -73,17 +84,33 @@ PYBIND11_PLUGIN(pyjet) {
     // Fields/Grids
     addField2(m);
     addField3(m);
+    addScalarField2(m);
+    addScalarField3(m);
     addVectorField2(m);
     addVectorField3(m);
     addGrid2(m);
     addGrid3(m);
+    addScalarGrid2(m);
+    addScalarGrid3(m);
     addVectorGrid2(m);
     addVectorGrid3(m);
+    addCollocatedVectorGrid2(m);
+    addCollocatedVectorGrid3(m);
+    addCellCenteredScalarGrid2(m);
+    addCellCenteredScalarGrid3(m);
+    addCellCenteredVectorGrid2(m);
+    addCellCenteredVectorGrid3(m);
+    addVertexCenteredScalarGrid2(m);
+    addVertexCenteredScalarGrid3(m);
+    addVertexCenteredVectorGrid2(m);
+    addVertexCenteredVectorGrid3(m);
     addFaceCenteredGrid2(m);
     addFaceCenteredGrid3(m);
 
     // Surfaces
+    addSurface2(m);
     addSurface3(m);
+    addSphere2(m);
     addSphere3(m);
     addImplicitSurface3(m);
 
@@ -118,11 +145,13 @@ PYBIND11_PLUGIN(pyjet) {
     // Animations
     addAnimation(m);
     addPhysicsAnimation(m);
+    addGridFluidSolver2(m);
     addGridFluidSolver3(m);
+    addPicSolver2(m);
     addPicSolver3(m);
-//    addFlipSolver2(m);  // after Vector2D is ready
+    addFlipSolver2(m);
     addFlipSolver3(m);
-//    addApicSolver2(m);  // after Vector2D is ready
+    addApicSolver2(m);
     addApicSolver3(m);
 
 #ifdef VERSION_INFO

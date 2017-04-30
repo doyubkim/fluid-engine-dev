@@ -14,11 +14,13 @@ namespace py = pybind11;
 using namespace jet;
 
 void addVectorGrid2(py::module& m) {
-    py::class_<VectorGrid2, VectorGrid2Ptr>(m, "VectorGrid2",
+    py::class_<VectorGrid2, VectorGrid2Ptr, VectorField2>(
+        m, "VectorGrid2",
         R"pbdoc(Abstract base class for 2-D vector grid structure.)pbdoc");
 }
 
 void addVectorGrid3(py::module& m) {
-    py::class_<VectorGrid3, VectorGrid3Ptr>(m, "VectorGrid3",
+    py::class_<VectorGrid3, VectorGrid3Ptr, VectorField3>(
+        m, "VectorGrid3",
         R"pbdoc(Abstract base class for 3-D vector grid structure.)pbdoc");
 }

@@ -104,10 +104,12 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     DataPositionFunc dataPosition() const;
 
     //! Fills the grid with given value.
-    void fill(double value);
+    void fill(double value,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
     //! Fills the grid with given position-to-value mapping function.
-    void fill(const std::function<double(const Vector2D&)>& func);
+    void fill(const std::function<double(const Vector2D&)>& func,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
     //!
     //! \brief Invokes the given function \p func for each data point.

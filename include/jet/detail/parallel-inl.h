@@ -96,20 +96,21 @@ void parallelMergeSort(RandomIterator a, size_t size, RandomIterator2 temp,
 
 template <typename RandomIterator, typename T>
 void parallelFill(const RandomIterator& begin, const RandomIterator& end,
-                  const T& value) {
+                  const T& value, ExecutionPolicy policy) {
     auto diff = end - begin;
     if (diff <= 0) {
         return;
     }
 
     size_t size = static_cast<size_t>(diff);
-    parallelFor(kZeroSize, size,
-                [begin, value](size_t i) { begin[i] = value; });
+    parallelFor(kZeroSize, size, [begin, value](size_t i) { begin[i] = value; },
+                policy);
 }
 
 // Adopted from http://ideone.com/Z7zldb
 template <typename IndexType, typename Function>
-void parallelFor(IndexType start, IndexType end, const Function& func) {
+void parallelFor(IndexType start, IndexType end, const Function& func,
+                 ExecutionPolicy policy) {
     if (start > end) {
         return;
     }
@@ -117,8 +118,10 @@ void parallelFor(IndexType start, IndexType end, const Function& func) {
     // Estimate number of threads in the pool
     static const unsigned int numThreadsHint =
         std::thread::hardware_concurrency();
-    static const unsigned int numThreads =
-        (numThreadsHint == 0u ? 8u : numThreadsHint);
+    const unsigned int numThreads =
+        (policy == ExecutionPolicy::kParallel)
+            ? (numThreadsHint == 0u ? 8u : numThreadsHint)
+            : 1;
 
     // Size of a slice for the range functions
     IndexType n = end - start + 1;
@@ -158,32 +161,37 @@ void parallelFor(IndexType start, IndexType end, const Function& func) {
 template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
-                 const Function& function) {
-    parallelFor(beginIndexY, endIndexY, [&](size_t j) {
-        for (IndexType i = beginIndexX; i < endIndexX; ++i) {
-            function(i, j);
-        }
-    });
+                 const Function& function, ExecutionPolicy policy) {
+    parallelFor(beginIndexY, endIndexY,
+                [&](size_t j) {
+                    for (IndexType i = beginIndexX; i < endIndexX; ++i) {
+                        function(i, j);
+                    }
+                },
+                policy);
 }
 
 template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
                  IndexType beginIndexZ, IndexType endIndexZ,
-                 const Function& function) {
-    parallelFor(beginIndexZ, endIndexZ, [&](size_t k) {
-        for (IndexType j = beginIndexY; j < endIndexY; ++j) {
-            for (IndexType i = beginIndexX; i < endIndexX; ++i) {
-                function(i, j, k);
-            }
-        }
-    });
+                 const Function& function, ExecutionPolicy policy) {
+    parallelFor(beginIndexZ, endIndexZ,
+                [&](size_t k) {
+                    for (IndexType j = beginIndexY; j < endIndexY; ++j) {
+                        for (IndexType i = beginIndexX; i < endIndexX; ++i) {
+                            function(i, j, k);
+                        }
+                    }
+                },
+                policy);
 }
 
 template <typename IndexType, typename Value, typename Function,
           typename Reduce>
 Value parallelReduce(IndexType start, IndexType end, const Value& identity,
-                     const Function& func, const Reduce& reduce) {
+                     const Function& func, const Reduce& reduce,
+                     ExecutionPolicy policy) {
     if (start > end) {
         return identity;
     }
@@ -191,8 +199,10 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
     // Estimate number of threads in the pool
     static const unsigned int numThreadsHint =
         std::thread::hardware_concurrency();
-    static const unsigned int numThreads =
-        (numThreadsHint == 0u ? 8u : numThreadsHint);
+    const unsigned int numThreads =
+        (policy == ExecutionPolicy::kParallel)
+            ? (numThreadsHint == 0u ? 8u : numThreadsHint)
+            : 1;
 
     // Size of a slice for the range functions
     IndexType n = end - start + 1;
@@ -205,6 +215,7 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
 
     // [Helper] Inner loop
     auto launchRange = [&](IndexType k1, IndexType k2, unsigned int tid) {
+        // TODO: This is bad in terms of performance!
         results[tid] = func(k1, k2, identity);
     };
 
@@ -241,7 +252,7 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
 
 template <typename RandomIterator, typename CompareFunction>
 void parallelSort(RandomIterator begin, RandomIterator end,
-                  CompareFunction compareFunction) {
+                  CompareFunction compareFunction, ExecutionPolicy policy) {
     if (end < begin) {
         return;
     }
@@ -255,18 +266,22 @@ void parallelSort(RandomIterator begin, RandomIterator end,
     // Estimate number of threads in the pool
     static const unsigned int numThreadsHint =
         std::thread::hardware_concurrency();
-    static const unsigned int numThreads =
-        (numThreadsHint == 0u ? 8u : numThreadsHint);
+    const unsigned int numThreads =
+        (policy == ExecutionPolicy::kParallel)
+            ? (numThreadsHint == 0u ? 8u : numThreadsHint)
+            : 1;
 
     internal::parallelMergeSort(begin, size, temp.begin(), numThreads,
                                 compareFunction);
 }
 
 template <typename RandomIterator>
-void parallelSort(RandomIterator begin, RandomIterator end) {
+void parallelSort(RandomIterator begin, RandomIterator end,
+                  ExecutionPolicy policy) {
     parallelSort(
         begin, end,
-        std::less<typename std::iterator_traits<RandomIterator>::value_type>());
+        std::less<typename std::iterator_traits<RandomIterator>::value_type>(),
+        policy);
 }
 
 }  // namespace jet

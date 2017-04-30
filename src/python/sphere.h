@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addSphere2(pybind11::module& m);
 void addSphere3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_SPHERE_H_

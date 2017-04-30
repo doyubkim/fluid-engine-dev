@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addSurface2(pybind11::module& m);
 void addSurface3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_SURFACE_H_

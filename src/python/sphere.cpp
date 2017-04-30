@@ -7,10 +7,59 @@
 #include "sphere.h"
 #include "pybind11_utils.h"
 
+#include <jet/sphere2.h>
 #include <jet/sphere3.h>
 
 namespace py = pybind11;
 using namespace jet;
+
+void addSphere2(pybind11::module& m) {
+    py::class_<Sphere2, Sphere2Ptr, Surface2>(m, "Sphere2")
+        // CTOR
+        .def("__init__",
+             [](Sphere2& instance, py::args args, py::kwargs kwargs) {
+                 Sphere2 tmp;
+
+                 // See if we have list of parameters
+                 if (args.size() == 1) {
+                     tmp = args[0].cast<Sphere2>();
+                 } else if (args.size() >= 2) {
+                     tmp.center = objectToVector2D(py::object(args[0]));
+                     tmp.radius = args[1].cast<double>();
+                     if (args.size() > 2) {
+                         tmp.transform = args[2].cast<Transform2>();
+                     }
+                     if (args.size() > 3) {
+                         tmp.isNormalFlipped = args[3].cast<bool>();
+                     }
+                 } else if (args.size() > 0) {
+                     throw std::invalid_argument("Too many arguments.");
+                 }
+
+                 // Parse out keyword args
+                 if (kwargs.contains("center")) {
+                     tmp.center =
+                         objectToVector2D(py::object(kwargs["center"]));
+                 }
+                 if (kwargs.contains("radius")) {
+                     tmp.radius = kwargs["radius"].cast<double>();
+                 }
+                 if (kwargs.contains("transform")) {
+                     tmp.transform = kwargs["transform"].cast<Transform2>();
+                 }
+                 if (kwargs.contains("isNormalFlipped")) {
+                     tmp.isNormalFlipped =
+                         kwargs["isNormalFlipped"].cast<bool>();
+                 }
+
+                 new (&instance) Sphere2(tmp);
+             },
+             "Constructs Sphere2\n\n"
+             "This method constructs Sphere2 with center, radius, transform, "
+             "and normal direction (isNormalFlipped).")
+        .def_readwrite("center", &Sphere2::center)
+        .def_readwrite("radius", &Sphere2::radius);
+}
 
 void addSphere3(pybind11::module& m) {
     py::class_<Sphere3, Sphere3Ptr, Surface3>(m, "Sphere3")

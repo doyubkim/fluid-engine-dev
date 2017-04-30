@@ -9,6 +9,8 @@
 
 #include <pybind11/pybind11.h>
 
+void addVector2F(pybind11::module& m);
+void addVector2D(pybind11::module& m);
 void addVector3F(pybind11::module& m);
 void addVector3D(pybind11::module& m);
 

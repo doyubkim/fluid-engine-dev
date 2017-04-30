@@ -9,6 +9,8 @@
 
 #include <pybind11/pybind11.h>
 
+void addRay2F(pybind11::module& m);
+void addRay2D(pybind11::module& m);
 void addRay3F(pybind11::module& m);
 void addRay3D(pybind11::module& m);
 

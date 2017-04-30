@@ -9,6 +9,9 @@
 
 namespace jet {
 
+//! Execution policy tag.
+enum class ExecutionPolicy { kSerial, kParallel };
+
 //!
 //! \brief      Fills from \p begin to \p end with \p value in parallel.
 //!
@@ -25,7 +28,8 @@ namespace jet {
 //!
 template <typename RandomIterator, typename T>
 void parallelFill(const RandomIterator& begin, const RandomIterator& end,
-                  const T& value);
+                  const T& value,
+                  ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Makes a for-loop from \p beginIndex \p to endIndex in parallel.
@@ -43,7 +47,8 @@ void parallelFill(const RandomIterator& begin, const RandomIterator& end,
 //!
 template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndex, IndexType endIndex,
-                 const Function& function);
+                 const Function& function,
+                 ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Makes a 2D nested for-loop in parallel.
@@ -65,7 +70,8 @@ void parallelFor(IndexType beginIndex, IndexType endIndex,
 template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
-                 const Function& function);
+                 const Function& function,
+                 ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Makes a 3D nested for-loop in parallel.
@@ -90,7 +96,8 @@ template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
                  IndexType beginIndexZ, IndexType endIndexZ,
-                 const Function& function);
+                 const Function& function,
+                 ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Performs reduce operation in parallel.
@@ -112,7 +119,8 @@ template <typename IndexType, typename Value, typename Function,
           typename Reduce>
 Value parallelReduce(IndexType beginIndex, IndexType endIndex,
                      const Value& identity, const Function& func,
-                     const Reduce& reduce);
+                     const Reduce& reduce,
+                     ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Sorts a container in parallel.
@@ -125,7 +133,8 @@ Value parallelReduce(IndexType beginIndex, IndexType endIndex,
 //! \tparam     RandomIterator Iterator type.
 //!
 template <typename RandomIterator>
-void parallelSort(RandomIterator begin, RandomIterator end);
+void parallelSort(RandomIterator begin, RandomIterator end,
+                  ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 //!
 //! \brief      Sorts a container in parallel with a custom compare function.
@@ -143,7 +152,8 @@ void parallelSort(RandomIterator begin, RandomIterator end);
 //!
 template <typename RandomIterator, typename CompareFunction>
 void parallelSort(RandomIterator begin, RandomIterator end,
-                  CompareFunction compare);
+                  CompareFunction compare,
+                  ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 }  // namespace jet
 

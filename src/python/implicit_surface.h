@@ -9,6 +9,7 @@
 
 #include <pybind11/pybind11.h>
 
+void addImplicitSurface2(pybind11::module& m);
 void addImplicitSurface3(pybind11::module& m);
 
 #endif  // SRC_PYTHON_IMPLICIT_SURFACE_H_
