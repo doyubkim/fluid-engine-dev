@@ -21,7 +21,7 @@ void addRigidBodyCollider2(py::module& m) {
             [](RigidBodyCollider2& instance, py::args args, py::kwargs kwargs) {
                 Surface2Ptr surface;
                 Vector2D linearVelocity;
-                double angularVelocity;
+                double angularVelocity = 0.0;
 
                 if (args.size() >= 1 && args.size() <= 3) {
                     surface = args[0].cast<Surface2Ptr>();
