@@ -32,7 +32,7 @@ endif()
 
 # Compile options
 include(cmake/CompileOptions.cmake)
-add_definitions(-DVERSION_INFO="1.0.5")
+add_definitions(-DVERSION_INFO="1.0.6")
 
 # Build type - Release by default
 if (NOT CMAKE_BUILD_TYPE)

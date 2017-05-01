@@ -9,16 +9,20 @@
 #include "apic_solver.h"
 #include "array_accessor1.h"
 #include "bounding_box.h"
-#include "collocated_vector_grid.h"
+#include "cell_centered_scalar_grid.h"
+#include "cell_centered_vector_grid.h"
 #include "collider.h"
+#include "collocated_vector_grid.h"
 #include "constants.h"
 #include "face_centered_grid.h"
 #include "field.h"
 #include "flip_solver.h"
 #include "grid.h"
+#include "grid_backward_euler_diffusion_solver.h"
 #include "grid_diffusion_solver.h"
 #include "grid_emitter.h"
 #include "grid_fluid_solver.h"
+#include "grid_forward_euler_diffusion_solver.h"
 #include "grid_pressure_solver.h"
 #include "grid_system_data.h"
 #include "implicit_surface.h"
@@ -30,6 +34,8 @@
 #include "quaternion.h"
 #include "ray.h"
 #include "rigid_body_collider.h"
+#include "scalar_field.h"
+#include "scalar_grid.h"
 #include "size.h"
 #include "sphere.h"
 #include "surface.h"
@@ -37,13 +43,9 @@
 #include "vector.h"
 #include "vector_field.h"
 #include "vector_grid.h"
-#include "volume_particle_emitter.h"
-#include "scalar_field.h"
-#include "scalar_grid.h"
-#include "cell_centered_scalar_grid.h"
-#include "cell_centered_vector_grid.h"
 #include "vertex_centered_scalar_grid.h"
 #include "vertex_centered_vector_grid.h"
+#include "volume_particle_emitter.h"
 
 #include <pybind11/pybind11.h>
 
@@ -139,6 +141,10 @@ PYBIND11_PLUGIN(pyjet) {
     addAdvectionSolver3(m);
     addGridDiffusionSolver2(m);
     addGridDiffusionSolver3(m);
+    addGridForwardEulerDiffusionSolver2(m);
+    addGridForwardEulerDiffusionSolver3(m);
+    addGridBackwardEulerDiffusionSolver2(m);
+    addGridBackwardEulerDiffusionSolver3(m);
     addGridPressureSolver2(m);
     addGridPressureSolver3(m);
 

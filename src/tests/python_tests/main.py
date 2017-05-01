@@ -118,6 +118,9 @@ class FlipSolver3Tests(unittest.TestCase):
         self.assertEqual(a.resolution, (2, 3, 4))
         self.assertEqual(a.gridSpacing, (5.0, 6.0, 7.0))
         self.assertEqual(a.gridOrigin, (8.0, 9.0, 10.0))
+        ds = pyjet.GridForwardEulerDiffusionSolver3()
+        a.diffusionSolver = ds
+        self.assertEqual(ds, a.diffusionSolver)
 
     def testFlipSolver3(self):
         a = pyjet.FlipSolver3()
