@@ -24,11 +24,10 @@ class GridEmitter2 {
     //!
     //! \brief Callback function type for update calls.
     //!
-    //! This type of callback function will take the emitter pointer, current
-    //! time, and time interval in seconds.
+    //! This type of callback function will take the current time and time
+    //! interval in seconds.
     //!
-    typedef std::function<void(GridEmitter2*, double, double)>
-        OnBeginUpdateCallback;
+    typedef std::function<void(double, double)> OnBeginUpdateCallback;
 
     //! Constructs an emitter.
     GridEmitter2();
@@ -53,13 +52,8 @@ class GridEmitter2 {
     void setOnBeginUpdateCallback(const OnBeginUpdateCallback& callback);
 
  protected:
-    virtual void onUpdate(
-        double currentTimeInSeconds,
-        double timeIntervalInSeconds) = 0;
-
-    void callOnBeginUpdateCallback(
-        double currentTimeInSeconds,
-        double timeIntervalInSeconds);
+    virtual void onUpdate(double currentTimeInSeconds,
+                          double timeIntervalInSeconds) = 0;
 
  private:
     OnBeginUpdateCallback _onBeginUpdateCallback;

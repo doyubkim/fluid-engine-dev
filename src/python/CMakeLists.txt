@@ -16,6 +16,11 @@ file(GLOB sources
 # Add Pybind11 module
 pybind11_add_module(${target} ${sources})
 
+# Project options
+set_target_properties(${target}
+        PROPERTIES
+        ${DEFAULT_PROJECT_OPTIONS})
+
 # Link libraries
 target_link_libraries(${target}
         PRIVATE

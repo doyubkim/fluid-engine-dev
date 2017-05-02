@@ -32,7 +32,6 @@ endif()
 
 # Compile options
 include(cmake/CompileOptions.cmake)
-add_definitions(-DVERSION_INFO="1.0.6")
 
 # Build type - Release by default
 if (NOT CMAKE_BUILD_TYPE)
@@ -58,9 +57,12 @@ add_custom_target(unzip_py ALL
         DEPENDS ${RESOURCES_OBJS})
 
 # Project modules
+add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
+cmake_policy(SET CMP0063 NEW)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 add_subdirectory(external/cnpy)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
 add_subdirectory(external/pystring)
 add_subdirectory(src/jet)
 add_subdirectory(src/tests/manual_tests)

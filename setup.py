@@ -69,7 +69,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyjet',
-    version='1.0.5',
+    version='1.0.6',
     author='Doyub Kim',
     author_email='doyubkim@gmail.com',
     description='Fluid simulation engine for computer graphics applications',

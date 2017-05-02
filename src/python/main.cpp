@@ -45,7 +45,11 @@
 #include "vector_grid.h"
 #include "vertex_centered_scalar_grid.h"
 #include "vertex_centered_vector_grid.h"
+#include "volume_grid_emitter.h"
 #include "volume_particle_emitter.h"
+#include "grid_boundary_condition_solver.h"
+#include "grid_blocked_boundary_condition_solver.h"
+#include "grid_fractional_boundary_condition_solver.h"
 
 #include <pybind11/pybind11.h>
 
@@ -125,6 +129,8 @@ PYBIND11_PLUGIN(pyjet) {
     // Emitters
     addGridEmitter2(m);
     addGridEmitter3(m);
+    addVolumeGridEmitter2(m);
+    addVolumeGridEmitter3(m);
     addParticleEmitter2(m);
     addParticleEmitter3(m);
     addVolumeParticleEmitter2(m);
@@ -145,6 +151,12 @@ PYBIND11_PLUGIN(pyjet) {
     addGridForwardEulerDiffusionSolver3(m);
     addGridBackwardEulerDiffusionSolver2(m);
     addGridBackwardEulerDiffusionSolver3(m);
+    addGridBoundaryConditionSolver2(m);
+    addGridBoundaryConditionSolver3(m);
+    addGridFractionalBoundaryConditionSolver2(m);
+    addGridFractionalBoundaryConditionSolver3(m);
+    addGridBlockedBoundaryConditionSolver2(m);
+    addGridBlockedBoundaryConditionSolver3(m);
     addGridPressureSolver2(m);
     addGridPressureSolver3(m);
 
