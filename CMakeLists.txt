@@ -57,12 +57,12 @@ add_custom_target(unzip_py ALL
         DEPENDS ${RESOURCES_OBJS})
 
 # Project modules
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
 cmake_policy(SET CMP0063 NEW)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 add_subdirectory(external/cnpy)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/pystring)
 add_subdirectory(src/jet)
 add_subdirectory(src/tests/manual_tests)
