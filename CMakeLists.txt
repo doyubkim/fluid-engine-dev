@@ -59,7 +59,9 @@ add_custom_target(unzip_py ALL
 # Project modules
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
-cmake_policy(SET CMP0063 NEW)
+if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
+    cmake_policy(SET CMP0063 NEW)
+endif()
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 add_subdirectory(external/cnpy)

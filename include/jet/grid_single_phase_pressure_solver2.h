@@ -57,15 +57,11 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
     //!
     void solve(
-        const FaceCenteredGrid2& input,
-        double timeIntervalInSeconds,
+        const FaceCenteredGrid2& input, double timeIntervalInSeconds,
         FaceCenteredGrid2* output,
-        const ScalarField2& boundarySdf
-            = ConstantScalarField2(kMaxD),
-        const VectorField2& boundaryVelocity
-            = ConstantVectorField2({0, 0}),
-        const ScalarField2& fluidSdf
-            = ConstantScalarField2(-kMaxD)) override;
+        const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD),
+        const VectorField2& boundaryVelocity = ConstantVectorField2({0, 0}),
+        const ScalarField2& fluidSdf = ConstantScalarField2(-kMaxD)) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -77,8 +73,11 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
     //! GridBlockedBoundaryConditionSolver2 will be returned since this pressure
     //! solver encodes boundaries like pixelated Lego blocks.
     //!
-    GridBoundaryConditionSolver2Ptr
-        suggestedBoundaryConditionSolver() const override;
+    GridBoundaryConditionSolver2Ptr suggestedBoundaryConditionSolver()
+        const override;
+
+    //! Returns the linear system solver
+    const FdmLinearSystemSolver2Ptr& linearSystemSolver() const;
 
     //! Sets the linear system solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver2Ptr& solver);
@@ -91,17 +90,15 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
     FdmLinearSystemSolver2Ptr _systemSolver;
     Array2<char> _markers;
 
-    void buildMarkers(
-        const Size2& size,
-        const std::function<Vector2D(size_t, size_t)>& pos,
-        const ScalarField2& boundarySdf,
-        const ScalarField2& fluidSdf);
+    void buildMarkers(const Size2& size,
+                      const std::function<Vector2D(size_t, size_t)>& pos,
+                      const ScalarField2& boundarySdf,
+                      const ScalarField2& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid2& input);
 
-    virtual void applyPressureGradient(
-        const FaceCenteredGrid2& input,
-        FaceCenteredGrid2* output);
+    virtual void applyPressureGradient(const FaceCenteredGrid2& input,
+                                       FaceCenteredGrid2* output);
 };
 
 //! Shared pointer type for the GridSinglePhasePressureSolver2.

@@ -80,6 +80,9 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
     GridBoundaryConditionSolver3Ptr
         suggestedBoundaryConditionSolver() const override;
 
+    //! Returns the linear system solver.
+    const FdmLinearSystemSolver3Ptr& linearSystemSolver() const;
+
     //! Sets the linear system solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver3Ptr& solver);
 

@@ -50,6 +50,13 @@
 #include "grid_boundary_condition_solver.h"
 #include "grid_blocked_boundary_condition_solver.h"
 #include "grid_fractional_boundary_condition_solver.h"
+#include "fdm_linear_system_solver.h"
+#include "fdm_jacobi_solver.h"
+#include "fdm_gauss_seidel_solver.h"
+#include "fdm_cg_solver.h"
+#include "fdm_iccg_solver.h"
+#include "grid_single_phase_pressure_solver.h"
+#include "grid_fractional_single_phase_pressure_solver.h"
 
 #include <pybind11/pybind11.h>
 
@@ -145,6 +152,16 @@ PYBIND11_PLUGIN(pyjet) {
     // Solvers
     addAdvectionSolver2(m);
     addAdvectionSolver3(m);
+    addFdmLinearSystemSolver2(m);
+    addFdmLinearSystemSolver3(m);
+    addFdmJacobiSolver2(m);
+    addFdmJacobiSolver3(m);
+    addFdmGaussSeidelSolver2(m);
+    addFdmGaussSeidelSolver3(m);
+    addFdmCgSolver2(m);
+    addFdmCgSolver3(m);
+    addFdmIccgSolver2(m);
+    addFdmIccgSolver3(m);
     addGridDiffusionSolver2(m);
     addGridDiffusionSolver3(m);
     addGridForwardEulerDiffusionSolver2(m);
@@ -159,6 +176,10 @@ PYBIND11_PLUGIN(pyjet) {
     addGridBlockedBoundaryConditionSolver3(m);
     addGridPressureSolver2(m);
     addGridPressureSolver3(m);
+    addGridSinglePhasePressureSolver2(m);
+    addGridSinglePhasePressureSolver3(m);
+    addGridFractionalSinglePhasePressureSolver2(m);
+    addGridFractionalSinglePhasePressureSolver3(m);
 
     // Animations
     addAnimation(m);

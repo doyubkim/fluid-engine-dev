@@ -21,16 +21,16 @@ class FdmCgSolver2 final : public FdmLinearSystemSolver2 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
 
-    //! Returns the max number of Jacobi iterations.
+    //! Returns the max number of CG iterations.
     unsigned int maxNumberOfIterations() const;
 
-    //! Returns the last number of Jacobi iterations the solver made.
+    //! Returns the last number of CG iterations the solver made.
     unsigned int lastNumberOfIterations() const;
 
-    //! Returns the max residual tolerance for the Jacobi method.
+    //! Returns the max residual tolerance for the CG method.
     double tolerance() const;
 
-    //! Returns the last residual after the Jacobi iterations.
+    //! Returns the last residual after the CG iterations.
     double lastResidual() const;
 
  private:

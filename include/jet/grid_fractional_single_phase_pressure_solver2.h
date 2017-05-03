@@ -40,8 +40,8 @@ namespace jet {
 //!     flows." ASME/JSME 2003 4th Joint Fluids Summer Engineering Conference.
 //!     American Society of Mechanical Engineers, 2003.
 //!
-class GridFractionalSinglePhasePressureSolver2 final :
-    public GridPressureSolver2 {
+class GridFractionalSinglePhasePressureSolver2 final
+    : public GridPressureSolver2 {
  public:
     //! Default constructor.
     GridFractionalSinglePhasePressureSolver2();
@@ -70,15 +70,11 @@ class GridFractionalSinglePhasePressureSolver2 final :
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
     //!
     void solve(
-        const FaceCenteredGrid2& input,
-        double timeIntervalInSeconds,
+        const FaceCenteredGrid2& input, double timeIntervalInSeconds,
         FaceCenteredGrid2* output,
-        const ScalarField2& boundarySdf
-            = ConstantScalarField2(kMaxD),
-        const VectorField2& boundaryVelocity
-            = ConstantVectorField2({0, 0}),
-        const ScalarField2& fluidSdf
-            = ConstantScalarField2(-kMaxD)) override;
+        const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD),
+        const VectorField2& boundaryVelocity = ConstantVectorField2({0, 0}),
+        const ScalarField2& fluidSdf = ConstantScalarField2(-kMaxD)) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -89,8 +85,11 @@ class GridFractionalSinglePhasePressureSolver2 final :
     //! this particular class, an instance of
     //! GridFractionalBoundaryConditionSolver2 will be returned.
     //!
-    GridBoundaryConditionSolver2Ptr
-        suggestedBoundaryConditionSolver() const override;
+    GridBoundaryConditionSolver2Ptr suggestedBoundaryConditionSolver()
+        const override;
+
+    //! Returns the linear system solver.
+    const FdmLinearSystemSolver2Ptr& linearSystemSolver() const;
 
     //! Sets the linear system solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver2Ptr& solver);
@@ -106,17 +105,15 @@ class GridFractionalSinglePhasePressureSolver2 final :
     Array2<float> _fluidSdf;
     std::function<Vector2D(const Vector2D&)> _boundaryVel;
 
-    void buildWeights(
-        const FaceCenteredGrid2& input,
-        const ScalarField2& boundarySdf,
-        const VectorField2& boundaryVelocity,
-        const ScalarField2& fluidSdf);
+    void buildWeights(const FaceCenteredGrid2& input,
+                      const ScalarField2& boundarySdf,
+                      const VectorField2& boundaryVelocity,
+                      const ScalarField2& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid2& input);
 
-    virtual void applyPressureGradient(
-        const FaceCenteredGrid2& input,
-        FaceCenteredGrid2* output);
+    virtual void applyPressureGradient(const FaceCenteredGrid2& input,
+                                       FaceCenteredGrid2* output);
 };
 
 //! Shared pointer type for the GridFractionalSinglePhasePressureSolver2.

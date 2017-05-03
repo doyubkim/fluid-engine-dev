@@ -41,7 +41,7 @@ bin/unit_tests
 Jet supports Ubuntu 14.04 or higher. Using `apt-get`, install required tools and libraries by running,
 
 ```
-sudo apt-get install build-essential python-dev cmake
+sudo apt-get install build-essential python-dev python-pip cmake
 ```
 
 This will install GNU compilers, python, and CMake. Once installed, build the code by running

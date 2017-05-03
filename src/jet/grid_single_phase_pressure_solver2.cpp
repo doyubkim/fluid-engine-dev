@@ -58,6 +58,11 @@ GridSinglePhasePressureSolver2::suggestedBoundaryConditionSolver() const {
     return std::make_shared<GridBlockedBoundaryConditionSolver2>();
 }
 
+const FdmLinearSystemSolver2Ptr&
+GridSinglePhasePressureSolver2::linearSystemSolver() const {
+    return _systemSolver;
+}
+
 void GridSinglePhasePressureSolver2::setLinearSystemSolver(
     const FdmLinearSystemSolver2Ptr& solver) {
     _systemSolver = solver;
