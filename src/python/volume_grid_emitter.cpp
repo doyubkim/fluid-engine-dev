@@ -7,6 +7,8 @@
 #include "volume_grid_emitter.h"
 #include "pybind11_utils.h"
 
+#include <jet/surface_to_implicit2.h>
+#include <jet/surface_to_implicit3.h>
 #include <jet/volume_grid_emitter2.h>
 #include <jet/volume_grid_emitter3.h>
 
@@ -17,7 +19,20 @@ void addVolumeGridEmitter2(py::module& m) {
     py::class_<VolumeGridEmitter2, VolumeGridEmitter2Ptr, GridEmitter2>(
         m, "VolumeGridEmitter2",
         R"pbdoc(2-D grid-based volumetric emitter.)pbdoc")
-        .def(py::init<const ImplicitSurface2Ptr, bool>(),
+        .def("__init__",
+             [](VolumeGridEmitter2& instance, const Surface2Ptr& sourceRegion,
+                bool isOneShot) {
+                 ImplicitSurface3Ptr sourceRegion_;
+                 auto implicit =
+                     std::dynamic_pointer_cast<ImplicitSurface2>(sourceRegion);
+                 if (implicit != nullptr) {
+                     new (&instance) VolumeGridEmitter2(implicit, isOneShot);
+                 } else {
+                     new (&instance) VolumeGridEmitter2(
+                         std::make_shared<SurfaceToImplicit2>(sourceRegion),
+                         isOneShot);
+                 }
+             },
              R"pbdoc(
              Constructs an emitter with a source and is-one-shot flag.
              )pbdoc",
@@ -94,7 +109,20 @@ void addVolumeGridEmitter3(py::module& m) {
     py::class_<VolumeGridEmitter3, VolumeGridEmitter3Ptr, GridEmitter3>(
         m, "VolumeGridEmitter3",
         R"pbdoc(3-D grid-based volumetric emitter.)pbdoc")
-        .def(py::init<const ImplicitSurface3Ptr, bool>(),
+        .def("__init__",
+             [](VolumeGridEmitter3& instance, const Surface3Ptr& sourceRegion,
+                bool isOneShot) {
+                 ImplicitSurface3Ptr sourceRegion_;
+                 auto implicit =
+                     std::dynamic_pointer_cast<ImplicitSurface3>(sourceRegion);
+                 if (implicit != nullptr) {
+                     new (&instance) VolumeGridEmitter3(implicit, isOneShot);
+                 } else {
+                     new (&instance) VolumeGridEmitter3(
+                         std::make_shared<SurfaceToImplicit3>(sourceRegion),
+                         isOneShot);
+                 }
+             },
              R"pbdoc(
              Constructs an emitter with a source and is-one-shot flag.
              )pbdoc",

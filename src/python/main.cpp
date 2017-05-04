@@ -57,6 +57,9 @@
 #include "fdm_iccg_solver.h"
 #include "grid_single_phase_pressure_solver.h"
 #include "grid_fractional_single_phase_pressure_solver.h"
+#include "grid_smoke_solver.h"
+#include "array_accessor3.h"
+#include "array_accessor2.h"
 
 #include <pybind11/pybind11.h>
 
@@ -72,6 +75,8 @@ PYBIND11_PLUGIN(pyjet) {
 
     // Trivial basic types
     addArrayAccessor1(m);
+    addArrayAccessor2(m);
+    addArrayAccessor3(m);
     addVector2D(m);
     addVector2F(m);
     addVector3D(m);
@@ -186,6 +191,8 @@ PYBIND11_PLUGIN(pyjet) {
     addPhysicsAnimation(m);
     addGridFluidSolver2(m);
     addGridFluidSolver3(m);
+    addGridSmokeSolver2(m);
+    addGridSmokeSolver3(m);
     addPicSolver2(m);
     addPicSolver3(m);
     addFlipSolver2(m);
