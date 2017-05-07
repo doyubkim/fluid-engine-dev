@@ -71,6 +71,10 @@
 #include "implicit_triangle_mesh.h"
 #include "semi_lagrangian.h"
 #include "cubic_semi_lagrangian.h"
+#include "constant_scalar_field.h"
+#include "custom_scalar_field.h"
+#include "constant_vector_field.h"
+#include "custom_vector_field.h"
 
 #include <pybind11/pybind11.h>
 
@@ -140,6 +144,14 @@ PYBIND11_PLUGIN(pyjet) {
     addVertexCenteredVectorGrid3(m);
     addFaceCenteredGrid2(m);
     addFaceCenteredGrid3(m);
+    addConstantScalarField2(m);
+    addConstantScalarField3(m);
+    addConstantVectorField2(m);
+    addConstantVectorField3(m);
+    addCustomScalarField2(m);
+    addCustomScalarField3(m);
+    addCustomVectorField2(m);
+    addCustomVectorField3(m);
 
     // Surfaces
     addSurface2(m);
