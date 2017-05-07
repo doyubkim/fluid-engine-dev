@@ -7,6 +7,8 @@
 #ifndef SRC_PYTHON_PYBIND11_UTILS_H_
 #define SRC_PYTHON_PYBIND11_UTILS_H_
 
+#include <jet/point2.h>
+#include <jet/point3.h>
 #include <jet/quaternion.h>
 #include <jet/size2.h>
 #include <jet/size3.h>
@@ -33,6 +35,32 @@ inline Size2 tupleToSize2(pybind11::tuple tpl) {
 
 inline Size3 tupleToSize3(pybind11::tuple tpl) {
     Size3 ret;
+
+    if (tpl.size() == 3) {
+        for (size_t i = 0; i < 3; ++i) {
+            ret[i] = tpl[i].cast<size_t>();
+        }
+    } else {
+        throw std::invalid_argument("Invalid size.");
+    }
+    return ret;
+}
+
+inline Point2UI tupleToPoint2UI(pybind11::tuple tpl) {
+    Point2UI ret;
+
+    if (tpl.size() == 2) {
+        for (size_t i = 0; i < 2; ++i) {
+            ret[i] = tpl[i].cast<size_t>();
+        }
+    } else {
+        throw std::invalid_argument("Invalid size.");
+    }
+    return ret;
+}
+
+inline Point3UI tupleToPoint3UI(pybind11::tuple tpl) {
+    Point3UI ret;
 
     if (tpl.size() == 3) {
         for (size_t i = 0; i < 3; ++i) {
@@ -147,6 +175,28 @@ inline Size3 objectToSize3(const pybind11::object& obj) {
         return tupleToSize3(pybind11::tuple(obj));
     } else {
         throw std::invalid_argument("Cannot convert to Size3.");
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+inline Point2UI objectToPoint2UI(const pybind11::object& obj) {
+    if (pybind11::isinstance<Point2UI>(obj)) {
+        return obj.cast<Point2UI>();
+    } else if (pybind11::isinstance<pybind11::tuple>(obj)) {
+        return tupleToPoint2UI(pybind11::tuple(obj));
+    } else {
+        throw std::invalid_argument("Cannot convert to Point2UI.");
+    }
+}
+
+inline Point3UI objectToPoint3UI(const pybind11::object& obj) {
+    if (pybind11::isinstance<Point3UI>(obj)) {
+        return obj.cast<Point3UI>();
+    } else if (pybind11::isinstance<pybind11::tuple>(obj)) {
+        return tupleToPoint3UI(pybind11::tuple(obj));
+    } else {
+        throw std::invalid_argument("Cannot convert to Point3UI.");
     }
 }
 

@@ -30,7 +30,7 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     virtual ~SemiLagrangian2();
 
     //!
-    //! \brief Computes semi-Langian for given scalar grid.
+    //! \brief Computes semi-Lagrangian for given scalar grid.
     //!
     //! This function computes semi-Lagrangian method to solve advection
     //! equation for given scalar field \p input and underlying vector field
@@ -47,16 +47,12 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //! \param boundarySdf Boundary interface defined by signed-distance
     //!     field.
     //!
-    void advect(
-        const ScalarGrid2& input,
-        const VectorField2& flow,
-        double dt,
-        ScalarGrid2* output,
-        const ScalarField2& boundarySdf
-            = ConstantScalarField2(kMaxD)) final;
+    void advect(const ScalarGrid2& input, const VectorField2& flow, double dt,
+                ScalarGrid2* output, const ScalarField2& boundarySdf =
+                                         ConstantScalarField2(kMaxD)) final;
 
     //!
-    //! \brief Computes semi-Langian for given collocated vector grid.
+    //! \brief Computes semi-Lagrangian for given collocated vector grid.
     //!
     //! This function computes semi-Lagrangian method to solve advection
     //! equation for given collocated vector grid \p input and underlying vector
@@ -74,15 +70,12 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //!     field.
     //!
     void advect(
-        const CollocatedVectorGrid2& input,
-        const VectorField2& flow,
-        double dt,
+        const CollocatedVectorGrid2& input, const VectorField2& flow, double dt,
         CollocatedVectorGrid2* output,
-        const ScalarField2& boundarySdf
-            = ConstantScalarField2(kMaxD)) final;
+        const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD)) final;
 
     //!
-    //! \brief Computes semi-Langian for given face-centered vector grid.
+    //! \brief Computes semi-Lagrangian for given face-centered vector grid.
     //!
     //! This function computes semi-Lagrangian method to solve advection
     //! equation for given face-centered vector grid \p input and underlying
@@ -101,12 +94,9 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //!     field.
     //!
     void advect(
-        const FaceCenteredGrid2& input,
-        const VectorField2& flow,
-        double dt,
+        const FaceCenteredGrid2& input, const VectorField2& flow, double dt,
         FaceCenteredGrid2* output,
-        const ScalarField2& boundarySdf
-            = ConstantScalarField2(kMaxD)) final;
+        const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD)) final;
 
  protected:
     //!
@@ -118,8 +108,8 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //! interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<double(const Vector2D&)>
-        getScalarSamplerFunc(const ScalarGrid2& input) const;
+    virtual std::function<double(const Vector2D&)> getScalarSamplerFunc(
+        const ScalarGrid2& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -130,8 +120,8 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector2D(const Vector2D&)>
-        getVectorSamplerFunc(const CollocatedVectorGrid2& input) const;
+    virtual std::function<Vector2D(const Vector2D&)> getVectorSamplerFunc(
+        const CollocatedVectorGrid2& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -142,17 +132,15 @@ class SemiLagrangian2 : public AdvectionSolver2 {
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector2D(const Vector2D&)>
-        getVectorSamplerFunc(const FaceCenteredGrid2& input) const;
+    virtual std::function<Vector2D(const Vector2D&)> getVectorSamplerFunc(
+        const FaceCenteredGrid2& input) const;
 
  private:
-    Vector2D backTrace(
-        const VectorField2& flow,
-        double dt,
-        double h,
-        const Vector2D& pt0,
-        const ScalarField2& boundarySdf);
+    Vector2D backTrace(const VectorField2& flow, double dt, double h,
+                       const Vector2D& pt0, const ScalarField2& boundarySdf);
 };
+
+typedef std::shared_ptr<SemiLagrangian2> SemiLagrangian2Ptr;
 
 }  // namespace jet
 

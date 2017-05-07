@@ -7,39 +7,47 @@
 #include "transform.h"
 #include "pybind11_utils.h"
 
+#include <jet/transform2.h>
 #include <jet/transform3.h>
 
 namespace py = pybind11;
 using namespace jet;
 
+void addTransform2(pybind11::module& m) {
+    py::class_<Transform2>(m, "Transform2")
+        // CTOR
+        .def("__init__",
+             [](Transform2& instance, py::object translation,
+                double orientation) {
+                 Vector2D translation_ = objectToVector2D(translation);
+                 new (&instance) Transform2(translation_, orientation);
+             },
+             R"pbdoc(
+             Constructs Transform2
+
+             This method constructs 2D transform with translation and
+             orientation.
+             )pbdoc",
+             py::arg("translation") = Vector2D(0, 0),
+             py::arg("orientation") = 0.0);
+}
+
 void addTransform3(pybind11::module& m) {
     py::class_<Transform3>(m, "Transform3")
         // CTOR
         .def("__init__",
-             [](Transform3& instance, py::args args, py::kwargs kwargs) {
-                 Transform3 tmp;
-
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<Transform3>();
-                 } else if (args.size() <= 2) {
-                     tmp.setTranslation(objectToVector3D(py::object(args[0])));
-                     tmp.setOrientation(objectToQuaternionD(py::object(args[1])));
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("translation")) {
-                     tmp.setTranslation(objectToVector3D(py::object(kwargs["translation"])));
-                 }
-                 if (kwargs.contains("orientation")) {
-                     tmp.setOrientation(objectToQuaternionD(py::object(kwargs["orientation"])));
-                 }
-
-                 instance = tmp;
+             [](Transform3& instance, py::object translation,
+                py::object orientation) {
+                 Vector3D translation_ = objectToVector3D(translation);
+                 QuaternionD orientation_ = objectToQuaternionD(orientation);
+                 new (&instance) Transform3(translation_, orientation_);
              },
-             "Constructs Transform3\n\n"
-             "This method constructs 3D transform with translation and "
-             "orientation.");
+             R"pbdoc(
+             Constructs Transform3
+
+             This method constructs 3D transform with translation and
+             orientation.
+             )pbdoc",
+             py::arg("translation") = Vector3D(0, 0, 0),
+             py::arg("orientation") = QuaternionD());
 }

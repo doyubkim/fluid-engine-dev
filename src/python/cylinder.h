@@ -4,12 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_PYTHON_TRANSFORM_H_
-#define SRC_PYTHON_TRANSFORM_H_
+#ifndef SRC_PYTHON_CYLINDER_H_
+#define SRC_PYTHON_CYLINDER_H_
 
 #include <pybind11/pybind11.h>
 
-void addTransform2(pybind11::module& m);
-void addTransform3(pybind11::module& m);
+void addCylinder3(pybind11::module& m);
 
-#endif  // SRC_PYTHON_TRANSFORM_H_
+#endif  // SRC_PYTHON_CYLINDER_H_

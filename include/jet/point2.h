@@ -20,7 +20,7 @@ namespace jet {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Point<T, 2> final {
+class Point<T, 2> {
  public:
     static_assert(std::is_arithmetic<T>::value,
                   "Point only can be instantiated with arithmetic types");

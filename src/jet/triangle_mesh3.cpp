@@ -11,6 +11,8 @@
 
 #include <obj/obj_parser.hpp>
 
+#include <fstream>
+
 using namespace jet;
 
 inline std::ostream& operator<<(std::ostream& strm, const Vector2D& v) {
@@ -450,6 +452,18 @@ void TriangleMesh3::writeObj(std::ostream* strm) const {
     }
 }
 
+bool TriangleMesh3::writeObj(const std::string& filename) const {
+    std::ofstream file(filename.c_str());
+    if (file) {
+        writeObj(&file);
+        file.close();
+
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool TriangleMesh3::readObj(std::istream* strm) {
     obj::obj_parser parser(obj::obj_parser::triangulate_faces |
                            obj::obj_parser::translate_negative_indices);
@@ -565,6 +579,18 @@ bool TriangleMesh3::readObj(std::istream* strm) {
     invalidateBvh();
 
     return parser.parse(*strm);
+}
+
+bool TriangleMesh3::readObj(const std::string& filename) {
+    std::ifstream file(filename.c_str());
+    if (file) {
+        bool result = readObj(&file);
+        file.close();
+
+        return result;
+    } else {
+        return false;
+    }
 }
 
 TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other) {

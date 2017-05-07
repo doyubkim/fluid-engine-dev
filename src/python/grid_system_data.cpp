@@ -15,24 +15,26 @@ using namespace jet;
 
 void addGridSystemData2(py::module& m) {
     py::class_<GridSystemData2, GridSystemData2Ptr>(m, "GridSystemData2",
-        R"pbdoc(
+                                                    R"pbdoc(
         2-D grid system data.
 
         This class is the key data structure for storing grid system data. To
         represent a grid system for fluid simulation, velocity field is defined as a
         face-centered (MAC) grid by default. It can also have additional scalar or
         vector attributes by adding extra data layer.
-        )pbdoc");
+        )pbdoc")
+        .def(py::init<>());
 }
 
 void addGridSystemData3(py::module& m) {
     py::class_<GridSystemData3, GridSystemData3Ptr>(m, "GridSystemData3",
-        R"pbdoc(
+                                                    R"pbdoc(
         3-D grid system data.
 
         This class is the key data structure for storing grid system data. To
         represent a grid system for fluid simulation, velocity field is defined as a
         face-centered (MAC) grid by default. It can also have additional scalar or
         vector attributes by adding extra data layer.
-        )pbdoc");
+        )pbdoc")
+        .def(py::init<>());
 }

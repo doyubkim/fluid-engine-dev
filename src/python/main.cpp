@@ -14,6 +14,7 @@
 #include "collider.h"
 #include "collocated_vector_grid.h"
 #include "constants.h"
+#include "cylinder.h"
 #include "face_centered_grid.h"
 #include "field.h"
 #include "flip_solver.h"
@@ -31,6 +32,7 @@
 #include "particle_system_data.h"
 #include "physics_animation.h"
 #include "pic_solver.h"
+#include "point.h"
 #include "quaternion.h"
 #include "ray.h"
 #include "rigid_body_collider.h"
@@ -60,6 +62,15 @@
 #include "grid_smoke_solver.h"
 #include "array_accessor3.h"
 #include "array_accessor2.h"
+#include "box.h"
+#include "triangle.h"
+#include "triangle_mesh.h"
+#include "surface_to_implicit.h"
+#include "surface_set.h"
+#include "plane.h"
+#include "implicit_triangle_mesh.h"
+#include "semi_lagrangian.h"
+#include "cubic_semi_lagrangian.h"
 
 #include <pybind11/pybind11.h>
 
@@ -74,9 +85,6 @@ PYBIND11_PLUGIN(pyjet) {
     addConstants(m);
 
     // Trivial basic types
-    addArrayAccessor1(m);
-    addArrayAccessor2(m);
-    addArrayAccessor3(m);
     addVector2D(m);
     addVector2F(m);
     addVector3D(m);
@@ -92,9 +100,17 @@ PYBIND11_PLUGIN(pyjet) {
     addFrame(m);
     addQuaternionD(m);
     addQuaternionF(m);
+    addPoint2UI(m);
+    addPoint3UI(m);
     addSize2(m);
     addSize3(m);
+    addTransform2(m);
     addTransform3(m);
+
+    // Containers/helpers
+    addArrayAccessor1(m);
+    addArrayAccessor2(m);
+    addArrayAccessor3(m);
 
     // Trivial APIs
     addLogging(m);
@@ -128,13 +144,27 @@ PYBIND11_PLUGIN(pyjet) {
     // Surfaces
     addSurface2(m);
     addSurface3(m);
+    addSurfaceSet2(m);
+    addSurfaceSet3(m);
+    addCylinder3(m);
+    addBox2(m);
+    addBox3(m);
+    addPlane2(m);
+    addPlane3(m);
     addSphere2(m);
     addSphere3(m);
+    addTriangle3(m);
+    addTriangleMesh3(m);
+    addImplicitSurface2(m);
     addImplicitSurface3(m);
+    addSurfaceToImplicit2(m);
+    addSurfaceToImplicit3(m);
+    addImplicitTriangleMesh3(m);
 
     // Data models
     addGridSystemData2(m);
     addGridSystemData3(m);
+
     addParticleSystemData2(m);
     addParticleSystemData3(m);
 
@@ -157,6 +187,10 @@ PYBIND11_PLUGIN(pyjet) {
     // Solvers
     addAdvectionSolver2(m);
     addAdvectionSolver3(m);
+    addSemiLagrangian2(m);
+    addSemiLagrangian3(m);
+    addCubicSemiLagrangian2(m);
+    addCubicSemiLagrangian3(m);
     addFdmLinearSystemSolver2(m);
     addFdmLinearSystemSolver3(m);
     addFdmJacobiSolver2(m);
