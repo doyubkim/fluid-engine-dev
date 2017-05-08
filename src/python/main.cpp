@@ -75,6 +75,12 @@
 #include "custom_scalar_field.h"
 #include "constant_vector_field.h"
 #include "custom_vector_field.h"
+#include "particle_system_solver.h"
+#include "sph_system_data.h"
+#include "sph_solver.h"
+#include "pci_sph_solver.h"
+#include "particle_emitter_set.h"
+#include "point_particle_emitter.h"
 
 #include <pybind11/pybind11.h>
 
@@ -179,6 +185,8 @@ PYBIND11_PLUGIN(pyjet) {
 
     addParticleSystemData2(m);
     addParticleSystemData3(m);
+    addSphSystemData2(m);
+    addSphSystemData3(m);
 
     // Emitters
     addGridEmitter2(m);
@@ -187,6 +195,10 @@ PYBIND11_PLUGIN(pyjet) {
     addVolumeGridEmitter3(m);
     addParticleEmitter2(m);
     addParticleEmitter3(m);
+    addParticleEmitterSet2(m);
+    addParticleEmitterSet3(m);
+    addPointParticleEmitter2(m);
+    addPointParticleEmitter3(m);
     addVolumeParticleEmitter2(m);
     addVolumeParticleEmitter3(m);
 
@@ -245,6 +257,12 @@ PYBIND11_PLUGIN(pyjet) {
     addFlipSolver3(m);
     addApicSolver2(m);
     addApicSolver3(m);
+    addParticleSystemSolver2(m);
+    addParticleSystemSolver3(m);
+    addSphSolver2(m);
+    addSphSolver3(m);
+    addPciSphSolver2(m);
+    addPciSphSolver3(m);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = py::str(VERSION_INFO);

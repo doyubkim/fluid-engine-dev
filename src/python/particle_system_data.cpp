@@ -16,28 +16,11 @@ using namespace jet;
 void addParticleSystemData2(py::module& m) {
     py::class_<ParticleSystemData2, ParticleSystemData2Ptr>(
         m, "ParticleSystemData2")
-        .def("__init__",
-             [](ParticleSystemData2& instance, py::args args,
-                py::kwargs kwargs) {
-                 size_t numberOfParticles = 0;
-
-                 if (args.size() == 1) {
-                     if (py::isinstance<ParticleSystemData2>(args[0])) {
-                         new (&instance) ParticleSystemData2(
-                             *args[0].cast<ParticleSystemData2Ptr>());
-                         return;
-                     } else {
-                         numberOfParticles = args[0].cast<size_t>();
-                     }
-                 }
-
-                 if (kwargs.contains("numberOfParticles")) {
-                     numberOfParticles =
-                         kwargs["numberOfParticles"].cast<size_t>();
-                 }
-
-                 new (&instance) ParticleSystemData2(numberOfParticles);
-             })
+        .def(py::init<size_t>(),
+             R"pbdoc(
+             Constructs particle system data with given number of particles.
+             )pbdoc",
+             py::arg("numberOfParticles") = 0)
         .def_property_readonly("numberOfParticles",
                                &ParticleSystemData2::numberOfParticles)
         .def_property_readonly(
@@ -61,28 +44,11 @@ void addParticleSystemData2(py::module& m) {
 void addParticleSystemData3(py::module& m) {
     py::class_<ParticleSystemData3, ParticleSystemData3Ptr>(
         m, "ParticleSystemData3")
-        .def("__init__",
-             [](ParticleSystemData3& instance, py::args args,
-                py::kwargs kwargs) {
-                 size_t numberOfParticles = 0;
-
-                 if (args.size() == 1) {
-                     if (py::isinstance<ParticleSystemData3>(args[0])) {
-                         new (&instance) ParticleSystemData3(
-                             *args[0].cast<ParticleSystemData3Ptr>());
-                         return;
-                     } else {
-                         numberOfParticles = args[0].cast<size_t>();
-                     }
-                 }
-
-                 if (kwargs.contains("numberOfParticles")) {
-                     numberOfParticles =
-                         kwargs["numberOfParticles"].cast<size_t>();
-                 }
-
-                 new (&instance) ParticleSystemData3(numberOfParticles);
-             })
+        .def(py::init<size_t>(),
+             R"pbdoc(
+             Constructs particle system data with given number of particles.
+             )pbdoc",
+             py::arg("numberOfParticles") = 0)
         .def_property_readonly("numberOfParticles",
                                &ParticleSystemData3::numberOfParticles)
         .def_property_readonly(
