@@ -81,6 +81,12 @@
 #include "pci_sph_solver.h"
 #include "particle_emitter_set.h"
 #include "point_particle_emitter.h"
+#include "level_set_solver.h"
+#include "iterative_level_set_solver.h"
+#include "eno_level_set_solver.h"
+#include "upwind_level_set_solver.h"
+#include "fmm_level_set_solver.h"
+#include "level_set_liquid_solver.h"
 
 #include <pybind11/pybind11.h>
 
@@ -243,6 +249,16 @@ PYBIND11_PLUGIN(pyjet) {
     addGridSinglePhasePressureSolver3(m);
     addGridFractionalSinglePhasePressureSolver2(m);
     addGridFractionalSinglePhasePressureSolver3(m);
+    addLevelSetSolver2(m);
+    addLevelSetSolver3(m);
+    addIterativeLevelSetSolver2(m);
+    addIterativeLevelSetSolver3(m);
+    addUpwindLevelSetSolver2(m);
+    addUpwindLevelSetSolver3(m);
+    addEnoLevelSetSolver2(m);
+    addEnoLevelSetSolver3(m);
+    addFmmLevelSetSolver2(m);
+    addFmmLevelSetSolver3(m);
 
     // Animations
     addAnimation(m);
@@ -251,6 +267,8 @@ PYBIND11_PLUGIN(pyjet) {
     addGridFluidSolver3(m);
     addGridSmokeSolver2(m);
     addGridSmokeSolver3(m);
+    addLevelSetLiquidSolver2(m);
+    addLevelSetLiquidSolver3(m);
     addPicSolver2(m);
     addPicSolver3(m);
     addFlipSolver2(m);

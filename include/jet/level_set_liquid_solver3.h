@@ -13,9 +13,9 @@
 namespace jet {
 
 //!
-//! \brief      Level set based 2-D liquid solver.
+//! \brief      Level set based 3-D liquid solver.
 //!
-//! This class implements level set-based 2-D liquid solver. It defines the
+//! This class implements level set-based 3-D liquid solver. It defines the
 //! surface of the liquid using signed-distance field and use stable fluids
 //! framework to compute the forces.
 //!

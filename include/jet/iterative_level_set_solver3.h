@@ -37,10 +37,8 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
     //! \param maxDistance Max range of reinitialization.
     //! \param outputSdf Output signed-distance field.
     //!
-    void reinitialize(
-        const ScalarGrid3& inputSdf,
-        double maxDistance,
-        ScalarGrid3* outputSdf) override;
+    void reinitialize(const ScalarGrid3& inputSdf, double maxDistance,
+                      ScalarGrid3* outputSdf) override;
 
     //!
     //! Extrapolates given scalar field from negative to positive SDF region.
@@ -50,11 +48,8 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
     //! \param maxDistance Max range of extrapolation.
     //! \param output Output scalar field.
     //!
-    void extrapolate(
-        const ScalarGrid3& input,
-        const ScalarField3& sdf,
-        double maxDistance,
-        ScalarGrid3* output) override;
+    void extrapolate(const ScalarGrid3& input, const ScalarField3& sdf,
+                     double maxDistance, ScalarGrid3* output) override;
 
     //!
     //! Extrapolates given collocated vector field from negative to positive SDF
@@ -65,11 +60,9 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
     //! \param maxDistance Max range of extrapolation.
     //! \param output Output collocated vector field.
     //!
-    void extrapolate(
-        const CollocatedVectorGrid3& input,
-        const ScalarField3& sdf,
-        double maxDistance,
-        CollocatedVectorGrid3* output) override;
+    void extrapolate(const CollocatedVectorGrid3& input,
+                     const ScalarField3& sdf, double maxDistance,
+                     CollocatedVectorGrid3* output) override;
 
     //!
     //! Extrapolates given face-centered vector field from negative to positive
@@ -80,11 +73,8 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
     //! \param maxDistance Max range of extrapolation.
     //! \param output Output face-centered vector field.
     //!
-    void extrapolate(
-        const FaceCenteredGrid3& input,
-        const ScalarField3& sdf,
-        double maxDistance,
-        FaceCenteredGrid3* output) override;
+    void extrapolate(const FaceCenteredGrid3& input, const ScalarField3& sdf,
+                     double maxDistance, FaceCenteredGrid3* output) override;
 
     //! Returns the maximum CFL limit.
     double maxCfl() const;
@@ -99,41 +89,32 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
 
  protected:
     //! Computes the derivatives for given grid point.
-    virtual void getDerivatives(
-        ConstArrayAccessor3<double> grid,
-        const Vector3D& gridSpacing,
-        size_t i,
-        size_t j,
-        size_t k,
-        std::array<double, 2>* dx,
-        std::array<double, 2>* dy,
-        std::array<double, 2>* dz) const = 0;
+    virtual void getDerivatives(ConstArrayAccessor3<double> grid,
+                                const Vector3D& gridSpacing, size_t i, size_t j,
+                                size_t k, std::array<double, 2>* dx,
+                                std::array<double, 2>* dy,
+                                std::array<double, 2>* dz) const = 0;
 
  private:
     double _maxCfl = 0.5;
 
-    void extrapolate(
-        const ConstArrayAccessor3<double>& input,
-        const ConstArrayAccessor3<double>& sdf,
-        const Vector3D& gridSpacing,
-        double maxDistance,
-        ArrayAccessor3<double> output);
+    void extrapolate(const ConstArrayAccessor3<double>& input,
+                     const ConstArrayAccessor3<double>& sdf,
+                     const Vector3D& gridSpacing, double maxDistance,
+                     ArrayAccessor3<double> output);
 
-    static unsigned int distanceToNumberOfIterations(
-        double distance,
-        double dtau);
+    static unsigned int distanceToNumberOfIterations(double distance,
+                                                     double dtau);
 
-    static double sign(
-        const ConstArrayAccessor3<double>& sdf,
-        const Vector3D& gridSpacing,
-        size_t i,
-        size_t j,
-        size_t k);
+    static double sign(const ConstArrayAccessor3<double>& sdf,
+                       const Vector3D& gridSpacing, size_t i, size_t j,
+                       size_t k);
 
-    double pseudoTimeStep(
-        ConstArrayAccessor3<double> sdf,
-        const Vector3D& gridSpacing);
+    double pseudoTimeStep(ConstArrayAccessor3<double> sdf,
+                          const Vector3D& gridSpacing);
 };
+
+typedef std::shared_ptr<IterativeLevelSetSolver3> IterativeLevelSetSolver3Ptr;
 
 }  // namespace jet
 
