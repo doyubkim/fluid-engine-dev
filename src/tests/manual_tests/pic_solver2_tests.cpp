@@ -53,7 +53,6 @@ JET_BEGIN_TEST_F(PicSolver2, Rotation) {
         .makeShared();
 
     solver->setGravity({0, 0});
-    solver->setPressureSolver(nullptr);
 
     // Build emitter
     auto box = Sphere2::builder()
