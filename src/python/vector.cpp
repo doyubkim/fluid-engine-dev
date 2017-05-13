@@ -15,42 +15,68 @@ using namespace jet;
 void addVector2F(pybind11::module& m) {
     py::class_<Vector2F>(m, "Vector2F")
         // CTOR
-        .def("__init__",
-             [](Vector2F& instance, py::args args, py::kwargs kwargs) {
-                 Vector2F tmp;
+        .def("__init__", [](Vector2F& instance, float x,
+                            float y) { new (&instance) Vector2F(x, y); },
+             R"pbdoc(
+             Constructs Vector2F.
 
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<Vector2F>();
-                 } else if (args.size() == 2) {
-                     if (args.size() > 0) {
-                         tmp.x = args[0].cast<float>();
-                     }
-                     if (args.size() > 1) {
-                         tmp.y = args[1].cast<float>();
-                     }
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too few/many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("x")) {
-                     tmp.x = kwargs["x"].cast<float>();
-                 }
-                 if (kwargs.contains("y")) {
-                     tmp.y = kwargs["y"].cast<float>();
-                 }
-
-                 instance = tmp;
-             },
-             "Constructs Vector2F\n\n"
-             "This method constructs 2D float vector with x and y.")
+             This method constructs float-type 2-D vector with x and y.
+             )pbdoc",
+             py::arg("x") = 0.0f, py::arg("y") = 0.0f)
         .def_readwrite("x", &Vector2F::x)
         .def_readwrite("y", &Vector2F::y)
         .def("__getitem__", [](const Vector2F& instance,
                                size_t i) -> float { return instance[i]; })
         .def("__setitem__",
              [](Vector2F& instance, size_t i, float val) { instance[i] = val; })
+        .def("__add__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.add(object.cast<float>());
+                 } else {
+                     return instance.add(objectToVector2F(object));
+                 }
+             })
+        .def("__sub__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.sub(object.cast<float>());
+                 } else {
+                     return instance.sub(objectToVector2F(object));
+                 }
+             })
+        .def("__rsub__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.rsub(object.cast<float>());
+                 } else {
+                     return instance.rsub(objectToVector2F(object));
+                 }
+             })
+        .def("__mul__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.mul(object.cast<float>());
+                 } else {
+                     return instance.mul(objectToVector2F(object));
+                 }
+             })
+        .def("__div__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.div(object.cast<float>());
+                 } else {
+                     return instance.div(objectToVector2F(object));
+                 }
+             })
+        .def("__rdiv__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.rdiv(object.cast<float>());
+                 } else {
+                     return instance.rdiv(objectToVector2F(object));
+                 }
+             })
         .def("__eq__", [](const Vector2F& instance, py::object obj) {
             Vector2F other = objectToVector2F(obj);
             return instance == other;
@@ -61,42 +87,68 @@ void addVector2F(pybind11::module& m) {
 void addVector2D(pybind11::module& m) {
     py::class_<Vector2D>(m, "Vector2D")
         // CTOR
-        .def("__init__",
-             [](Vector2D& instance, py::args args, py::kwargs kwargs) {
-                 Vector2D tmp;
+        .def("__init__", [](Vector2D instance, double x,
+                            double y) { new (&instance) Vector2D(x, y); },
+             R"pbdoc(
+             Constructs Vector2D.
 
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<Vector2D>();
-                 } else if (args.size() == 2) {
-                     if (args.size() > 0) {
-                         tmp.x = args[0].cast<double>();
-                     }
-                     if (args.size() > 1) {
-                         tmp.y = args[1].cast<double>();
-                     }
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too few/many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("x")) {
-                     tmp.x = kwargs["x"].cast<double>();
-                 }
-                 if (kwargs.contains("y")) {
-                     tmp.y = kwargs["y"].cast<double>();
-                 }
-
-                 instance = tmp;
-             },
-             "Constructs Vector2D\n\n"
-             "This method constructs 2D double vector with x and y.")
+             This method constructs double-type 2-D vector with x and y.
+             )pbdoc",
+             py::arg("x") = 0.0, py::arg("y") = 0.0)
         .def_readwrite("x", &Vector2D::x)
         .def_readwrite("y", &Vector2D::y)
         .def("__getitem__", [](const Vector2D& instance,
                                size_t i) -> double { return instance[i]; })
         .def("__setitem__", [](Vector2D& instance, size_t i,
                                double val) { instance[i] = val; })
+        .def("__add__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.add(object.cast<double>());
+                 } else {
+                     return instance.add(objectToVector2D(object));
+                 }
+             })
+        .def("__sub__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.sub(object.cast<double>());
+                 } else {
+                     return instance.sub(objectToVector2D(object));
+                 }
+             })
+        .def("__rsub__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.rsub(object.cast<double>());
+                 } else {
+                     return instance.rsub(objectToVector2D(object));
+                 }
+             })
+        .def("__mul__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.mul(object.cast<double>());
+                 } else {
+                     return instance.mul(objectToVector2D(object));
+                 }
+             })
+        .def("__div__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.div(object.cast<double>());
+                 } else {
+                     return instance.div(objectToVector2D(object));
+                 }
+             })
+        .def("__rdiv__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.rdiv(object.cast<double>());
+                 } else {
+                     return instance.rdiv(objectToVector2D(object));
+                 }
+             })
         .def("__eq__", [](const Vector2D& instance, py::object obj) {
             Vector2D other = objectToVector2D(obj);
             return instance == other;
@@ -106,42 +158,14 @@ void addVector2D(pybind11::module& m) {
 void addVector3F(pybind11::module& m) {
     py::class_<Vector3F>(m, "Vector3F")
         // CTOR
-        .def("__init__",
-             [](Vector3F& instance, py::args args, py::kwargs kwargs) {
-                 Vector3F tmp;
+        .def("__init__", [](Vector3F& instance, float x, float y,
+                            float z) { new (&instance) Vector3F(x, y, z); },
+             R"pbdoc(
+             Constructs Vector3F.
 
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<Vector3F>();
-                 } else if (args.size() == 3) {
-                     if (args.size() > 0) {
-                         tmp.x = args[0].cast<float>();
-                     }
-                     if (args.size() > 1) {
-                         tmp.y = args[1].cast<float>();
-                     }
-                     if (args.size() > 2) {
-                         tmp.z = args[2].cast<float>();
-                     }
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too few/many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("x")) {
-                     tmp.x = kwargs["x"].cast<float>();
-                 }
-                 if (kwargs.contains("y")) {
-                     tmp.y = kwargs["y"].cast<float>();
-                 }
-                 if (kwargs.contains("z")) {
-                     tmp.z = kwargs["z"].cast<float>();
-                 }
-
-                 instance = tmp;
-             },
-             "Constructs Vector3F\n\n"
-             "This method constructs 3D float vector with x, y, and z.")
+             This method constructs float-type 3-D vector with x, y, and z.
+             )pbdoc",
+             py::arg("x") = 0.0f, py::arg("y") = 0.0f, py::arg("z") = 0.0f)
         .def_readwrite("x", &Vector3F::x)
         .def_readwrite("y", &Vector3F::y)
         .def_readwrite("z", &Vector3F::z)
@@ -149,6 +173,54 @@ void addVector3F(pybind11::module& m) {
                                size_t i) -> float { return instance[i]; })
         .def("__setitem__",
              [](Vector3F& instance, size_t i, float val) { instance[i] = val; })
+        .def("__add__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.add(object.cast<double>());
+                 } else {
+                     return instance.add(objectToVector3D(object));
+                 }
+             })
+        .def("__sub__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.sub(object.cast<float>());
+                 } else {
+                     return instance.sub(objectToVector3F(object));
+                 }
+             })
+        .def("__rsub__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.rsub(object.cast<float>());
+                 } else {
+                     return instance.rsub(objectToVector3F(object));
+                 }
+             })
+        .def("__mul__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.mul(object.cast<float>());
+                 } else {
+                     return instance.mul(objectToVector3F(object));
+                 }
+             })
+        .def("__div__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.div(object.cast<float>());
+                 } else {
+                     return instance.div(objectToVector3F(object));
+                 }
+             })
+        .def("__rdiv__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.rdiv(object.cast<float>());
+                 } else {
+                     return instance.rdiv(objectToVector3F(object));
+                 }
+             })
         .def("__eq__", [](const Vector3F& instance, py::object obj) {
             Vector3F other = objectToVector3F(obj);
             return instance == other;
@@ -159,42 +231,14 @@ void addVector3F(pybind11::module& m) {
 void addVector3D(pybind11::module& m) {
     py::class_<Vector3D>(m, "Vector3D")
         // CTOR
-        .def("__init__",
-             [](Vector3D& instance, py::args args, py::kwargs kwargs) {
-                 Vector3D tmp;
+        .def("__init__", [](Vector3D& instance, double x, double y,
+                            double z) { new (&instance) Vector3D(x, y, z); },
+             R"pbdoc(
+             Constructs Vector3D.
 
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<Vector3D>();
-                 } else if (args.size() == 3) {
-                     if (args.size() > 0) {
-                         tmp.x = args[0].cast<double>();
-                     }
-                     if (args.size() > 1) {
-                         tmp.y = args[1].cast<double>();
-                     }
-                     if (args.size() > 2) {
-                         tmp.z = args[2].cast<double>();
-                     }
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too few/many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("x")) {
-                     tmp.x = kwargs["x"].cast<double>();
-                 }
-                 if (kwargs.contains("y")) {
-                     tmp.y = kwargs["y"].cast<double>();
-                 }
-                 if (kwargs.contains("z")) {
-                     tmp.z = kwargs["z"].cast<double>();
-                 }
-
-                 instance = tmp;
-             },
-             "Constructs Vector3D\n\n"
-             "This method constructs 3D double vector with x, y, and z.")
+             This method constructs double-type 3-D vector with x, y, and z.
+             )pbdoc",
+             py::arg("x") = 0.0, py::arg("y") = 0.0, py::arg("z") = 0.0)
         .def_readwrite("x", &Vector3D::x)
         .def_readwrite("y", &Vector3D::y)
         .def_readwrite("z", &Vector3D::z)
@@ -202,6 +246,54 @@ void addVector3D(pybind11::module& m) {
                                size_t i) -> double { return instance[i]; })
         .def("__setitem__", [](Vector3D& instance, size_t i,
                                double val) { instance[i] = val; })
+        .def("__add__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.add(object.cast<double>());
+                 } else {
+                     return instance.add(objectToVector3D(object));
+                 }
+             })
+        .def("__sub__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.sub(object.cast<double>());
+                 } else {
+                     return instance.sub(objectToVector3D(object));
+                 }
+             })
+        .def("__rsub__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.rsub(object.cast<double>());
+                 } else {
+                     return instance.rsub(objectToVector3D(object));
+                 }
+             })
+        .def("__mul__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.mul(object.cast<double>());
+                 } else {
+                     return instance.mul(objectToVector3D(object));
+                 }
+             })
+        .def("__div__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.div(object.cast<double>());
+                 } else {
+                     return instance.div(objectToVector3D(object));
+                 }
+             })
+        .def("__rdiv__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.rdiv(object.cast<double>());
+                 } else {
+                     return instance.rdiv(objectToVector3D(object));
+                 }
+             })
         .def("__eq__", [](const Vector3D& instance, py::object obj) {
             Vector3D other = objectToVector3D(obj);
             return instance == other;

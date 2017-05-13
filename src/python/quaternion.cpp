@@ -15,41 +15,17 @@ using namespace jet;
 void addQuaternionF(pybind11::module& m) {
     py::class_<QuaternionF>(m, "QuaternionF")
         // CTOR
-        .def(
-            "__init__",
-            [](QuaternionF& instance, py::args args, py::kwargs kwargs) {
-                QuaternionF tmp;
+        .def("__init__",
+             [](QuaternionF& instance, float w, float x, float y, float z) {
+                 new (&instance) QuaternionF(w, x, y, z);
+             },
+             R"pbdoc(
+             Constructs QuaternionF.
 
-                // See if we have list of parameters
-                if (args.size() == 1) {
-                    tmp = args[0].cast<QuaternionF>();
-                } else if (args.size() == 4) {
-                    tmp.w = args[0].cast<float>();
-                    tmp.x = args[1].cast<float>();
-                    tmp.y = args[2].cast<float>();
-                    tmp.z = args[3].cast<float>();
-                } else if (args.size() > 0) {
-                    throw std::invalid_argument("Too few/many arguments.");
-                }
-
-                // Parse out keyword args
-                if (kwargs.contains("w")) {
-                    tmp.w = kwargs["w"].cast<float>();
-                }
-                if (kwargs.contains("x")) {
-                    tmp.x = kwargs["x"].cast<float>();
-                }
-                if (kwargs.contains("y")) {
-                    tmp.y = kwargs["y"].cast<float>();
-                }
-                if (kwargs.contains("z")) {
-                    tmp.z = kwargs["z"].cast<float>();
-                }
-
-                instance = tmp;
-            },
-            "Constructs QuaternionF\n\n"
-            "This method constructs float-type quaternion with w, x, y, and z.")
+             This method constructs float-type quaternion with w, x, y, and z.
+             )pbdoc",
+             py::arg("w") = 1.0f, py::arg("x") = 0.0f, py::arg("y") = 0.0f,
+             py::arg("z") = 0.0f)
         .def_readwrite("w", &QuaternionF::w)
         .def_readwrite("x", &QuaternionF::x)
         .def_readwrite("y", &QuaternionF::y)
@@ -64,40 +40,16 @@ void addQuaternionD(pybind11::module& m) {
     py::class_<QuaternionD>(m, "QuaternionD")
         // CTOR
         .def("__init__",
-             [](QuaternionD& instance, py::args args, py::kwargs kwargs) {
-                 QuaternionD tmp;
-
-                 // See if we have list of parameters
-                 if (args.size() == 1) {
-                     tmp = args[0].cast<QuaternionD>();
-                 } else if (args.size() == 4) {
-                     tmp.w = args[0].cast<double>();
-                     tmp.x = args[1].cast<double>();
-                     tmp.y = args[2].cast<double>();
-                     tmp.z = args[3].cast<double>();
-                 } else if (args.size() > 0) {
-                     throw std::invalid_argument("Too few/many arguments.");
-                 }
-
-                 // Parse out keyword args
-                 if (kwargs.contains("w")) {
-                     tmp.w = kwargs["w"].cast<double>();
-                 }
-                 if (kwargs.contains("x")) {
-                     tmp.x = kwargs["x"].cast<double>();
-                 }
-                 if (kwargs.contains("y")) {
-                     tmp.y = kwargs["y"].cast<double>();
-                 }
-                 if (kwargs.contains("z")) {
-                     tmp.z = kwargs["z"].cast<double>();
-                 }
-
-                 instance = tmp;
+             [](QuaternionD& instance, double w, double x, double y, double z) {
+                 new (&instance) QuaternionD(w, x, y, z);
              },
-             "Constructs QuaternionD\n\n"
-             "This method constructs double-type quaternion with w, x, y, and "
-             "z.")
+             R"pbdoc(
+             Constructs QuaternionD.
+
+             This method constructs double-type quaternion with w, x, y, and z.
+             )pbdoc",
+             py::arg("w") = 1.0, py::arg("x") = 0.0, py::arg("y") = 0.0,
+             py::arg("z") = 0.0)
         .def_readwrite("w", &QuaternionD::w)
         .def_readwrite("x", &QuaternionD::x)
         .def_readwrite("y", &QuaternionD::y)

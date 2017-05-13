@@ -27,13 +27,27 @@ void addPicSolver2(py::module& m) {
                  new (&instance)
                      PicSolver2(resolution, gridSpacing, gridOrigin);
              },
-             "Constructs PicSolver2\n\n"
-             "This method constructs PicSolver2 with resolution, gridSpacing, "
-             "and gridOrigin.")
+             R"pbdoc(
+             Constructs PicSolver2
+
+             This method constructs PicSolver2 with resolution, gridSpacing,
+             and gridOrigin.
+
+             Parameters
+             ----------
+             - `*args` : resolution, gridSpacing, and gridOrigin arguments.
+             - `**kwargs`
+                 - resolution : Grid resolution.
+                 - gridSpacing : Grid spacing.
+                 - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
+             )pbdoc")
         .def_property_readonly("particleSystemData",
-                               &PicSolver2::particleSystemData)
+                               &PicSolver2::particleSystemData,
+                               R"pbdoc(Returns particleSystemData.)pbdoc")
         .def_property("particleEmitter", &PicSolver2::particleEmitter,
-                      &PicSolver2::setParticleEmitter);
+                      &PicSolver2::setParticleEmitter,
+                      R"pbdoc(Particle emitter property.)pbdoc");
 }
 
 void addPicSolver3(py::module& m) {
@@ -50,11 +64,25 @@ void addPicSolver3(py::module& m) {
                  new (&instance)
                      PicSolver3(resolution, gridSpacing, gridOrigin);
              },
-             "Constructs PicSolver3\n\n"
-             "This method constructs PicSolver3 with resolution, gridSpacing, "
-             "and gridOrigin.")
+             R"pbdoc(
+             Constructs PicSolver3
+
+             This method constructs PicSolver3 with resolution, gridSpacing,
+             and gridOrigin.
+
+             Parameters
+             ----------
+             - `*args` : resolution, gridSpacing, and gridOrigin arguments.
+             - `**kwargs`
+                 - resolution : Grid resolution.
+                 - gridSpacing : Grid spacing.
+                 - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
+             )pbdoc")
         .def_property_readonly("particleSystemData",
-                               &PicSolver3::particleSystemData)
+                               &PicSolver3::particleSystemData,
+                               R"pbdoc(Returns particleSystemData.)pbdoc")
         .def_property("particleEmitter", &PicSolver3::particleEmitter,
-                      &PicSolver3::setParticleEmitter);
+                      &PicSolver3::setParticleEmitter,
+                      R"pbdoc(Particle emitter property.)pbdoc");
 }

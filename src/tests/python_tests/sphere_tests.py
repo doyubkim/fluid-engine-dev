@@ -8,14 +8,14 @@ third parties.
 
 import pyjet
 import unittest
-from animation_tests import *
-from bounding_box_tests import *
-from face_centered_grid_tests import *
-from flip_solver_tests import *
-from physics_animation_tests import *
-from sphere_tests import *
-from vector_tests import *
-from quaternion_tests import *
+
+
+class Sphere3Test(unittest.TestCase):
+    def testInit(self):
+        a = pyjet.Sphere3()
+        self.assertEqual(a.isNormalFlipped, False)
+        self.assertEqual(a.center, (0, 0, 0))
+        self.assertEqual(a.radius, 1.0)
 
 
 def main():
