@@ -93,6 +93,7 @@ void addGridFluidSolver2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly("resolution", &GridFluidSolver2::resolution,
                                R"pbdoc(
@@ -223,6 +224,7 @@ void addGridFluidSolver3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly("resolution", &GridFluidSolver3::resolution,
                                R"pbdoc(

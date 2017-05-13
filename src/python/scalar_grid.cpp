@@ -36,6 +36,7 @@ void addScalarGrid2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def("__getitem__",
              [](const ScalarGrid2& instance, py::object obj) -> double {
@@ -202,6 +203,7 @@ void addScalarGrid3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def("__getitem__",
              [](const ScalarGrid3& instance, py::object obj) -> double {

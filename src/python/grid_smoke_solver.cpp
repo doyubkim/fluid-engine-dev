@@ -51,6 +51,7 @@ void addGridSmokeSolver2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property("smokeDiffusionCoefficient",
                       &GridSmokeSolver2::smokeDiffusionCoefficient,
@@ -147,6 +148,7 @@ void addGridSmokeSolver3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property("smokeDiffusionCoefficient",
                       &GridSmokeSolver3::smokeDiffusionCoefficient,

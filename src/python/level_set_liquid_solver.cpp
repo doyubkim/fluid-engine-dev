@@ -53,6 +53,7 @@ void addLevelSetLiquidSolver2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly("signedDistanceField",
                                &LevelSetLiquidSolver2::signedDistanceField,
@@ -126,6 +127,7 @@ void addLevelSetLiquidSolver3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly("signedDistanceField",
                                &LevelSetLiquidSolver3::signedDistanceField,

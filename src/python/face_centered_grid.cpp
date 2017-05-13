@@ -45,6 +45,7 @@ void addFaceCenteredGrid2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def("set", &FaceCenteredGrid2::set,
              R"pbdoc(
@@ -264,6 +265,7 @@ void addFaceCenteredGrid3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def("set", &FaceCenteredGrid3::set,
              R"pbdoc(

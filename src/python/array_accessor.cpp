@@ -4,10 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "array_accessor1.h"
+#include "array_accessor.h"
 #include "pybind11_utils.h"
 
 #include <jet/array_accessor1.h>
+#include <jet/array_accessor2.h>
+#include <jet/array_accessor3.h>
 #include <jet/vector2.h>
 #include <jet/vector3.h>
 #include <jet/vector4.h>
@@ -35,6 +37,28 @@ void addArrayAccessor1Vector(py::module m, const char* name) {
         });
 };
 
+template <typename T>
+void addArrayAccessor2Scalar(py::module m, const char* name) {
+    py::class_<ArrayAccessor2<T>>(m, name, py::buffer_protocol())
+            .def_buffer([](ArrayAccessor2<T>& m) -> py::buffer_info {
+                return py::buffer_info(m.data(), sizeof(T),
+                                       py::format_descriptor<T>::format(), 2,
+                                       {m.height(), m.width()}, {sizeof(T) * m.width(), sizeof(T)});
+            });
+};
+
+template <typename T>
+void addArrayAccessor3Scalar(py::module m, const char* name) {
+    py::class_<ArrayAccessor3<T>>(m, name, py::buffer_protocol())
+            .def_buffer([](ArrayAccessor3<T>& m) -> py::buffer_info {
+                return py::buffer_info(m.data(), sizeof(T),
+                                       py::format_descriptor<T>::format(), 3,
+                                       {m.depth(), m.height(), m.width()},
+                                       {sizeof(T) * m.width() * m.height(),
+                                        sizeof(T) * m.width(), sizeof(T)});
+            });
+};
+
 void addArrayAccessor1(py::module& m) {
     addArrayAccessor1Scalar<double>(m, "ArrayAccessor1D");
     addArrayAccessor1Vector<double, 2>(m, "ArrayAccessor1Vector2D");
@@ -44,4 +68,14 @@ void addArrayAccessor1(py::module& m) {
     addArrayAccessor1Vector<float, 2>(m, "ArrayAccessor1Vector2F");
     addArrayAccessor1Vector<float, 3>(m, "ArrayAccessor1Vector3F");
     addArrayAccessor1Vector<float, 4>(m, "ArrayAccessor1Vector4F");
+}
+
+void addArrayAccessor2(py::module& m) {
+    addArrayAccessor2Scalar<double>(m, "ArrayAccessor2D");
+    addArrayAccessor2Scalar<float>(m, "ArrayAccessor2F");
+}
+
+void addArrayAccessor3(py::module& m) {
+    addArrayAccessor3Scalar<double>(m, "ArrayAccessor3D");
+    addArrayAccessor3Scalar<float>(m, "ArrayAccessor3F");
 }

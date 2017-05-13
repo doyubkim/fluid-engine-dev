@@ -51,6 +51,7 @@ void addFlipSolver2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property("picBlendingFactor", &FlipSolver2::picBlendingFactor,
                       &FlipSolver2::setPicBlendingFactor,
@@ -102,6 +103,7 @@ void addFlipSolver3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property("picBlendingFactor", &FlipSolver3::picBlendingFactor,
                       &FlipSolver3::setPicBlendingFactor,

@@ -47,6 +47,7 @@ void addCellCenteredScalarGrid2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &CellCenteredScalarGrid2::dataSize,
@@ -101,6 +102,7 @@ void addCellCenteredScalarGrid3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &CellCenteredScalarGrid3::dataSize,

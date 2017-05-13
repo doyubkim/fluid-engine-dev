@@ -47,6 +47,7 @@ void addVertexCenteredVectorGrid2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredVectorGrid2::dataSize,
@@ -122,6 +123,7 @@ void addVertexCenteredVectorGrid3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredVectorGrid3::dataSize,

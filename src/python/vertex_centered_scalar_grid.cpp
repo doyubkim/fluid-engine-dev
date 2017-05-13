@@ -47,6 +47,7 @@ void addVertexCenteredScalarGrid2(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid2::dataSize,
@@ -101,6 +102,7 @@ void addVertexCenteredScalarGrid3(py::module& m) {
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
                  - gridOrigin : Origin point ot the grid.
+                 - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid3::dataSize,
