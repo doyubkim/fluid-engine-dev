@@ -18,8 +18,10 @@ To build the code, a compiler that supports C++11 is required. Platform-specific
 Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run the following command line to setup [CMake](https://cmake.org/):
 
 ```
-brew install cmake
+brew install cmake python
 ```
+
+> Note that we want `brew` version of Python which is recommended. You can still use macOS's default Python.
 
 Once CMake is installed, build the code by running
 
@@ -30,11 +32,15 @@ cmake ..
 make
 ```
 
+> Of course, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+
 This will build entire codebase. To run the unit test, execute
 
 ```
 bin/unit_tests
 ```
+
+It should show all the tests are passing.
 
 ### Building from Ubuntu
 
@@ -53,11 +59,15 @@ cmake ..
 make
 ```
 
+> Again, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+
 This will build entire codebase. To run the unit test, execute
 
 ```
 bin/unit_tests
 ```
+
+It should show all the tests are passing.
 
 ### Building from Windows
 
@@ -87,7 +97,7 @@ bin\Release\unit_tests.exe
 
 ### Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
+There are four different tests in the codebase including the unit test, manual test, performance test, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
 
 ### Installing C++ SDK
 
@@ -117,7 +127,13 @@ To install the Python SDK, `pyjet`, run the following command from the project r
 pip install .
 ```
 
-and that's it!
+Once installed, try running the unit test to see if the module is installed correctly:
+
+```
+python src/tests/python_tests/main.py
+```
+
+The tests should pass.
 
 ### Coding Style
 
