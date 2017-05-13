@@ -14,8 +14,9 @@ namespace py = pybind11;
 using namespace jet;
 
 void addGridSystemData2(py::module& m) {
-    py::class_<GridSystemData2, GridSystemData2Ptr>(m, "GridSystemData2",
-                                                    R"pbdoc(
+    py::class_<GridSystemData2, GridSystemData2Ptr, Serializable>(
+        m, "GridSystemData2",
+        R"pbdoc(
         2-D grid system data.
 
         This class is the key data structure for storing grid system data. To
@@ -27,8 +28,9 @@ void addGridSystemData2(py::module& m) {
 }
 
 void addGridSystemData3(py::module& m) {
-    py::class_<GridSystemData3, GridSystemData3Ptr>(m, "GridSystemData3",
-                                                    R"pbdoc(
+    py::class_<GridSystemData3, GridSystemData3Ptr, Serializable>(
+        m, "GridSystemData3",
+        R"pbdoc(
         3-D grid system data.
 
         This class is the key data structure for storing grid system data. To

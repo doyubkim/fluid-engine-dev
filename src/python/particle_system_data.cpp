@@ -14,7 +14,7 @@ namespace py = pybind11;
 using namespace jet;
 
 void addParticleSystemData2(py::module& m) {
-    py::class_<ParticleSystemData2, ParticleSystemData2Ptr>(
+    py::class_<ParticleSystemData2, ParticleSystemData2Ptr, Serializable>(
         m, "ParticleSystemData2")
         .def(py::init<size_t>(),
              R"pbdoc(
@@ -42,7 +42,7 @@ void addParticleSystemData2(py::module& m) {
 }
 
 void addParticleSystemData3(py::module& m) {
-    py::class_<ParticleSystemData3, ParticleSystemData3Ptr>(
+    py::class_<ParticleSystemData3, ParticleSystemData3Ptr, Serializable>(
         m, "ParticleSystemData3")
         .def(py::init<size_t>(),
              R"pbdoc(

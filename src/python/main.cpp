@@ -67,6 +67,7 @@
 #include "scalar_field.h"
 #include "scalar_grid.h"
 #include "semi_lagrangian.h"
+#include "serializable.h"
 #include "size.h"
 #include "sph_solver.h"
 #include "sph_system_data.h"
@@ -97,6 +98,9 @@ PYBIND11_PLUGIN(pyjet) {
 
     // Constants
     addConstants(m);
+
+    // Serialization
+    addSerializable(m);
 
     // Trivial basic types
     addVector2D(m);

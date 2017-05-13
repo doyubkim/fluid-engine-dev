@@ -14,7 +14,7 @@ namespace py = pybind11;
 using namespace jet;
 
 void addGrid2(py::module& m) {
-    py::class_<Grid2, Grid2Ptr>(m, "Grid2",
+    py::class_<Grid2, Grid2Ptr, Serializable>(m, "Grid2",
         R"pbdoc(
         Abstract base class for 2-D cartesian grid structure.
 
@@ -26,7 +26,7 @@ void addGrid2(py::module& m) {
 }
 
 void addGrid3(py::module& m) {
-    py::class_<Grid3, Grid3Ptr>(m, "Grid3",
+    py::class_<Grid3, Grid3Ptr, Serializable>(m, "Grid3",
         R"pbdoc(
         Abstract base class for 3-D cartesian grid structure.
 
