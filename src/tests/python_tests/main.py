@@ -1,5 +1,15 @@
+"""
+Copyright (c) 2017 Doyub Kim
+
+I am making my contributions/submissions to this project solely in my personal
+capacity and am not conveying any rights to any intellectual property of any
+third parties.
+"""
+
 import pyjet
 import unittest
+from animation_tests import *
+from physics_animation_tests import *
 
 class BoundingBox3DTests(unittest.TestCase):
     def testInit(self):
@@ -23,6 +33,7 @@ class BoundingBox3DTests(unittest.TestCase):
         self.assertEqual(c.upperCorner.y, 2.0)
         self.assertEqual(c.upperCorner.z, 5.0)
 
+
 class FaceCenteredGrid2Tests(unittest.TestCase):
     def testFill(self):
         a = pyjet.FaceCenteredGrid2((10, 10))
@@ -33,8 +44,10 @@ class FaceCenteredGrid2Tests(unittest.TestCase):
         for j in range(11):
             for i in range(10):
                 self.assertEqual(a.v(i, j), 4.0)
+
         def filler(pt):
             return (pt.x, pt.y)
+
         a.fill(filler)
         for j in range(10):
             for i in range(11):
@@ -46,7 +59,8 @@ class FaceCenteredGrid2Tests(unittest.TestCase):
     def testForEach(self):
         a = pyjet.FaceCenteredGrid2((10, 10))
         # Workaround for Python 2.x which doesn't support nonlocal
-        d = {'ei' : 0, 'ej' : 0}
+        d = {'ei': 0, 'ej': 0}
+
         def checkU(i, j):
             self.assertEqual(i, d['ei'])
             self.assertEqual(j, d['ej'])
@@ -54,8 +68,10 @@ class FaceCenteredGrid2Tests(unittest.TestCase):
             if d['ei'] >= 11:
                 d['ei'] = 0
                 d['ej'] += 1
+
         a.forEachUIndex(checkU)
-        d = {'ei' : 0, 'ej' : 0}
+        d = {'ei': 0, 'ej': 0}
+
         def checkV(i, j):
             self.assertEqual(i, d['ei'])
             self.assertEqual(j, d['ej'])
@@ -63,7 +79,9 @@ class FaceCenteredGrid2Tests(unittest.TestCase):
             if d['ei'] >= 10:
                 d['ei'] = 0
                 d['ej'] += 1
+
         a.forEachVIndex(checkV)
+
 
 class FlipSolver3Tests(unittest.TestCase):
     def testInit(self):
@@ -127,6 +145,7 @@ class FlipSolver3Tests(unittest.TestCase):
         a.picBlendingFactor = 0.7
         self.assertEqual(a.picBlendingFactor, 0.7)
 
+
 class QuaternionTest(unittest.TestCase):
     def testInit(self):
         a = pyjet.QuaternionD()
@@ -149,6 +168,7 @@ class QuaternionTest(unittest.TestCase):
         self.assertEqual(d.x, 2.0)
         self.assertEqual(d.y, 3.0)
         self.assertEqual(d.z, 4.0)
+
 
 class Sphere3Test(unittest.TestCase):
     def testInit(self):
@@ -177,9 +197,11 @@ class Vector3DTest(unittest.TestCase):
         self.assertEqual(d.y, 2.0)
         self.assertEqual(d.z, 3.0)
 
+
 def main():
     pyjet.Logging.mute()
     unittest.main()
+
 
 if __name__ == '__main__':
     main()

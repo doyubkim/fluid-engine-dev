@@ -12,9 +12,30 @@
 namespace py = pybind11;
 using namespace jet;
 
+class PyPhysicsAnimation : public PhysicsAnimation {
+ public:
+    using PhysicsAnimation::PhysicsAnimation;
+
+    void onAdvanceTimeStep(double timeIntervalInSeconds) override {
+        PYBIND11_OVERLOAD_PURE(void, PhysicsAnimation, onAdvanceTimeStep,
+                               timeIntervalInSeconds);
+    }
+
+    unsigned int numberOfSubTimeSteps(
+        double timeIntervalInSeconds) const override {
+        PYBIND11_OVERLOAD(unsigned int, PhysicsAnimation, numberOfSubTimeSteps,
+                          timeIntervalInSeconds);
+    }
+
+    void onInitialize() override {
+        PYBIND11_OVERLOAD(void, PhysicsAnimation, onInitialize, );
+    }
+};
+
 void addPhysicsAnimation(py::module& m) {
-    py::class_<PhysicsAnimation, PhysicsAnimationPtr, Animation>(
-        m, "PhysicsAnimation")
+    py::class_<PhysicsAnimation, PyPhysicsAnimation, PhysicsAnimationPtr,
+               Animation>(m, "PhysicsAnimation")
+        .def(py::init<>())
         .def_property("isUsingFixedSubTimeSteps",
                       &PhysicsAnimation::isUsingFixedSubTimeSteps,
                       &PhysicsAnimation::setIsUsingFixedSubTimeSteps)

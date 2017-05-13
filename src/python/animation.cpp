@@ -53,8 +53,17 @@ void addFrame(pybind11::module& m) {
              py::arg("delta") = 1);
 }
 
+class PyAnimation : public Animation {
+ public:
+    using Animation::Animation;
+
+    void onUpdate(const Frame& frame) override {
+        PYBIND11_OVERLOAD_PURE(void, Animation, onUpdate, frame);
+    }
+};
+
 void addAnimation(pybind11::module& m) {
-    py::class_<Animation, AnimationPtr>(m, "Animation", R"pbdoc(
+    py::class_<Animation, PyAnimation, AnimationPtr>(m, "Animation", R"pbdoc(
         Abstract base class for animation-related class.
 
         This class represents the animation logic in very abstract level.
@@ -62,8 +71,8 @@ void addAnimation(pybind11::module& m) {
         This base class provides a virtual function update() which can be
         overriden by its sub-classes to implement their own state update logic.
         )pbdoc")
-        .def("update", [](Animation& instance,
-                          const Frame& frame) { instance.update(frame); },
+        .def(py::init<>())
+        .def("update", &Animation::update,
              R"pbdoc(
              Updates animation state for given `frame`.
 
