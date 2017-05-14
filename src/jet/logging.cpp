@@ -25,7 +25,7 @@ static std::ostream* infoOutStream = &std::cout;
 static std::ostream* warnOutStream = &std::cout;
 static std::ostream* errorOutStream = &std::cerr;
 static std::ostream* debugOutStream = &std::cout;
-static bool isMuted = false;
+static LoggingLevel sLoggingLevel = LoggingLevel::All;
 
 inline std::ostream* levelToStream(LoggingLevel level) {
     switch (level) {
@@ -37,6 +37,8 @@ inline std::ostream* levelToStream(LoggingLevel level) {
             return errorOutStream;
         case LoggingLevel::Debug:
             return debugOutStream;
+        default:
+            return infoOutStream;
     }
     return nullptr;
 }
@@ -51,19 +53,21 @@ inline std::string levelToString(LoggingLevel level) {
             return "ERROR";
         case LoggingLevel::Debug:
             return "DEBUG";
+        default:
+            return "";
     }
-    return nullptr;
+    return "";
+}
+
+inline bool operator<=(LoggingLevel a, LoggingLevel b) {
+    return (uint8_t)a <= (uint8_t)b;
 }
 
 Logger::Logger(LoggingLevel level) : _level(level) {}
 
 Logger::~Logger() {
     std::lock_guard<std::mutex> lock(critical);
-#ifdef JET_DEBUG_MODE
-    if (_level != LoggingLevel::Debug && !isMuted) {
-#else
-    if (!isMuted) {
-#endif
+    if (sLoggingLevel <= _level) {
         auto strm = levelToStream(_level);
         (*strm) << _buffer.str() << std::endl;
         strm->flush();
@@ -106,7 +110,7 @@ std::string Logging::getHeader(LoggingLevel level) {
     localtime_s(&time, &now);
     strftime(timeStr, sizeof(timeStr), "%F %T", &time);
 #else
-        strftime(timeStr, sizeof(timeStr), "%F %T", std::localtime(&now));
+    strftime(timeStr, sizeof(timeStr), "%F %T", std::localtime(&now));
 #endif
     char header[256];
     snprintf(header, sizeof(header), "[%s] %s ", levelToString(level).c_str(),
@@ -114,14 +118,13 @@ std::string Logging::getHeader(LoggingLevel level) {
     return header;
 }
 
-void Logging::mute() {
+void Logging::setLevel(LoggingLevel level) {
     std::lock_guard<std::mutex> lock(critical);
-    isMuted = true;
+    sLoggingLevel = level;
 }
 
-void Logging::unmute() {
-    std::lock_guard<std::mutex> lock(critical);
-    isMuted = false;
-}
+void Logging::mute() { setLevel(LoggingLevel::Off); }
+
+void Logging::unmute() { setLevel(LoggingLevel::All); }
 
 }  // namespace jet
