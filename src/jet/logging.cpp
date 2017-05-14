@@ -40,7 +40,6 @@ inline std::ostream* levelToStream(LoggingLevel level) {
         default:
             return infoOutStream;
     }
-    return nullptr;
 }
 
 inline std::string levelToString(LoggingLevel level) {
@@ -56,7 +55,6 @@ inline std::string levelToString(LoggingLevel level) {
         default:
             return "";
     }
-    return "";
 }
 
 inline bool operator<=(LoggingLevel a, LoggingLevel b) {
