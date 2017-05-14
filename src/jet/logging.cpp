@@ -57,7 +57,7 @@ inline std::string levelToString(LoggingLevel level) {
     }
 }
 
-inline bool operator<=(LoggingLevel a, LoggingLevel b) {
+inline bool isLeq(LoggingLevel a, LoggingLevel b) {
     return (uint8_t)a <= (uint8_t)b;
 }
 
@@ -65,7 +65,7 @@ Logger::Logger(LoggingLevel level) : _level(level) {}
 
 Logger::~Logger() {
     std::lock_guard<std::mutex> lock(critical);
-    if (sLoggingLevel <= _level) {
+    if (isLeq(sLoggingLevel, _level)) {
         auto strm = levelToStream(_level);
         (*strm) << _buffer.str() << std::endl;
         strm->flush();
