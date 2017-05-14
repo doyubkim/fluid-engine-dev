@@ -41,12 +41,8 @@ def main():
     im = plt.imshow(den, vmin=0, vmax=1, cmap=plt.cm.gray,
                     interpolation='bicubic', animated=True, origin='lower')
 
-    # Make first frame
-    frame = Frame(0, 1.0 / ANIM_FPS)
-    solver.update(frame)
-    frame.advance()
-
     # Animation
+    frame = Frame(0, 1.0 / ANIM_FPS)
     def updatefig(*args):
         solver.update(frame)
         frame.advance()
