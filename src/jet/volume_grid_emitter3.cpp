@@ -70,7 +70,6 @@ void VolumeGridEmitter3::onUpdate(
     double timeIntervalInSeconds) {
     UNUSED_VARIABLE(currentTimeInSeconds);
     UNUSED_VARIABLE(timeIntervalInSeconds);
-
     if (_hasEmitted && _isOneShot) {
         return;
     }

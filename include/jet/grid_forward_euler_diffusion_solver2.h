@@ -19,7 +19,7 @@ namespace jet {
 //!
 //! This class implements 2-D grid-based forward Euler diffusion solver using
 //! second-order central differencing spatially. Since the method is relying on
-//! explicit time-integration (i.e. foward Euler), the diffusion coefficient is
+//! explicit time-integration (i.e. forward Euler), the diffusion coefficient is
 //! limited by the time interval and grid spacing such as:
 //! \f$\mu < \frac{h}{8\Delta t} \f$ where \f$\mu\f$, \f$h\f$, and
 //! \f$\Delta t\f$ are the diffusion coefficient, grid spacing, and time
@@ -38,7 +38,7 @@ class GridForwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
     //! \param timeIntervalInSeconds Small time-interval that diffusion occur.
     //! \param dest Output scalar field.
     //! \param boundarySdf Shape of the solid boundary that is empty by default.
-    //! \param boundarySdf Shape of the fluid boundary that is full by default.
+    //! \param fluidSdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
         const ScalarGrid2& source,
@@ -58,7 +58,7 @@ class GridForwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
     //! \param timeIntervalInSeconds Small time-interval that diffusion occur.
     //! \param dest Output collocated vector field.
     //! \param boundarySdf Shape of the solid boundary that is empty by default.
-    //! \param boundarySdf Shape of the fluid boundary that is full by default.
+    //! \param fluidSdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
         const CollocatedVectorGrid2& source,
@@ -78,7 +78,7 @@ class GridForwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
     //! \param timeIntervalInSeconds Small time-interval that diffusion occur.
     //! \param dest Output face-centered vector field.
     //! \param boundarySdf Shape of the solid boundary that is empty by default.
-    //! \param boundarySdf Shape of the fluid boundary that is full by default.
+    //! \param fluidSdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
         const FaceCenteredGrid2& source,

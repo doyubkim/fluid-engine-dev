@@ -5,74 +5,53 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <fbs_helpers.h>
 #include <generated/scalar_grid2_generated.h>
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid2.h>
 #include <jet/serial.h>
+
 #include <flatbuffers/flatbuffers.h>
+
 #include <algorithm>
+#include <string>
 #include <utility>  // just make cpplint happy..
 #include <vector>
-#include <string>
 
 using namespace jet;
 
-ScalarGrid2::ScalarGrid2() :
-    _linearSampler(
-        LinearArraySampler2<double, double>(
-            _data.constAccessor(),
-            Vector2D(1, 1),
-            Vector2D())) {
+ScalarGrid2::ScalarGrid2()
+    : _linearSampler(LinearArraySampler2<double, double>(
+          _data.constAccessor(), Vector2D(1, 1), Vector2D())) {}
+
+ScalarGrid2::~ScalarGrid2() {}
+
+void ScalarGrid2::clear() { resize(Size2(), gridSpacing(), origin(), 0.0); }
+
+void ScalarGrid2::resize(size_t resolutionX, size_t resolutionY,
+                         double gridSpacingX, double gridSpacingY,
+                         double originX, double originY, double initialValue) {
+    resize(Size2(resolutionX, resolutionY),
+           Vector2D(gridSpacingX, gridSpacingY), Vector2D(originX, originY),
+           initialValue);
 }
 
-ScalarGrid2::~ScalarGrid2() {
-}
-
-void ScalarGrid2::clear() {
-    resize(Size2(), gridSpacing(), origin(), 0.0);
-}
-
-void ScalarGrid2::resize(
-    size_t resolutionX,
-    size_t resolutionY,
-    double gridSpacingX,
-    double gridSpacingY,
-    double originX,
-    double originY,
-    double initialValue) {
-    resize(
-        Size2(resolutionX, resolutionY),
-        Vector2D(gridSpacingX, gridSpacingY),
-        Vector2D(originX, originY),
-        initialValue);
-}
-
-void ScalarGrid2::resize(
-    const Size2& resolution,
-    const Vector2D& gridSpacing,
-    const Vector2D& origin,
-    double initialValue) {
+void ScalarGrid2::resize(const Size2& resolution, const Vector2D& gridSpacing,
+                         const Vector2D& origin, double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
     _data.resize(dataSize(), initialValue);
     resetSampler();
 }
 
-void ScalarGrid2::resize(
-    double gridSpacingX,
-    double gridSpacingY,
-    double originX,
-    double originY) {
-    resize(
-        Vector2D(gridSpacingX, gridSpacingY),
-        Vector2D(originX, originY));
+void ScalarGrid2::resize(double gridSpacingX, double gridSpacingY,
+                         double originX, double originY) {
+    resize(Vector2D(gridSpacingX, gridSpacingY), Vector2D(originX, originY));
 }
 
-void ScalarGrid2::resize(
-    const Vector2D& gridSpacing,
-    const Vector2D& origin) {
+void ScalarGrid2::resize(const Vector2D& gridSpacing, const Vector2D& origin) {
     resize(resolution(), gridSpacing, origin);
 }
 
@@ -80,9 +59,7 @@ const double& ScalarGrid2::operator()(size_t i, size_t j) const {
     return _data(i, j);
 }
 
-double& ScalarGrid2::operator()(size_t i, size_t j) {
-    return _data(i, j);
-}
+double& ScalarGrid2::operator()(size_t i, size_t j) { return _data(i, j); }
 
 Vector2D ScalarGrid2::gradientAtDataPoint(size_t i, size_t j) const {
     return gradient2(_data.constAccessor(), gridSpacing(), i, j);
@@ -92,9 +69,7 @@ double ScalarGrid2::laplacianAtDataPoint(size_t i, size_t j) const {
     return laplacian2(_data.constAccessor(), gridSpacing(), i, j);
 }
 
-double ScalarGrid2::sample(const Vector2D& x) const {
-    return _sampler(x);
-}
+double ScalarGrid2::sample(const Vector2D& x) const { return _sampler(x); }
 
 std::function<double(const Vector2D&)> ScalarGrid2::sampler() const {
     return _sampler;
@@ -122,8 +97,7 @@ double ScalarGrid2::laplacian(const Vector2D& x) const {
     double result = 0.0;
 
     for (int i = 0; i < 4; ++i) {
-        result += weights[i]
-            * laplacianAtDataPoint(indices[i].x, indices[i].y);
+        result += weights[i] * laplacianAtDataPoint(indices[i].x, indices[i].y);
     }
 
     return result;
@@ -144,23 +118,20 @@ ScalarGrid2::DataPositionFunc ScalarGrid2::dataPosition() const {
     };
 }
 
-void ScalarGrid2::fill(double value) {
-    parallelFor(
-        kZeroSize, _data.width(),
-        kZeroSize, _data.height(),
-        [this, value](size_t i, size_t j) {
-            _data(i, j) = value;
-        });
+void ScalarGrid2::fill(double value, ExecutionPolicy policy) {
+    parallelFor(kZeroSize, _data.width(), kZeroSize, _data.height(),
+                [this, value](size_t i, size_t j) { _data(i, j) = value; },
+                policy);
 }
 
-void ScalarGrid2::fill(const std::function<double(const Vector2D&)>& func) {
+void ScalarGrid2::fill(const std::function<double(const Vector2D&)>& func,
+                       ExecutionPolicy policy) {
     DataPositionFunc pos = dataPosition();
-    parallelFor(
-        kZeroSize, _data.width(),
-        kZeroSize, _data.height(),
-        [this, &func, &pos](size_t i, size_t j) {
-            _data(i, j) = func(pos(i, j));
-        });
+    parallelFor(kZeroSize, _data.width(), kZeroSize, _data.height(),
+                [this, &func, &pos](size_t i, size_t j) {
+                    _data(i, j) = func(pos(i, j));
+                },
+                policy);
 }
 
 void ScalarGrid2::forEachDataPointIndex(
@@ -184,12 +155,12 @@ void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
     getData(&gridData);
     auto data = builder.CreateVector(gridData.data(), gridData.size());
 
-    auto fbsGrid = fbs::CreateScalarGrid2(
-        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+    auto fbsGrid = fbs::CreateScalarGrid2(builder, &fbsResolution,
+                                          &fbsGridSpacing, &fbsOrigin, data);
 
     builder.Finish(fbsGrid);
 
-    uint8_t *buf = builder.GetBufferPointer();
+    uint8_t* buf = builder.GetBufferPointer();
     size_t size = builder.GetSize();
 
     buffer->resize(size);
@@ -199,10 +170,8 @@ void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
 void ScalarGrid2::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetScalarGrid2(buffer.data());
 
-    resize(
-        fbsToJet(*fbsGrid->resolution()),
-        fbsToJet(*fbsGrid->gridSpacing()),
-        fbsToJet(*fbsGrid->origin()));
+    resize(fbsToJet(*fbsGrid->resolution()), fbsToJet(*fbsGrid->gridSpacing()),
+           fbsToJet(*fbsGrid->origin()));
 
     auto data = fbsGrid->data();
     std::vector<double> gridData(data->size());
@@ -244,9 +213,6 @@ void ScalarGrid2::setData(const std::vector<double>& data) {
     std::copy(data.begin(), data.end(), _data.begin());
 }
 
+ScalarGridBuilder2::ScalarGridBuilder2() {}
 
-ScalarGridBuilder2::ScalarGridBuilder2() {
-}
-
-ScalarGridBuilder2::~ScalarGridBuilder2() {
-}
+ScalarGridBuilder2::~ScalarGridBuilder2() {}

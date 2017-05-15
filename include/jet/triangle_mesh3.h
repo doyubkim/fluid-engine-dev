@@ -168,7 +168,7 @@ class TriangleMesh3 final : public Surface3 {
     //! Scales the mesh by given factor.
     void scale(double factor);
 
-    //! Traslates the mesh.
+    //! Translates the mesh.
     void translate(const Vector3D& t);
 
     //! Rotates the mesh.
@@ -177,8 +177,14 @@ class TriangleMesh3 final : public Surface3 {
     //! Writes the mesh in obj format to the output stream.
     void writeObj(std::ostream* strm) const;
 
+    //! Writes the mesh in obj format to the file.
+    bool writeObj(const std::string& filename) const;
+
     //! Reads the mesh in obj format from the input stream.
     bool readObj(std::istream* strm);
+
+    //! Reads the mesh in obj format from the file.
+    bool readObj(const std::string& filename);
 
     //! Copies \p other mesh.
     TriangleMesh3& operator=(const TriangleMesh3& other);

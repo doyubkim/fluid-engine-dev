@@ -7,7 +7,7 @@
 #
 
 # CMake version
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -16,6 +16,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 project(jet)
 
 # Set output directories
+set(DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
@@ -23,6 +24,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 # Includes
 include_directories(include)
 include_directories(external)
+include_directories(external/pybind11/include)
 include_directories(external/googletest/googletest/include)
 if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     include_directories(src/winix)
@@ -55,9 +57,14 @@ add_custom_target(unzip_py ALL
         DEPENDS ${RESOURCES_OBJS})
 
 # Project modules
-add_subdirectory(external/cnpy)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
+if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
+    cmake_policy(SET CMP0063 NEW)
+endif()
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+add_subdirectory(external/cnpy)
 add_subdirectory(external/pystring)
 add_subdirectory(src/jet)
 add_subdirectory(src/tests/manual_tests)
@@ -74,3 +81,9 @@ add_subdirectory(src/examples/particles2obj)
 add_subdirectory(src/examples/particles2xml)
 add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
+
+add_subdirectory(external/pybind11)
+if (BUILD_FROM_PIP)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+endif()
+add_subdirectory(src/python)

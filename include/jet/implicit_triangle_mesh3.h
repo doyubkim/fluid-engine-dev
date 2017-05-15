@@ -40,11 +40,11 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3 {
     static Builder builder();
 
     //! Returns grid data.
-    const VertexCenteredScalarGrid3& grid() const;
+    const VertexCenteredScalarGrid3Ptr& grid() const;
 
  private:
     TriangleMesh3Ptr _mesh;
-    VertexCenteredScalarGrid3 _grid;
+    VertexCenteredScalarGrid3Ptr _grid;
     CustomImplicitSurface3Ptr _customImplicitSurface;
 
     Vector3D closestPointLocal(const Vector3D& otherPoint) const override;

@@ -68,7 +68,6 @@ void VolumeParticleEmitter3::emit(
     // Reserving more space for jittering
     const double j = jitter();
     const double maxJitterDist = 0.5 * j * _spacing;
-
     if (_allowOverlapping || _isOneShot) {
         _pointsGen->forEachPoint(
             _bounds,
@@ -79,7 +78,9 @@ void VolumeParticleEmitter3::emit(
                     random());
                 Vector3D offset = maxJitterDist * randomDir;
                 Vector3D candidate = point + offset;
+
                 if (_implicitSurface->signedDistance(candidate) <= 0.0) {
+//                    printf("%f/%f - %f, %f, %f\n", _implicitSurface->signedDistance(candidate), _spacing, candidate.x, candidate.y, candidate.z);
                     if (_numberOfEmittedParticles < _maxNumberOfParticles) {
                         newPositions->append(candidate);
                         ++_numberOfEmittedParticles;

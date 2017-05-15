@@ -110,7 +110,7 @@ class BoundingBox<T, 3> {
     Vector3<T> corner(size_t idx) const;
 
     //! Returns the clamped point.
-    Vector3<T> clamp(const Vector3<T>& pt) const;
+    Vector3<T> clamp(const Vector3<T>& point) const;
 };
 
 //! Type alias for 3-D BoundingBox.

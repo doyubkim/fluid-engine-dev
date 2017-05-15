@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
 #include <jet/constants.h>
 #include <jet/fdm_iccg_solver3.h>
 #include <jet/grid_blocked_boundary_condition_solver3.h>
 #include <jet/grid_single_phase_pressure_solver3.h>
 #include <jet/level_set_utils.h>
+#include <pch.h>
 
 using namespace jet;
 
@@ -23,25 +23,19 @@ GridSinglePhasePressureSolver3::GridSinglePhasePressureSolver3() {
     _systemSolver = std::make_shared<FdmIccgSolver3>(100, kDefaultTolerance);
 }
 
-GridSinglePhasePressureSolver3::~GridSinglePhasePressureSolver3() {
-}
+GridSinglePhasePressureSolver3::~GridSinglePhasePressureSolver3() {}
 
-void GridSinglePhasePressureSolver3::solve(
-    const FaceCenteredGrid3& input,
-    double timeIntervalInSeconds,
-    FaceCenteredGrid3* output,
-    const ScalarField3& boundarySdf,
-    const VectorField3& boundaryVelocity,
-    const ScalarField3& fluidSdf) {
+void GridSinglePhasePressureSolver3::solve(const FaceCenteredGrid3& input,
+                                           double timeIntervalInSeconds,
+                                           FaceCenteredGrid3* output,
+                                           const ScalarField3& boundarySdf,
+                                           const VectorField3& boundaryVelocity,
+                                           const ScalarField3& fluidSdf) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
     auto pos = input.cellCenterPosition();
-    buildMarkers(
-        input.resolution(),
-        pos,
-        boundarySdf,
-        fluidSdf);
+    buildMarkers(input.resolution(), pos, boundarySdf, fluidSdf);
     buildSystem(input);
 
     if (_systemSolver != nullptr) {
@@ -58,6 +52,11 @@ GridSinglePhasePressureSolver3::suggestedBoundaryConditionSolver() const {
     return std::make_shared<GridBlockedBoundaryConditionSolver3>();
 }
 
+const FdmLinearSystemSolver3Ptr&
+GridSinglePhasePressureSolver3::linearSystemSolver() const {
+    return _systemSolver;
+}
+
 void GridSinglePhasePressureSolver3::setLinearSystemSolver(
     const FdmLinearSystemSolver3Ptr& solver) {
     _systemSolver = solver;
@@ -70,8 +69,7 @@ const FdmVector3& GridSinglePhasePressureSolver3::pressure() const {
 void GridSinglePhasePressureSolver3::buildMarkers(
     const Size3& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
-    const ScalarField3& boundarySdf,
-    const ScalarField3& fluidSdf) {
+    const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     _markers.resize(size);
     _markers.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = pos(i, j, k);
@@ -145,8 +143,7 @@ void GridSinglePhasePressureSolver3::buildSystem(
 }
 
 void GridSinglePhasePressureSolver3::applyPressureGradient(
-    const FaceCenteredGrid3& input,
-    FaceCenteredGrid3* output) {
+    const FaceCenteredGrid3& input, FaceCenteredGrid3* output) {
     Size3 size = input.resolution();
     auto u = input.uConstAccessor();
     auto v = input.vConstAccessor();
@@ -160,22 +157,19 @@ void GridSinglePhasePressureSolver3::applyPressureGradient(
     _system.x.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
         if (_markers(i, j, k) == kFluid) {
             if (i + 1 < size.x && _markers(i + 1, j, k) != kBoundary) {
-                u0(i + 1, j, k)
-                    = u(i + 1, j, k)
-                    + invH.x
-                    * (_system.x(i + 1, j, k) - _system.x(i, j, k));
+                u0(i + 1, j, k) =
+                    u(i + 1, j, k) +
+                    invH.x * (_system.x(i + 1, j, k) - _system.x(i, j, k));
             }
             if (j + 1 < size.y && _markers(i, j + 1, k) != kBoundary) {
-                v0(i, j + 1, k)
-                    = v(i, j + 1, k)
-                    + invH.y
-                    * (_system.x(i, j + 1, k) - _system.x(i, j, k));
+                v0(i, j + 1, k) =
+                    v(i, j + 1, k) +
+                    invH.y * (_system.x(i, j + 1, k) - _system.x(i, j, k));
             }
             if (k + 1 < size.z && _markers(i, j, k + 1) != kBoundary) {
-                w0(i, j, k + 1)
-                    = w(i, j, k + 1)
-                    + invH.z
-                    * (_system.x(i, j, k + 1) - _system.x(i, j, k));
+                w0(i, j, k + 1) =
+                    w(i, j, k + 1) +
+                    invH.z * (_system.x(i, j, k + 1) - _system.x(i, j, k));
             }
         }
     });

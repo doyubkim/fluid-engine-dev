@@ -39,22 +39,16 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     FaceCenteredGrid2();
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid2(
-        size_t resolutionX,
-        size_t resolutionY,
-        double gridSpacingX = 1.0,
-        double gridSpacingY = 1.0,
-        double originX = 0.0,
-        double originY = 0.0,
-        double initialValueU = 0.0,
-        double initialValueV = 0.0);
+    FaceCenteredGrid2(size_t resolutionX, size_t resolutionY,
+                      double gridSpacingX = 1.0, double gridSpacingY = 1.0,
+                      double originX = 0.0, double originY = 0.0,
+                      double initialValueU = 0.0, double initialValueV = 0.0);
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid2(
-        const Size2& resolution,
-        const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
-        const Vector2D& origin = Vector2D(),
-        const Vector2D& initialValue = Vector2D());
+    FaceCenteredGrid2(const Size2& resolution,
+                      const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
+                      const Vector2D& origin = Vector2D(),
+                      const Vector2D& initialValue = Vector2D());
 
     //! Copy constructor.
     FaceCenteredGrid2(const FaceCenteredGrid2& other);
@@ -135,10 +129,12 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     Vector2D vOrigin() const;
 
     //! Fills the grid with given value.
-    void fill(const Vector2D& value) override;
+    void fill(const Vector2D& value,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Fills the grid with given function.
-    void fill(const std::function<Vector2D(const Vector2D&)>& func) override;
+    void fill(const std::function<Vector2D(const Vector2D&)>& func,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Returns the copy of the grid instance.
     std::shared_ptr<VectorGrid2> clone() const override;
@@ -150,8 +146,7 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     //! point in serial manner. The input parameters are i and j indices of a
     //! u-data point. The order of execution is i-first, j-last.
     //!
-    void forEachUIndex(
-        const std::function<void(size_t, size_t)>& func) const;
+    void forEachUIndex(const std::function<void(size_t, size_t)>& func) const;
 
     //!
     //! \brief Invokes the given function \p func for each u-data point
@@ -172,8 +167,7 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     //! point in serial manner. The input parameters are i and j indices of a
     //! v-data point. The order of execution is i-first, j-last.
     //!
-    void forEachVIndex(
-        const std::function<void(size_t, size_t)>& func) const;
+    void forEachVIndex(const std::function<void(size_t, size_t)>& func) const;
 
     //!
     //! \brief Invokes the given function \p func for each v-data point
@@ -211,11 +205,8 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
 
  protected:
     // VectorGrid2 implementations
-    void onResize(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& origin,
-        const Vector2D& initialValue) final;
+    void onResize(const Size2& resolution, const Vector2D& gridSpacing,
+                  const Vector2D& origin, const Vector2D& initialValue) final;
 
     //! Fetches the data into a continuous linear array.
     void getData(std::vector<double>* data) const override;
@@ -278,11 +269,9 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
     //!
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
-    VectorGrid2Ptr build(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& gridOrigin,
-        const Vector2D& initialVal) const override;
+    VectorGrid2Ptr build(const Size2& resolution, const Vector2D& gridSpacing,
+                         const Vector2D& gridOrigin,
+                         const Vector2D& initialVal) const override;
 
  private:
     Size2 _resolution{1, 1};

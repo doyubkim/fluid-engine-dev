@@ -7,13 +7,15 @@
 #ifndef INCLUDE_JET_GRID2_H_
 #define INCLUDE_JET_GRID2_H_
 
-#include <jet/size2.h>
 #include <jet/bounding_box2.h>
 #include <jet/serialization.h>
+#include <jet/size2.h>
+
 #include <functional>
+#include <memory>
+#include <string>
 #include <utility>  // just make cpplint happy..
 #include <vector>
-#include <string>
 
 namespace jet {
 
@@ -84,10 +86,8 @@ class Grid2 : public Serializable {
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
-    void setSizeParameters(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& origin);
+    void setSizeParameters(const Size2& resolution, const Vector2D& gridSpacing,
+                           const Vector2D& origin);
 
     //! Swaps the size parameters with given grid \p other.
     void swapGrid(Grid2* other);
@@ -108,10 +108,10 @@ class Grid2 : public Serializable {
     BoundingBox2D _boundingBox = BoundingBox2D(Vector2D(), Vector2D());
 };
 
+typedef std::shared_ptr<Grid2> Grid2Ptr;
+
 #define JET_GRID2_TYPE_NAME(DerivedClassName) \
-    std::string typeName() const override { \
-        return #DerivedClassName; \
-    }
+    std::string typeName() const override { return #DerivedClassName; }
 
 }  // namespace jet
 

@@ -23,16 +23,16 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem3* system) override;
 
-    //! Returns the max number of Jacobi iterations.
+    //! Returns the max number of ICCG iterations.
     unsigned int maxNumberOfIterations() const;
 
-    //! Returns the last number of Jacobi iterations the solver made.
+    //! Returns the last number of ICCG iterations the solver made.
     unsigned int lastNumberOfIterations() const;
 
-    //! Returns the max residual tolerance for the Jacobi method.
+    //! Returns the max residual tolerance for the ICCG method.
     double tolerance() const;
 
-    //! Returns the last residual after the Jacobi iterations.
+    //! Returns the last residual after the ICCG iterations.
     double lastResidual() const;
 
  private:

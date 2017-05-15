@@ -18,8 +18,8 @@ namespace jet {
 //! \brief 3-D surface set.
 //!
 //! This class represents 3-D surface set which extends Surface3 by overriding
-//! surface-related quries. This is class can hold a collection of other surface
-//! instances.
+//! surface-related queries. This is class can hold a collection of other
+//! surface instances.
 //!
 class SurfaceSet3 final : public Surface3 {
  public:

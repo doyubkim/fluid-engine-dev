@@ -36,7 +36,7 @@ GridFractionalSinglePhasePressureSolver3::
 
 void GridFractionalSinglePhasePressureSolver3::solve(
     const FaceCenteredGrid3& input, double timeIntervalInSeconds,
-    FaceCenteredGrid3 *output, const ScalarField3& boundarySdf,
+    FaceCenteredGrid3* output, const ScalarField3& boundarySdf,
     const VectorField3& boundaryVelocity, const ScalarField3& fluidSdf) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
 
@@ -56,6 +56,11 @@ GridBoundaryConditionSolver3Ptr
 GridFractionalSinglePhasePressureSolver3::suggestedBoundaryConditionSolver()
     const {
     return std::make_shared<GridFractionalBoundaryConditionSolver3>();
+}
+
+const FdmLinearSystemSolver3Ptr&
+GridFractionalSinglePhasePressureSolver3::linearSystemSolver() const {
+    return _systemSolver;
 }
 
 void GridFractionalSinglePhasePressureSolver3::setLinearSystemSolver(
@@ -305,7 +310,7 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
 }
 
 void GridFractionalSinglePhasePressureSolver3::applyPressureGradient(
-    const FaceCenteredGrid3& input, FaceCenteredGrid3 *output) {
+    const FaceCenteredGrid3& input, FaceCenteredGrid3* output) {
     Size3 size = input.resolution();
     auto u = input.uConstAccessor();
     auto v = input.vConstAccessor();

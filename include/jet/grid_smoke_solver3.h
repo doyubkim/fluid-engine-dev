@@ -14,7 +14,7 @@ namespace jet {
 //!
 //! \brief      3-D grid-based smoke solver.
 //!
-//! This class extends GridFluidSolver2 to implement smoke simulation solver.
+//! This class extends GridFluidSolver3 to implement smoke simulation solver.
 //! It adds smoke density and temperature fields to define the smoke and uses
 //! buoyancy force to simulate hot rising smoke.
 //!

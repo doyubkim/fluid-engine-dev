@@ -275,7 +275,7 @@ JET_BEGIN_TEST_F(ApicSolver2, Circular) {
     solver->setCollider(collider);
 
     // Manually emit particles
-    size_t resX = solver->gridResolution().x;
+    size_t resX = solver->resolution().x;
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(0, 1);
     for (int i = 0; i < 4 * resX * resX; ++i) {
@@ -315,7 +315,7 @@ JET_BEGIN_TEST_F(ApicSolver2, CircularWithFriction) {
     solver->setCollider(collider);
 
     // Manually emit particles
-    size_t resX = solver->gridResolution().x;
+    size_t resX = solver->resolution().x;
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(0, 1);
     for (int i = 0; i < 4 * resX * resX; ++i) {

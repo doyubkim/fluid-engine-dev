@@ -37,8 +37,8 @@ TEST(GridFluidSolver2, ResizeGridSystemData) {
 
     solver.resizeGrid(Size2(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
 
-    EXPECT_EQ(1u, solver.gridResolution().x);
-    EXPECT_EQ(2u, solver.gridResolution().y);
+    EXPECT_EQ(1u, solver.resolution().x);
+    EXPECT_EQ(2u, solver.resolution().y);
     EXPECT_EQ(3.0, solver.gridSpacing().x);
     EXPECT_EQ(4.0, solver.gridSpacing().y);
     EXPECT_EQ(5.0, solver.gridOrigin().x);
@@ -66,8 +66,7 @@ TEST(GridFluidSolver2, GravityOnly) {
     solver.resizeGrid(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
     solver.velocity()->fill(Vector2D());
 
-    Frame frame(0, 1.0 / 60.0);
-    frame.timeIntervalInSeconds = 0.01;
+    Frame frame(0, 0.01);
     solver.update(frame);
 
     solver.velocity()->forEachUIndex([&](size_t i, size_t j) {

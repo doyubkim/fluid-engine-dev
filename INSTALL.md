@@ -18,8 +18,10 @@ To build the code, a compiler that supports C++11 is required. Platform-specific
 Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run the following command line to setup [CMake](https://cmake.org/):
 
 ```
-brew install cmake
+brew install cmake python
 ```
+
+> Note that we want `brew` version of Python which is recommended. You can still use macOS's default Python.
 
 Once CMake is installed, build the code by running
 
@@ -30,18 +32,22 @@ cmake ..
 make
 ```
 
+> Of course, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+
 This will build entire codebase. To run the unit test, execute
 
 ```
 bin/unit_tests
 ```
 
+It should show all the tests are passing.
+
 ### Building from Ubuntu
 
 Jet supports Ubuntu 14.04 or higher. Using `apt-get`, install required tools and libraries by running,
 
 ```
-sudo apt-get install build-essential python cmake
+sudo apt-get install build-essential python-dev python-pip cmake
 ```
 
 This will install GNU compilers, python, and CMake. Once installed, build the code by running
@@ -53,15 +59,19 @@ cmake ..
 make
 ```
 
+> Again, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+
 This will build entire codebase. To run the unit test, execute
 
 ```
 bin/unit_tests
 ```
 
+It should show all the tests are passing.
+
 ### Building from Windows
 
-To build the code on Windows, [CMake](https://cmake.org/) and Visual Studio 2015 is required. Windows' version of CMake is available from [this website](https://cmake.org/), and free version of VS 2015 also can be downloaded from [Visual Studio Community 2015](https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher recommended) to run post-build events.
+To build the code on Windows, CMake, Python, and Visual Studio 2015 (or higher) is required. Windows' version of CMake is available from [this website](https://cmake.org/), Python installer can be downloaded from [here](https://python.org/). For Python, version 2.7.9 or later is recommended. To install Visual Studio, the community edition of the tool can be downloaded from [Visual Studio Community 2015](https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx). You can also use Visual Studio 2017.
 
 Once everything is installed, run the following commands:
 
@@ -87,9 +97,9 @@ bin\Release\unit_tests.exe
 
 ### Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
+There are four different tests in the codebase including the unit test, manual test, performance test, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
 
-### Installing SDK
+### Installing C++ SDK
 
 For macOS and Ubuntu platforms, the library can be installed by running
 
@@ -108,6 +118,22 @@ cmake .. -G"Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
 ```
 
 Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lib` under `_INSTALL_PATH_`.
+
+### Installing Python SDK
+
+To install the Python SDK, `pyjet`, run the following command from the project root directory (where `setup.py` lives):
+
+```
+pip install .
+```
+
+Once installed, try running the unit test to see if the module is installed correctly:
+
+```
+python src/tests/python_tests/main.py
+```
+
+The tests should pass.
 
 ### Coding Style
 

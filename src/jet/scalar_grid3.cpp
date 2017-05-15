@@ -5,80 +5,57 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <fbs_helpers.h>
 #include <generated/scalar_grid3_generated.h>
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid3.h>
 #include <jet/serial.h>
+
 #include <flatbuffers/flatbuffers.h>
+
 #include <algorithm>
-#include <utility>  // just make cpplint happy..
 #include <string>
+#include <utility>  // just make cpplint happy..
 #include <vector>
 
 using namespace jet;
 
-ScalarGrid3::ScalarGrid3() :
-    _linearSampler(
-        LinearArraySampler3<double, double>(
-            _data.constAccessor(),
-            Vector3D(1, 1, 1),
-            Vector3D())) {
+ScalarGrid3::ScalarGrid3()
+    : _linearSampler(LinearArraySampler3<double, double>(
+          _data.constAccessor(), Vector3D(1, 1, 1), Vector3D())) {}
+
+ScalarGrid3::~ScalarGrid3() {}
+
+void ScalarGrid3::clear() { resize(Size3(), gridSpacing(), origin(), 0.0); }
+
+void ScalarGrid3::resize(size_t resolutionX, size_t resolutionY,
+                         size_t resolutionZ, double gridSpacingX,
+                         double gridSpacingY, double gridSpacingZ,
+                         double originX, double originY, double originZ,
+                         double initialValue) {
+    resize(Size3(resolutionX, resolutionY, resolutionZ),
+           Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
+           Vector3D(originX, originY, originZ), initialValue);
 }
 
-ScalarGrid3::~ScalarGrid3() {
-}
-
-void ScalarGrid3::clear() {
-    resize(Size3(), gridSpacing(), origin(), 0.0);
-}
-
-void ScalarGrid3::resize(
-    size_t resolutionX,
-    size_t resolutionY,
-    size_t resolutionZ,
-    double gridSpacingX,
-    double gridSpacingY,
-    double gridSpacingZ,
-    double originX,
-    double originY,
-    double originZ,
-    double initialValue) {
-    resize(
-        Size3(resolutionX, resolutionY, resolutionZ),
-        Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
-        Vector3D(originX, originY, originZ),
-        initialValue);
-}
-
-void ScalarGrid3::resize(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& origin,
-    double initialValue) {
+void ScalarGrid3::resize(const Size3& resolution, const Vector3D& gridSpacing,
+                         const Vector3D& origin, double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
     _data.resize(dataSize(), initialValue);
     resetSampler();
 }
 
-
-void ScalarGrid3::resize(
-    double gridSpacingX,
-    double gridSpacingY,
-    double gridSpacingZ,
-    double originX,
-    double originY,
-    double originZ) {
-    resize(
-        Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
-        Vector3D(originX, originY, originZ));
+void ScalarGrid3::resize(double gridSpacingX, double gridSpacingY,
+                         double gridSpacingZ, double originX, double originY,
+                         double originZ) {
+    resize(Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
+           Vector3D(originX, originY, originZ));
 }
 
-void ScalarGrid3::resize(
-    const Vector3D& gridSpacing,
-    const Vector3D& origin) {
+void ScalarGrid3::resize(const Vector3D& gridSpacing, const Vector3D& origin) {
     resize(resolution(), gridSpacing, origin);
 }
 
@@ -98,9 +75,7 @@ double ScalarGrid3::laplacianAtDataPoint(size_t i, size_t j, size_t k) const {
     return laplacian3(_data.constAccessor(), gridSpacing(), i, j, k);
 }
 
-double ScalarGrid3::sample(const Vector3D& x) const {
-    return _sampler(x);
-}
+double ScalarGrid3::sample(const Vector3D& x) const { return _sampler(x); }
 
 std::function<double(const Vector3D&)> ScalarGrid3::sampler() const {
     return _sampler;
@@ -114,8 +89,8 @@ Vector3D ScalarGrid3::gradient(const Vector3D& x) const {
     Vector3D result;
 
     for (int i = 0; i < 8; ++i) {
-        result += weights[i] * gradientAtDataPoint(
-            indices[i].x, indices[i].y, indices[i].z);
+        result += weights[i] *
+                  gradientAtDataPoint(indices[i].x, indices[i].y, indices[i].z);
     }
 
     return result;
@@ -129,8 +104,8 @@ double ScalarGrid3::laplacian(const Vector3D& x) const {
     double result = 0.0;
 
     for (int i = 0; i < 8; ++i) {
-        result += weights[i]
-            * laplacianAtDataPoint(indices[i].x, indices[i].y, indices[i].z);
+        result += weights[i] * laplacianAtDataPoint(indices[i].x, indices[i].y,
+                                                    indices[i].z);
     }
 
     return result;
@@ -151,25 +126,23 @@ ScalarGrid3::DataPositionFunc ScalarGrid3::dataPosition() const {
     };
 }
 
-void ScalarGrid3::fill(double value) {
+void ScalarGrid3::fill(double value, ExecutionPolicy policy) {
     parallelFor(
-        kZeroSize, _data.width(),
-        kZeroSize, _data.height(),
-        kZeroSize, _data.depth(),
-        [this, value](size_t i, size_t j, size_t k) {
-            _data(i, j, k) = value;
-        });
+        kZeroSize, _data.width(), kZeroSize, _data.height(), kZeroSize,
+        _data.depth(),
+        [this, value](size_t i, size_t j, size_t k) { _data(i, j, k) = value; },
+        policy);
 }
 
-void ScalarGrid3::fill(const std::function<double(const Vector3D&)>& func) {
+void ScalarGrid3::fill(const std::function<double(const Vector3D&)>& func,
+                       ExecutionPolicy policy) {
     DataPositionFunc pos = dataPosition();
-    parallelFor(
-        kZeroSize, _data.width(),
-        kZeroSize, _data.height(),
-        kZeroSize, _data.depth(),
-        [this, &func, &pos](size_t i, size_t j, size_t k) {
-            _data(i, j, k) = func(pos(i, j, k));
-        });
+    parallelFor(kZeroSize, _data.width(), kZeroSize, _data.height(), kZeroSize,
+                _data.depth(),
+                [this, &func, &pos](size_t i, size_t j, size_t k) {
+                    _data(i, j, k) = func(pos(i, j, k));
+                },
+                policy);
 }
 
 void ScalarGrid3::forEachDataPointIndex(
@@ -193,12 +166,12 @@ void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
     getData(&gridData);
     auto data = builder.CreateVector(gridData.data(), gridData.size());
 
-    auto fbsGrid = fbs::CreateScalarGrid3(
-        builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
+    auto fbsGrid = fbs::CreateScalarGrid3(builder, &fbsResolution,
+                                          &fbsGridSpacing, &fbsOrigin, data);
 
     builder.Finish(fbsGrid);
 
-    uint8_t *buf = builder.GetBufferPointer();
+    uint8_t* buf = builder.GetBufferPointer();
     size_t size = builder.GetSize();
 
     buffer->resize(size);
@@ -208,10 +181,8 @@ void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
 void ScalarGrid3::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsGrid = fbs::GetScalarGrid3(buffer.data());
 
-    resize(
-        fbsToJet(*fbsGrid->resolution()),
-        fbsToJet(*fbsGrid->gridSpacing()),
-        fbsToJet(*fbsGrid->origin()));
+    resize(fbsToJet(*fbsGrid->resolution()), fbsToJet(*fbsGrid->gridSpacing()),
+           fbsToJet(*fbsGrid->origin()));
 
     auto data = fbsGrid->data();
     std::vector<double> gridData(data->size());
@@ -253,9 +224,6 @@ void ScalarGrid3::setData(const std::vector<double>& data) {
     std::copy(data.begin(), data.end(), _data.begin());
 }
 
+ScalarGridBuilder3::ScalarGridBuilder3() {}
 
-ScalarGridBuilder3::ScalarGridBuilder3() {
-}
-
-ScalarGridBuilder3::~ScalarGridBuilder3() {
-}
+ScalarGridBuilder3::~ScalarGridBuilder3() {}

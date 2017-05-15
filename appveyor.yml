@@ -1,10 +1,16 @@
-version: 1.0.6 ({build})
+# Adopted from https://github.com/pybind/pybind11/blob/master/.appveyor.yml
+
+version: 1.1.0-rc1 ({build})
 
 os:
+  - Visual Studio 2017
   - Visual Studio 2015
 
 platform:
   - x64
+
+matrix:
+  fast_finish: true  # Stop remaining jobs after a job failure
 
 configuration:
   - Release
@@ -13,11 +19,18 @@ clone_folder: c:\jet
 
 install:
   - git submodule update --init
+  - ps: |
+      if ($env:PLATFORM -eq "x64") { $env:CMAKE_ARCH = "x64" }
+      if ($env:APPVEYOR_JOB_NAME -like "*Visual Studio 2017*") { $env:CMAKE_GENERATOR = "Visual Studio 15 2017" }
+      else { $env:CMAKE_GENERATOR = "Visual Studio 14 2015" }
+      $env:PYTHON = "27"
+      if ($env:PLATFORM -eq "x64") { $env:PYTHON = "$env:PYTHON-x64" }
+      $env:PATH = "C:\Python$env:PYTHON\;C:\Python$env:PYTHON\Scripts\;$env:PATH"
 
 before_build:
   - md c:\jet\build
   - cd c:\jet\build
-  - cmake .. -G"Visual Studio 14 2015 Win64"
+  - cmake .. -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%"
 
 build:
   project: c:\jet\build\jet.sln
@@ -26,3 +39,5 @@ build:
 
 after_build:
   - c:\jet\build\bin\Release\unit_tests.exe
+  - pip install --user c:\jet
+  - python c:\jet\src\tests\python_tests\main.py

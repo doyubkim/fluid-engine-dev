@@ -124,7 +124,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, MovingEmitterWithCollider) {
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0.0, 1.0);
     emitter->addStepFunctionTarget(solver->temperature(), 0.0, 1.0);
     emitter->setOnBeginUpdateCallback(
-        [&box] (GridEmitter2*, double t, double dt) {
+        [&box] (double t, double dt) {
             box->bound.lowerCorner.x = 0.1 * std::sin(kPiD * t) + 0.3;
             box->bound.upperCorner.x = 0.1 * std::sin(kPiD * t) + 0.7;
         });

@@ -41,9 +41,9 @@ TEST(GridFluidSolver3, ResizeGridSystemData) {
         Vector3D(4.0, 5.0, 6.0),
         Vector3D(7.0, 8.0, 9.0));
 
-    EXPECT_EQ(1u, solver.gridResolution().x);
-    EXPECT_EQ(2u, solver.gridResolution().y);
-    EXPECT_EQ(3u, solver.gridResolution().z);
+    EXPECT_EQ(1u, solver.resolution().x);
+    EXPECT_EQ(2u, solver.resolution().y);
+    EXPECT_EQ(3u, solver.resolution().z);
     EXPECT_EQ(4.0, solver.gridSpacing().x);
     EXPECT_EQ(5.0, solver.gridSpacing().y);
     EXPECT_EQ(6.0, solver.gridSpacing().z);
@@ -76,8 +76,7 @@ TEST(GridFluidSolver3, GravityOnly) {
         Vector3D());
     solver.velocity()->fill(Vector3D());
 
-    Frame frame(0, 1.0 / 60.0);
-    frame.timeIntervalInSeconds = 0.01;
+    Frame frame(0, 0.01);
     solver.update(frame);
 
     solver.velocity()->forEachUIndex([&](size_t i, size_t j, size_t k) {

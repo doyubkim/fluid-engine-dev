@@ -67,15 +67,11 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
     //!
     void solve(
-        const FaceCenteredGrid3& input,
-        double timeIntervalInSeconds,
+        const FaceCenteredGrid3& input, double timeIntervalInSeconds,
         FaceCenteredGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const VectorField3& boundaryVelocity
-            = ConstantVectorField3({0, 0, 0}),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) override;
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity = ConstantVectorField3({0, 0, 0}),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -86,8 +82,11 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
     //! this particular class, an instance of
     //! GridFractionalBoundaryConditionSolver3 will be returned.
     //!
-    GridBoundaryConditionSolver3Ptr
-        suggestedBoundaryConditionSolver() const override;
+    GridBoundaryConditionSolver3Ptr suggestedBoundaryConditionSolver()
+        const override;
+
+    //! Returns the linear system solver.
+    const FdmLinearSystemSolver3Ptr& linearSystemSolver() const;
 
     //! Sets the linear system solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver3Ptr& solver);
@@ -104,17 +103,15 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
     Array3<float> _fluidSdf;
     std::function<Vector3D(const Vector3D&)> _boundaryVel;
 
-    void buildWeights(
-        const FaceCenteredGrid3& input,
-        const ScalarField3& boundarySdf,
-        const VectorField3& boundaryVelocity,
-        const ScalarField3& fluidSdf);
+    void buildWeights(const FaceCenteredGrid3& input,
+                      const ScalarField3& boundarySdf,
+                      const VectorField3& boundaryVelocity,
+                      const ScalarField3& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid3& input);
 
-    virtual void applyPressureGradient(
-        const FaceCenteredGrid3& input,
-        FaceCenteredGrid3* output);
+    virtual void applyPressureGradient(const FaceCenteredGrid3& input,
+                                       FaceCenteredGrid3* output);
 };
 
 //! Shared pointer type for the GridFractionalSinglePhasePressureSolver3.
