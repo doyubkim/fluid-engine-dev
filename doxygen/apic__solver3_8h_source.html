@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -117,7 +117,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="classjet_1_1_apic_solver3.html#ae0d11472f075675fca372be038fd13d7">ApicSolver3</a>();</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_apic_solver3.html#ae0d11472f075675fca372be038fd13d7">ApicSolver3</a>(</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; resolution,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>,</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>,</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
@@ -154,7 +154,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_apic_solver3_html_acc8fd65465c137c408bc6c0b15ca86a8"><div class="ttname"><a href="classjet_1_1_apic_solver3.html#acc8fd65465c137c408bc6c0b15ca86a8">jet::ApicSolver3::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox ApicSolver3. </div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_apic_solver3_1_1_builder.html">jet::ApicSolver3::Builder</a></div><div class="ttdoc">Front-end to create ApicSolver3 objects step by step. </div><div class="ttdef"><b>Definition:</b> apic_solver3.h:62</div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_html"><div class="ttname"><a href="classjet_1_1_apic_solver3.html">jet::ApicSolver3</a></div><div class="ttdoc">3-D Affine Particle-in-Cell (APIC) implementation </div><div class="ttdef"><b>Definition:</b> apic_solver3.h:23</div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_011_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_011_01_4.html">jet::Array&lt; T, 1 &gt;</a></div><div class="ttdoc">1-D array class. </div><div class="ttdef"><b>Definition:</b> array1.h:31</div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_1_1_builder_html_abe72d1152d95ae1881cecbfa98812c09"><div class="ttname"><a href="classjet_1_1_apic_solver3_1_1_builder.html#abe72d1152d95ae1881cecbfa98812c09">jet::ApicSolver3::Builder::makeShared</a></div><div class="ttdeci">ApicSolver3Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of ApicSolver3 instance. </div></div>
@@ -164,6 +164,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="pic__solver3_8h_html"><div class="ttname"><a href="pic__solver3_8h.html">pic_solver3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_1_1_builder_html_a0312fd3c90f7770295a68bcce9e64a91"><div class="ttname"><a href="classjet_1_1_apic_solver3_1_1_builder.html#a0312fd3c90f7770295a68bcce9e64a91">jet::ApicSolver3::Builder::build</a></div><div class="ttdeci">ApicSolver3 build() const </div><div class="ttdoc">Builds ApicSolver3. </div></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver_builder_base3_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver_builder_base3.html">jet::GridFluidSolverBuilderBase3</a></div><div class="ttdoc">Base class for grid-based fluid solver builder. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver3.h:298</div></div>
+<div class="ttc" id="classjet_1_1_grid_fluid_solver3_html_a4426da4069761b3065027189d9326b46"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">jet::GridFluidSolver3::resolution</a></div><div class="ttdeci">Size3 resolution() const </div><div class="ttdoc">Returns the resolution of the grid system data. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html"><div class="ttname"><a href="classjet_1_1_pic_solver3.html">jet::PicSolver3</a></div><div class="ttdoc">3-D Particle-in-Cell (PIC) implementation. </div><div class="ttdef"><b>Definition:</b> pic_solver3.h:26</div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_html_a026c9bb03d34c25c8d1f18abe8ea8d63"><div class="ttname"><a href="classjet_1_1_apic_solver3.html#a026c9bb03d34c25c8d1f18abe8ea8d63">jet::ApicSolver3::~ApicSolver3</a></div><div class="ttdeci">virtual ~ApicSolver3()</div><div class="ttdoc">Default destructor. </div></div>
 <div class="ttc" id="classjet_1_1_apic_solver3_html_ae0d11472f075675fca372be038fd13d7"><div class="ttname"><a href="classjet_1_1_apic_solver3.html#ae0d11472f075675fca372be038fd13d7">jet::ApicSolver3::ApicSolver3</a></div><div class="ttdeci">ApicSolver3()</div><div class="ttdoc">Default constructor. </div></div>
@@ -178,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

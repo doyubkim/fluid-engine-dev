@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -115,18 +115,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classjet_1_1_upwind_level_set_solver2.html#aa944b171f638fb510053d50e68405b17">UpwindLevelSetSolver2</a>();</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_upwind_level_set_solver2.html#a50d092c87b7669856f4fbef71fd03d4d">getDerivatives</a>(</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html">ConstArrayAccessor2&lt;double&gt;</a> grid,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; gridSpacing,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">size_t</span> i,</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordtype">size_t</span> j,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        std::array&lt;double, 2&gt;* dx,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        std::array&lt;double, 2&gt;* dy) <span class="keyword">const override</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_UPWIND_LEVEL_SET_SOLVER2_H_</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_upwind_level_set_solver2.html#a50d092c87b7669856f4fbef71fd03d4d">getDerivatives</a>(<a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html">ConstArrayAccessor2&lt;double&gt;</a> grid,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; gridSpacing, <span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                        std::array&lt;double, 2&gt;* dx,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                        std::array&lt;double, 2&gt;* dy) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="namespacejet.html#a28094e68e8cf555d1a012ccc9529ed35">   28</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;UpwindLevelSetSolver2&gt; <a class="code" href="namespacejet.html#a28094e68e8cf555d1a012ccc9529ed35">UpwindLevelSetSolver2Ptr</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_UPWIND_LEVEL_SET_SOLVER2_H_</span></div>
 <div class="ttc" id="classjet_1_1_upwind_level_set_solver2_html"><div class="ttname"><a href="classjet_1_1_upwind_level_set_solver2.html">jet::UpwindLevelSetSolver2</a></div><div class="ttdoc">Two-dimensional first-order upwind-based iterative level set solver. </div><div class="ttdef"><b>Definition:</b> upwind_level_set_solver2.h:15</div></div>
 <div class="ttc" id="classjet_1_1_iterative_level_set_solver2_html"><div class="ttname"><a href="classjet_1_1_iterative_level_set_solver2.html">jet::IterativeLevelSetSolver2</a></div><div class="ttdoc">Abstract base class for 2-D PDE-based iterative level set solver. </div><div class="ttdef"><b>Definition:</b> iterative_level_set_solver2.h:25</div></div>
 <div class="ttc" id="classjet_1_1_upwind_level_set_solver2_html_aa944b171f638fb510053d50e68405b17"><div class="ttname"><a href="classjet_1_1_upwind_level_set_solver2.html#aa944b171f638fb510053d50e68405b17">jet::UpwindLevelSetSolver2::UpwindLevelSetSolver2</a></div><div class="ttdeci">UpwindLevelSetSolver2()</div><div class="ttdoc">Default constructor. </div></div>
@@ -134,6 +133,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html">jet::ConstArrayAccessor&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor2.h:261</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
+<div class="ttc" id="namespacejet_html_a28094e68e8cf555d1a012ccc9529ed35"><div class="ttname"><a href="namespacejet.html#a28094e68e8cf555d1a012ccc9529ed35">jet::UpwindLevelSetSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; UpwindLevelSetSolver2 &gt; UpwindLevelSetSolver2Ptr</div><div class="ttdef"><b>Definition:</b> upwind_level_set_solver2.h:28</div></div>
 <div class="ttc" id="iterative__level__set__solver2_8h_html"><div class="ttname"><a href="iterative__level__set__solver2_8h.html">iterative_level_set_solver2.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -144,7 +144,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

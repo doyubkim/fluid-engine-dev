@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -140,7 +140,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="classjet_1_1_matrix_csr_matrix_mul.html#a9755fab97bb1d6371989da95127bd7c8">MatrixCsrMatrixMul</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_matrix_csr.html">MatrixCsr&lt;T&gt;</a>&amp; m1, <span class="keyword">const</span> ME&amp; m2);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> <a class="code" href="classjet_1_1_matrix_csr_matrix_mul.html#a5da89d4219c0d19918bcffbdfd5eaba2">size</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> <a class="code" href="classjet_1_1_matrix_csr_matrix_mul.html#a5da89d4219c0d19918bcffbdfd5eaba2">size</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_matrix_csr_matrix_mul.html#ab4e827c9556062392bf9fe44f6518617">rows</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
@@ -230,7 +230,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_matrix_csr.html#a0087dffcae3cc2c49fe81f1dc0f5cb34">isSquare</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> <a class="code" href="classjet_1_1_matrix_csr.html#a799b6388c52948cbe0cac0b2e9fdfb24">size</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> <a class="code" href="classjet_1_1_matrix_csr.html#a799b6388c52948cbe0cac0b2e9fdfb24">size</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">size_t</span> <a class="code" href="classjet_1_1_matrix_csr.html#af39e979b4830ae0a871065ba1e17cf45">rows</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
@@ -384,7 +384,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;<span class="comment"></span>    <span class="keyword">static</span> <a class="code" href="classjet_1_1_matrix_csr.html">MatrixCsr&lt;T&gt;</a> <a class="code" href="classjet_1_1_matrix_csr.html#a86701b5d93feb63eb9a35653a759d7a8">makeIdentity</a>(<span class="keywordtype">size_t</span> m);</div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> _size;</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> _size;</div>
 <div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    NonZeroContainerType _nonZeros;</div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    IndexContainerType _rowPointers;</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    IndexContainerType _columnIndices;</div>
@@ -469,7 +469,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_matrix_csr_html_a4903c63ba0ba6a76cd9117b275aee3c2"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#a4903c63ba0ba6a76cd9117b275aee3c2">jet::MatrixCsr::min</a></div><div class="ttdeci">T min() const </div><div class="ttdoc">Returns minimum among all elements. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_ad5ca0b0c7b32f497952636028f15e441"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#ad5ca0b0c7b32f497952636028f15e441">jet::MatrixCsr::sub</a></div><div class="ttdeci">MatrixCsr sub(const T &amp;s) const </div><div class="ttdoc">Returns this matrix - input scalar. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_matrix_mul_html_a5da89d4219c0d19918bcffbdfd5eaba2"><div class="ttname"><a href="classjet_1_1_matrix_csr_matrix_mul.html#a5da89d4219c0d19918bcffbdfd5eaba2">jet::MatrixCsrMatrixMul::size</a></div><div class="ttdeci">Size2 size() const </div><div class="ttdoc">Size of the matrix. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_ad6d6ff1ae2ed1d03298fd5cd2f76c0c3"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#ad6d6ff1ae2ed1d03298fd5cd2f76c0c3">jet::MatrixCsr::numberOfNonZeros</a></div><div class="ttdeci">size_t numberOfNonZeros() const </div><div class="ttdoc">Returns the number of non-zero elements. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_a44b92751ca508683d1d519ce47dc4295"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#a44b92751ca508683d1d519ce47dc4295">jet::MatrixCsr::columnIndicesData</a></div><div class="ttdeci">const size_t *const columnIndicesData() const </div><div class="ttdoc">Returns constant pointer of the column indices data. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_a0087dffcae3cc2c49fe81f1dc0f5cb34"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#a0087dffcae3cc2c49fe81f1dc0f5cb34">jet::MatrixCsr::isSquare</a></div><div class="ttdeci">bool isSquare() const </div><div class="ttdoc">Returns true if this matrix is a square matrix. </div></div>
@@ -489,6 +488,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_matrix_expression_html"><div class="ttname"><a href="classjet_1_1_matrix_expression.html">jet::MatrixExpression</a></div><div class="ttdoc">Base class for matrix expression. </div><div class="ttdef"><b>Definition:</b> matrix_expression.h:26</div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_a21221eefbf72f9ebf543707a591d5c66"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#a21221eefbf72f9ebf543707a591d5c66">jet::MatrixCsr::operator-=</a></div><div class="ttdeci">MatrixCsr &amp; operator-=(const T &amp;s)</div><div class="ttdoc">Subtraction assignment with input scalar. </div></div>
 <div class="ttc" id="classjet_1_1_matrix_csr_html_af3e5e1f7424141e069be093d0c8b03ee"><div class="ttname"><a href="classjet_1_1_matrix_csr.html#af3e5e1f7424141e069be093d0c8b03ee">jet::MatrixCsr::columnIndicesBegin</a></div><div class="ttdeci">IndexIterator columnIndicesBegin()</div><div class="ttdoc">Returns the begin iterator of the column indices. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -498,7 +498,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

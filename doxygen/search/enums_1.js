@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logginglevel',['LoggingLevel',['../namespacejet.html#a6364e99bca8f95835aecc31b1154f115',1,'jet']]]
+  ['executionpolicy',['ExecutionPolicy',['../namespacejet.html#a81bac887d68a435dc86d85de78e82032',1,'jet']]]
 ];

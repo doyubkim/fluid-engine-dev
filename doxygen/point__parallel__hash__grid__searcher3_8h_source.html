@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -120,7 +120,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">Builder</a>;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3.html#a147f384b4bce9f18703c4925c8d17c9f">PointParallelHashGridSearcher3</a>(</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; resolution, <span class="keywordtype">double</span> gridSpacing);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; resolution, <span class="keywordtype">double</span> gridSpacing);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3.html#a147f384b4bce9f18703c4925c8d17c9f">PointParallelHashGridSearcher3</a>(</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">size_t</span> resolutionX,</div>
@@ -185,7 +185,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">  234</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">PointParallelHashGridSearcher3::Builder</a> final</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    : <span class="keyword">public</span> <a class="code" href="classjet_1_1_point_neighbor_searcher_builder3.html">PointNeighborSearcherBuilder3</a> {</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html#a90d3bec033e937228fe17da55e799f57">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; resolution);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html#a90d3bec033e937228fe17da55e799f57">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; resolution);</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html#a481fae4a698f66917051e25b409a5388">withGridSpacing</a>(<span class="keywordtype">double</span> gridSpacing);</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
@@ -196,7 +196,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <a class="code" href="namespacejet.html#a7765adfb41f969622b2817966fb57c32">PointNeighborSearcher3Ptr</a> <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html#a76035800f261264332c0e72123f39346">buildPointNeighborSearcher</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> _resolution{64, 64, 64};</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <a class="code" href="classjet_1_1_size3.html">Size3</a> _resolution{64, 64, 64};</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordtype">double</span> _gridSpacing = 1.0;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;};</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
@@ -216,6 +216,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_point_parallel_hash_grid_searcher3_html_af4c424af57941aedf3484bf48524b621"><div class="ttname"><a href="classjet_1_1_point_parallel_hash_grid_searcher3.html#af4c424af57941aedf3484bf48524b621">jet::PointParallelHashGridSearcher3::build</a></div><div class="ttdeci">void build(const ConstArrayAccessor1&lt; Vector3D &gt; &amp;points) override</div><div class="ttdoc">Builds internal acceleration structure for given points list. </div></div>
 <div class="ttc" id="point__neighbor__searcher3_8h_html_a9649db3253eee9a4cb0e9c97faf7de75"><div class="ttname"><a href="point__neighbor__searcher3_8h.html#a9649db3253eee9a4cb0e9c97faf7de75">JET_NEIGHBOR_SEARCHER3_TYPE_NAME</a></div><div class="ttdeci">#define JET_NEIGHBOR_SEARCHER3_TYPE_NAME(DerivedClassName)</div><div class="ttdef"><b>Definition:</b> point_neighbor_searcher3.h:95</div></div>
 <div class="ttc" id="classjet_1_1_point_parallel_hash_grid_searcher3_html_a74f1f4b9cee435b35d343be22bb13a27"><div class="ttname"><a href="classjet_1_1_point_parallel_hash_grid_searcher3.html#a74f1f4b9cee435b35d343be22bb13a27">jet::PointParallelHashGridSearcher3::operator=</a></div><div class="ttdeci">PointParallelHashGridSearcher3 &amp; operator=(const PointParallelHashGridSearcher3 &amp;other)</div><div class="ttdoc">Assignment operator. </div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder_html_a90d3bec033e937228fe17da55e799f57"><div class="ttname"><a href="classjet_1_1_point_parallel_hash_grid_searcher3_1_1_builder.html#a90d3bec033e937228fe17da55e799f57">jet::PointParallelHashGridSearcher3::Builder::withResolution</a></div><div class="ttdeci">Builder &amp; withResolution(const Size3 &amp;resolution)</div><div class="ttdoc">Returns builder with resolution. </div></div>
 <div class="ttc" id="classjet_1_1_point_parallel_hash_grid_searcher3_html_a3f366da4fb654dca47d9a8a42c161801"><div class="ttname"><a href="classjet_1_1_point_parallel_hash_grid_searcher3.html#a3f366da4fb654dca47d9a8a42c161801">jet::PointParallelHashGridSearcher3::startIndexTable</a></div><div class="ttdeci">const std::vector&lt; size_t &gt; &amp; startIndexTable() const </div><div class="ttdoc">Returns the start index table. </div></div>
 <div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
@@ -249,7 +250,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

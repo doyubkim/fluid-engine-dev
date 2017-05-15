@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -130,14 +130,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;         <span class="keywordtype">double</span> initialValue = 0.0);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html#a7354d9949006e2aeb643f3c62b21f88d">VertexCenteredScalarGrid2</a>(</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>,</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0eec133335fb4b3b75c2d3add4fd74c2">gridSpacing</a> = <a class="code" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>(1.0, 1.0),</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">origin</a> = <a class="code" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>(),</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">double</span> initialValue = 0.0);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html#a7354d9949006e2aeb643f3c62b21f88d">VertexCenteredScalarGrid2</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html">VertexCenteredScalarGrid2</a>&amp; other);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html#a88557d665af3add05f381ebbe1e10959">dataSize</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html#a88557d665af3add05f381ebbe1e10959">dataSize</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2.html#a38521773bfb2079ec571f009f8338203">dataOrigin</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
@@ -158,7 +158,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
 <div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html">   92</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html">VertexCenteredScalarGrid2::Builder</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_scalar_grid_builder2.html">ScalarGridBuilder2</a> {</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html#a5b6b7cca4679695ec2664762bbb90184">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html#a5b6b7cca4679695ec2664762bbb90184">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>);</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html#a5b6b7cca4679695ec2664762bbb90184">withResolution</a>(<span class="keywordtype">size_t</span> resolutionX, <span class="keywordtype">size_t</span> resolutionY);</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
@@ -177,13 +177,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    VertexCenteredScalarGrid2Ptr <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html#aea192ca3c3282e0321e928a5f45103b0">makeShared</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <a class="code" href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">ScalarGrid2Ptr</a> <a class="code" href="classjet_1_1_vertex_centered_scalar_grid2_1_1_builder.html#a08d9257cd8dc910d029f967a4cb8c85d">build</a>(</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; resolution,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; resolution,</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; gridSpacing,</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; gridOrigin,</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordtype">double</span> initialVal) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> _resolution{1, 1};</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> _resolution{1, 1};</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _gridSpacing{1, 1};</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _gridOrigin{0, 0};</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">double</span> _initialVal = 0.0;</div>
@@ -212,17 +212,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html">jet::VertexCenteredScalarGrid2</a></div><div class="ttdoc">2-D Vertex-centered scalar grid structure. </div><div class="ttdef"><b>Definition:</b> vertex_centered_scalar_grid2.h:24</div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_ae1c10c0193cc70371b57a2cd11deda1c"><div class="ttname"><a href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">jet::Grid2::origin</a></div><div class="ttdeci">const Vector2D &amp; origin() const </div><div class="ttdoc">Returns the grid origin. </div></div>
-<div class="ttc" id="classjet_1_1_grid2_html"><div class="ttname"><a href="classjet_1_1_grid2.html">jet::Grid2</a></div><div class="ttdoc">Abstract base class for 2-D cartesian grid structure. </div><div class="ttdef"><b>Definition:</b> grid2.h:28</div></div>
+<div class="ttc" id="classjet_1_1_grid2_html"><div class="ttname"><a href="classjet_1_1_grid2.html">jet::Grid2</a></div><div class="ttdoc">Abstract base class for 2-D cartesian grid structure. </div><div class="ttdef"><b>Definition:</b> grid2.h:30</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html_a38521773bfb2079ec571f009f8338203"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html#a38521773bfb2079ec571f009f8338203">jet::VertexCenteredScalarGrid2::dataOrigin</a></div><div class="ttdeci">Vector2D dataOrigin() const  override</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html_a7354d9949006e2aeb643f3c62b21f88d"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html#a7354d9949006e2aeb643f3c62b21f88d">jet::VertexCenteredScalarGrid2::VertexCenteredScalarGrid2</a></div><div class="ttdeci">VertexCenteredScalarGrid2()</div><div class="ttdoc">Constructs zero-sized grid. </div></div>
-<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:186</div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
+<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:188</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html_a88557d665af3add05f381ebbe1e10959"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html#a88557d665af3add05f381ebbe1e10959">jet::VertexCenteredScalarGrid2::dataSize</a></div><div class="ttdeci">Size2 dataSize() const  override</div><div class="ttdoc">Returns the actual data point size. </div></div>
-<div class="ttc" id="classjet_1_1_scalar_grid_builder2_html"><div class="ttname"><a href="classjet_1_1_scalar_grid_builder2.html">jet::ScalarGridBuilder2</a></div><div class="ttdoc">Abstract base class for 2-D scalar grid builder. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:189</div></div>
+<div class="ttc" id="classjet_1_1_scalar_grid_builder2_html"><div class="ttname"><a href="classjet_1_1_scalar_grid_builder2.html">jet::ScalarGridBuilder2</a></div><div class="ttdoc">Abstract base class for 2-D scalar grid builder. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:191</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html_a58c276f0c61275ab5d39a86f2aff7827"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html#a58c276f0c61275ab5d39a86f2aff7827">jet::VertexCenteredScalarGrid2::set</a></div><div class="ttdeci">void set(const VertexCenteredScalarGrid2 &amp;other)</div><div class="ttdoc">Sets the contents with the given other grid. </div></div>
-<div class="ttc" id="grid2_8h_html_a285d58e148a726432742857b1c4df48a"><div class="ttname"><a href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">JET_GRID2_TYPE_NAME</a></div><div class="ttdeci">#define JET_GRID2_TYPE_NAME(DerivedClassName)</div><div class="ttdef"><b>Definition:</b> grid2.h:111</div></div>
+<div class="ttc" id="grid2_8h_html_a285d58e148a726432742857b1c4df48a"><div class="ttname"><a href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">JET_GRID2_TYPE_NAME</a></div><div class="ttdeci">#define JET_GRID2_TYPE_NAME(DerivedClassName)</div><div class="ttdef"><b>Definition:</b> grid2.h:113</div></div>
 <div class="ttc" id="classjet_1_1_vertex_centered_scalar_grid2_html_ad6b360a097f75af53c108c1b799b0705"><div class="ttname"><a href="classjet_1_1_vertex_centered_scalar_grid2.html#ad6b360a097f75af53c108c1b799b0705">jet::VertexCenteredScalarGrid2::clone</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; clone() const  override</div><div class="ttdoc">Returns the copy of the grid instance. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -232,7 +232,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

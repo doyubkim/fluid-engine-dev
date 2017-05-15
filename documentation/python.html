@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tutorial 3 - Using Python API</title>
+  <meta name="description" content="Introduction">
+
+  <link rel="stylesheet" href="/fluid-engine-dev/assets/main.css">
+  <link rel="canonical" href="http://doyubkim.github.io/fluid-engine-dev/documentation/python.html">
+  <link rel="alternate" type="application/rss+xml" title="Fluid Engine Development" href="/fluid-engine-dev/feed.xml">
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+  <body>
+
+    <header class="site-header" role="banner">
+
+  <div class="wrapper">
+
+    <a class="site-title" href="/fluid-engine-dev/">Fluid Engine Development</a>
+
+    <nav class="site-nav">
+      <span class="menu-icon" onclick = "void(0)">
+        <svg viewBox="0 0 18 15" width="18px" height="15px">
+          <rect y="0.7" width="18" height="1.5"/>
+          <rect y="6.8" width="18" height="1.5"/>
+          <rect y="12.8" width="18" height="1.5"/>
+        </svg>
+      </span>
+
+      <div class="trigger" onclick = "void(0)">
+        
+          
+          <a class="page-link" href="/fluid-engine-dev/documentation/">Documentation</a>
+          
+        
+          
+          <a class="page-link" href="/fluid-engine-dev/code/">Code</a>
+          
+        
+          
+          <a class="page-link" href="/fluid-engine-dev/examples/">Examples</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Tutorial 3 - Using Python API</h1>
+  </header>
+
+  <div class="post-content">
+    <div class="documentation">
+  <div class="blog-post spacing">
+    <hr />
+    <ul>
+      <li>
+        <a href="/fluid-engine-dev/documentation/build.html">
+          
+          Build Instruction
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/hello.html">
+          
+          Tutorial 1 - Hello, Jet!
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/mesh.html">
+          
+          Tutorial 2 - Using Mesh and Surface Set
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/python.html">
+          <strong>
+          Tutorial 3 - Using Python API
+          </strong>
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/manual_tests.html">
+          
+          Manual (Feature) Tests
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/unit_tests.html">
+          
+          Unit Tests
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/perf_tests.html">
+          
+          Performance Tests
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/documentation/supported_plat.html">
+          
+          Supported Platforms
+          
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/doxygen/">
+          C++ API Reference
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/pdoc/">
+          Python API Reference
+        </a>
+      </li>
+    </ul>
+    <hr />
+    <h2 id="introduction">Introduction</h2>
+
+<p>Jet framework also comes with Python API which covers most of the high-level C++ API. In this tutorial, we will see how to use the Python API to create a smoke simulation. Once completed, the result will look like this:</p>
+
+<p><img src="/fluid-engine-dev/assets/images/documentation/python/smoke.gif" alt="PySmoke" title="PySmoke" /></p>
+
+<h2 id="initial-setup">Initial Setup</h2>
+
+<p>After installing the framework using <code class="highlighter-rouge">pip</code> (see <a href="/fluid-engine-dev/documentation/build.html">Build Instruction</a>), we can import the module by simply writing:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pyjet</span>
+</code></pre>
+</div>
+
+<p>For the demo purpose, we will just import everything by <code class="highlighter-rouge">from pyjet import *</code>. We also want to import a couple of more modules to visualize the simulation, so our skeleton code with full import block is going to be:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyjet</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.animation</span> <span class="kn">as</span> <span class="nn">animation</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># More codes here</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">Logging</span><span class="o">.</span><span class="n">mute</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>Note that for the sake of the demo, we are muting the logger.</p>
+</blockquote>
+
+<h2 id="writing-simulation">Writing Simulation</h2>
+
+<p>Creating a simulation is very similar to the code using C++ API. For example, to build a 2-D smoke simulator,</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="n">resX</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">GridSmokeSolver2</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="p">(</span><span class="n">resX</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">resX</span><span class="p">),</span> <span class="n">domainSizeX</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<p>This will build a solver with 100 x 200 resolution grid with 1m x 2m domain.</p>
+
+<p>In this particular example, we want to make the simulation to run at interactive frame rate. In most cases, the linear system solver for the pressure calculation is the bottleneck of the performance. So, let’s try to swap the solver with less accurate, but much faster solver.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Customize pressure solver</span>
+    <span class="n">pressureSolver</span> <span class="o">=</span> <span class="n">GridFractionalSinglePhasePressureSolver2</span><span class="p">()</span>
+    <span class="n">pressureSolver</span><span class="o">.</span><span class="n">linearSystemSolver</span> <span class="o">=</span> <span class="n">FdmGaussSeidelSolver2</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">pressureSolver</span> <span class="o">=</span> <span class="n">pressureSolver</span>
+
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<p>We are using <code class="highlighter-rouge">GridFractionalSinglePhasePressureSolver2</code> for the pressure solver which is the same as the default setting. We are only customizing the <code class="highlighter-rouge">linearSystemSolver</code> by using <code class="highlighter-rouge">FdmGaussSeidelSolver2</code> instead of <code class="highlighter-rouge">FdmIccgSolver2</code> which is the default configuration.</p>
+
+<p>To create an emitter, we follow nearly the same routine as we did from the C++ world which is:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Customize pressure solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Setup emitter</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">Sphere2</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="n">emitter</span> <span class="o">=</span> <span class="n">VolumeGridEmitter2</span><span class="p">(</span><span class="n">sourceRegion</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">emitter</span> <span class="o">=</span> <span class="n">emitter</span>
+    <span class="n">emitter</span><span class="o">.</span><span class="n">addStepFunctionTarget</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">emitter</span><span class="o">.</span><span class="n">addStepFunctionTarget</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<p>From the code above, we are creating a spherical volume emitter at (0.5m, 0.5m) with the radius of 0.15m. We then connect that emitter to smoke density and temperature.</p>
+
+<h2 id="running-simulation">Running Simulation</h2>
+
+<p>Once the simulation is set up, we can run the sim by simply looping over the frames such as:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
+
+<span class="n">ANIM_NUM_FRAMES</span> <span class="o">=</span> <span class="mi">360</span>
+<span class="n">ANIM_FPS</span> <span class="o">=</span> <span class="mi">60</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Customize pressure solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Setup emitter</span>
+    <span class="o">...</span>
+
+    <span class="c"># Run the sim</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ANIM_FPS</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">frame</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">ANIM_NUM_FRAMES</span><span class="p">:</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<p>Quite simple, isn’t it? But without any visualization, it seems a bit boring. So let’s modify the code as shown below:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Customize pressure solver</span>
+    <span class="o">...</span>
+
+    <span class="c"># Setup emitter</span>
+    <span class="o">...</span>
+
+    <span class="c"># Animation</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ANIM_FPS</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">updatefig</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="o">.</span><span class="n">dataAccessor</span><span class="p">(),</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">im</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">den</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">im</span><span class="p">,</span>
+
+    <span class="c"># Visualization</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="o">.</span><span class="n">dataAccessor</span><span class="p">(),</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">den</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span>
+                    <span class="n">interpolation</span><span class="o">=</span><span class="s">'bicubic'</span><span class="p">,</span> <span class="n">animated</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">'lower'</span><span class="p">)</span>
+    <span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">updatefig</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="n">ANIM_NUM_FRAMES</span><span class="p">,</span>
+                                       <span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<p>For the most of the parts, <code class="highlighter-rouge">matplotlib</code> doing its magic. But please take a look at the line:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="o">.</span><span class="n">dataAccessor</span><span class="p">(),</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This line shows how to convert internal data from Jet to NumPy.</p>
+
+<h3 id="putting-all-together">Putting All Together</h3>
+
+<p>Below is the code that puts everything together into a single program.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyjet</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.animation</span> <span class="kn">as</span> <span class="nn">animation</span>
+
+<span class="n">ANIM_NUM_FRAMES</span> <span class="o">=</span> <span class="mi">360</span>
+<span class="n">ANIM_FPS</span> <span class="o">=</span> <span class="mi">60</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c"># Create smoke solver</span>
+    <span class="n">resX</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">GridSmokeSolver2</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="p">(</span><span class="n">resX</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">resX</span><span class="p">),</span> <span class="n">domainSizeX</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Customize pressure solver for real-time sim (less accurate, but much faster)</span>
+    <span class="n">pressureSolver</span> <span class="o">=</span> <span class="n">GridFractionalSinglePhasePressureSolver2</span><span class="p">()</span>
+    <span class="n">pressureSolver</span><span class="o">.</span><span class="n">linearSystemSolver</span> <span class="o">=</span> <span class="n">FdmGaussSeidelSolver2</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">pressureSolver</span> <span class="o">=</span> <span class="n">pressureSolver</span>
+
+    <span class="c"># Setup emitter</span>
+    <span class="n">sphere</span> <span class="o">=</span> <span class="n">Sphere2</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="n">emitter</span> <span class="o">=</span> <span class="n">VolumeGridEmitter2</span><span class="p">(</span><span class="n">sourceRegion</span><span class="o">=</span><span class="n">sphere</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">emitter</span> <span class="o">=</span> <span class="n">emitter</span>
+    <span class="n">emitter</span><span class="o">.</span><span class="n">addStepFunctionTarget</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">emitter</span><span class="o">.</span><span class="n">addStepFunctionTarget</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">temperature</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="c"># Visualization</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="o">.</span><span class="n">dataAccessor</span><span class="p">(),</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">den</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span>
+                    <span class="n">interpolation</span><span class="o">=</span><span class="s">'bicubic'</span><span class="p">,</span> <span class="n">animated</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s">'lower'</span><span class="p">)</span>
+
+    <span class="c"># Animation</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">ANIM_FPS</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">updatefig</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smokeDensity</span><span class="o">.</span><span class="n">dataAccessor</span><span class="p">(),</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">im</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">den</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">im</span><span class="p">,</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">format</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="o">==</span> <span class="s">'gif'</span><span class="p">:</span>
+            <span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">updatefig</span><span class="p">,</span>
+                                           <span class="n">frames</span><span class="o">=</span><span class="n">ANIM_NUM_FRAMES</span><span class="p">,</span>
+                                           <span class="n">interval</span><span class="o">=</span><span class="n">ANIM_FPS</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'smoke_example01.gif'</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">ANIM_FPS</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span>
+                      <span class="n">writer</span><span class="o">=</span><span class="s">'imagemagick'</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">format</span> <span class="o">==</span> <span class="s">'mp4'</span><span class="p">:</span>
+            <span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">updatefig</span><span class="p">,</span>
+                                           <span class="n">frames</span><span class="o">=</span><span class="n">ANIM_NUM_FRAMES</span><span class="p">,</span>
+                                           <span class="n">interval</span><span class="o">=</span><span class="n">ANIM_FPS</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">anim</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'smoke_example01.mp4'</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">ANIM_FPS</span><span class="p">,</span> <span class="n">writer</span><span class="o">=</span><span class="s">'ffmpeg'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">anim</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">updatefig</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="n">ANIM_NUM_FRAMES</span><span class="p">,</span>
+                                       <span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">blit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">Logging</span><span class="o">.</span><span class="n">mute</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<p>For the complete API reference, please visit <a href="/fluid-engine-dev/pdoc/">Python API Reference</a>.</p>
+
+  </div>
+</div>
+
+  </div>
+
+</article>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Fluid Engine Development</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>
+            
+              Doyub Kim
+            
+            </li>
+            
+            <li><a href="mailto:doyubkim@gmail.com">doyubkim@gmail.com</a></li>
+            
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/doyubkim"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">doyubkim</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/doyub"><span class="icon icon--twitter"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">doyub</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>This site is for the book, &quot;Fluid Engine Development&quot;, and its source code.
+</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

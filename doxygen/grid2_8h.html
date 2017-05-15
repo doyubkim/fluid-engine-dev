@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -96,18 +96,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">grid2.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="size2_8h_source.html">jet/size2.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="bounding__box2_8h_source.html">jet/bounding_box2.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="bounding__box2_8h_source.html">jet/bounding_box2.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="serialization_8h_source.html">jet/serialization.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="size2_8h_source.html">jet/size2.h</a>&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
 </div>
 <p><a href="grid2_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -124,8 +126,13 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a285d58e148a726432742857b1c4df48a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">JET_GRID2_TYPE_NAME</a>(DerivedClassName)</td></tr>
+<tr class="memitem:a285d58e148a726432742857b1c4df48a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">JET_GRID2_TYPE_NAME</a>(DerivedClassName)&#160;&#160;&#160;std::string typeName() const override { return #DerivedClassName; }</td></tr>
 <tr class="separator:a285d58e148a726432742857b1c4df48a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a7e2c5c0be227ec0458b0baff6c4faa39"><td class="memItemLeft" align="right" valign="top">typedef std::shared_ptr&lt; Grid2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a7e2c5c0be227ec0458b0baff6c4faa39">jet::Grid2Ptr</a></td></tr>
+<tr class="separator:a7e2c5c0be227ec0458b0baff6c4faa39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="a285d58e148a726432742857b1c4df48a"></a>
@@ -137,14 +144,11 @@ Macros</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">DerivedClassName</td><td>)</td>
-          <td></td>
+          <td>&#160;&#160;&#160;std::string typeName() const override { return #DerivedClassName; }</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::string typeName()<span class="keyword"> const override </span>{ \</div>
-<div class="line">        return #DerivedClassName; \</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 </div><!-- contents -->
@@ -156,7 +160,7 @@ Macros</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

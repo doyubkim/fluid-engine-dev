@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -121,8 +121,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html#a64c03757f04720ad670a1b7696d8ac89">divergence</a>(const Vector2D &amp;x) const  override</td><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html#ab3bff962bbf6b8446a3deae31fd9483a">divergenceAtDataPoint</a>(size_t i, size_t j) const </td><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_field2.html#a247828c5d03bc6655e6ba77dc9eb11fa">Field2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field2.html">jet::Field2</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a381579230e07c6f2d43ae275bfc5f818">fill</a>(const Vector2D &amp;value) override</td><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html">jet::VertexCenteredVectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a7a321598db78d7eee91c463b838ba45e">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func) override</td><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html">jet::VertexCenteredVectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a74bce692a4dd063febbcafcc3bb0a13a">fill</a>(const Vector2D &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html">jet::VertexCenteredVectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html#a6ee47ad4ee29eca0f28cbb3bc7f20e03">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_vector_grid2.html">jet::VertexCenteredVectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_grid2.html#ab9981f28339c685b56b89cda84c8045c">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid2.html">jet::Grid2</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html#a8e737c4096167860108390e21850dfa2">forEachDataPointIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html#a1a08d0ff2169ecea115d3dfcfabacce5">getData</a>(std::vector&lt; double &gt; *data) const  override</td><td class="entry"><a class="el" href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">virtual</span></td></tr>
@@ -173,7 +173,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:29 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:16 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

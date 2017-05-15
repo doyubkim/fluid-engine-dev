@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -120,8 +120,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a80640ee676d56fa4fea63a67327e606c">FaceCenteredGrid3</a>(const Size3 &amp;resolution, const Vector3D &amp;gridSpacing=Vector3D(1.0, 1.0, 1.0), const Vector3D &amp;origin=Vector3D(), const Vector3D &amp;initialValue=Vector3D())</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#acc257b6e551c9d09c63f9857532b395a">FaceCenteredGrid3</a>(const FaceCenteredGrid3 &amp;other)</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">Field3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field3.html">jet::Field3</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a75c2fd46086333e39af94a9712ac4487">fill</a>(const Vector3D &amp;value) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a182a91c7e48bb8171bb5992cd2c75551">fill</a>(const std::function&lt; Vector3D(const Vector3D &amp;)&gt; &amp;func) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a1c881ed8029346449fec4d9501408c0e">fill</a>(const Vector3D &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a7cabaa472f329b54995c32ed439d7a66">fill</a>(const std::function&lt; Vector3D(const Vector3D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid3.html#a7d3aa042635474690a47591dd83e9534">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a1f6049155db25bfbbd4e090500203de0">forEachUIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html#a73289a238b6d520b279a5d8ee28f2292">forEachVIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid3.html">jet::FaceCenteredGrid3</a></td><td class="entry"></td></tr>
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

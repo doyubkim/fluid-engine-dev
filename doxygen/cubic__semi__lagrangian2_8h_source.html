@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -115,22 +115,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#a6ddb5af2cfbf081659c6424c66c9670c">CubicSemiLagrangian2</a>();</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#a3a4fade12830ff264b449af3874eaa11">getScalarSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::function&lt;double(const Vector2D&amp;)&gt; <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#a3a4fade12830ff264b449af3874eaa11">getScalarSamplerFunc</a>(</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_grid2.html">ScalarGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#acc11fc7cbec048cfeca695bb802048b9">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt; <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#acc11fc7cbec048cfeca695bb802048b9">getVectorSamplerFunc</a>(</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_collocated_vector_grid2.html">CollocatedVectorGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#acc11fc7cbec048cfeca695bb802048b9">getVectorSamplerFunc</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::function&lt;Vector2D(const Vector2D&amp;)&gt; <a class="code" href="classjet_1_1_cubic_semi_lagrangian2.html#acc11fc7cbec048cfeca695bb802048b9">getVectorSamplerFunc</a>(</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_face_centered_grid2.html">FaceCenteredGrid2</a>&amp; source) <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="namespacejet.html#ae984c354d7c865af5b2d3078e79bcb9d">   52</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;CubicSemiLagrangian2&gt; <a class="code" href="namespacejet.html#ae984c354d7c865af5b2d3078e79bcb9d">CubicSemiLagrangian2Ptr</a>;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN2_H_</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_CUBIC_SEMI_LAGRANGIAN2_H_</span></div>
 <div class="ttc" id="semi__lagrangian2_8h_html"><div class="ttname"><a href="semi__lagrangian2_8h.html">semi_lagrangian2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_scalar_grid2_html"><div class="ttname"><a href="classjet_1_1_scalar_grid2.html">jet::ScalarGrid2</a></div><div class="ttdoc">Abstract base class for 2-D scalar grid structure. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:21</div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid2_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid2.html">jet::CollocatedVectorGrid2</a></div><div class="ttdoc">Abstract base class for 2-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid2.h:18</div></div>
+<div class="ttc" id="namespacejet_html_ae984c354d7c865af5b2d3078e79bcb9d"><div class="ttname"><a href="namespacejet.html#ae984c354d7c865af5b2d3078e79bcb9d">jet::CubicSemiLagrangian2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; CubicSemiLagrangian2 &gt; CubicSemiLagrangian2Ptr</div><div class="ttdef"><b>Definition:</b> cubic_semi_lagrangian2.h:52</div></div>
 <div class="ttc" id="classjet_1_1_cubic_semi_lagrangian2_html_a3a4fade12830ff264b449af3874eaa11"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian2.html#a3a4fade12830ff264b449af3874eaa11">jet::CubicSemiLagrangian2::getScalarSamplerFunc</a></div><div class="ttdeci">std::function&lt; double(const Vector2D &amp;)&gt; getScalarSamplerFunc(const ScalarGrid2 &amp;source) const  override</div><div class="ttdoc">Returns spatial interpolation function object for given scalar grid. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_cubic_semi_lagrangian2_html_a6ddb5af2cfbf081659c6424c66c9670c"><div class="ttname"><a href="classjet_1_1_cubic_semi_lagrangian2.html#a6ddb5af2cfbf081659c6424c66c9670c">jet::CubicSemiLagrangian2::CubicSemiLagrangian2</a></div><div class="ttdeci">CubicSemiLagrangian2()</div></div>
@@ -147,7 +150,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

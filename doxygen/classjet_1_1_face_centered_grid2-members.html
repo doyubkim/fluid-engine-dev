@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -120,8 +120,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#a68b7d27db51cc41cc4a58f0592637ab7">FaceCenteredGrid2</a>(const Size2 &amp;resolution, const Vector2D &amp;gridSpacing=Vector2D(1.0, 1.0), const Vector2D &amp;origin=Vector2D(), const Vector2D &amp;initialValue=Vector2D())</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#aa08d93ea1ebfc2f3f90477d000af5600">FaceCenteredGrid2</a>(const FaceCenteredGrid2 &amp;other)</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_field2.html#a247828c5d03bc6655e6ba77dc9eb11fa">Field2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field2.html">jet::Field2</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#aa90d65f76b669bab870ba797f21fd82e">fill</a>(const Vector2D &amp;value) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#ac773b5a4709b1b89718be3ba666828ff">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#a0e04f4abb8da9f56ddf94db2b2f607ab">fill</a>(const Vector2D &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#aca268d89f6b35f32c55e53498e9014a6">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel) override</td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid2.html#ab9981f28339c685b56b89cda84c8045c">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid2.html">jet::Grid2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#a6c4236138e5379988a66af720422b547">forEachUIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html#a09aaa941b175d5c094f90fdcb1f059b7">forEachVIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></td><td class="entry"></td></tr>
@@ -182,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

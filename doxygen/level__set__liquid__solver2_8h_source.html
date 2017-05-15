@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -118,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_level_set_liquid_solver2.html#a504fff946396f654feda3aad58092e02">LevelSetLiquidSolver2</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_level_set_liquid_solver2.html#a504fff946396f654feda3aad58092e02">LevelSetLiquidSolver2</a>(</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; resolution,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#ad7fdf30e2f75060e8c5751a4fc1a06d2">resolution</a>,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#a9286bdd3cadcdd0f28c1c818fdc8e5e4">gridSpacing</a>,</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#a74b766aa449db6d76341d89984e0efff">gridOrigin</a>);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
@@ -181,6 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_ab5da3b52c7f10cd5fe09660fdf5cb969"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#ab5da3b52c7f10cd5fe09660fdf5cb969">jet::LevelSetLiquidSolver2::computeAdvection</a></div><div class="ttdeci">void computeAdvection(double timeIntervalInSeconds) override</div><div class="ttdoc">Customizes advection step. </div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_a9d383488cb81d3b494613c2a13130dee"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#a9d383488cb81d3b494613c2a13130dee">jet::LevelSetLiquidSolver2::~LevelSetLiquidSolver2</a></div><div class="ttdeci">virtual ~LevelSetLiquidSolver2()</div><div class="ttdoc">Destructor. </div></div>
 <div class="ttc" id="namespacejet_html_a3e4269df66ddd00dca703f33078f8aec"><div class="ttname"><a href="namespacejet.html#a3e4269df66ddd00dca703f33078f8aec">jet::LevelSetSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; LevelSetSolver2 &gt; LevelSetSolver2Ptr</div><div class="ttdoc">Shared pointer type for the LevelSetSolver2. </div><div class="ttdef"><b>Definition:</b> level_set_solver2.h:84</div></div>
+<div class="ttc" id="classjet_1_1_grid_fluid_solver2_html_ad7fdf30e2f75060e8c5751a4fc1a06d2"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver2.html#ad7fdf30e2f75060e8c5751a4fc1a06d2">jet::GridFluidSolver2::resolution</a></div><div class="ttdeci">Size2 resolution() const </div><div class="ttdoc">Returns the resolution of the grid system data. </div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html">jet::LevelSetLiquidSolver2</a></div><div class="ttdoc">Level set based 2-D liquid solver. </div><div class="ttdef"><b>Definition:</b> level_set_liquid_solver2.h:26</div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_aa309a0d19bd29570d82c97406c502238"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#aa309a0d19bd29570d82c97406c502238">jet::LevelSetLiquidSolver2::onBeginAdvanceTimeStep</a></div><div class="ttdeci">void onBeginAdvanceTimeStep(double timeIntervalInSeconds) override</div><div class="ttdoc">Called at the beginning of the time-step. </div></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver_builder_base2_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver_builder_base2.html">jet::GridFluidSolverBuilderBase2</a></div><div class="ttdoc">Base class for grid-based fluid solver builder. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver2.h:298</div></div>
@@ -195,8 +196,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_grid_fluid_solver2_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver2.html">jet::GridFluidSolver2</a></div><div class="ttdoc">Abstract base class for grid-based 2-D fluid solver. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver2.h:34</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="grid__fluid__solver2_8h_html"><div class="ttname"><a href="grid__fluid__solver2_8h.html">grid_fluid_solver2.h</a></div></div>
-<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:186</div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
+<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:188</div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_adbac906f894d30a61ef6703ef6ac9fe9"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#adbac906f894d30a61ef6703ef6ac9fe9">jet::LevelSetLiquidSolver2::setMinReinitializeDistance</a></div><div class="ttdeci">void setMinReinitializeDistance(double distance)</div><div class="ttdoc">Sets minimum reinitialization distance. </div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_1_1_builder_html_a26c1c782893e71b98a92d7868d856adc"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2_1_1_builder.html#a26c1c782893e71b98a92d7868d856adc">jet::LevelSetLiquidSolver2::Builder::makeShared</a></div><div class="ttdeci">LevelSetLiquidSolver2Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of LevelSetLiquidSolver2 instance. </div></div>
 <div class="ttc" id="namespacejet_html_abd6ba99222e55fecc167706533a7861a"><div class="ttname"><a href="namespacejet.html#abd6ba99222e55fecc167706533a7861a">jet::LevelSetLiquidSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; LevelSetLiquidSolver2 &gt; LevelSetLiquidSolver2Ptr</div><div class="ttdoc">Shared pointer type for the LevelSetLiquidSolver2. </div><div class="ttdef"><b>Definition:</b> level_set_liquid_solver2.h:114</div></div>
@@ -204,6 +204,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_af2963eece4d757cbed6a13858828984a"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#af2963eece4d757cbed6a13858828984a">jet::LevelSetLiquidSolver2::computeVolume</a></div><div class="ttdeci">double computeVolume() const </div><div class="ttdoc">Returns liquid volume measured by smeared Heaviside function. </div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_a1f81d492cb8fadacd0aed7dec84287bd"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#a1f81d492cb8fadacd0aed7dec84287bd">jet::LevelSetLiquidSolver2::levelSetSolver</a></div><div class="ttdeci">LevelSetSolver2Ptr levelSetSolver() const </div><div class="ttdoc">Returns the level set solver. </div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_a399b14b15045d2e395580c54371e974b"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#a399b14b15045d2e395580c54371e974b">jet::LevelSetLiquidSolver2::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox LevelSetLiquidSolver2. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 <div class="ttc" id="classjet_1_1_level_set_liquid_solver2_html_a04ac4e61a87fc8651d6e5c9a8fd96c63"><div class="ttname"><a href="classjet_1_1_level_set_liquid_solver2.html#a04ac4e61a87fc8651d6e5c9a8fd96c63">jet::LevelSetLiquidSolver2::fluidSdf</a></div><div class="ttdeci">ScalarField2Ptr fluidSdf() const  override</div><div class="ttdoc">Returns fluid region as a signed-distance field. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -214,7 +215,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

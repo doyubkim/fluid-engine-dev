@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -119,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_pic_solver2.html#a9b7f102096ccabf12c4921d4769aabb6">PicSolver2</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_pic_solver2.html#a9b7f102096ccabf12c4921d4769aabb6">PicSolver2</a>(</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; resolution,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#ad7fdf30e2f75060e8c5751a4fc1a06d2">resolution</a>,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#a9286bdd3cadcdd0f28c1c818fdc8e5e4">gridSpacing</a>,</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver2.html#a74b766aa449db6d76341d89984e0efff">gridOrigin</a>);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
@@ -188,6 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_pic_solver2_html_a5d17a75253428931fb9b36d120e82de6"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#a5d17a75253428931fb9b36d120e82de6">jet::PicSolver2::fluidSdf</a></div><div class="ttdeci">ScalarField2Ptr fluidSdf() const  override</div><div class="ttdoc">Returns the signed-distance field of the fluid. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_ae945bf00a2604be605f69df07f697c5d"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#ae945bf00a2604be605f69df07f697c5d">jet::PicSolver2::particleSystemData</a></div><div class="ttdeci">const ParticleSystemData2Ptr &amp; particleSystemData() const </div><div class="ttdoc">Returns the particle system data. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_a9b7f102096ccabf12c4921d4769aabb6"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#a9b7f102096ccabf12c4921d4769aabb6">jet::PicSolver2::PicSolver2</a></div><div class="ttdeci">PicSolver2()</div><div class="ttdoc">Default constructor. </div></div>
+<div class="ttc" id="classjet_1_1_grid_fluid_solver2_html_ad7fdf30e2f75060e8c5751a4fc1a06d2"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver2.html#ad7fdf30e2f75060e8c5751a4fc1a06d2">jet::GridFluidSolver2::resolution</a></div><div class="ttdeci">Size2 resolution() const </div><div class="ttdoc">Returns the resolution of the grid system data. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_a1190b7c2715ecb5235b976084408bfd3"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#a1190b7c2715ecb5235b976084408bfd3">jet::PicSolver2::computeAdvection</a></div><div class="ttdeci">void computeAdvection(double timeIntervalInSeconds) override</div><div class="ttdoc">Computes the advection term of the fluid solver. </div></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver_builder_base2_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver_builder_base2.html">jet::GridFluidSolverBuilderBase2</a></div><div class="ttdoc">Base class for grid-based fluid solver builder. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver2.h:298</div></div>
 <div class="ttc" id="namespacejet_html_a6795d09e3aacb2ce6f4ddb599d47d568"><div class="ttname"><a href="namespacejet.html#a6795d09e3aacb2ce6f4ddb599d47d568">jet::ScalarField2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarField2 &gt; ScalarField2Ptr</div><div class="ttdoc">Shared pointer for the ScalarField2 type. </div><div class="ttdef"><b>Definition:</b> scalar_field2.h:40</div></div>
@@ -207,13 +208,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="particle__system__data2_8h_html"><div class="ttname"><a href="particle__system__data2_8h.html">particle_system_data2.h</a></div></div>
 <div class="ttc" id="grid__fluid__solver2_8h_html"><div class="ttname"><a href="grid__fluid__solver2_8h.html">grid_fluid_solver2.h</a></div></div>
-<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:186</div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
+<div class="ttc" id="namespacejet_html_aa640f6153b6d6697ed12c6f7a4cb5d64"><div class="ttname"><a href="namespacejet.html#aa640f6153b6d6697ed12c6f7a4cb5d64">jet::ScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid2 &gt; ScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid2.h:188</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_a50319a57fe5f82ea002014ca716151f3"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#a50319a57fe5f82ea002014ca716151f3">jet::PicSolver2::particleEmitter</a></div><div class="ttdeci">const ParticleEmitter2Ptr &amp; particleEmitter() const </div><div class="ttdoc">Returns the particle emitter. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_aecd0c68ec7f96e223fcf38fa7fd83b57"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#aecd0c68ec7f96e223fcf38fa7fd83b57">jet::PicSolver2::onBeginAdvanceTimeStep</a></div><div class="ttdeci">void onBeginAdvanceTimeStep(double timeIntervalInSeconds) override</div><div class="ttdoc">Invoked before a simulation time-step begins. </div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_012_01_4.html">jet::Array&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D array class. </div><div class="ttdef"><b>Definition:</b> array2.h:42</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_a89cf1552d714c7303c4d3bbc6d46c214"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#a89cf1552d714c7303c4d3bbc6d46c214">jet::PicSolver2::_uMarkers</a></div><div class="ttdeci">Array2&lt; char &gt; _uMarkers</div><div class="ttdef"><b>Definition:</b> pic_solver2.h:58</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_html_ae06c37055aefc3ba969780a62d58644d"><div class="ttname"><a href="classjet_1_1_pic_solver2.html#ae06c37055aefc3ba969780a62d58644d">jet::PicSolver2::setParticleEmitter</a></div><div class="ttdeci">void setParticleEmitter(const ParticleEmitter2Ptr &amp;newEmitter)</div><div class="ttdoc">Sets the particle emitter. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver2_1_1_builder_html_a88d2bed8d2679aa37f52210e687e7202"><div class="ttname"><a href="classjet_1_1_pic_solver2_1_1_builder.html#a88d2bed8d2679aa37f52210e687e7202">jet::PicSolver2::Builder::makeShared</a></div><div class="ttdeci">PicSolver2Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of PicSolver2 instance. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -224,7 +225,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

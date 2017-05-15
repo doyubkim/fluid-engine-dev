@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -106,51 +106,51 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_GRID2_H_</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_GRID2_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="size2_8h.html">jet/size2.h</a>&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="serialization_8h.html">jet/serialization.h</a>&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span>  <span class="comment">// just make cpplint happy..</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bounding__box2_8h.html">jet/bounding_box2.h</a>&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="serialization_8h.html">jet/serialization.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="size2_8h.html">jet/size2.h</a>&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span>  <span class="comment">// just make cpplint happy..</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classjet_1_1_grid2.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_grid2.html">Grid2</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_serializable.html">Serializable</a> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">   31</a></span>&#160;    <span class="keyword">typedef</span> std::function&lt;Vector2D(size_t, size_t)&gt; <a class="code" href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">DataPositionFunc</a>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_grid2.html#a3d1991330976e2843c76b6fc094334a5">Grid2</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_grid2.html#ac62f7269c9ce18a2a2431675992024ae">~Grid2</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="classjet_1_1_grid2.html#a8feeea8920135504cefe17b32053f106">typeName</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">origin</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0eec133335fb4b3b75c2d3add4fd74c2">gridSpacing</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0400386648873d178012ccaabf8abd06">boundingBox</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    DataPositionFunc <a class="code" href="classjet_1_1_grid2.html#aa8e7b755aefdfdb4766c0248f6986c3e">cellCenterPosition</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#ab9981f28339c685b56b89cda84c8045c">forEachCellIndex</a>(</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>)&gt;&amp; func) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#add7dbba0517905cadff0725f3921f08e">parallelForEachCellIndex</a>(</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>)&gt;&amp; func) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_grid2.html#a8e40f72c41b9dd06e591675f63716d35">hasSameShape</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_grid2.html">Grid2</a>&amp; other) <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#a057875a62eb8ca508d1498aa5cdc978a">swap</a>(<a class="code" href="classjet_1_1_grid2.html">Grid2</a>* other) = 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#ac1d318289c23dbf04be2b09862d0cfa9">setSizeParameters</a>(</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0eec133335fb4b3b75c2d3add4fd74c2">gridSpacing</a>,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">origin</a>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classjet_1_1_grid2.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_grid2.html">Grid2</a> : <span class="keyword">public</span> <a class="code" href="classjet_1_1_serializable.html">Serializable</a> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">   33</a></span>&#160;    <span class="keyword">typedef</span> std::function&lt;Vector2D(size_t, size_t)&gt; <a class="code" href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">DataPositionFunc</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjet_1_1_grid2.html#a3d1991330976e2843c76b6fc094334a5">Grid2</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_grid2.html#ac62f7269c9ce18a2a2431675992024ae">~Grid2</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> std::string <a class="code" href="classjet_1_1_grid2.html#a8feeea8920135504cefe17b32053f106">typeName</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">origin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0eec133335fb4b3b75c2d3add4fd74c2">gridSpacing</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">const</span> <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0400386648873d178012ccaabf8abd06">boundingBox</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    DataPositionFunc <a class="code" href="classjet_1_1_grid2.html#aa8e7b755aefdfdb4766c0248f6986c3e">cellCenterPosition</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#ab9981f28339c685b56b89cda84c8045c">forEachCellIndex</a>(</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>)&gt;&amp; func) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#add7dbba0517905cadff0725f3921f08e">parallelForEachCellIndex</a>(</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keyword">const</span> std::function&lt;<span class="keywordtype">void</span>(<span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>)&gt;&amp; func) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_grid2.html#a8e40f72c41b9dd06e591675f63716d35">hasSameShape</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_grid2.html">Grid2</a>&amp; other) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#a057875a62eb8ca508d1498aa5cdc978a">swap</a>(<a class="code" href="classjet_1_1_grid2.html">Grid2</a>* other) = 0;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#ac1d318289c23dbf04be2b09862d0cfa9">setSizeParameters</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ad6d6b8e4c7093eb3e0b2002d1b92e371">resolution</a>, <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#a0eec133335fb4b3b75c2d3add4fd74c2">gridSpacing</a>,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                           <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">origin</a>);</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#ac3bc84de776767a232eccf6fabbc9071">swapGrid</a>(<a class="code" href="classjet_1_1_grid2.html">Grid2</a>* other);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
@@ -161,16 +161,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid2.html#a4c3983cd8e8fc9ed805319e82dfdb560">setData</a>(<span class="keyword">const</span> std::vector&lt;double&gt;&amp; data) = 0;</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> _resolution;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> _resolution;</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _gridSpacing = <a class="code" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>(1, 1);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a> _origin;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <a class="code" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">BoundingBox2D</a> _boundingBox = <a class="code" href="namespacejet.html#a5aab42e0c17fc83967ff244b816cf071">BoundingBox2D</a>(<a class="code" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>(), <a class="code" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>());</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;};</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">  111</a></span>&#160;<span class="preprocessor">#define JET_GRID2_TYPE_NAME(DerivedClassName) \</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">    std::string typeName() const override { \</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">        return #DerivedClassName; \</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">    }</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="namespacejet.html#a7e2c5c0be227ec0458b0baff6c4faa39">  111</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Grid2&gt; <a class="code" href="namespacejet.html#a7e2c5c0be227ec0458b0baff6c4faa39">Grid2Ptr</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="grid2_8h.html#a285d58e148a726432742857b1c4df48a">  113</a></span>&#160;<span class="preprocessor">#define JET_GRID2_TYPE_NAME(DerivedClassName) \</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">    std::string typeName() const override { return #DerivedClassName; }</span></div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
@@ -194,16 +194,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_grid2_html_aa8e7b755aefdfdb4766c0248f6986c3e"><div class="ttname"><a href="classjet_1_1_grid2.html#aa8e7b755aefdfdb4766c0248f6986c3e">jet::Grid2::cellCenterPosition</a></div><div class="ttdeci">DataPositionFunc cellCenterPosition() const </div><div class="ttdoc">Returns the function that maps grid index to the cell-center position. </div></div>
 <div class="ttc" id="classjet_1_1_bounding_box_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html">jet::BoundingBox&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D axis-aligned bounding box class. </div><div class="ttdef"><b>Definition:</b> bounding_box2.h:41</div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_ae1c10c0193cc70371b57a2cd11deda1c"><div class="ttname"><a href="classjet_1_1_grid2.html#ae1c10c0193cc70371b57a2cd11deda1c">jet::Grid2::origin</a></div><div class="ttdeci">const Vector2D &amp; origin() const </div><div class="ttdoc">Returns the grid origin. </div></div>
-<div class="ttc" id="classjet_1_1_grid2_html"><div class="ttname"><a href="classjet_1_1_grid2.html">jet::Grid2</a></div><div class="ttdoc">Abstract base class for 2-D cartesian grid structure. </div><div class="ttdef"><b>Definition:</b> grid2.h:28</div></div>
+<div class="ttc" id="classjet_1_1_grid2_html"><div class="ttname"><a href="classjet_1_1_grid2.html">jet::Grid2</a></div><div class="ttdoc">Abstract base class for 2-D cartesian grid structure. </div><div class="ttdef"><b>Definition:</b> grid2.h:30</div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_a4c3983cd8e8fc9ed805319e82dfdb560"><div class="ttname"><a href="classjet_1_1_grid2.html#a4c3983cd8e8fc9ed805319e82dfdb560">jet::Grid2::setData</a></div><div class="ttdeci">virtual void setData(const std::vector&lt; double &gt; &amp;data)=0</div><div class="ttdoc">Sets the data from a continuous linear array. </div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_a0400386648873d178012ccaabf8abd06"><div class="ttname"><a href="classjet_1_1_grid2.html#a0400386648873d178012ccaabf8abd06">jet::Grid2::boundingBox</a></div><div class="ttdeci">const BoundingBox2D &amp; boundingBox() const </div><div class="ttdoc">Returns the bounding box of the grid. </div></div>
-<div class="ttc" id="classjet_1_1_grid2_html_a06f3ed60742f6b1d790a71c9c0dc37df"><div class="ttname"><a href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">jet::Grid2::DataPositionFunc</a></div><div class="ttdeci">std::function&lt; Vector2D(size_t, size_t)&gt; DataPositionFunc</div><div class="ttdoc">Function type for mapping data index to actual position. </div><div class="ttdef"><b>Definition:</b> grid2.h:31</div></div>
+<div class="ttc" id="classjet_1_1_grid2_html_a06f3ed60742f6b1d790a71c9c0dc37df"><div class="ttname"><a href="classjet_1_1_grid2.html#a06f3ed60742f6b1d790a71c9c0dc37df">jet::Grid2::DataPositionFunc</a></div><div class="ttdeci">std::function&lt; Vector2D(size_t, size_t)&gt; DataPositionFunc</div><div class="ttdoc">Function type for mapping data index to actual position. </div><div class="ttdef"><b>Definition:</b> grid2.h:33</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_ac3bc84de776767a232eccf6fabbc9071"><div class="ttname"><a href="classjet_1_1_grid2.html#ac3bc84de776767a232eccf6fabbc9071">jet::Grid2::swapGrid</a></div><div class="ttdeci">void swapGrid(Grid2 *other)</div><div class="ttdoc">Swaps the size parameters with given grid other. </div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_a8e40f72c41b9dd06e591675f63716d35"><div class="ttname"><a href="classjet_1_1_grid2.html#a8e40f72c41b9dd06e591675f63716d35">jet::Grid2::hasSameShape</a></div><div class="ttdeci">bool hasSameShape(const Grid2 &amp;other) const </div><div class="ttdoc">Returns true if resolution, grid-spacing and origin are same. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
 <div class="ttc" id="bounding__box2_8h_html"><div class="ttname"><a href="bounding__box2_8h.html">bounding_box2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_grid2_html_a057875a62eb8ca508d1498aa5cdc978a"><div class="ttname"><a href="classjet_1_1_grid2.html#a057875a62eb8ca508d1498aa5cdc978a">jet::Grid2::swap</a></div><div class="ttdeci">virtual void swap(Grid2 *other)=0</div><div class="ttdoc">Swaps the data with other grid. </div></div>
+<div class="ttc" id="namespacejet_html_a7e2c5c0be227ec0458b0baff6c4faa39"><div class="ttname"><a href="namespacejet.html#a7e2c5c0be227ec0458b0baff6c4faa39">jet::Grid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Grid2 &gt; Grid2Ptr</div><div class="ttdef"><b>Definition:</b> grid2.h:111</div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -213,7 +214,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

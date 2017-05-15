@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -94,26 +94,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">size3.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="point3_8h_source.html">jet/point3.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="size2_8h_source.html">jet/size2.h</a>&gt;</code><br />
+<code>#include &quot;detail/size3-inl.h&quot;</code><br />
 </div>
 <p><a href="size3_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_size3.html">jet::Size3</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-D size class.  <a href="classjet_1_1_size3.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacejet"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html">jet</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a98684891b8b24e069e4a7d7e5c53684c"><td class="memItemLeft" align="right" valign="top">typedef Point3&lt; size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">jet::Size3</a></td></tr>
-<tr class="memdesc:a98684891b8b24e069e4a7d7e5c53684c"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-D size type.  <a href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">More...</a><br /></td></tr>
-<tr class="separator:a98684891b8b24e069e4a7d7e5c53684c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a62911cb3ac49a0240d2a1ee8c3a1990c"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a62911cb3ac49a0240d2a1ee8c3a1990c">jet::operator+</a> (const Size3 &amp;a)</td></tr>
+<tr class="memdesc:a62911cb3ac49a0240d2a1ee8c3a1990c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positive sign operator.  <a href="namespacejet.html#a62911cb3ac49a0240d2a1ee8c3a1990c">More...</a><br /></td></tr>
+<tr class="separator:a62911cb3ac49a0240d2a1ee8c3a1990c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203a5146353d3a4ea1eeccdf6f2712c4"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a203a5146353d3a4ea1eeccdf6f2712c4">jet::operator-</a> (const Size3 &amp;a)</td></tr>
+<tr class="memdesc:a203a5146353d3a4ea1eeccdf6f2712c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Negative sign operator.  <a href="namespacejet.html#a203a5146353d3a4ea1eeccdf6f2712c4">More...</a><br /></td></tr>
+<tr class="separator:a203a5146353d3a4ea1eeccdf6f2712c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf654fcddeb723c5e94068229dbe06a"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#aaaf654fcddeb723c5e94068229dbe06a">jet::operator+</a> (size_t a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:aaaf654fcddeb723c5e94068229dbe06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a, a, a) + (b.x, b.y, b.z).  <a href="namespacejet.html#aaaf654fcddeb723c5e94068229dbe06a">More...</a><br /></td></tr>
+<tr class="separator:aaaf654fcddeb723c5e94068229dbe06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fecbdc693e81c0e9f4ab14e932490e3"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a2fecbdc693e81c0e9f4ab14e932490e3">jet::operator+</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a2fecbdc693e81c0e9f4ab14e932490e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) + (b.x, b.y, b.z).  <a href="namespacejet.html#a2fecbdc693e81c0e9f4ab14e932490e3">More...</a><br /></td></tr>
+<tr class="separator:a2fecbdc693e81c0e9f4ab14e932490e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49527bc6dc52a956e0711731e9f7dec"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#ac49527bc6dc52a956e0711731e9f7dec">jet::operator-</a> (const Size3 &amp;a, size_t b)</td></tr>
+<tr class="memdesc:ac49527bc6dc52a956e0711731e9f7dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) - (b, b, b).  <a href="namespacejet.html#ac49527bc6dc52a956e0711731e9f7dec">More...</a><br /></td></tr>
+<tr class="separator:ac49527bc6dc52a956e0711731e9f7dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9ed40e71369555cbe3cbfef191d5aa6"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#aa9ed40e71369555cbe3cbfef191d5aa6">jet::operator-</a> (size_t a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:aa9ed40e71369555cbe3cbfef191d5aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a, a, a) - (b.x, b.y, b.z).  <a href="namespacejet.html#aa9ed40e71369555cbe3cbfef191d5aa6">More...</a><br /></td></tr>
+<tr class="separator:aa9ed40e71369555cbe3cbfef191d5aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37a5df2381068136c61d9965d1bf954e"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a37a5df2381068136c61d9965d1bf954e">jet::operator-</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a37a5df2381068136c61d9965d1bf954e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) - (b.x, b.y, b.z).  <a href="namespacejet.html#a37a5df2381068136c61d9965d1bf954e">More...</a><br /></td></tr>
+<tr class="separator:a37a5df2381068136c61d9965d1bf954e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfce974abaa1d67ae1b6679273770272"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#adfce974abaa1d67ae1b6679273770272">jet::operator*</a> (const Size3 &amp;a, size_t b)</td></tr>
+<tr class="memdesc:adfce974abaa1d67ae1b6679273770272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) * (b, b, b).  <a href="namespacejet.html#adfce974abaa1d67ae1b6679273770272">More...</a><br /></td></tr>
+<tr class="separator:adfce974abaa1d67ae1b6679273770272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae865999667fbc7a0b71bd6ff0fbfda28"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#ae865999667fbc7a0b71bd6ff0fbfda28">jet::operator*</a> (size_t a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:ae865999667fbc7a0b71bd6ff0fbfda28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a, a, a) * (b.x, b.y, b.z).  <a href="namespacejet.html#ae865999667fbc7a0b71bd6ff0fbfda28">More...</a><br /></td></tr>
+<tr class="separator:ae865999667fbc7a0b71bd6ff0fbfda28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a49816082044cd478d13a93fdf469c2"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a1a49816082044cd478d13a93fdf469c2">jet::operator*</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a1a49816082044cd478d13a93fdf469c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) * (b.x, b.y, b.z).  <a href="namespacejet.html#a1a49816082044cd478d13a93fdf469c2">More...</a><br /></td></tr>
+<tr class="separator:a1a49816082044cd478d13a93fdf469c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3af09f7adcd7d13bcf9620b93b6a100"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#ad3af09f7adcd7d13bcf9620b93b6a100">jet::operator/</a> (const Size3 &amp;a, size_t b)</td></tr>
+<tr class="memdesc:ad3af09f7adcd7d13bcf9620b93b6a100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) / (b, b, b).  <a href="namespacejet.html#ad3af09f7adcd7d13bcf9620b93b6a100">More...</a><br /></td></tr>
+<tr class="separator:ad3af09f7adcd7d13bcf9620b93b6a100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f161160e38d89d376ce86b436f0fc86"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a2f161160e38d89d376ce86b436f0fc86">jet::operator/</a> (size_t a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a2f161160e38d89d376ce86b436f0fc86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a, a, a) / (b.x, b.y, b.z).  <a href="namespacejet.html#a2f161160e38d89d376ce86b436f0fc86">More...</a><br /></td></tr>
+<tr class="separator:a2f161160e38d89d376ce86b436f0fc86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed1d9d46b7fc6eb1d05402a943ec2a56"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#aed1d9d46b7fc6eb1d05402a943ec2a56">jet::operator/</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:aed1d9d46b7fc6eb1d05402a943ec2a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes (a.x, a.y, a.z) / (b.x, b.y, b.z).  <a href="namespacejet.html#aed1d9d46b7fc6eb1d05402a943ec2a56">More...</a><br /></td></tr>
+<tr class="separator:aed1d9d46b7fc6eb1d05402a943ec2a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6913c9b96391dadca6be7bc1e33a7e16"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a6913c9b96391dadca6be7bc1e33a7e16">jet::min</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a6913c9b96391dadca6be7bc1e33a7e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns element-wise min size.  <a href="namespacejet.html#a6913c9b96391dadca6be7bc1e33a7e16">More...</a><br /></td></tr>
+<tr class="separator:a6913c9b96391dadca6be7bc1e33a7e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701f804f20a7ffcfc9e1b718b779a4a7"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a701f804f20a7ffcfc9e1b718b779a4a7">jet::max</a> (const Size3 &amp;a, const Size3 &amp;b)</td></tr>
+<tr class="memdesc:a701f804f20a7ffcfc9e1b718b779a4a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns element-wise max size.  <a href="namespacejet.html#a701f804f20a7ffcfc9e1b718b779a4a7">More...</a><br /></td></tr>
+<tr class="separator:a701f804f20a7ffcfc9e1b718b779a4a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcbdadf3e40b41842f4b3430c6f018b5"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#afcbdadf3e40b41842f4b3430c6f018b5">jet::clamp</a> (const Size3 &amp;v, const Size3 &amp;low, const Size3 &amp;high)</td></tr>
+<tr class="memdesc:afcbdadf3e40b41842f4b3430c6f018b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns element-wise clamped size.  <a href="namespacejet.html#afcbdadf3e40b41842f4b3430c6f018b5">More...</a><br /></td></tr>
+<tr class="separator:afcbdadf3e40b41842f4b3430c6f018b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1274c6e1cfb2b2d0fdaf749c6b2cf741"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a1274c6e1cfb2b2d0fdaf749c6b2cf741">jet::ceil</a> (const Size3 &amp;a)</td></tr>
+<tr class="memdesc:a1274c6e1cfb2b2d0fdaf749c6b2cf741"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns element-wise ceiled size.  <a href="namespacejet.html#a1274c6e1cfb2b2d0fdaf749c6b2cf741">More...</a><br /></td></tr>
+<tr class="separator:a1274c6e1cfb2b2d0fdaf749c6b2cf741"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fa5120206cb77fa2607e2ac08fac5b6"><td class="memItemLeft" align="right" valign="top">Size3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a9fa5120206cb77fa2607e2ac08fac5b6">jet::floor</a> (const Size3 &amp;a)</td></tr>
+<tr class="memdesc:a9fa5120206cb77fa2607e2ac08fac5b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns element-wise floored size.  <a href="namespacejet.html#a9fa5120206cb77fa2607e2ac08fac5b6">More...</a><br /></td></tr>
+<tr class="separator:a9fa5120206cb77fa2607e2ac08fac5b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -124,7 +183,7 @@ Typedefs</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

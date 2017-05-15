@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -141,11 +141,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_CG_SOLVER2_H_</span></div>
-<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_a99dfaae26bf9883aab29c3c1147308db"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#a99dfaae26bf9883aab29c3c1147308db">jet::FdmCgSolver2::maxNumberOfIterations</a></div><div class="ttdeci">unsigned int maxNumberOfIterations() const </div><div class="ttdoc">Returns the max number of Jacobi iterations. </div></div>
-<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_ae42b31a523e057da91dffed5032ee0ab"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#ae42b31a523e057da91dffed5032ee0ab">jet::FdmCgSolver2::tolerance</a></div><div class="ttdeci">double tolerance() const </div><div class="ttdoc">Returns the max residual tolerance for the Jacobi method. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_a99dfaae26bf9883aab29c3c1147308db"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#a99dfaae26bf9883aab29c3c1147308db">jet::FdmCgSolver2::maxNumberOfIterations</a></div><div class="ttdeci">unsigned int maxNumberOfIterations() const </div><div class="ttdoc">Returns the max number of CG iterations. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_ae42b31a523e057da91dffed5032ee0ab"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#ae42b31a523e057da91dffed5032ee0ab">jet::FdmCgSolver2::tolerance</a></div><div class="ttdeci">double tolerance() const </div><div class="ttdoc">Returns the max residual tolerance for the CG method. </div></div>
 <div class="ttc" id="fdm__linear__system__solver2_8h_html"><div class="ttname"><a href="fdm__linear__system__solver2_8h.html">fdm_linear_system_solver2.h</a></div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
-<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_aeeb1d2780fd595c0fc9e5ff7271806d0"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#aeeb1d2780fd595c0fc9e5ff7271806d0">jet::FdmCgSolver2::lastNumberOfIterations</a></div><div class="ttdeci">unsigned int lastNumberOfIterations() const </div><div class="ttdoc">Returns the last number of Jacobi iterations the solver made. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_aeeb1d2780fd595c0fc9e5ff7271806d0"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#aeeb1d2780fd595c0fc9e5ff7271806d0">jet::FdmCgSolver2::lastNumberOfIterations</a></div><div class="ttdeci">unsigned int lastNumberOfIterations() const </div><div class="ttdoc">Returns the last number of CG iterations the solver made. </div></div>
 <div class="ttc" id="classjet_1_1_fdm_cg_solver2_html"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html">jet::FdmCgSolver2</a></div><div class="ttdoc">2-D finite difference-type linear system solver using conjugate gradient. </div><div class="ttdef"><b>Definition:</b> fdm_cg_solver2.h:16</div></div>
 <div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_a5ea76e76f4d87799c986471bb8189dca"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#a5ea76e76f4d87799c986471bb8189dca">jet::FdmCgSolver2::solve</a></div><div class="ttdeci">bool solve(FdmLinearSystem2 *system) override</div><div class="ttdoc">Solves the given linear system. </div></div>
 <div class="ttc" id="structjet_1_1_fdm_linear_system2_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system2.html">jet::FdmLinearSystem2</a></div><div class="ttdoc">Linear system (Ax=b) for 2-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:33</div></div>
@@ -153,7 +153,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_fdm_linear_system_solver2_html"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver2.html">jet::FdmLinearSystemSolver2</a></div><div class="ttdoc">Abstract base class for 2-D finite difference-type linear system solver. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver2.h:16</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_012_01_4.html">jet::Array&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D array class. </div><div class="ttdef"><b>Definition:</b> array2.h:42</div></div>
 <div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_a181e7999a2a04e973a5de99f1c10a3c4"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#a181e7999a2a04e973a5de99f1c10a3c4">jet::FdmCgSolver2::FdmCgSolver2</a></div><div class="ttdeci">FdmCgSolver2(unsigned int maxNumberOfIterations, double tolerance)</div><div class="ttdoc">Constructs the solver with given parameters. </div></div>
-<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_ae3d08d53a184dd641a5a0720c070bb43"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#ae3d08d53a184dd641a5a0720c070bb43">jet::FdmCgSolver2::lastResidual</a></div><div class="ttdeci">double lastResidual() const </div><div class="ttdoc">Returns the last residual after the Jacobi iterations. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_cg_solver2_html_ae3d08d53a184dd641a5a0720c070bb43"><div class="ttname"><a href="classjet_1_1_fdm_cg_solver2.html#ae3d08d53a184dd641a5a0720c070bb43">jet::FdmCgSolver2::lastResidual</a></div><div class="ttdeci">double lastResidual() const </div><div class="ttdoc">Returns the last residual after the CG iterations. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -163,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

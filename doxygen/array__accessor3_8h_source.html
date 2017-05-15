@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -118,7 +118,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_array_accessor.html">ArrayAccessor</a>();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classjet_1_1_array_accessor.html">ArrayAccessor</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; size, T* <span class="keyword">const</span> data);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classjet_1_1_array_accessor.html">ArrayAccessor</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; size, T* <span class="keyword">const</span> data);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_array_accessor.html">ArrayAccessor</a>(</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">size_t</span> width, <span class="keywordtype">size_t</span> height, <span class="keywordtype">size_t</span> depth, T* <span class="keyword">const</span> data);</div>
@@ -127,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> set(<span class="keyword">const</span> <a class="code" href="classjet_1_1_array_accessor.html">ArrayAccessor</a>&amp; other);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> reset(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; size, T* <span class="keyword">const</span> data);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> reset(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; size, T* <span class="keyword">const</span> data);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> reset(<span class="keywordtype">size_t</span> width, <span class="keywordtype">size_t</span> height, <span class="keywordtype">size_t</span> depth, T* <span class="keyword">const</span> data);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    T* end();</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> size() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="classjet_1_1_size3.html">Size3</a> size() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">size_t</span> width() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
@@ -196,7 +196,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keyword">operator</span> <a class="code" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html">ConstArrayAccessor&lt;T, 3&gt;</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> _size;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <a class="code" href="classjet_1_1_size3.html">Size3</a> _size;</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    T* _data;</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;};</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
@@ -208,7 +208,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="classjet_1_1_const_array_accessor.html">ConstArrayAccessor</a>();</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <a class="code" href="classjet_1_1_const_array_accessor.html">ConstArrayAccessor</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; size, <span class="keyword">const</span> T* <span class="keyword">const</span> data);</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <a class="code" href="classjet_1_1_const_array_accessor.html">ConstArrayAccessor</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; size, <span class="keyword">const</span> T* <span class="keyword">const</span> data);</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <a class="code" href="classjet_1_1_const_array_accessor.html">ConstArrayAccessor</a>(</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="keywordtype">size_t</span> width, <span class="keywordtype">size_t</span> height, <span class="keywordtype">size_t</span> depth, <span class="keyword">const</span> T* <span class="keyword">const</span> data);</div>
@@ -227,7 +227,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keyword">const</span> T* <span class="keyword">const</span> end() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> size() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <a class="code" href="classjet_1_1_size3.html">Size3</a> size() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="keywordtype">size_t</span> width() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
@@ -257,7 +257,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    <span class="keyword">const</span> T&amp; operator()(<span class="keywordtype">size_t</span> i, <span class="keywordtype">size_t</span> j, <span class="keywordtype">size_t</span> k) <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> _size;</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    <a class="code" href="classjet_1_1_size3.html">Size3</a> _size;</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    <span class="keyword">const</span> T* _data;</div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;};</div>
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;</div>
@@ -271,6 +271,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="size3_8h_html"><div class="ttname"><a href="size3_8h.html">size3.h</a></div></div>
 <div class="ttc" id="array__accessor_8h_html"><div class="ttname"><a href="array__accessor_8h.html">array_accessor.h</a></div></div>
 <div class="ttc" id="classjet_1_1_array_accessor_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_accessor_3_01_t_00_013_01_4.html">jet::ArrayAccessor&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor3.h:31</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
 <div class="ttc" id="classjet_1_1_const_array_accessor_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor.html">jet::ConstArrayAccessor</a></div><div class="ttdoc">Generic N-dimensional read-only array accessor class interface. </div><div class="ttdef"><b>Definition:</b> array_accessor.h:47</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
@@ -286,7 +287,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:11 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

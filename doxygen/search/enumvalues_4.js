@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['warn',['Warn',['../namespacejet.html#a6364e99bca8f95835aecc31b1154f115a56525ae64d370c0b448ac0d60710ef17',1,'jet']]]
+  ['kparallel',['kParallel',['../namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9',1,'jet']]],
+  ['kserial',['kSerial',['../namespacejet.html#a81bac887d68a435dc86d85de78e82032af54983ae8eb79e77ee6be2f8384e1cb1',1,'jet']]]
 ];

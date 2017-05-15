@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -112,8 +112,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html#a4cba2c2c18097a826976b24250cd91ba">deserialize</a>(const std::vector&lt; uint8_t &gt; &amp;buffer) override</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html">jet::VectorGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_field3.html#a942bfe95767ae6afa3c86cc4e6f625a6">divergence</a>(const Vector3D &amp;x) const </td><td class="entry"><a class="el" href="classjet_1_1_vector_field3.html">jet::VectorField3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">Field3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field3.html">jet::Field3</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html#ac0e87d39101f04f7aad2b31ca869303d">fill</a>(const Vector3D &amp;value)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html">jet::VectorGrid3</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html#a825eb63299ef0f5d04b41ea8a8bd062f">fill</a>(const std::function&lt; Vector3D(const Vector3D &amp;)&gt; &amp;func)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html">jet::VectorGrid3</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html#a067c0f687445bc668b02f63e1a79feda">fill</a>(const Vector3D &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html">jet::VectorGrid3</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html#a9f1d17a76bc9d703238ab30ee4d86917">fill</a>(const std::function&lt; Vector3D(const Vector3D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid3.html">jet::VectorGrid3</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid3.html#a7d3aa042635474690a47591dd83e9534">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_grid3.html#acb584df82007005878900d4968e9a4ed">getData</a>(std::vector&lt; double &gt; *data) const  =0</td><td class="entry"><a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid3.html#a49d5031fe16b4afac596b9a901e2889c">Grid3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td><td class="entry"></td></tr>
@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:29 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:15 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

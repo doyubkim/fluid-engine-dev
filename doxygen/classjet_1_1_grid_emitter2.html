@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -122,9 +122,9 @@ Inheritance diagram for jet::GridEmitter2:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a09bf5badc573d7fe8fd9af90ac0b95f9"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(<a class="el" href="classjet_1_1_grid_emitter2.html">GridEmitter2</a> *, double, double)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#a09bf5badc573d7fe8fd9af90ac0b95f9">OnBeginUpdateCallback</a></td></tr>
-<tr class="memdesc:a09bf5badc573d7fe8fd9af90ac0b95f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function type for update calls.  <a href="#a09bf5badc573d7fe8fd9af90ac0b95f9">More...</a><br /></td></tr>
-<tr class="separator:a09bf5badc573d7fe8fd9af90ac0b95f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2e77d8019a0bb226a13ba1110fe3e2e"><td class="memItemLeft" align="right" valign="top">typedef std::function&lt; void(double, double)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#ad2e77d8019a0bb226a13ba1110fe3e2e">OnBeginUpdateCallback</a></td></tr>
+<tr class="memdesc:ad2e77d8019a0bb226a13ba1110fe3e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function type for update calls.  <a href="#ad2e77d8019a0bb226a13ba1110fe3e2e">More...</a><br /></td></tr>
+<tr class="separator:ad2e77d8019a0bb226a13ba1110fe3e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -136,7 +136,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a782f7c04eaadad7825f38fb21a8bd1c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4846d7165b77426d916f10e0f144339b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#a4846d7165b77426d916f10e0f144339b">update</a> (double currentTimeInSeconds, double timeIntervalInSeconds)</td></tr>
 <tr class="separator:a4846d7165b77426d916f10e0f144339b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec8302bb3ca314c4a582c023e0162278"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#aec8302bb3ca314c4a582c023e0162278">setOnBeginUpdateCallback</a> (const <a class="el" href="classjet_1_1_grid_emitter2.html#a09bf5badc573d7fe8fd9af90ac0b95f9">OnBeginUpdateCallback</a> &amp;callback)</td></tr>
+<tr class="memitem:aec8302bb3ca314c4a582c023e0162278"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#aec8302bb3ca314c4a582c023e0162278">setOnBeginUpdateCallback</a> (const <a class="el" href="classjet_1_1_grid_emitter2.html#ad2e77d8019a0bb226a13ba1110fe3e2e">OnBeginUpdateCallback</a> &amp;callback)</td></tr>
 <tr class="memdesc:aec8302bb3ca314c4a582c023e0162278"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the callback function to be called when <a class="el" href="classjet_1_1_grid_emitter2.html#a4846d7165b77426d916f10e0f144339b">GridEmitter2::update</a> function is invoked.  <a href="#aec8302bb3ca314c4a582c023e0162278">More...</a><br /></td></tr>
 <tr class="separator:aec8302bb3ca314c4a582c023e0162278"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -144,24 +144,22 @@ Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2a3f591c7c450953471f17eb50c07b4b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#a2a3f591c7c450953471f17eb50c07b4b">onUpdate</a> (double currentTimeInSeconds, double timeIntervalInSeconds)=0</td></tr>
 <tr class="separator:a2a3f591c7c450953471f17eb50c07b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accc20300942b0401a9a782264fb7bc0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_emitter2.html#accc20300942b0401a9a782264fb7bc0e">callOnBeginUpdateCallback</a> (double currentTimeInSeconds, double timeIntervalInSeconds)</td></tr>
-<tr class="separator:accc20300942b0401a9a782264fb7bc0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for 2-D grid-based emitters. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a class="anchor" id="a09bf5badc573d7fe8fd9af90ac0b95f9"></a>
+<a class="anchor" id="ad2e77d8019a0bb226a13ba1110fe3e2e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::function&lt;void(<a class="el" href="classjet_1_1_grid_emitter2.html">GridEmitter2</a>*, double, double)&gt; <a class="el" href="classjet_1_1_grid_emitter2.html#a09bf5badc573d7fe8fd9af90ac0b95f9">jet::GridEmitter2::OnBeginUpdateCallback</a></td>
+          <td class="memname">typedef std::function&lt;void(double, double)&gt; <a class="el" href="classjet_1_1_grid_emitter2.html#ad2e77d8019a0bb226a13ba1110fe3e2e">jet::GridEmitter2::OnBeginUpdateCallback</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Callback function type for update calls. </p>
-<p>This type of callback function will take the emitter pointer, current time, and time interval in seconds. </p>
+<p>This type of callback function will take the current time and time interval in seconds. </p>
 
 </div>
 </div>
@@ -209,40 +207,6 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="accc20300942b0401a9a782264fb7bc0e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void jet::GridEmitter2::callOnBeginUpdateCallback </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>currentTimeInSeconds</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>timeIntervalInSeconds</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a2a3f591c7c450953471f17eb50c07b4b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +248,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void jet::GridEmitter2::setOnBeginUpdateCallback </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classjet_1_1_grid_emitter2.html#a09bf5badc573d7fe8fd9af90ac0b95f9">OnBeginUpdateCallback</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_grid_emitter2.html#ad2e77d8019a0bb226a13ba1110fe3e2e">OnBeginUpdateCallback</a> &amp;&#160;</td>
           <td class="paramname"><em>callback</em></td><td>)</td>
           <td></td>
         </tr>
@@ -341,7 +305,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -14,6 +14,8 @@ var searchData=
   ['semilagrangian2',['SemiLagrangian2',['../classjet_1_1_semi_lagrangian2.html',1,'jet']]],
   ['semilagrangian3',['SemiLagrangian3',['../classjet_1_1_semi_lagrangian3.html',1,'jet']]],
   ['serializable',['Serializable',['../classjet_1_1_serializable.html',1,'jet']]],
+  ['size2',['Size2',['../classjet_1_1_size2.html',1,'jet']]],
+  ['size3',['Size3',['../classjet_1_1_size3.html',1,'jet']]],
   ['sphere2',['Sphere2',['../classjet_1_1_sphere2.html',1,'jet']]],
   ['sphere3',['Sphere3',['../classjet_1_1_sphere3.html',1,'jet']]],
   ['sphsolver2',['SphSolver2',['../classjet_1_1_sph_solver2.html',1,'jet']]],

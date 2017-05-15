@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -106,22 +106,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef INCLUDE_JET_FIELD3_H_</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define INCLUDE_JET_FIELD3_H_</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classjet_1_1_field3.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_field3.html">Field3</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">Field3</a>();</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_field3.html#af47aad004dc7a5ffc689522760940bd9">~Field3</a>();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classjet_1_1_field3.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_field3.html">Field3</a> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">Field3</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_field3.html#af47aad004dc7a5ffc689522760940bd9">~Field3</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FIELD3_H_</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespacejet.html#a36c3484f2ade626cf8ceefe96b286e2c">   22</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;Field3&gt; <a class="code" href="namespacejet.html#a36c3484f2ade626cf8ceefe96b286e2c">Field3Ptr</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FIELD3_H_</span></div>
 <div class="ttc" id="classjet_1_1_field3_html_af47aad004dc7a5ffc689522760940bd9"><div class="ttname"><a href="classjet_1_1_field3.html#af47aad004dc7a5ffc689522760940bd9">jet::Field3::~Field3</a></div><div class="ttdeci">virtual ~Field3()</div></div>
 <div class="ttc" id="classjet_1_1_field3_html_aa65470657b8715495a8bae4619adaf58"><div class="ttname"><a href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">jet::Field3::Field3</a></div><div class="ttdeci">Field3()</div></div>
+<div class="ttc" id="namespacejet_html_a36c3484f2ade626cf8ceefe96b286e2c"><div class="ttname"><a href="namespacejet.html#a36c3484f2ade626cf8ceefe96b286e2c">jet::Field3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; Field3 &gt; Field3Ptr</div><div class="ttdef"><b>Definition:</b> field3.h:22</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
-<div class="ttc" id="classjet_1_1_field3_html"><div class="ttname"><a href="classjet_1_1_field3.html">jet::Field3</a></div><div class="ttdoc">Abstract base class for 3-D fields. </div><div class="ttdef"><b>Definition:</b> field3.h:13</div></div>
+<div class="ttc" id="classjet_1_1_field3_html"><div class="ttname"><a href="classjet_1_1_field3.html">jet::Field3</a></div><div class="ttdoc">Abstract base class for 3-D fields. </div><div class="ttdef"><b>Definition:</b> field3.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -131,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

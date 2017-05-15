@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -122,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">class </span><a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">Builder</a>;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2.html#a8fb8a2f7f69880f6c1e15f6ecb675a7f">PointParallelHashGridSearcher2</a>(</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; resolution, <span class="keywordtype">double</span> gridSpacing);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; resolution, <span class="keywordtype">double</span> gridSpacing);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2.html#a8fb8a2f7f69880f6c1e15f6ecb675a7f">PointParallelHashGridSearcher2</a>(</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">size_t</span> resolutionX,</div>
@@ -188,7 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">  236</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">PointParallelHashGridSearcher2::Builder</a> final</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    : <span class="keyword">public</span> <a class="code" href="classjet_1_1_point_neighbor_searcher_builder2.html">PointNeighborSearcherBuilder2</a> {</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html#a8d4bf45fc23793742c6496522bd8a192">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; resolution);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html#a8d4bf45fc23793742c6496522bd8a192">withResolution</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; resolution);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html">Builder</a>&amp; <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html#a733386a9c3ab32f886e6d3888bf112ad">withGridSpacing</a>(<span class="keywordtype">double</span> gridSpacing);</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
@@ -199,7 +199,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <a class="code" href="namespacejet.html#afc608b1dedfa68ba523182ee59b03877">PointNeighborSearcher2Ptr</a> <a class="code" href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html#aa99058a93090ba47a3aa9dba12961b45">buildPointNeighborSearcher</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a> _resolution{64, 64};</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <a class="code" href="classjet_1_1_size2.html">Size2</a> _resolution{64, 64};</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordtype">double</span> _gridSpacing = 1.0;</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;};</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
@@ -244,6 +244,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="namespacejet_html_a0abaebd796f2a058dea4a28777d24291"><div class="ttname"><a href="namespacejet.html#a0abaebd796f2a058dea4a28777d24291">jet::Point2I</a></div><div class="ttdeci">Point2&lt; ssize_t &gt; Point2I</div><div class="ttdoc">Integer-type 2D point. </div><div class="ttdef"><b>Definition:</b> point2.h:298</div></div>
 <div class="ttc" id="point2_8h_html"><div class="ttname"><a href="point2_8h.html">point2.h</a></div></div>
 <div class="ttc" id="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder_html_a733386a9c3ab32f886e6d3888bf112ad"><div class="ttname"><a href="classjet_1_1_point_parallel_hash_grid_searcher2_1_1_builder.html#a733386a9c3ab32f886e6d3888bf112ad">jet::PointParallelHashGridSearcher2::Builder::withGridSpacing</a></div><div class="ttdeci">Builder &amp; withGridSpacing(double gridSpacing)</div><div class="ttdoc">Returns builder with grid spacing. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -253,7 +254,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

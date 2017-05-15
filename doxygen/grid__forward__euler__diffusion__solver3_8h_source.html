@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -151,7 +151,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">Array3&lt;char&gt;</a> _markers;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> buildMarkers(</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; size,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; size,</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keyword">const</span> std::function&lt;<a class="code" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(<span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>, <span class="keywordtype">size_t</span>)&gt;&amp; pos,</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; boundarySdf,</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_scalar_field3.html">ScalarField3</a>&amp; fluidSdf);</div>
@@ -169,8 +169,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="constant__scalar__field3_8h_html"><div class="ttname"><a href="constant__scalar__field3_8h.html">constant_scalar_field3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:18</div></div>
 <div class="ttc" id="classjet_1_1_grid_forward_euler_diffusion_solver3_html_a77ef5bfc699ec5fd4fce4697618a9a60"><div class="ttname"><a href="classjet_1_1_grid_forward_euler_diffusion_solver3.html#a77ef5bfc699ec5fd4fce4697618a9a60">jet::GridForwardEulerDiffusionSolver3::solve</a></div><div class="ttdeci">void solve(const ScalarGrid3 &amp;source, double diffusionCoefficient, double timeIntervalInSeconds, ScalarGrid3 *dest, const ScalarField3 &amp;boundarySdf=ConstantScalarField3(kMaxD), const ScalarField3 &amp;fluidSdf=ConstantScalarField3(-kMaxD)) override</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="namespacejet_html_a0984cc94edef0529f333bcae63faeaca"><div class="ttname"><a href="namespacejet.html#a0984cc94edef0529f333bcae63faeaca">jet::kMaxD</a></div><div class="ttdeci">constexpr double kMaxD</div><div class="ttdoc">Max double. </div><div class="ttdef"><b>Definition:</b> constants.h:89</div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_013_01_4.html">jet::Array&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array class. </div><div class="ttdef"><b>Definition:</b> array3.h:43</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_scalar_field3_html"><div class="ttname"><a href="classjet_1_1_scalar_field3.html">jet::ScalarField3</a></div><div class="ttdoc">Abstract base class for 3-D scalar field. </div><div class="ttdef"><b>Definition:</b> scalar_field3.h:18</div></div>
@@ -189,7 +189,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

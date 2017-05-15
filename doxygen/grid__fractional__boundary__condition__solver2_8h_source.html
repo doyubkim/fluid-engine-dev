@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -131,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; <span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_grid_fractional_boundary_condition_solver2.html#a210c72fb69420c184ffa608b9b268e88">onColliderUpdated</a>(</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_012_01_4.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid_boundary_condition_solver2.html#a7a85b968900b10b992b23bf1156e47b5">gridSize</a>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size2.html">Size2</a>&amp; <a class="code" href="classjet_1_1_grid_boundary_condition_solver2.html#a7a85b968900b10b992b23bf1156e47b5">gridSize</a>,</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_boundary_condition_solver2.html#a3ae14cc93fb5c46d3e4782ed2e13ae02">gridSpacing</a>,</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_012_01_4.html">Vector2D</a>&amp; <a class="code" href="classjet_1_1_grid_boundary_condition_solver2.html#a8248558fdb2a1e6944964f2b6ce56ce4">gridOrigin</a>) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
@@ -161,7 +161,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_grid_fractional_boundary_condition_solver2_html"><div class="ttname"><a href="classjet_1_1_grid_fractional_boundary_condition_solver2.html">jet::GridFractionalBoundaryConditionSolver2</a></div><div class="ttdoc">Fractional 2-D boundary condition solver for grids. </div><div class="ttdef"><b>Definition:</b> grid_fractional_boundary_condition_solver2.h:26</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_012_01_4.html">jet::Vector&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D vector class. </div><div class="ttdef"><b>Definition:</b> vector2.h:24</div></div>
 <div class="ttc" id="classjet_1_1_grid_boundary_condition_solver2_html_a8248558fdb2a1e6944964f2b6ce56ce4"><div class="ttname"><a href="classjet_1_1_grid_boundary_condition_solver2.html#a8248558fdb2a1e6944964f2b6ce56ce4">jet::GridBoundaryConditionSolver2::gridOrigin</a></div><div class="ttdeci">const Vector2D &amp; gridOrigin() const </div><div class="ttdoc">Returns the origin of the velocity grid to be constrained. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_012_01_4.html">jet::Point&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D point class. </div><div class="ttdef"><b>Definition:</b> point2.h:23</div></div>
 <div class="ttc" id="classjet_1_1_face_centered_grid2_html"><div class="ttname"><a href="classjet_1_1_face_centered_grid2.html">jet::FaceCenteredGrid2</a></div><div class="ttdoc">2-D face-centered (a.k.a MAC or staggered) grid. </div><div class="ttdef"><b>Definition:</b> face_centered_grid2.h:26</div></div>
 <div class="ttc" id="namespacejet_html_a05a91162eb6cb56598d7cdfa59fff9c5"><div class="ttname"><a href="namespacejet.html#a05a91162eb6cb56598d7cdfa59fff9c5">jet::CellCenteredScalarGrid2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; CellCenteredScalarGrid2 &gt; CellCenteredScalarGrid2Ptr</div><div class="ttdoc">Shared pointer for the CellCenteredScalarGrid2 type. </div><div class="ttdef"><b>Definition:</b> cell_centered_scalar_grid2.h:84</div></div>
 <div class="ttc" id="namespacejet_html_a0ba762fdfe5313eb009136cabbbd8483"><div class="ttname"><a href="namespacejet.html#a0ba762fdfe5313eb009136cabbbd8483">jet::VectorField2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; VectorField2 &gt; VectorField2Ptr</div><div class="ttdoc">Shared pointer for the VectorField2 type. </div><div class="ttdef"><b>Definition:</b> vector_field2.h:40</div></div>
@@ -169,6 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_grid_fractional_boundary_condition_solver2_html_a48141aac7ab1f5dad4b6f763a6a96e75"><div class="ttname"><a href="classjet_1_1_grid_fractional_boundary_condition_solver2.html#a48141aac7ab1f5dad4b6f763a6a96e75">jet::GridFractionalBoundaryConditionSolver2::~GridFractionalBoundaryConditionSolver2</a></div><div class="ttdeci">virtual ~GridFractionalBoundaryConditionSolver2()</div><div class="ttdoc">Default destructor. </div></div>
 <div class="ttc" id="classjet_1_1_grid_boundary_condition_solver2_html"><div class="ttname"><a href="classjet_1_1_grid_boundary_condition_solver2.html">jet::GridBoundaryConditionSolver2</a></div><div class="ttdoc">Abstract base class for 2-D boundary condition solver for grids. </div><div class="ttdef"><b>Definition:</b> grid_boundary_condition_solver2.h:26</div></div>
 <div class="ttc" id="classjet_1_1_grid_boundary_condition_solver2_html_a3ae14cc93fb5c46d3e4782ed2e13ae02"><div class="ttname"><a href="classjet_1_1_grid_boundary_condition_solver2.html#a3ae14cc93fb5c46d3e4782ed2e13ae02">jet::GridBoundaryConditionSolver2::gridSpacing</a></div><div class="ttdeci">const Vector2D &amp; gridSpacing() const </div><div class="ttdoc">Returns the spacing of the velocity grid to be constrained. </div></div>
+<div class="ttc" id="classjet_1_1_size2_html"><div class="ttname"><a href="classjet_1_1_size2.html">jet::Size2</a></div><div class="ttdoc">2-D size class. </div><div class="ttdef"><b>Definition:</b> size2.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -178,7 +178,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

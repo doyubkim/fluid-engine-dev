@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -119,7 +119,7 @@ Inheritance diagram for jet::GridFluidSolver3:</div>
 <area href="classjet_1_1_physics_animation.html" title="Abstract base class for physics-based animation. " alt="jet::PhysicsAnimation" shape="rect" coords="167,56,324,80"/>
 <area href="classjet_1_1_animation.html" title="Abstract base class for animation-related class. " alt="jet::Animation" shape="rect" coords="167,0,324,24"/>
 <area href="classjet_1_1_grid_smoke_solver3.html" title="3-D grid-based smoke solver. " alt="jet::GridSmokeSolver3" shape="rect" coords="0,168,157,192"/>
-<area href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 2-D liquid solver. " alt="jet::LevelSetLiquidSolver3" shape="rect" coords="167,168,324,192"/>
+<area href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 3-D liquid solver. " alt="jet::LevelSetLiquidSolver3" shape="rect" coords="167,168,324,192"/>
 <area href="classjet_1_1_pic_solver3.html" title="3-D Particle-in-Cell (PIC) implementation. " alt="jet::PicSolver3" shape="rect" coords="334,168,491,192"/>
 <area href="classjet_1_1_apic_solver3.html" title="3-D Affine Particle-in-Cell (APIC) implementation " alt="jet::ApicSolver3" shape="rect" coords="250,224,407,248"/>
 <area href="classjet_1_1_flip_solver3.html" title="3-D Fluid-Implicit Particle (FLIP) implementation. " alt="jet::FlipSolver3" shape="rect" coords="417,224,574,248"/>
@@ -137,7 +137,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0b0032f8af2aa69e416fe215bcf18ca8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a0b0032f8af2aa69e416fe215bcf18ca8">GridFluidSolver3</a> ()</td></tr>
 <tr class="memdesc:a0b0032f8af2aa69e416fe215bcf18ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a0b0032f8af2aa69e416fe215bcf18ca8">More...</a><br /></td></tr>
 <tr class="separator:a0b0032f8af2aa69e416fe215bcf18ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed6e56f6b4e6d8ce5f02eebcc3009f1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#aed6e56f6b4e6d8ce5f02eebcc3009f1d">GridFluidSolver3</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;resolution, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
+<tr class="memitem:aed6e56f6b4e6d8ce5f02eebcc3009f1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#aed6e56f6b4e6d8ce5f02eebcc3009f1d">GridFluidSolver3</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
 <tr class="memdesc:aed6e56f6b4e6d8ce5f02eebcc3009f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs solver with initial grid size.  <a href="#aed6e56f6b4e6d8ce5f02eebcc3009f1d">More...</a><br /></td></tr>
 <tr class="separator:aed6e56f6b4e6d8ce5f02eebcc3009f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3bb8464465bfd285be33e9450669368"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#ae3bb8464465bfd285be33e9450669368">~GridFluidSolver3</a> ()</td></tr>
@@ -191,12 +191,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7731c841a93eeff64c32ac7e42bd6508"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#a64caa79837a19ae5dd70e464dbb1e9d9">GridSystemData3Ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a7731c841a93eeff64c32ac7e42bd6508">gridSystemData</a> () const </td></tr>
 <tr class="memdesc:a7731c841a93eeff64c32ac7e42bd6508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid system data.  <a href="#a7731c841a93eeff64c32ac7e42bd6508">More...</a><br /></td></tr>
 <tr class="separator:a7731c841a93eeff64c32ac7e42bd6508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a366bb733627714c26044b96279fa15e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a366bb733627714c26044b96279fa15e8">resizeGrid</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;newSize, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridSpacing, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridOrigin)</td></tr>
+<tr class="memitem:a366bb733627714c26044b96279fa15e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a366bb733627714c26044b96279fa15e8">resizeGrid</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;newSize, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridSpacing, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridOrigin)</td></tr>
 <tr class="memdesc:a366bb733627714c26044b96279fa15e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes grid system data.  <a href="#a366bb733627714c26044b96279fa15e8">More...</a><br /></td></tr>
 <tr class="separator:a366bb733627714c26044b96279fa15e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675bb93f1bede465e3ed5833bf3af436"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a675bb93f1bede465e3ed5833bf3af436">gridResolution</a> () const </td></tr>
-<tr class="memdesc:a675bb93f1bede465e3ed5833bf3af436"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the resolution of the grid system data.  <a href="#a675bb93f1bede465e3ed5833bf3af436">More...</a><br /></td></tr>
-<tr class="separator:a675bb93f1bede465e3ed5833bf3af436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4426da4069761b3065027189d9326b46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_size3.html">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a> () const </td></tr>
+<tr class="memdesc:a4426da4069761b3065027189d9326b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the resolution of the grid system data.  <a href="#a4426da4069761b3065027189d9326b46">More...</a><br /></td></tr>
+<tr class="separator:a4426da4069761b3065027189d9326b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4886b0e4c6f3ff8909f5b1a645eaa700"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a> () const </td></tr>
 <tr class="memdesc:a4886b0e4c6f3ff8909f5b1a645eaa700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid spacing of the grid system data.  <a href="#a4886b0e4c6f3ff8909f5b1a645eaa700">More...</a><br /></td></tr>
 <tr class="separator:a4886b0e4c6f3ff8909f5b1a645eaa700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -319,7 +319,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for grid-based 3-D fluid solver. </p>
-<p>This is an abstract base class for grid-based 3-D fluid solver based on Jos Stam's famous 1999 paper - "Stable Fluids". This solver takes fractional step method as its foundation which is consisted of independant advection, diffusion, external forces, and pressure projection steps. Each step is configurable so that a custom step can be implemented. For example, if a user wants to change the advection solver to her/his own implementation, simply call GridFluidSolver3::setAdvectionSolver(newSolver). </p>
+<p>This is an abstract base class for grid-based 3-D fluid solver based on Jos Stam's famous 1999 paper - "Stable Fluids". This solver takes fractional step method as its foundation which is consisted of independent advection, diffusion, external forces, and pressure projection steps. Each step is configurable so that a custom step can be implemented. For example, if a user wants to change the advection solver to her/his own implementation, simply call GridFluidSolver3::setAdvectionSolver(newSolver). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0b0032f8af2aa69e416fe215bcf18ca8"></a>
 <div class="memitem">
@@ -345,7 +345,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">jet::GridFluidSolver3::GridFluidSolver3 </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;&#160;</td>
           <td class="paramname"><em>resolution</em>, </td>
         </tr>
         <tr>
@@ -483,7 +483,7 @@ Protected Member Functions</h2></td></tr>
 <p>Returns the CFL number from the current velocity field for given time interval. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">timeIntervalInSeconds</td><td>The time interval in seconds </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">timeIntervalInSeconds</td><td>The time interval in seconds. </td></tr>
   </table>
   </dd>
 </dl>
@@ -884,24 +884,6 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a675bb93f1bede465e3ed5833bf3af436"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> jet::GridFluidSolver3::gridResolution </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the resolution of the grid system data. </p>
-<p>This function returns the resolution of the grid system data. This is equivalent to calling <a class="el" href="classjet_1_1_grid_fluid_solver3.html#a7731c841a93eeff64c32ac7e42bd6508" title="Returns the grid system data. ">gridSystemData()</a>-&gt;resolution(), but provides a shortcut. </p>
-
-</div>
-</div>
 <a class="anchor" id="a4886b0e4c6f3ff8909f5b1a645eaa700"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1123,7 +1105,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void jet::GridFluidSolver3::resizeGrid </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;&#160;</td>
           <td class="paramname"><em>newSize</em>, </td>
         </tr>
         <tr>
@@ -1156,6 +1138,24 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a4426da4069761b3065027189d9326b46"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_size3.html">Size3</a> jet::GridFluidSolver3::resolution </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the resolution of the grid system data. </p>
+<p>This function returns the resolution of the grid system data. This is equivalent to calling <a class="el" href="classjet_1_1_grid_fluid_solver3.html#a7731c841a93eeff64c32ac7e42bd6508" title="Returns the grid system data. ">gridSystemData()</a>-&gt;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46" title="Returns the resolution of the grid system data. ">resolution()</a>, but provides a shortcut. </p>
 
 </div>
 </div>
@@ -1321,7 +1321,7 @@ Protected Member Functions</h2></td></tr>
 <p>This function sets the viscosity coefficient. Non-positive input will be clamped to zero.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">newValue</td><td>The new viscosity coefficient value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">newValue</td><td>The new viscosity coefficient value. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1375,7 +1375,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

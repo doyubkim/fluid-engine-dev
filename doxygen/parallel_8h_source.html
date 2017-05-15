@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -108,48 +108,60 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacejet.html">jet</a> {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> T&gt;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a30213f05c514faf636311f4f88c691b5">parallelFill</a>(<span class="keyword">const</span> RandomIterator&amp; begin, <span class="keyword">const</span> RandomIterator&amp; end,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                  <span class="keyword">const</span> T&amp; value);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a666d590c945eb4173c287765e2d54262">parallelFor</a>(IndexType beginIndex, IndexType endIndex,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a666d590c945eb4173c287765e2d54262">parallelFor</a>(IndexType beginIndexX, IndexType endIndexX,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                 IndexType beginIndexY, IndexType endIndexY,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a666d590c945eb4173c287765e2d54262">parallelFor</a>(IndexType beginIndexX, IndexType endIndexX,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                 IndexType beginIndexY, IndexType endIndexY,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                 IndexType beginIndexZ, IndexType endIndexZ,</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Value, <span class="keyword">typename</span> Function,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;          <span class="keyword">typename</span> Reduce&gt;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;Value <a class="code" href="namespacejet.html#ab0f7e292b4bfae892942e38d99d3b63a">parallelReduce</a>(IndexType beginIndex, IndexType endIndex,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                     <span class="keyword">const</span> Value&amp; identity, <span class="keyword">const</span> Function&amp; func,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                     <span class="keyword">const</span> Reduce&amp; reduce);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator&gt;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a6de058bf145d90f3a0f25aa86ff0255e">parallelSort</a>(RandomIterator begin, RandomIterator end);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> CompareFunction&gt;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a6de058bf145d90f3a0f25aa86ff0255e">parallelSort</a>(RandomIterator begin, RandomIterator end,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                  CompareFunction compare);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#include &quot;detail/parallel-inl.h&quot;</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PARALLEL_H_</span></div>
-<div class="ttc" id="namespacejet_html_ab0f7e292b4bfae892942e38d99d3b63a"><div class="ttname"><a href="namespacejet.html#ab0f7e292b4bfae892942e38d99d3b63a">jet::parallelReduce</a></div><div class="ttdeci">Value parallelReduce(IndexType beginIndex, IndexType endIndex, const Value &amp;identity, const Function &amp;func, const Reduce &amp;reduce)</div><div class="ttdoc">Performs reduce operation in parallel. </div></div>
-<div class="ttc" id="namespacejet_html_a666d590c945eb4173c287765e2d54262"><div class="ttname"><a href="namespacejet.html#a666d590c945eb4173c287765e2d54262">jet::parallelFor</a></div><div class="ttdeci">void parallelFor(IndexType beginIndex, IndexType endIndex, const Function &amp;function)</div><div class="ttdoc">Makes a for-loop from beginIndex to endIndex in parallel. </div></div>
-<div class="ttc" id="namespacejet_html_a30213f05c514faf636311f4f88c691b5"><div class="ttname"><a href="namespacejet.html#a30213f05c514faf636311f4f88c691b5">jet::parallelFill</a></div><div class="ttdeci">void parallelFill(const RandomIterator &amp;begin, const RandomIterator &amp;end, const T &amp;value)</div><div class="ttdoc">Fills from begin to end with value in parallel. </div></div>
-<div class="ttc" id="namespacejet_html_a6de058bf145d90f3a0f25aa86ff0255e"><div class="ttname"><a href="namespacejet.html#a6de058bf145d90f3a0f25aa86ff0255e">jet::parallelSort</a></div><div class="ttdeci">void parallelSort(RandomIterator begin, RandomIterator end)</div><div class="ttdoc">Sorts a container in parallel. </div></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">   13</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> { <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032af54983ae8eb79e77ee6be2f8384e1cb1">kSerial</a>, <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">kParallel</a> };</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#a74f6608e3cee888c2a0dcd36fef3c8b5">parallelFill</a>(<span class="keyword">const</span> RandomIterator&amp; begin, <span class="keyword">const</span> RandomIterator&amp; end,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                  <span class="keyword">const</span> T&amp; value,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                  <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">parallelFor</a>(IndexType beginIndex, IndexType endIndex,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                 <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">parallelFor</a>(IndexType beginIndexX, IndexType endIndexX,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                 IndexType beginIndexY, IndexType endIndexY,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                 <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Function&gt;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">parallelFor</a>(IndexType beginIndexX, IndexType endIndexX,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                 IndexType beginIndexY, IndexType endIndexY,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                 IndexType beginIndexZ, IndexType endIndexZ,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                 <span class="keyword">const</span> Function&amp; <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                 <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> IndexType, <span class="keyword">typename</span> Value, <span class="keyword">typename</span> Function,</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          <span class="keyword">typename</span> Reduce&gt;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;Value <a class="code" href="namespacejet.html#af915bbe11a3d6e771d277433fea9ee2b">parallelReduce</a>(IndexType beginIndex, IndexType endIndex,</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                     <span class="keyword">const</span> Value&amp; identity, <span class="keyword">const</span> Function&amp; func,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                     <span class="keyword">const</span> Reduce&amp; reduce,</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                     <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator&gt;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ad6a9a3f2eff949bbf7b1dad466fe002c">parallelSort</a>(RandomIterator begin, RandomIterator end,</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                  <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> RandomIterator, <span class="keyword">typename</span> CompareFunction&gt;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespacejet.html#ad6a9a3f2eff949bbf7b1dad466fe002c">parallelSort</a>(RandomIterator begin, RandomIterator end,</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                  CompareFunction compare,</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                  <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy = <a class="code" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor">#include &quot;detail/parallel-inl.h&quot;</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PARALLEL_H_</span></div>
+<div class="ttc" id="namespacejet_html_ac2e79cedfa17053fb4e22d1aa68df793"><div class="ttname"><a href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">jet::parallelFor</a></div><div class="ttdeci">void parallelFor(IndexType beginIndex, IndexType endIndex, const Function &amp;function, ExecutionPolicy policy=ExecutionPolicy::kParallel)</div><div class="ttdoc">Makes a for-loop from beginIndex to endIndex in parallel. </div></div>
+<div class="ttc" id="namespacejet_html_a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9"><div class="ttname"><a href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">jet::ExecutionPolicy::kParallel</a></div></div>
+<div class="ttc" id="namespacejet_html_ad6a9a3f2eff949bbf7b1dad466fe002c"><div class="ttname"><a href="namespacejet.html#ad6a9a3f2eff949bbf7b1dad466fe002c">jet::parallelSort</a></div><div class="ttdeci">void parallelSort(RandomIterator begin, RandomIterator end, ExecutionPolicy policy=ExecutionPolicy::kParallel)</div><div class="ttdoc">Sorts a container in parallel. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
+<div class="ttc" id="namespacejet_html_af915bbe11a3d6e771d277433fea9ee2b"><div class="ttname"><a href="namespacejet.html#af915bbe11a3d6e771d277433fea9ee2b">jet::parallelReduce</a></div><div class="ttdeci">Value parallelReduce(IndexType beginIndex, IndexType endIndex, const Value &amp;identity, const Function &amp;func, const Reduce &amp;reduce, ExecutionPolicy policy=ExecutionPolicy::kParallel)</div><div class="ttdoc">Performs reduce operation in parallel. </div></div>
+<div class="ttc" id="namespacejet_html_a81bac887d68a435dc86d85de78e82032"><div class="ttname"><a href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">jet::ExecutionPolicy</a></div><div class="ttdeci">ExecutionPolicy</div><div class="ttdoc">Execution policy tag. </div><div class="ttdef"><b>Definition:</b> parallel.h:13</div></div>
+<div class="ttc" id="namespacejet_html_a81bac887d68a435dc86d85de78e82032af54983ae8eb79e77ee6be2f8384e1cb1"><div class="ttname"><a href="namespacejet.html#a81bac887d68a435dc86d85de78e82032af54983ae8eb79e77ee6be2f8384e1cb1">jet::ExecutionPolicy::kSerial</a></div></div>
+<div class="ttc" id="namespacejet_html_a74f6608e3cee888c2a0dcd36fef3c8b5"><div class="ttname"><a href="namespacejet.html#a74f6608e3cee888c2a0dcd36fef3c8b5">jet::parallelFill</a></div><div class="ttdeci">void parallelFill(const RandomIterator &amp;begin, const RandomIterator &amp;end, const T &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel)</div><div class="ttdoc">Fills from begin to end with value in parallel. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -159,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

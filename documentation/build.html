@@ -102,6 +102,13 @@
         </a>
       </li>
       <li>
+        <a href="/fluid-engine-dev/documentation/python.html">
+          
+          Tutorial 3 - Using Python API
+          
+        </a>
+      </li>
+      <li>
         <a href="/fluid-engine-dev/documentation/manual_tests.html">
           
           Manual (Feature) Tests
@@ -131,7 +138,12 @@
       </li>
       <li>
         <a href="/fluid-engine-dev/doxygen/">
-          Doxygen page for C++ API
+          C++ API Reference
+        </a>
+      </li>
+      <li>
+        <a href="/fluid-engine-dev/pdoc/">
+          Python API Reference
         </a>
       </li>
     </ul>
@@ -153,9 +165,13 @@ git submodule update
 
 <p>Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install <a href="http://brew.sh">Homebrew</a> and run the following command line to setup <a href="https://cmake.org/">CMake</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>brew install cmake
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install cmake python
 </code></pre>
 </div>
+
+<blockquote>
+  <p>Note that we want <code class="highlighter-rouge">brew</code> version of Python which is recommended. You can still use macOS’s default Python.</p>
+</blockquote>
 
 <p>Once CMake is installed, build the code by running</p>
 
@@ -166,17 +182,23 @@ make
 </code></pre>
 </div>
 
+<blockquote>
+  <p>Of course, use <code class="highlighter-rouge">make -j&lt;num_threads&gt;</code> flag to boost up the build performance by using multithreads.</p>
+</blockquote>
+
 <p>This will build entire codebase. To run the unit test, execute</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests
 </code></pre>
 </div>
 
+<p>It should show all the tests are passing.</p>
+
 <h3 id="building-from-ubuntu">Building from Ubuntu</h3>
 
 <p>Jet supports Ubuntu 14.04 or higher. Using <code class="highlighter-rouge">apt-get</code>, install required tools and libraries by running,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install build-essential python cmake
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install build-essential python-dev python-pip cmake
 </code></pre>
 </div>
 
@@ -189,15 +211,21 @@ make
 </code></pre>
 </div>
 
+<blockquote>
+  <p>Again, use <code class="highlighter-rouge">make -j&lt;num_threads&gt;</code> flag to boost up the build performance by using multithreads.</p>
+</blockquote>
+
 <p>This will build entire codebase. To run the unit test, execute</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>bin/unit_tests
 </code></pre>
 </div>
 
+<p>It should show all the tests are passing.</p>
+
 <h3 id="building-from-windows">Building from Windows</h3>
 
-<p>To build the code on Windows, <a href="https://cmake.org/">CMake</a> and Visual Studio 2015 is required. Windows’ version of CMake is available from <a href="https://cmake.org/">this website</a>, and free version of VS 2015 also can be downloaded from <a href="https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx">Visual Studio Community 2015</a>. In addition to Visual Studio, install <a href="https://www.python.org/">Python</a> (2.7.9 or higher recommended) to run post-build events.</p>
+<p>To build the code on Windows, CMake, Python, and Visual Studio 2015 (or higher) is required. Windows’ version of CMake is available from <a href="https://cmake.org/">this website</a>, Python installer can be downloaded from <a href="https://python.org/">here</a>. For Python, version 2.7.9 or later is recommended. To install Visual Studio, the community edition of the tool can be downloaded from <a href="https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx">Visual Studio Community 2015</a>. You can also use Visual Studio 2017.</p>
 
 <p>Once everything is installed, run the following commands:</p>
 
@@ -207,7 +235,7 @@ cmake .. -G"Visual Studio 14 2015 Win64"
 </code></pre>
 </div>
 
-<p>This will generate 64-bit version of VS 2015 solution and projects. Once executed, you can find <code class="highlighter-rouge">jet.sln</code> solution file in the <code class="highlighter-rouge">build</code> directory. Open the solution file and hit <code class="highlighter-rouge">Ctrl + Shift + B</code> to build the entire solution. Set <code class="highlighter-rouge">unit_tests</code> as a start-up project and hit <code class="highlighter-rouge">Ctrl + F5</code> to run the test.</p>
+<p>This will generate 64-bit version of VS 2015 solution and projects. (To build with Visual Studio 2017, just replace the parameter with <code class="highlighter-rouge">Visual Studio 15 2017 Win64</code>.) Once executed, you can find <code class="highlighter-rouge">jet.sln</code> solution file in the <code class="highlighter-rouge">build</code> directory. Open the solution file and hit <code class="highlighter-rouge">Ctrl + Shift + B</code> to build the entire solution. Set <code class="highlighter-rouge">unit_tests</code> as a start-up project and hit <code class="highlighter-rouge">Ctrl + F5</code> to run the test.</p>
 
 <p>Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:</p>
 
@@ -223,9 +251,9 @@ cmake .. -G"Visual Studio 14 2015 Win64"
 
 <h3 id="running-tests">Running Tests</h3>
 
-<p>There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from <a href="http://doyubkim.github.io/fluid-engine-dev/documentation/">the project website</a>.</p>
+<p>There are four different tests in the codebase including the unit test, manual test, performance test, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from <a href="http://doyubkim.github.io/fluid-engine-dev/documentation/">the project website</a>.</p>
 
-<h3 id="installing-sdk">Installing SDK</h3>
+<h3 id="installing-c-sdk">Installing C++ SDK</h3>
 
 <p>For macOS and Ubuntu platforms, the library can be installed by running</p>
 
@@ -243,7 +271,23 @@ make install
 </code></pre>
 </div>
 
-<p>Then, build <code class="highlighter-rouge">INSTALL</code> project under <code class="highlighter-rouge">jet.sln</code>. This will install the header files and the static library <code class="highlighter-rouge">jet.lob</code> under <code class="highlighter-rouge">_INSTALL_PATH_</code>.</p>
+<p>Then, build <code class="highlighter-rouge">INSTALL</code> project under <code class="highlighter-rouge">jet.sln</code>. This will install the header files and the static library <code class="highlighter-rouge">jet.lib</code> under <code class="highlighter-rouge">_INSTALL_PATH_</code>.</p>
+
+<h3 id="installing-python-sdk">Installing Python SDK</h3>
+
+<p>To install the Python SDK, <code class="highlighter-rouge">pyjet</code>, run the following command from the project root directory (where <code class="highlighter-rouge">setup.py</code> lives):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install .
+</code></pre>
+</div>
+
+<p>Once installed, try running the unit test to see if the module is installed correctly:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>python src/tests/python_tests/main.py
+</code></pre>
+</div>
+
+<p>The tests should pass.</p>
 
 <h3 id="coding-style">Coding Style</h3>
 

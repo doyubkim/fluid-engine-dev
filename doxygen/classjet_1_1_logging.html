@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -125,9 +125,18 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ae45b2566c33e76111ba1648cd056f1bd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#ae45b2566c33e76111ba1648cd056f1bd">setAllStream</a> (std::ostream *strm)</td></tr>
 <tr class="memdesc:ae45b2566c33e76111ba1648cd056f1bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the output stream for all the log levelss.  <a href="#ae45b2566c33e76111ba1648cd056f1bd">More...</a><br /></td></tr>
 <tr class="separator:ae45b2566c33e76111ba1648cd056f1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65045bcaf10bfac10682e0956298d70"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#ab65045bcaf10bfac10682e0956298d70">getHeader</a> (<a class="el" href="namespacejet.html#a6364e99bca8f95835aecc31b1154f115">LoggingLevel</a> level)</td></tr>
+<tr class="memitem:ab65045bcaf10bfac10682e0956298d70"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#ab65045bcaf10bfac10682e0956298d70">getHeader</a> (<a class="el" href="namespacejet.html#a3166d28ccef4a44468ee30816aed5023">LoggingLevel</a> level)</td></tr>
 <tr class="memdesc:ab65045bcaf10bfac10682e0956298d70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the header string.  <a href="#ab65045bcaf10bfac10682e0956298d70">More...</a><br /></td></tr>
 <tr class="separator:ab65045bcaf10bfac10682e0956298d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f7f88861c1dd7a19291f95da8d969d3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#a2f7f88861c1dd7a19291f95da8d969d3">setLevel</a> (<a class="el" href="namespacejet.html#a3166d28ccef4a44468ee30816aed5023">LoggingLevel</a> level)</td></tr>
+<tr class="memdesc:a2f7f88861c1dd7a19291f95da8d969d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the logging level.  <a href="#a2f7f88861c1dd7a19291f95da8d969d3">More...</a><br /></td></tr>
+<tr class="separator:a2f7f88861c1dd7a19291f95da8d969d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97203c65b4f72b6d7af9a46ff7f0e650"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#a97203c65b4f72b6d7af9a46ff7f0e650">mute</a> ()</td></tr>
+<tr class="memdesc:a97203c65b4f72b6d7af9a46ff7f0e650"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutes the logger.  <a href="#a97203c65b4f72b6d7af9a46ff7f0e650">More...</a><br /></td></tr>
+<tr class="separator:a97203c65b4f72b6d7af9a46ff7f0e650"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa68bbf76962643c3d75f0a07cc941f68"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_logging.html#aa68bbf76962643c3d75f0a07cc941f68">unmute</a> ()</td></tr>
+<tr class="memdesc:aa68bbf76962643c3d75f0a07cc941f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un-mutes the logger.  <a href="#aa68bbf76962643c3d75f0a07cc941f68">More...</a><br /></td></tr>
+<tr class="separator:aa68bbf76962643c3d75f0a07cc941f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Helper class for logging. </p>
@@ -142,7 +151,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">static std::string jet::Logging::getHeader </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacejet.html#a6364e99bca8f95835aecc31b1154f115">LoggingLevel</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a3166d28ccef4a44468ee30816aed5023">LoggingLevel</a>&#160;</td>
           <td class="paramname"><em>level</em></td><td>)</td>
           <td></td>
         </tr>
@@ -155,6 +164,31 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the header string. </p>
+
+</div>
+</div>
+<a class="anchor" id="a97203c65b4f72b6d7af9a46ff7f0e650"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::Logging::mute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mutes the logger. </p>
 
 </div>
 </div>
@@ -262,6 +296,32 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a2f7f88861c1dd7a19291f95da8d969d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::Logging::setLevel </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a3166d28ccef4a44468ee30816aed5023">LoggingLevel</a>&#160;</td>
+          <td class="paramname"><em>level</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the logging level. </p>
+
+</div>
+</div>
 <a class="anchor" id="a8ea470273e0e5c42be853bf4d2863c5b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -288,6 +348,31 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa68bbf76962643c3d75f0a07cc941f68"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::Logging::unmute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Un-mutes the logger. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>jet/<a class="el" href="logging_8h_source.html">logging.h</a></li>
 </ul>
@@ -300,7 +385,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:28 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

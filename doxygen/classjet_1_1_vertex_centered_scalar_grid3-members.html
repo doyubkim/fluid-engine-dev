@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -116,8 +116,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_scalar_grid3.html#ae1e9a6d4253f86169b8e71a5463919d3">dataSize</a>() const  override</td><td class="entry"><a class="el" href="classjet_1_1_vertex_centered_scalar_grid3.html">jet::VertexCenteredScalarGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#a9cb8b05269f23bf22eecc0fecf6bbbcc">deserialize</a>(const std::vector&lt; uint8_t &gt; &amp;buffer) override</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_field3.html#aa65470657b8715495a8bae4619adaf58">Field3</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field3.html">jet::Field3</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#a7a87d4f0ece58d896df5a041a2ac59a8">fill</a>(double value)</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#ab263b75adf33bf1edddcdf15e3b1d76e">fill</a>(const std::function&lt; double(const Vector3D &amp;)&gt; &amp;func)</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#afa2026dc8eaf664676dfdc2fb6d856a8">fill</a>(double value, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#a8cc1a73c387188ddbf1cb70cc6b01701">fill</a>(const std::function&lt; double(const Vector3D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid3.html#a7d3aa042635474690a47591dd83e9534">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#a35a6fd1789de810c687d0acaee7137eb">forEachDataPointIndex</a>(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html#ad72de7beddc21a2e52b5ac311f00f20b">getData</a>(std::vector&lt; double &gt; *data) const  override</td><td class="entry"><a class="el" href="classjet_1_1_scalar_grid3.html">jet::ScalarGrid3</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">virtual</span></td></tr>
@@ -171,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:29 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:15 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

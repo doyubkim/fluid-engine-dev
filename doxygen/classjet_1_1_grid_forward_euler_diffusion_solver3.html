@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -138,7 +138,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>3-D grid-based forward Euler diffusion solver. </p>
-<p>This class implements 3-D grid-based forward Euler diffusion solver using second-order central differencing spatially. Since the method is relying on explicit time-integration (i.e. foward Euler), the diffusion coefficient is limited by the time interval and grid spacing such as: <img class="formulaInl" alt="$\mu < \frac{h}{12\Delta t} $" src="form_6.png"/> where <img class="formulaInl" alt="$\mu$" src="form_1.png"/>, <img class="formulaInl" alt="$h$" src="form_4.png"/>, and <img class="formulaInl" alt="$\Delta t$" src="form_5.png"/> are the diffusion coefficient, grid spacing, and time interval, respectively. </p>
+<p>This class implements 3-D grid-based forward Euler diffusion solver using second-order central differencing spatially. Since the method is relying on explicit time-integration (i.e. forward Euler), the diffusion coefficient is limited by the time interval and grid spacing such as: <img class="formulaInl" alt="$\mu < \frac{h}{12\Delta t} $" src="form_6.png"/> where <img class="formulaInl" alt="$\mu$" src="form_1.png"/>, <img class="formulaInl" alt="$h$" src="form_4.png"/>, and <img class="formulaInl" alt="$\Delta t$" src="form_5.png"/> are the diffusion coefficient, grid spacing, and time interval, respectively. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a532b73c126c0eadd7ebd12c4d3afb03a"></a>
 <div class="memitem">
@@ -221,7 +221,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">timeIntervalInSeconds</td><td>Small time-interval that diffusion occur. </td></tr>
     <tr><td class="paramname">dest</td><td>Output scalar field. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Shape of the solid boundary that is empty by default. </td></tr>
-    <tr><td class="paramname">boundarySdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
+    <tr><td class="paramname">fluidSdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
   </table>
   </dd>
 </dl>
@@ -293,7 +293,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">timeIntervalInSeconds</td><td>Small time-interval that diffusion occur. </td></tr>
     <tr><td class="paramname">dest</td><td>Output collocated vector field. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Shape of the solid boundary that is empty by default. </td></tr>
-    <tr><td class="paramname">boundarySdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
+    <tr><td class="paramname">fluidSdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
   </table>
   </dd>
 </dl>
@@ -365,7 +365,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramname">timeIntervalInSeconds</td><td>Small time-interval that diffusion occur. </td></tr>
     <tr><td class="paramname">dest</td><td>Output face-centered vector field. </td></tr>
     <tr><td class="paramname">boundarySdf</td><td>Shape of the solid boundary that is empty by default. </td></tr>
-    <tr><td class="paramname">boundarySdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
+    <tr><td class="paramname">fluidSdf</td><td>Shape of the fluid boundary that is full by default. </td></tr>
   </table>
   </dd>
 </dl>
@@ -386,7 +386,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

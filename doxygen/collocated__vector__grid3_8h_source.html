@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -119,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_collocated_vector_grid3.html#ad31dbe11590ecd499601b40bcc7d909c">~CollocatedVectorGrid3</a>();</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a> <a class="code" href="classjet_1_1_collocated_vector_grid3.html#a6d5d71f177b6b637a99c6bb70d7b1ec5">dataSize</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_size3.html">Size3</a> <a class="code" href="classjet_1_1_collocated_vector_grid3.html#a6d5d71f177b6b637a99c6bb70d7b1ec5">dataSize</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a> <a class="code" href="classjet_1_1_collocated_vector_grid3.html#a31d4a51922eb3b39315c50f52cf5fd51">dataOrigin</a>() <span class="keyword">const</span> = 0;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
@@ -168,7 +168,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    std::function&lt;Vector3D(const Vector3D&amp;)&gt; _sampler;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> onResize(</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; <a class="code" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; <a class="code" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>,</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">gridSpacing</a>,</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a>,</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; initialValue) <span class="keyword">final</span>;</div>
@@ -195,8 +195,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_ad0429f22d302cb5310f4fc1d78104d38"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#ad0429f22d302cb5310f4fc1d78104d38">jet::CollocatedVectorGrid3::operator()</a></div><div class="ttdeci">const Vector3D &amp; operator()(size_t i, size_t j, size_t k) const </div><div class="ttdoc">Returns the grid data at given data point. </div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a6d5d71f177b6b637a99c6bb70d7b1ec5"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a6d5d71f177b6b637a99c6bb70d7b1ec5">jet::CollocatedVectorGrid3::dataSize</a></div><div class="ttdeci">virtual Size3 dataSize() const  =0</div><div class="ttdoc">Returns the actual data point size. </div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html">jet::CollocatedVectorGrid3</a></div><div class="ttdoc">Abstract base class for 3-D collocated vector grid structure. </div><div class="ttdef"><b>Definition:</b> collocated_vector_grid3.h:18</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a6b24f7dc2dd5031dc55e705aa475e4ac"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a6b24f7dc2dd5031dc55e705aa475e4ac">jet::CollocatedVectorGrid3::CollocatedVectorGrid3</a></div><div class="ttdeci">CollocatedVectorGrid3()</div><div class="ttdoc">Constructs an empty grid. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a1f073dcecd238696f1dec073d6ee3eeb"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a1f073dcecd238696f1dec073d6ee3eeb">jet::CollocatedVectorGrid3::parallelForEachDataPointIndex</a></div><div class="ttdeci">void parallelForEachDataPointIndex(const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </div><div class="ttdoc">Invokes the given function func for each data point parallelly. </div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_013_01_4.html">jet::Array&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array class. </div><div class="ttdef"><b>Definition:</b> array3.h:43</div></div>
 <div class="ttc" id="classjet_1_1_grid3_html_a690d920ff38af11f2bfbe73c09d5ad3b"><div class="ttname"><a href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">jet::Grid3::gridSpacing</a></div><div class="ttdeci">const Vector3D &amp; gridSpacing() const </div><div class="ttdoc">Returns the grid spacing. </div></div>
@@ -209,7 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a26e14376e336b80d4cff42f184f1a12b"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a26e14376e336b80d4cff42f184f1a12b">jet::CollocatedVectorGrid3::divergenceAtDataPoint</a></div><div class="ttdeci">double divergenceAtDataPoint(size_t i, size_t j, size_t k) const </div><div class="ttdoc">Returns divergence at data point location. </div></div>
 <div class="ttc" id="classjet_1_1_grid3_html_aed9c14b943756b19cac0ce309d8e8634"><div class="ttname"><a href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">jet::Grid3::resolution</a></div><div class="ttdeci">const Size3 &amp; resolution() const </div><div class="ttdoc">Returns the grid resolution. </div></div>
 <div class="ttc" id="vector__grid3_8h_html"><div class="ttname"><a href="vector__grid3_8h.html">vector_grid3.h</a></div></div>
-<div class="ttc" id="classjet_1_1_grid3_html_af4cbf2f12300eefc5a2bbd699e447b64"><div class="ttname"><a href="classjet_1_1_grid3.html#af4cbf2f12300eefc5a2bbd699e447b64">jet::Grid3::DataPositionFunc</a></div><div class="ttdeci">std::function&lt; Vector3D(size_t, size_t, size_t)&gt; DataPositionFunc</div><div class="ttdoc">Function type for mapping data index to actual position. </div><div class="ttdef"><b>Definition:</b> grid3.h:31</div></div>
+<div class="ttc" id="classjet_1_1_grid3_html_af4cbf2f12300eefc5a2bbd699e447b64"><div class="ttname"><a href="classjet_1_1_grid3.html#af4cbf2f12300eefc5a2bbd699e447b64">jet::Grid3::DataPositionFunc</a></div><div class="ttdeci">std::function&lt; Vector3D(size_t, size_t, size_t)&gt; DataPositionFunc</div><div class="ttdoc">Function type for mapping data index to actual position. </div><div class="ttdef"><b>Definition:</b> grid3.h:33</div></div>
 <div class="ttc" id="classjet_1_1_grid3_html_aec57a7dffdfa97741eeb53799c544d75"><div class="ttname"><a href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">jet::Grid3::origin</a></div><div class="ttdeci">const Vector3D &amp; origin() const </div><div class="ttdoc">Returns the grid origin. </div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a84fdc9bde9e9313b55d59117540c1128"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a84fdc9bde9e9313b55d59117540c1128">jet::CollocatedVectorGrid3::dataPosition</a></div><div class="ttdeci">DataPositionFunc dataPosition() const </div><div class="ttdoc">Returns the function that maps data point to its position. </div></div>
 <div class="ttc" id="classjet_1_1_collocated_vector_grid3_html_a97ff37be6691fffafa173cb227ebfedc"><div class="ttname"><a href="classjet_1_1_collocated_vector_grid3.html#a97ff37be6691fffafa173cb227ebfedc">jet::CollocatedVectorGrid3::setCollocatedVectorGrid</a></div><div class="ttdeci">void setCollocatedVectorGrid(const CollocatedVectorGrid3 &amp;other)</div><div class="ttdoc">Sets the data storage and predefined samplers with given grid. </div></div>
@@ -227,7 +227,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

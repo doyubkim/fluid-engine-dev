@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -117,7 +117,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classjet_1_1_flip_solver3.html#afa3d043aeb56acb3f83da2758b131238">FlipSolver3</a>();</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="classjet_1_1_flip_solver3.html#afa3d043aeb56acb3f83da2758b131238">FlipSolver3</a>(</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; resolution,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>,</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
@@ -161,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_flip_solver3_html_a2e31b556176106f18df6c3d38acabea5"><div class="ttname"><a href="classjet_1_1_flip_solver3.html#a2e31b556176106f18df6c3d38acabea5">jet::FlipSolver3::builder</a></div><div class="ttdeci">static Builder builder()</div><div class="ttdoc">Returns builder fox FlipSolver3. </div></div>
 <div class="ttc" id="classjet_1_1_flip_solver3_1_1_builder_html_a237084c29e490d426e33c177e6bd0780"><div class="ttname"><a href="classjet_1_1_flip_solver3_1_1_builder.html#a237084c29e490d426e33c177e6bd0780">jet::FlipSolver3::Builder::build</a></div><div class="ttdeci">FlipSolver3 build() const </div><div class="ttdoc">Builds FlipSolver3. </div></div>
 <div class="ttc" id="classjet_1_1_flip_solver3_html_abdeb3d221f3444d6ec7d17c68b3ec3e0"><div class="ttname"><a href="classjet_1_1_flip_solver3.html#abdeb3d221f3444d6ec7d17c68b3ec3e0">jet::FlipSolver3::~FlipSolver3</a></div><div class="ttdeci">virtual ~FlipSolver3()</div><div class="ttdoc">Default destructor. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_013_01_4.html">jet::Array&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array class. </div><div class="ttdef"><b>Definition:</b> array3.h:43</div></div>
 <div class="ttc" id="classjet_1_1_flip_solver3_1_1_builder_html_afb8cce380903b3cce200cd7fc87f54e7"><div class="ttname"><a href="classjet_1_1_flip_solver3_1_1_builder.html#afb8cce380903b3cce200cd7fc87f54e7">jet::FlipSolver3::Builder::makeShared</a></div><div class="ttdeci">FlipSolver3Ptr makeShared() const </div><div class="ttdoc">Builds shared pointer of FlipSolver3 instance. </div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
@@ -172,6 +172,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="pic__solver3_8h_html"><div class="ttname"><a href="pic__solver3_8h.html">pic_solver3.h</a></div></div>
 <div class="ttc" id="classjet_1_1_flip_solver3_html_a9d5b701df5b59a4241b9478cc0a68a35"><div class="ttname"><a href="classjet_1_1_flip_solver3.html#a9d5b701df5b59a4241b9478cc0a68a35">jet::FlipSolver3::setPicBlendingFactor</a></div><div class="ttdeci">void setPicBlendingFactor(double factor)</div><div class="ttdoc">Sets the PIC blending factor. </div></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver_builder_base3_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver_builder_base3.html">jet::GridFluidSolverBuilderBase3</a></div><div class="ttdoc">Base class for grid-based fluid solver builder. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver3.h:298</div></div>
+<div class="ttc" id="classjet_1_1_grid_fluid_solver3_html_a4426da4069761b3065027189d9326b46"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">jet::GridFluidSolver3::resolution</a></div><div class="ttdeci">Size3 resolution() const </div><div class="ttdoc">Returns the resolution of the grid system data. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html"><div class="ttname"><a href="classjet_1_1_pic_solver3.html">jet::PicSolver3</a></div><div class="ttdoc">3-D Particle-in-Cell (PIC) implementation. </div><div class="ttdef"><b>Definition:</b> pic_solver3.h:26</div></div>
 <div class="ttc" id="classjet_1_1_flip_solver3_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_flip_solver3_1_1_builder.html">jet::FlipSolver3::Builder</a></div><div class="ttdoc">Front-end to create FlipSolver3 objects step by step. </div><div class="ttdef"><b>Definition:</b> flip_solver3.h:80</div></div>
 <div class="ttc" id="classjet_1_1_vector_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_vector_3_01_t_00_013_01_4.html">jet::Vector&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D vector class. </div><div class="ttdef"><b>Definition:</b> vector3.h:25</div></div>
@@ -185,7 +186,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:25 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

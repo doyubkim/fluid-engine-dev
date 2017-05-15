@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -95,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">parallel.h File Reference</div>  </div>
@@ -109,36 +110,44 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespacejet"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html">jet</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a81bac887d68a435dc86d85de78e82032"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">jet::ExecutionPolicy</a> { <a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032af54983ae8eb79e77ee6be2f8384e1cb1">jet::ExecutionPolicy::kSerial</a>, 
+<a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">jet::ExecutionPolicy::kParallel</a>
+ }<tr class="memdesc:a81bac887d68a435dc86d85de78e82032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execution policy tag.  <a href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">More...</a><br /></td></tr>
+<tr class="separator:a81bac887d68a435dc86d85de78e82032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a30213f05c514faf636311f4f88c691b5"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator , typename T &gt; </td></tr>
-<tr class="memitem:a30213f05c514faf636311f4f88c691b5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a30213f05c514faf636311f4f88c691b5">jet::parallelFill</a> (const RandomIterator &amp;begin, const RandomIterator &amp;end, const T &amp;value)</td></tr>
-<tr class="memdesc:a30213f05c514faf636311f4f88c691b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills from <code>begin</code> to <code>end</code> with <code>value</code> in parallel.  <a href="namespacejet.html#a30213f05c514faf636311f4f88c691b5">More...</a><br /></td></tr>
-<tr class="separator:a30213f05c514faf636311f4f88c691b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a666d590c945eb4173c287765e2d54262"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
-<tr class="memitem:a666d590c945eb4173c287765e2d54262"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a666d590c945eb4173c287765e2d54262">jet::parallelFor</a> (IndexType beginIndex, IndexType endIndex, const Function &amp;function)</td></tr>
-<tr class="memdesc:a666d590c945eb4173c287765e2d54262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a for-loop from <code>beginIndex</code> <code>to</code> endIndex in parallel.  <a href="namespacejet.html#a666d590c945eb4173c287765e2d54262">More...</a><br /></td></tr>
-<tr class="separator:a666d590c945eb4173c287765e2d54262"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14d89c9d8892a2e47461e51dc6c601b9"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
-<tr class="memitem:a14d89c9d8892a2e47461e51dc6c601b9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a14d89c9d8892a2e47461e51dc6c601b9">jet::parallelFor</a> (IndexType beginIndexX, IndexType endIndexX, IndexType beginIndexY, IndexType endIndexY, const Function &amp;function)</td></tr>
-<tr class="memdesc:a14d89c9d8892a2e47461e51dc6c601b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a 2D nested for-loop in parallel.  <a href="namespacejet.html#a14d89c9d8892a2e47461e51dc6c601b9">More...</a><br /></td></tr>
-<tr class="separator:a14d89c9d8892a2e47461e51dc6c601b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a272ae3670da44da80b74f8598616f12c"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
-<tr class="memitem:a272ae3670da44da80b74f8598616f12c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a272ae3670da44da80b74f8598616f12c">jet::parallelFor</a> (IndexType beginIndexX, IndexType endIndexX, IndexType beginIndexY, IndexType endIndexY, IndexType beginIndexZ, IndexType endIndexZ, const Function &amp;function)</td></tr>
-<tr class="memdesc:a272ae3670da44da80b74f8598616f12c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a 3D nested for-loop in parallel.  <a href="namespacejet.html#a272ae3670da44da80b74f8598616f12c">More...</a><br /></td></tr>
-<tr class="separator:a272ae3670da44da80b74f8598616f12c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0f7e292b4bfae892942e38d99d3b63a"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Value , typename Function , typename Reduce &gt; </td></tr>
-<tr class="memitem:ab0f7e292b4bfae892942e38d99d3b63a"><td class="memTemplItemLeft" align="right" valign="top">Value&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#ab0f7e292b4bfae892942e38d99d3b63a">jet::parallelReduce</a> (IndexType beginIndex, IndexType endIndex, const Value &amp;identity, const Function &amp;func, const Reduce &amp;reduce)</td></tr>
-<tr class="memdesc:ab0f7e292b4bfae892942e38d99d3b63a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs reduce operation in parallel.  <a href="namespacejet.html#ab0f7e292b4bfae892942e38d99d3b63a">More...</a><br /></td></tr>
-<tr class="separator:ab0f7e292b4bfae892942e38d99d3b63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6de058bf145d90f3a0f25aa86ff0255e"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator &gt; </td></tr>
-<tr class="memitem:a6de058bf145d90f3a0f25aa86ff0255e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a6de058bf145d90f3a0f25aa86ff0255e">jet::parallelSort</a> (RandomIterator begin, RandomIterator end)</td></tr>
-<tr class="memdesc:a6de058bf145d90f3a0f25aa86ff0255e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a container in parallel.  <a href="namespacejet.html#a6de058bf145d90f3a0f25aa86ff0255e">More...</a><br /></td></tr>
-<tr class="separator:a6de058bf145d90f3a0f25aa86ff0255e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0caf89e6da39e696e0e788f676330855"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator , typename CompareFunction &gt; </td></tr>
-<tr class="memitem:a0caf89e6da39e696e0e788f676330855"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a0caf89e6da39e696e0e788f676330855">jet::parallelSort</a> (RandomIterator begin, RandomIterator end, CompareFunction compare)</td></tr>
-<tr class="memdesc:a0caf89e6da39e696e0e788f676330855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a container in parallel with a custom compare function.  <a href="namespacejet.html#a0caf89e6da39e696e0e788f676330855">More...</a><br /></td></tr>
-<tr class="separator:a0caf89e6da39e696e0e788f676330855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f6608e3cee888c2a0dcd36fef3c8b5"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator , typename T &gt; </td></tr>
+<tr class="memitem:a74f6608e3cee888c2a0dcd36fef3c8b5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a74f6608e3cee888c2a0dcd36fef3c8b5">jet::parallelFill</a> (const RandomIterator &amp;begin, const RandomIterator &amp;end, const T &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:a74f6608e3cee888c2a0dcd36fef3c8b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills from <code>begin</code> to <code>end</code> with <code>value</code> in parallel.  <a href="namespacejet.html#a74f6608e3cee888c2a0dcd36fef3c8b5">More...</a><br /></td></tr>
+<tr class="separator:a74f6608e3cee888c2a0dcd36fef3c8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2e79cedfa17053fb4e22d1aa68df793"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
+<tr class="memitem:ac2e79cedfa17053fb4e22d1aa68df793"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">jet::parallelFor</a> (IndexType beginIndex, IndexType endIndex, const Function &amp;function, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:ac2e79cedfa17053fb4e22d1aa68df793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a for-loop from <code>beginIndex</code> <code>to</code> endIndex in parallel.  <a href="namespacejet.html#ac2e79cedfa17053fb4e22d1aa68df793">More...</a><br /></td></tr>
+<tr class="separator:ac2e79cedfa17053fb4e22d1aa68df793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3d7136d9347ebf9abb323a1830468b3"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
+<tr class="memitem:ab3d7136d9347ebf9abb323a1830468b3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#ab3d7136d9347ebf9abb323a1830468b3">jet::parallelFor</a> (IndexType beginIndexX, IndexType endIndexX, IndexType beginIndexY, IndexType endIndexY, const Function &amp;function, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:ab3d7136d9347ebf9abb323a1830468b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a 2D nested for-loop in parallel.  <a href="namespacejet.html#ab3d7136d9347ebf9abb323a1830468b3">More...</a><br /></td></tr>
+<tr class="separator:ab3d7136d9347ebf9abb323a1830468b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d0c3a3bfcffb97a59324437c6ac2e5c"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Function &gt; </td></tr>
+<tr class="memitem:a2d0c3a3bfcffb97a59324437c6ac2e5c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a2d0c3a3bfcffb97a59324437c6ac2e5c">jet::parallelFor</a> (IndexType beginIndexX, IndexType endIndexX, IndexType beginIndexY, IndexType endIndexY, IndexType beginIndexZ, IndexType endIndexZ, const Function &amp;function, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:a2d0c3a3bfcffb97a59324437c6ac2e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes a 3D nested for-loop in parallel.  <a href="namespacejet.html#a2d0c3a3bfcffb97a59324437c6ac2e5c">More...</a><br /></td></tr>
+<tr class="separator:a2d0c3a3bfcffb97a59324437c6ac2e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af915bbe11a3d6e771d277433fea9ee2b"><td class="memTemplParams" colspan="2">template&lt;typename IndexType , typename Value , typename Function , typename Reduce &gt; </td></tr>
+<tr class="memitem:af915bbe11a3d6e771d277433fea9ee2b"><td class="memTemplItemLeft" align="right" valign="top">Value&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#af915bbe11a3d6e771d277433fea9ee2b">jet::parallelReduce</a> (IndexType beginIndex, IndexType endIndex, const Value &amp;identity, const Function &amp;func, const Reduce &amp;reduce, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:af915bbe11a3d6e771d277433fea9ee2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs reduce operation in parallel.  <a href="namespacejet.html#af915bbe11a3d6e771d277433fea9ee2b">More...</a><br /></td></tr>
+<tr class="separator:af915bbe11a3d6e771d277433fea9ee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6a9a3f2eff949bbf7b1dad466fe002c"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator &gt; </td></tr>
+<tr class="memitem:ad6a9a3f2eff949bbf7b1dad466fe002c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#ad6a9a3f2eff949bbf7b1dad466fe002c">jet::parallelSort</a> (RandomIterator begin, RandomIterator end, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:ad6a9a3f2eff949bbf7b1dad466fe002c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a container in parallel.  <a href="namespacejet.html#ad6a9a3f2eff949bbf7b1dad466fe002c">More...</a><br /></td></tr>
+<tr class="separator:ad6a9a3f2eff949bbf7b1dad466fe002c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e1b904c786db32c8e5ce4db174f8c56"><td class="memTemplParams" colspan="2">template&lt;typename RandomIterator , typename CompareFunction &gt; </td></tr>
+<tr class="memitem:a2e1b904c786db32c8e5ce4db174f8c56"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a2e1b904c786db32c8e5ce4db174f8c56">jet::parallelSort</a> (RandomIterator begin, RandomIterator end, CompareFunction compare, ExecutionPolicy policy=ExecutionPolicy::kParallel)</td></tr>
+<tr class="memdesc:a2e1b904c786db32c8e5ce4db174f8c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sorts a container in parallel with a custom compare function.  <a href="namespacejet.html#a2e1b904c786db32c8e5ce4db174f8c56">More...</a><br /></td></tr>
+<tr class="separator:a2e1b904c786db32c8e5ce4db174f8c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
@@ -149,7 +158,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

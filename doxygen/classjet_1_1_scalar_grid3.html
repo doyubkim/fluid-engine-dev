@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -145,7 +145,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9c37061b01f4e5a6b7c088dd480113cd"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a9c37061b01f4e5a6b7c088dd480113cd">~ScalarGrid3</a> ()</td></tr>
 <tr class="memdesc:a9c37061b01f4e5a6b7c088dd480113cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#a9c37061b01f4e5a6b7c088dd480113cd">More...</a><br /></td></tr>
 <tr class="separator:a9c37061b01f4e5a6b7c088dd480113cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d14a9ad85769911957f7812be6cdbd7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a7d14a9ad85769911957f7812be6cdbd7">dataSize</a> () const  =0</td></tr>
+<tr class="memitem:a7d14a9ad85769911957f7812be6cdbd7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classjet_1_1_size3.html">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a7d14a9ad85769911957f7812be6cdbd7">dataSize</a> () const  =0</td></tr>
 <tr class="memdesc:a7d14a9ad85769911957f7812be6cdbd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the grid data.  <a href="#a7d14a9ad85769911957f7812be6cdbd7">More...</a><br /></td></tr>
 <tr class="separator:a7d14a9ad85769911957f7812be6cdbd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff51b0959d55c581b3b1b6dbbd69ff6e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#aff51b0959d55c581b3b1b6dbbd69ff6e">dataOrigin</a> () const  =0</td></tr>
@@ -160,7 +160,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a190733342fb7a2b56beb177b4e1d23c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a190733342fb7a2b56beb177b4e1d23c4">resize</a> (size_t resolutionX, size_t resolutionY, size_t resolutionZ, double gridSpacingX=1.0, double gridSpacingY=1.0, double gridSpacingZ=1.0, double originX=0.0, double originY=0.0, double originZ=0.0, double initialValue=0.0)</td></tr>
 <tr class="memdesc:a190733342fb7a2b56beb177b4e1d23c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="#a190733342fb7a2b56beb177b4e1d23c4">More...</a><br /></td></tr>
 <tr class="separator:a190733342fb7a2b56beb177b4e1d23c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1606dbc1a30d0cfc928fc16138850353"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a1606dbc1a30d0cfc928fc16138850353">resize</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">gridSpacing</a>=<a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(1, 1, 1), const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a>=<a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(), double initialValue=0.0)</td></tr>
+<tr class="memitem:a1606dbc1a30d0cfc928fc16138850353"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a1606dbc1a30d0cfc928fc16138850353">resize</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">gridSpacing</a>=<a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(1, 1, 1), const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a>=<a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>(), double initialValue=0.0)</td></tr>
 <tr class="memdesc:a1606dbc1a30d0cfc928fc16138850353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the grid using given parameters.  <a href="#a1606dbc1a30d0cfc928fc16138850353">More...</a><br /></td></tr>
 <tr class="separator:a1606dbc1a30d0cfc928fc16138850353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade635876b99dd98392a29b50d0605681"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#ade635876b99dd98392a29b50d0605681">resize</a> (double gridSpacingX, double gridSpacingY, double gridSpacingZ, double originX, double originY, double originZ)</td></tr>
@@ -190,12 +190,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a957510c1993a8c96ec7987cc7d8ec83e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_grid3.html#af4cbf2f12300eefc5a2bbd699e447b64">DataPositionFunc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a957510c1993a8c96ec7987cc7d8ec83e">dataPosition</a> () const </td></tr>
 <tr class="memdesc:a957510c1993a8c96ec7987cc7d8ec83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function that maps data point to its position.  <a href="#a957510c1993a8c96ec7987cc7d8ec83e">More...</a><br /></td></tr>
 <tr class="separator:a957510c1993a8c96ec7987cc7d8ec83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a87d4f0ece58d896df5a041a2ac59a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a7a87d4f0ece58d896df5a041a2ac59a8">fill</a> (double value)</td></tr>
-<tr class="memdesc:a7a87d4f0ece58d896df5a041a2ac59a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the grid with given value.  <a href="#a7a87d4f0ece58d896df5a041a2ac59a8">More...</a><br /></td></tr>
-<tr class="separator:a7a87d4f0ece58d896df5a041a2ac59a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab263b75adf33bf1edddcdf15e3b1d76e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#ab263b75adf33bf1edddcdf15e3b1d76e">fill</a> (const std::function&lt; double(const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;)&gt; &amp;func)</td></tr>
-<tr class="memdesc:ab263b75adf33bf1edddcdf15e3b1d76e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the grid with given position-to-value mapping function.  <a href="#ab263b75adf33bf1edddcdf15e3b1d76e">More...</a><br /></td></tr>
-<tr class="separator:ab263b75adf33bf1edddcdf15e3b1d76e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa2026dc8eaf664676dfdc2fb6d856a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#afa2026dc8eaf664676dfdc2fb6d856a8">fill</a> (double value, <a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy=<a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>)</td></tr>
+<tr class="memdesc:afa2026dc8eaf664676dfdc2fb6d856a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the grid with given value.  <a href="#afa2026dc8eaf664676dfdc2fb6d856a8">More...</a><br /></td></tr>
+<tr class="separator:afa2026dc8eaf664676dfdc2fb6d856a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cc1a73c387188ddbf1cb70cc6b01701"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a8cc1a73c387188ddbf1cb70cc6b01701">fill</a> (const std::function&lt; double(const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;)&gt; &amp;func, <a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a> policy=<a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a>)</td></tr>
+<tr class="memdesc:a8cc1a73c387188ddbf1cb70cc6b01701"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills the grid with given position-to-value mapping function.  <a href="#a8cc1a73c387188ddbf1cb70cc6b01701">More...</a><br /></td></tr>
+<tr class="separator:a8cc1a73c387188ddbf1cb70cc6b01701"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35a6fd1789de810c687d0acaee7137eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_scalar_grid3.html#a35a6fd1789de810c687d0acaee7137eb">forEachDataPointIndex</a> (const std::function&lt; void(size_t, size_t, size_t)&gt; &amp;func) const </td></tr>
 <tr class="memdesc:a35a6fd1789de810c687d0acaee7137eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the given function <code>func</code> for each data point.  <a href="#a35a6fd1789de810c687d0acaee7137eb">More...</a><br /></td></tr>
 <tr class="separator:a35a6fd1789de810c687d0acaee7137eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -242,7 +242,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7bee6f964ee6ff728159dcaea1e9bcb5 inherit pub_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#a7bee6f964ee6ff728159dcaea1e9bcb5">typeName</a> () const  =0</td></tr>
 <tr class="memdesc:a7bee6f964ee6ff728159dcaea1e9bcb5 inherit pub_methods_classjet_1_1_grid3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type name of derived grid.  <a href="#a7bee6f964ee6ff728159dcaea1e9bcb5">More...</a><br /></td></tr>
 <tr class="separator:a7bee6f964ee6ff728159dcaea1e9bcb5 inherit pub_methods_classjet_1_1_grid3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed9c14b943756b19cac0ce309d8e8634 inherit pub_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a> () const </td></tr>
+<tr class="memitem:aed9c14b943756b19cac0ce309d8e8634 inherit pub_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a> () const </td></tr>
 <tr class="memdesc:aed9c14b943756b19cac0ce309d8e8634 inherit pub_methods_classjet_1_1_grid3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid resolution.  <a href="#aed9c14b943756b19cac0ce309d8e8634">More...</a><br /></td></tr>
 <tr class="separator:aed9c14b943756b19cac0ce309d8e8634 inherit pub_methods_classjet_1_1_grid3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec57a7dffdfa97741eeb53799c544d75 inherit pub_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a> () const </td></tr>
@@ -285,7 +285,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:af9b19dd5d7c15c351d6edb0eec9c2177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the data from a continuous linear array.  <a href="#af9b19dd5d7c15c351d6edb0eec9c2177">More...</a><br /></td></tr>
 <tr class="separator:af9b19dd5d7c15c351d6edb0eec9c2177"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classjet_1_1_grid3"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classjet_1_1_grid3')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classjet_1_1_grid3.html">jet::Grid3</a></td></tr>
-<tr class="memitem:a13eb35d0a7b00f80c7cacc40a030c743 inherit pro_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#a13eb35d0a7b00f80c7cacc40a030c743">setSizeParameters</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a>)</td></tr>
+<tr class="memitem:a13eb35d0a7b00f80c7cacc40a030c743 inherit pro_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#a13eb35d0a7b00f80c7cacc40a030c743">setSizeParameters</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aed9c14b943756b19cac0ce309d8e8634">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#a690d920ff38af11f2bfbe73c09d5ad3b">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid3.html#aec57a7dffdfa97741eeb53799c544d75">origin</a>)</td></tr>
 <tr class="separator:a13eb35d0a7b00f80c7cacc40a030c743 inherit pro_methods_classjet_1_1_grid3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07778cc687cd7528030ef2a739a04782 inherit pro_methods_classjet_1_1_grid3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid3.html#a07778cc687cd7528030ef2a739a04782">swapGrid</a> (<a class="el" href="classjet_1_1_grid3.html">Grid3</a> *other)</td></tr>
 <tr class="memdesc:a07778cc687cd7528030ef2a739a04782 inherit pro_methods_classjet_1_1_grid3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the size parameters with given grid <code>other</code>.  <a href="#a07778cc687cd7528030ef2a739a04782">More...</a><br /></td></tr>
@@ -500,7 +500,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> jet::ScalarGrid3::dataSize </td>
+          <td class="memname">virtual <a class="el" href="classjet_1_1_size3.html">Size3</a> jet::ScalarGrid3::dataSize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -548,7 +548,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7a87d4f0ece58d896df5a041a2ac59a8"></a>
+<a class="anchor" id="afa2026dc8eaf664676dfdc2fb6d856a8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -556,8 +556,18 @@ Protected Member Functions</h2></td></tr>
           <td class="memname">void jet::ScalarGrid3::fill </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a>&#160;</td>
+          <td class="paramname"><em>policy</em> = <code><a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -566,7 +576,7 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab263b75adf33bf1edddcdf15e3b1d76e"></a>
+<a class="anchor" id="a8cc1a73c387188ddbf1cb70cc6b01701"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -574,8 +584,18 @@ Protected Member Functions</h2></td></tr>
           <td class="memname">void jet::ScalarGrid3::fill </td>
           <td>(</td>
           <td class="paramtype">const std::function&lt; double(const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;)&gt; &amp;&#160;</td>
-          <td class="paramname"><em>func</em></td><td>)</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032">ExecutionPolicy</a>&#160;</td>
+          <td class="paramname"><em>policy</em> = <code><a class="el" href="namespacejet.html#a81bac887d68a435dc86d85de78e82032a6fb3551e3657204372d76d2d9b83a3b9">ExecutionPolicy::kParallel</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -925,7 +945,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void jet::ScalarGrid3::resize </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;&#160;</td>
           <td class="paramname"><em>resolution</em>, </td>
         </tr>
         <tr>
@@ -1215,7 +1235,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:28 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:15 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -119,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classjet_1_1_pic_solver3.html#a6ba03daafb41c1e72c49aa3703ba44ca">PicSolver3</a>();</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classjet_1_1_pic_solver3.html#a6ba03daafb41c1e72c49aa3703ba44ca">PicSolver3</a>(</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_point_3_01_t_00_013_01_4.html">Size3</a>&amp; resolution,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_size3.html">Size3</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>,</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>,</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">const</span> <a class="code" href="classjet_1_1_vector_3_01_t_00_013_01_4.html">Vector3D</a>&amp; <a class="code" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
@@ -182,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_PIC_SOLVER3_H_</span></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver3_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver3.html">jet::GridFluidSolver3</a></div><div class="ttdoc">Abstract base class for grid-based 3-D fluid solver. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver3.h:34</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_aed16c79386175a425ceb34558ad04836"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#aed16c79386175a425ceb34558ad04836">jet::PicSolver3::setParticleEmitter</a></div><div class="ttdeci">void setParticleEmitter(const ParticleEmitter3Ptr &amp;newEmitter)</div><div class="ttdoc">Sets the particle emitter. </div></div>
-<div class="ttc" id="namespacejet_html_aa236445c2a1925c7493a0d99f4417f8d"><div class="ttname"><a href="namespacejet.html#aa236445c2a1925c7493a0d99f4417f8d">jet::ScalarGrid3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid3 &gt; ScalarGrid3Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid3 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:191</div></div>
+<div class="ttc" id="namespacejet_html_aa236445c2a1925c7493a0d99f4417f8d"><div class="ttname"><a href="namespacejet.html#aa236445c2a1925c7493a0d99f4417f8d">jet::ScalarGrid3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ScalarGrid3 &gt; ScalarGrid3Ptr</div><div class="ttdoc">Shared pointer for the ScalarGrid3 type. </div><div class="ttdef"><b>Definition:</b> scalar_grid3.h:193</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_1_1_builder_html"><div class="ttname"><a href="classjet_1_1_pic_solver3_1_1_builder.html">jet::PicSolver3::Builder</a></div><div class="ttdoc">Front-end to create PicSolver3 objects step by step. </div><div class="ttdef"><b>Definition:</b> pic_solver3.h:102</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_a295b067b4aeb64ab6ac1a781e42a5535"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#a295b067b4aeb64ab6ac1a781e42a5535">jet::PicSolver3::onBeginAdvanceTimeStep</a></div><div class="ttdeci">void onBeginAdvanceTimeStep(double timeIntervalInSeconds) override</div><div class="ttdoc">Invoked before a simulation time-step begins. </div></div>
 <div class="ttc" id="namespacejet_html_aa740f4b2df5643417c7bcba6ccb3519b"><div class="ttname"><a href="namespacejet.html#aa740f4b2df5643417c7bcba6ccb3519b">jet::ParticleEmitter3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleEmitter3 &gt; ParticleEmitter3Ptr</div><div class="ttdoc">Shared pointer for the ParticleEmitter3 type. </div><div class="ttdef"><b>Definition:</b> particle_emitter3.h:72</div></div>
@@ -193,7 +193,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_pic_solver3_html_a89a771598583ca07ad80455c9ec20975"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#a89a771598583ca07ad80455c9ec20975">jet::PicSolver3::_vMarkers</a></div><div class="ttdeci">Array3&lt; char &gt; _vMarkers</div><div class="ttdef"><b>Definition:</b> pic_solver3.h:59</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_ab8990bfa3cc1cde5d3077afa475185be"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#ab8990bfa3cc1cde5d3077afa475185be">jet::PicSolver3::transferFromParticlesToGrids</a></div><div class="ttdeci">virtual void transferFromParticlesToGrids()</div><div class="ttdoc">Transfers velocity field from particles to grids. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_a2e836469fdf17180552be7dd752c09f6"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#a2e836469fdf17180552be7dd752c09f6">jet::PicSolver3::signedDistanceField</a></div><div class="ttdeci">ScalarGrid3Ptr signedDistanceField() const </div><div class="ttdoc">Returns the signed-distance field of particles. </div></div>
-<div class="ttc" id="classjet_1_1_point_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_point_3_01_t_00_013_01_4.html">jet::Point&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D point class. </div><div class="ttdef"><b>Definition:</b> point3.h:23</div></div>
+<div class="ttc" id="classjet_1_1_size3_html"><div class="ttname"><a href="classjet_1_1_size3.html">jet::Size3</a></div><div class="ttdoc">3-D size class. </div><div class="ttdef"><b>Definition:</b> size3.h:19</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_013_01_4.html">jet::Array&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array class. </div><div class="ttdef"><b>Definition:</b> array3.h:43</div></div>
 <div class="ttc" id="particle__system__data3_8h_html"><div class="ttname"><a href="particle__system__data3_8h.html">particle_system_data3.h</a></div></div>
 <div class="ttc" id="grid__fluid__solver3_8h_html"><div class="ttname"><a href="grid__fluid__solver3_8h.html">grid_fluid_solver3.h</a></div></div>
@@ -209,6 +209,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_pic_solver3_html_aa1d5c6b4d8a5b86ca99a1ebf7589e095"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#aa1d5c6b4d8a5b86ca99a1ebf7589e095">jet::PicSolver3::moveParticles</a></div><div class="ttdeci">virtual void moveParticles(double timeIntervalInSeconds)</div><div class="ttdoc">Moves particles. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_a2ad883d071beb623cc6d25a3ba177f24"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#a2ad883d071beb623cc6d25a3ba177f24">jet::PicSolver3::particleEmitter</a></div><div class="ttdeci">const ParticleEmitter3Ptr &amp; particleEmitter() const </div><div class="ttdoc">Returns the particle emitter. </div></div>
 <div class="ttc" id="classjet_1_1_grid_fluid_solver_builder_base3_html"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver_builder_base3.html">jet::GridFluidSolverBuilderBase3</a></div><div class="ttdoc">Base class for grid-based fluid solver builder. </div><div class="ttdef"><b>Definition:</b> grid_fluid_solver3.h:298</div></div>
+<div class="ttc" id="classjet_1_1_grid_fluid_solver3_html_a4426da4069761b3065027189d9326b46"><div class="ttname"><a href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">jet::GridFluidSolver3::resolution</a></div><div class="ttdeci">Size3 resolution() const </div><div class="ttdoc">Returns the resolution of the grid system data. </div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html"><div class="ttname"><a href="classjet_1_1_pic_solver3.html">jet::PicSolver3</a></div><div class="ttdoc">3-D Particle-in-Cell (PIC) implementation. </div><div class="ttdef"><b>Definition:</b> pic_solver3.h:26</div></div>
 <div class="ttc" id="classjet_1_1_pic_solver3_html_a23493dfe8ac02e4aabf1552ee6df51cd"><div class="ttname"><a href="classjet_1_1_pic_solver3.html#a23493dfe8ac02e4aabf1552ee6df51cd">jet::PicSolver3::_uMarkers</a></div><div class="ttdeci">Array3&lt; char &gt; _uMarkers</div><div class="ttdef"><b>Definition:</b> pic_solver3.h:58</div></div>
 <div class="ttc" id="namespacejet_html_a7f43ca538aedb315f3bab6ffd8fce164"><div class="ttname"><a href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">jet::ParticleSystemData3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; ParticleSystemData3 &gt; ParticleSystemData3Ptr</div><div class="ttdoc">Shared pointer type of ParticleSystemData3. </div><div class="ttdef"><b>Definition:</b> particle_system_data3.h:250</div></div>
@@ -226,7 +227,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:26 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -126,16 +126,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5ea76e76f4d87799c986471bb8189dca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the given linear system.  <a href="#a5ea76e76f4d87799c986471bb8189dca">More...</a><br /></td></tr>
 <tr class="separator:a5ea76e76f4d87799c986471bb8189dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99dfaae26bf9883aab29c3c1147308db"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_cg_solver2.html#a99dfaae26bf9883aab29c3c1147308db">maxNumberOfIterations</a> () const </td></tr>
-<tr class="memdesc:a99dfaae26bf9883aab29c3c1147308db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max number of Jacobi iterations.  <a href="#a99dfaae26bf9883aab29c3c1147308db">More...</a><br /></td></tr>
+<tr class="memdesc:a99dfaae26bf9883aab29c3c1147308db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max number of CG iterations.  <a href="#a99dfaae26bf9883aab29c3c1147308db">More...</a><br /></td></tr>
 <tr class="separator:a99dfaae26bf9883aab29c3c1147308db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeb1d2780fd595c0fc9e5ff7271806d0"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_cg_solver2.html#aeeb1d2780fd595c0fc9e5ff7271806d0">lastNumberOfIterations</a> () const </td></tr>
-<tr class="memdesc:aeeb1d2780fd595c0fc9e5ff7271806d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last number of Jacobi iterations the solver made.  <a href="#aeeb1d2780fd595c0fc9e5ff7271806d0">More...</a><br /></td></tr>
+<tr class="memdesc:aeeb1d2780fd595c0fc9e5ff7271806d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last number of CG iterations the solver made.  <a href="#aeeb1d2780fd595c0fc9e5ff7271806d0">More...</a><br /></td></tr>
 <tr class="separator:aeeb1d2780fd595c0fc9e5ff7271806d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae42b31a523e057da91dffed5032ee0ab"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_cg_solver2.html#ae42b31a523e057da91dffed5032ee0ab">tolerance</a> () const </td></tr>
-<tr class="memdesc:ae42b31a523e057da91dffed5032ee0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max residual tolerance for the Jacobi method.  <a href="#ae42b31a523e057da91dffed5032ee0ab">More...</a><br /></td></tr>
+<tr class="memdesc:ae42b31a523e057da91dffed5032ee0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the max residual tolerance for the CG method.  <a href="#ae42b31a523e057da91dffed5032ee0ab">More...</a><br /></td></tr>
 <tr class="separator:ae42b31a523e057da91dffed5032ee0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3d08d53a184dd641a5a0720c070bb43"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_cg_solver2.html#ae3d08d53a184dd641a5a0720c070bb43">lastResidual</a> () const </td></tr>
-<tr class="memdesc:ae3d08d53a184dd641a5a0720c070bb43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last residual after the Jacobi iterations.  <a href="#ae3d08d53a184dd641a5a0720c070bb43">More...</a><br /></td></tr>
+<tr class="memdesc:ae3d08d53a184dd641a5a0720c070bb43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last residual after the CG iterations.  <a href="#ae3d08d53a184dd641a5a0720c070bb43">More...</a><br /></td></tr>
 <tr class="separator:ae3d08d53a184dd641a5a0720c070bb43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -183,7 +183,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the last number of Jacobi iterations the solver made. </p>
+<p>Returns the last number of CG iterations the solver made. </p>
 
 </div>
 </div>
@@ -200,7 +200,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the last residual after the Jacobi iterations. </p>
+<p>Returns the last residual after the CG iterations. </p>
 
 </div>
 </div>
@@ -217,7 +217,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the max number of Jacobi iterations. </p>
+<p>Returns the max number of CG iterations. </p>
 
 </div>
 </div>
@@ -262,7 +262,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the max residual tolerance for the Jacobi method. </p>
+<p>Returns the max residual tolerance for the CG method. </p>
 
 </div>
 </div>
@@ -278,7 +278,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:27 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

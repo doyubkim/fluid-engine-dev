@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -112,8 +112,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html#ac2f4cf14ca1db415ea5b7e81833b2b3f">deserialize</a>(const std::vector&lt; uint8_t &gt; &amp;buffer) override</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html">jet::VectorGrid2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_field2.html#a1de82d8e906521238d6bbd5530617e8e">divergence</a>(const Vector2D &amp;x) const </td><td class="entry"><a class="el" href="classjet_1_1_vector_field2.html">jet::VectorField2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_field2.html#a247828c5d03bc6655e6ba77dc9eb11fa">Field2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_field2.html">jet::Field2</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html#a2bf78ac7b6d26a20c8223ae596917b80">fill</a>(const Vector2D &amp;value)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html">jet::VectorGrid2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html#a15f9fec902a3882a51e4c661682d205f">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html">jet::VectorGrid2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html#a425675ac972a3767a2cda9a186ff930e">fill</a>(const Vector2D &amp;value, ExecutionPolicy policy=ExecutionPolicy::kParallel)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html">jet::VectorGrid2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html#ac81b1c6d9cbc5a9833f591c06da9fadf">fill</a>(const std::function&lt; Vector2D(const Vector2D &amp;)&gt; &amp;func, ExecutionPolicy policy=ExecutionPolicy::kParallel)=0</td><td class="entry"><a class="el" href="classjet_1_1_vector_grid2.html">jet::VectorGrid2</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid2.html#ab9981f28339c685b56b89cda84c8045c">forEachCellIndex</a>(const std::function&lt; void(size_t, size_t)&gt; &amp;func) const </td><td class="entry"><a class="el" href="classjet_1_1_grid2.html">jet::Grid2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_grid2.html#a6201197651b2db6ec6b8af138434c6b2">getData</a>(std::vector&lt; double &gt; *data) const  =0</td><td class="entry"><a class="el" href="classjet_1_1_grid2.html">jet::Grid2</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_grid2.html#a3d1991330976e2843c76b6fc094334a5">Grid2</a>()</td><td class="entry"><a class="el" href="classjet_1_1_grid2.html">jet::Grid2</a></td><td class="entry"></td></tr>
@@ -152,7 +152,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:29 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:15 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.0.5</a>
+                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
                 </div>
             </div>
         </nav>
@@ -106,7 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Level set based 2-D liquid solver.  
+<p>Level set based 3-D liquid solver.  
  <a href="classjet_1_1_level_set_liquid_solver3.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="level__set__liquid__solver3_8h_source.html">jet/level_set_liquid_solver3.h</a>&gt;</code></p>
@@ -125,7 +125,7 @@ Inheritance diagram for jet::LevelSetLiquidSolver3:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3_1_1_builder.html">Builder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Front-end to create <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 2-D liquid solver. ">LevelSetLiquidSolver3</a> objects step by step.  <a href="classjet_1_1_level_set_liquid_solver3_1_1_builder.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Front-end to create <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 3-D liquid solver. ">LevelSetLiquidSolver3</a> objects step by step.  <a href="classjet_1_1_level_set_liquid_solver3_1_1_builder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace612128e7644f8acebf08f076eebaca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3.html#ace612128e7644f8acebf08f076eebaca">LevelSetLiquidSolver3</a> ()</td></tr>
 <tr class="memdesc:ace612128e7644f8acebf08f076eebaca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#ace612128e7644f8acebf08f076eebaca">More...</a><br /></td></tr>
 <tr class="separator:ace612128e7644f8acebf08f076eebaca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a110fa85a1d579c793a682f1226702ea0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3.html#a110fa85a1d579c793a682f1226702ea0">LevelSetLiquidSolver3</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;resolution, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
+<tr class="memitem:a110fa85a1d579c793a682f1226702ea0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3.html#a110fa85a1d579c793a682f1226702ea0">LevelSetLiquidSolver3</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
 <tr class="memdesc:a110fa85a1d579c793a682f1226702ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs solver with initial grid size.  <a href="#a110fa85a1d579c793a682f1226702ea0">More...</a><br /></td></tr>
 <tr class="separator:a110fa85a1d579c793a682f1226702ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac14308be00a5f82de95b4543fdcaa599"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3.html#ac14308be00a5f82de95b4543fdcaa599">~LevelSetLiquidSolver3</a> ()</td></tr>
@@ -161,7 +161,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0b0032f8af2aa69e416fe215bcf18ca8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a0b0032f8af2aa69e416fe215bcf18ca8">GridFluidSolver3</a> ()</td></tr>
 <tr class="memdesc:a0b0032f8af2aa69e416fe215bcf18ca8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a0b0032f8af2aa69e416fe215bcf18ca8">More...</a><br /></td></tr>
 <tr class="separator:a0b0032f8af2aa69e416fe215bcf18ca8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed6e56f6b4e6d8ce5f02eebcc3009f1d inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#aed6e56f6b4e6d8ce5f02eebcc3009f1d">GridFluidSolver3</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;resolution, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
+<tr class="memitem:aed6e56f6b4e6d8ce5f02eebcc3009f1d inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#aed6e56f6b4e6d8ce5f02eebcc3009f1d">GridFluidSolver3</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a>, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;<a class="el" href="classjet_1_1_grid_fluid_solver3.html#a33447181b439ed189a5e0b725ee4755a">gridOrigin</a>)</td></tr>
 <tr class="memdesc:aed6e56f6b4e6d8ce5f02eebcc3009f1d inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs solver with initial grid size.  <a href="#aed6e56f6b4e6d8ce5f02eebcc3009f1d">More...</a><br /></td></tr>
 <tr class="separator:aed6e56f6b4e6d8ce5f02eebcc3009f1d inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3bb8464465bfd285be33e9450669368 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#ae3bb8464465bfd285be33e9450669368">~GridFluidSolver3</a> ()</td></tr>
@@ -215,12 +215,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7731c841a93eeff64c32ac7e42bd6508 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#a64caa79837a19ae5dd70e464dbb1e9d9">GridSystemData3Ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a7731c841a93eeff64c32ac7e42bd6508">gridSystemData</a> () const </td></tr>
 <tr class="memdesc:a7731c841a93eeff64c32ac7e42bd6508 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid system data.  <a href="#a7731c841a93eeff64c32ac7e42bd6508">More...</a><br /></td></tr>
 <tr class="separator:a7731c841a93eeff64c32ac7e42bd6508 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a366bb733627714c26044b96279fa15e8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a366bb733627714c26044b96279fa15e8">resizeGrid</a> (const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;newSize, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridSpacing, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridOrigin)</td></tr>
+<tr class="memitem:a366bb733627714c26044b96279fa15e8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a366bb733627714c26044b96279fa15e8">resizeGrid</a> (const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;newSize, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridSpacing, const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;newGridOrigin)</td></tr>
 <tr class="memdesc:a366bb733627714c26044b96279fa15e8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes grid system data.  <a href="#a366bb733627714c26044b96279fa15e8">More...</a><br /></td></tr>
 <tr class="separator:a366bb733627714c26044b96279fa15e8 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a675bb93f1bede465e3ed5833bf3af436 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a675bb93f1bede465e3ed5833bf3af436">gridResolution</a> () const </td></tr>
-<tr class="memdesc:a675bb93f1bede465e3ed5833bf3af436 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the resolution of the grid system data.  <a href="#a675bb93f1bede465e3ed5833bf3af436">More...</a><br /></td></tr>
-<tr class="separator:a675bb93f1bede465e3ed5833bf3af436 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4426da4069761b3065027189d9326b46 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_size3.html">Size3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4426da4069761b3065027189d9326b46">resolution</a> () const </td></tr>
+<tr class="memdesc:a4426da4069761b3065027189d9326b46 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the resolution of the grid system data.  <a href="#a4426da4069761b3065027189d9326b46">More...</a><br /></td></tr>
+<tr class="separator:a4426da4069761b3065027189d9326b46 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4886b0e4c6f3ff8909f5b1a645eaa700 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a4886b0e4c6f3ff8909f5b1a645eaa700">gridSpacing</a> () const </td></tr>
 <tr class="memdesc:a4886b0e4c6f3ff8909f5b1a645eaa700 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the grid spacing of the grid system data.  <a href="#a4886b0e4c6f3ff8909f5b1a645eaa700">More...</a><br /></td></tr>
 <tr class="separator:a4886b0e4c6f3ff8909f5b1a645eaa700 inherit pub_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -285,7 +285,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2d3e01adacc9e1f4a947d517c12eaf2d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classjet_1_1_level_set_liquid_solver3_1_1_builder.html">Builder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_level_set_liquid_solver3.html#a2d3e01adacc9e1f4a947d517c12eaf2d">builder</a> ()</td></tr>
-<tr class="memdesc:a2d3e01adacc9e1f4a947d517c12eaf2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder fox <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 2-D liquid solver. ">LevelSetLiquidSolver3</a>.  <a href="#a2d3e01adacc9e1f4a947d517c12eaf2d">More...</a><br /></td></tr>
+<tr class="memdesc:a2d3e01adacc9e1f4a947d517c12eaf2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns builder fox <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 3-D liquid solver. ">LevelSetLiquidSolver3</a>.  <a href="#a2d3e01adacc9e1f4a947d517c12eaf2d">More...</a><br /></td></tr>
 <tr class="separator:a2d3e01adacc9e1f4a947d517c12eaf2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classjet_1_1_grid_fluid_solver3"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classjet_1_1_grid_fluid_solver3')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classjet_1_1_grid_fluid_solver3.html">jet::GridFluidSolver3</a></td></tr>
 <tr class="memitem:a07aa1ce881c63426516ad700b62d0092 inherit pub_static_methods_classjet_1_1_grid_fluid_solver3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classjet_1_1_grid_fluid_solver3_1_1_builder.html">Builder</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_grid_fluid_solver3.html#a07aa1ce881c63426516ad700b62d0092">builder</a> ()</td></tr>
@@ -348,8 +348,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:aed4af544b2bc4fd56542b19d8d8a002d inherit pro_methods_classjet_1_1_grid_fluid_solver3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Level set based 2-D liquid solver. </p>
-<p>This class implements level set-based 2-D liquid solver. It defines the surface of the liquid using signed-distance field and use stable fluids framework to compute the forces.</p>
+<div class="textblock"><p>Level set based 3-D liquid solver. </p>
+<p>This class implements level set-based 3-D liquid solver. It defines the surface of the liquid using signed-distance field and use stable fluids framework to compute the forces.</p>
 <dl class="section see"><dt>See also</dt><dd>Enright, Douglas, Stephen Marschner, and Ronald Fedkiw. "Animation and rendering of complex water surfaces." ACM Transactions on Graphics (TOG). Vol. 21. No. 3. ACM, 2002. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ace612128e7644f8acebf08f076eebaca"></a>
@@ -376,7 +376,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">jet::LevelSetLiquidSolver3::LevelSetLiquidSolver3 </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespacejet.html#a98684891b8b24e069e4a7d7e5c53684c">Size3</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classjet_1_1_size3.html">Size3</a> &amp;&#160;</td>
           <td class="paramname"><em>resolution</em>, </td>
         </tr>
         <tr>
@@ -450,7 +450,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Returns builder fox <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 2-D liquid solver. ">LevelSetLiquidSolver3</a>. </p>
+<p>Returns builder fox <a class="el" href="classjet_1_1_level_set_liquid_solver3.html" title="Level set based 3-D liquid solver. ">LevelSetLiquidSolver3</a>. </p>
 
 </div>
 </div>
@@ -686,7 +686,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 29 2017 23:00:28 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>
