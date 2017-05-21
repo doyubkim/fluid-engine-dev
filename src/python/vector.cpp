@@ -25,6 +25,44 @@ void addVector2F(pybind11::module& m) {
              py::arg("x") = 0.0f, py::arg("y") = 0.0f)
         .def_readwrite("x", &Vector2F::x)
         .def_readwrite("y", &Vector2F::y)
+        .def("setZero", &Vector2F::setZero)
+        .def("normalize", &Vector2F::normalize)
+        .def("dot",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.dot(objectToVector2F(other));
+             })
+        .def("cross",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.cross(objectToVector2F(other));
+             })
+        .def("sum", &Vector2F::sum)
+        .def("avg", &Vector2F::avg)
+        .def("min", &Vector2F::min)
+        .def("max", &Vector2F::max)
+        .def("absmin", &Vector2F::absmin)
+        .def("absmax", &Vector2F::absmax)
+        .def("dominantAxis", &Vector2F::dominantAxis)
+        .def("subminantAxis", &Vector2F::subminantAxis)
+        .def("normalized", &Vector2F::normalized)
+        .def("length", &Vector2F::length)
+        .def("lengthSquared", &Vector2F::lengthSquared)
+        .def("distanceTo",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.distanceTo(objectToVector2F(other));
+             })
+        .def("distanceSquaredTo",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.distanceSquaredTo(objectToVector2F(other));
+             })
+        .def("reflected",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.reflected(objectToVector2F(other));
+             })
+        .def("projected",
+             [](const Vector2F& instance, py::object other) {
+                 return instance.projected(objectToVector2F(other));
+             })
+        .def("tangential", &Vector2F::tangential)
         .def("__getitem__", [](const Vector2F& instance,
                                size_t i) -> float { return instance[i]; })
         .def("__setitem__",
@@ -97,6 +135,44 @@ void addVector2D(pybind11::module& m) {
              py::arg("x") = 0.0, py::arg("y") = 0.0)
         .def_readwrite("x", &Vector2D::x)
         .def_readwrite("y", &Vector2D::y)
+        .def("setZero", &Vector2D::setZero)
+        .def("normalize", &Vector2D::normalize)
+        .def("dot",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.dot(objectToVector2D(other));
+             })
+        .def("cross",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.cross(objectToVector2D(other));
+             })
+        .def("sum", &Vector2D::sum)
+        .def("avg", &Vector2D::avg)
+        .def("min", &Vector2D::min)
+        .def("max", &Vector2D::max)
+        .def("absmin", &Vector2D::absmin)
+        .def("absmax", &Vector2D::absmax)
+        .def("dominantAxis", &Vector2D::dominantAxis)
+        .def("subminantAxis", &Vector2D::subminantAxis)
+        .def("normalized", &Vector2D::normalized)
+        .def("length", &Vector2D::length)
+        .def("lengthSquared", &Vector2D::lengthSquared)
+        .def("distanceTo",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.distanceTo(objectToVector2D(other));
+             })
+        .def("distanceSquaredTo",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.distanceSquaredTo(objectToVector2D(other));
+             })
+        .def("reflected",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.reflected(objectToVector2D(other));
+             })
+        .def("projected",
+             [](const Vector2D& instance, py::object other) {
+                 return instance.projected(objectToVector2D(other));
+             })
+        .def("tangential", &Vector2D::tangential)
         .def("__getitem__", [](const Vector2D& instance,
                                size_t i) -> double { return instance[i]; })
         .def("__setitem__", [](Vector2D& instance, size_t i,
@@ -169,6 +245,44 @@ void addVector3F(pybind11::module& m) {
         .def_readwrite("x", &Vector3F::x)
         .def_readwrite("y", &Vector3F::y)
         .def_readwrite("z", &Vector3F::z)
+        .def("setZero", &Vector3F::setZero)
+        .def("normalize", &Vector3F::normalize)
+        .def("dot",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.dot(objectToVector3F(other));
+             })
+        .def("cross",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.cross(objectToVector3F(other));
+             })
+        .def("sum", &Vector3F::sum)
+        .def("avg", &Vector3F::avg)
+        .def("min", &Vector3F::min)
+        .def("max", &Vector3F::max)
+        .def("absmin", &Vector3F::absmin)
+        .def("absmax", &Vector3F::absmax)
+        .def("dominantAxis", &Vector3F::dominantAxis)
+        .def("subminantAxis", &Vector3F::subminantAxis)
+        .def("normalized", &Vector3F::normalized)
+        .def("length", &Vector3F::length)
+        .def("lengthSquared", &Vector3F::lengthSquared)
+        .def("distanceTo",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.distanceTo(objectToVector3F(other));
+             })
+        .def("distanceSquaredTo",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.distanceSquaredTo(objectToVector3F(other));
+             })
+        .def("reflected",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.reflected(objectToVector3F(other));
+             })
+        .def("projected",
+             [](const Vector3F& instance, py::object other) {
+                 return instance.projected(objectToVector3F(other));
+             })
+        .def("tangential", &Vector3F::tangential)
         .def("__getitem__", [](const Vector3F& instance,
                                size_t i) -> float { return instance[i]; })
         .def("__setitem__",
@@ -242,6 +356,44 @@ void addVector3D(pybind11::module& m) {
         .def_readwrite("x", &Vector3D::x)
         .def_readwrite("y", &Vector3D::y)
         .def_readwrite("z", &Vector3D::z)
+        .def("setZero", &Vector3D::setZero)
+        .def("normalize", &Vector3D::normalize)
+        .def("dot",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.dot(objectToVector3D(other));
+             })
+        .def("cross",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.cross(objectToVector3D(other));
+             })
+        .def("sum", &Vector3D::sum)
+        .def("avg", &Vector3D::avg)
+        .def("min", &Vector3D::min)
+        .def("max", &Vector3D::max)
+        .def("absmin", &Vector3D::absmin)
+        .def("absmax", &Vector3D::absmax)
+        .def("dominantAxis", &Vector3D::dominantAxis)
+        .def("subminantAxis", &Vector3D::subminantAxis)
+        .def("normalized", &Vector3D::normalized)
+        .def("length", &Vector3D::length)
+        .def("lengthSquared", &Vector3D::lengthSquared)
+        .def("distanceTo",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.distanceTo(objectToVector3D(other));
+             })
+        .def("distanceSquaredTo",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.distanceSquaredTo(objectToVector3D(other));
+             })
+        .def("reflected",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.reflected(objectToVector3D(other));
+             })
+        .def("projected",
+             [](const Vector3D& instance, py::object other) {
+                 return instance.projected(objectToVector3D(other));
+             })
+        .def("tangential", &Vector3D::tangential)
         .def("__getitem__", [](const Vector3D& instance,
                                size_t i) -> double { return instance[i]; })
         .def("__setitem__", [](Vector3D& instance, size_t i,

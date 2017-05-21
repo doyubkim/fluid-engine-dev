@@ -89,6 +89,10 @@ void addQuaternionF(pybind11::module& m) {
              This quaternion *= other quaternion.
              )pbdoc",
              py::arg("other"))
+        .def("__setitem__", [](QuaternionF& instance, size_t i,
+                               float val) { instance[i] = val; })
+        .def("__getitem__", [](const QuaternionF& instance,
+                               size_t i) -> float { return instance[i]; })
         .def("__eq__", [](const QuaternionF& instance, py::object obj) {
             QuaternionF other = objectToQuaternionF(obj);
             return instance == other;
@@ -172,6 +176,10 @@ void addQuaternionD(pybind11::module& m) {
              This quaternion *= other quaternion.
              )pbdoc",
              py::arg("other"))
+        .def("__setitem__", [](QuaternionD& instance, size_t i,
+                               double val) { instance[i] = val; })
+        .def("__getitem__", [](const QuaternionD& instance,
+                               size_t i) -> double { return instance[i]; })
         .def("__eq__", [](const QuaternionD& instance, py::object obj) {
             QuaternionD other = objectToQuaternionD(obj);
             return instance == other;

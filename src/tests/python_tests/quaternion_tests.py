@@ -31,6 +31,10 @@ class QuaternionTest(unittest.TestCase):
 
     def testGetters(self):
         a = pyjet.QuaternionD(1, 2, 3, 4)
+        self.assertEqual(a[0], a.w)
+        self.assertEqual(a[1], a.x)
+        self.assertEqual(a[2], a.y)
+        self.assertEqual(a[3], a.z)
         a.normalize()
         axis = a.axis()
         angle = a.angle()
@@ -49,6 +53,11 @@ class QuaternionTest(unittest.TestCase):
         self.assertEqual(axis.y, -1)
         self.assertEqual(axis.z, 0)
         self.assertEqual(angle, math.pi / 2)
+        a[0] = 1.0; a[1] = 2.0;  a[2] = 3.0;  a[3] = 4.0
+        self.assertEqual(1, a.w)
+        self.assertEqual(2, a.x)
+        self.assertEqual(3, a.y)
+        self.assertEqual(4, a.z)
 
 
 def main():
