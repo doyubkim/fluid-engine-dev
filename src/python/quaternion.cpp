@@ -36,7 +36,7 @@ void addQuaternionF(pybind11::module& m) {
         .def("inverse", &QuaternionF::inverse)
         .def("l2Norm", &QuaternionF::l2Norm)
         .def("setAxisAngle",
-             [](QuaternionF& instance, py::object axis, double angle) {
+             [](QuaternionF& instance, py::object axis, float angle) {
                  instance.set(objectToVector3F(axis), angle);
              },
              R"pbdoc(
