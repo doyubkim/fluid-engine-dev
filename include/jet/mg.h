@@ -47,7 +47,7 @@ using MgCorrectFunc =
 
 template <typename BlasType>
 struct MgParameters {
-    unsigned int maxNumberOfLevels = 1;
+    size_t maxNumberOfLevels = 1;
     unsigned int numberOfRestrictionIter = 10;
     unsigned int numberOfCorrectionIter = 10;
     unsigned int numberOfCoarsestIter = 10;
