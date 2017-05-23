@@ -11,7 +11,7 @@ using namespace jet;
 
 TEST(Frame, Constructors) {
     Frame frame;
-    EXPECT_EQ(0u, frame.index);
+    EXPECT_EQ(0, frame.index);
     EXPECT_DOUBLE_EQ(1.0 / 60.0, frame.timeIntervalInSeconds);
 }
 
@@ -32,15 +32,15 @@ TEST(Frame, Advance) {
         frame.advance();
     }
 
-    EXPECT_EQ(54u, frame.index);
+    EXPECT_EQ(54, frame.index);
 
     frame.advance(23);
 
-    EXPECT_EQ(77u, frame.index);
+    EXPECT_EQ(77, frame.index);
 
-    EXPECT_EQ(78u, (++frame).index);
+    EXPECT_EQ(78, (++frame).index);
 
-    EXPECT_EQ(78u, (frame++).index);
+    EXPECT_EQ(78, (frame++).index);
 
-    EXPECT_EQ(79u, frame.index);
+    EXPECT_EQ(79, frame.index);
 }
