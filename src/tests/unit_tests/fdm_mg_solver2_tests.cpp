@@ -17,7 +17,6 @@ TEST(FdmMgSolver2, Solve) {
     // Simple Poisson eq.
     size_t n = system.A.levels.front().size().x;
     for (size_t l = 0; l < system.numberOfLevels(); ++l) {
-        size_t m = n >> l;
         double invdx = pow(0.5, l);
         FdmMatrix2& A = system.A[l];
         FdmVector2& b = system.b[l];

@@ -137,9 +137,9 @@ TEST(Parallel, RangeFor3D) {
     parallelRangeFor(kZeroSize, a.width(), kZeroSize, a.height(), kZeroSize,
                      a.depth(), [&](size_t iBegin, size_t iEnd, size_t jBegin,
                                     size_t jEnd, size_t kBegin, size_t kEnd) {
-                         for (size_t k = 0; k < nZ; ++k) {
-                             for (size_t j = 0; j < nY; ++j) {
-                                 for (size_t i = 0; i < nX; ++i) {
+                         for (size_t k = kBegin; k < kEnd; ++k) {
+                             for (size_t j = jBegin; j < jEnd; ++j) {
+                                 for (size_t i = iBegin; i < iEnd; ++i) {
                                      double expected = static_cast<double>(
                                          i + (j + k * nY) * nX);
                                      EXPECT_DOUBLE_EQ(expected, a(i, j, k));
