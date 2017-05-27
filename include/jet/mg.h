@@ -47,11 +47,21 @@ using MgCorrectFunc =
 
 template <typename BlasType>
 struct MgParameters {
+    //! Max number of multigrid levels.
     size_t maxNumberOfLevels = 1;
+
+    //! Number of iteration at restriction step.
     unsigned int numberOfRestrictionIter = 10;
+
+    //! Number of iteration at correction step.
     unsigned int numberOfCorrectionIter = 10;
+
+    //! Number of iteration at coarsest step.
     unsigned int numberOfCoarsestIter = 10;
+
+    //! Number of iteration at final step.
     unsigned int numberOfFinalIter = 10;
+
     MgRelaxFunc<BlasType> relaxFunc;
     MgRestrictFunc<BlasType> restrictFunc;
     MgCorrectFunc<BlasType> correctFunc;

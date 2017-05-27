@@ -23,7 +23,8 @@ class FdmMgSolver2 final : public FdmLinearSystemSolver2 {
                  unsigned int numberOfFinalIter = 10,
                  double maxTolerance = 1e-9);
 
-    //! Solves the given linear system.
+    const MgParameters<FdmBlas2>& params() const;
+
     bool solve(FdmLinearSystem2* system) override;
 
     bool solve(FdmMgLinearSystem2* system);

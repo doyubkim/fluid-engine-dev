@@ -86,6 +86,7 @@
 #include "vertex_centered_vector_grid.h"
 #include "volume_grid_emitter.h"
 #include "volume_particle_emitter.h"
+#include "fdm_mg_solver.h"
 
 #include <pybind11/pybind11.h>
 
@@ -233,6 +234,7 @@ PYBIND11_PLUGIN(pyjet) {
     addFdmCgSolver3(m);
     addFdmIccgSolver2(m);
     addFdmIccgSolver3(m);
+    addFdmMgSolver2(m);
     addGridDiffusionSolver2(m);
     addGridDiffusionSolver3(m);
     addGridForwardEulerDiffusionSolver2(m);

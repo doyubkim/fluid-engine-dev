@@ -10,42 +10,32 @@
 
 using namespace jet;
 
+void FdmMgLinearSystem2::clear() {
+    A.levels.clear();
+    x.levels.clear();
+    b.levels.clear();
+}
+
 size_t FdmMgLinearSystem2::numberOfLevels() const { return A.levels.size(); }
 
 void FdmMgLinearSystem2::resizeWithCoarsest(const Size2 &coarsestResolution,
                                             size_t numberOfLevels) {
-    numberOfLevels = std::max(numberOfLevels, kOneSize);
-
-    A.levels.resize(numberOfLevels);
-    x.levels.resize(numberOfLevels);
-    b.levels.resize(numberOfLevels);
-
-    // Level 0 is the finest level, thus takes coarsestResolution ^
-    // numberOfLevels.
-    // Level numberOfLevels - 1 is the coarsest, taking coarsestResolution.
-    Size2 res = coarsestResolution;
-    for (size_t level = 0; level < numberOfLevels; ++level) {
-        A[numberOfLevels - level - 1].resize(res);
-        x[numberOfLevels - level - 1].resize(res);
-        b[numberOfLevels - level - 1].resize(res);
-
-        res.x = res.x << 1;
-        res.y = res.y << 1;
-    }
+    FdmMgUtils2::resizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
+                                         &A.levels);
+    FdmMgUtils2::resizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
+                                         &x.levels);
+    FdmMgUtils2::resizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
+                                         &b.levels);
 }
 
 void FdmMgLinearSystem2::resizeWithFinest(const Size2 &finestResolution,
                                           size_t maxNumberOfLevels) {
-    Size2 res = finestResolution;
-    size_t i = 1;
-    for (; i < maxNumberOfLevels; ++i) {
-        if (res.x % 2 == 0 && res.y % 2 == 0) {
-            res.x = res.x >> 1;
-        } else {
-            break;
-        }
-    }
-    resizeWithCoarsest(res, i);
+    FdmMgUtils2::resizeArrayWithFinest(finestResolution, maxNumberOfLevels,
+                                       &A.levels);
+    FdmMgUtils2::resizeArrayWithFinest(finestResolution, maxNumberOfLevels,
+                                       &x.levels);
+    FdmMgUtils2::resizeArrayWithFinest(finestResolution, maxNumberOfLevels,
+                                       &b.levels);
 }
 
 void FdmMgUtils2::restrict(const FdmVector2 &finer, FdmVector2 *coarser) {
@@ -128,5 +118,6 @@ void FdmMgUtils2::correct(const FdmVector2 &coarser, FdmVector2 *finer) {
                     }
                 }
             }
-        }, ExecutionPolicy::kSerial);
+        },
+        ExecutionPolicy::kSerial);
 }

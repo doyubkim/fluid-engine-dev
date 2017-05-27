@@ -38,7 +38,6 @@ inline T max3(T x, T y, T z) {
     return std::max(std::max(x, y), z);
 }
 
-//! Returns minimum among n-elements.
 template <typename T>
 inline T minn(const T* x, size_t n) {
     T m = x[0];
@@ -48,7 +47,6 @@ inline T minn(const T* x, size_t n) {
     return m;
 }
 
-//! Returns maximum among n-elements.
 template <typename T>
 inline T maxn(const T* x, size_t n) {
     T m = x[0];
@@ -68,7 +66,6 @@ inline T absmax(T x, T y) {
     return (x*x > y*y) ? x : y;
 }
 
-//! Returns absolute minimum among n-elements.
 template <typename T>
 inline T absminn(const T* x, size_t n) {
     T m = x[0];
@@ -78,7 +75,6 @@ inline T absminn(const T* x, size_t n) {
     return m;
 }
 
-//! Returns absolute maximum among n-elements.
 template <typename T>
 inline T absmaxn(const T* x, size_t n) {
     T m = x[0];
@@ -86,6 +82,34 @@ inline T absmaxn(const T* x, size_t n) {
         m = absmax(m, x[i]);
     }
     return m;
+}
+
+template <typename T>
+inline size_t argmin2(T x, T y) {
+    return (x < y) ? 0 : 1;
+}
+
+template <typename T>
+inline size_t argmax2(T x, T y) {
+    return (x > y) ? 0 : 1;
+}
+
+template <typename T>
+inline size_t argmin3(T x, T y, T z) {
+    if (x < y) {
+        return (x < z) ? 0 : 2;
+    } else {
+        return (y < z) ? 1 : 2;
+    }
+}
+
+template <typename T>
+inline size_t argmax3(T x, T y, T z) {
+    if (x > y) {
+        return (x > z) ? 0 : 2;
+    } else {
+        return (y > z) ? 1 : 2;
+    }
 }
 
 template <typename T>

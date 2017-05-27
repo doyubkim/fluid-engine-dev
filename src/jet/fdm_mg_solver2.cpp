@@ -32,8 +32,6 @@ void jacobi(const FdmMatrix2& A, const FdmVector2& b,
 
         x->swap(*xTemp);
     }
-
-    FdmBlas2::residual(A, *x, b, xTemp);
 }
 }
 
@@ -53,6 +51,10 @@ FdmMgSolver2::FdmMgSolver2(size_t maxNumberOfLevels,
     _mgParams.relaxFunc = jacobi;
     _mgParams.restrictFunc = FdmMgUtils2::restrict;
     _mgParams.correctFunc = FdmMgUtils2::correct;
+}
+
+const MgParameters<FdmBlas2>& FdmMgSolver2::params() const {
+    return _mgParams;
 }
 
 bool FdmMgSolver2::solve(FdmLinearSystem2* system) {

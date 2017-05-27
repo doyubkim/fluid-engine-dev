@@ -33,6 +33,8 @@ typedef Array2<FdmMatrixRow2> FdmMatrix2;
 struct FdmLinearSystem2 {
     FdmMatrix2 A;
     FdmVector2 x, b;
+
+    void clear();
 };
 
 //! BLAS operator wrapper for 2-D finite differencing.
