@@ -22,7 +22,7 @@ const double kDefaultTolerance = 1e-6;
 
 namespace {
 
-void buildSingleSystem(FdmMatrix2* A, FdmVector2* x, FdmVector2* b,
+void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
     Size2 size = input.resolution();
@@ -204,7 +204,6 @@ void GridSinglePhasePressureSolver2::buildSystem(
     Size2 size = input.resolution();
     size_t numLevels = 1;
     FdmMatrix2* A;
-    FdmVector2* x;
     FdmVector2* b;
 
     if (_mgSystemSolver == nullptr) {
@@ -212,7 +211,6 @@ void GridSinglePhasePressureSolver2::buildSystem(
         _system.x.resize(size);
         _system.b.resize(size);
         A = &_system.A;
-        x = &_system.x;
         b = &_system.b;
     } else {
         // Build levels
@@ -224,7 +222,6 @@ void GridSinglePhasePressureSolver2::buildSystem(
         FdmMgUtils2::resizeArrayWithFinest(size, maxLevels,
                                            &_mgSystem.b.levels);
         A = &_mgSystem.A.levels.front();
-        x = &_mgSystem.x.levels.front();
         b = &_mgSystem.b.levels.front();
 
         numLevels = _mgSystem.A.levels.size();
@@ -232,7 +229,7 @@ void GridSinglePhasePressureSolver2::buildSystem(
 
     // Build top level
     const FaceCenteredGrid2* finer = &input;
-    buildSingleSystem(A, x, b, _markers[0], *finer);
+    buildSingleSystem(A, b, _markers[0], *finer);
 
     // Build sub-levels
     FaceCenteredGrid2 coarser;
@@ -249,9 +246,8 @@ void GridSinglePhasePressureSolver2::buildSystem(
         coarser.fill(finer->sampler());
 
         A = &_mgSystem.A.levels[l];
-        x = &_mgSystem.x.levels[l];
         b = &_mgSystem.b.levels[l];
-        buildSingleSystem(A, x, b, _markers[l], coarser);
+        buildSingleSystem(A, b, _markers[l], coarser);
 
         finer = &coarser;
     }
@@ -272,12 +268,10 @@ void GridSinglePhasePressureSolver2::applyPressureGradient(
     x.parallelForEachIndex([&](size_t i, size_t j) {
         if (_markers[0](i, j) == kFluid) {
             if (i + 1 < size.x && _markers[0](i + 1, j) != kBoundary) {
-                u0(i + 1, j) =
-                    u(i + 1, j) + invH.x * (x(i + 1, j) - x(i, j));
+                u0(i + 1, j) = u(i + 1, j) + invH.x * (x(i + 1, j) - x(i, j));
             }
             if (j + 1 < size.y && _markers[0](i, j + 1) != kBoundary) {
-                v0(i, j + 1) =
-                    v(i, j + 1) + invH.y * (x(i, j + 1) - x(i, j));
+                v0(i, j + 1) = v(i, j + 1) + invH.y * (x(i, j + 1) - x(i, j));
             }
         }
     });
