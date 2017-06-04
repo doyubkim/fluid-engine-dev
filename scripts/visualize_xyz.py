@@ -25,12 +25,13 @@ def render_frame(num, data, line):
 
 # Simulation Path
 path = sys.argv[1]
+output_name = sys.argv[2] if len(sys.argv) >= 2 else 'result.mp4'
 files = utils.get_all_files(path, "*.xyz")
 size_files = len(files)
 
 # Set up formatting for the movie files
 Writer = animation.writers['ffmpeg']
-writer = Writer(fps=25, metadata=dict(artist='Me'), bitrate=1800)
+writer = Writer(fps=25, bitrate=1800)
 
 fig1 = plt.figure()
 
@@ -45,6 +46,4 @@ plt.title('Simulation Result')
 line_ani = animation.FuncAnimation(fig1, render_frame, size_files, fargs=(data, l),
                                    interval=50, blit=True)
 
-line_ani.save('result.mp4', writer=writer)
-
-
+line_ani.save(output_name, writer=writer)
