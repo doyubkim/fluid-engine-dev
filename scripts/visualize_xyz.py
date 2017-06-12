@@ -25,7 +25,7 @@ def render_frame(num, data, line):
 
 # Simulation Path
 path = sys.argv[1]
-output_name = sys.argv[2] if len(sys.argv) >= 2 else 'result.mp4'
+output_name = sys.argv[2] if len(sys.argv) > 2 else 'result.mp4'
 files = utils.get_all_files(path, "*.xyz")
 size_files = len(files)
 
