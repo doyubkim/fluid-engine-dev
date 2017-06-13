@@ -45,6 +45,10 @@ class FdmMgUtils2 {
     static void resizeArrayWithFinest(const Size2 &finestResolution,
                                       size_t maxNumberOfLevels,
                                       std::vector<Array2<T>> *levels);
+
+    static void jacobi(const FdmMatrix2 &A, const FdmVector2 &b,
+                       unsigned int numberOfIterations, double maxTolerance,
+                       FdmVector2 *x, FdmVector2 *xTemp);
 };
 
 }  // namespace jet

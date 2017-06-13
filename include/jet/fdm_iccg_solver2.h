@@ -43,9 +43,7 @@ class FdmIccgSolver2 final : public FdmLinearSystemSolver2 {
 
         void build(const FdmMatrix2& matrix);
 
-        void solve(
-            const FdmVector2& b,
-            FdmVector2* x);
+        void solve(const FdmVector2& b, FdmVector2* x);
     };
 
     unsigned int _maxNumberOfIterations;

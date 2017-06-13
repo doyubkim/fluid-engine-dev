@@ -78,6 +78,7 @@
 #include <jet/fdm_linear_system_solver3.h>
 #include <jet/fdm_mg_linear_system2.h>
 #include <jet/fdm_mg_solver2.h>
+#include <jet/fdm_mgpcg_solver2.h>
 #include <jet/fdm_utils.h>
 #include <jet/field2.h>
 #include <jet/field3.h>

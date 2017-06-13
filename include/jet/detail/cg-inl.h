@@ -34,8 +34,6 @@ void pcg(
     BlasType::set(0, q);
     BlasType::set(0, s);
 
-    M->build(A);
-
     // r = b - Ax
     BlasType::residual(A, *x, b, r);
 

@@ -14,8 +14,9 @@
 namespace jet {
 
 //! \brief 2-D finite difference-type linear system solver using Multigrid.
-class FdmMgSolver2 final : public FdmLinearSystemSolver2 {
+class FdmMgSolver2 : public FdmLinearSystemSolver2 {
  public:
+    //! Constructs the solver with given parameters.
     FdmMgSolver2(size_t maxNumberOfLevels,
                  unsigned int numberOfRestrictionIter = 10,
                  unsigned int numberOfCorrectionIter = 10,
@@ -23,11 +24,14 @@ class FdmMgSolver2 final : public FdmLinearSystemSolver2 {
                  unsigned int numberOfFinalIter = 10,
                  double maxTolerance = 1e-9);
 
+    //! Returns the Multigrid parameters.
     const MgParameters<FdmBlas2>& params() const;
 
-    bool solve(FdmLinearSystem2* system) override;
+    //! No-op. Multigrid-type solvers do not solve FdmLinearSystem2.
+    bool solve(FdmLinearSystem2* system) final;
 
-    bool solve(FdmMgLinearSystem2* system);
+    //! Solves Multigrid linear system.
+    virtual bool solve(FdmMgLinearSystem2* system);
 
  private:
     MgParameters<FdmBlas2> _mgParams;
