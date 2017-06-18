@@ -236,7 +236,9 @@ PYBIND11_PLUGIN(pyjet) {
     addFdmIccgSolver2(m);
     addFdmIccgSolver3(m);
     addFdmMgSolver2(m);
+    addFdmMgSolver3(m);
     addFdmMgpcgSolver2(m);
+    addFdmMgpcgSolver3(m);
     addGridDiffusionSolver2(m);
     addGridDiffusionSolver3(m);
     addGridForwardEulerDiffusionSolver2(m);

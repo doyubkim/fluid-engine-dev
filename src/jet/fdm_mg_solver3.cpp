@@ -6,12 +6,12 @@
 
 #include <pch.h>
 
-#include <jet/fdm_gauss_seidel_solver2.h>
-#include <jet/fdm_mg_solver2.h>
+#include <jet/fdm_gauss_seidel_solver3.h>
+#include <jet/fdm_mg_solver3.h>
 
 using namespace jet;
 
-FdmMgSolver2::FdmMgSolver2(size_t maxNumberOfLevels,
+FdmMgSolver3::FdmMgSolver3(size_t maxNumberOfLevels,
                            unsigned int numberOfRestrictionIter,
                            unsigned int numberOfCorrectionIter,
                            unsigned int numberOfCoarsestIter,
@@ -25,49 +25,49 @@ FdmMgSolver2::FdmMgSolver2(size_t maxNumberOfLevels,
     _mgParams.maxTolerance = maxTolerance;
     if (useRedBlackOrdering) {
         _mgParams.relaxFunc = [sorFactor](
-            const FdmMatrix2& A, const FdmVector2& b,
-            unsigned int numberOfIterations, double maxTolerance, FdmVector2* x,
-            FdmVector2* buffer) {
+            const FdmMatrix3& A, const FdmVector3& b,
+            unsigned int numberOfIterations, double maxTolerance, FdmVector3* x,
+            FdmVector3* buffer) {
             UNUSED_VARIABLE(buffer);
             UNUSED_VARIABLE(maxTolerance);
 
             for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
-                FdmGaussSeidelSolver2::relaxRedBlack(A, b, sorFactor, x);
+                FdmGaussSeidelSolver3::relaxRedBlack(A, b, sorFactor, x);
             }
         };
     } else {
         _mgParams.relaxFunc = [sorFactor](
-            const FdmMatrix2& A, const FdmVector2& b,
-            unsigned int numberOfIterations, double maxTolerance, FdmVector2* x,
-            FdmVector2* buffer) {
+            const FdmMatrix3& A, const FdmVector3& b,
+            unsigned int numberOfIterations, double maxTolerance, FdmVector3* x,
+            FdmVector3* buffer) {
             UNUSED_VARIABLE(buffer);
             UNUSED_VARIABLE(maxTolerance);
 
             for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
-                FdmGaussSeidelSolver2::relax(A, b, sorFactor, x);
+                FdmGaussSeidelSolver3::relax(A, b, sorFactor, x);
             }
         };
     }
-    _mgParams.restrictFunc = FdmMgUtils2::restrict;
-    _mgParams.correctFunc = FdmMgUtils2::correct;
+    _mgParams.restrictFunc = FdmMgUtils3::restrict;
+    _mgParams.correctFunc = FdmMgUtils3::correct;
 
     _sorFactor = sorFactor;
     _useRedBlackOrdering = useRedBlackOrdering;
 }
 
-const MgParameters<FdmBlas2>& FdmMgSolver2::params() const { return _mgParams; }
+const MgParameters<FdmBlas3>& FdmMgSolver3::params() const { return _mgParams; }
 
-double FdmMgSolver2::sorFactor() const { return _sorFactor; }
+double FdmMgSolver3::sorFactor() const { return _sorFactor; }
 
-bool FdmMgSolver2::useRedBlackOrdering() const { return _useRedBlackOrdering; }
+bool FdmMgSolver3::useRedBlackOrdering() const { return _useRedBlackOrdering; }
 
-bool FdmMgSolver2::solve(FdmLinearSystem2* system) {
+bool FdmMgSolver3::solve(FdmLinearSystem3* system) {
     UNUSED_VARIABLE(system);
     return false;
 }
 
-bool FdmMgSolver2::solve(FdmMgLinearSystem2* system) {
-    FdmMgVector2 buffer = system->x;
+bool FdmMgSolver3::solve(FdmMgLinearSystem3* system) {
+    FdmMgVector3 buffer = system->x;
     auto result =
         mgVCycle(system->A, _mgParams, &system->x, &system->b, &buffer);
     return result.lastResidualNorm < _mgParams.maxTolerance;

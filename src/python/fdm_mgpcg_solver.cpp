@@ -8,6 +8,7 @@
 #include "pybind11_utils.h"
 
 #include <jet/fdm_mgpcg_solver2.h>
+#include <jet/fdm_mgpcg_solver3.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -21,10 +22,10 @@ void addFdmMgpcgSolver2(py::module& m) {
         .def(py::init<uint32_t, size_t, uint32_t, uint32_t, uint32_t, uint32_t,
                       double>(),
              py::arg("numberOfCgIter"), py::arg("maxNumberOfLevels"),
-             py::arg("numberOfRestrictionIter") = 10,
-             py::arg("numberOfCorrectionIter") = 10,
-             py::arg("numberOfCoarsestIter") = 10,
-             py::arg("numberOfFinalIter") = 10, py::arg("maxTolerance") = 1e-9)
+             py::arg("numberOfRestrictionIter") = 5,
+             py::arg("numberOfCorrectionIter") = 5,
+             py::arg("numberOfCoarsestIter") = 20,
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
         .def_property_readonly("maxNumberOfIterations",
                                &FdmMgpcgSolver2::maxNumberOfIterations,
                                R"pbdoc(
@@ -40,6 +41,39 @@ void addFdmMgpcgSolver2(py::module& m) {
             The max residual tolerance for the MGPCG method.
             )pbdoc")
         .def_property_readonly("lastResidual", &FdmMgpcgSolver2::lastResidual,
+                               R"pbdoc(
+            The last residual after the MGPCG iterations.
+            )pbdoc");
+}
+
+void addFdmMgpcgSolver3(py::module& m) {
+    py::class_<FdmMgpcgSolver3, FdmMgpcgSolver3Ptr, FdmLinearSystemSolver3>(
+        m, "FdmMgpcgSolver3",
+        R"pbdoc(
+        3-D finite difference-type linear system solver using MGPCG.
+        )pbdoc")
+        .def(py::init<uint32_t, size_t, uint32_t, uint32_t, uint32_t, uint32_t,
+                      double>(),
+             py::arg("numberOfCgIter"), py::arg("maxNumberOfLevels"),
+             py::arg("numberOfRestrictionIter") = 5,
+             py::arg("numberOfCorrectionIter") = 5,
+             py::arg("numberOfCoarsestIter") = 20,
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
+        .def_property_readonly("maxNumberOfIterations",
+                               &FdmMgpcgSolver3::maxNumberOfIterations,
+                               R"pbdoc(
+            Max number of MGPCG iterations.
+            )pbdoc")
+        .def_property_readonly("lastNumberOfIterations",
+                               &FdmMgpcgSolver3::lastNumberOfIterations,
+                               R"pbdoc(
+            The last number of MGPCG iterations the solver made.
+            )pbdoc")
+        .def_property_readonly("tolerance", &FdmMgpcgSolver3::tolerance,
+                               R"pbdoc(
+            The max residual tolerance for the MGPCG method.
+            )pbdoc")
+        .def_property_readonly("lastResidual", &FdmMgpcgSolver3::lastResidual,
                                R"pbdoc(
             The last residual after the MGPCG iterations.
             )pbdoc");

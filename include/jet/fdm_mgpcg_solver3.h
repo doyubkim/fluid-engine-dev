@@ -4,15 +4,15 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_FDM_MGPCG_SOLVER2_H_
-#define INCLUDE_JET_FDM_MGPCG_SOLVER2_H_
+#ifndef INCLUDE_JET_FDM_MGPCG_SOLVER3_H_
+#define INCLUDE_JET_FDM_MGPCG_SOLVER3_H_
 
-#include <jet/fdm_mg_solver2.h>
+#include <jet/fdm_mg_solver3.h>
 
 namespace jet {
 
 //!
-//! \brief 2-D finite difference-type linear system solver using Multigrid
+//! \brief 3-D finite difference-type linear system solver using Multigrid
 //!        Preconditioned conjugate gradient (MGPCG).
 //!
 //! \see McAdams, Aleka, Eftychios Sifakis, and Joseph Teran.
@@ -20,7 +20,7 @@ namespace jet {
 //!      grids." Proceedings of the 2010 ACM SIGGRAPH/Eurographics Symposium on
 //!      Computer Animation. Eurographics Association, 2010.
 //!
-class FdmMgpcgSolver2 final : public FdmMgSolver2 {
+class FdmMgpcgSolver3 final : public FdmMgSolver3 {
  public:
     //!
     //! Constructs the solver with given parameters.
@@ -32,7 +32,7 @@ class FdmMgpcgSolver2 final : public FdmMgSolver2 {
     //! \param numberOfCoarsestIter - Number of iterations at the coarsest grid.
     //! \param numberOfFinalIter - Number of final iterations.
     //! \param maxTolerance - Number of max residual tolerance.
-    FdmMgpcgSolver2(unsigned int numberOfCgIter, size_t maxNumberOfLevels,
+    FdmMgpcgSolver3(unsigned int numberOfCgIter, size_t maxNumberOfLevels,
                     unsigned int numberOfRestrictionIter = 5,
                     unsigned int numberOfCorrectionIter = 5,
                     unsigned int numberOfCoarsestIter = 20,
@@ -41,7 +41,7 @@ class FdmMgpcgSolver2 final : public FdmMgSolver2 {
                     bool useRedBlackOrdering = false);
 
     //! Solves the given linear system.
-    bool solve(FdmMgLinearSystem2* system) override;
+    bool solve(FdmMgLinearSystem3* system) override;
 
     //! Returns the max number of Jacobi iterations.
     unsigned int maxNumberOfIterations() const;
@@ -57,12 +57,12 @@ class FdmMgpcgSolver2 final : public FdmMgSolver2 {
 
  private:
     struct Preconditioner final {
-        FdmMgLinearSystem2* system;
-        MgParameters<FdmBlas2> mgParams;
+        FdmMgLinearSystem3* system;
+        MgParameters<FdmBlas3> mgParams;
 
-        void build(FdmMgLinearSystem2* system, MgParameters<FdmBlas2> mgParams);
+        void build(FdmMgLinearSystem3* system, MgParameters<FdmBlas3> mgParams);
 
-        void solve(const FdmVector2& b, FdmVector2* x);
+        void solve(const FdmVector3& b, FdmVector3* x);
     };
 
     unsigned int _maxNumberOfIterations;
@@ -70,16 +70,16 @@ class FdmMgpcgSolver2 final : public FdmMgSolver2 {
     double _tolerance;
     double _lastResidualNorm;
 
-    FdmVector2 _r;
-    FdmVector2 _d;
-    FdmVector2 _q;
-    FdmVector2 _s;
+    FdmVector3 _r;
+    FdmVector3 _d;
+    FdmVector3 _q;
+    FdmVector3 _s;
     Preconditioner _precond;
 };
 
-//! Shared pointer type for the FdmMgpcgSolver2.
-typedef std::shared_ptr<FdmMgpcgSolver2> FdmMgpcgSolver2Ptr;
+//! Shared pointer type for the FdmMgpcgSolver3.
+typedef std::shared_ptr<FdmMgpcgSolver3> FdmMgpcgSolver3Ptr;
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_FDM_MGPCG_SOLVER2_H_
+#endif  // INCLUDE_JET_FDM_MGPCG_SOLVER3_H_

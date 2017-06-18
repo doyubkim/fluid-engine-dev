@@ -4,8 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <gtest/gtest.h>
 #include <jet/fdm_mg_solver2.h>
+
+#include <gtest/gtest.h>
 
 using namespace jet;
 
@@ -51,7 +52,7 @@ TEST(FdmMgSolver2, Solve) {
     FdmBlas2::residual(system.A[0], system.x[0], system.b[0], &buffer);
     double norm0 = FdmBlas2::l2Norm(buffer);
 
-    FdmMgSolver2 solver(levels, 10, 10, 10, 10, 1e-9);
+    FdmMgSolver2 solver(levels, 5, 5, 20, 20, 1e-9);
     solver.solve(&system);
 
     FdmBlas2::residual(system.A[0], system.x[0], system.b[0], &buffer);

@@ -19,9 +19,10 @@ void addFdmGaussSeidelSolver2(py::module& m) {
                                        R"pbdoc(
         2-D finite difference-type linear system solver using conjugate gradient.
         )pbdoc")
-        .def(py::init<uint32_t, uint32_t, double>(),
+        .def(py::init<uint32_t, uint32_t, double, double, bool>(),
              py::arg("maxNumberOfIterations"), py::arg("residualCheckInterval"),
-             py::arg("tolerance"))
+             py::arg("tolerance"), py::arg("sorFactor") = 1.0,
+             py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfIterations",
                                &FdmGaussSeidelSolver2::maxNumberOfIterations,
                                R"pbdoc(
@@ -40,6 +41,15 @@ void addFdmGaussSeidelSolver2(py::module& m) {
                                &FdmGaussSeidelSolver2::lastResidual,
                                R"pbdoc(
             The last residual after the CG iterations.
+            )pbdoc")
+        .def_property_readonly("sorFactor", &FdmGaussSeidelSolver2::sorFactor,
+                               R"pbdoc(
+            Returns the SOR (Successive Over Relaxation) factor.
+            )pbdoc")
+        .def_property_readonly("useRedBlackOrdering",
+                               &FdmGaussSeidelSolver2::useRedBlackOrdering,
+                               R"pbdoc(
+            Returns true if red-black ordering is enabled.
             )pbdoc");
 }
 
@@ -49,9 +59,10 @@ void addFdmGaussSeidelSolver3(py::module& m) {
                                        R"pbdoc(
         3-D finite difference-type linear system solver using conjugate gradient.
         )pbdoc")
-        .def(py::init<uint32_t, uint32_t, double>(),
+        .def(py::init<uint32_t, uint32_t, double, double, bool>(),
              py::arg("maxNumberOfIterations"), py::arg("residualCheckInterval"),
-             py::arg("tolerance"))
+             py::arg("tolerance"), py::arg("sorFactor") = 1.0,
+             py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfIterations",
                                &FdmGaussSeidelSolver3::maxNumberOfIterations,
                                R"pbdoc(
@@ -70,5 +81,14 @@ void addFdmGaussSeidelSolver3(py::module& m) {
                                &FdmGaussSeidelSolver3::lastResidual,
                                R"pbdoc(
             The last residual after the CG iterations.
+            )pbdoc")
+        .def_property_readonly("sorFactor", &FdmGaussSeidelSolver3::sorFactor,
+                               R"pbdoc(
+            Returns the SOR (Successive Over Relaxation) factor.
+            )pbdoc")
+        .def_property_readonly("useRedBlackOrdering",
+                               &FdmGaussSeidelSolver3::useRedBlackOrdering,
+                               R"pbdoc(
+            Returns true if red-black ordering is enabled.
             )pbdoc");
 }

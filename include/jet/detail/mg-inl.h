@@ -81,6 +81,16 @@ typename BlasType::MatrixType& MgMatrix<BlasType>::operator[](size_t i) {
 }
 
 template <typename BlasType>
+const typename BlasType::MatrixType& MgMatrix<BlasType>::finest() const {
+    return levels.front();
+}
+
+template <typename BlasType>
+typename BlasType::MatrixType& MgMatrix<BlasType>::finest() {
+    return levels.front();
+}
+
+template <typename BlasType>
 const typename BlasType::VectorType& MgVector<BlasType>::operator[](
     size_t i) const {
     return levels[i];
@@ -89,6 +99,16 @@ const typename BlasType::VectorType& MgVector<BlasType>::operator[](
 template <typename BlasType>
 typename BlasType::VectorType& MgVector<BlasType>::operator[](size_t i) {
     return levels[i];
+}
+
+template <typename BlasType>
+const typename BlasType::VectorType& MgVector<BlasType>::finest() const {
+    return levels.front();
+}
+
+template <typename BlasType>
+typename BlasType::VectorType& MgVector<BlasType>::finest() {
+    return levels.front();
 }
 
 template <typename BlasType>
