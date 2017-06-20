@@ -88,7 +88,9 @@ void pcg(
     }
 
     *lastNumberOfIterations = iter;
-    *lastResidualNorm = std::sqrt(sigmaNew);
+
+    // std::fabs(sigmaNew) - Workaround for negative zero
+    *lastResidualNorm = std::sqrt(std::fabs(sigmaNew));
 }
 
 template <typename BlasType>

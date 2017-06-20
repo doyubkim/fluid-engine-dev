@@ -19,12 +19,14 @@ void addFdmMgSolver2(py::module& m) {
         R"pbdoc(
         2-D finite difference-type linear system solver using multigrid.
         )pbdoc")
-        .def(py::init<size_t, uint32_t, uint32_t, uint32_t, uint32_t, double>(),
+        .def(py::init<size_t, uint32_t, uint32_t, uint32_t, uint32_t, double,
+                      double, bool>(),
              py::arg("maxNumberOfLevels"),
              py::arg("numberOfRestrictionIter") = 5,
              py::arg("numberOfCorrectionIter") = 5,
              py::arg("numberOfCoarsestIter") = 20,
-             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9,
+             py::arg("sorFactor") = 1.5, py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfLevels",
                                [](const FdmMgSolver2& instance) {
                                    return instance.params().maxNumberOfLevels;
@@ -74,12 +76,14 @@ void addFdmMgSolver3(py::module& m) {
         R"pbdoc(
         3-D finite difference-type linear system solver using multigrid.
         )pbdoc")
-        .def(py::init<size_t, uint32_t, uint32_t, uint32_t, uint32_t, double>(),
+        .def(py::init<size_t, uint32_t, uint32_t, uint32_t, uint32_t, double,
+                      double, bool>(),
              py::arg("maxNumberOfLevels"),
              py::arg("numberOfRestrictionIter") = 5,
              py::arg("numberOfCorrectionIter") = 5,
              py::arg("numberOfCoarsestIter") = 20,
-             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9,
+             py::arg("sorFactor") = 1.5, py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfLevels",
                                [](const FdmMgSolver3& instance) {
                                    return instance.params().maxNumberOfLevels;

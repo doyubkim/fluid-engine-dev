@@ -90,16 +90,69 @@ void FdmGaussSeidelSolver3::relaxRedBlack(const FdmMatrix3& A,
     Size3 size = A.size();
     FdmVector3& x = *x_;
 
-    A.forEachIndex([&](size_t i, size_t j, size_t k) {
-        double r =
-            ((i > 0) ? A(i - 1, j, k).right * x(i - 1, j, k) : 0.0) +
-            ((i + 1 < size.x) ? A(i, j, k).right * x(i + 1, j, k) : 0.0) +
-            ((j > 0) ? A(i, j - 1, k).up * x(i, j - 1, k) : 0.0) +
-            ((j + 1 < size.y) ? A(i, j, k).up * x(i, j + 1, k) : 0.0) +
-            ((k > 0) ? A(i, j, k - 1).front * x(i, j, k - 1) : 0.0) +
-            ((k + 1 < size.z) ? A(i, j, k).front * x(i, j, k + 1) : 0.0);
+    // Red update
+    parallelRangeFor(
+        kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
+        [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
+            size_t kBegin, size_t kEnd) {
+            for (size_t k = kBegin; k < kEnd; ++k) {
+                for (size_t j = jBegin; j < jEnd; ++j) {
+                    size_t i = (j + k) % 2 + iBegin;  // i.e. (0, 0, 0)
+                    for (; i < iEnd; i += 2) {
+                        double r =
+                            ((i > 0) ? A(i - 1, j, k).right * x(i - 1, j, k)
+                                     : 0.0) +
+                            ((i + 1 < size.x)
+                                 ? A(i, j, k).right * x(i + 1, j, k)
+                                 : 0.0) +
+                            ((j > 0) ? A(i, j - 1, k).up * x(i, j - 1, k)
+                                     : 0.0) +
+                            ((j + 1 < size.y) ? A(i, j, k).up * x(i, j + 1, k)
+                                              : 0.0) +
+                            ((k > 0) ? A(i, j, k - 1).front * x(i, j, k - 1)
+                                     : 0.0) +
+                            ((k + 1 < size.z)
+                                 ? A(i, j, k).front * x(i, j, k + 1)
+                                 : 0.0);
 
-        x(i, j, k) = (1.0 - sorFactor) * x(i, j, k) +
-                     sorFactor * (b(i, j, k) - r) / A(i, j, k).center;
-    });
+                        x(i, j, k) =
+                            (1.0 - sorFactor) * x(i, j, k) +
+                            sorFactor * (b(i, j, k) - r) / A(i, j, k).center;
+                    }
+                }
+            }
+        });
+
+    // Black update
+    parallelRangeFor(
+        kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
+        [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
+            size_t kBegin, size_t kEnd) {
+            for (size_t k = kBegin; k < kEnd; ++k) {
+                for (size_t j = jBegin; j < jEnd; ++j) {
+                    size_t i = 1 - (j + k) % 2 + iBegin;  // i.e. (1, 1, 1)
+                    for (; i < iEnd; i += 2) {
+                        double r =
+                            ((i > 0) ? A(i - 1, j, k).right * x(i - 1, j, k)
+                                     : 0.0) +
+                            ((i + 1 < size.x)
+                                 ? A(i, j, k).right * x(i + 1, j, k)
+                                 : 0.0) +
+                            ((j > 0) ? A(i, j - 1, k).up * x(i, j - 1, k)
+                                     : 0.0) +
+                            ((j + 1 < size.y) ? A(i, j, k).up * x(i, j + 1, k)
+                                              : 0.0) +
+                            ((k > 0) ? A(i, j, k - 1).front * x(i, j, k - 1)
+                                     : 0.0) +
+                            ((k + 1 < size.z)
+                                 ? A(i, j, k).front * x(i, j, k + 1)
+                                 : 0.0);
+
+                        x(i, j, k) =
+                            (1.0 - sorFactor) * x(i, j, k) +
+                            sorFactor * (b(i, j, k) - r) / A(i, j, k).center;
+                    }
+                }
+            }
+        });
 }

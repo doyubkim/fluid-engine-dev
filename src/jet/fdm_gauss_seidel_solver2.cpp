@@ -96,7 +96,7 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const FdmMatrix2& A,
         kZeroSize, size.x, kZeroSize, size.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
             for (size_t j = jBegin; j < jEnd; ++j) {
-                size_t i = j % 2;  // i.e. (0, 0)
+                size_t i = j % 2 + iBegin;  // i.e. (0, 0)
                 for (; i < iEnd; i += 2) {
                     double r =
                         ((i > 0) ? A(i - 1, j).right * x(i - 1, j) : 0.0) +
@@ -115,7 +115,7 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const FdmMatrix2& A,
         kZeroSize, size.x, kZeroSize, size.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
             for (size_t j = jBegin; j < jEnd; ++j) {
-                size_t i = 1 - j % 2;  // i.e. (1, 0)
+                size_t i = 1 - j % 2 + iBegin;  // i.e. (1, 0)
                 for (; i < iEnd; i += 2) {
                     double r =
                         ((i > 0) ? A(i - 1, j).right * x(i - 1, j) : 0.0) +

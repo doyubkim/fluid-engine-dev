@@ -23,7 +23,7 @@ MgResult mgVCycle(const MgMatrix<BlasType>& A, MgParameters<BlasType> params,
                      &((*x)[currentLevel]), &((*buffer)[currentLevel]));
 
     // 2) if currentLevel is the coarsest grid, goto 5)
-    if (currentLevel < params.maxNumberOfLevels - 1) {
+    if (currentLevel < A.levels.size() - 1) {
         auto r = buffer;
         BlasType::residual(A[currentLevel], (*x)[currentLevel],
                            (*b)[currentLevel], &(*r)[currentLevel]);

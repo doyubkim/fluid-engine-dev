@@ -60,6 +60,6 @@ TEST(FdmMgpcgSolver3, Solve) {
     FdmBlas3::residual(system.A[0], system.x[0], system.b[0], &buffer);
     double norm0 = FdmBlas3::l2Norm(buffer);
 
-    FdmMgpcgSolver3 solver(50, levels, 5, 5, 10, 10, 1e-4);
+    FdmMgpcgSolver3 solver(50, levels, 5, 5, 10, 10, 1e-4, 1.5, false);
     EXPECT_TRUE(solver.solve(&system));
 }

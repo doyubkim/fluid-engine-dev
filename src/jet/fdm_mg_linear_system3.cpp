@@ -62,7 +62,7 @@ void FdmMgUtils3::restrict(const FdmVector3 &finer, FdmVector3 *coarser) {
                 kIndices[0] = (k > 0) ? 2 * k - 1 : 2 * k;
                 kIndices[1] = 2 * k;
                 kIndices[2] = 2 * k + 1;
-                kIndices[3] = (k + 1 < n.y) ? 2 * k + 2 : 2 * k + 1;
+                kIndices[3] = (k + 1 < n.z) ? 2 * k + 2 : 2 * k + 1;
 
                 std::array<size_t, 4> jIndices;
 
@@ -119,7 +119,7 @@ void FdmMgUtils3::correct(const FdmVector3 &coarser, FdmVector3 *finer) {
                 kIndices[0] = (k > 0) ? 2 * k - 1 : 2 * k;
                 kIndices[1] = 2 * k;
                 kIndices[2] = 2 * k + 1;
-                kIndices[3] = (k + 1 < n.y) ? 2 * k + 2 : 2 * k + 1;
+                kIndices[3] = (k + 1 < n.z) ? 2 * k + 2 : 2 * k + 1;
 
                 std::array<size_t, 4> jIndices;
 
@@ -152,28 +152,3 @@ void FdmMgUtils3::correct(const FdmVector3 &coarser, FdmVector3 *finer) {
             }
         });
 }
-/*
-void FdmMgUtils3::jacobi(const FdmMatrix3 &A, const FdmVector3 &b,
-                         unsigned int numberOfIterations, double maxTolerance,
-                         FdmVector3 *x, FdmVector3 *xTemp) {
-    UNUSED_VARIABLE(maxTolerance);
-
-    Size3 size = A.size();
-
-    for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
-        A.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
-            double r =
-                ((i > 0) ? A(i - 1, j, k).right * (*x)(i - 1, j, k) : 0.0) +
-                ((i + 1 < size.x) ? A(i, j, k).right * (*x)(i + 1, j, k) : 0.0) +
-                ((j > 0) ? A(i, j - 1, k).up * (*x)(i, j - 1, k) : 0.0) +
-                ((j + 1 < size.y) ? A(i, j, k).up * (*x)(i, j + 1, k) : 0.0) +
-                ((k > 0) ? A(i, j, k - 1).front * (*x)(i, j, k - 1) : 0.0) +
-                ((k + 1 < size.z) ? A(i, j, k).front * (*x)(i, j, k + 1) : 0.0);
-
-            (*xTemp)(i, j, k) = (b(i, j, k) - r) / A(i, j, k).center;
-        });
-
-        x->swap(*xTemp);
-    }
-}
-*/

@@ -20,12 +20,13 @@ void addFdmMgpcgSolver2(py::module& m) {
         2-D finite difference-type linear system solver using MGPCG.
         )pbdoc")
         .def(py::init<uint32_t, size_t, uint32_t, uint32_t, uint32_t, uint32_t,
-                      double>(),
+                      double, double, bool>(),
              py::arg("numberOfCgIter"), py::arg("maxNumberOfLevels"),
              py::arg("numberOfRestrictionIter") = 5,
              py::arg("numberOfCorrectionIter") = 5,
              py::arg("numberOfCoarsestIter") = 20,
-             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9,
+             py::arg("sorFactor") = 1.5, py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfIterations",
                                &FdmMgpcgSolver2::maxNumberOfIterations,
                                R"pbdoc(
@@ -43,7 +44,10 @@ void addFdmMgpcgSolver2(py::module& m) {
         .def_property_readonly("lastResidual", &FdmMgpcgSolver2::lastResidual,
                                R"pbdoc(
             The last residual after the MGPCG iterations.
-            )pbdoc");
+            )pbdoc")
+        .def_property_readonly("sorFactor", &FdmMgpcgSolver2::sorFactor)
+        .def_property_readonly("useRedBlackOrdering",
+                               &FdmMgpcgSolver2::useRedBlackOrdering);
 }
 
 void addFdmMgpcgSolver3(py::module& m) {
@@ -53,12 +57,13 @@ void addFdmMgpcgSolver3(py::module& m) {
         3-D finite difference-type linear system solver using MGPCG.
         )pbdoc")
         .def(py::init<uint32_t, size_t, uint32_t, uint32_t, uint32_t, uint32_t,
-                      double>(),
+                      double, double, bool>(),
              py::arg("numberOfCgIter"), py::arg("maxNumberOfLevels"),
              py::arg("numberOfRestrictionIter") = 5,
              py::arg("numberOfCorrectionIter") = 5,
              py::arg("numberOfCoarsestIter") = 20,
-             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9)
+             py::arg("numberOfFinalIter") = 20, py::arg("maxTolerance") = 1e-9,
+             py::arg("sorFactor") = 1.5, py::arg("useRedBlackOrdering") = false)
         .def_property_readonly("maxNumberOfIterations",
                                &FdmMgpcgSolver3::maxNumberOfIterations,
                                R"pbdoc(
@@ -76,5 +81,8 @@ void addFdmMgpcgSolver3(py::module& m) {
         .def_property_readonly("lastResidual", &FdmMgpcgSolver3::lastResidual,
                                R"pbdoc(
             The last residual after the MGPCG iterations.
-            )pbdoc");
+            )pbdoc")
+        .def_property_readonly("sorFactor", &FdmMgpcgSolver2::sorFactor)
+        .def_property_readonly("useRedBlackOrdering",
+                               &FdmMgpcgSolver2::useRedBlackOrdering);
 }

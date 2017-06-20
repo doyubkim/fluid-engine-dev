@@ -37,7 +37,7 @@ class FdmMgpcgSolver2 final : public FdmMgSolver2 {
                     unsigned int numberOfCorrectionIter = 5,
                     unsigned int numberOfCoarsestIter = 20,
                     unsigned int numberOfFinalIter = 20,
-                    double maxTolerance = 1e-9, double sorFactor = 1.0,
+                    double maxTolerance = 1e-9, double sorFactor = 1.5,
                     bool useRedBlackOrdering = false);
 
     //! Solves the given linear system.
