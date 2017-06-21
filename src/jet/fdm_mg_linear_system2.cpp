@@ -43,8 +43,8 @@ void FdmMgLinearSystem2::resizeWithFinest(const Size2 &finestResolution,
 }
 
 void FdmMgUtils2::restrict(const FdmVector2 &finer, FdmVector2 *coarser) {
-    JET_ASSERT(finer->size().x == 2 * coarser->size().x);
-    JET_ASSERT(finer->size().y == 2 * coarser->size().y);
+    JET_ASSERT(finer.size().x == 2 * coarser->size().x);
+    JET_ASSERT(finer.size().y == 2 * coarser->size().y);
 
     // --*--|--*--|--*--|--*--
     //  1/8   3/8   3/8   1/8
@@ -85,8 +85,8 @@ void FdmMgUtils2::restrict(const FdmVector2 &finer, FdmVector2 *coarser) {
 }
 
 void FdmMgUtils2::correct(const FdmVector2 &coarser, FdmVector2 *finer) {
-    JET_ASSERT(finer->size().x == 2 * coarser->size().x);
-    JET_ASSERT(finer->size().y == 2 * coarser->size().y);
+    JET_ASSERT(finer->size().x == 2 * coarser.size().x);
+    JET_ASSERT(finer->size().y == 2 * coarser.size().y);
 
     // -----|-----*-----|-----
     //           to

@@ -73,10 +73,6 @@ TEST(FdmIccgSolver2, Solve) {
         }
     });
 
-    auto buffer = system.x;
-    FdmBlas2::residual(system.A, system.x, system.b, &buffer);
-    double norm0 = FdmBlas2::l2Norm(buffer);
-
     FdmIccgSolver2 solver(200, 1e-4);
     EXPECT_TRUE(solver.solve(&system));
 }

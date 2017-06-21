@@ -16,7 +16,6 @@ TEST(FdmMgpcgSolver3, Solve) {
     system.resizeWithCoarsest({4, 4, 4}, levels);
 
     // Simple Poisson eq.
-    size_t n = system.A.levels.front().size().x;
     for (size_t l = 0; l < system.numberOfLevels(); ++l) {
         double invdx = pow(0.5, l);
         FdmMatrix3& A = system.A[l];
@@ -55,10 +54,6 @@ TEST(FdmMgpcgSolver3, Solve) {
             }
         });
     }
-
-    auto buffer = system.x[0];
-    FdmBlas3::residual(system.A[0], system.x[0], system.b[0], &buffer);
-    double norm0 = FdmBlas3::l2Norm(buffer);
 
     FdmMgpcgSolver3 solver(50, levels, 5, 5, 10, 10, 1e-4, 1.5, false);
     EXPECT_TRUE(solver.solve(&system));

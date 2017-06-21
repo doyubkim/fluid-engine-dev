@@ -16,7 +16,6 @@ TEST(FdmMgSolver3, Solve) {
     system.resizeWithCoarsest({4, 4, 4}, levels);
 
     // Simple Poisson eq.
-    size_t n = system.A.levels.front().size().x;
     for (size_t l = 0; l < system.numberOfLevels(); ++l) {
         double invdx = pow(0.5, l);
         FdmMatrix3& A = system.A[l];
