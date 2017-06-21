@@ -99,9 +99,9 @@ void restrict(const Array3<float>& finer, Array3<float>* coarser) {
                         }
 
                         float sum = 0.0f;
-                        for (size_t z = 0; z < kernelSize[2]; ++z) {
-                            for (size_t y = 0; y < kernelSize[1]; ++y) {
-                                for (size_t x = 0; x < kernelSize[0]; ++x) {
+                        for (int z = 0; z < kernelSize[2]; ++z) {
+                            for (int y = 0; y < kernelSize[1]; ++y) {
+                                for (int x = 0; x < kernelSize[0]; ++x) {
                                     float w = kernels[0][x] * kernels[1][y] *
                                               kernels[2][z];
                                     sum += w * finer(iIndices[x], jIndices[y],

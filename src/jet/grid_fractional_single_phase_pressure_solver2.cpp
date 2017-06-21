@@ -80,8 +80,8 @@ void restrict(const Array2<float>& finer, Array2<float>* coarser) {
                     }
 
                     float sum = 0.0f;
-                    for (size_t y = 0; y < kernelSize[1]; ++y) {
-                        for (size_t x = 0; x < kernelSize[0]; ++x) {
+                    for (int y = 0; y < kernelSize[1]; ++y) {
+                        for (int x = 0; x < kernelSize[0]; ++x) {
                             float w = kernels[0][x] * kernels[1][y];
                             sum += w * finer(iIndices[x], jIndices[y]);
                         }
