@@ -25,6 +25,19 @@ class Vector3DTest(unittest.TestCase):
         self.assertEqual(c.y, 2.0)
         self.assertEqual(c.z, 3.0)
 
+    def testGetters(self):
+        a = pyjet.Vector3D(1, 2, 3)
+        self.assertEqual(a[0], 1)
+        self.assertEqual(a[1], 2)
+        self.assertEqual(a[2], 3)
+
+    def testSetters(self):
+        a = pyjet.Vector3D(1, 2, 3)
+        a[0] = 4; a[1] = 5; a[2] = 6
+        self.assertEqual(a[0], 4)
+        self.assertEqual(a[1], 5)
+        self.assertEqual(a[2], 6)
+
     def testCalc(self):
         a = pyjet.Vector3D(1, 2, 3)
         b = pyjet.Vector3D(4, 6, 8)
