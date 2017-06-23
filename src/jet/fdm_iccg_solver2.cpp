@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/constants.h>
+
 #include <jet/cg.h>
 #include <jet/fdm_iccg_solver2.h>
 
@@ -19,12 +19,10 @@ void FdmIccgSolver2::Preconditioner::build(const FdmMatrix2& matrix) {
     y.resize(size, 0.0);
 
     matrix.forEachIndex([&](size_t i, size_t j) {
-        double denom
-            = matrix(i, j).center
-            - ((i > 0) ?
-                square(matrix(i - 1, j).right) * d(i - 1, j) : 0.0)
-            - ((j > 0) ?
-                square(matrix(i, j - 1).up)    * d(i, j - 1) : 0.0);
+        double denom =
+            matrix(i, j).center -
+            ((i > 0) ? square(matrix(i - 1, j).right) * d(i - 1, j) : 0.0) -
+            ((j > 0) ? square(matrix(i, j - 1).up) * d(i, j - 1) : 0.0);
 
         if (std::fabs(denom) > 0.0) {
             d(i, j) = 1.0 / denom;
@@ -34,40 +32,34 @@ void FdmIccgSolver2::Preconditioner::build(const FdmMatrix2& matrix) {
     });
 }
 
-void FdmIccgSolver2::Preconditioner::solve(
-    const FdmVector2& b,
-    FdmVector2* x) {
+void FdmIccgSolver2::Preconditioner::solve(const FdmVector2& b, FdmVector2* x) {
     Size2 size = b.size();
     ssize_t sx = static_cast<ssize_t>(size.x);
     ssize_t sy = static_cast<ssize_t>(size.y);
 
     b.forEachIndex([&](size_t i, size_t j) {
-        y(i, j)
-            = (b(i, j)
-            - ((i > 0) ? A(i - 1, j).right * y(i - 1, j) : 0.0)
-            - ((j > 0) ? A(i, j - 1).up    * y(i, j - 1) : 0.0))
-            * d(i, j);
+        y(i, j) = (b(i, j) - ((i > 0) ? A(i - 1, j).right * y(i - 1, j) : 0.0) -
+                   ((j > 0) ? A(i, j - 1).up * y(i, j - 1) : 0.0)) *
+                  d(i, j);
     });
 
     for (ssize_t j = sy - 1; j >= 0; --j) {
         for (ssize_t i = sx - 1; i >= 0; --i) {
-            (*x)(i, j)
-                = (y(i, j)
-                - ((i + 1 < sx) ? A(i, j).right * (*x)(i + 1, j) : 0.0)
-                - ((j + 1 < sy) ? A(i, j).up    * (*x)(i, j + 1) : 0.0))
-                * d(i, j);
+            (*x)(i, j) =
+                (y(i, j) -
+                 ((i + 1 < sx) ? A(i, j).right * (*x)(i + 1, j) : 0.0) -
+                 ((j + 1 < sy) ? A(i, j).up * (*x)(i, j + 1) : 0.0)) *
+                d(i, j);
         }
     }
 }
 
-FdmIccgSolver2::FdmIccgSolver2(
-    unsigned int maxNumberOfIterations,
-    double tolerance) :
-    _maxNumberOfIterations(maxNumberOfIterations),
-    _lastNumberOfIterations(0),
-    _tolerance(tolerance),
-    _lastResidualNorm(kMaxD) {
-}
+FdmIccgSolver2::FdmIccgSolver2(unsigned int maxNumberOfIterations,
+                               double tolerance)
+    : _maxNumberOfIterations(maxNumberOfIterations),
+      _lastNumberOfIterations(0),
+      _tolerance(tolerance),
+      _lastResidualNorm(kMaxD) {}
 
 bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
     FdmMatrix2& matrix = system->A;
@@ -92,24 +84,14 @@ bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
     _precond.build(matrix);
 
     pcg<FdmBlas2, Preconditioner>(
-        matrix,
-        rhs,
-        _maxNumberOfIterations,
-        _tolerance,
-        &_precond,
-        &solution,
-        &_r,
-        &_d,
-        &_q,
-        &_s,
-        &_lastNumberOfIterations,
-        &_lastResidualNorm);
+        matrix, rhs, _maxNumberOfIterations, _tolerance, &_precond, &solution,
+        &_r, &_d, &_q, &_s, &_lastNumberOfIterations, &_lastResidualNorm);
 
     JET_INFO << "Residual after solving ICCG: " << _lastResidualNorm
              << " Number of ICCG iterations: " << _lastNumberOfIterations;
 
-    return _lastResidualNorm <= _tolerance
-        || _lastNumberOfIterations < _maxNumberOfIterations;
+    return _lastResidualNorm <= _tolerance ||
+           _lastNumberOfIterations < _maxNumberOfIterations;
 }
 
 unsigned int FdmIccgSolver2::maxNumberOfIterations() const {
@@ -120,10 +102,6 @@ unsigned int FdmIccgSolver2::lastNumberOfIterations() const {
     return _lastNumberOfIterations;
 }
 
-double FdmIccgSolver2::tolerance() const {
-    return _tolerance;
-}
+double FdmIccgSolver2::tolerance() const { return _tolerance; }
 
-double FdmIccgSolver2::lastResidual() const {
-    return _lastResidualNorm;
-}
+double FdmIccgSolver2::lastResidual() const { return _lastResidualNorm; }

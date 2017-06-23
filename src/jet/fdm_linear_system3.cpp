@@ -5,11 +5,20 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/fdm_linear_system3.h>
 #include <jet/math_utils.h>
 #include <jet/parallel.h>
 
 using namespace jet;
+
+void FdmLinearSystem3::clear() {
+    A.clear();
+    x.clear();
+    b.clear();
+}
+
+//
 
 void FdmBlas3::set(double s, FdmVector3* result) {
     result->set(s);

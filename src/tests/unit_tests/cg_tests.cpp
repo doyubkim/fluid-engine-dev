@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <gtest/gtest.h>
 #include <jet/blas.h>
 #include <jet/cg.h>
 #include <jet/constants.h>
 #include <jet/matrix2x2.h>
 #include <jet/vector2.h>
-#include <gtest/gtest.h>
 
 using namespace jet;
 
@@ -29,18 +29,8 @@ TEST(Cg, Solve) {
         unsigned int lastNumIter;
         double lastResidualNorm;
 
-        cg<BlasType>(
-            matrix,
-            rhs,
-            0,
-            0.0,
-            &x,
-            &r,
-            &d,
-            &q,
-            &s,
-            &lastNumIter,
-            &lastResidualNorm);
+        cg<BlasType>(matrix, rhs, 0, 0.0, &x, &r, &d, &q, &s, &lastNumIter,
+                     &lastResidualNorm);
 
         EXPECT_DOUBLE_EQ(0.0, x.x);
         EXPECT_DOUBLE_EQ(0.0, x.y);
@@ -53,21 +43,11 @@ TEST(Cg, Solve) {
         unsigned int lastNumIter;
         double lastResidualNorm;
 
-        cg<BlasType>(
-            matrix,
-            rhs,
-            10,
-            0.0,
-            &x,
-            &r,
-            &d,
-            &q,
-            &s,
-            &lastNumIter,
-            &lastResidualNorm);
+        cg<BlasType>(matrix, rhs, 10, 0.0, &x, &r, &d, &q, &s, &lastNumIter,
+                     &lastResidualNorm);
 
-        EXPECT_DOUBLE_EQ(1.0/11.0, x.x);
-        EXPECT_DOUBLE_EQ(7.0/11.0, x.y);
+        EXPECT_DOUBLE_EQ(1.0 / 11.0, x.x);
+        EXPECT_DOUBLE_EQ(7.0 / 11.0, x.y);
 
         EXPECT_LE(lastResidualNorm, kEpsilonD);
         EXPECT_LE(lastNumIter, 2u);
@@ -92,11 +72,7 @@ TEST(Pcg, Solve) {
             precond.y = matrix(1, 1);
         }
 
-        void solve(
-            const Vector2D& b,
-            Vector2D* x) {
-            *x = b / precond;
-        }
+        void solve(const Vector2D& b, Vector2D* x) { *x = b / precond; }
     };
 
     {
@@ -105,22 +81,13 @@ TEST(Pcg, Solve) {
         double lastResidualNorm;
         DiagonalPreconditioner precond;
 
-        pcg<BlasType>(
-            matrix,
-            rhs,
-            10,
-            0.0,
-            &precond,
-            &x,
-            &r,
-            &d,
-            &q,
-            &s,
-            &lastNumIter,
-            &lastResidualNorm);
+        precond.build(matrix);
 
-        EXPECT_DOUBLE_EQ(1.0/11.0, x.x);
-        EXPECT_DOUBLE_EQ(7.0/11.0, x.y);
+        pcg<BlasType>(matrix, rhs, 10, 0.0, &precond, &x, &r, &d, &q, &s,
+                      &lastNumIter, &lastResidualNorm);
+
+        EXPECT_DOUBLE_EQ(1.0 / 11.0, x.x);
+        EXPECT_DOUBLE_EQ(7.0 / 11.0, x.y);
 
         EXPECT_LE(lastResidualNorm, kEpsilonD);
         EXPECT_LE(lastNumIter, 2u);

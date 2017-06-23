@@ -159,11 +159,54 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
 }
 
 template <typename IndexType, typename Function>
+void parallelRangeFor(IndexType start, IndexType end, const Function& func,
+                      ExecutionPolicy policy) {
+    if (start > end) {
+        return;
+    }
+
+    // Estimate number of threads in the pool
+    static const unsigned int numThreadsHint =
+        std::thread::hardware_concurrency();
+    const unsigned int numThreads =
+        (policy == ExecutionPolicy::kParallel)
+            ? (numThreadsHint == 0u ? 8u : numThreadsHint)
+            : 1;
+
+    // Size of a slice for the range functions
+    IndexType n = end - start + 1;
+    IndexType slice =
+        (IndexType)std::round(n / static_cast<double>(numThreads));
+    slice = std::max(slice, IndexType(1));
+
+    // Create pool and launch jobs
+    std::vector<std::thread> pool;
+    pool.reserve(numThreads);
+    IndexType i1 = start;
+    IndexType i2 = std::min(start + slice, end);
+    for (unsigned int i = 0; i + 1 < numThreads && i1 < end; ++i) {
+        pool.emplace_back(func, i1, i2);
+        i1 = i2;
+        i2 = std::min(i2 + slice, end);
+    }
+    if (i1 < end) {
+        pool.emplace_back(func, i1, end);
+    }
+
+    // Wait for jobs to finish
+    for (std::thread& t : pool) {
+        if (t.joinable()) {
+            t.join();
+        }
+    }
+}
+
+template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
                  const Function& function, ExecutionPolicy policy) {
     parallelFor(beginIndexY, endIndexY,
-                [&](size_t j) {
+                [&](IndexType j) {
                     for (IndexType i = beginIndexX; i < endIndexX; ++i) {
                         function(i, j);
                     }
@@ -172,12 +215,23 @@ void parallelFor(IndexType beginIndexX, IndexType endIndexX,
 }
 
 template <typename IndexType, typename Function>
+void parallelRangeFor(IndexType beginIndexX, IndexType endIndexX,
+                      IndexType beginIndexY, IndexType endIndexY,
+                      const Function& function, ExecutionPolicy policy) {
+    parallelRangeFor(beginIndexY, endIndexY,
+                     [&](IndexType jBegin, IndexType jEnd) {
+                         function(beginIndexX, endIndexX, jBegin, jEnd);
+                     },
+                     policy);
+}
+
+template <typename IndexType, typename Function>
 void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                  IndexType beginIndexY, IndexType endIndexY,
                  IndexType beginIndexZ, IndexType endIndexZ,
                  const Function& function, ExecutionPolicy policy) {
     parallelFor(beginIndexZ, endIndexZ,
-                [&](size_t k) {
+                [&](IndexType k) {
                     for (IndexType j = beginIndexY; j < endIndexY; ++j) {
                         for (IndexType i = beginIndexX; i < endIndexX; ++i) {
                             function(i, j, k);
@@ -185,6 +239,19 @@ void parallelFor(IndexType beginIndexX, IndexType endIndexX,
                     }
                 },
                 policy);
+}
+
+template <typename IndexType, typename Function>
+void parallelRangeFor(IndexType beginIndexX, IndexType endIndexX,
+                      IndexType beginIndexY, IndexType endIndexY,
+                      IndexType beginIndexZ, IndexType endIndexZ,
+                      const Function& function, ExecutionPolicy policy) {
+    parallelRangeFor(beginIndexZ, endIndexZ,
+                     [&](IndexType kBegin, IndexType kEnd) {
+                         function(beginIndexX, endIndexX, beginIndexY,
+                                  endIndexY, kBegin, kEnd);
+                     },
+                     policy);
 }
 
 template <typename IndexType, typename Value, typename Function,

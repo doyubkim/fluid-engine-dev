@@ -9,9 +9,12 @@
 
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/fdm_linear_system_solver3.h>
+#include <jet/fdm_mg_linear_system3.h>
+#include <jet/fdm_mg_solver3.h>
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_pressure_solver3.h>
 #include <jet/vertex_centered_scalar_grid3.h>
+
 #include <memory>
 
 namespace jet {
@@ -97,10 +100,15 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
  private:
     FdmLinearSystem3 _system;
     FdmLinearSystemSolver3Ptr _systemSolver;
-    Array3<float> _uWeights;
-    Array3<float> _vWeights;
-    Array3<float> _wWeights;
-    Array3<float> _fluidSdf;
+
+    FdmMgLinearSystem3 _mgSystem;
+    FdmMgSolver3Ptr _mgSystemSolver;
+
+    std::vector<Array3<float>> _uWeights;
+    std::vector<Array3<float>> _vWeights;
+    std::vector<Array3<float>> _wWeights;
+    std::vector<Array3<float>> _fluidSdf;
+
     std::function<Vector3D(const Vector3D&)> _boundaryVel;
 
     void buildWeights(const FaceCenteredGrid3& input,

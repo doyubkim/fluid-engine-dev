@@ -9,9 +9,12 @@
 
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/fdm_linear_system_solver2.h>
+#include <jet/fdm_mg_linear_system2.h>
+#include <jet/fdm_mg_solver2.h>
 #include <jet/grid_boundary_condition_solver2.h>
 #include <jet/grid_pressure_solver2.h>
 #include <jet/vertex_centered_scalar_grid2.h>
+
 #include <memory>
 
 namespace jet {
@@ -100,9 +103,14 @@ class GridFractionalSinglePhasePressureSolver2 final
  private:
     FdmLinearSystem2 _system;
     FdmLinearSystemSolver2Ptr _systemSolver;
-    Array2<float> _uWeights;
-    Array2<float> _vWeights;
-    Array2<float> _fluidSdf;
+
+    FdmMgLinearSystem2 _mgSystem;
+    FdmMgSolver2Ptr _mgSystemSolver;
+
+    std::vector<Array2<float>> _uWeights;
+    std::vector<Array2<float>> _vWeights;
+    std::vector<Array2<float>> _fluidSdf;
+
     std::function<Vector2D(const Vector2D&)> _boundaryVel;
 
     void buildWeights(const FaceCenteredGrid2& input,

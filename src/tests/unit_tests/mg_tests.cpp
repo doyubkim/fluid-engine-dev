@@ -46,7 +46,7 @@ void rest(const typename BlasType::VectorType& finer,
         //           to
         // -----|-----*-----|-----
         size_t _2im1 = (i > 0) ? 2 * i - 1 : 2 * i;
-        size_t _2ip2 = (i + 1 < n) ? 2 * i + 2 : 2 * i;
+        size_t _2ip2 = (i + 1 < n) ? 2 * i + 2 : 2 * i + 1;
         (*coarser)[i] = 0.125 * (finer[_2im1] + 3.0 * finer[2 * i] +
                                  3.0 * finer[2 * i + 1] + finer[_2ip2]);
     });
@@ -61,7 +61,7 @@ void corr(const typename BlasType::VectorType& coarser,
         //  1/4   3/4   3/4   1/4
         // --*--|--*--|--*--|--*--
         size_t _2im1 = (i > 0) ? 2 * i - 1 : 2 * i;
-        size_t _2ip2 = (i + 1 < n) ? 2 * i + 2 : 2 * i;
+        size_t _2ip2 = (i + 1 < n) ? 2 * i + 2 : 2 * i + 1;
         (*finer)[_2im1] += 0.25 * coarser[i];
         (*finer)[2 * i + 0] += 0.75 * coarser[i];
         (*finer)[2 * i + 1] += 0.75 * coarser[i];
@@ -76,14 +76,14 @@ TEST(Mg, Solve) {
     MgParameters<BlasType> params;
 
     size_t n = 128;
-    unsigned int levels = 6;
+    size_t levels = 6;
 
     // Build matrix
     A.levels.resize(levels);
     x.levels.resize(levels);
     b.levels.resize(levels);
     tmp.levels.resize(levels);
-    for (unsigned int l = 0; l < levels; ++l) {
+    for (size_t l = 0; l < levels; ++l) {
         size_t m = n >> l;
         A[l].resize(m, m, 0.0);
         x[l].resize(m, 0.0);
@@ -92,7 +92,7 @@ TEST(Mg, Solve) {
     }
 
     // Simple Poisson eq.
-    for (unsigned int l = 0; l < levels; ++l) {
+    for (size_t l = 0; l < levels; ++l) {
         size_t m = n >> l;
         double invdx = pow(0.5, l);
         auto& Al = A[l];

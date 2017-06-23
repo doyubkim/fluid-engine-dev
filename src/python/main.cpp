@@ -28,6 +28,8 @@
 #include "fdm_iccg_solver.h"
 #include "fdm_jacobi_solver.h"
 #include "fdm_linear_system_solver.h"
+#include "fdm_mg_solver.h"
+#include "fdm_mgpcg_solver.h"
 #include "field.h"
 #include "flip_solver.h"
 #include "fmm_level_set_solver.h"
@@ -233,6 +235,10 @@ PYBIND11_PLUGIN(pyjet) {
     addFdmCgSolver3(m);
     addFdmIccgSolver2(m);
     addFdmIccgSolver3(m);
+    addFdmMgSolver2(m);
+    addFdmMgSolver3(m);
+    addFdmMgpcgSolver2(m);
+    addFdmMgpcgSolver3(m);
     addGridDiffusionSolver2(m);
     addGridDiffusionSolver3(m);
     addGridForwardEulerDiffusionSolver2(m);

@@ -34,8 +34,6 @@ void pcg(
     BlasType::set(0, q);
     BlasType::set(0, s);
 
-    M->build(A);
-
     // r = b - Ax
     BlasType::residual(A, *x, b, r);
 
@@ -90,7 +88,9 @@ void pcg(
     }
 
     *lastNumberOfIterations = iter;
-    *lastResidualNorm = std::sqrt(sigmaNew);
+
+    // std::fabs(sigmaNew) - Workaround for negative zero
+    *lastResidualNorm = std::sqrt(std::fabs(sigmaNew));
 }
 
 template <typename BlasType>

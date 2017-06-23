@@ -6,7 +6,10 @@
 
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/face_centered_grid3.h>
+#include <jet/fdm_iccg_solver3.h>
+#include <jet/fdm_mgpcg_solver3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -29,18 +32,11 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface) {
         }
     }
 
-    fluidSdf.fill([&](const Vector3D& x) {
-        return x.y - 2.0;
-    });
+    fluidSdf.fill([&](const Vector3D& x) { return x.y - 2.0; });
 
     GridFractionalSinglePhasePressureSolver3 solver;
-    solver.solve(
-        vel,
-        1.0,
-        &vel,
-        ConstantScalarField3(kMaxD),
-        ConstantVectorField3({0, 0, 0}),
-        fluidSdf);
+    solver.solve(vel, 1.0, &vel, ConstantScalarField3(kMaxD),
+                 ConstantVectorField3({0, 0, 0}), fluidSdf);
 
     for (size_t k = 0; k < 3; ++k) {
         for (size_t j = 0; j < 3; ++j) {

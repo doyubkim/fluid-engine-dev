@@ -36,6 +36,8 @@ typedef Array3<FdmMatrixRow3> FdmMatrix3;
 struct FdmLinearSystem3 {
     FdmMatrix3 A;
     FdmVector3 x, b;
+
+    void clear();
 };
 
 //! BLAS operator wrapper for 3-D finite differencing.
