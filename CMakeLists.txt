@@ -81,7 +81,7 @@ add_subdirectory(src/examples/particles2obj)
 add_subdirectory(src/examples/particles2xml)
 add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
-add_subdirectory(src/playground)
+add_subdirectory(src/examples/playground)
 
 add_subdirectory(external/pybind11)
 if (BUILD_FROM_PIP)

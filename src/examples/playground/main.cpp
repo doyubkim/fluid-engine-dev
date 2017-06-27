@@ -11,7 +11,7 @@
 using namespace jet;
 
 void runSimulation(MyPhysicsSolver& solver, double frameIntervalInSeconds,
-                   unsigned int numberOfFrames) {
+                   int numberOfFrames) {
     for (Frame frame(0, frameIntervalInSeconds); frame.index < numberOfFrames;
          ++frame) {
         printf("Updating frame %u\n", frame.index);
