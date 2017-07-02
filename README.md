@@ -14,6 +14,7 @@ The latest code is always available from the [`master`](https://github.com/doyub
 * Level set-based liquid simulator
 * PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO, and FMM level set solvers
+* Jacobi, Gauss-Seidel, SOR, MG, CG, ICCG, and MGPCG linear system solvers
 * Converters between signed distance function and triangular mesh
 * C++ and Python API
 
@@ -25,11 +26,11 @@ To learn how to build, test, and install the SDK, please check out [INSTALL.md](
 
 ## Documentations
 
-All the documentations for the framework can be found from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/) including the API reference.
+All the documentations for the framework can be found from [the project website](http://fluidenginedevelopment.org/documentation/) including the API reference.
 
 ## Examples
 
-Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/). Find out more demos from [the project website](http://doyubkim.github.io/fluid-engine-dev/examples/).
+Here are some of the example simulations generated using Jet framework. Corresponding example codes can be found under src/examples. All images are rendered using [Mitsuba renderer](https://www.mitsuba-renderer.org/) and the Mitsuba scene files can be found from [the demo repository](https://github.com/doyubkim/fluid-engine-dev-demo/). Find out more demos from [the project website](http://fluidenginedevelopment.org/examples/).
 
 ### FLIP Simulation Example
 
