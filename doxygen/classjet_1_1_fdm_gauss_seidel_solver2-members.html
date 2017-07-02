@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -102,12 +102,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#ab329331d97847c407d3a0a1a72be5c1f">FdmGaussSeidelSolver2</a>(unsigned int maxNumberOfIterations, unsigned int residualCheckInterval, double tolerance)</td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a7243989aa1b51d2c7e4b5f18f21a38ad">FdmGaussSeidelSolver2</a>(unsigned int maxNumberOfIterations, unsigned int residualCheckInterval, double tolerance, double sorFactor=1.0, bool useRedBlackOrdering=false)</td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a06cbcf7cc62dd61519266fa6e2683b8d">lastNumberOfIterations</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a4ded15efa786b17b96f519cd95b276cf">lastResidual</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a509fe864bd89c4ad1e366024a4eee9db">maxNumberOfIterations</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a2ae86b752efb1e9d9f9390e5f04fef85">relax</a>(const FdmMatrix2 &amp;A, const FdmVector2 &amp;b, double sorFactor, FdmVector2 *x)</td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a91d5c49e4a3392978c797e9875d16aaa">relaxRedBlack</a>(const FdmMatrix2 &amp;A, const FdmVector2 &amp;b, double sorFactor, FdmVector2 *x)</td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#afdfaa136c00d1f133ab60090fdab0d14">solve</a>(FdmLinearSystem2 *system) override</td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#ae04e9c66a69315f222436b93f3f8b4bf">tolerance</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a8081d44634c125142dad7d0f69300142">sorFactor</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#ae04e9c66a69315f222436b93f3f8b4bf">tolerance</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html#a5cf078d12a4835beed66960493ba8c2f">useRedBlackOrdering</a>() const </td><td class="entry"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver2.html">jet::FdmGaussSeidelSolver2</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -117,7 +121,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:22 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

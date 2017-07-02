@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -104,6 +104,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Multigrid vector wrapper.  
+ <a href="structjet_1_1_mg_vector.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="mg_8h_source.html">jet/mg.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -112,13 +115,56 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adaede02a3e2a4eef56276e8044861b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a208d670b18b314247377d539eb9d89ee"><td class="memItemLeft" align="right" valign="top">BlasType::VectorType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_vector.html#a208d670b18b314247377d539eb9d89ee">operator[]</a> (size_t i)</td></tr>
 <tr class="separator:a208d670b18b314247377d539eb9d89ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0a4f7a59cc66ea56e1a6691bb615d14"><td class="memItemLeft" align="right" valign="top">const BlasType::VectorType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_vector.html#af0a4f7a59cc66ea56e1a6691bb615d14">finest</a> () const </td></tr>
+<tr class="separator:af0a4f7a59cc66ea56e1a6691bb615d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabb9284729b70d1dcc2901558c6aa337"><td class="memItemLeft" align="right" valign="top">BlasType::VectorType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_vector.html#aabb9284729b70d1dcc2901558c6aa337">finest</a> ()</td></tr>
+<tr class="separator:aabb9284729b70d1dcc2901558c6aa337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1e299c3373a167a8d30817b8cae6b007"><td class="memItemLeft" align="right" valign="top">std::vector&lt; typename BlasType::VectorType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_vector.html#a1e299c3373a167a8d30817b8cae6b007">levels</a></td></tr>
 <tr class="separator:a1e299c3373a167a8d30817b8cae6b007"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename BlasType&gt;<br />
+struct jet::MgVector&lt; BlasType &gt;</h3>
+
+<p>Multigrid vector wrapper. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af0a4f7a59cc66ea56e1a6691bb615d14"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BlasType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const BlasType::VectorType&amp; <a class="el" href="structjet_1_1_mg_vector.html">jet::MgVector</a>&lt; BlasType &gt;::finest </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aabb9284729b70d1dcc2901558c6aa337"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BlasType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">BlasType::VectorType&amp; <a class="el" href="structjet_1_1_mg_vector.html">jet::MgVector</a>&lt; BlasType &gt;::finest </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="adaede02a3e2a4eef56276e8044861b07"></a>
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +228,7 @@ template&lt;typename BlasType&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:22 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

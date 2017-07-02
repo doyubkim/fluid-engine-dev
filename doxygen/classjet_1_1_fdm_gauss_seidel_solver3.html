@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -97,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classjet_1_1_fdm_gauss_seidel_solver3-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">jet::FdmGaussSeidelSolver3 Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
@@ -119,9 +120,9 @@ Inheritance diagram for jet::FdmGaussSeidelSolver3:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3a57c91ebe36a1610572086018466d63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3a57c91ebe36a1610572086018466d63">FdmGaussSeidelSolver3</a> (unsigned int <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ac59ccb8d044aff2bfac2f1ca8e20a966">maxNumberOfIterations</a>, unsigned int residualCheckInterval, double <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a11544a0615e829443995b14fc825a172">tolerance</a>)</td></tr>
-<tr class="memdesc:a3a57c91ebe36a1610572086018466d63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the solver with given parameters.  <a href="#a3a57c91ebe36a1610572086018466d63">More...</a><br /></td></tr>
-<tr class="separator:a3a57c91ebe36a1610572086018466d63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14f9f97bb93dac190a60a268cc68e393"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a14f9f97bb93dac190a60a268cc68e393">FdmGaussSeidelSolver3</a> (unsigned int <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ac59ccb8d044aff2bfac2f1ca8e20a966">maxNumberOfIterations</a>, unsigned int residualCheckInterval, double <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a11544a0615e829443995b14fc825a172">tolerance</a>, double <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a>=1.0, bool <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ab4770d852486661ca1c3d6a65a00f2b0">useRedBlackOrdering</a>=false)</td></tr>
+<tr class="memdesc:a14f9f97bb93dac190a60a268cc68e393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the solver with given parameters.  <a href="#a14f9f97bb93dac190a60a268cc68e393">More...</a><br /></td></tr>
+<tr class="separator:a14f9f97bb93dac190a60a268cc68e393"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dd8b6e0a0092991d405ed69a7f938d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3dd8b6e0a0092991d405ed69a7f938d2">solve</a> (<a class="el" href="structjet_1_1_fdm_linear_system3.html">FdmLinearSystem3</a> *system) override</td></tr>
 <tr class="memdesc:a3dd8b6e0a0092991d405ed69a7f938d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the given linear system.  <a href="#a3dd8b6e0a0092991d405ed69a7f938d2">More...</a><br /></td></tr>
 <tr class="separator:a3dd8b6e0a0092991d405ed69a7f938d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,11 +138,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5bfd7260a867172e3de47bb48c26d398"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5bfd7260a867172e3de47bb48c26d398">lastResidual</a> () const </td></tr>
 <tr class="memdesc:a5bfd7260a867172e3de47bb48c26d398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last residual after the Gauss-Seidel iterations.  <a href="#a5bfd7260a867172e3de47bb48c26d398">More...</a><br /></td></tr>
 <tr class="separator:a5bfd7260a867172e3de47bb48c26d398"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5950cab9e6f5a5665d2b153af2b5f26b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a> () const </td></tr>
+<tr class="memdesc:a5950cab9e6f5a5665d2b153af2b5f26b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SOR (Successive Over Relaxation) factor.  <a href="#a5950cab9e6f5a5665d2b153af2b5f26b">More...</a><br /></td></tr>
+<tr class="separator:a5950cab9e6f5a5665d2b153af2b5f26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4770d852486661ca1c3d6a65a00f2b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ab4770d852486661ca1c3d6a65a00f2b0">useRedBlackOrdering</a> () const </td></tr>
+<tr class="memdesc:ab4770d852486661ca1c3d6a65a00f2b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if red-black ordering is enabled.  <a href="#ab4770d852486661ca1c3d6a65a00f2b0">More...</a><br /></td></tr>
+<tr class="separator:ab4770d852486661ca1c3d6a65a00f2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a69594b32bd9df795b13b2614849ac99f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a69594b32bd9df795b13b2614849ac99f">relax</a> (const <a class="el" href="namespacejet.html#aefcc196eb6c632645c78e0c04fb62de1">FdmMatrix3</a> &amp;A, const <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> &amp;b, double <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a>, <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> *x)</td></tr>
+<tr class="memdesc:a69594b32bd9df795b13b2614849ac99f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs single natural Gauss-Seidel relaxation step.  <a href="#a69594b32bd9df795b13b2614849ac99f">More...</a><br /></td></tr>
+<tr class="separator:a69594b32bd9df795b13b2614849ac99f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cda117ec3e08e371d5523624320a0c8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a6cda117ec3e08e371d5523624320a0c8">relaxRedBlack</a> (const <a class="el" href="namespacejet.html#aefcc196eb6c632645c78e0c04fb62de1">FdmMatrix3</a> &amp;A, const <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> &amp;b, double <a class="el" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a>, <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> *x)</td></tr>
+<tr class="memdesc:a6cda117ec3e08e371d5523624320a0c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs single Red-Black Gauss-Seidel relaxation step.  <a href="#a6cda117ec3e08e371d5523624320a0c8">More...</a><br /></td></tr>
+<tr class="separator:a6cda117ec3e08e371d5523624320a0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>3-D finite difference-type linear system solver using Gauss-Seidel method. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a3a57c91ebe36a1610572086018466d63"></a>
+<a class="anchor" id="a14f9f97bb93dac190a60a268cc68e393"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -161,7 +177,19 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>tolerance</em>&#160;</td>
+          <td class="paramname"><em>tolerance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sorFactor</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useRedBlackOrdering</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -227,6 +255,102 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a69594b32bd9df795b13b2614849ac99f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::FdmGaussSeidelSolver3::relax </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#aefcc196eb6c632645c78e0c04fb62de1">FdmMatrix3</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sorFactor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> *&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs single natural Gauss-Seidel relaxation step. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6cda117ec3e08e371d5523624320a0c8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::FdmGaussSeidelSolver3::relaxRedBlack </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#aefcc196eb6c632645c78e0c04fb62de1">FdmMatrix3</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>sorFactor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a937e57f0f4db9a4745bee1846a351b9a">FdmVector3</a> *&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs single Red-Black Gauss-Seidel relaxation step. </p>
+
+</div>
+</div>
 <a class="anchor" id="a3dd8b6e0a0092991d405ed69a7f938d2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -255,6 +379,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a5950cab9e6f5a5665d2b153af2b5f26b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double jet::FdmGaussSeidelSolver3::sorFactor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the SOR (Successive Over Relaxation) factor. </p>
+
+</div>
+</div>
 <a class="anchor" id="a11544a0615e829443995b14fc825a172"></a>
 <div class="memitem">
 <div class="memproto">
@@ -272,6 +413,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab4770d852486661ca1c3d6a65a00f2b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jet::FdmGaussSeidelSolver3::useRedBlackOrdering </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if red-black ordering is enabled. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>jet/<a class="el" href="fdm__gauss__seidel__solver3_8h_source.html">fdm_gauss_seidel_solver3.h</a></li>
 </ul>
@@ -284,7 +442,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:22 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

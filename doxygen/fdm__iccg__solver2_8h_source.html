@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -132,28 +132,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">void</span> build(<span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmMatrix2</a>&amp; matrix);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_fdm_iccg_solver2.html#a762576c468ede207192468d86ec8f5ad">solve</a>(</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a>&amp; b,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a>* x);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    };</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _maxNumberOfIterations;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _lastNumberOfIterations;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">double</span> _tolerance;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">double</span> _lastResidualNorm;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _r;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _d;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _q;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _s;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Preconditioner _precond;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">   64</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmIccgSolver2&gt; <a class="code" href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">FdmIccgSolver2Ptr</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_fdm_iccg_solver2.html#a762576c468ede207192468d86ec8f5ad">solve</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a>&amp; b, <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a>* x);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _maxNumberOfIterations;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _lastNumberOfIterations;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">double</span> _tolerance;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">double</span> _lastResidualNorm;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _r;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _d;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _q;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_012_01_4.html">FdmVector2</a> _s;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Preconditioner _precond;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">   62</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmIccgSolver2&gt; <a class="code" href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">FdmIccgSolver2Ptr</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}  <span class="comment">// namespace jet</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_ICCG_SOLVER2_H_</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_ICCG_SOLVER2_H_</span></div>
 <div class="ttc" id="classjet_1_1_fdm_iccg_solver2_html_ada881cf231d6e89fbe8bbc1a53b674f2"><div class="ttname"><a href="classjet_1_1_fdm_iccg_solver2.html#ada881cf231d6e89fbe8bbc1a53b674f2">jet::FdmIccgSolver2::lastResidual</a></div><div class="ttdeci">double lastResidual() const </div><div class="ttdoc">Returns the last residual after the Jacobi iterations. </div></div>
 <div class="ttc" id="classjet_1_1_fdm_iccg_solver2_html_a50dfa4629bf8d0ac702c7a5942707110"><div class="ttname"><a href="classjet_1_1_fdm_iccg_solver2.html#a50dfa4629bf8d0ac702c7a5942707110">jet::FdmIccgSolver2::maxNumberOfIterations</a></div><div class="ttdeci">unsigned int maxNumberOfIterations() const </div><div class="ttdoc">Returns the max number of Jacobi iterations. </div></div>
 <div class="ttc" id="fdm__cg__solver2_8h_html"><div class="ttname"><a href="fdm__cg__solver2_8h.html">fdm_cg_solver2.h</a></div></div>
@@ -162,7 +160,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classjet_1_1_fdm_iccg_solver2_html_a51ade779c550ddb16302c0b339d312e0"><div class="ttname"><a href="classjet_1_1_fdm_iccg_solver2.html#a51ade779c550ddb16302c0b339d312e0">jet::FdmIccgSolver2::lastNumberOfIterations</a></div><div class="ttdeci">unsigned int lastNumberOfIterations() const </div><div class="ttdoc">Returns the last number of Jacobi iterations the solver made. </div></div>
 <div class="ttc" id="structjet_1_1_fdm_linear_system2_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system2.html">jet::FdmLinearSystem2</a></div><div class="ttdoc">Linear system (Ax=b) for 2-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system2.h:33</div></div>
 <div class="ttc" id="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html">jet::ConstArrayAccessor&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D read-only array accessor class. </div><div class="ttdef"><b>Definition:</b> array_accessor2.h:261</div></div>
-<div class="ttc" id="namespacejet_html_a1376d31e03a9dbf90f96cbd978094b1d"><div class="ttname"><a href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">jet::FdmIccgSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmIccgSolver2 &gt; FdmIccgSolver2Ptr</div><div class="ttdoc">Shared pointer type for the FdmIccgSolver2. </div><div class="ttdef"><b>Definition:</b> fdm_iccg_solver2.h:64</div></div>
+<div class="ttc" id="namespacejet_html_a1376d31e03a9dbf90f96cbd978094b1d"><div class="ttname"><a href="namespacejet.html#a1376d31e03a9dbf90f96cbd978094b1d">jet::FdmIccgSolver2Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmIccgSolver2 &gt; FdmIccgSolver2Ptr</div><div class="ttdoc">Shared pointer type for the FdmIccgSolver2. </div><div class="ttdef"><b>Definition:</b> fdm_iccg_solver2.h:62</div></div>
 <div class="ttc" id="classjet_1_1_fdm_iccg_solver2_html"><div class="ttname"><a href="classjet_1_1_fdm_iccg_solver2.html">jet::FdmIccgSolver2</a></div><div class="ttdoc">2-D finite difference-type linear system solver using incomplete Cholesky conjugate gradient (ICCG)...</div><div class="ttdef"><b>Definition:</b> fdm_iccg_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_fdm_linear_system_solver2_html"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver2.html">jet::FdmLinearSystemSolver2</a></div><div class="ttdoc">Abstract base class for 2-D finite difference-type linear system solver. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver2.h:16</div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_012_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_012_01_4.html">jet::Array&lt; T, 2 &gt;</a></div><div class="ttdoc">2-D array class. </div><div class="ttdef"><b>Definition:</b> array2.h:42</div></div>
@@ -177,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:20 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

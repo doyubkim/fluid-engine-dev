@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -112,12 +112,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_matrix.html">jet::MgMatrix&lt; BlasType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid matrix wrapper.  <a href="structjet_1_1_mg_matrix.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_vector.html">jet::MgVector&lt; BlasType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid vector wrapper.  <a href="structjet_1_1_mg_vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters&lt; BlasType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid input parameter set.  <a href="structjet_1_1_mg_parameters.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_result.html">jet::MgResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid result type.  <a href="structjet_1_1_mg_result.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -129,18 +133,22 @@ Namespaces</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:a0bfd46d4033fcf698a8852386041068b"><td class="memTemplParams" colspan="2">template&lt;typename BlasType &gt; </td></tr>
 <tr class="memitem:a0bfd46d4033fcf698a8852386041068b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a0bfd46d4033fcf698a8852386041068b">jet::MgRelaxFunc</a> = std::function&lt; void(const typename BlasType::MatrixType &amp;A, const typename BlasType::VectorType &amp;b, unsigned int numberOfIterations, double maxTolerance, typename BlasType::VectorType *x, typename BlasType::VectorType *buffer)&gt;</td></tr>
+<tr class="memdesc:a0bfd46d4033fcf698a8852386041068b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid relax function type.  <a href="namespacejet.html#a0bfd46d4033fcf698a8852386041068b">More...</a><br /></td></tr>
 <tr class="separator:a0bfd46d4033fcf698a8852386041068b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbf323d2e2b49c42464b64e652361319"><td class="memTemplParams" colspan="2">template&lt;typename BlasType &gt; </td></tr>
 <tr class="memitem:adbf323d2e2b49c42464b64e652361319"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#adbf323d2e2b49c42464b64e652361319">jet::MgRestrictFunc</a> = std::function&lt; void(const typename BlasType::VectorType &amp;finer, typename BlasType::VectorType *coarser)&gt;</td></tr>
+<tr class="memdesc:adbf323d2e2b49c42464b64e652361319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid restriction function type.  <a href="namespacejet.html#adbf323d2e2b49c42464b64e652361319">More...</a><br /></td></tr>
 <tr class="separator:adbf323d2e2b49c42464b64e652361319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d6fbf104421d282a4867706a6ed8f20"><td class="memTemplParams" colspan="2">template&lt;typename BlasType &gt; </td></tr>
 <tr class="memitem:a2d6fbf104421d282a4867706a6ed8f20"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#a2d6fbf104421d282a4867706a6ed8f20">jet::MgCorrectFunc</a> = std::function&lt; void(const typename BlasType::VectorType &amp;coarser, typename BlasType::VectorType *finer)&gt;</td></tr>
+<tr class="memdesc:a2d6fbf104421d282a4867706a6ed8f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multigrid correction function type.  <a href="namespacejet.html#a2d6fbf104421d282a4867706a6ed8f20">More...</a><br /></td></tr>
 <tr class="separator:a2d6fbf104421d282a4867706a6ed8f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:adf68dafceee0c418b67b38330c4d9676"><td class="memTemplParams" colspan="2">template&lt;typename BlasType &gt; </td></tr>
 <tr class="memitem:adf68dafceee0c418b67b38330c4d9676"><td class="memTemplItemLeft" align="right" valign="top">MgResult&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacejet.html#adf68dafceee0c418b67b38330c4d9676">jet::mgVCycle</a> (const MgMatrix&lt; BlasType &gt; &amp;A, MgParameters&lt; BlasType &gt; params, MgVector&lt; BlasType &gt; *x, MgVector&lt; BlasType &gt; *b, MgVector&lt; BlasType &gt; *buffer)</td></tr>
+<tr class="memdesc:adf68dafceee0c418b67b38330c4d9676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs Multigrid with V-cycle.  <a href="namespacejet.html#adf68dafceee0c418b67b38330c4d9676">More...</a><br /></td></tr>
 <tr class="separator:adf68dafceee0c418b67b38330c4d9676"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
@@ -152,7 +160,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:13 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:21 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

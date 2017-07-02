@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -112,10 +112,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classjet_1_1_fdm_gauss_seidel_solver3.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html">FdmGaussSeidelSolver3</a> final : <span class="keyword">public</span> <a class="code" href="classjet_1_1_fdm_linear_system_solver3.html">FdmLinearSystemSolver3</a> {</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3a57c91ebe36a1610572086018466d63">FdmGaussSeidelSolver3</a>(</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ac59ccb8d044aff2bfac2f1ca8e20a966">maxNumberOfIterations</a>,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> residualCheckInterval,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a11544a0615e829443995b14fc825a172">tolerance</a>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a14f9f97bb93dac190a60a268cc68e393">FdmGaussSeidelSolver3</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ac59ccb8d044aff2bfac2f1ca8e20a966">maxNumberOfIterations</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                          <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> residualCheckInterval, <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a11544a0615e829443995b14fc825a172">tolerance</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                          <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a> = 1.0,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                          <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ab4770d852486661ca1c3d6a65a00f2b0">useRedBlackOrdering</a> = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3dd8b6e0a0092991d405ed69a7f938d2">solve</a>(<a class="code" href="structjet_1_1_fdm_linear_system3.html">FdmLinearSystem3</a>* system) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
@@ -127,36 +127,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5bfd7260a867172e3de47bb48c26d398">lastResidual</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _maxNumberOfIterations;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _lastNumberOfIterations;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _residualCheckInterval;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">double</span> _tolerance;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">double</span> _lastResidual;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a> _residual;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> relax(<a class="code" href="structjet_1_1_fdm_linear_system3.html">FdmLinearSystem3</a>* system);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">   52</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmGaussSeidelSolver3&gt; <a class="code" href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">FdmGaussSeidelSolver3Ptr</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}  <span class="comment">// namespace jet</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_GAUSS_SEIDEL_SOLVER3_H_</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">sorFactor</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#ab4770d852486661ca1c3d6a65a00f2b0">useRedBlackOrdering</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a69594b32bd9df795b13b2614849ac99f">relax</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmMatrix3</a>&amp; A, <span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a>&amp; b,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                      <span class="keywordtype">double</span> sorFactor, <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a>* x);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classjet_1_1_fdm_gauss_seidel_solver3.html#a6cda117ec3e08e371d5523624320a0c8">relaxRedBlack</a>(<span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmMatrix3</a>&amp; A, <span class="keyword">const</span> <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a>&amp; b,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                              <span class="keywordtype">double</span> sorFactor, <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a>* x);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _maxNumberOfIterations;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _lastNumberOfIterations;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _residualCheckInterval;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">double</span> _tolerance;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">double</span> _lastResidual;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">double</span> _sorFactor;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> _useRedBlackOrdering;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="classjet_1_1_array_3_01_t_00_013_01_4.html">FdmVector3</a> _residual;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">   66</a></span>&#160;<span class="keyword">typedef</span> std::shared_ptr&lt;FdmGaussSeidelSolver3&gt; <a class="code" href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">FdmGaussSeidelSolver3Ptr</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}  <span class="comment">// namespace jet</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif  // INCLUDE_JET_FDM_GAUSS_SEIDEL_SOLVER3_H_</span></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a5bfd7260a867172e3de47bb48c26d398"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5bfd7260a867172e3de47bb48c26d398">jet::FdmGaussSeidelSolver3::lastResidual</a></div><div class="ttdeci">double lastResidual() const </div><div class="ttdoc">Returns the last residual after the Gauss-Seidel iterations. </div></div>
-<div class="ttc" id="namespacejet_html_a726651e12afa79c5042b5a0c1be4ff35"><div class="ttname"><a href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">jet::FdmGaussSeidelSolver3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmGaussSeidelSolver3 &gt; FdmGaussSeidelSolver3Ptr</div><div class="ttdoc">Shared pointer type for the FdmGaussSeidelSolver3. </div><div class="ttdef"><b>Definition:</b> fdm_gauss_seidel_solver3.h:52</div></div>
-<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a3a57c91ebe36a1610572086018466d63"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3a57c91ebe36a1610572086018466d63">jet::FdmGaussSeidelSolver3::FdmGaussSeidelSolver3</a></div><div class="ttdeci">FdmGaussSeidelSolver3(unsigned int maxNumberOfIterations, unsigned int residualCheckInterval, double tolerance)</div><div class="ttdoc">Constructs the solver with given parameters. </div></div>
+<div class="ttc" id="namespacejet_html_a726651e12afa79c5042b5a0c1be4ff35"><div class="ttname"><a href="namespacejet.html#a726651e12afa79c5042b5a0c1be4ff35">jet::FdmGaussSeidelSolver3Ptr</a></div><div class="ttdeci">std::shared_ptr&lt; FdmGaussSeidelSolver3 &gt; FdmGaussSeidelSolver3Ptr</div><div class="ttdoc">Shared pointer type for the FdmGaussSeidelSolver3. </div><div class="ttdef"><b>Definition:</b> fdm_gauss_seidel_solver3.h:66</div></div>
+<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a6cda117ec3e08e371d5523624320a0c8"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a6cda117ec3e08e371d5523624320a0c8">jet::FdmGaussSeidelSolver3::relaxRedBlack</a></div><div class="ttdeci">static void relaxRedBlack(const FdmMatrix3 &amp;A, const FdmVector3 &amp;b, double sorFactor, FdmVector3 *x)</div><div class="ttdoc">Performs single Red-Black Gauss-Seidel relaxation step. </div></div>
 <div class="ttc" id="structjet_1_1_fdm_linear_system3_html"><div class="ttname"><a href="structjet_1_1_fdm_linear_system3.html">jet::FdmLinearSystem3</a></div><div class="ttdoc">Linear system (Ax=b) for 3-D finite differencing. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system3.h:36</div></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_ac59ccb8d044aff2bfac2f1ca8e20a966"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#ac59ccb8d044aff2bfac2f1ca8e20a966">jet::FdmGaussSeidelSolver3::maxNumberOfIterations</a></div><div class="ttdeci">unsigned int maxNumberOfIterations() const </div><div class="ttdoc">Returns the max number of Gauss-Seidel iterations. </div></div>
 <div class="ttc" id="fdm__linear__system__solver3_8h_html"><div class="ttname"><a href="fdm__linear__system__solver3_8h.html">fdm_linear_system_solver3.h</a></div></div>
+<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a5950cab9e6f5a5665d2b153af2b5f26b"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a5950cab9e6f5a5665d2b153af2b5f26b">jet::FdmGaussSeidelSolver3::sorFactor</a></div><div class="ttdeci">double sorFactor() const </div><div class="ttdoc">Returns the SOR (Successive Over Relaxation) factor. </div></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_adde2c9072b7332739ae683781a376976"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#adde2c9072b7332739ae683781a376976">jet::FdmGaussSeidelSolver3::lastNumberOfIterations</a></div><div class="ttdeci">unsigned int lastNumberOfIterations() const </div><div class="ttdoc">Returns the last number of Gauss-Seidel iterations the solver made. </div></div>
 <div class="ttc" id="classjet_1_1_array_3_01_t_00_013_01_4_html"><div class="ttname"><a href="classjet_1_1_array_3_01_t_00_013_01_4.html">jet::Array&lt; T, 3 &gt;</a></div><div class="ttdoc">3-D array class. </div><div class="ttdef"><b>Definition:</b> array3.h:43</div></div>
+<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a14f9f97bb93dac190a60a268cc68e393"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a14f9f97bb93dac190a60a268cc68e393">jet::FdmGaussSeidelSolver3::FdmGaussSeidelSolver3</a></div><div class="ttdeci">FdmGaussSeidelSolver3(unsigned int maxNumberOfIterations, unsigned int residualCheckInterval, double tolerance, double sorFactor=1.0, bool useRedBlackOrdering=false)</div><div class="ttdoc">Constructs the solver with given parameters. </div></div>
 <div class="ttc" id="classjet_1_1_fdm_linear_system_solver3_html"><div class="ttname"><a href="classjet_1_1_fdm_linear_system_solver3.html">jet::FdmLinearSystemSolver3</a></div><div class="ttdoc">Abstract base class for 3-D finite difference-type linear system solver. </div><div class="ttdef"><b>Definition:</b> fdm_linear_system_solver3.h:16</div></div>
 <div class="ttc" id="namespacejet_html"><div class="ttname"><a href="namespacejet.html">jet</a></div><div class="ttdef"><b>Definition:</b> advection_solver2.h:18</div></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a3dd8b6e0a0092991d405ed69a7f938d2"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a3dd8b6e0a0092991d405ed69a7f938d2">jet::FdmGaussSeidelSolver3::solve</a></div><div class="ttdeci">bool solve(FdmLinearSystem3 *system) override</div><div class="ttdoc">Solves the given linear system. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_ab4770d852486661ca1c3d6a65a00f2b0"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#ab4770d852486661ca1c3d6a65a00f2b0">jet::FdmGaussSeidelSolver3::useRedBlackOrdering</a></div><div class="ttdeci">bool useRedBlackOrdering() const </div><div class="ttdoc">Returns true if red-black ordering is enabled. </div></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html">jet::FdmGaussSeidelSolver3</a></div><div class="ttdoc">3-D finite difference-type linear system solver using Gauss-Seidel method. </div><div class="ttdef"><b>Definition:</b> fdm_gauss_seidel_solver3.h:16</div></div>
 <div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a11544a0615e829443995b14fc825a172"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a11544a0615e829443995b14fc825a172">jet::FdmGaussSeidelSolver3::tolerance</a></div><div class="ttdeci">double tolerance() const </div><div class="ttdoc">Returns the max residual tolerance for the Gauss-Seidel method. </div></div>
+<div class="ttc" id="classjet_1_1_fdm_gauss_seidel_solver3_html_a69594b32bd9df795b13b2614849ac99f"><div class="ttname"><a href="classjet_1_1_fdm_gauss_seidel_solver3.html#a69594b32bd9df795b13b2614849ac99f">jet::FdmGaussSeidelSolver3::relax</a></div><div class="ttdeci">static void relax(const FdmMatrix3 &amp;A, const FdmVector3 &amp;b, double sorFactor, FdmVector3 *x)</div><div class="ttdoc">Performs single natural Gauss-Seidel relaxation step. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
@@ -166,7 +180,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:12 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:20 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

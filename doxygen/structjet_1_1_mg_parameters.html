@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -103,30 +103,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Multigrid input parameter set.  
+ <a href="structjet_1_1_mg_parameters.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="mg_8h_source.html">jet/mg.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a805a801103a46fda8371b72eecd3ec1b"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a805a801103a46fda8371b72eecd3ec1b">maxNumberOfLevels</a> = 1</td></tr>
-<tr class="separator:a805a801103a46fda8371b72eecd3ec1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32e901b876c269eb1ee2159207ff4c0d"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a32e901b876c269eb1ee2159207ff4c0d">numberOfRestrictionIter</a> = 10</td></tr>
+<tr class="memitem:aac688cfa566aa744fe30776bba9c5318"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#aac688cfa566aa744fe30776bba9c5318">maxNumberOfLevels</a> = 1</td></tr>
+<tr class="memdesc:aac688cfa566aa744fe30776bba9c5318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max number of multigrid levels.  <a href="#aac688cfa566aa744fe30776bba9c5318">More...</a><br /></td></tr>
+<tr class="separator:aac688cfa566aa744fe30776bba9c5318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32e901b876c269eb1ee2159207ff4c0d"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a32e901b876c269eb1ee2159207ff4c0d">numberOfRestrictionIter</a> = 5</td></tr>
+<tr class="memdesc:a32e901b876c269eb1ee2159207ff4c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of iteration at restriction step.  <a href="#a32e901b876c269eb1ee2159207ff4c0d">More...</a><br /></td></tr>
 <tr class="separator:a32e901b876c269eb1ee2159207ff4c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a214fddefb6fe74d3640c9169251c1565"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a214fddefb6fe74d3640c9169251c1565">numberOfCorrectionIter</a> = 10</td></tr>
+<tr class="memitem:a214fddefb6fe74d3640c9169251c1565"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a214fddefb6fe74d3640c9169251c1565">numberOfCorrectionIter</a> = 5</td></tr>
+<tr class="memdesc:a214fddefb6fe74d3640c9169251c1565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of iteration at correction step.  <a href="#a214fddefb6fe74d3640c9169251c1565">More...</a><br /></td></tr>
 <tr class="separator:a214fddefb6fe74d3640c9169251c1565"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7a18e369160cb4413838ae7e1c15425"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#ad7a18e369160cb4413838ae7e1c15425">numberOfCoarsestIter</a> = 10</td></tr>
+<tr class="memitem:ad7a18e369160cb4413838ae7e1c15425"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#ad7a18e369160cb4413838ae7e1c15425">numberOfCoarsestIter</a> = 20</td></tr>
+<tr class="memdesc:ad7a18e369160cb4413838ae7e1c15425"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of iteration at coarsest step.  <a href="#ad7a18e369160cb4413838ae7e1c15425">More...</a><br /></td></tr>
 <tr class="separator:ad7a18e369160cb4413838ae7e1c15425"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d4ac66f21aa06c1e1c70f19fceb0ace"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a5d4ac66f21aa06c1e1c70f19fceb0ace">numberOfFinalIter</a> = 10</td></tr>
+<tr class="memitem:a5d4ac66f21aa06c1e1c70f19fceb0ace"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a5d4ac66f21aa06c1e1c70f19fceb0ace">numberOfFinalIter</a> = 20</td></tr>
+<tr class="memdesc:a5d4ac66f21aa06c1e1c70f19fceb0ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of iteration at final step.  <a href="#a5d4ac66f21aa06c1e1c70f19fceb0ace">More...</a><br /></td></tr>
 <tr class="separator:a5d4ac66f21aa06c1e1c70f19fceb0ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb1b598b3ae80acf17729b2f9ac16ef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a0bfd46d4033fcf698a8852386041068b">MgRelaxFunc</a>&lt; BlasType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#aeb1b598b3ae80acf17729b2f9ac16ef3">relaxFunc</a></td></tr>
+<tr class="memdesc:aeb1b598b3ae80acf17729b2f9ac16ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relaxation function such as Jacobi or Gauss-Seidel.  <a href="#aeb1b598b3ae80acf17729b2f9ac16ef3">More...</a><br /></td></tr>
 <tr class="separator:aeb1b598b3ae80acf17729b2f9ac16ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac40bd8e31aa238f4b6454ef5baf80087"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#adbf323d2e2b49c42464b64e652361319">MgRestrictFunc</a>&lt; BlasType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#ac40bd8e31aa238f4b6454ef5baf80087">restrictFunc</a></td></tr>
+<tr class="memdesc:ac40bd8e31aa238f4b6454ef5baf80087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restrict function that maps finer to coarser grid.  <a href="#ac40bd8e31aa238f4b6454ef5baf80087">More...</a><br /></td></tr>
 <tr class="separator:ac40bd8e31aa238f4b6454ef5baf80087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93c8c3254af5e9f2eb15f18e40e20342"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a2d6fbf104421d282a4867706a6ed8f20">MgCorrectFunc</a>&lt; BlasType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a93c8c3254af5e9f2eb15f18e40e20342">correctFunc</a></td></tr>
+<tr class="memdesc:a93c8c3254af5e9f2eb15f18e40e20342"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correction function that maps coarser to finer grid.  <a href="#a93c8c3254af5e9f2eb15f18e40e20342">More...</a><br /></td></tr>
 <tr class="separator:a93c8c3254af5e9f2eb15f18e40e20342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17d94ec2750cfe6a15e689d985321cfd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjet_1_1_mg_parameters.html#a17d94ec2750cfe6a15e689d985321cfd">maxTolerance</a> = 1e-9</td></tr>
+<tr class="memdesc:a17d94ec2750cfe6a15e689d985321cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max error tolerance.  <a href="#a17d94ec2750cfe6a15e689d985321cfd">More...</a><br /></td></tr>
 <tr class="separator:a17d94ec2750cfe6a15e689d985321cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename BlasType&gt;<br />
+struct jet::MgParameters&lt; BlasType &gt;</h3>
+
+<p>Multigrid input parameter set. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a93c8c3254af5e9f2eb15f18e40e20342"></a>
 <div class="memitem">
 <div class="memproto">
@@ -139,19 +156,23 @@ template&lt;typename BlasType&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Correction function that maps coarser to finer grid. </p>
+
 </div>
 </div>
-<a class="anchor" id="a805a801103a46fda8371b72eecd3ec1b"></a>
+<a class="anchor" id="aac688cfa566aa744fe30776bba9c5318"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename BlasType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::maxNumberOfLevels = 1</td>
+          <td class="memname">size_t <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::maxNumberOfLevels = 1</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Max number of multigrid levels. </p>
 
 </div>
 </div>
@@ -167,6 +188,8 @@ template&lt;typename BlasType&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Max error tolerance. </p>
+
 </div>
 </div>
 <a class="anchor" id="ad7a18e369160cb4413838ae7e1c15425"></a>
@@ -176,10 +199,12 @@ template&lt;typename BlasType&gt; </div>
 template&lt;typename BlasType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfCoarsestIter = 10</td>
+          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfCoarsestIter = 20</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of iteration at coarsest step. </p>
 
 </div>
 </div>
@@ -190,10 +215,12 @@ template&lt;typename BlasType&gt; </div>
 template&lt;typename BlasType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfCorrectionIter = 10</td>
+          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfCorrectionIter = 5</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of iteration at correction step. </p>
 
 </div>
 </div>
@@ -204,10 +231,12 @@ template&lt;typename BlasType&gt; </div>
 template&lt;typename BlasType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfFinalIter = 10</td>
+          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfFinalIter = 20</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of iteration at final step. </p>
 
 </div>
 </div>
@@ -218,10 +247,12 @@ template&lt;typename BlasType&gt; </div>
 template&lt;typename BlasType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfRestrictionIter = 10</td>
+          <td class="memname">unsigned int <a class="el" href="structjet_1_1_mg_parameters.html">jet::MgParameters</a>&lt; BlasType &gt;::numberOfRestrictionIter = 5</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Number of iteration at restriction step. </p>
 
 </div>
 </div>
@@ -237,6 +268,8 @@ template&lt;typename BlasType&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Relaxation function such as Jacobi or Gauss-Seidel. </p>
+
 </div>
 </div>
 <a class="anchor" id="ac40bd8e31aa238f4b6454ef5baf80087"></a>
@@ -250,6 +283,8 @@ template&lt;typename BlasType&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Restrict function that maps finer to coarser grid. </p>
 
 </div>
 </div>
@@ -265,7 +300,7 @@ template&lt;typename BlasType&gt; </div>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:22 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>

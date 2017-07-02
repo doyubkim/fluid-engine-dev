@@ -31,7 +31,13 @@ var searchData=
   ['matrixunaryop',['MatrixUnaryOp',['../classjet_1_1_matrix_unary_op.html',1,'jet']]],
   ['matrixvectormul',['MatrixVectorMul',['../classjet_1_1_matrix_vector_mul.html',1,'jet']]],
   ['mgmatrix',['MgMatrix',['../structjet_1_1_mg_matrix.html',1,'jet']]],
+  ['mgmatrix_3c_20fdmblas2_20_3e',['MgMatrix&lt; FdmBlas2 &gt;',['../structjet_1_1_mg_matrix.html',1,'jet']]],
+  ['mgmatrix_3c_20fdmblas3_20_3e',['MgMatrix&lt; FdmBlas3 &gt;',['../structjet_1_1_mg_matrix.html',1,'jet']]],
   ['mgparameters',['MgParameters',['../structjet_1_1_mg_parameters.html',1,'jet']]],
+  ['mgparameters_3c_20jet_3a_3afdmblas2_20_3e',['MgParameters&lt; jet::FdmBlas2 &gt;',['../structjet_1_1_mg_parameters.html',1,'jet']]],
+  ['mgparameters_3c_20jet_3a_3afdmblas3_20_3e',['MgParameters&lt; jet::FdmBlas3 &gt;',['../structjet_1_1_mg_parameters.html',1,'jet']]],
   ['mgresult',['MgResult',['../structjet_1_1_mg_result.html',1,'jet']]],
-  ['mgvector',['MgVector',['../structjet_1_1_mg_vector.html',1,'jet']]]
+  ['mgvector',['MgVector',['../structjet_1_1_mg_vector.html',1,'jet']]],
+  ['mgvector_3c_20fdmblas2_20_3e',['MgVector&lt; FdmBlas2 &gt;',['../structjet_1_1_mg_vector.html',1,'jet']]],
+  ['mgvector_3c_20fdmblas3_20_3e',['MgVector&lt; FdmBlas3 &gt;',['../structjet_1_1_mg_vector.html',1,'jet']]]
 ];

@@ -28,7 +28,7 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand">Jet v1.1.0-rc1</a>
+                    <a class="navbar-brand">Jet v1.1.0</a>
                 </div>
             </div>
         </nav>
@@ -97,6 +97,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classjet_1_1_fdm_jacobi_solver2-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">jet::FdmJacobiSolver2 Class Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
@@ -137,6 +138,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acc9dc85136c4a2d550399785e374d917"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_jacobi_solver2.html#acc9dc85136c4a2d550399785e374d917">lastResidual</a> () const </td></tr>
 <tr class="memdesc:acc9dc85136c4a2d550399785e374d917"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last residual after the Jacobi iterations.  <a href="#acc9dc85136c4a2d550399785e374d917">More...</a><br /></td></tr>
 <tr class="separator:acc9dc85136c4a2d550399785e374d917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a1594985ebd5868e9b4de15de75ea1fdc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_fdm_jacobi_solver2.html#a1594985ebd5868e9b4de15de75ea1fdc">relax</a> (const <a class="el" href="namespacejet.html#a7d343c78b6025201bae05ac6e65a4eb3">FdmMatrix2</a> &amp;A, const <a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> &amp;b, <a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> *x, <a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> *xTemp)</td></tr>
+<tr class="memdesc:a1594985ebd5868e9b4de15de75ea1fdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs single Jacobi relaxation step.  <a href="#a1594985ebd5868e9b4de15de75ea1fdc">More...</a><br /></td></tr>
+<tr class="separator:a1594985ebd5868e9b4de15de75ea1fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>2-D finite difference-type linear system solver using Jacobi method. </p>
@@ -227,6 +234,54 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1594985ebd5868e9b4de15de75ea1fdc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void jet::FdmJacobiSolver2::relax </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a7d343c78b6025201bae05ac6e65a4eb3">FdmMatrix2</a> &amp;&#160;</td>
+          <td class="paramname"><em>A</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> &amp;&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> *&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacejet.html#a958e1a38f3bbe8055213d59b1edd3b2b">FdmVector2</a> *&#160;</td>
+          <td class="paramname"><em>xTemp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Performs single Jacobi relaxation step. </p>
+
+</div>
+</div>
 <a class="anchor" id="ae7bb3ce695322a1a1d04365fbf34d2db"></a>
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +339,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 13 2017 22:30:14 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 1 2017 21:44:22 for Jet by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.10
 </small></address>
