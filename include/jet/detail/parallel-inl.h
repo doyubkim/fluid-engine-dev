@@ -116,8 +116,7 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
     }
 
     // Estimate number of threads in the pool
-    static const unsigned int numThreadsHint =
-        std::thread::hardware_concurrency();
+    unsigned int numThreadsHint = maxNUmberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -166,8 +165,7 @@ void parallelRangeFor(IndexType start, IndexType end, const Function& func,
     }
 
     // Estimate number of threads in the pool
-    static const unsigned int numThreadsHint =
-        std::thread::hardware_concurrency();
+    unsigned int numThreadsHint = maxNUmberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -264,8 +262,7 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
     }
 
     // Estimate number of threads in the pool
-    static const unsigned int numThreadsHint =
-        std::thread::hardware_concurrency();
+    unsigned int numThreadsHint = maxNUmberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -331,8 +328,7 @@ void parallelSort(RandomIterator begin, RandomIterator end,
     std::vector<value_type> temp(size);
 
     // Estimate number of threads in the pool
-    static const unsigned int numThreadsHint =
-        std::thread::hardware_concurrency();
+    unsigned int numThreadsHint = maxNUmberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)

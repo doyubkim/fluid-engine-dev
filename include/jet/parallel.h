@@ -237,6 +237,12 @@ void parallelSort(RandomIterator begin, RandomIterator end,
                   CompareFunction compare,
                   ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
+//! Sets maximum number of threads to use.
+void setMaxNumberOfThreads(unsigned int numThreads);
+
+//! Returns maximum number of threads to use.
+unsigned int maxNUmberOfThreads();
+
 }  // namespace jet
 
 #include "detail/parallel-inl.h"
