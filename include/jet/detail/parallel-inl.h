@@ -279,7 +279,6 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
 
     // [Helper] Inner loop
     auto launchRange = [&](IndexType k1, IndexType k2, unsigned int tid) {
-        // TODO: This is bad in terms of performance!
         results[tid] = func(k1, k2, identity);
     };
 
