@@ -108,6 +108,9 @@ class BoundingBox<T, 2> {
 
     //! Returns the clamped point.
     Vector2<T> clamp(const Vector2<T>& pt) const;
+
+    //! Returns true if the box is empty.
+    bool isEmpty() const;
 };
 
 //! Type alias for 2-D BoundingBox.

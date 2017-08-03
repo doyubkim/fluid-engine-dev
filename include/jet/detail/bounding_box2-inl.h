@@ -199,6 +199,11 @@ Vector2<T> BoundingBox<T, 2>::clamp(const Vector2<T>& pt) const {
     return ::jet::clamp(pt, lowerCorner, upperCorner);
 }
 
+template <typename T>
+bool BoundingBox<T, 2>::isEmpty() const {
+    return (lowerCorner.x >= upperCorner.x || lowerCorner.y >= upperCorner.y);
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_
