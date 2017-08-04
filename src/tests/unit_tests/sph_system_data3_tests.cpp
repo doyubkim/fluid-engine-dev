@@ -23,6 +23,10 @@ TEST(SphSystemData3, Parameters) {
     EXPECT_EQ(2.5, data.relativeKernelRadius());
     EXPECT_DOUBLE_EQ(2.5 * 0.549, data.kernelRadius());
 
+    data.setKernelRadius(1.9);
+    EXPECT_DOUBLE_EQ(1.9, data.kernelRadius());
+    EXPECT_DOUBLE_EQ(1.9 / 2.5, data.targetSpacing());
+
     data.setRadius(0.413);
     EXPECT_EQ(0.413, data.targetSpacing());
     EXPECT_EQ(0.413, data.radius());

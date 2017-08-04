@@ -168,9 +168,9 @@ class ParticleSystemData3 : public Serializable {
     //! responsibility to call ParticleSystemData3::buildNeighborSearcher and
     //! ParticleSystemData3::buildNeighborLists to refresh those data.
     //!
-    //! \param[in]  newPosition The new position.
-    //! \param[in]  newVelocity The new velocity.
-    //! \param[in]  newForce    The new force.
+    //! \param[in]  newPositions  The new positions.
+    //! \param[in]  newVelocities The new velocities.
+    //! \param[in]  newForces     The new forces.
     //!
     void addParticles(
         const ConstArrayAccessor1<Vector3D>& newPositions,

@@ -87,17 +87,27 @@ class SphSystemData3 : public ParticleSystemData3 {
     //! \brief Sets the relative kernel radius.
     //!
     //! Sets the relative kernel radius compared to the target particle
-    //! spacing (i.e. kernal radius / target spacing).
+    //! spacing (i.e. kernel radius / target spacing).
     //! Once this function is called, hash grid and density should
     //! be updated using updateHashGrid() and updateDensities).
     //!
     void setRelativeKernelRadius(double relativeRadius);
 
     //!
+    //! \brief Sets the absolute kernel radius.
+    //!
+    //! Sets the absolute kernel radius compared to the target particle
+    //! spacing (i.e. relative kernel radius * target spacing).
+    //! Once this function is called, hash grid and density should
+    //! be updated using updateHashGrid() and updateDensities).
+    //!
+    void setKernelRadius(double kernelRadius);
+
+    //!
     //! \brief Returns the relative kernel radius.
     //!
     //! Returns the relative kernel radius compared to the target particle
-    //! spacing (i.e. kernal radius / target spacing).
+    //! spacing (i.e. kernel radius / target spacing).
     //!
     double relativeKernelRadius() const;
 
@@ -115,9 +125,8 @@ class SphSystemData3 : public ParticleSystemData3 {
     //! particle layout. For example, density or pressure arrays can be
     //! used.
     //!
-    double interpolate(
-        const Vector3D& origin,
-        const ConstArrayAccessor1<double>& values) const;
+    double interpolate(const Vector3D& origin,
+                       const ConstArrayAccessor1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -127,24 +136,20 @@ class SphSystemData3 : public ParticleSystemData3 {
     //! particle layout. For example, velocity or acceleration arrays can be
     //! used.
     //!
-    Vector3D interpolate(
-        const Vector3D& origin,
-        const ConstArrayAccessor1<Vector3D>& values) const;
+    Vector3D interpolate(const Vector3D& origin,
+                         const ConstArrayAccessor1<Vector3D>& values) const;
 
     //! Returns the gradient of the given values at i-th particle.
-    Vector3D gradientAt(
-        size_t i,
-        const ConstArrayAccessor1<double>& values) const;
+    Vector3D gradientAt(size_t i,
+                        const ConstArrayAccessor1<double>& values) const;
 
     //! Returns the laplacian of the given values at i-th particle.
-    double laplacianAt(
-        size_t i,
-        const ConstArrayAccessor1<double>& values) const;
+    double laplacianAt(size_t i,
+                       const ConstArrayAccessor1<double>& values) const;
 
     //! Returns the laplacian of the given values at i-th particle.
-    Vector3D laplacianAt(
-        size_t i,
-        const ConstArrayAccessor1<Vector3D>& values) const;
+    Vector3D laplacianAt(size_t i,
+                         const ConstArrayAccessor1<Vector3D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void buildNeighborSearcher();
