@@ -30,6 +30,6 @@ script:
   - cmake ..
   - make
   - bin/unit_tests
-  - pip install --user -r ../requirements
+  - pip install --user -r ../requirements.txt
   - pip install --user ..
   - python ../src/tests/python_tests/main.py
