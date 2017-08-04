@@ -125,7 +125,7 @@ void addVector2F(pybind11::module& m) {
 void addVector2D(pybind11::module& m) {
     py::class_<Vector2D>(m, "Vector2D")
         // CTOR
-        .def("__init__", [](Vector2D instance, double x,
+        .def("__init__", [](Vector2D& instance, double x,
                             double y) { new (&instance) Vector2D(x, y); },
              R"pbdoc(
              Constructs Vector2D.

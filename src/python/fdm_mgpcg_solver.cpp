@@ -82,7 +82,7 @@ void addFdmMgpcgSolver3(py::module& m) {
                                R"pbdoc(
             The last residual after the MGPCG iterations.
             )pbdoc")
-        .def_property_readonly("sorFactor", &FdmMgpcgSolver2::sorFactor)
+        .def_property_readonly("sorFactor", &FdmMgpcgSolver3::sorFactor)
         .def_property_readonly("useRedBlackOrdering",
-                               &FdmMgpcgSolver2::useRedBlackOrdering);
+                               &FdmMgpcgSolver3::useRedBlackOrdering);
 }
