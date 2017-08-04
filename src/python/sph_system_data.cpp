@@ -67,9 +67,15 @@ void addSphSystemData2(py::module& m) {
              Once this property has changed, hash grid and density should
              be updated using updateHashGrid() and updateDensities).
              )pbdoc")
-        .def_property_readonly("kernelRadius", &SphSystemData2::kernelRadius,
-                               R"pbdoc(
+        .def_property("kernelRadius", &SphSystemData2::kernelRadius,
+                      &SphSystemData2::setKernelRadius,
+                      R"pbdoc(
              The kernel radius in meters unit.
+
+             Sets the absolute kernel radius compared to the target particle
+             spacing (i.e. relative kernel radius * target spacing).
+             Once this function is called, hash grid and density should
+             be updated using updateHashGrid() and updateDensities).
              )pbdoc")
         .def("buildNeighborSearcher", &SphSystemData2::buildNeighborSearcher,
              R"pbdoc(
@@ -139,9 +145,15 @@ void addSphSystemData3(py::module& m) {
              Once this property has changed, hash grid and density should
              be updated using updateHashGrid() and updateDensities).
              )pbdoc")
-        .def_property_readonly("kernelRadius", &SphSystemData3::kernelRadius,
-                               R"pbdoc(
+        .def_property("kernelRadius", &SphSystemData3::kernelRadius,
+                      &SphSystemData3::setKernelRadius,
+                      R"pbdoc(
              The kernel radius in meters unit.
+
+             Sets the absolute kernel radius compared to the target particle
+             spacing (i.e. relative kernel radius * target spacing).
+             Once this function is called, hash grid and density should
+             be updated using updateHashGrid() and updateDensities).
              )pbdoc")
         .def("buildNeighborSearcher", &SphSystemData3::buildNeighborSearcher,
              R"pbdoc(

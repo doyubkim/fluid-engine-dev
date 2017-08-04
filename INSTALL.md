@@ -124,7 +124,15 @@ Then, build `INSTALL` project under `jet.sln`. This will install the header file
 To install the Python SDK, `pyjet`, run the following command from the project root directory (where `setup.py` lives):
 
 ```
-pip install .
+pip install -U .
+```
+
+> You can also use `virtualenv` to isolate the SDK installation. Check out [the virtualenv documentation](https://virtualenv.pypa.io/en/stable/) for more details.
+
+To run the test/example scripts, install other Python dependencies as follows:
+
+```
+pip install -r requirements.txt
 ```
 
 Once installed, try running the unit test to see if the module is installed correctly:

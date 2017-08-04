@@ -10,6 +10,7 @@
 // and Animation", Eurographics 2009 Tutorial
 
 #include <pch.h>
+
 #include <fbs_helpers.h>
 #include <generated/sph_system_data3_generated.h>
 
@@ -23,26 +24,22 @@
 
 namespace jet {
 
-SphSystemData3::SphSystemData3() : SphSystemData3(0) {
-}
+SphSystemData3::SphSystemData3() : SphSystemData3(0) {}
 
 SphSystemData3::SphSystemData3(size_t numberOfParticles)
-: ParticleSystemData3(numberOfParticles) {
+    : ParticleSystemData3(numberOfParticles) {
     _densityIdx = addScalarData();
     _pressureIdx = addScalarData();
 
     setTargetSpacing(_targetSpacing);
 }
 
-SphSystemData3::SphSystemData3(const SphSystemData3& other) {
-    set(other);
-}
+SphSystemData3::SphSystemData3(const SphSystemData3& other) { set(other); }
 
-SphSystemData3::~SphSystemData3() {
-}
+SphSystemData3::~SphSystemData3() {}
 
 void SphSystemData3::setRadius(double newRadius) {
-    // Interprete it as setting target spacing
+    // Interpret it as setting target spacing
     setTargetSpacing(newRadius);
 }
 
@@ -73,13 +70,10 @@ void SphSystemData3::updateDensities() {
     auto d = densities();
     const double m = mass();
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles(),
-        [&](size_t i) {
-            double sum = sumOfKernelNearby(p[i]);
-            d[i] = m * sum;
-        });
+    parallelFor(kZeroSize, numberOfParticles(), [&](size_t i) {
+        double sum = sumOfKernelNearby(p[i]);
+        d[i] = m * sum;
+    });
 }
 
 void SphSystemData3::setTargetDensity(double targetDensity) {
@@ -88,9 +82,7 @@ void SphSystemData3::setTargetDensity(double targetDensity) {
     computeMass();
 }
 
-double SphSystemData3::targetDensity() const {
-    return _targetDensity;
-}
+double SphSystemData3::targetDensity() const { return _targetDensity; }
 
 void SphSystemData3::setTargetSpacing(double spacing) {
     ParticleSystemData3::setRadius(spacing);
@@ -101,9 +93,7 @@ void SphSystemData3::setTargetSpacing(double spacing) {
     computeMass();
 }
 
-double SphSystemData3::targetSpacing() const {
-    return _targetSpacing;
-}
+double SphSystemData3::targetSpacing() const { return _targetSpacing; }
 
 void SphSystemData3::setRelativeKernelRadius(double relativeRadius) {
     _kernelRadiusOverTargetSpacing = relativeRadius;
@@ -116,17 +106,20 @@ double SphSystemData3::relativeKernelRadius() const {
     return _kernelRadiusOverTargetSpacing;
 }
 
-double SphSystemData3::kernelRadius() const {
-    return _kernelRadius;
+void SphSystemData3::setKernelRadius(double kernelRadius) {
+    _kernelRadius = kernelRadius;
+    _targetSpacing = kernelRadius / _kernelRadiusOverTargetSpacing;
+
+    computeMass();
 }
+
+double SphSystemData3::kernelRadius() const { return _kernelRadius; }
 
 double SphSystemData3::sumOfKernelNearby(const Vector3D& origin) const {
     double sum = 0.0;
     SphStdKernel3 kernel(_kernelRadius);
     neighborSearcher()->forEachNearbyPoint(
-        origin,
-        _kernelRadius,
-        [&] (size_t, const Vector3D& neighborPosition) {
+        origin, _kernelRadius, [&](size_t, const Vector3D& neighborPosition) {
             double dist = origin.distanceTo(neighborPosition);
             sum += kernel(dist);
         });
@@ -134,17 +127,14 @@ double SphSystemData3::sumOfKernelNearby(const Vector3D& origin) const {
 }
 
 double SphSystemData3::interpolate(
-    const Vector3D& origin,
-    const ConstArrayAccessor1<double>& values) const {
+    const Vector3D& origin, const ConstArrayAccessor1<double>& values) const {
     double sum = 0.0;
     auto d = densities();
     SphStdKernel3 kernel(_kernelRadius);
     const double m = mass();
 
     neighborSearcher()->forEachNearbyPoint(
-        origin,
-        _kernelRadius,
-        [&] (size_t i, const Vector3D& neighborPosition) {
+        origin, _kernelRadius, [&](size_t i, const Vector3D& neighborPosition) {
             double dist = origin.distanceTo(neighborPosition);
             double weight = m / d[i] * kernel(dist);
             sum += weight * values[i];
@@ -154,17 +144,14 @@ double SphSystemData3::interpolate(
 }
 
 Vector3D SphSystemData3::interpolate(
-    const Vector3D& origin,
-    const ConstArrayAccessor1<Vector3D>& values) const {
+    const Vector3D& origin, const ConstArrayAccessor1<Vector3D>& values) const {
     Vector3D sum;
     auto d = densities();
     SphStdKernel3 kernel(_kernelRadius);
     const double m = mass();
 
     neighborSearcher()->forEachNearbyPoint(
-        origin,
-        _kernelRadius,
-        [&] (size_t i, const Vector3D& neighborPosition) {
+        origin, _kernelRadius, [&](size_t i, const Vector3D& neighborPosition) {
             double dist = origin.distanceTo(neighborPosition);
             double weight = m / d[i] * kernel(dist);
             sum += weight * values[i];
@@ -174,8 +161,7 @@ Vector3D SphSystemData3::interpolate(
 }
 
 Vector3D SphSystemData3::gradientAt(
-    size_t i,
-    const ConstArrayAccessor1<double>& values) const {
+    size_t i, const ConstArrayAccessor1<double>& values) const {
     Vector3D sum;
     auto p = positions();
     auto d = densities();
@@ -189,10 +175,9 @@ Vector3D SphSystemData3::gradientAt(
         double dist = origin.distanceTo(neighborPosition);
         if (dist > 0.0) {
             Vector3D dir = (neighborPosition - origin) / dist;
-            sum
-                += d[i] * m
-                * (values[i] / square(d[i]) + values[j] / square(d[j]))
-                * kernel.gradient(dist, dir);
+            sum += d[i] * m *
+                   (values[i] / square(d[i]) + values[j] / square(d[j])) *
+                   kernel.gradient(dist, dir);
         }
     }
 
@@ -200,8 +185,7 @@ Vector3D SphSystemData3::gradientAt(
 }
 
 double SphSystemData3::laplacianAt(
-    size_t i,
-    const ConstArrayAccessor1<double>& values) const {
+    size_t i, const ConstArrayAccessor1<double>& values) const {
     double sum = 0.0;
     auto p = positions();
     auto d = densities();
@@ -221,8 +205,7 @@ double SphSystemData3::laplacianAt(
 }
 
 Vector3D SphSystemData3::laplacianAt(
-    size_t i,
-    const ConstArrayAccessor1<Vector3D>& values) const {
+    size_t i, const ConstArrayAccessor1<Vector3D>& values) const {
     Vector3D sum;
     auto p = positions();
     auto d = densities();
@@ -253,8 +236,10 @@ void SphSystemData3::computeMass() {
     Array1<Vector3D> points;
     BccLatticePointGenerator pointsGenerator;
     BoundingBox3D sampleBound(
-        Vector3D(-1.5*_kernelRadius, -1.5*_kernelRadius, -1.5*_kernelRadius),
-        Vector3D(1.5*_kernelRadius, 1.5*_kernelRadius, 1.5*_kernelRadius));
+        Vector3D(-1.5 * _kernelRadius, -1.5 * _kernelRadius,
+                 -1.5 * _kernelRadius),
+        Vector3D(1.5 * _kernelRadius, 1.5 * _kernelRadius,
+                 1.5 * _kernelRadius));
 
     pointsGenerator.generate(sampleBound, _targetSpacing, &points);
 
@@ -287,18 +272,13 @@ void SphSystemData3::serialize(std::vector<uint8_t>* buffer) const {
     serializeParticleSystemData(&builder, &fbsParticleSystemData);
 
     auto fbsSphSystemData = fbs::CreateSphSystemData3(
-        builder,
-        fbsParticleSystemData,
-        _targetDensity,
-        _targetSpacing,
-        _kernelRadiusOverTargetSpacing,
-        _kernelRadius,
-        _pressureIdx,
+        builder, fbsParticleSystemData, _targetDensity, _targetSpacing,
+        _kernelRadiusOverTargetSpacing, _kernelRadius, _pressureIdx,
         _densityIdx);
 
     builder.Finish(fbsSphSystemData);
 
-    uint8_t *buf = builder.GetBufferPointer();
+    uint8_t* buf = builder.GetBufferPointer();
     size_t size = builder.GetSize();
 
     buffer->resize(size);
@@ -314,8 +294,8 @@ void SphSystemData3::deserialize(const std::vector<uint8_t>& buffer) {
     // SPH specific
     _targetDensity = fbsSphSystemData->targetDensity();
     _targetSpacing = fbsSphSystemData->targetSpacing();
-    _kernelRadiusOverTargetSpacing
-        = fbsSphSystemData->kernelRadiusOverTargetSpacing();
+    _kernelRadiusOverTargetSpacing =
+        fbsSphSystemData->kernelRadiusOverTargetSpacing();
     _kernelRadius = fbsSphSystemData->kernelRadius();
     _pressureIdx = static_cast<size_t>(fbsSphSystemData->pressureIdx());
     _densityIdx = static_cast<size_t>(fbsSphSystemData->densityIdx());
