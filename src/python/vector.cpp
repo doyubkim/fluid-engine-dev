@@ -288,11 +288,11 @@ void addVector3F(pybind11::module& m) {
         .def("__setitem__",
              [](Vector3F& instance, size_t i, float val) { instance[i] = val; })
         .def("__add__",
-             [](const Vector3D& instance, py::object object) {
-                 if (py::isinstance<double>(object)) {
-                     return instance.add(object.cast<double>());
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.add(object.cast<float>());
                  } else {
-                     return instance.add(objectToVector3D(object));
+                     return instance.add(objectToVector3F(object));
                  }
              })
         .def("__sub__",
