@@ -7,15 +7,15 @@
 #include <manual_tests.h>
 
 #include <jet/cell_centered_scalar_grid2.h>
-#include <jet/sph_points_to_implicit2.h>
+#include <jet/zhu_bridson_points_to_Implicit2.h>
 
 #include <random>
 
 using namespace jet;
 
-JET_TESTS(SphPointsToImplicit2);
+JET_TESTS(ZhuBridsonPointsToImplicit2);
 
-JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertTwo) {
+JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertTwo) {
     Array1<Vector2D> points;
 
     std::mt19937 rng{0};
@@ -26,7 +26,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertTwo) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    SphPointsToImplicit2 converter(0.15);
+    ZhuBridsonPointsToImplicit2 converter(0.15);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");
@@ -34,7 +34,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertTwo) {
 }
 JET_END_TEST_F
 
-JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertMany) {
+JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertMany) {
     Array1<Vector2D> points;
 
     std::mt19937 rng{0};
@@ -45,7 +45,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertMany) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    SphPointsToImplicit2 converter(0.15);
+    ZhuBridsonPointsToImplicit2 converter(0.15);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");

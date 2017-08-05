@@ -249,4 +249,5 @@
 #include <jet/volume_grid_emitter3.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
+#include <jet/zhu_bridson_points_to_Implicit2.h>
 #endif  // INCLUDE_JET_JET_H_

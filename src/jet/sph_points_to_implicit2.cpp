@@ -6,13 +6,15 @@
 
 #include <pch.h>
 
+#include <jet/fmm_level_set_solver2.h>
 #include <jet/sph_points_to_implicit2.h>
 #include <jet/sph_system_data2.h>
 
 using namespace jet;
 
-SphPointsToImplicit2::SphPointsToImplicit2(double kernelRadius)
-    : _kernelRadius(kernelRadius) {}
+SphPointsToImplicit2::SphPointsToImplicit2(double kernelRadius,
+                                           double cutOffDensity)
+    : _kernelRadius(kernelRadius), _cutOffDensity(cutOffDensity) {}
 
 void SphPointsToImplicit2::convert(const ConstArrayAccessor1<Vector2D>& points,
                                    ScalarGrid2* output) const {
@@ -40,8 +42,12 @@ void SphPointsToImplicit2::convert(const ConstArrayAccessor1<Vector2D>& points,
     sphParticles.updateDensities();
 
     Array1<double> constData(sphParticles.numberOfParticles(), 1.0);
-    output->fill([&](const Vector2D& pt) {
-        double d = sphParticles.interpolate(pt, constData);
-        return 0.5 - d;
+    auto temp = output->clone();
+    temp->fill([&](const Vector2D& x) {
+        double d = sphParticles.interpolate(x, constData);
+        return _cutOffDensity - d;
     });
+
+    FmmLevelSetSolver2 solver;
+    solver.reinitialize(*temp, kMaxD, output);
 }
