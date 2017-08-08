@@ -88,7 +88,7 @@ TEST(CustomImplicitSurface2, ClosestIntersection) {
 
     CustomImplicitSurface2 cis1(
         [&](const Vector2D& pt) { return refSurf.signedDistance(pt); },
-        BoundingBox2D({0, 0}, {1, 1}), 1e-3);
+        BoundingBox2D({0, 0}, {1, 1}), 1e-3, 1e-6);
 
     for (size_t i = 0; i < getNumberOfSamplePoints2(); ++i) {
         auto x = getSamplePoints2()[i];
@@ -96,8 +96,8 @@ TEST(CustomImplicitSurface2, ClosestIntersection) {
         auto refAns = refSurf.closestIntersection(Ray2D(x, d));
         auto actAns = cis1.closestIntersection(Ray2D(x, d));
         EXPECT_EQ(refAns.isIntersecting, actAns.isIntersecting);
-        EXPECT_NEAR(refAns.distance, actAns.distance, 1e-2);
-        EXPECT_VECTOR2_NEAR(refAns.point, actAns.point, 1e-2);
-        EXPECT_VECTOR2_NEAR(refAns.normal, actAns.normal, 1e-2);
+        EXPECT_NEAR(refAns.distance, actAns.distance, 1e-5);
+        EXPECT_VECTOR2_NEAR(refAns.point, actAns.point, 1e-5);
+        EXPECT_VECTOR2_NEAR(refAns.normal, actAns.normal, 1e-5);
     }
 }

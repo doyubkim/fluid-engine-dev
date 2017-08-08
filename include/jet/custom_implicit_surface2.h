@@ -17,14 +17,24 @@ class CustomImplicitSurface2 final : public ImplicitSurface2 {
  public:
     class Builder;
 
+    //!
     //! Constructs an implicit surface using the given signed-distance function.
-    CustomImplicitSurface2(
-        const std::function<double(const Vector2D&)>& func,
-        const BoundingBox2D& domain = BoundingBox2D(),
-        double resolution = 1e-3,
-        unsigned int numberOfIterations = 5,
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    //!
+    //! \param func Custom SDF function object.
+    //! \param domain Bounding box of the SDF if exists.
+    //! \param resolution Finite differencing resolution for derivatives.
+    //! \param rayMarchingResolution Ray marching resolution for ray tests.
+    //! \param maxNumOfIterations Number of iterations for closest point search.
+    //! \param transform Local-to-world transform.
+    //! \param isNormalFlipped True if normal is flipped.
+    //!
+    CustomImplicitSurface2(const std::function<double(const Vector2D&)>& func,
+                           const BoundingBox2D& domain = BoundingBox2D(),
+                           double resolution = 1e-3,
+                           double rayMarchingResolution = 1e-6,
+                           unsigned int numberOfIterations = 5,
+                           const Transform2& transform = Transform2(),
+                           bool isNormalFlipped = false);
 
     //! Destructor.
     virtual ~CustomImplicitSurface2();
@@ -36,6 +46,7 @@ class CustomImplicitSurface2 final : public ImplicitSurface2 {
     std::function<double(const Vector2D&)> _func;
     BoundingBox2D _domain;
     double _resolution = 1e-3;
+    double _rayMarchingResolution = 1e-6;
     unsigned int _maxNumOfIterations = 5;
 
     Vector2D closestPointLocal(const Vector2D& otherPoint) const override;
@@ -57,7 +68,6 @@ class CustomImplicitSurface2 final : public ImplicitSurface2 {
 //! Shared pointer type for the CustomImplicitSurface2.
 typedef std::shared_ptr<CustomImplicitSurface2> CustomImplicitSurface2Ptr;
 
-
 //!
 //! \brief Front-end to create CustomImplicitSurface2 objects step by step.
 //!
@@ -71,10 +81,15 @@ class CustomImplicitSurface2::Builder final
     //! Returns builder with domain.
     Builder& withDomain(const BoundingBox2D& domain);
 
-    //! Returns builder with resolution.
+    //! Returns builder with finite differencing resolution.
     Builder& withResolution(double resolution);
 
-    //! Returns builder with number of iterations.
+    //! Returns builder with ray marching resolution which determines the ray
+    //! intersection quality.
+    Builder& withRayMarchingResolution(double rayMarchingResolution);
+
+    //! Returns builder with number of iterations for closest point/normal
+    //! searches.
     Builder& withMaxNumberOfIterations(unsigned int numIter);
 
     //! Builds CustomImplicitSurface2.
@@ -87,6 +102,7 @@ class CustomImplicitSurface2::Builder final
     std::function<double(const Vector2D&)> _func;
     BoundingBox2D _domain;
     double _resolution = 1e-3;
+    double _rayMarchingResolution = 1e-6;
     unsigned int _maxNumOfIterations = 5;
 };
 
