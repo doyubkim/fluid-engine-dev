@@ -5,6 +5,7 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/constants.h>
 #include <jet/custom_implicit_surface3.h>
 #include <jet/level_set_utils.h>
@@ -14,12 +15,13 @@ using namespace jet;
 CustomImplicitSurface3::CustomImplicitSurface3(
     const std::function<double(const Vector3D&)>& func,
     const BoundingBox3D& domain, double resolution,
-    unsigned int maxNumOfIterations, const Transform3& transform,
-    bool isNormalFlipped)
+    double rayMarchingResolution, unsigned int maxNumOfIterations,
+    const Transform3& transform, bool isNormalFlipped)
     : ImplicitSurface3(transform, isNormalFlipped),
       _func(func),
       _domain(domain),
       _resolution(resolution),
+      _rayMarchingResolution(rayMarchingResolution),
       _maxNumOfIterations(maxNumOfIterations) {}
 
 CustomImplicitSurface3::~CustomImplicitSurface3() {}
@@ -54,17 +56,18 @@ bool CustomImplicitSurface3::intersectsLocal(const Ray3D& ray) const {
 
         double t = tStart;
         Vector3D pt = ray.pointAt(t);
-        double prevSign = sign(_func(pt));
-
+        double prevPhi = _func(pt);
         while (t <= tEnd) {
             pt = ray.pointAt(t);
-            double newSign = sign(_func(pt));
+            const double newPhi = _func(pt);
+            const double newPhiAbs = std::fabs(newPhi);
 
-            if (newSign * prevSign < 0.0) {
+            if (newPhi * prevPhi < 0.0) {
                 return true;
             }
 
-            t += _resolution;
+            t += std::max(newPhiAbs, _rayMarchingResolution);
+            prevPhi = newPhi;
         }
     }
 
@@ -118,11 +121,12 @@ SurfaceRayIntersection3 CustomImplicitSurface3::closestIntersectionLocal(
 
         while (t <= tEnd) {
             pt = ray.pointAt(t);
-            double newPhi = _func(pt);
+            const double newPhi = _func(pt);
+            const double newPhiAbs = std::fabs(newPhi);
 
             if (newPhi * prevPhi < 0.0) {
-                double frac = fractionInsideSdf(prevPhi, newPhi);
-                double tSub = t + _resolution * frac;
+                const double frac = prevPhi / (prevPhi - newPhi);
+                const double tSub = t + _rayMarchingResolution * frac;
 
                 result.isIntersecting = true;
                 result.distance = tSub;
@@ -135,7 +139,8 @@ SurfaceRayIntersection3 CustomImplicitSurface3::closestIntersectionLocal(
                 return result;
             }
 
-            t += _resolution;
+            t += std::max(newPhiAbs, _rayMarchingResolution);
+            prevPhi = newPhi;
         }
     }
 
@@ -178,6 +183,12 @@ CustomImplicitSurface3::Builder::withResolution(double resolution) {
 }
 
 CustomImplicitSurface3::Builder&
+CustomImplicitSurface3::Builder::withRayMarchingResolution(double resolution) {
+    _rayMarchingResolution = resolution;
+    return *this;
+}
+
+CustomImplicitSurface3::Builder&
 CustomImplicitSurface3::Builder::withMaxNumberOfIterations(
     unsigned int numIter) {
     _maxNumOfIterations = numIter;
@@ -186,14 +197,14 @@ CustomImplicitSurface3::Builder::withMaxNumberOfIterations(
 
 CustomImplicitSurface3 CustomImplicitSurface3::Builder::build() const {
     return CustomImplicitSurface3(_func, _domain, _resolution,
-                                  _maxNumOfIterations, _transform,
-                                  _isNormalFlipped);
+                                  _rayMarchingResolution, _maxNumOfIterations,
+                                  _transform, _isNormalFlipped);
 }
 
 CustomImplicitSurface3Ptr CustomImplicitSurface3::Builder::makeShared() const {
     return std::shared_ptr<CustomImplicitSurface3>(
         new CustomImplicitSurface3(_func, _domain, _resolution,
-                                   _maxNumOfIterations, _transform,
-                                   _isNormalFlipped),
+                                   _rayMarchingResolution, _maxNumOfIterations,
+                                   _transform, _isNormalFlipped),
         [](CustomImplicitSurface3* obj) { delete obj; });
 }
