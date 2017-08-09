@@ -36,6 +36,8 @@
 #include <stdexcept>
 #define JET_THROW_INVALID_ARG_IF(expression) \
     if (expression) { throw std::invalid_argument(#expression); }
+#define JET_THROW_INVALID_ARG_WITH_MESSAGE_IF(expression, message) \
+    if (expression) { throw std::invalid_argument(message); }
 #endif
 
 #ifdef JET_WINDOWS
