@@ -300,9 +300,10 @@ def render_still_scalar_grid2(filename, output_filename, **kwargs):
     im = ax.imshow(grid_data, cmap=plt.cm.gray, interpolation=interpolation)
     if has_iso:
         if has_iso_colors:
-            plt.contour(grid_data, 10, colors=iso_colors)
+            cs = plt.contour(grid_data, 10, colors=iso_colors)
         else:
-            plt.contour(grid_data, 10)
+            cs = plt.contour(grid_data, 10)
+        plt.clabel(cs, inline=1, fontsize=10)
     if has_colorbar:
         plt.colorbar(im)
     plt.savefig(output_filename)

@@ -264,6 +264,9 @@ class Matrix<T, 2, 2> {
     //! Returns inverse matrix.
     Matrix inverse() const;
 
+    //! Returns 2-norm.
+    T norm2() const;
+
     template <typename U>
     Matrix<U, 2, 2> castTo() const;
 

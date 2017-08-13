@@ -45,20 +45,18 @@ void ZhuBridsonPointsToImplicit2::convert(
     const double isoContValue = _cutOffThreshold * _kernelRadius;
 
     auto temp = output->clone();
-    temp->fill([&](const Vector2D& x) {
-        bool hasNeighbor = false;
+    temp->fill([&](const Vector2D& x) -> double {
         Vector2D xAvg;
         double wSum = 0.0;
-        const auto func = [&](size_t i, const Vector2D& xi) {
+        const auto func = [&](size_t, const Vector2D& xi) {
             const double wi = k((x - xi).length() / _kernelRadius);
             wSum += wi;
             xAvg += wi * xi;
-            hasNeighbor = true;
         };
         neighborSearcher->forEachNearbyPoint(x, _kernelRadius, func);
-        xAvg /= wSum;
 
-        if (hasNeighbor) {
+        if (wSum > 0.0) {
+            xAvg /= wSum;
             return (x - xAvg).length() - isoContValue;
         } else {
             return output->boundingBox().diagonalLength();

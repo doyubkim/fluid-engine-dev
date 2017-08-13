@@ -39,7 +39,7 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertMany) {
 
     std::mt19937 rng{0};
     std::uniform_real_distribution<> dist(0.2, 0.8);
-    for (size_t i = 0; i < 50; ++i) {
+    for (size_t i = 0; i < 200; ++i) {
         points.append({dist(rng), dist(rng)});
     }
 
