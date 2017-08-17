@@ -27,6 +27,9 @@ class PointsToImplicit2 {
                          ScalarGrid2* output) const = 0;
 };
 
+//! Shared pointer for the PointsToImplicit2 type.
+typedef std::shared_ptr<PointsToImplicit2> PointsToImplicit2Ptr;
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_POINTS_TO_IMPLICIT2_H_

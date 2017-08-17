@@ -407,11 +407,9 @@ Matrix<T, 2, 2> Matrix<T, 2, 2>::inverse() const {
 }
 
 template <typename T>
-T Matrix<T, 2, 2>::norm2() const {
-    const T b = -(_elements[0] + _elements[3]);
-    const T c = _elements[0] * _elements[3] - _elements[1] * _elements[2];
-    const T lambda = (-b + std::sqrt(b * b - 4 * c)) / 2;
-    return std::sqrt(lambda);
+T Matrix<T, 2, 2>::frobeniusNorm() const {
+    return std::sqrt(_elements[0] * _elements[0] + _elements[1] * _elements[1] +
+                     _elements[2] * _elements[2] + _elements[3] * _elements[3]);
 }
 
 template <typename T>

@@ -1,0 +1,8 @@
+//
+// Created by Doyub Kim on 8/16/17.
+//
+
+#ifndef JET_ZHU_BRIDSON_POINTS_TO_IMPLICIT_H
+#define JET_ZHU_BRIDSON_POINTS_TO_IMPLICIT_H
+
+#endif //JET_ZHU_BRIDSON_POINTS_TO_IMPLICIT_H

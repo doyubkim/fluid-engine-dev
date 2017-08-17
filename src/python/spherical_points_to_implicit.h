@@ -1,0 +1,8 @@
+//
+// Created by Doyub Kim on 8/16/17.
+//
+
+#ifndef JET_SPHERICAL_POINTS_TO_IMPLICIT_H
+#define JET_SPHERICAL_POINTS_TO_IMPLICIT_H
+
+#endif //JET_SPHERICAL_POINTS_TO_IMPLICIT_H

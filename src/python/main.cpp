@@ -6,6 +6,7 @@
 
 #include "advection_solver.h"
 #include "animation.h"
+#include "anisotropic_points_to_implicit.h"
 #include "apic_solver.h"
 #include "array_accessor.h"
 #include "bounding_box.h"
@@ -63,6 +64,7 @@
 #include "plane.h"
 #include "point.h"
 #include "point_particle_emitter.h"
+#include "points_to_implicit.h"
 #include "quaternion.h"
 #include "ray.h"
 #include "rigid_body_collider.h"
@@ -267,6 +269,10 @@ PYBIND11_PLUGIN(pyjet) {
     addEnoLevelSetSolver3(m);
     addFmmLevelSetSolver2(m);
     addFmmLevelSetSolver3(m);
+    addPointsToImplicit2(m);
+    addPointsToImplicit3(m);
+    addAnisotropicPointsToImplicit2(m);
+    addAnisotropicPointsToImplicit3(m);
 
     // Animations
     addAnimation(m);

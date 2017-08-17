@@ -6,11 +6,11 @@
 
 #include <pch.h>
 
-#include <jet/anisotropic_points_to_implicit2.h>
-#include <jet/fmm_level_set_solver2.h>
+#include <jet/anisotropic_points_to_implicit3.h>
+#include <jet/fmm_level_set_solver3.h>
 #include <jet/jet.h>
-#include <jet/sph_kernels2.h>
-#include <jet/sph_system_data2.h>
+#include <jet/sph_kernels3.h>
+#include <jet/sph_system_data3.h>
 #include <jet/svd.h>
 
 using namespace jet;
@@ -34,30 +34,32 @@ inline double wij(double distance, double r) {
     }
 }
 
-inline Matrix2x2D vvt(const Vector2D& v) {
-    return Matrix2x2D(v.x * v.x, v.x * v.y, v.y * v.x, v.y * v.y);
+inline Matrix3x3D vvt(const Vector3D& v) {
+    return Matrix3x3D(v.x * v.x, v.x * v.y, v.x * v.z,
+                      v.y * v.x, v.y * v.y, v.y * v.z,
+                      v.z * v.x, v.z * v.y, v.z * v.z);
 }
 
-inline double w(const Vector2D& r, const Matrix2x2D& g, double gDet) {
-    static const double sigma = 4.0 / kPiD;
+inline double w(const Vector3D& r, const Matrix3x3D& g, double gDet) {
+    static const double sigma = 315.0 / (64 * kPiD);
     return sigma * gDet * p((g * r).length());
 }
 
 //
 
-AnisotropicPointsToImplicit2::AnisotropicPointsToImplicit2(double kernelRadius,
+AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(double kernelRadius,
                                                            double cutOffDensity)
     : _kernelRadius(kernelRadius), _cutOffDensity(cutOffDensity) {}
 
-void AnisotropicPointsToImplicit2::convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
+void AnisotropicPointsToImplicit3::convert(
+    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;
     }
 
     const auto res = output->resolution();
-    if (res.x * res.y == 0) {
+    if (res.x * res.y * res.z == 0) {
         JET_WARN << "Empty grid is provided.";
         return;
     }
@@ -73,13 +75,13 @@ void AnisotropicPointsToImplicit2::convert(
     const double r = 2.0 * h;
 
     // Mean estimator for cov. mat.
-    ParticleSystemData2 meanParticles;
+    ParticleSystemData3 meanParticles;
     meanParticles.addParticles(points);
     meanParticles.buildNeighborSearcher(r);
     const auto meanNeighborSearcher = meanParticles.neighborSearcher();
 
     // Compute G and xMean
-    std::vector<Matrix2x2D> gs(points.size());
+    std::vector<Matrix3x3D> gs(points.size());
 
     parallelFor(
         kZeroSize, points.size(),
@@ -88,10 +90,10 @@ void AnisotropicPointsToImplicit2::convert(
             const size_t ne = 1;
 
             // Compute xMean
-            Vector2D xMean;
+            Vector3D xMean;
             double wSum = 0.0;
             size_t numNeighbors = 0;
-            const auto getXMean = [&](size_t, const Vector2D& xj) {
+            const auto getXMean = [&](size_t, const Vector3D& xj) {
                 const double wj = wij((x - xj).length(), r);
                 wSum += wj;
                 xMean += wj * xj;
@@ -100,16 +102,16 @@ void AnisotropicPointsToImplicit2::convert(
             meanNeighborSearcher->forEachNearbyPoint(x, r, getXMean);
 
             if (numNeighbors < ne) {
-                const auto g = Matrix2x2D::makeScaleMatrix(invH, invH);
+                const auto g = Matrix3x3D::makeScaleMatrix(invH, invH, invH);
                 gs[i] = g;
             } else {
                 JET_ASSERT(wSum > 0.0);
                 xMean /= wSum;
 
                 // Compute covariance matrix
-                Matrix2x2D cov;
+                Matrix3x3D cov;
                 wSum = 0.0;
-                const auto getCov = [&](size_t, const Vector2D& xj) {
+                const auto getCov = [&](size_t, const Vector3D& xj) {
                     const double wj = wij((x - xj).length(), r);
                     wSum += wj;
                     cov += wj * vvt(xj - xMean);
@@ -119,15 +121,15 @@ void AnisotropicPointsToImplicit2::convert(
                 cov /= wSum;
 
                 // SVD
-                Matrix2x2D u;
-                Vector2D v;
-                Matrix2x2D w;
+                Matrix3x3D u;
+                Vector3D v;
+                Matrix3x3D w;
                 svd(cov, u, v, w);
 
                 // Constrain Sigma
                 const double maxSingularVal = v.absmax();
                 const double kr = 4.0;
-                Matrix2x2D invSigma;
+                Matrix3x3D invSigma;
                 invSigma(0, 0) = 1.0 / std::max(v[0], maxSingularVal / kr);
                 invSigma(1, 1) = 1.0 / std::max(v[1], maxSingularVal / kr);
 
@@ -143,7 +145,7 @@ void AnisotropicPointsToImplicit2::convert(
     // Compute SDF
 
     // SPH estimator
-    SphSystemData2 sphParticles;
+    SphSystemData3 sphParticles;
     sphParticles.addParticles(points);
     sphParticles.setKernelRadius(h);
     sphParticles.buildNeighborSearcher();
@@ -153,10 +155,10 @@ void AnisotropicPointsToImplicit2::convert(
     const auto sphNeighborSearcher = sphParticles.neighborSearcher();
 
     auto temp = output->clone();
-    temp->fill([&](const Vector2D& x) {
+    temp->fill([&](const Vector3D& x) {
         double sum = 0.0;
         sphNeighborSearcher->forEachNearbyPoint(
-            x, _kernelRadius, [&](size_t i, const Vector2D& neighborPosition) {
+            x, _kernelRadius, [&](size_t i, const Vector3D& neighborPosition) {
                 sum += m / d[i] *
                        w(neighborPosition - x, gs[i], gs[i].determinant());
             });
@@ -164,6 +166,6 @@ void AnisotropicPointsToImplicit2::convert(
         return _cutOffDensity - sum;
     });
 
-    FmmLevelSetSolver2 solver;
+    FmmLevelSetSolver3 solver;
     solver.reinitialize(*temp, kMaxD, output);
 }

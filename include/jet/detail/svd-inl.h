@@ -318,10 +318,9 @@ void svd(const Matrix<T, M, N>& a, Matrix<T, M, N>& u, Vector<T, N>& w,
     T c = 0, f = 0, h = 0, s = 0, x = 0, y = 0, z = 0;
     T anorm = 0, g = 0, scale = 0;
 
-    JET_THROW_INVALID_ARG_WITH_MESSAGE_IF(m < n,
-                                          "Number of rows of input matrix must "
-                                          "be greater than or equal to "
-                                          "columns.");
+    static_assert(M >= N,
+                  "Number of rows of input matrix must be greater than or "
+                  "equal to columns.");
 
     // Prepare workspace
     Vector<T, N> rv1;
