@@ -6,24 +6,24 @@
 
 #include <pch.h>
 
-#include <jet/fmm_level_set_solver2.h>
-#include <jet/particle_system_data2.h>
-#include <jet/spherical_points_to_implicit2.h>
+#include <jet/fmm_level_set_solver3.h>
+#include <jet/particle_system_data3.h>
+#include <jet/spherical_points_to_implicit3.h>
 
 using namespace jet;
 
-SphericalPointsToImplicit2::SphericalPointsToImplicit2(double radius)
+SphericalPointsToImplicit3::SphericalPointsToImplicit3(double radius)
     : _radius(radius) {}
 
-void SphericalPointsToImplicit2::convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
+void SphericalPointsToImplicit3::convert(
+    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;
     }
 
     const auto res = output->resolution();
-    if (res.x * res.y == 0) {
+    if (res.x * res.y * res.z == 0) {
         JET_WARN << "Empty grid is provided.";
         return;
     }
@@ -34,23 +34,23 @@ void SphericalPointsToImplicit2::convert(
         return;
     }
 
-    ParticleSystemData2 particles;
+    ParticleSystemData3 particles;
     particles.addParticles(points);
-    particles.buildNeighborSearcher(2.0 * _radius);
+    particles.buildNeighborSearcher(3.0 * _radius);
 
     const auto neighborSearcher = particles.neighborSearcher();
 
     auto temp = output->clone();
-    temp->fill([&](const Vector2D& x) {
+    temp->fill([&](const Vector3D& x) {
         double minDist = kMaxD;
         neighborSearcher->forEachNearbyPoint(
-            x, 2.0 * _radius, [&](size_t, const Vector2D& xj) {
+            x, 2.0 * _radius, [&](size_t, const Vector3D& xj) {
                 minDist = std::min(minDist, (x - xj).length());
             });
 
         return minDist - _radius;
     });
 
-    FmmLevelSetSolver2 solver;
+    FmmLevelSetSolver3 solver;
     solver.reinitialize(*temp, kMaxD, output);
 }

@@ -26,7 +26,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertTwo) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    SphPointsToImplicit2 converter(0.15);
+    SphPointsToImplicit2 converter(0.1);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");
@@ -45,7 +45,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertMany) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    SphPointsToImplicit2 converter(0.15);
+    SphPointsToImplicit2 converter(0.1);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");

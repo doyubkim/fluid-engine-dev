@@ -35,9 +35,8 @@ inline double wij(double distance, double r) {
 }
 
 inline Matrix3x3D vvt(const Vector3D& v) {
-    return Matrix3x3D(v.x * v.x, v.x * v.y, v.x * v.z,
-                      v.y * v.x, v.y * v.y, v.y * v.z,
-                      v.z * v.x, v.z * v.y, v.z * v.z);
+    return Matrix3x3D(v.x * v.x, v.x * v.y, v.x * v.z, v.y * v.x, v.y * v.y,
+                      v.y * v.z, v.z * v.x, v.z * v.y, v.z * v.z);
 }
 
 inline double w(const Vector3D& r, const Matrix3x3D& g, double gDet) {
@@ -47,9 +46,13 @@ inline double w(const Vector3D& r, const Matrix3x3D& g, double gDet) {
 
 //
 
-AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(double kernelRadius,
-                                                           double cutOffDensity)
-    : _kernelRadius(kernelRadius), _cutOffDensity(cutOffDensity) {}
+AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(
+    double kernelRadius, double cutOffDensity, double positionSmoothingFactor,
+    size_t minNumNeighbors)
+    : _kernelRadius(kernelRadius),
+      _cutOffDensity(cutOffDensity),
+      _positionSmoothingFactor(positionSmoothingFactor),
+      _minNumNeighbors(minNumNeighbors) {}
 
 void AnisotropicPointsToImplicit3::convert(
     const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
@@ -82,83 +85,91 @@ void AnisotropicPointsToImplicit3::convert(
 
     // Compute G and xMean
     std::vector<Matrix3x3D> gs(points.size());
+    std::vector<Vector3D> xMeans(points.size());
 
-    parallelFor(
-        kZeroSize, points.size(),
-        [&](size_t i) {
-            const auto& x = points[i];
-            const size_t ne = 1;
+    parallelFor(kZeroSize, points.size(), [&](size_t i) {
+        const auto& x = points[i];
 
-            // Compute xMean
-            Vector3D xMean;
-            double wSum = 0.0;
-            size_t numNeighbors = 0;
-            const auto getXMean = [&](size_t, const Vector3D& xj) {
-                const double wj = wij((x - xj).length(), r);
+        // Compute xMean
+        Vector3D xMean;
+        double wSum = 0.0;
+        size_t numNeighbors = 0;
+        const auto getXMean = [&](size_t, const Vector3D& xj) {
+            const double wj = wij((x - xj).length(), r);
+            wSum += wj;
+            xMean += wj * xj;
+            ++numNeighbors;
+        };
+        meanNeighborSearcher->forEachNearbyPoint(x, r, getXMean);
+
+        JET_ASSERT(wSum > 0.0);
+        xMean /= wSum;
+
+        xMeans[i] = lerp(x, xMean, _positionSmoothingFactor);
+
+        if (numNeighbors < _minNumNeighbors) {
+            const auto g = Matrix3x3D::makeScaleMatrix(invH, invH, invH);
+            gs[i] = g;
+        } else {
+            // Compute covariance matrix
+            // We start with small scale matrix (h*h) in order to
+            // prevent zero covariance matrix when points are all
+            // perfectly lined up.
+            auto cov = Matrix3x3D::makeScaleMatrix(h * h, h * h, h * h);
+            wSum = 0.0;
+            const auto getCov = [&](size_t, const Vector3D& xj) {
+                const double wj = wij((xMean - xj).length(), r);
                 wSum += wj;
-                xMean += wj * xj;
-                ++numNeighbors;
+                cov += wj * vvt(xj - xMean);
             };
-            meanNeighborSearcher->forEachNearbyPoint(x, r, getXMean);
+            meanNeighborSearcher->forEachNearbyPoint(x, r, getCov);
 
-            if (numNeighbors < ne) {
-                const auto g = Matrix3x3D::makeScaleMatrix(invH, invH, invH);
-                gs[i] = g;
-            } else {
-                JET_ASSERT(wSum > 0.0);
-                xMean /= wSum;
+            cov /= wSum;
 
-                // Compute covariance matrix
-                Matrix3x3D cov;
-                wSum = 0.0;
-                const auto getCov = [&](size_t, const Vector3D& xj) {
-                    const double wj = wij((x - xj).length(), r);
-                    wSum += wj;
-                    cov += wj * vvt(xj - xMean);
-                };
-                meanNeighborSearcher->forEachNearbyPoint(x, r, getCov);
+            // SVD
+            Matrix3x3D u;
+            Vector3D v;
+            Matrix3x3D w;
+            svd(cov, u, v, w);
 
-                cov /= wSum;
+            // Constrain Sigma
+            const double maxSingularVal = v.absmax();
+            const double kr = 4.0;
+            v[0] = std::max(v[0], maxSingularVal / kr);
+            v[1] = std::max(v[1], maxSingularVal / kr);
+            v[2] = std::max(v[2], maxSingularVal / kr);
+            const auto invSigma = Matrix3x3D::makeScaleMatrix(1.0 / v);
 
-                // SVD
-                Matrix3x3D u;
-                Vector3D v;
-                Matrix3x3D w;
-                svd(cov, u, v, w);
-
-                // Constrain Sigma
-                const double maxSingularVal = v.absmax();
-                const double kr = 4.0;
-                Matrix3x3D invSigma;
-                invSigma(0, 0) = 1.0 / std::max(v[0], maxSingularVal / kr);
-                invSigma(1, 1) = 1.0 / std::max(v[1], maxSingularVal / kr);
-
-                // Compute G
-                const double relA = v[0] * v[1];  // area preservation
-                const auto g =
-                    invH * std::sqrt(relA) * (w * invSigma * u.transposed());
-                gs[i] = g;
-            }
-        },
-        ExecutionPolicy::kSerial);
-
-    // Compute SDF
+            // Compute G
+            const double relV = v[0] * v[1] * v[2];  // area preservation
+            const Matrix3x3D g = invH * std::pow(relV, 1.0 / 3.0) *
+                                 (w * invSigma * u.transposed());
+            gs[i] = g;
+        }
+    });
 
     // SPH estimator
     SphSystemData3 sphParticles;
-    sphParticles.addParticles(points);
+    sphParticles.addParticles(
+        ConstArrayAccessor1<Vector3D>(xMeans.size(), xMeans.data()));
     sphParticles.setKernelRadius(h);
     sphParticles.buildNeighborSearcher();
     sphParticles.updateDensities();
     const auto d = sphParticles.densities();
     const double m = sphParticles.mass();
-    const auto sphNeighborSearcher = sphParticles.neighborSearcher();
 
+    meanParticles.resize(0);
+    meanParticles.addParticles(
+        ConstArrayAccessor1<Vector3D>(xMeans.size(), xMeans.data()));
+    meanParticles.buildNeighborSearcher(r);
+    const auto meanNeighborSearcher3 = meanParticles.neighborSearcher();
+
+    // Compute SDF
     auto temp = output->clone();
     temp->fill([&](const Vector3D& x) {
         double sum = 0.0;
-        sphNeighborSearcher->forEachNearbyPoint(
-            x, _kernelRadius, [&](size_t i, const Vector3D& neighborPosition) {
+        meanNeighborSearcher3->forEachNearbyPoint(
+            x, r, [&](size_t i, const Vector3D& neighborPosition) {
                 sum += m / d[i] *
                        w(neighborPosition - x, gs[i], gs[i].determinant());
             });

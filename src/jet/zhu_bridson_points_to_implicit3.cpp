@@ -6,27 +6,27 @@
 
 #include <pch.h>
 
-#include <jet/fmm_level_set_solver2.h>
-#include <jet/particle_system_data2.h>
-#include <jet/zhu_bridson_points_to_implicit2.h>
+#include <jet/fmm_level_set_solver3.h>
+#include <jet/particle_system_data3.h>
+#include <jet/zhu_bridson_points_to_implicit3.h>
 
 using namespace jet;
 
 inline double k(double s) { return std::max(0.0, cubic(1.0 - s * s)); }
 
-ZhuBridsonPointsToImplicit2::ZhuBridsonPointsToImplicit2(double kernelRadius,
+ZhuBridsonPointsToImplicit3::ZhuBridsonPointsToImplicit3(double kernelRadius,
                                                          double cutOffThreshold)
     : _kernelRadius(kernelRadius), _cutOffThreshold(cutOffThreshold) {}
 
-void ZhuBridsonPointsToImplicit2::convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
+void ZhuBridsonPointsToImplicit3::convert(
+    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;
     }
 
     const auto res = output->resolution();
-    if (res.x * res.y == 0) {
+    if (res.x * res.y * res.z == 0) {
         JET_WARN << "Empty grid is provided.";
         return;
     }
@@ -37,7 +37,7 @@ void ZhuBridsonPointsToImplicit2::convert(
         return;
     }
 
-    ParticleSystemData2 particles;
+    ParticleSystemData3 particles;
     particles.addParticles(points);
     particles.buildNeighborSearcher(_kernelRadius);
 
@@ -45,10 +45,10 @@ void ZhuBridsonPointsToImplicit2::convert(
     const double isoContValue = _cutOffThreshold * _kernelRadius;
 
     auto temp = output->clone();
-    temp->fill([&](const Vector2D& x) -> double {
-        Vector2D xAvg;
+    temp->fill([&](const Vector3D& x) -> double {
+        Vector3D xAvg;
         double wSum = 0.0;
-        const auto func = [&](size_t, const Vector2D& xi) {
+        const auto func = [&](size_t, const Vector3D& xi) {
             const double wi = k((x - xi).length() / _kernelRadius);
             wSum += wi;
             xAvg += wi * xi;
@@ -63,6 +63,6 @@ void ZhuBridsonPointsToImplicit2::convert(
         }
     });
 
-    FmmLevelSetSolver2 solver;
+    FmmLevelSetSolver3 solver;
     solver.reinitialize(*temp, kMaxD, output);
 }

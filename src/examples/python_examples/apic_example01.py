@@ -24,7 +24,8 @@ def main():
 
     # Setup emitter
     sphere = Sphere3(center=(0.5, 1.0, 0.5), radius=0.15)
-    emitter = VolumeParticleEmitter3(implicitSurface=sphere, spacing=1.0 / (2 * resX))
+    emitter = VolumeParticleEmitter3(
+        implicitSurface=sphere, spacing=1.0 / (2 * resX))
     solver.particleEmitter = emitter
 
     # Setup collider

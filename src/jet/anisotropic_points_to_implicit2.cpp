@@ -45,9 +45,13 @@ inline double w(const Vector2D& r, const Matrix2x2D& g, double gDet) {
 
 //
 
-AnisotropicPointsToImplicit2::AnisotropicPointsToImplicit2(double kernelRadius,
-                                                           double cutOffDensity)
-    : _kernelRadius(kernelRadius), _cutOffDensity(cutOffDensity) {}
+AnisotropicPointsToImplicit2::AnisotropicPointsToImplicit2(
+    double kernelRadius, double cutOffDensity, double positionSmoothingFactor,
+    size_t minNumNeighbors)
+    : _kernelRadius(kernelRadius),
+      _cutOffDensity(cutOffDensity),
+      _positionSmoothingFactor(positionSmoothingFactor),
+      _minNumNeighbors(minNumNeighbors) {}
 
 void AnisotropicPointsToImplicit2::convert(
     const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
@@ -80,83 +84,90 @@ void AnisotropicPointsToImplicit2::convert(
 
     // Compute G and xMean
     std::vector<Matrix2x2D> gs(points.size());
+    std::vector<Vector2D> xMeans(points.size());
 
-    parallelFor(
-        kZeroSize, points.size(),
-        [&](size_t i) {
-            const auto& x = points[i];
-            const size_t ne = 1;
+    parallelFor(kZeroSize, points.size(), [&](size_t i) {
+        const auto& x = points[i];
 
-            // Compute xMean
-            Vector2D xMean;
-            double wSum = 0.0;
-            size_t numNeighbors = 0;
-            const auto getXMean = [&](size_t, const Vector2D& xj) {
-                const double wj = wij((x - xj).length(), r);
+        // Compute xMean
+        Vector2D xMean;
+        double wSum = 0.0;
+        size_t numNeighbors = 0;
+        const auto getXMean = [&](size_t, const Vector2D& xj) {
+            const double wj = wij((x - xj).length(), r);
+            wSum += wj;
+            xMean += wj * xj;
+            ++numNeighbors;
+        };
+        meanNeighborSearcher->forEachNearbyPoint(x, r, getXMean);
+
+        JET_ASSERT(wSum > 0.0);
+        xMean /= wSum;
+
+        xMeans[i] = lerp(x, xMean, _positionSmoothingFactor);
+
+        if (numNeighbors < _minNumNeighbors) {
+            const auto g = Matrix2x2D::makeScaleMatrix(invH, invH);
+            gs[i] = g;
+        } else {
+            // Compute covariance matrix
+            // We start with small scale matrix (h*h) in order to
+            // prevent zero covariance matrix when points are all
+            // perfectly lined up.
+            auto cov = Matrix2x2D::makeScaleMatrix(h * h, h * h);
+            wSum = 0.0;
+            const auto getCov = [&](size_t, const Vector2D& xj) {
+                const double wj = wij((xMean - xj).length(), r);
                 wSum += wj;
-                xMean += wj * xj;
-                ++numNeighbors;
+                cov += wj * vvt(xj - xMean);
             };
-            meanNeighborSearcher->forEachNearbyPoint(x, r, getXMean);
+            meanNeighborSearcher->forEachNearbyPoint(x, r, getCov);
 
-            if (numNeighbors < ne) {
-                const auto g = Matrix2x2D::makeScaleMatrix(invH, invH);
-                gs[i] = g;
-            } else {
-                JET_ASSERT(wSum > 0.0);
-                xMean /= wSum;
+            cov /= wSum;
 
-                // Compute covariance matrix
-                Matrix2x2D cov;
-                wSum = 0.0;
-                const auto getCov = [&](size_t, const Vector2D& xj) {
-                    const double wj = wij((x - xj).length(), r);
-                    wSum += wj;
-                    cov += wj * vvt(xj - xMean);
-                };
-                meanNeighborSearcher->forEachNearbyPoint(x, r, getCov);
+            // SVD
+            Matrix2x2D u;
+            Vector2D v;
+            Matrix2x2D w;
+            svd(cov, u, v, w);
 
-                cov /= wSum;
+            // Constrain Sigma
+            const double maxSingularVal = v.absmax();
+            const double kr = 4.0;
+            v[0] = std::max(v[0], maxSingularVal / kr);
+            v[1] = std::max(v[1], maxSingularVal / kr);
+            const auto invSigma = Matrix2x2D::makeScaleMatrix(1.0 / v);
 
-                // SVD
-                Matrix2x2D u;
-                Vector2D v;
-                Matrix2x2D w;
-                svd(cov, u, v, w);
-
-                // Constrain Sigma
-                const double maxSingularVal = v.absmax();
-                const double kr = 4.0;
-                Matrix2x2D invSigma;
-                invSigma(0, 0) = 1.0 / std::max(v[0], maxSingularVal / kr);
-                invSigma(1, 1) = 1.0 / std::max(v[1], maxSingularVal / kr);
-
-                // Compute G
-                const double relA = v[0] * v[1];  // area preservation
-                const auto g =
-                    invH * std::sqrt(relA) * (w * invSigma * u.transposed());
-                gs[i] = g;
-            }
-        },
-        ExecutionPolicy::kSerial);
-
-    // Compute SDF
+            // Compute G
+            const double relA = v[0] * v[1];  // area preservation
+            const Matrix2x2D g =
+                invH * std::sqrt(relA) * (w * invSigma * u.transposed());
+            gs[i] = g;
+        }
+    });
 
     // SPH estimator
     SphSystemData2 sphParticles;
-    sphParticles.addParticles(points);
+    sphParticles.addParticles(
+        ConstArrayAccessor1<Vector2D>(xMeans.size(), xMeans.data()));
     sphParticles.setKernelRadius(h);
     sphParticles.buildNeighborSearcher();
     sphParticles.updateDensities();
     const auto d = sphParticles.densities();
     const double m = sphParticles.mass();
-    const auto sphNeighborSearcher = sphParticles.neighborSearcher();
 
+    meanParticles.resize(0);
+    meanParticles.addParticles(
+        ConstArrayAccessor1<Vector2D>(xMeans.size(), xMeans.data()));
+    meanParticles.buildNeighborSearcher(r);
+    const auto meanNeighborSearcher2 = meanParticles.neighborSearcher();
+
+    // Compute SDF
     auto temp = output->clone();
     temp->fill([&](const Vector2D& x) {
         double sum = 0.0;
-        sphNeighborSearcher->forEachNearbyPoint(
-            x, _kernelRadius, [&](size_t i, const Vector2D& neighborPosition) {
+        meanNeighborSearcher2->forEachNearbyPoint(
+            x, r, [&](size_t i, const Vector2D& neighborPosition) {
                 sum += m / d[i] *
                        w(neighborPosition - x, gs[i], gs[i].determinant());
             });

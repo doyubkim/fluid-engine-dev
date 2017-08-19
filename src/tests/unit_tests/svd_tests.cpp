@@ -22,7 +22,7 @@ TEST(Svd, Float) {
     w2(0, 0) = w[0];
     w2(1, 1) = w[1];
 
-    auto aApprox = u * w2 * v.transposed();
+    MatrixMxNF aApprox = u * w2 * v.transposed();
     EXPECT_TRUE(a.isSimilar(aApprox, 1e-6));
 }
 
@@ -38,6 +38,6 @@ TEST(Svd, Double) {
     w2(0, 0) = w[0];
     w2(1, 1) = w[1];
 
-    auto aApprox = u * w2 * v.transposed();
+    MatrixMxND aApprox = u * w2 * v.transposed();
     EXPECT_TRUE(a.isSimilar(aApprox, 1e-12));
 }

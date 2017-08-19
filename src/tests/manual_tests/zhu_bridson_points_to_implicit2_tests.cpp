@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/cell_centered_scalar_grid2.h>
-#include <jet/zhu_bridson_points_to_Implicit2.h>
+#include <jet/zhu_bridson_points_to_implicit2.h>
 
 #include <random>
 
@@ -26,7 +26,7 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertTwo) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    ZhuBridsonPointsToImplicit2 converter(0.15);
+    ZhuBridsonPointsToImplicit2 converter(0.1);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");
@@ -45,7 +45,7 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertMany) {
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
-    ZhuBridsonPointsToImplicit2 converter(0.15);
+    ZhuBridsonPointsToImplicit2 converter(0.1);
     converter.convert(points.constAccessor(), &grid);
 
     saveData(grid.constDataAccessor(), "data_#grid2.npy");
