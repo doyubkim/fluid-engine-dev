@@ -111,6 +111,9 @@ class BoundingBox<T, 3> {
 
     //! Returns the clamped point.
     Vector3<T> clamp(const Vector3<T>& point) const;
+
+    //! Returns true if the box is empty.
+    bool isEmpty() const;
 };
 
 //! Type alias for 3-D BoundingBox.

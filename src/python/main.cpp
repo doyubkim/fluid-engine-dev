@@ -6,6 +6,7 @@
 
 #include "advection_solver.h"
 #include "animation.h"
+#include "anisotropic_points_to_implicit.h"
 #include "apic_solver.h"
 #include "array_accessor.h"
 #include "bounding_box.h"
@@ -63,6 +64,7 @@
 #include "plane.h"
 #include "point.h"
 #include "point_particle_emitter.h"
+#include "points_to_implicit.h"
 #include "quaternion.h"
 #include "ray.h"
 #include "rigid_body_collider.h"
@@ -71,9 +73,11 @@
 #include "semi_lagrangian.h"
 #include "serializable.h"
 #include "size.h"
+#include "sph_points_to_implicit.h"
 #include "sph_solver.h"
 #include "sph_system_data.h"
 #include "sphere.h"
+#include "spherical_points_to_implicit.h"
 #include "surface.h"
 #include "surface_set.h"
 #include "surface_to_implicit.h"
@@ -88,6 +92,7 @@
 #include "vertex_centered_vector_grid.h"
 #include "volume_grid_emitter.h"
 #include "volume_particle_emitter.h"
+#include "zhu_bridson_points_to_implicit.h"
 
 #include <pybind11/pybind11.h>
 
@@ -267,6 +272,16 @@ PYBIND11_PLUGIN(pyjet) {
     addEnoLevelSetSolver3(m);
     addFmmLevelSetSolver2(m);
     addFmmLevelSetSolver3(m);
+    addPointsToImplicit2(m);
+    addPointsToImplicit3(m);
+    addSphericalPointsToImplicit2(m);
+    addSphericalPointsToImplicit3(m);
+    addSphPointsToImplicit2(m);
+    addSphPointsToImplicit3(m);
+    addZhuBridsonPointsToImplicit2(m);
+    addZhuBridsonPointsToImplicit3(m);
+    addAnisotropicPointsToImplicit2(m);
+    addAnisotropicPointsToImplicit3(m);
 
     // Animations
     addAnimation(m);

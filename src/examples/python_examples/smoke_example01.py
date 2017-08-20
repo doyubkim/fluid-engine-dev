@@ -43,6 +43,7 @@ def main():
 
     # Animation
     frame = Frame(0, 1.0 / ANIM_FPS)
+
     def updatefig(*args):
         solver.update(frame)
         frame.advance()

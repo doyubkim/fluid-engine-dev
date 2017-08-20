@@ -267,6 +267,9 @@ class Matrix<T, 3, 3> {
     //! Returns inverse matrix.
     Matrix inverse() const;
 
+    //! Returns Frobenius norm.
+    T frobeniusNorm() const;
+
     template <typename U>
     Matrix<U, 3, 3> castTo() const;
 

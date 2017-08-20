@@ -9,6 +9,8 @@
 #include <jet/advection_solver2.h>
 #include <jet/advection_solver3.h>
 #include <jet/animation.h>
+#include <jet/anisotropic_points_to_implicit2.h>
+#include <jet/anisotropic_points_to_implicit3.h>
 #include <jet/apic_solver2.h>
 #include <jet/apic_solver3.h>
 #include <jet/array.h>
@@ -186,6 +188,8 @@
 #include <jet/point_particle_emitter3.h>
 #include <jet/point_simple_list_searcher2.h>
 #include <jet/point_simple_list_searcher3.h>
+#include <jet/points_to_implicit2.h>
+#include <jet/points_to_implicit3.h>
 #include <jet/quadtree.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
@@ -207,18 +211,23 @@
 #include <jet/size3.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_kernels3.h>
+#include <jet/sph_points_to_implicit2.h>
+#include <jet/sph_points_to_implicit3.h>
 #include <jet/sph_solver2.h>
 #include <jet/sph_solver3.h>
 #include <jet/sph_system_data2.h>
 #include <jet/sph_system_data3.h>
 #include <jet/sphere2.h>
 #include <jet/sphere3.h>
+#include <jet/spherical_points_to_implicit2.h>
+#include <jet/spherical_points_to_implicit3.h>
 #include <jet/surface2.h>
 #include <jet/surface3.h>
 #include <jet/surface_set2.h>
 #include <jet/surface_set3.h>
 #include <jet/surface_to_implicit2.h>
 #include <jet/surface_to_implicit3.h>
+#include <jet/svd.h>
 #include <jet/timer.h>
 #include <jet/transform2.h>
 #include <jet/transform3.h>
@@ -247,4 +256,6 @@
 #include <jet/volume_grid_emitter3.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
+#include <jet/zhu_bridson_points_to_implicit2.h>
+#include <jet/zhu_bridson_points_to_implicit3.h>
 #endif  // INCLUDE_JET_JET_H_

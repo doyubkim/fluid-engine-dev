@@ -64,16 +64,14 @@ void addBoundingBox2F(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0 or 1.
-             )pbdoc",
-             py::arg("axis"))
+             )pbdoc", py::arg("axis"))
         .def("overlaps", &BoundingBox2F::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc",
-             py::arg("other"))
+             )pbdoc", py::arg("other"))
         .def("contains",
              [](const BoundingBox2F& instance, py::object point) {
                  return instance.contains(objectToVector2F(point));
@@ -149,24 +147,24 @@ void addBoundingBox2F(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc",
-             py::arg("delta"))
+             )pbdoc", py::arg("delta"))
         .def("corner", &BoundingBox2F::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc",
-             py::arg("idx"))
+             )pbdoc", py::arg("idx"))
         .def("clamp", &BoundingBox2F::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc",
-             py::arg("point"));
+             )pbdoc", py::arg("point"))
+        .def("isEmpty", &BoundingBox2F::isEmpty, R"pbdoc(
+             Returns true if the box is empty.
+             )pbdoc");
 }
 
 void addBoundingBox2D(pybind11::module& m) {
@@ -220,16 +218,14 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0 or 1.
-             )pbdoc",
-             py::arg("axis"))
+             )pbdoc", py::arg("axis"))
         .def("overlaps", &BoundingBox2D::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc",
-             py::arg("other"))
+             )pbdoc", py::arg("other"))
         .def("contains",
              [](const BoundingBox2D& instance, py::object point) {
                  return instance.contains(objectToVector2D(point));
@@ -305,24 +301,24 @@ void addBoundingBox2D(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc",
-             py::arg("delta"))
+             )pbdoc", py::arg("delta"))
         .def("corner", &BoundingBox2D::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc",
-             py::arg("idx"))
+             )pbdoc", py::arg("idx"))
         .def("clamp", &BoundingBox2D::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc",
-             py::arg("point"));
+             )pbdoc", py::arg("point"))
+        .def("isEmpty", &BoundingBox2D::isEmpty, R"pbdoc(
+             Returns true if the box is empty.
+             )pbdoc");
 }
 
 void addBoundingBox3F(pybind11::module& m) {
@@ -378,16 +374,14 @@ void addBoundingBox3F(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0, 1, or 2.
-             )pbdoc",
-             py::arg("axis"))
+             )pbdoc", py::arg("axis"))
         .def("overlaps", &BoundingBox3F::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc",
-             py::arg("other"))
+             )pbdoc", py::arg("other"))
         .def("contains",
              [](const BoundingBox3F& instance, py::object point) {
                  return instance.contains(objectToVector3F(point));
@@ -463,24 +457,24 @@ void addBoundingBox3F(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc",
-             py::arg("delta"))
+             )pbdoc", py::arg("delta"))
         .def("corner", &BoundingBox3F::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc",
-             py::arg("idx"))
+             )pbdoc", py::arg("idx"))
         .def("clamp", &BoundingBox3F::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc",
-             py::arg("point"));
+             )pbdoc", py::arg("point"))
+        .def("isEmpty", &BoundingBox3F::isEmpty, R"pbdoc(
+             Returns true if the box is empty.
+             )pbdoc");
 }
 
 void addBoundingBox3D(pybind11::module& m) {
@@ -536,16 +530,14 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - axis : 0, 1, or 2.
-             )pbdoc",
-             py::arg("axis"))
+             )pbdoc", py::arg("axis"))
         .def("overlaps", &BoundingBox3D::overlaps, R"pbdoc(
              Returns true of this box and other box overlaps.
 
              Parameters
              ----------
              - other : Other bounding box to test with.
-             )pbdoc",
-             py::arg("other"))
+             )pbdoc", py::arg("other"))
         .def("contains",
              [](const BoundingBox3D& instance, py::object point) {
                  return instance.contains(objectToVector3D(point));
@@ -621,22 +613,22 @@ void addBoundingBox3D(pybind11::module& m) {
              Parameters
              ----------
              - delta : Amount to expand.
-             )pbdoc",
-             py::arg("delta"))
+             )pbdoc", py::arg("delta"))
         .def("corner", &BoundingBox3D::corner, R"pbdoc(
              Returns corner position. Index starts from x-first order.
 
              Parameters
              ----------
              - idx : Index of the corner.
-             )pbdoc",
-             py::arg("idx"))
+             )pbdoc", py::arg("idx"))
         .def("clamp", &BoundingBox3D::clamp, R"pbdoc(
              Returns the clamped point.
 
              Parameters
              ----------
              - point : Point to clamp.
-             )pbdoc",
-             py::arg("point"));
+             )pbdoc", py::arg("point"))
+        .def("isEmpty", &BoundingBox3D::isEmpty, R"pbdoc(
+             Returns true if the box is empty.
+             )pbdoc");
 }
