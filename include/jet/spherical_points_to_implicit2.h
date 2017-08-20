@@ -27,6 +27,10 @@ class SphericalPointsToImplicit2 final : public PointsToImplicit2 {
     double _radius = 1.0;
 };
 
+//! Shared pointer type for SphericalPointsToImplicit2.
+typedef std::shared_ptr<SphericalPointsToImplicit2>
+    SphericalPointsToImplicit2Ptr;
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_SPHERICAL_POINTS_TO_IMPLICIT2_H_

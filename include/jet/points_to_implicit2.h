@@ -11,6 +11,8 @@
 #include <jet/scalar_grid2.h>
 #include <jet/vector2.h>
 
+#include <memory>
+
 namespace jet {
 
 //! Abstract base class for 2-D points-to-implicit converters.

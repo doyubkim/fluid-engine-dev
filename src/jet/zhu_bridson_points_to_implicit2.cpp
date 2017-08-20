@@ -50,6 +50,7 @@ void ZhuBridsonPointsToImplicit2::convert(
         double wSum = 0.0;
         const auto func = [&](size_t, const Vector2D& xi) {
             const double wi = k((x - xi).length() / _kernelRadius);
+
             wSum += wi;
             xAvg += wi * xi;
         };

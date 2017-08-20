@@ -11,6 +11,8 @@
 #include <jet/scalar_grid3.h>
 #include <jet/vector3.h>
 
+#include <memory>
+
 namespace jet {
 
 //! Abstract base class for 3-D points-to-implicit converters.

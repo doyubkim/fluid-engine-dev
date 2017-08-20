@@ -33,6 +33,9 @@ class SphPointsToImplicit3 final : public PointsToImplicit3 {
     double _cutOffDensity = 0.5;
 };
 
+//! Shared pointer type for SphPointsToImplicit3 class.
+typedef std::shared_ptr<SphPointsToImplicit3> SphPointsToImplicit3Ptr;
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_SPH_POINTS_TO_IMPLICIT3_H_
