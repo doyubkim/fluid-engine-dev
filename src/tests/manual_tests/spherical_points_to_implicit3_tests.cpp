@@ -28,7 +28,7 @@ JET_BEGIN_TEST_F(SphericalPointsToImplicit3, ConvertTwo) {
     VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
                                    1.0 / 128);
 
-    SphericalPointsToImplicit3 converter(0.1);
+    SphericalPointsToImplicit3 converter(0.15);
     converter.convert(points.constAccessor(), &grid);
 
     TriangleMesh3 triMesh;

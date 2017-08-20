@@ -28,7 +28,7 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertTwo) {
     VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
                                    1.0 / 128);
 
-    ZhuBridsonPointsToImplicit3 converter(0.2, 0.25);
+    ZhuBridsonPointsToImplicit3 converter(0.6, 0.25);
     converter.convert(points.constAccessor(), &grid);
 
     TriangleMesh3 triMesh;

@@ -33,7 +33,7 @@ def main():
     converter.convert(points.tolist(), grid)
     plt.contour(grid.dataAccessor(), levels=[0.0], colors=("b"))
 
-    converter = ZhuBridsonPointsToImplicit2(2.0 * kernel_radius, 0.6 * cutoff)
+    converter = ZhuBridsonPointsToImplicit2(2.0 * kernel_radius, 0.5 * cutoff)
     converter.convert(points.tolist(), grid)
     plt.contour(grid.dataAccessor(), levels=[0.0], colors=("purple"))
 

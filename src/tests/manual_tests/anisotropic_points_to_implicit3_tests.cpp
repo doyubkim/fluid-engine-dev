@@ -28,7 +28,7 @@ JET_BEGIN_TEST_F(AnisotropicPointsToImplicit3, ConvertTwo) {
     VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
                                    1.0 / 128);
 
-    AnisotropicPointsToImplicit3 converter(0.1);
+    AnisotropicPointsToImplicit3 converter(0.3);
     converter.convert(points.constAccessor(), &grid);
 
     TriangleMesh3 triMesh;
