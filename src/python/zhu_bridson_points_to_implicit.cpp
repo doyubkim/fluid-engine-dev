@@ -22,7 +22,7 @@ void addZhuBridsonPointsToImplicit2(pybind11::module& m) {
         \see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
              ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off threshold.
 
@@ -30,8 +30,10 @@ void addZhuBridsonPointsToImplicit2(pybind11::module& m) {
              ----------
              - kernelRadius : Smoothing kernel radius.
              - cutOffThreshold : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25,
+             py::arg("isOutputSdf") = true);
 }
 
 void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
@@ -43,7 +45,7 @@ void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
         \see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
              ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off threshold.
 
@@ -51,6 +53,8 @@ void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
              ----------
              - kernelRadius : Smoothing kernel radius.
              - cutOffThreshold : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25,
+             py::arg("isOutputSdf") = true);
 }

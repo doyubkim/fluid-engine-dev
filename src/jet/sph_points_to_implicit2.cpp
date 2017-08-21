@@ -13,8 +13,11 @@
 using namespace jet;
 
 SphPointsToImplicit2::SphPointsToImplicit2(double kernelRadius,
-                                           double cutOffDensity)
-    : _kernelRadius(kernelRadius), _cutOffDensity(cutOffDensity) {}
+                                           double cutOffDensity,
+                                           bool isOutputSdf)
+    : _kernelRadius(kernelRadius),
+      _cutOffDensity(cutOffDensity),
+      _isOutputSdf(isOutputSdf) {}
 
 void SphPointsToImplicit2::convert(const ConstArrayAccessor1<Vector2D>& points,
                                    ScalarGrid2* output) const {
@@ -48,6 +51,10 @@ void SphPointsToImplicit2::convert(const ConstArrayAccessor1<Vector2D>& points,
         return _cutOffDensity - d;
     });
 
-    FmmLevelSetSolver2 solver;
-    solver.reinitialize(*temp, kMaxD, output);
+    if (_isOutputSdf) {
+        FmmLevelSetSolver2 solver;
+        solver.reinitialize(*temp, kMaxD, output);
+    } else {
+        temp->swap(output);
+    }
 }

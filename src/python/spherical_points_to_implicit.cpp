@@ -19,15 +19,16 @@ void addSphericalPointsToImplicit2(pybind11::module& m) {
                                               R"pbdoc(
         2-D points-to-implicit converter based on simple sphere model.
         )pbdoc")
-        .def(py::init<double>(),
+        .def(py::init<double, bool>(),
              R"pbdoc(
              Constructs the converter with given sphere radius.
 
              Parameters
              ----------
              - radius : Sphere radius.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("radius") = 1.0);
+             py::arg("radius") = 1.0, py::arg("isOutputSdf") = true);
 }
 
 void addSphericalPointsToImplicit3(pybind11::module& m) {
@@ -36,13 +37,14 @@ void addSphericalPointsToImplicit3(pybind11::module& m) {
                                               R"pbdoc(
         3-D points-to-implicit converter based on simple sphere model.
         )pbdoc")
-        .def(py::init<double>(),
+        .def(py::init<double, bool>(),
              R"pbdoc(
              Constructs the converter with given sphere radius.
 
              Parameters
              ----------
              - radius : Sphere radius.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("radius") = 1.0);
+             py::arg("radius") = 1.0, py::arg("isOutputSdf") = true);
 }

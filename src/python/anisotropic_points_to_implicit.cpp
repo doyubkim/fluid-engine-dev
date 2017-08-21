@@ -24,7 +24,7 @@ void addAnisotropicPointsToImplicit2(pybind11::module& m) {
              fluids using anisotropic kernels." ACM Transactions on Graphics (TOG)
              32.1 (2013): 5.
         )pbdoc")
-        .def(py::init<double, double, double, size_t>(),
+        .def(py::init<double, double, double, size_t, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 
@@ -34,10 +34,11 @@ void addAnisotropicPointsToImplicit2(pybind11::module& m) {
              - cutOffDensity : Iso-contour value.
              - positionSmoothingFactor : Position smoothing factor.
              - minNumNeighbors : Minimum number of neighbors to enable anisotropic kernel.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
              py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
              py::arg("positionSmoothingFactor") = 0.95,
-             py::arg("minNumNeighbors") = 8);
+             py::arg("minNumNeighbors") = 8, py::arg("isOutputSdf") = true);
 }
 
 void addAnisotropicPointsToImplicit3(pybind11::module& m) {
@@ -51,7 +52,7 @@ void addAnisotropicPointsToImplicit3(pybind11::module& m) {
              fluids using anisotropic kernels." ACM Transactions on Graphics (TOG)
              32.1 (2013): 5.
         )pbdoc")
-        .def(py::init<double, double, double, size_t>(),
+        .def(py::init<double, double, double, size_t, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 
@@ -61,8 +62,9 @@ void addAnisotropicPointsToImplicit3(pybind11::module& m) {
              - cutOffDensity : Iso-contour value.
              - positionSmoothingFactor : Position smoothing factor.
              - minNumNeighbors : Minimum number of neighbors to enable anisotropic kernel.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
              py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
              py::arg("positionSmoothingFactor") = 0.95,
-             py::arg("minNumNeighbors") = 25);
+             py::arg("minNumNeighbors") = 25, py::arg("isOutputSdf") = true);
 }

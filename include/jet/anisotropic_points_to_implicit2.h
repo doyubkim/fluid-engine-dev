@@ -37,7 +37,8 @@ class AnisotropicPointsToImplicit2 final : public PointsToImplicit2 {
     AnisotropicPointsToImplicit2(double kernelRadius = 1.0,
                                  double cutOffDensity = 0.5,
                                  double positionSmoothingFactor = 0.0,
-                                 size_t minNumNeighbors = 8);
+                                 size_t minNumNeighbors = 8,
+                                 bool isOutputSdf = true);
 
     //! Converts the given points to implicit surface scalar field.
     void convert(const ConstArrayAccessor1<Vector2D>& points,
@@ -48,6 +49,7 @@ class AnisotropicPointsToImplicit2 final : public PointsToImplicit2 {
     double _cutOffDensity = 0.5;
     double _positionSmoothingFactor = 0.0;
     size_t _minNumNeighbors = 8;
+    bool _isOutputSdf = true;
 };
 
 //! Shared pointer for the AnisotropicPointsToImplicit2 type.

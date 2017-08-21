@@ -47,11 +47,12 @@ inline double w(const Vector2D& r, const Matrix2x2D& g, double gDet) {
 
 AnisotropicPointsToImplicit2::AnisotropicPointsToImplicit2(
     double kernelRadius, double cutOffDensity, double positionSmoothingFactor,
-    size_t minNumNeighbors)
+    size_t minNumNeighbors, bool isOutputSdf)
     : _kernelRadius(kernelRadius),
       _cutOffDensity(cutOffDensity),
       _positionSmoothingFactor(positionSmoothingFactor),
-      _minNumNeighbors(minNumNeighbors) {}
+      _minNumNeighbors(minNumNeighbors),
+      _isOutputSdf(isOutputSdf) {}
 
 void AnisotropicPointsToImplicit2::convert(
     const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
@@ -175,6 +176,10 @@ void AnisotropicPointsToImplicit2::convert(
         return _cutOffDensity - sum;
     });
 
-    FmmLevelSetSolver2 solver;
-    solver.reinitialize(*temp, kMaxD, output);
+    if (_isOutputSdf) {
+        FmmLevelSetSolver2 solver;
+        solver.reinitialize(*temp, kMaxD, output);
+    } else {
+        temp->swap(output);
+    }
 }

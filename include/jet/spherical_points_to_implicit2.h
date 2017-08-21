@@ -17,7 +17,7 @@ namespace jet {
 class SphericalPointsToImplicit2 final : public PointsToImplicit2 {
  public:
     //! Constructs the converter with given sphere radius.
-    SphericalPointsToImplicit2(double radius = 1.0);
+    SphericalPointsToImplicit2(double radius = 1.0, bool isOutputSdf = true);
 
     //! Converts the given points to implicit surface scalar field.
     void convert(const ConstArrayAccessor1<Vector2D>& points,
@@ -25,6 +25,7 @@ class SphericalPointsToImplicit2 final : public PointsToImplicit2 {
 
  private:
     double _radius = 1.0;
+    bool _isOutputSdf = true;
 };
 
 //! Shared pointer type for SphericalPointsToImplicit2.

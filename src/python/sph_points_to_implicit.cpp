@@ -24,7 +24,7 @@ void addSphPointsToImplicit2(pybind11::module& m) {
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 
@@ -32,8 +32,10 @@ void addSphPointsToImplicit2(pybind11::module& m) {
              ----------
              - kernelRadius : SPH kernel radius.
              - cutOffDensity : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
+             py::arg("isOutputSdf") = true);
 }
 
 void addSphPointsToImplicit3(pybind11::module& m) {
@@ -47,7 +49,7 @@ void addSphPointsToImplicit3(pybind11::module& m) {
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 
@@ -55,6 +57,8 @@ void addSphPointsToImplicit3(pybind11::module& m) {
              ----------
              - kernelRadius : SPH kernel radius.
              - cutOffDensity : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
+             py::arg("isOutputSdf") = true);
 }
