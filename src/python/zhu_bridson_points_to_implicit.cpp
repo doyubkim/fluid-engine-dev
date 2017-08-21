@@ -30,8 +30,10 @@ void addZhuBridsonPointsToImplicit2(pybind11::module& m) {
              ----------
              - kernelRadius : Smoothing kernel radius.
              - cutOffThreshold : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25,
+             py::arg("isOutputSdf") = true);
 }
 
 void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
@@ -51,6 +53,8 @@ void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
              ----------
              - kernelRadius : Smoothing kernel radius.
              - cutOffThreshold : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffThreshold") = 0.25,
+             py::arg("isOutputSdf") = true);
 }

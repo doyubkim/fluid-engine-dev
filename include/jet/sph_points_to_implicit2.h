@@ -22,7 +22,8 @@ namespace jet {
 class SphPointsToImplicit2 final : public PointsToImplicit2 {
  public:
     //! Constructs the converter with given kernel radius and cut-off density.
-    SphPointsToImplicit2(double kernelRadius = 1.0, double cutOffDensity = 0.5);
+    SphPointsToImplicit2(double kernelRadius = 1.0, double cutOffDensity = 0.5,
+                         bool isOutputSdf = true);
 
     //! Converts the given points to implicit surface scalar field.
     void convert(const ConstArrayAccessor1<Vector2D>& points,
@@ -31,6 +32,7 @@ class SphPointsToImplicit2 final : public PointsToImplicit2 {
  private:
     double _kernelRadius = 1.0;
     double _cutOffDensity = 0.5;
+    bool _isOutputSdf = true;
 };
 
 //! Shared pointer type for SphPointsToImplicit2 class.

@@ -48,11 +48,12 @@ inline double w(const Vector3D& r, const Matrix3x3D& g, double gDet) {
 
 AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(
     double kernelRadius, double cutOffDensity, double positionSmoothingFactor,
-    size_t minNumNeighbors)
+    size_t minNumNeighbors, bool isOutputSdf)
     : _kernelRadius(kernelRadius),
       _cutOffDensity(cutOffDensity),
       _positionSmoothingFactor(positionSmoothingFactor),
-      _minNumNeighbors(minNumNeighbors) {}
+      _minNumNeighbors(minNumNeighbors),
+      _isOutputSdf(isOutputSdf) {}
 
 void AnisotropicPointsToImplicit3::convert(
     const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
@@ -177,6 +178,10 @@ void AnisotropicPointsToImplicit3::convert(
         return _cutOffDensity - sum;
     });
 
-    FmmLevelSetSolver3 solver;
-    solver.reinitialize(*temp, kMaxD, output);
+    if (_isOutputSdf) {
+        FmmLevelSetSolver3 solver;
+        solver.reinitialize(*temp, kMaxD, output);
+    } else {
+        temp->swap(output);
+    }
 }

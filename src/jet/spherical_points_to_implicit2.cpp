@@ -12,8 +12,9 @@
 
 using namespace jet;
 
-SphericalPointsToImplicit2::SphericalPointsToImplicit2(double radius)
-    : _radius(radius) {}
+SphericalPointsToImplicit2::SphericalPointsToImplicit2(double radius,
+                                                       bool isOutputSdf)
+    : _radius(radius), _isOutputSdf(isOutputSdf) {}
 
 void SphericalPointsToImplicit2::convert(
     const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
@@ -51,6 +52,10 @@ void SphericalPointsToImplicit2::convert(
         return minDist - _radius;
     });
 
-    FmmLevelSetSolver2 solver;
-    solver.reinitialize(*temp, kMaxD, output);
+    if (_isOutputSdf) {
+        FmmLevelSetSolver2 solver;
+        solver.reinitialize(*temp, kMaxD, output);
+    } else {
+        temp->swap(output);
+    }
 }

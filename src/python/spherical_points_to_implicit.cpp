@@ -26,8 +26,9 @@ void addSphericalPointsToImplicit2(pybind11::module& m) {
              Parameters
              ----------
              - radius : Sphere radius.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("radius") = 1.0);
+             py::arg("radius") = 1.0, py::arg("isOutputSdf") = true);
 }
 
 void addSphericalPointsToImplicit3(pybind11::module& m) {
@@ -43,6 +44,7 @@ void addSphericalPointsToImplicit3(pybind11::module& m) {
              Parameters
              ----------
              - radius : Sphere radius.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("radius") = 1.0);
+             py::arg("radius") = 1.0, py::arg("isOutputSdf") = true);
 }

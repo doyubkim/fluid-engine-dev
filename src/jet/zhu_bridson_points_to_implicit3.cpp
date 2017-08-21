@@ -15,8 +15,11 @@ using namespace jet;
 inline double k(double s) { return std::max(0.0, cubic(1.0 - s * s)); }
 
 ZhuBridsonPointsToImplicit3::ZhuBridsonPointsToImplicit3(double kernelRadius,
-                                                         double cutOffThreshold)
-    : _kernelRadius(kernelRadius), _cutOffThreshold(cutOffThreshold) {}
+                                                         double cutOffThreshold,
+                                                         bool isOutputSdf)
+    : _kernelRadius(kernelRadius),
+      _cutOffThreshold(cutOffThreshold),
+      _isOutputSdf(isOutputSdf) {}
 
 void ZhuBridsonPointsToImplicit3::convert(
     const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
@@ -63,6 +66,10 @@ void ZhuBridsonPointsToImplicit3::convert(
         }
     });
 
-    FmmLevelSetSolver3 solver;
-    solver.reinitialize(*temp, kMaxD, output);
+    if (_isOutputSdf) {
+        FmmLevelSetSolver3 solver;
+        solver.reinitialize(*temp, kMaxD, output);
+    } else {
+        temp->swap(output);
+    }
 }

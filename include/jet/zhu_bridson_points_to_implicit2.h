@@ -21,7 +21,8 @@ class ZhuBridsonPointsToImplicit2 final : public PointsToImplicit2 {
  public:
     //! Constructs the converter with given kernel radius and cut-off threshold.
     ZhuBridsonPointsToImplicit2(double kernelRadius = 1.0,
-                                double cutOffThreshold = 0.25);
+                                double cutOffThreshold = 0.25,
+                                bool isOutputSdf = true);
 
     //! Converts the given points to implicit surface scalar field.
     void convert(const ConstArrayAccessor1<Vector2D>& points,
@@ -30,6 +31,7 @@ class ZhuBridsonPointsToImplicit2 final : public PointsToImplicit2 {
  private:
     double _kernelRadius = 1.0;
     double _cutOffThreshold = 0.25;
+    bool _isOutputSdf = true;
 };
 
 //! Shared pointer type for ZhuBridsonPointsToImplicit2 class

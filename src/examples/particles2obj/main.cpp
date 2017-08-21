@@ -79,16 +79,17 @@ void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
                     const std::string& objFilename) {
     PointsToImplicit3Ptr converter;
     if (method == kSpherical) {
-        converter =
-            std::make_shared<SphericalPointsToImplicit3>(0.5 * kernelRadius);
+        converter = std::make_shared<SphericalPointsToImplicit3>(
+            0.5 * kernelRadius, false);
     } else if (method == kSph) {
-        converter = std::make_shared<SphPointsToImplicit3>(kernelRadius, 0.5);
+        converter =
+            std::make_shared<SphPointsToImplicit3>(kernelRadius, 0.5, false);
     } else if (method == kZhuBridson) {
         converter = std::make_shared<ZhuBridsonPointsToImplicit3>(
-            2.0 * kernelRadius, 0.25);
+            2.0 * kernelRadius, 0.25, false);
     } else {
-        converter =
-            std::make_shared<AnisotropicPointsToImplicit3>(kernelRadius);
+        converter = std::make_shared<AnisotropicPointsToImplicit3>(
+            kernelRadius, 0.5, 0.1, 25, false);
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);

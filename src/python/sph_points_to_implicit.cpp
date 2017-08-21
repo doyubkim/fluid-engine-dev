@@ -32,8 +32,10 @@ void addSphPointsToImplicit2(pybind11::module& m) {
              ----------
              - kernelRadius : SPH kernel radius.
              - cutOffDensity : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
+             py::arg("isOutputSdf") = true);
 }
 
 void addSphPointsToImplicit3(pybind11::module& m) {
@@ -55,6 +57,8 @@ void addSphPointsToImplicit3(pybind11::module& m) {
              ----------
              - kernelRadius : SPH kernel radius.
              - cutOffDensity : Iso-contour value.
+             - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
-             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5);
+             py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
+             py::arg("isOutputSdf") = true);
 }
