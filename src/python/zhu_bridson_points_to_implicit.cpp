@@ -22,7 +22,7 @@ void addZhuBridsonPointsToImplicit2(pybind11::module& m) {
         \see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
              ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off threshold.
 
@@ -45,7 +45,7 @@ void addZhuBridsonPointsToImplicit3(pybind11::module& m) {
         \see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
              ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off threshold.
 

@@ -24,7 +24,7 @@ void addSphPointsToImplicit2(pybind11::module& m) {
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 
@@ -49,7 +49,7 @@ void addSphPointsToImplicit3(pybind11::module& m) {
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
         )pbdoc")
-        .def(py::init<double, double>(),
+        .def(py::init<double, double, bool>(),
              R"pbdoc(
              Constructs the converter with given kernel radius and cut-off density.
 

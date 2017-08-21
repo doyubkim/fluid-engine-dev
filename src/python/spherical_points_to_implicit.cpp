@@ -19,7 +19,7 @@ void addSphericalPointsToImplicit2(pybind11::module& m) {
                                               R"pbdoc(
         2-D points-to-implicit converter based on simple sphere model.
         )pbdoc")
-        .def(py::init<double>(),
+        .def(py::init<double, bool>(),
              R"pbdoc(
              Constructs the converter with given sphere radius.
 
@@ -37,7 +37,7 @@ void addSphericalPointsToImplicit3(pybind11::module& m) {
                                               R"pbdoc(
         3-D points-to-implicit converter based on simple sphere model.
         )pbdoc")
-        .def(py::init<double>(),
+        .def(py::init<double, bool>(),
              R"pbdoc(
              Constructs the converter with given sphere radius.
 

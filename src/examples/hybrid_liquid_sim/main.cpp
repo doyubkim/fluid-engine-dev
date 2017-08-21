@@ -482,9 +482,9 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
     pointGenerator.forEachPoint(
         BoundingBox3D({0.75, 0, 0}, {1, 1, 1}), 0.5 * solver->gridSpacing().x,
         [&](const Vector3D& pt) -> bool {
+            Vector3D newPos = pt + Vector3D{dist(rng), dist(rng), dist(rng)};
             if ((pt - Vector3D{0.5, 0.5, 0.5}).length() < 0.4) {
-                solver->particleSystemData()->addParticle(
-                    pt + Vector3D{dist(rng), dist(rng), dist(rng)});
+                solver->particleSystemData()->addParticle(newPos);
             }
             return true;
         });
