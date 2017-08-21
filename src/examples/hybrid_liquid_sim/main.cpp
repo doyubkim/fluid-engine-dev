@@ -73,7 +73,7 @@ void printUsage() {
         "   -o, --output: output directory name "
         "(default is " APP_NAME
         "_output)\n"
-        "   -e, --example: example number (between 1 and 5, default is 1)\n"
+        "   -e, --example: example number (between 1 and 6, default is 1)\n"
         "   -m, --format: particle output format (xyz or pos. default is xyz)\n"
         "   -h, --help: print this message\n");
 }
@@ -476,13 +476,20 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
 
     // Manually emit particles
     std::mt19937 rng;
-    std::uniform_real_distribution<> dist(0, 1);
-    for (size_t i = 0; i < 8 * resolutionX * resolutionX * resolutionX; ++i) {
-        Vector3D pt{dist(rng), dist(rng), dist(rng)};
-        if ((pt - sphere->center).length() < sphere->radius && pt.x > 0.5) {
-            solver->particleSystemData()->addParticle(pt);
-        }
-    }
+    std::uniform_real_distribution<> dist(-0.1 * solver->gridSpacing().x,
+                                          0.1 * solver->gridSpacing().x);
+    BccLatticePointGenerator pointGenerator;
+    pointGenerator.forEachPoint(
+        BoundingBox3D({0.75, 0, 0}, {1, 1, 1}), 0.5 * solver->gridSpacing().x,
+        [&](const Vector3D& pt) -> bool {
+            if ((pt - Vector3D{0.5, 0.5, 0.5}).length() < 0.4) {
+                solver->particleSystemData()->addParticle(
+                    pt + Vector3D{dist(rng), dist(rng), dist(rng)});
+            }
+            return true;
+        });
+    printf("Number of particles: %zu\n",
+           solver->particleSystemData()->numberOfParticles());
 
     // Print simulation info
     printf("Running example 6 (sphere boundary with APIC)\n");
