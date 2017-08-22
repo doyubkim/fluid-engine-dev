@@ -24,7 +24,7 @@ class Bvh3 : public ::benchmark::Fixture {
     TriangleMesh3 triMesh;
     jet::Bvh3<Triangle3> queryEngine;
 
-    void SetUp(const ::benchmark::State& st) {
+    void SetUp(const ::benchmark::State&) {
         std::ifstream file(RESOURCES_DIR "bunny.obj");
 
         if (file) {

@@ -18,7 +18,7 @@ class TriangleMesh3 : public ::benchmark::Fixture {
     std::uniform_real_distribution<> dist{0.0, 1.0};
     jet::TriangleMesh3 triMesh;
 
-    void SetUp(const ::benchmark::State& state) {
+    void SetUp(const ::benchmark::State&) {
         std::ifstream file(RESOURCES_DIR "bunny.obj");
 
         if (file) {

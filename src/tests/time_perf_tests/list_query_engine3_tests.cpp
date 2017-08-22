@@ -24,7 +24,7 @@ class ListQueryEngine3 : public ::benchmark::Fixture {
     TriangleMesh3 triMesh;
     jet::ListQueryEngine3<Triangle3> queryEngine;
 
-    void SetUp(const ::benchmark::State& state) {
+    void SetUp(const ::benchmark::State&) {
         std::ifstream file(RESOURCES_DIR "bunny.obj");
 
         if (file) {

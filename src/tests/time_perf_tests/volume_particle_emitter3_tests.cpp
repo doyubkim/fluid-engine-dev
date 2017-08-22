@@ -20,7 +20,7 @@ class VolumeParticleEmitter3 : public ::benchmark::Fixture {
  protected:
     jet::VolumeParticleEmitter3Ptr emitter;
 
-    void SetUp(const ::benchmark::State& state) {
+    void SetUp(const ::benchmark::State&) {
         double dx = 0.2;
         double lx = 30.0;
         double ly = 30.0;
