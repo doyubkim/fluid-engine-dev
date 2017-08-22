@@ -97,7 +97,7 @@ bin\Release\unit_tests.exe
 
 ### Running Tests
 
-There are four different tests in the codebase including the unit test, manual test, performance test, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
+There are four different tests in the codebase including the unit test, manual test, time/memory performance tests, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
 
 ### Installing C++ SDK
 
