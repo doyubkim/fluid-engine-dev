@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <perf_tests.h>
+#include "mem_perf_tests.h"
 #include <jet/array1.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>

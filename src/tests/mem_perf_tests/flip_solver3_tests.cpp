@@ -4,19 +4,19 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <perf_tests.h>
-#include <jet/grid_fluid_solver3.h>
+#include "mem_perf_tests.h"
+#include <jet/flip_solver3.h>
 #include <jet/timer.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(GridFluidSolver3, Memory) {
+TEST(FlipSolver3, Memory) {
     const size_t n = 300;
 
     const size_t mem0 = getCurrentRSS();
 
-    auto solver = GridFluidSolver3::builder()
+    auto solver = FlipSolver3::builder()
         .withResolution({n, n, n})
         .makeShared();
 

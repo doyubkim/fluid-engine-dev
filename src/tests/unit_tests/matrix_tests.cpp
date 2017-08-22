@@ -9,7 +9,26 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
+
 using namespace jet;
+
+namespace jet {
+
+template <typename T, size_t M, size_t N>
+std::ostream& operator<<(std::ostream& os, const Matrix<T, M, N>& mat) {
+    for (size_t i = 0; i < mat.rows(); ++i) {
+        for (size_t j = 0; j < mat.cols(); ++j) {
+            os << mat(i, j);
+            if (j + 1 < mat.cols()) {
+                os << std::string(", ");
+            }
+        }
+        os << std::endl;
+    }
+    return os;
+}
+}  // namespace jet
 
 TEST(Matrix, Constructors) {
     Matrix<double, 2, 3> mat;
@@ -311,22 +330,22 @@ TEST(Matrix, ComplexGetters) {
     Matrix<double, 5, 5> matI = matC;
     Matrix<double, 5, 5> mat2I = matI.inverse();
     Matrix<double, 5, 5> ansI = {
-            {0.260345, -0.0484326, -0.300157, 0.109404, 0.300627},
-            {-0.215517, -0.138715, 0.188871, 0.167712, -0.255486},
-            {0.294828, 0.108307, -0.315831, 0.0498433, 0.363323},
-            {-0.25, -0.0227273, 0.477273, -0.136364, -0.409091},
-            {0.0827586, -0.0238245, -0.0376176, 0.0570533, -0.0495298}};
+        {0.260345, -0.0484326, -0.300157, 0.109404, 0.300627},
+        {-0.215517, -0.138715, 0.188871, 0.167712, -0.255486},
+        {0.294828, 0.108307, -0.315831, 0.0498433, 0.363323},
+        {-0.25, -0.0227273, 0.477273, -0.136364, -0.409091},
+        {0.0827586, -0.0238245, -0.0376176, 0.0570533, -0.0495298}};
     EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-6));
 
     matI = {{1.0, 2.0, 3.0}, {0.0, 1.0, 4.0}, {5.0, 6.0, 0.0}};
     mat2I = matI.inverse();
     ansI = {{-24.0, 18.0, 5.0}, {20.0, -15.0, -4.0}, {-5.0, 4.0, 1.0}};
-    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9));
+    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9)) << mat2I;
 
     matI = {{0.0, 1.0, 4.0}, {1.0, 2.0, 3.0}, {5.0, 6.0, 0.0}};
     mat2I = matI.inverse();
     ansI = {{18.0, -24.0, 5.0}, {-15.0, 20.0, -4.0}, {4.0, -5.0, 1.0}};
-    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9));
+    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9)) << mat2I;
 }
 
 TEST(Matrix, Modifiers) {

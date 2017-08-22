@@ -7,7 +7,7 @@
 #
 
 # Target name
-set(target perf_tests)
+set(target mem_perf_tests)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

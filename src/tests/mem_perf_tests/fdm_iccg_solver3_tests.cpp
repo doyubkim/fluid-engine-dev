@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <perf_tests.h>
+#include "mem_perf_tests.h"
 #include <jet/fdm_iccg_solver3.h>
 #include <jet/timer.h>
 #include <gtest/gtest.h>

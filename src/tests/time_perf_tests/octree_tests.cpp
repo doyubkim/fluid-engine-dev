@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/bvh3.h>
+#include <jet/octree.h>
 #include <jet/triangle_mesh3.h>
 
 #include <benchmark/benchmark.h>
@@ -17,12 +17,12 @@ using jet::BoundingBox3D;
 using jet::Vector3D;
 using jet::Ray3D;
 
-class Bvh3 : public ::benchmark::Fixture {
+class Octree : public ::benchmark::Fixture {
  public:
     std::mt19937 rng{0};
     std::uniform_real_distribution<> dist{0.0, 1.0};
     TriangleMesh3 triMesh;
-    jet::Bvh3<Triangle3> bvh;
+    jet::Octree<Triangle3> queryEngine;
 
     void SetUp(const ::benchmark::State& st) {
         std::ifstream file(RESOURCES_DIR "bunny.obj");
@@ -33,14 +33,20 @@ class Bvh3 : public ::benchmark::Fixture {
         }
 
         std::vector<Triangle3> triangles;
-        std::vector<BoundingBox3D> bounds;
+        BoundingBox3D bound;
         for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
             auto tri = triMesh.triangle(i);
             triangles.push_back(tri);
-            bounds.push_back(tri.boundingBox());
+            bound.merge(tri.boundingBox());
         }
 
-        bvh.build(triangles, bounds);
+        const auto triBoxTestFunc = [](const Triangle3& tri,
+                                       const BoundingBox3D& box) {
+            // TODO: Implement actual intersecting test
+            return tri.boundingBox().overlaps(box);
+        };
+
+        queryEngine.build(triangles, bound, triBoxTestFunc, 6);
     }
 
     Vector3D makeVec() { return Vector3D(dist(rng), dist(rng), dist(rng)); }
@@ -54,19 +60,19 @@ class Bvh3 : public ::benchmark::Fixture {
     }
 };
 
-BENCHMARK_DEFINE_F(Bvh3, Nearest)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(Octree, Nearest)(benchmark::State& state) {
     while (state.KeepRunning()) {
-        benchmark::DoNotOptimize(bvh.nearest(makeVec(), distanceFunc));
+        benchmark::DoNotOptimize(queryEngine.nearest(makeVec(), distanceFunc));
     }
 }
 
-BENCHMARK_REGISTER_F(Bvh3, Nearest);
+BENCHMARK_REGISTER_F(Octree, Nearest);
 
-BENCHMARK_DEFINE_F(Bvh3, RayIntersects)(benchmark::State& state) {
+BENCHMARK_DEFINE_F(Octree, RayIntersects)(benchmark::State& state) {
     while (state.KeepRunning()) {
-        benchmark::DoNotOptimize(bvh.intersects(
+        benchmark::DoNotOptimize(queryEngine.intersects(
             Ray3D(makeVec(), makeVec().normalized()), intersectsFunc));
     }
 }
 
-BENCHMARK_REGISTER_F(Bvh3, RayIntersects);
+BENCHMARK_REGISTER_F(Octree, RayIntersects);
