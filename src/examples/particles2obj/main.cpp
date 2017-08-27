@@ -21,6 +21,12 @@ const std::string kSph = "sph";
 const std::string kZhuBridson = "zhu_bridson";
 const std::string kAnisotropic = "anisotropic";
 
+double sSphCutOffDensity = 0.5;
+double sZhuBridsonCutOffThreshold = 0.25;
+double sAnisoCutOffDensity = 0.5;
+double sAnisoPositionSmoothingFactor = 0.5;
+size_t sAnisoMinNumNeighbors = 25;
+
 void printUsage() {
     printf(
         "Usage: particles2obj "
@@ -37,7 +43,8 @@ void printUsage() {
         "(default: 0.01,0.01,0.01)\n"
         "   -n, --origin: domain origin in CSV format (default: 0,0,0)\n"
         "   -m, --method: spherical, sph, zhu_bridson, and anisotropic "
-        "(default: anisotropic)\n"
+        "followed by optional method-dependant parameters (default: "
+        "anisotropic)\n"
         "   -k, --kernel: interpolation kernel radius (default: 0.2)\n"
         "   -h, --help: print this message\n");
 }
@@ -79,17 +86,18 @@ void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
                     const std::string& objFilename) {
     PointsToImplicit3Ptr converter;
     if (method == kSpherical) {
-        converter = std::make_shared<SphericalPointsToImplicit3>(
-            0.5 * kernelRadius, false);
-    } else if (method == kSph) {
         converter =
-            std::make_shared<SphPointsToImplicit3>(kernelRadius, 0.5, false);
+            std::make_shared<SphericalPointsToImplicit3>(kernelRadius, false);
+    } else if (method == kSph) {
+        converter = std::make_shared<SphPointsToImplicit3>(
+            kernelRadius, sSphCutOffDensity, false);
     } else if (method == kZhuBridson) {
         converter = std::make_shared<ZhuBridsonPointsToImplicit3>(
-            2.0 * kernelRadius, 0.25, false);
+            kernelRadius, sZhuBridsonCutOffThreshold, false);
     } else {
         converter = std::make_shared<AnisotropicPointsToImplicit3>(
-            kernelRadius, 0.5, 0.1, 25, false);
+            kernelRadius, sAnisoCutOffDensity, sAnisoPositionSmoothingFactor,
+            sAnisoMinNumNeighbors, false);
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
@@ -177,16 +185,39 @@ int main(int argc, char* argv[]) {
                 kernelRadius = atof(optarg);
                 break;
             }
-            case 'm':
-                if (optarg == kSpherical || optarg == kSph ||
-                    optarg == kZhuBridson || optarg == kAnisotropic) {
-                    method = optarg;
+            case 'm': {
+                std::vector<std::string> tokens;
+                pystring::split(optarg, tokens, ",");
+
+                method = tokens[0];
+
+                if (method == kSpherical) {
+                    // No other options accepted
+                } else if (method == kSph) {
+                    if (tokens.size() > 1) {
+                        sSphCutOffDensity = atof(tokens[1].c_str());
+                    }
+                } else if (method == kZhuBridson) {
+                    if (tokens.size() > 1) {
+                        sZhuBridsonCutOffThreshold = atof(tokens[1].c_str());
+                    }
+                } else if (method == kAnisotropic) {
+                    if (tokens.size() > 1) {
+                        sAnisoCutOffDensity = atof(tokens[1].c_str());
+                    }
+                    if (tokens.size() > 2) {
+                        sAnisoPositionSmoothingFactor = atof(tokens[2].c_str());
+                    }
+                    if (tokens.size() > 3) {
+                        sAnisoMinNumNeighbors = (size_t)atoi(tokens[3].c_str());
+                    }
                 } else {
-                    fprintf(stderr, "Unknown method %s.\n", optarg);
+                    fprintf(stderr, "Unknown method %s.\n", method.c_str());
                     printUsage();
                     exit(EXIT_SUCCESS);
                 }
                 break;
+            }
             case 'h':
                 printUsage();
                 exit(EXIT_SUCCESS);

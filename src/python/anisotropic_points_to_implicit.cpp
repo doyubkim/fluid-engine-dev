@@ -37,7 +37,7 @@ void addAnisotropicPointsToImplicit2(pybind11::module& m) {
              - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
              py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
-             py::arg("positionSmoothingFactor") = 0.95,
+             py::arg("positionSmoothingFactor") = 0.5,
              py::arg("minNumNeighbors") = 8, py::arg("isOutputSdf") = true);
 }
 
@@ -65,6 +65,6 @@ void addAnisotropicPointsToImplicit3(pybind11::module& m) {
              - isOutputSdf : True if the output should be signed-distance field.
              )pbdoc",
              py::arg("kernelRadius") = 1.0, py::arg("cutOffDensity") = 0.5,
-             py::arg("positionSmoothingFactor") = 0.95,
+             py::arg("positionSmoothingFactor") = 0.5,
              py::arg("minNumNeighbors") = 25, py::arg("isOutputSdf") = true);
 }
