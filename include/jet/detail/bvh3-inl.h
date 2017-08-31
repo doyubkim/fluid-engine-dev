@@ -22,7 +22,7 @@ Bvh3<T>::Node::Node() : flags(0) {
 
 template <typename T>
 void Bvh3<T>::Node::initLeaf(size_t it, const BoundingBox3D& b) {
-    flags |= 3;
+    flags = 3;
     item = it;
     bound = b;
 }
