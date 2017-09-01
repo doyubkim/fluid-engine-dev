@@ -8,7 +8,7 @@
 
 #include <jet/anisotropic_points_to_implicit3.h>
 #include <jet/fmm_level_set_solver3.h>
-#include <jet/jet.h>
+#include <jet/point_kdtree_searcher3.h>
 #include <jet/sph_kernels3.h>
 #include <jet/sph_system_data3.h>
 #include <jet/svd.h>
@@ -74,19 +74,25 @@ void AnisotropicPointsToImplicit3::convert(
         return;
     }
 
+    JET_INFO << "Start converting points to implicit surface.";
+
     const double h = _kernelRadius;
     const double invH = 1 / h;
     const double r = 2.0 * h;
 
     // Mean estimator for cov. mat.
-    ParticleSystemData3 meanParticles;
+    const auto meanNeighborSearcher =
+        PointKdTreeSearcher3::builder().makeShared();
+    meanNeighborSearcher->build(points);
+
+    SphSystemData3 meanParticles;
     meanParticles.addParticles(points);
-    meanParticles.buildNeighborSearcher(r);
-    const auto meanNeighborSearcher = meanParticles.neighborSearcher();
+    meanParticles.setNeighborSearcher(meanNeighborSearcher);
+    meanParticles.setKernelRadius(r);
 
     // Compute G and xMean
     std::vector<Matrix3x3D> gs(points.size());
-    std::vector<Vector3D> xMeans(points.size());
+    Array1<Vector3D> xMeans(points.size());
 
     parallelFor(kZeroSize, points.size(), [&](size_t i) {
         const auto& x = points[i];
@@ -150,26 +156,19 @@ void AnisotropicPointsToImplicit3::convert(
     });
 
     // SPH estimator
-    SphSystemData3 sphParticles;
-    sphParticles.addParticles(
-        ConstArrayAccessor1<Vector3D>(xMeans.size(), xMeans.data()));
-    sphParticles.setKernelRadius(h);
-    sphParticles.buildNeighborSearcher();
-    sphParticles.updateDensities();
-    const auto d = sphParticles.densities();
-    const double m = sphParticles.mass();
+    meanParticles.setKernelRadius(h);
+    meanParticles.updateDensities();
+    const auto d = meanParticles.densities();
+    const double m = meanParticles.mass();
 
-    meanParticles.resize(0);
-    meanParticles.addParticles(
-        ConstArrayAccessor1<Vector3D>(xMeans.size(), xMeans.data()));
-    meanParticles.buildNeighborSearcher(r);
-    const auto meanNeighborSearcher3 = meanParticles.neighborSearcher();
+    PointKdTreeSearcher3 meanNeighborSearcher2;
+    meanNeighborSearcher2.build(xMeans);
 
     // Compute SDF
     auto temp = output->clone();
     temp->fill([&](const Vector3D& x) {
         double sum = 0.0;
-        meanNeighborSearcher3->forEachNearbyPoint(
+        meanNeighborSearcher2.forEachNearbyPoint(
             x, r, [&](size_t i, const Vector3D& neighborPosition) {
                 sum += m / d[i] *
                        w(neighborPosition - x, gs[i], gs[i].determinant());
@@ -184,4 +183,6 @@ void AnisotropicPointsToImplicit3::convert(
     } else {
         temp->swap(output);
     }
+
+    JET_INFO << "Done converting points to implicit surface.";
 }

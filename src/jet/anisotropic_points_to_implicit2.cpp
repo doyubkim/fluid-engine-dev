@@ -8,7 +8,7 @@
 
 #include <jet/anisotropic_points_to_implicit2.h>
 #include <jet/fmm_level_set_solver2.h>
-#include <jet/jet.h>
+#include <jet/point_kdtree_searcher2.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_system_data2.h>
 #include <jet/svd.h>
@@ -78,14 +78,18 @@ void AnisotropicPointsToImplicit2::convert(
     const double r = 2.0 * h;
 
     // Mean estimator for cov. mat.
-    ParticleSystemData2 meanParticles;
+    const auto meanNeighborSearcher =
+        PointKdTreeSearcher2::builder().makeShared();
+    meanNeighborSearcher->build(points);
+
+    SphSystemData2 meanParticles;
     meanParticles.addParticles(points);
-    meanParticles.buildNeighborSearcher(r);
-    const auto meanNeighborSearcher = meanParticles.neighborSearcher();
+    meanParticles.setNeighborSearcher(meanNeighborSearcher);
+    meanParticles.setKernelRadius(r);
 
     // Compute G and xMean
     std::vector<Matrix2x2D> gs(points.size());
-    std::vector<Vector2D> xMeans(points.size());
+    Array1<Vector2D> xMeans(points.size());
 
     parallelFor(kZeroSize, points.size(), [&](size_t i) {
         const auto& x = points[i];
@@ -148,26 +152,19 @@ void AnisotropicPointsToImplicit2::convert(
     });
 
     // SPH estimator
-    SphSystemData2 sphParticles;
-    sphParticles.addParticles(
-        ConstArrayAccessor1<Vector2D>(xMeans.size(), xMeans.data()));
-    sphParticles.setKernelRadius(h);
-    sphParticles.buildNeighborSearcher();
-    sphParticles.updateDensities();
-    const auto d = sphParticles.densities();
-    const double m = sphParticles.mass();
+    meanParticles.setKernelRadius(h);
+    meanParticles.updateDensities();
+    const auto d = meanParticles.densities();
+    const double m = meanParticles.mass();
 
-    meanParticles.resize(0);
-    meanParticles.addParticles(
-        ConstArrayAccessor1<Vector2D>(xMeans.size(), xMeans.data()));
-    meanParticles.buildNeighborSearcher(r);
-    const auto meanNeighborSearcher2 = meanParticles.neighborSearcher();
+    PointKdTreeSearcher2 meanNeighborSearcher2;
+    meanNeighborSearcher2.build(xMeans);
 
     // Compute SDF
     auto temp = output->clone();
     temp->fill([&](const Vector2D& x) {
         double sum = 0.0;
-        meanNeighborSearcher2->forEachNearbyPoint(
+        meanNeighborSearcher2.forEachNearbyPoint(
             x, r, [&](size_t i, const Vector2D& neighborPosition) {
                 sum += m / d[i] *
                        w(neighborPosition - x, gs[i], gs[i].determinant());
