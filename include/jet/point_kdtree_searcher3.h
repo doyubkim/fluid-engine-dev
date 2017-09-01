@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_POINT_KDTREE_SEARCHER3_H
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER3_H
 
+#include <jet/kdtree.h>
 #include <jet/point3.h>
 #include <jet/point_neighbor_searcher3.h>
 #include <jet/size3.h>
@@ -83,24 +84,7 @@ class PointKdTreeSearcher3 final : public PointNeighborSearcher3 {
     static Builder builder();
 
  private:
-    struct Node {
-        uint8_t flags = 0;
-        size_t child = kMaxSize;
-        size_t item = kMaxSize;
-        Vector3D point;
-
-        Node();
-        void initLeaf(size_t it, const Vector3D& pt);
-        void initInternal(uint8_t axis, size_t it, size_t c,
-                          const Vector3D& pt);
-        bool isLeaf() const;
-    };
-
-    std::vector<Vector3D> _points;
-    std::vector<Node> _nodes;
-
-    size_t build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
-                 size_t currentDepth);
+    KdTree<double, 3> _tree;
 };
 
 //! Shared pointer for the PointKdTreeSearcher3 type.

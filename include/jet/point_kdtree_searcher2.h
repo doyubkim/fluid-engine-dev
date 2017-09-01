@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_POINT_KDTREE_SEARCHER2_H
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER2_H
 
+#include <jet/kdtree.h>
 #include <jet/point2.h>
 #include <jet/point_neighbor_searcher2.h>
 #include <jet/size2.h>
@@ -83,24 +84,7 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2 {
     static Builder builder();
 
  private:
-    struct Node {
-        uint8_t flags = 0;
-        size_t child = kMaxSize;
-        size_t item = kMaxSize;
-        Vector2D point;
-
-        Node();
-        void initLeaf(size_t it, const Vector2D& pt);
-        void initInternal(uint8_t axis, size_t it, size_t c,
-                          const Vector2D& pt);
-        bool isLeaf() const;
-    };
-
-    std::vector<Vector2D> _points;
-    std::vector<Node> _nodes;
-
-    size_t build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
-                 size_t currentDepth);
+    KdTree<double, 2> _tree;
 };
 
 //! Shared pointer for the PointKdTreeSearcher2 type.

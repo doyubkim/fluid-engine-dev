@@ -5,8 +5,7 @@
 // property of any third parties.
 
 #include <jet/array1.h>
-#include <jet/logging.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_kdtree_searcher3.h>
 
 #include <benchmark/benchmark.h>
 
@@ -15,7 +14,7 @@
 using jet::Array1;
 using jet::Vector3D;
 
-class PointParallelHashGridSearcher3 : public ::benchmark::Fixture {
+class PointKdTreeSearcher3 : public ::benchmark::Fixture {
  protected:
     std::mt19937 rng{0};
     std::uniform_real_distribution<> dist{0.0, 1.0};
@@ -33,32 +32,31 @@ class PointParallelHashGridSearcher3 : public ::benchmark::Fixture {
     Vector3D makeVec() { return Vector3D(dist(rng), dist(rng), dist(rng)); }
 };
 
-BENCHMARK_DEFINE_F(PointParallelHashGridSearcher3, Build)
-(benchmark::State& state) {
+BENCHMARK_DEFINE_F(PointKdTreeSearcher3, Build)(benchmark::State& state) {
     while (state.KeepRunning()) {
-        jet::PointParallelHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
-        grid.build(points);
+        jet::PointKdTreeSearcher3 tree;
+        tree.build(points);
     }
 }
 
-BENCHMARK_REGISTER_F(PointParallelHashGridSearcher3, Build)
+BENCHMARK_REGISTER_F(PointKdTreeSearcher3, Build)
     ->Arg(1 << 5)
     ->Arg(1 << 10)
     ->Arg(1 << 20);
 
-BENCHMARK_DEFINE_F(PointParallelHashGridSearcher3, ForEachNearbyPoints)
+BENCHMARK_DEFINE_F(PointKdTreeSearcher3, ForEachNearbyPoints)
 (benchmark::State& state) {
-    jet::PointParallelHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
-    grid.build(points);
+    jet::PointKdTreeSearcher3 tree;
+    tree.build(points);
 
     size_t cnt = 0;
     while (state.KeepRunning()) {
-        grid.forEachNearbyPoint(makeVec(), 0.2,
+        tree.forEachNearbyPoint(makeVec(), 0.2,
                                 [&](size_t, const Vector3D&) { ++cnt; });
     }
 }
 
-BENCHMARK_REGISTER_F(PointParallelHashGridSearcher3, ForEachNearbyPoints)
+BENCHMARK_REGISTER_F(PointKdTreeSearcher3, ForEachNearbyPoints)
     ->Arg(1 << 5)
     ->Arg(1 << 10)
     ->Arg(1 << 20);

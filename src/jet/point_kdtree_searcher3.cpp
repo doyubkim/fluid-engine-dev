@@ -15,27 +15,6 @@
 
 using namespace jet;
 
-PointKdTreeSearcher3::Node::Node() { child = kMaxSize; }
-
-void PointKdTreeSearcher3::Node::initLeaf(size_t it, const Vector3D& pt) {
-    flags = 3;
-    item = it;
-    child = kMaxSize;
-    point = pt;
-}
-
-void PointKdTreeSearcher3::Node::initInternal(uint8_t axis, size_t it, size_t c,
-                                              const Vector3D& pt) {
-    flags = axis;
-    item = it;
-    child = c;
-    point = pt;
-}
-
-bool PointKdTreeSearcher3::Node::isLeaf() const { return flags == 3; }
-
-//
-
 PointKdTreeSearcher3::PointKdTreeSearcher3() {}
 
 PointKdTreeSearcher3::PointKdTreeSearcher3(const PointKdTreeSearcher3& other) {
@@ -43,118 +22,18 @@ PointKdTreeSearcher3::PointKdTreeSearcher3(const PointKdTreeSearcher3& other) {
 }
 
 void PointKdTreeSearcher3::build(const ConstArrayAccessor1<Vector3D>& points) {
-    _points.resize(points.size());
-    std::copy(points.begin(), points.end(), _points.begin());
-
-    if (_points.empty()) {
-        return;
-    }
-
-    _nodes.clear();
-
-    std::vector<size_t> itemIndices(_points.size());
-    std::iota(std::begin(itemIndices), std::end(itemIndices), 0);
-
-    build(0, itemIndices.data(), _points.size(), 0);
+    _tree.build(points);
 }
 
 void PointKdTreeSearcher3::forEachNearbyPoint(
     const Vector3D& origin, double radius,
     const ForEachNearbyPointFunc& callback) const {
-    const double r2 = radius * radius;
-
-    // prepare to traverse the tree for sphere
-    static const int kMaxTreeDepth = 8 * sizeof(size_t);
-    const Node* todo[kMaxTreeDepth];
-    size_t todoPos = 0;
-
-    // traverse the tree nodes for box
-    const Node* node = _nodes.data();
-
-    while (node != nullptr) {
-        if ((node->point - origin).lengthSquared() <= r2) {
-            callback(node->item, node->point);
-        }
-
-        if (node->isLeaf()) {
-            // grab next node to process from todo stack
-            if (todoPos > 0) {
-                // Dequeue
-                --todoPos;
-                node = todo[todoPos];
-            } else {
-                break;
-            }
-        } else {
-            // get node children pointers for box
-            const Node* firstChild = node + 1;
-            const Node* secondChild = (Node*)&_nodes[node->child];
-
-            // advance to next child node, possibly enqueue other child
-            const uint8_t axis = node->flags;
-            const double plane = node->point[axis];
-            if (plane - origin[axis] > radius) {
-                node = firstChild;
-            } else if (origin[axis] - plane > radius) {
-                node = secondChild;
-            } else {
-                // enqueue secondChild in todo stack
-                todo[todoPos] = secondChild;
-                ++todoPos;
-                node = firstChild;
-            }
-        }
-    }
+    _tree.forEachNearbyPoint(origin, radius, callback);
 }
 
 bool PointKdTreeSearcher3::hasNearbyPoint(const Vector3D& origin,
                                           double radius) const {
-    const double r2 = radius * radius;
-
-    // prepare to traverse the tree for sphere
-    static const int kMaxTreeDepth = 8 * sizeof(size_t);
-    const Node* todo[kMaxTreeDepth];
-    size_t todoPos = 0;
-
-    // traverse the tree nodes for box
-    const Node* node = _nodes.data();
-
-    while (node != nullptr) {
-        if ((node->point - origin).lengthSquared() <= r2) {
-            return true;
-        }
-
-        if (node->isLeaf()) {
-            // grab next node to process from todo stack
-            if (todoPos > 0) {
-                // Dequeue
-                --todoPos;
-                node = todo[todoPos];
-            } else {
-                break;
-            }
-        } else {
-            // get node children pointers for box
-            const Node* firstChild = node + 1;
-            const Node* secondChild = (Node*)&_nodes[node->child];
-
-            // advance to next child node, possibly enqueue other child
-            const uint8_t axis = node->flags;
-            const double plane = node->point[axis];
-            if (origin[axis] < plane && plane - origin[axis] > radius) {
-                node = firstChild;
-            } else if (origin[axis] > plane && origin[axis] - plane > radius) {
-                node = secondChild;
-            } else {
-                // enqueue secondChild in todo stack
-                todo[todoPos] = secondChild;
-                ++todoPos;
-                node = firstChild;
-            }
-        }
-    }
-
-    return false;
+    return _tree.hasNearbyPoint(origin, radius);
 }
 
 PointNeighborSearcher3Ptr PointKdTreeSearcher3::clone() const {
@@ -168,8 +47,7 @@ PointKdTreeSearcher3& PointKdTreeSearcher3::operator=(
 }
 
 void PointKdTreeSearcher3::set(const PointKdTreeSearcher3& other) {
-    _points = other._points;
-    _nodes = other._nodes;
+    _tree = other._tree;
 }
 
 void PointKdTreeSearcher3::serialize(std::vector<uint8_t>* buffer) const {
@@ -184,49 +62,6 @@ void PointKdTreeSearcher3::deserialize(const std::vector<uint8_t>& buffer) {
 
 PointKdTreeSearcher3::Builder PointKdTreeSearcher3::builder() {
     return Builder{};
-}
-
-size_t PointKdTreeSearcher3::build(size_t nodeIndex, size_t* itemIndices,
-                                   size_t nItems, size_t currentDepth) {
-    // add a node
-    _nodes.emplace_back();
-
-    // initialize leaf node if termination criteria met
-    if (nItems == 0) {
-        _nodes[nodeIndex].initLeaf(kMaxSize, {});
-        return currentDepth + 1;
-    }
-    if (nItems == 1) {
-        _nodes[nodeIndex].initLeaf(itemIndices[0], _points[itemIndices[0]]);
-        return currentDepth + 1;
-    }
-
-    // find the mid-point of the bounding box to use as a qsplit pivot
-    BoundingBox3D nodeBound;
-    for (size_t i = 0; i < nItems; ++i) {
-        nodeBound.merge(_points[itemIndices[i]]);
-    }
-    Vector3D d = nodeBound.upperCorner - nodeBound.lowerCorner;
-
-    // choose which axis to split along
-    uint8_t axis = static_cast<uint8_t>(d.dominantAxis());
-
-    // sort itemIndices along the axis
-    std::nth_element(itemIndices, itemIndices + nItems / 2,
-                     itemIndices + nItems, [&](size_t a, size_t b) {
-                         return _points[a][axis] < _points[b][axis];
-                     });
-
-    size_t midPoint = nItems / 2;
-
-    // recursively initialize children nodes
-    size_t d0 = build(nodeIndex + 1, itemIndices, midPoint, currentDepth + 1);
-    _nodes[nodeIndex].initInternal(axis, itemIndices[midPoint], _nodes.size(),
-                                   _points[itemIndices[midPoint]]);
-    size_t d1 = build(_nodes[nodeIndex].child, itemIndices + midPoint + 1,
-                      nItems - midPoint - 1, currentDepth + 1);
-
-    return std::max(d0, d1);
 }
 
 //
