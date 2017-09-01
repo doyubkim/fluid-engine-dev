@@ -51,7 +51,7 @@ BENCHMARK_DEFINE_F(PointKdTreeSearcher3, ForEachNearbyPoints)
 
     size_t cnt = 0;
     while (state.KeepRunning()) {
-        tree.forEachNearbyPoint(makeVec(), 0.2,
+        tree.forEachNearbyPoint(makeVec(), 1.0 / 64.0,
                                 [&](size_t, const Vector3D&) { ++cnt; });
     }
 }

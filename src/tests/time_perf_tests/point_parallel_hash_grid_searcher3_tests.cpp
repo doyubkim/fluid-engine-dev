@@ -53,7 +53,7 @@ BENCHMARK_DEFINE_F(PointParallelHashGridSearcher3, ForEachNearbyPoints)
 
     size_t cnt = 0;
     while (state.KeepRunning()) {
-        grid.forEachNearbyPoint(makeVec(), 0.2,
+        grid.forEachNearbyPoint(makeVec(), 1.0 / 64.0,
                                 [&](size_t, const Vector3D&) { ++cnt; });
     }
 }
