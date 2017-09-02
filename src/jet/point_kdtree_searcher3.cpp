@@ -7,6 +7,7 @@
 #include <pch.h>
 
 #include <fbs_helpers.h>
+#include <generated/point_kdtree_searcher3_generated.h>
 
 #include <jet/bounding_box3.h>
 #include <jet/point_kdtree_searcher3.h>
@@ -51,13 +52,62 @@ void PointKdTreeSearcher3::set(const PointKdTreeSearcher3& other) {
 }
 
 void PointKdTreeSearcher3::serialize(std::vector<uint8_t>* buffer) const {
-    // TODO: More
-    (void)buffer;
+    flatbuffers::FlatBufferBuilder builder(1024);
+
+    // Copy points
+    std::vector<fbs::Vector3D> points;
+    for (const auto& iter : _tree) {
+        points.push_back(jetToFbs(iter));
+    }
+
+    auto fbsPoints =
+            builder.CreateVectorOfStructs(points.data(), points.size());
+
+    // Copy nodes
+    std::vector<fbs::PointKdTreeSearcherNode3> nodes;
+    for (auto iter = _tree.beginNode(); iter != _tree.endNode(); ++iter) {
+        nodes.emplace_back(iter->flags, iter->child, iter->item);
+    }
+
+    auto fbsNodes = builder.CreateVectorOfStructs(nodes);
+
+    // Copy the searcher
+    auto fbsSearcher =
+            fbs::CreatePointKdTreeSearcher3(builder, fbsPoints, fbsNodes);
+
+    // Finish
+    builder.Finish(fbsSearcher);
+
+    uint8_t* buf = builder.GetBufferPointer();
+    size_t size = builder.GetSize();
+
+    buffer->resize(size);
+    memcpy(buffer->data(), buf, size);
 }
 
 void PointKdTreeSearcher3::deserialize(const std::vector<uint8_t>& buffer) {
-    // TODO: More
-    (void)buffer;
+    auto fbsSearcher = fbs::GetPointKdTreeSearcher3(buffer.data());
+
+    auto fbsPoints = fbsSearcher->points();
+    auto fbsNodes = fbsSearcher->nodes();
+
+    _tree.reserve(fbsPoints->size(), fbsNodes->size());
+
+    // Copy points
+    auto pointsIter = _tree.begin();
+    for (uint32_t i = 0; i < fbsPoints->size(); ++i) {
+        pointsIter[i] = fbsToJet(*fbsPoints->Get(i));
+    }
+
+    // Copy nodes
+    auto nodesIter = _tree.beginNode();
+    for (uint32_t i = 0; i < fbsNodes->size(); ++i) {
+        const auto fbsNode = fbsNodes->Get(i);
+        nodesIter[i].flags = fbsNode->flags();
+        nodesIter[i].child = fbsNode->child();
+        nodesIter[i].item = fbsNode->item();
+        nodesIter[i].point = pointsIter[fbsNode->item()];
+    }
 }
 
 PointKdTreeSearcher3::Builder PointKdTreeSearcher3::builder() {

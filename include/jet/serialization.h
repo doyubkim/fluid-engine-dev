@@ -8,6 +8,7 @@
 #define INCLUDE_JET_SERIALIZATION_H_
 
 #include <jet/array1.h>
+
 #include <vector>
 
 namespace jet {
@@ -28,19 +29,19 @@ void serialize(const Serializable* serializable, std::vector<uint8_t>* buffer);
 //! Serializes data chunk using common schema.
 void serialize(const uint8_t* data, size_t size, std::vector<uint8_t>* buffer);
 
-template <typename T>
-void serialize(const Array1<T>& array, std::vector<uint8_t>* buffer);
-
-
-//! Serializes serializable object.
-void deserialize(
-    const std::vector<uint8_t>& buffer,
-    Serializable* serializable);
-
 //! Serializes data chunk using common schema.
-void deserialize(
-    const std::vector<uint8_t>& buffer, std::vector<uint8_t>* data);
+template <typename T>
+void serialize(const ConstArrayAccessor1<T>& array, std::vector<uint8_t>* buffer);
 
+//! Deserializes buffer to serializable object.
+void deserialize(const std::vector<uint8_t>& buffer,
+                 Serializable* serializable);
+
+//! Deserializes buffer to data chunk using common schema.
+void deserialize(const std::vector<uint8_t>& buffer,
+                 std::vector<uint8_t>* data);
+
+//! Deserializes buffer to data chunk using common schema.
 template <typename T>
 void deserialize(const std::vector<uint8_t>& buffer, Array1<T>* array);
 

@@ -77,7 +77,8 @@ void KdTree<T, K>::forEachNearbyPoint(
     const Node* node = _nodes.data();
 
     while (node != nullptr) {
-        if ((node->point - origin).lengthSquared() <= r2) {
+        if (node->item != kMaxSize &&
+            (node->point - origin).lengthSquared() <= r2) {
             callback(node->item, node->point);
         }
 
@@ -125,7 +126,8 @@ bool KdTree<T, K>::hasNearbyPoint(const Point& origin, T radius) const {
     const Node* node = _nodes.data();
 
     while (node != nullptr) {
-        if ((node->point - origin).lengthSquared() <= r2) {
+        if (node->item != kMaxSize &&
+            (node->point - origin).lengthSquared() <= r2) {
             return true;
         }
 
@@ -214,6 +216,52 @@ size_t KdTree<T, K>::nearestPoint(const Point& origin) const {
 
     return nearest;
 }
+
+template <typename T, size_t K>
+void KdTree<T, K>::reserve(size_t numPoints, size_t numNodes) {
+    _points.resize(numPoints);
+    _nodes.resize(numNodes);
+}
+
+template <typename T, size_t K>
+typename KdTree<T, K>::Iterator KdTree<T, K>::begin() {
+    return _points.begin();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::Iterator KdTree<T, K>::end() {
+    return _points.end();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::ConstIterator KdTree<T, K>::begin() const {
+    return _points.begin();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::ConstIterator KdTree<T, K>::end() const {
+    return _points.end();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::NodeIterator KdTree<T, K>::beginNode() {
+    return _nodes.begin();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::NodeIterator KdTree<T, K>::endNode() {
+    return _nodes.end();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::ConstNodeIterator KdTree<T, K>::beginNode() const {
+    return _nodes.begin();
+};
+
+template <typename T, size_t K>
+typename KdTree<T, K>::ConstNodeIterator KdTree<T, K>::endNode() const {
+    return _nodes.end();
+};
 
 template <typename T, size_t K>
 size_t KdTree<T, K>::build(size_t nodeIndex, size_t* itemIndices, size_t nItems,

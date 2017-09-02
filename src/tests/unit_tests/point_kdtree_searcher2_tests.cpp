@@ -40,3 +40,27 @@ TEST(PointKdTreeSearcher2, ForEachNearbyPointEmpty) {
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector2D&) {});
 }
+
+TEST(PointKdTreeSearcher2, Serialization) {
+    Array1<Vector2D> points = {Vector2D(1, 3), Vector2D(2, 5), Vector2D(-1, 3)};
+
+    PointKdTreeSearcher2 searcher;
+    searcher.build(points);
+
+    std::vector<uint8_t> buffer;
+    searcher.serialize(&buffer);
+
+    EXPECT_GT(buffer.size(), 0);
+
+    PointKdTreeSearcher2 searcher2;
+    searcher2.deserialize(buffer);
+
+    std::vector<uint8_t> buffer2;
+    searcher2.serialize(&buffer2);
+
+    ASSERT_EQ(buffer.size(), buffer2.size());
+
+    for (size_t i = 0; i < buffer.size(); ++i) {
+        EXPECT_EQ(buffer[i], buffer2[i]);
+    }
+}
