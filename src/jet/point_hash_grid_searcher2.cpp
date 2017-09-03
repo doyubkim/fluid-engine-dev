@@ -4,7 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
+
 #include <pch.h>
+
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher2_generated.h>
 

@@ -4,6 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
+
 #include <pch.h>
 
 #include <fbs_helpers.h>
@@ -14,14 +18,7 @@
 #include <jet/scalar_grid3.h>
 #include <jet/serial.h>
 
-#ifdef JET_WINDOWS
-#pragma warning(push)
-#pragma warning(disable: 4244)
-#endif
 #include <flatbuffers/flatbuffers.h>
-#ifdef JET_WINDOWS
-#pragma warning(pop)
-#endif
 
 #include <algorithm>
 #include <string>
