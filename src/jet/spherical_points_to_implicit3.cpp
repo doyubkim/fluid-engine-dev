@@ -37,13 +37,13 @@ void SphericalPointsToImplicit3::convert(
 
     ParticleSystemData3 particles;
     particles.addParticles(points);
-    particles.buildNeighborSearcher(3.0 * _radius);
+    particles.buildNeighborSearcher(2.0 * _radius);
 
     const auto neighborSearcher = particles.neighborSearcher();
 
     auto temp = output->clone();
     temp->fill([&](const Vector3D& x) {
-        double minDist = kMaxD;
+        double minDist = 2.0 * _radius;
         neighborSearcher->forEachNearbyPoint(
             x, 2.0 * _radius, [&](size_t, const Vector3D& xj) {
                 minDist = std::min(minDist, (x - xj).length());
