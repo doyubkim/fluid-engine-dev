@@ -8,12 +8,20 @@
 
 #include <fbs_helpers.h>
 #include <generated/scalar_grid3_generated.h>
+
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid3.h>
 #include <jet/serial.h>
 
+#ifdef JET_WINDOWS
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#endif
 #include <flatbuffers/flatbuffers.h>
+#ifdef JET_WINDOWS
+#pragma warning(pop)
+#endif
 
 #include <algorithm>
 #include <string>

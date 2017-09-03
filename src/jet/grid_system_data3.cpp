@@ -5,11 +5,22 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <factory.h>
 #include <fbs_helpers.h>
 #include <generated/grid_system_data3_generated.h>
+
 #include <jet/grid_system_data3.h>
+
+#ifdef JET_WINDOWS
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#endif
 #include <flatbuffers/flatbuffers.h>
+#ifdef JET_WINDOWS
+#pragma warning(pop)
+#endif
+
 #include <algorithm>
 #include <vector>
 
