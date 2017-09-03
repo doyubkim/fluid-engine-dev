@@ -4,7 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
+
 #include <pch.h>
+
 #include <factory.h>
 #include <fbs_helpers.h>
 #include <generated/particle_system_data2_generated.h>

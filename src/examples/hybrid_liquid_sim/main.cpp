@@ -36,7 +36,7 @@ void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
     if (file) {
         printf("Writing %s...\n", filename.c_str());
         std::vector<uint8_t> buffer;
-        serialize(positions, &buffer);
+        serialize(positions.constAccessor(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }

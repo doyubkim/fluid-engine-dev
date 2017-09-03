@@ -5,7 +5,9 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <factory.h>
+
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/cell_centered_vector_grid2.h>
@@ -14,6 +16,8 @@
 #include <jet/face_centered_grid3.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_hash_grid_searcher3.h>
+#include <jet/point_kdtree_searcher2.h>
+#include <jet/point_kdtree_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
 #include <jet/point_simple_list_searcher2.h>
@@ -22,6 +26,7 @@
 #include <jet/vertex_centered_scalar_grid3.h>
 #include <jet/vertex_centered_vector_grid2.h>
 #include <jet/vertex_centered_vector_grid3.h>
+
 #include <string>
 #include <unordered_map>
 
@@ -40,7 +45,6 @@ std::unordered_map<std::string, PointNeighborSearcherBuilder3Ptr>
     sPointNeighborSearcher3Builders;
 
 }  // namespace
-
 
 #define REGISTER_BUILDER(map, ClassName) \
     map.emplace(#ClassName, std::make_shared<ClassName::Builder>());
@@ -84,11 +88,13 @@ class Registry {
         REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(
             PointParallelHashGridSearcher2)
         REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(PointSimpleListSearcher2)
+        REGISTER_POINT_NEIGHBOR_SEARCHER2_BUILDER(PointKdTreeSearcher2)
 
         REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(PointHashGridSearcher3)
         REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(
             PointParallelHashGridSearcher3)
         REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(PointSimpleListSearcher3)
+        REGISTER_POINT_NEIGHBOR_SEARCHER3_BUILDER(PointKdTreeSearcher3)
     }
 };
 

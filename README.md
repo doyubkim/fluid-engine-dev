@@ -15,6 +15,7 @@ The latest code is always available from the [`master`](https://github.com/doyub
 * PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO, and FMM level set solvers
 * Jacobi, Gauss-Seidel, SOR, MG, CG, ICCG, and MGPCG linear system solvers
+* Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter 
 * Converters between signed distance function and triangular mesh
 * C++ and Python API
 

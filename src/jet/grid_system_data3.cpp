@@ -4,12 +4,20 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
+
 #include <pch.h>
+
 #include <factory.h>
 #include <fbs_helpers.h>
 #include <generated/grid_system_data3_generated.h>
+
 #include <jet/grid_system_data3.h>
+
 #include <flatbuffers/flatbuffers.h>
+
 #include <algorithm>
 #include <vector>
 

@@ -36,7 +36,7 @@ class AnisotropicPointsToImplicit2 final : public PointsToImplicit2 {
     //!
     AnisotropicPointsToImplicit2(double kernelRadius = 1.0,
                                  double cutOffDensity = 0.5,
-                                 double positionSmoothingFactor = 0.0,
+                                 double positionSmoothingFactor = 0.5,
                                  size_t minNumNeighbors = 8,
                                  bool isOutputSdf = true);
 

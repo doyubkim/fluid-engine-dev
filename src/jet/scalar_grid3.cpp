@@ -4,10 +4,15 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
+
 #include <pch.h>
 
 #include <fbs_helpers.h>
 #include <generated/scalar_grid3_generated.h>
+
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid3.h>

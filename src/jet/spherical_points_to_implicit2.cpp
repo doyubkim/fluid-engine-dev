@@ -43,7 +43,7 @@ void SphericalPointsToImplicit2::convert(
 
     auto temp = output->clone();
     temp->fill([&](const Vector2D& x) {
-        double minDist = kMaxD;
+        double minDist = 2.0 * _radius;
         neighborSearcher->forEachNearbyPoint(
             x, 2.0 * _radius, [&](size_t, const Vector2D& xj) {
                 minDist = std::min(minDist, (x - xj).length());

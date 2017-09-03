@@ -22,7 +22,7 @@ Bvh2<T>::Node::Node() : flags(0) {
 
 template <typename T>
 void Bvh2<T>::Node::initLeaf(size_t it, const BoundingBox2D& b) {
-    flags |= 2;
+    flags = 2;
     item = it;
     bound = b;
 }
