@@ -50,6 +50,12 @@ Here are some of the example simulations generated using Jet framework. Correspo
 ![Cubic-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_cubic.png "Cubic-smoke Example")
 ![Linear-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_linear.png "Linear-smoke Example")
 
+### Point-to-Surface Examples 
+
+![Point-to-Surface Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/point_to_surface.png "Point-to-Surface Example")
+
+> Top-left: spherical, top-right: SPH blobby, bottom-left: Zhu and Bridson's method, and bottom-right: Anisotropic kernel
+
 ## License
 
 Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md). Jet also utilizes other open source codes. Checkout [3RD_PARTY.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for more details.
