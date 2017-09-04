@@ -9,6 +9,7 @@ Jet framework is a fluid simulation engine SDK for computer graphics application
 * PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO, and FMM level set solvers
 * Jacobi, Gauss-Seidel, SOR, MG, CG, ICCG, and MGPCG linear system solvers
+* Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter 
 * Converters between signed distance function and triangular mesh
 * C++ and Python API
 
