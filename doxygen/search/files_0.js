@@ -3,6 +3,8 @@ var searchData=
   ['advection_5fsolver2_2eh',['advection_solver2.h',['../advection__solver2_8h.html',1,'']]],
   ['advection_5fsolver3_2eh',['advection_solver3.h',['../advection__solver3_8h.html',1,'']]],
   ['animation_2eh',['animation.h',['../animation_8h.html',1,'']]],
+  ['anisotropic_5fpoints_5fto_5fimplicit2_2eh',['anisotropic_points_to_implicit2.h',['../anisotropic__points__to__implicit2_8h.html',1,'']]],
+  ['anisotropic_5fpoints_5fto_5fimplicit3_2eh',['anisotropic_points_to_implicit3.h',['../anisotropic__points__to__implicit3_8h.html',1,'']]],
   ['apic_5fsolver2_2eh',['apic_solver2.h',['../apic__solver2_8h.html',1,'']]],
   ['apic_5fsolver3_2eh',['apic_solver3.h',['../apic__solver3_8h.html',1,'']]],
   ['array_2eh',['array.h',['../array_8h.html',1,'']]],

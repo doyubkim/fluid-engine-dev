@@ -5,6 +5,8 @@ var searchData=
   ['nearestarraysampler3',['NearestArraySampler3',['../namespacejet.html#a9755126585e53e58c3e2562a453b0a4b',1,'jet']]],
   ['nearestneighbordistancefunc2',['NearestNeighborDistanceFunc2',['../namespacejet.html#ad3ff33acdad95d02110991a7444d0c80',1,'jet']]],
   ['nearestneighbordistancefunc3',['NearestNeighborDistanceFunc3',['../namespacejet.html#acdc25922beaccd66c069bd00c61a32ce',1,'jet']]],
+  ['nodecontainertype',['NodeContainerType',['../classjet_1_1_kd_tree.html#a1b6ffbc3633eb414458f2e39b1dd46b4',1,'jet::KdTree']]],
+  ['nodeiterator',['NodeIterator',['../classjet_1_1_kd_tree.html#ab5e6bb2fb7c7494005939e2f2aaccd32',1,'jet::KdTree']]],
   ['nonzerocontainertype',['NonZeroContainerType',['../classjet_1_1_matrix_csr.html#ad92ed2ae5cbdf37824902e9e805da419',1,'jet::MatrixCsr']]],
   ['nonzeroiterator',['NonZeroIterator',['../classjet_1_1_matrix_csr.html#a3af3757c5f9143a90781e5fb9495c608',1,'jet::MatrixCsr']]],
   ['normalarray',['NormalArray',['../classjet_1_1_triangle_mesh3.html#a72c9fea9d2d6d9f74eff349a2400874d',1,'jet::TriangleMesh3']]]

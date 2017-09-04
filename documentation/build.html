@@ -277,7 +277,17 @@ make install
 
 <p>To install the Python SDK, <code class="highlighter-rouge">pyjet</code>, run the following command from the project root directory (where <code class="highlighter-rouge">setup.py</code> lives):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pip install .
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install -U .
+</code></pre>
+</div>
+
+<blockquote>
+  <p>You can also use <code class="highlighter-rouge">virtualenv</code> to isolate the SDK installation. Check out <a href="https://virtualenv.pypa.io/en/stable/">the virtualenv documentation</a> for more details.</p>
+</blockquote>
+
+<p>To run the test/example scripts, install other Python dependencies as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install -r requirements.txt
 </code></pre>
 </div>
 

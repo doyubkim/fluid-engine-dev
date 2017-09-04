@@ -66,6 +66,8 @@ var searchData=
   ['_7epointgenerator3',['~PointGenerator3',['../classjet_1_1_point_generator3.html#a8370505dc70004c1fc780ddd73655cb7',1,'jet::PointGenerator3']]],
   ['_7epointneighborsearcher2',['~PointNeighborSearcher2',['../classjet_1_1_point_neighbor_searcher2.html#ae6555624710e0116e26122065d60e188',1,'jet::PointNeighborSearcher2']]],
   ['_7epointneighborsearcher3',['~PointNeighborSearcher3',['../classjet_1_1_point_neighbor_searcher3.html#a8b07d39e29a252eb4ef4a59bed2fba08',1,'jet::PointNeighborSearcher3']]],
+  ['_7epointstoimplicit2',['~PointsToImplicit2',['../classjet_1_1_points_to_implicit2.html#a1cb3aa9d2266f6764b3c2eaa7489c3b9',1,'jet::PointsToImplicit2']]],
+  ['_7epointstoimplicit3',['~PointsToImplicit3',['../classjet_1_1_points_to_implicit3.html#a4e916056002430872123f8174daeb250',1,'jet::PointsToImplicit3']]],
   ['_7escalarfield2',['~ScalarField2',['../classjet_1_1_scalar_field2.html#a35a2f5184a702217f457d83a52981b41',1,'jet::ScalarField2']]],
   ['_7escalarfield3',['~ScalarField3',['../classjet_1_1_scalar_field3.html#ad0ff0986dae92862527110dd3fd7c475',1,'jet::ScalarField3']]],
   ['_7escalargrid2',['~ScalarGrid2',['../classjet_1_1_scalar_grid2.html#ac0156857a4b6706661c8f0b728019651',1,'jet::ScalarGrid2']]],

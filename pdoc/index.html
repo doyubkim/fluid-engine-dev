@@ -901,8 +901,10 @@ table {
 .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
 .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
 .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
 .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
 .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
 .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
 .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
 .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
@@ -913,9 +915,11 @@ table {
 .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
 .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
 .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #0000FF } /* Name.Function.Magic */
 .codehilite .vc { color: #19177C } /* Name.Variable.Class */
 .codehilite .vg { color: #19177C } /* Name.Variable.Global */
 .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
 .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
   </style>
 
@@ -1079,6 +1083,26 @@ table {
 
         </li>
         <li class="mono">
+        <span class="class_name"><a href="#pyjet.AnisotropicPointsToImplicit2">AnisotropicPointsToImplicit2</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.AnisotropicPointsToImplicit2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.AnisotropicPointsToImplicit2.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.AnisotropicPointsToImplicit3">AnisotropicPointsToImplicit3</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.AnisotropicPointsToImplicit3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.AnisotropicPointsToImplicit3.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
         <span class="class_name"><a href="#pyjet.ApicSolver2">ApicSolver2</a></span>
         
           
@@ -1166,6 +1190,7 @@ table {
     <li class="mono"><a href="#pyjet.BoundingBox2D.diagonalLengthSquared">diagonalLengthSquared</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2D.expand">expand</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2D.intersects">intersects</a></li>
+    <li class="mono"><a href="#pyjet.BoundingBox2D.isEmpty">isEmpty</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2D.length">length</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2D.merge">merge</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2D.midPoint">midPoint</a></li>
@@ -1188,6 +1213,7 @@ table {
     <li class="mono"><a href="#pyjet.BoundingBox2F.diagonalLengthSquared">diagonalLengthSquared</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2F.expand">expand</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2F.intersects">intersects</a></li>
+    <li class="mono"><a href="#pyjet.BoundingBox2F.isEmpty">isEmpty</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2F.length">length</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2F.merge">merge</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox2F.midPoint">midPoint</a></li>
@@ -1210,6 +1236,7 @@ table {
     <li class="mono"><a href="#pyjet.BoundingBox3D.diagonalLengthSquared">diagonalLengthSquared</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3D.expand">expand</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3D.intersects">intersects</a></li>
+    <li class="mono"><a href="#pyjet.BoundingBox3D.isEmpty">isEmpty</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3D.length">length</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3D.merge">merge</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3D.midPoint">midPoint</a></li>
@@ -1232,6 +1259,7 @@ table {
     <li class="mono"><a href="#pyjet.BoundingBox3F.diagonalLengthSquared">diagonalLengthSquared</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3F.expand">expand</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3F.intersects">intersects</a></li>
+    <li class="mono"><a href="#pyjet.BoundingBox3F.isEmpty">isEmpty</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3F.length">length</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3F.merge">merge</a></li>
     <li class="mono"><a href="#pyjet.BoundingBox3F.midPoint">midPoint</a></li>
@@ -2250,11 +2278,17 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.addParticle">addParticle</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.addParticles">addParticles</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.addScalarData">addScalarData</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.addVectorData">addVectorData</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.deserialize">deserialize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.deserializeFromFile">deserializeFromFile</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.resize">resize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.scalarDataAt">scalarDataAt</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.serialize">serialize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.serializeToFile">serializeToFile</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData2.set">set</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData2.vectorDataAt">vectorDataAt</a></li>
   </ul>
 
@@ -2265,11 +2299,17 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.addParticle">addParticle</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.addParticles">addParticles</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.addScalarData">addScalarData</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.addVectorData">addVectorData</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.deserialize">deserialize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.deserializeFromFile">deserializeFromFile</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.resize">resize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.scalarDataAt">scalarDataAt</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.serialize">serialize</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.serializeToFile">serializeToFile</a></li>
+    <li class="mono"><a href="#pyjet.ParticleSystemData3.set">set</a></li>
     <li class="mono"><a href="#pyjet.ParticleSystemData3.vectorDataAt">vectorDataAt</a></li>
   </ul>
 
@@ -2402,6 +2442,24 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.PointParticleEmitter3.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.PointsToImplicit2.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.PointsToImplicit3.convert">convert</a></li>
   </ul>
 
         </li>
@@ -2606,6 +2664,26 @@ table {
 
         </li>
         <li class="mono">
+        <span class="class_name"><a href="#pyjet.SphPointsToImplicit2">SphPointsToImplicit2</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.SphPointsToImplicit2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphPointsToImplicit2.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.SphPointsToImplicit3">SphPointsToImplicit3</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.SphPointsToImplicit3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphPointsToImplicit3.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
         <span class="class_name"><a href="#pyjet.SphSolver2">SphSolver2</a></span>
         
           
@@ -2631,10 +2709,15 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.SphSystemData2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData2.addParticle">addParticle</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData2.addParticles">addParticles</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData2.addScalarData">addScalarData</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData2.addVectorData">addVectorData</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.buildNeighborLists">buildNeighborLists</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.buildNeighborSearcher">buildNeighborSearcher</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.deserialize">deserialize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.deserializeFromFile">deserializeFromFile</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData2.resize">resize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.scalarDataAt">scalarDataAt</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.serialize">serialize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData2.serializeToFile">serializeToFile</a></li>
@@ -2650,10 +2733,15 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.SphSystemData3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData3.addParticle">addParticle</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData3.addParticles">addParticles</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData3.addScalarData">addScalarData</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData3.addVectorData">addVectorData</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.buildNeighborLists">buildNeighborLists</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.buildNeighborSearcher">buildNeighborSearcher</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.deserialize">deserialize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.deserializeFromFile">deserializeFromFile</a></li>
+    <li class="mono"><a href="#pyjet.SphSystemData3.resize">resize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.scalarDataAt">scalarDataAt</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.serialize">serialize</a></li>
     <li class="mono"><a href="#pyjet.SphSystemData3.serializeToFile">serializeToFile</a></li>
@@ -2678,6 +2766,26 @@ table {
           
   <ul>
     <li class="mono"><a href="#pyjet.Sphere3.__init__">__init__</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.SphericalPointsToImplicit2">SphericalPointsToImplicit2</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.SphericalPointsToImplicit2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphericalPointsToImplicit2.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.SphericalPointsToImplicit3">SphericalPointsToImplicit3</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.SphericalPointsToImplicit3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.SphericalPointsToImplicit3.convert">convert</a></li>
   </ul>
 
         </li>
@@ -3092,6 +3200,26 @@ table {
   </ul>
 
         </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.ZhuBridsonPointsToImplicit2">ZhuBridsonPointsToImplicit2</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.ZhuBridsonPointsToImplicit2.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.ZhuBridsonPointsToImplicit2.convert">convert</a></li>
+  </ul>
+
+        </li>
+        <li class="mono">
+        <span class="class_name"><a href="#pyjet.ZhuBridsonPointsToImplicit3">ZhuBridsonPointsToImplicit3</a></span>
+        
+          
+  <ul>
+    <li class="mono"><a href="#pyjet.ZhuBridsonPointsToImplicit3.__init__">__init__</a></li>
+    <li class="mono"><a href="#pyjet.ZhuBridsonPointsToImplicit3.convert">convert</a></li>
+  </ul>
+
+        </li>
       </ul>
     </li>
 
@@ -3322,6 +3450,152 @@ overriden by its sub-classes to implement their own state update logic.</p></div
 <h2>Parameters</h2>
 <ul>
 <li>frame : Number of frames to advance.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.AnisotropicPointsToImplicit2" class="name">class <span class="ident">AnisotropicPointsToImplicit2</span></p>
+      
+  
+    <div class="desc"><p>2-D points-to-implicit converter using Anisotropic kernels.</p>
+<p>\see Yu, Jihun, and Greg Turk. "Reconstructing surfaces of particle-based
+     fluids using anisotropic kernels." ACM Transactions on Graphics (TOG)
+     32.1 (2013): 5.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.AnisotropicPointsToImplicit2">AnisotropicPointsToImplicit2</a></li>
+          <li><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.AnisotropicPointsToImplicit2.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.AnisotropicPointsToImplicit2, kernelRadius: float=1.0, cutOffDensity: float=0.5, positionSmoothingFactor: float=0.5, minNumNeighbors: int=8L, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off density.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : Smoothing kernel radius.</li>
+<li>cutOffDensity : Iso-contour value.</li>
+<li>positionSmoothingFactor : Position smoothing factor.</li>
+<li>minNumNeighbors : Minimum number of neighbors to enable anisotropic kernel.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.AnisotropicPointsToImplicit2.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></code>.<code><a href="#pyjet.PointsToImplicit2.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit2, points: list, output: pyjet.ScalarGrid2) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 2D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.AnisotropicPointsToImplicit3" class="name">class <span class="ident">AnisotropicPointsToImplicit3</span></p>
+      
+  
+    <div class="desc"><p>3-D points-to-implicit converter using Anisotropic kernels.</p>
+<p>\see Yu, Jihun, and Greg Turk. "Reconstructing surfaces of particle-based
+     fluids using anisotropic kernels." ACM Transactions on Graphics (TOG)
+     32.1 (2013): 5.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.AnisotropicPointsToImplicit3">AnisotropicPointsToImplicit3</a></li>
+          <li><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.AnisotropicPointsToImplicit3.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.AnisotropicPointsToImplicit3, kernelRadius: float=1.0, cutOffDensity: float=0.5, positionSmoothingFactor: float=0.5, minNumNeighbors: int=25L, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off density.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : Smoothing kernel radius.</li>
+<li>cutOffDensity : Iso-contour value.</li>
+<li>positionSmoothingFactor : Position smoothing factor.</li>
+<li>minNumNeighbors : Minimum number of neighbors to enable anisotropic kernel.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.AnisotropicPointsToImplicit3.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></code>.<code><a href="#pyjet.PointsToImplicit3.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit3, points: list, output: pyjet.ScalarGrid3) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 3D vectors.</li>
+<li>output : Scalar grid output.</li>
 </ul></div>
   <div class="source_cont">
 </div>
@@ -4712,6 +4986,22 @@ x+y+y width.</p>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.BoundingBox2D.isEmpty">
+    <p>def <span class="ident">isEmpty</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>isEmpty(self: pyjet.BoundingBox2D) -&gt; bool</p>
+<p>Returns true if the box is empty.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.BoundingBox2D.length">
     <p>def <span class="ident">length</span>(</p><p>...)</p>
     </div>
@@ -5043,6 +5333,22 @@ x+y+y width.</p>
 <ul>
 <li>ray : Ray to test.</li>
 </ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.BoundingBox2F.isEmpty">
+    <p>def <span class="ident">isEmpty</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>isEmpty(self: pyjet.BoundingBox2F) -&gt; bool</p>
+<p>Returns true if the box is empty.</p></div>
   <div class="source_cont">
 </div>
 
@@ -5399,6 +5705,22 @@ x+y+y width.</p>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.BoundingBox3D.isEmpty">
+    <p>def <span class="ident">isEmpty</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>isEmpty(self: pyjet.BoundingBox3D) -&gt; bool</p>
+<p>Returns true if the box is empty.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.BoundingBox3D.length">
     <p>def <span class="ident">length</span>(</p><p>...)</p>
     </div>
@@ -5741,6 +6063,22 @@ x+y+y width.</p>
 <ul>
 <li>ray : Ray to test.</li>
 </ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.BoundingBox3F.isEmpty">
+    <p>def <span class="ident">isEmpty</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>isEmpty(self: pyjet.BoundingBox3F) -&gt; bool</p>
+<p>Returns true if the box is empty.</p></div>
   <div class="source_cont">
 </div>
 
@@ -6122,7 +6460,7 @@ that wraps lower-level primitive type, BoundingBox2D.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Box2, lowerCorner: object=<pyjet.Vector2D object at 0x105a7c0c0>, upperCorner: object=<pyjet.Vector2D object at 0x105a7c0f0>, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x105a7c120>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Box2, lowerCorner: object=<pyjet.Vector2D object at 0x108839300>, upperCorner: object=<pyjet.Vector2D object at 0x108839330>, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x108839360>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs Box2</p>
 <p>This method constructs Box2 with center, radius, height,
 transform, and normal direction (isNormalFlipped).</p></div>
@@ -6203,7 +6541,7 @@ that wraps lower-level primitive type, BoundingBox3D.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Box3, lowerCorner: object=<pyjet.Vector3D object at 0x105a7c270>, upperCorner: object=<pyjet.Vector3D object at 0x105a7c2a0>, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a7c2d0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Box3, lowerCorner: object=<pyjet.Vector3D object at 0x1088394b0>, upperCorner: object=<pyjet.Vector3D object at 0x1088394e0>, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x108839510>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs Box3</p>
 <p>This method constructs Box3 with center, radius, height,
 transform, and normal direction (isNormalFlipped).</p></div>
@@ -8783,7 +9121,7 @@ function is linear.</p></div>
 
     
   
-    <div class="desc inherited"><p>solve(self: pyjet.SemiLagrangian2, input: pyjet.Grid2, flow: pyjet.VectorField2, dt: float, output: pyjet.Grid2, boundarySdf: pyjet.ScalarField2=<pyjet.ConstantScalarField2 object at 0x105e7b030>) -&gt; None</p>
+    <div class="desc inherited"><p>solve(self: pyjet.SemiLagrangian2, input: pyjet.Grid2, flow: pyjet.VectorField2, dt: float, output: pyjet.Grid2, boundarySdf: pyjet.ScalarField2=<pyjet.ConstantScalarField2 object at 0x108843ce0>) -&gt; None</p>
 <p>Computes semi-Lagrangian for given scalar grid.</p>
 <p>This function computes semi-Lagrangian method to solve advection
 equation for given field <code>input</code> and underlying vector field
@@ -8860,7 +9198,7 @@ with max double value (kMaxD) is used, meaning no boundary.</p>
 
     
   
-    <div class="desc inherited"><p>solve(self: pyjet.SemiLagrangian3, input: pyjet.Grid3, flow: pyjet.VectorField3, dt: float, output: pyjet.Grid3, boundarySdf: pyjet.ScalarField3=<pyjet.ConstantScalarField3 object at 0x105e7b0d8>) -&gt; None</p>
+    <div class="desc inherited"><p>solve(self: pyjet.SemiLagrangian3, input: pyjet.Grid3, flow: pyjet.VectorField3, dt: float, output: pyjet.Grid3, boundarySdf: pyjet.ScalarField3=<pyjet.ConstantScalarField3 object at 0x108843d88>) -&gt; None</p>
 <p>Computes semi-Lagrangian for given scalar grid.</p>
 <p>This function computes semi-Lagrangian method to solve advection
 equation for given field <code>input</code> and underlying vector field
@@ -9386,7 +9724,7 @@ function is linear.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Cylinder3, center: object=<pyjet.Vector3D object at 0x105a76e40>, radius: float=1.0, height: float=1.0, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a76e70>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Cylinder3, center: object=<pyjet.Vector3D object at 0x1088390c0>, radius: float=1.0, height: float=1.0, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x1088390f0>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs Cylinder3</p>
 <p>This method constructs Cylinder3 with center, radius, height,
 transform, and normal direction (isNormalFlipped).</p></div>
@@ -17061,7 +17399,7 @@ resolution.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.ImplicitTriangleMesh3, points: pyjet.TriangleMesh3, normals: int, uvs: float, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a828a0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.ImplicitTriangleMesh3, points: pyjet.TriangleMesh3, normals: int, uvs: float, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x10883ea20>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs a triangle with given <code>points</code>, <code>normals</code>, and <code>uvs</code>.</p></div>
   <div class="source_cont">
 </div>
@@ -18804,6 +19142,9 @@ time-step.</p></div>
       <p id="pyjet.ParticleSystemData2" class="name">class <span class="ident">ParticleSystemData2</span></p>
       
   
+    <div class="desc"><p>This class is the key data structure for storing particle system data. A
+single particle has position, velocity, and force attributes by default. But
+it can also have additional custom scalar or vector attributes.</p></div>
   <div class="source_cont">
 </div>
 
@@ -18823,6 +19164,45 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the force array (mutable).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData2.mass" class="name">var <span class="ident">mass</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The mass of a particle.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData2.neighborLists" class="name">var <span class="ident">neighborLists</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The neighbor lists.</p>
+<p>This property returns neighbor lists which is available after calling
+PointParallelHashGridSearcher2::buildNeighborLists. Each list stores
+indices of the neighbors.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData2.neighborSearcher" class="name">var <span class="ident">neighborSearcher</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The neighbor searcher.</p>
+<p>This property returns currently set neighbor searcher object. By
+default, PointParallelHashGridSearcher2 is used.</p></div>
   <div class="source_cont">
 </div>
 
@@ -18833,6 +19213,7 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>The number of particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -18843,6 +19224,18 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the position array (mutable).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData2.radius" class="name">var <span class="ident">radius</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The radius of the particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -18853,6 +19246,7 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the velocity array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -18869,6 +19263,105 @@ time-step.</p></div>
   
     <div class="desc"><p><strong>init</strong>(self: pyjet.ParticleSystemData2, numberOfParticles: int=0L) -&gt; None</p>
 <p>Constructs particle system data with given number of particles.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.addParticle">
+    <p>def <span class="ident">addParticle</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addParticle(self: pyjet.ParticleSystemData2, newPosition: object, newVelocity: object=<pyjet.Vector2D object at 0x10883eea0>, newForce: object=<pyjet.Vector2D object at 0x10883eed0>) -&gt; None</p>
+<p>Adds a particle to the data structure.</p>
+<p>This function will add a single particle to the data structure. For
+custom data layers, zeros will be assigned for new particles.
+However, this will invalidate neighbor searcher and neighbor lists. It
+is users responsibility to call
+ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPosition : The new position.</li>
+<li>newVelocity : The new velocity.</li>
+<li>newForce    : The new force.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.addParticles">
+    <p>def <span class="ident">addParticles</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addParticles(self: pyjet.ParticleSystemData2, arg0: list, arg1: list, arg2: list) -&gt; None</p>
+<p>Adds particles to the data structure.</p>
+<p>This function will add particles to the data structure. For custom data
+layers, zeros will be assigned for new particles. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPositions  : The new positions.</li>
+<li>newVelocities : The new velocities.</li>
+<li>newForces     : The new forces.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.addScalarData">
+    <p>def <span class="ident">addScalarData</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addScalarData(self: pyjet.ParticleSystemData2, initialVal: float=0.0) -&gt; int</p>
+<p>Adds a scalar data layer and returns its index.</p>
+<p>This function adds a new scalar data layer to the system. It can be used
+for adding a scalar attribute, such as temperature, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new scalar data.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.addVectorData">
+    <p>def <span class="ident">addVectorData</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addVectorData(self: pyjet.ParticleSystemData2, initialVal: object=<pyjet.Vector2D object at 0x10883ebd0>) -&gt; int</p>
+<p>Adds a vector data layer and returns its index.</p>
+<p>This function adds a new vector data layer to the system. It can be used
+for adding a vector attribute, such as vortex, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new vector data.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -18916,6 +19409,31 @@ time-step.</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.resize">
+    <p>def <span class="ident">resize</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>resize(self: pyjet.ParticleSystemData2, newNumberOfParticles: int) -&gt; None</p>
+<p>Resizes the number of particles of the container.</p>
+<p>This function will resize internal containers to store newly given
+number of particles including custom data layers. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newNumberOfParticles : New number of particles.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.ParticleSystemData2.scalarDataAt">
     <p>def <span class="ident">scalarDataAt</span>(</p><p>...)</p>
     </div>
@@ -18923,7 +19441,8 @@ time-step.</p></div>
 
     
   
-    <div class="desc"><p>scalarDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1D</p></div>
+    <div class="desc"><p>scalarDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1D</p>
+<p>Returns custom scalar data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -18971,6 +19490,22 @@ time-step.</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData2.set">
+    <p>def <span class="ident">set</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>set(self: pyjet.ParticleSystemData2, arg0: pyjet.ParticleSystemData2) -&gt; None</p>
+<p>Copies from other particle system data.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.ParticleSystemData2.vectorDataAt">
     <p>def <span class="ident">vectorDataAt</span>(</p><p>...)</p>
     </div>
@@ -18978,7 +19513,8 @@ time-step.</p></div>
 
     
   
-    <div class="desc"><p>vectorDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1Vector2D</p></div>
+    <div class="desc"><p>vectorDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1Vector2D</p>
+<p>Returns custom vector data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -18991,6 +19527,9 @@ time-step.</p></div>
       <p id="pyjet.ParticleSystemData3" class="name">class <span class="ident">ParticleSystemData3</span></p>
       
   
+    <div class="desc"><p>This class is the key data structure for storing particle system data. A
+single particle has position, velocity, and force attributes by default. But
+it can also have additional custom scalar or vector attributes.</p></div>
   <div class="source_cont">
 </div>
 
@@ -19010,6 +19549,45 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the force array (mutable).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData3.mass" class="name">var <span class="ident">mass</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The mass of a particle.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData3.neighborLists" class="name">var <span class="ident">neighborLists</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The neighbor lists.</p>
+<p>This property returns neighbor lists which is available after calling
+PointParallelHashGridSearcher2::buildNeighborLists. Each list stores
+indices of the neighbors.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData3.neighborSearcher" class="name">var <span class="ident">neighborSearcher</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The neighbor searcher.</p>
+<p>This property returns currently set neighbor searcher object. By
+default, PointParallelHashGridSearcher2 is used.</p></div>
   <div class="source_cont">
 </div>
 
@@ -19020,6 +19598,7 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>The number of particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -19030,6 +19609,18 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the position array (mutable).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemData3.radius" class="name">var <span class="ident">radius</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The radius of the particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -19040,6 +19631,7 @@ time-step.</p></div>
 
             
   
+    <div class="desc"><p>Returns the velocity array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -19056,6 +19648,105 @@ time-step.</p></div>
   
     <div class="desc"><p><strong>init</strong>(self: pyjet.ParticleSystemData3, numberOfParticles: int=0L) -&gt; None</p>
 <p>Constructs particle system data with given number of particles.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.addParticle">
+    <p>def <span class="ident">addParticle</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addParticle(self: pyjet.ParticleSystemData3, newPosition: object, newVelocity: object=<pyjet.Vector3D object at 0x108846360>, newForce: object=<pyjet.Vector3D object at 0x108846390>) -&gt; None</p>
+<p>Adds a particle to the data structure.</p>
+<p>This function will add a single particle to the data structure. For
+custom data layers, zeros will be assigned for new particles.
+However, this will invalidate neighbor searcher and neighbor lists. It
+is users responsibility to call
+ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPosition : The new position.</li>
+<li>newVelocity : The new velocity.</li>
+<li>newForce    : The new force.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.addParticles">
+    <p>def <span class="ident">addParticles</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addParticles(self: pyjet.ParticleSystemData3, arg0: list, arg1: list, arg2: list) -&gt; None</p>
+<p>Adds particles to the data structure.</p>
+<p>This function will add particles to the data structure. For custom data
+layers, zeros will be assigned for new particles. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPositions  : The new positions.</li>
+<li>newVelocities : The new velocities.</li>
+<li>newForces     : The new forces.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.addScalarData">
+    <p>def <span class="ident">addScalarData</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addScalarData(self: pyjet.ParticleSystemData3, initialVal: float=0.0) -&gt; int</p>
+<p>Adds a scalar data layer and returns its index.</p>
+<p>This function adds a new scalar data layer to the system. It can be used
+for adding a scalar attribute, such as temperature, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new scalar data.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.addVectorData">
+    <p>def <span class="ident">addVectorData</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>addVectorData(self: pyjet.ParticleSystemData3, initialVal: object=<pyjet.Vector3D object at 0x108846150>) -&gt; int</p>
+<p>Adds a vector data layer and returns its index.</p>
+<p>This function adds a new vector data layer to the system. It can be used
+for adding a vector attribute, such as vortex, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new vector data.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -19103,6 +19794,31 @@ time-step.</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.resize">
+    <p>def <span class="ident">resize</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>resize(self: pyjet.ParticleSystemData3, newNumberOfParticles: int) -&gt; None</p>
+<p>Resizes the number of particles of the container.</p>
+<p>This function will resize internal containers to store newly given
+number of particles including custom data layers. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newNumberOfParticles : New number of particles.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.ParticleSystemData3.scalarDataAt">
     <p>def <span class="ident">scalarDataAt</span>(</p><p>...)</p>
     </div>
@@ -19110,7 +19826,8 @@ time-step.</p></div>
 
     
   
-    <div class="desc"><p>scalarDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1D</p></div>
+    <div class="desc"><p>scalarDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1D</p>
+<p>Returns custom scalar data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -19158,6 +19875,22 @@ time-step.</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.ParticleSystemData3.set">
+    <p>def <span class="ident">set</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>set(self: pyjet.ParticleSystemData3, arg0: pyjet.ParticleSystemData3) -&gt; None</p>
+<p>Copies from other particle system data.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.ParticleSystemData3.vectorDataAt">
     <p>def <span class="ident">vectorDataAt</span>(</p><p>...)</p>
     </div>
@@ -19165,7 +19898,8 @@ time-step.</p></div>
 
     
   
-    <div class="desc"><p>vectorDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1Vector3D</p></div>
+    <div class="desc"><p>vectorDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1Vector3D</p>
+<p>Returns custom vector data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -21351,7 +22085,7 @@ overriding surface-related queries.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Plane2, normal: object, point: object, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x105a7c3f0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Plane2, normal: object, point: object, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x108839630>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs a plane that cross <code>point</code> with surface <code>normal</code>.</p></div>
   <div class="source_cont">
 </div>
@@ -21439,7 +22173,7 @@ overriding surface-related queries.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Plane3, normal: object, point: object, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a7c570>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Plane3, normal: object, point: object, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x1088397b0>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs a plane that cross <code>point</code> with surface <code>normal</code>.</p></div>
   <div class="source_cont">
 </div>
@@ -21687,6 +22421,88 @@ max total number of particles to be emitted, and random seed.</p></div>
 <p>Constructs an emitter that spawns particles from given origin,
 direction, speed, spread angle, max number of new particles per second,
 max total number of particles to be emitted, and random seed.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.PointsToImplicit2" class="name">class <span class="ident">PointsToImplicit2</span></p>
+      
+  
+    <div class="desc"><p>Abstract base class for 2-D points-to-implicit converters.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.PointsToImplicit2.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>convert(self: pyjet.PointsToImplicit2, points: list, output: pyjet.ScalarGrid2) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 2D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.PointsToImplicit3" class="name">class <span class="ident">PointsToImplicit3</span></p>
+      
+  
+    <div class="desc"><p>Abstract base class for 3-D points-to-implicit converters.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.PointsToImplicit3.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p>convert(self: pyjet.PointsToImplicit3, points: list, output: pyjet.ScalarGrid3) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 3D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -22265,7 +23081,7 @@ max total number of particles to be emitted, and random seed.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray2D, origin: object=<pyjet.Vector2D object at 0x105a52ba0>, direction: object=<pyjet.Vector2D object at 0x105a52bd0>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray2D, origin: object=<pyjet.Vector2D object at 0x108405900>, direction: object=<pyjet.Vector2D object at 0x108405930>) -&gt; None</p>
 <p>Constructs Ray2D</p>
 <p>This method constructs 2D double ray with origin and direction.</p></div>
   <div class="source_cont">
@@ -22324,7 +23140,7 @@ max total number of particles to be emitted, and random seed.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray2F, origin: object=<pyjet.Vector2F object at 0x105a52e10>, direction: object=<pyjet.Vector2F object at 0x105a52e40>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray2F, origin: object=<pyjet.Vector2F object at 0x108405b10>, direction: object=<pyjet.Vector2F object at 0x108405b40>) -&gt; None</p>
 <p>Constructs Ray2F</p>
 <p>This method constructs 2D float ray with origin and direction.</p></div>
   <div class="source_cont">
@@ -22383,7 +23199,7 @@ max total number of particles to be emitted, and random seed.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray3D, origin: object=<pyjet.Vector3D object at 0x105a57090>, direction: object=<pyjet.Vector3D object at 0x105a570c0>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray3D, origin: object=<pyjet.Vector3D object at 0x108405cf0>, direction: object=<pyjet.Vector3D object at 0x108405d20>) -&gt; None</p>
 <p>Constructs Ray3D</p>
 <p>This method constructs 3D double ray with origin and direction.</p></div>
   <div class="source_cont">
@@ -22442,7 +23258,7 @@ max total number of particles to be emitted, and random seed.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray3F, origin: object=<pyjet.Vector3F object at 0x105a572d0>, direction: object=<pyjet.Vector3F object at 0x105a57300>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Ray3F, origin: object=<pyjet.Vector3F object at 0x108405ed0>, direction: object=<pyjet.Vector3F object at 0x108405f00>) -&gt; None</p>
 <p>Constructs Ray3F</p>
 <p>This method constructs 3D float ray with origin and direction.</p></div>
   <div class="source_cont">
@@ -22534,7 +23350,7 @@ negative inputs will be clamped to zero.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.RigidBodyCollider2, surface: pyjet.Surface2, linearVelocity: object=<pyjet.Vector2D object at 0x105e76270>, angularVelocity: float=0.0) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.RigidBodyCollider2, surface: pyjet.Surface2, linearVelocity: object=<pyjet.Vector2D object at 0x10884c570>, angularVelocity: float=0.0) -&gt; None</p>
 <p>Constructs RigidBodyCollider2</p>
 <p>This method constructs RigidBodyCollider2 with surface, linear
 velocity, and angular velocity.</p></div>
@@ -22643,7 +23459,7 @@ negative inputs will be clamped to zero.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.RigidBodyCollider3, surface: pyjet.Surface3, linearVelocity: object=<pyjet.Vector3D object at 0x105e76450>, angularVelocity: object=<pyjet.Vector3D object at 0x105e76480>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.RigidBodyCollider3, surface: pyjet.Surface3, linearVelocity: object=<pyjet.Vector3D object at 0x10884c6f0>, angularVelocity: object=<pyjet.Vector3D object at 0x10884c720>) -&gt; None</p>
 <p>Constructs RigidBodyCollider3</p>
 <p>This method constructs RigidBodyCollider3 with surface, linear
 velocity, and angular velocity.</p></div>
@@ -23335,7 +24151,7 @@ time-stepping (CFL &lt;= 1).</p></div>
 
     
   
-    <div class="desc"><p>solve(self: pyjet.SemiLagrangian2, input: pyjet.Grid2, flow: pyjet.VectorField2, dt: float, output: pyjet.Grid2, boundarySdf: pyjet.ScalarField2=<pyjet.ConstantScalarField2 object at 0x105e7b030>) -&gt; None</p>
+    <div class="desc"><p>solve(self: pyjet.SemiLagrangian2, input: pyjet.Grid2, flow: pyjet.VectorField2, dt: float, output: pyjet.Grid2, boundarySdf: pyjet.ScalarField2=<pyjet.ConstantScalarField2 object at 0x108843ce0>) -&gt; None</p>
 <p>Computes semi-Lagrangian for given scalar grid.</p>
 <p>This function computes semi-Lagrangian method to solve advection
 equation for given field <code>input</code> and underlying vector field
@@ -23406,7 +24222,7 @@ time-stepping (CFL &lt;= 1).</p></div>
 
     
   
-    <div class="desc"><p>solve(self: pyjet.SemiLagrangian3, input: pyjet.Grid3, flow: pyjet.VectorField3, dt: float, output: pyjet.Grid3, boundarySdf: pyjet.ScalarField3=<pyjet.ConstantScalarField3 object at 0x105e7b0d8>) -&gt; None</p>
+    <div class="desc"><p>solve(self: pyjet.SemiLagrangian3, input: pyjet.Grid3, flow: pyjet.VectorField3, dt: float, output: pyjet.Grid3, boundarySdf: pyjet.ScalarField3=<pyjet.ConstantScalarField3 object at 0x108843d88>) -&gt; None</p>
 <p>Computes semi-Lagrangian for given scalar grid.</p>
 <p>This function computes semi-Lagrangian method to solve advection
 equation for given field <code>input</code> and underlying vector field
@@ -23631,6 +24447,150 @@ with max double value (kMaxD) is used, meaning no boundary.</p>
     <div class="desc"><p><strong>init</strong>(self: pyjet.Size3, x: int=0L, y: int=0L, z: int=0L) -&gt; None</p>
 <p>Constructs Size3</p>
 <p>This method constructs 3D size with x, y, and z.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.SphPointsToImplicit2" class="name">class <span class="ident">SphPointsToImplicit2</span></p>
+      
+  
+    <div class="desc"><p>2-D points-to-implicit converter based on standard SPH kernel.</p>
+<p>\see M\"uller, Matthias, David Charypar, and Markus Gross.
+     "Particle-based fluid simulation for interactive applications."
+     Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
+     animation. Eurographics Association, 2003.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.SphPointsToImplicit2">SphPointsToImplicit2</a></li>
+          <li><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphPointsToImplicit2.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SphPointsToImplicit2, kernelRadius: float=1.0, cutOffDensity: float=0.5, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off density.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : SPH kernel radius.</li>
+<li>cutOffDensity : Iso-contour value.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphPointsToImplicit2.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></code>.<code><a href="#pyjet.PointsToImplicit2.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit2, points: list, output: pyjet.ScalarGrid2) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 2D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.SphPointsToImplicit3" class="name">class <span class="ident">SphPointsToImplicit3</span></p>
+      
+  
+    <div class="desc"><p>3-D points-to-implicit converter based on standard SPH kernel.</p>
+<p>\see M\"uller, Matthias, David Charypar, and Markus Gross.
+     "Particle-based fluid simulation for interactive applications."
+     Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
+     animation. Eurographics Association, 2003.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.SphPointsToImplicit3">SphPointsToImplicit3</a></li>
+          <li><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphPointsToImplicit3.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SphPointsToImplicit3, kernelRadius: float=1.0, cutOffDensity: float=0.5, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off density.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : SPH kernel radius.</li>
+<li>cutOffDensity : Iso-contour value.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphPointsToImplicit3.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></code>.<code><a href="#pyjet.PointsToImplicit3.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit3, points: list, output: pyjet.ScalarGrid3) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 3D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -24297,6 +25257,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the force array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24307,7 +25268,61 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
-    <div class="desc"><p>The kernel radius in meters unit.</p></div>
+    <div class="desc"><p>The kernel radius in meters unit.</p>
+<p>Sets the absolute kernel radius compared to the target particle
+spacing (i.e. relative kernel radius * target spacing).
+Once this function is called, hash grid and density should
+be updated using updateHashGrid() and updateDensities).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData2.mass" class="name">var <span class="ident">mass</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.mass">mass</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The mass of a particle.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData2.neighborLists" class="name">var <span class="ident">neighborLists</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.neighborLists">neighborLists</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The neighbor lists.</p>
+<p>This property returns neighbor lists which is available after calling
+PointParallelHashGridSearcher2::buildNeighborLists. Each list stores
+indices of the neighbors.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData2.neighborSearcher" class="name">var <span class="ident">neighborSearcher</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.neighborSearcher">neighborSearcher</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The neighbor searcher.</p>
+<p>This property returns currently set neighbor searcher object. By
+default, PointParallelHashGridSearcher2 is used.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24322,6 +25337,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>The number of particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24336,6 +25352,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the position array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24347,6 +25364,21 @@ it also contains SPH utilities such as interpolation operator.</p></div>
             
   
     <div class="desc"><p>The pressure array accessor.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData2.radius" class="name">var <span class="ident">radius</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.radius">radius</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The radius of the particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24400,6 +25432,7 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the velocity array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24420,6 +25453,121 @@ updated using updateHashGrid() and updateDensities).</p></div>
   
     <div class="desc"><p><strong>init</strong>(self: pyjet.SphSystemData2, numberOfParticles: int=0L) -&gt; None</p>
 <p>Constructs SPH system data with given number of particles.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData2.addParticle">
+    <p>def <span class="ident">addParticle</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.addParticle">addParticle</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addParticle(self: pyjet.ParticleSystemData2, newPosition: object, newVelocity: object=<pyjet.Vector2D object at 0x10883eea0>, newForce: object=<pyjet.Vector2D object at 0x10883eed0>) -&gt; None</p>
+<p>Adds a particle to the data structure.</p>
+<p>This function will add a single particle to the data structure. For
+custom data layers, zeros will be assigned for new particles.
+However, this will invalidate neighbor searcher and neighbor lists. It
+is users responsibility to call
+ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPosition : The new position.</li>
+<li>newVelocity : The new velocity.</li>
+<li>newForce    : The new force.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData2.addParticles">
+    <p>def <span class="ident">addParticles</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.addParticles">addParticles</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addParticles(self: pyjet.ParticleSystemData2, arg0: list, arg1: list, arg2: list) -&gt; None</p>
+<p>Adds particles to the data structure.</p>
+<p>This function will add particles to the data structure. For custom data
+layers, zeros will be assigned for new particles. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPositions  : The new positions.</li>
+<li>newVelocities : The new velocities.</li>
+<li>newForces     : The new forces.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData2.addScalarData">
+    <p>def <span class="ident">addScalarData</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.addScalarData">addScalarData</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addScalarData(self: pyjet.ParticleSystemData2, initialVal: float=0.0) -&gt; int</p>
+<p>Adds a scalar data layer and returns its index.</p>
+<p>This function adds a new scalar data layer to the system. It can be used
+for adding a scalar attribute, such as temperature, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new scalar data.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData2.addVectorData">
+    <p>def <span class="ident">addVectorData</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.addVectorData">addVectorData</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addVectorData(self: pyjet.ParticleSystemData2, initialVal: object=<pyjet.Vector2D object at 0x10883ebd0>) -&gt; int</p>
+<p>Adds a vector data layer and returns its index.</p>
+<p>This function adds a new vector data layer to the system. It can be used
+for adding a vector attribute, such as vortex, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new vector data.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -24499,6 +25647,35 @@ updated using updateHashGrid() and updateDensities).</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.SphSystemData2.resize">
+    <p>def <span class="ident">resize</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.resize">resize</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>resize(self: pyjet.ParticleSystemData2, newNumberOfParticles: int) -&gt; None</p>
+<p>Resizes the number of particles of the container.</p>
+<p>This function will resize internal containers to store newly given
+number of particles including custom data layers. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData2::buildNeighborSearcher and
+ParticleSystemData2::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newNumberOfParticles : New number of particles.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.SphSystemData2.scalarDataAt">
     <p>def <span class="ident">scalarDataAt</span>(</p><p>...)</p>
     </div>
@@ -24510,7 +25687,8 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
     
   
-    <div class="desc inherited"><p>scalarDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1D</p></div>
+    <div class="desc inherited"><p>scalarDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1D</p>
+<p>Returns custom scalar data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24562,6 +25740,10 @@ updated using updateHashGrid() and updateDensities).</p></div>
     <p>def <span class="ident">set</span>(</p><p>...)</p>
     </div>
     
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData2">ParticleSystemData2</a></code>.<code><a href="#pyjet.ParticleSystemData2.set">set</a></code>
+    </p>
 
     
   
@@ -24601,7 +25783,8 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
     
   
-    <div class="desc inherited"><p>vectorDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1Vector2D</p></div>
+    <div class="desc inherited"><p>vectorDataAt(self: pyjet.ParticleSystemData2, arg0: int) -&gt; pyjet.ArrayAccessor1Vector2D</p>
+<p>Returns custom vector data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24653,6 +25836,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the force array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24663,7 +25847,61 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
-    <div class="desc"><p>The kernel radius in meters unit.</p></div>
+    <div class="desc"><p>The kernel radius in meters unit.</p>
+<p>Sets the absolute kernel radius compared to the target particle
+spacing (i.e. relative kernel radius * target spacing).
+Once this function is called, hash grid and density should
+be updated using updateHashGrid() and updateDensities).</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData3.mass" class="name">var <span class="ident">mass</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.mass">mass</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The mass of a particle.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData3.neighborLists" class="name">var <span class="ident">neighborLists</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.neighborLists">neighborLists</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The neighbor lists.</p>
+<p>This property returns neighbor lists which is available after calling
+PointParallelHashGridSearcher2::buildNeighborLists. Each list stores
+indices of the neighbors.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData3.neighborSearcher" class="name">var <span class="ident">neighborSearcher</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.neighborSearcher">neighborSearcher</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The neighbor searcher.</p>
+<p>This property returns currently set neighbor searcher object. By
+default, PointParallelHashGridSearcher2 is used.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24678,6 +25916,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>The number of particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24692,6 +25931,7 @@ it also contains SPH utilities such as interpolation operator.</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the position array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24703,6 +25943,21 @@ it also contains SPH utilities such as interpolation operator.</p></div>
             
   
     <div class="desc"><p>The pressure array accessor.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSystemData3.radius" class="name">var <span class="ident">radius</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.radius">radius</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>The radius of the particles.</p></div>
   <div class="source_cont">
 </div>
 
@@ -24756,6 +26011,7 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
             
   
+    <div class="desc inherited"><p>Returns the velocity array (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24776,6 +26032,121 @@ updated using updateHashGrid() and updateDensities).</p></div>
   
     <div class="desc"><p><strong>init</strong>(self: pyjet.SphSystemData3, numberOfParticles: int=0L) -&gt; None</p>
 <p>Constructs SPH system data with given number of particles.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData3.addParticle">
+    <p>def <span class="ident">addParticle</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.addParticle">addParticle</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addParticle(self: pyjet.ParticleSystemData3, newPosition: object, newVelocity: object=<pyjet.Vector3D object at 0x108846360>, newForce: object=<pyjet.Vector3D object at 0x108846390>) -&gt; None</p>
+<p>Adds a particle to the data structure.</p>
+<p>This function will add a single particle to the data structure. For
+custom data layers, zeros will be assigned for new particles.
+However, this will invalidate neighbor searcher and neighbor lists. It
+is users responsibility to call
+ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPosition : The new position.</li>
+<li>newVelocity : The new velocity.</li>
+<li>newForce    : The new force.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData3.addParticles">
+    <p>def <span class="ident">addParticles</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.addParticles">addParticles</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addParticles(self: pyjet.ParticleSystemData3, arg0: list, arg1: list, arg2: list) -&gt; None</p>
+<p>Adds particles to the data structure.</p>
+<p>This function will add particles to the data structure. For custom data
+layers, zeros will be assigned for new particles. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newPositions  : The new positions.</li>
+<li>newVelocities : The new velocities.</li>
+<li>newForces     : The new forces.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData3.addScalarData">
+    <p>def <span class="ident">addScalarData</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.addScalarData">addScalarData</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addScalarData(self: pyjet.ParticleSystemData3, initialVal: float=0.0) -&gt; int</p>
+<p>Adds a scalar data layer and returns its index.</p>
+<p>This function adds a new scalar data layer to the system. It can be used
+for adding a scalar attribute, such as temperature, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new scalar data.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphSystemData3.addVectorData">
+    <p>def <span class="ident">addVectorData</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.addVectorData">addVectorData</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>addVectorData(self: pyjet.ParticleSystemData3, initialVal: object=<pyjet.Vector3D object at 0x108846150>) -&gt; int</p>
+<p>Adds a vector data layer and returns its index.</p>
+<p>This function adds a new vector data layer to the system. It can be used
+for adding a vector attribute, such as vortex, to the particles.</p>
+<h2>Parameters</h2>
+<ul>
+<li>initialVal : Initial value of the new vector data.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -24855,6 +26226,35 @@ updated using updateHashGrid() and updateDensities).</p></div>
   
             
   <div class="item">
+    <div class="name def" id="pyjet.SphSystemData3.resize">
+    <p>def <span class="ident">resize</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.resize">resize</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>resize(self: pyjet.ParticleSystemData3, newNumberOfParticles: int) -&gt; None</p>
+<p>Resizes the number of particles of the container.</p>
+<p>This function will resize internal containers to store newly given
+number of particles including custom data layers. However, this will
+invalidate neighbor searcher and neighbor lists. It is users
+responsibility to call ParticleSystemData3::buildNeighborSearcher and
+ParticleSystemData3::buildNeighborLists to refresh those data.</p>
+<h2>Parameters</h2>
+<ul>
+<li>newNumberOfParticles : New number of particles.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
     <div class="name def" id="pyjet.SphSystemData3.scalarDataAt">
     <p>def <span class="ident">scalarDataAt</span>(</p><p>...)</p>
     </div>
@@ -24866,7 +26266,8 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
     
   
-    <div class="desc inherited"><p>scalarDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1D</p></div>
+    <div class="desc inherited"><p>scalarDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1D</p>
+<p>Returns custom scalar data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -24918,6 +26319,10 @@ updated using updateHashGrid() and updateDensities).</p></div>
     <p>def <span class="ident">set</span>(</p><p>...)</p>
     </div>
     
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.ParticleSystemData3">ParticleSystemData3</a></code>.<code><a href="#pyjet.ParticleSystemData3.set">set</a></code>
+    </p>
 
     
   
@@ -24957,7 +26362,8 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
     
   
-    <div class="desc inherited"><p>vectorDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1Vector3D</p></div>
+    <div class="desc inherited"><p>vectorDataAt(self: pyjet.ParticleSystemData3, arg0: int) -&gt; pyjet.ArrayAccessor1Vector3D</p>
+<p>Returns custom vector data layer at given index (mutable).</p></div>
   <div class="source_cont">
 </div>
 
@@ -25041,7 +26447,7 @@ updated using updateHashGrid() and updateDensities).</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Sphere2, center: object=<pyjet.Vector2D object at 0x105a7c6f0>, radius: float=1.0, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x105a7c720>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Sphere2, center: object=<pyjet.Vector2D object at 0x108839930>, radius: float=1.0, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x108839960>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs Sphere2.</p>
 <p>This method constructs Sphere2 with center, radius, transform,
 and normal direction (isNormalFlipped).</p></div>
@@ -25128,10 +26534,144 @@ and normal direction (isNormalFlipped).</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Sphere3, center: object=<pyjet.Vector3D object at 0x105a7c8a0>, radius: float=1.0, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a7c8d0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Sphere3, center: object=<pyjet.Vector3D object at 0x108839ae0>, radius: float=1.0, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x108839b10>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs Sphere3.</p>
 <p>This method constructs Sphere3 with center, radius, transform,
 and normal direction (isNormalFlipped).</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.SphericalPointsToImplicit2" class="name">class <span class="ident">SphericalPointsToImplicit2</span></p>
+      
+  
+    <div class="desc"><p>2-D points-to-implicit converter based on simple sphere model.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.SphericalPointsToImplicit2">SphericalPointsToImplicit2</a></li>
+          <li><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphericalPointsToImplicit2.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SphericalPointsToImplicit2, radius: float=1.0, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given sphere radius.</p>
+<h2>Parameters</h2>
+<ul>
+<li>radius : Sphere radius.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphericalPointsToImplicit2.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></code>.<code><a href="#pyjet.PointsToImplicit2.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit2, points: list, output: pyjet.ScalarGrid2) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 2D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.SphericalPointsToImplicit3" class="name">class <span class="ident">SphericalPointsToImplicit3</span></p>
+      
+  
+    <div class="desc"><p>3-D points-to-implicit converter based on simple sphere model.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.SphericalPointsToImplicit3">SphericalPointsToImplicit3</a></li>
+          <li><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphericalPointsToImplicit3.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SphericalPointsToImplicit3, radius: float=1.0, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given sphere radius.</p>
+<h2>Parameters</h2>
+<ul>
+<li>radius : Sphere radius.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.SphericalPointsToImplicit3.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></code>.<code><a href="#pyjet.PointsToImplicit3.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit3, points: list, output: pyjet.ScalarGrid3) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 3D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
@@ -25277,7 +26817,7 @@ surface instances.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceSet2, others: list=[], transform: pyjet.Transform2=<pyjet.Transform2 object at 0x105a76b40>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceSet2, others: list=[], transform: pyjet.Transform2=<pyjet.Transform2 object at 0x108834d80>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs with a list of other surfaces.</p></div>
   <div class="source_cont">
 </div>
@@ -25394,7 +26934,7 @@ surface instances.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceSet3, others: list=[], transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a76cf0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceSet3, others: list=[], transform: pyjet.Transform3=<pyjet.Transform3 object at 0x108834f30>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs with a list of other surfaces.</p></div>
   <div class="source_cont">
 </div>
@@ -25527,7 +27067,7 @@ for the basic primitives such as Sphere2 or Box2.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceToImplicit2, surface: pyjet.Surface2, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x105a826f0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceToImplicit2, surface: pyjet.Surface2, transform: pyjet.Transform2=<pyjet.Transform2 object at 0x10883e8d0>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs an instance with generic Surface2 instance.</p></div>
   <div class="source_cont">
 </div>
@@ -25632,7 +27172,7 @@ for the basic primitives such as Sphere3 or Box3.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceToImplicit3, surface: pyjet.Surface3, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a827e0>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.SurfaceToImplicit3, surface: pyjet.Surface3, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x10883e990>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs an instance with generic Surface3 instance.</p></div>
   <div class="source_cont">
 </div>
@@ -25687,7 +27227,7 @@ for the basic primitives such as Sphere3 or Box3.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Transform2, translation: object=<pyjet.Vector2D object at 0x105a65570>, orientation: float=0.0) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Transform2, translation: object=<pyjet.Vector2D object at 0x108412c00>, orientation: float=0.0) -&gt; None</p>
 <p>Constructs Transform2</p>
 <p>This method constructs 2D transform with translation and
 orientation.</p></div>
@@ -25724,7 +27264,7 @@ orientation.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Transform3, translation: object=<pyjet.Vector3D object at 0x105a65630>, orientation: object=<pyjet.QuaternionD object at 0x105a65660>) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Transform3, translation: object=<pyjet.Vector3D object at 0x108412cc0>, orientation: object=<pyjet.QuaternionD object at 0x108412cf0>) -&gt; None</p>
 <p>Constructs Transform3</p>
 <p>This method constructs 3D transform with translation and
 orientation.</p></div>
@@ -25824,7 +27364,7 @@ overriding surface-related queries.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.Triangle3, points: list, normals: list, uvs: list, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a7ca50>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.Triangle3, points: list, normals: list, uvs: list, transform: pyjet.Transform3=<pyjet.Transform3 object at 0x108839c90>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs a triangle with given <code>points</code>, <code>normals</code>, and <code>uvs</code>.</p></div>
   <div class="source_cont">
 </div>
@@ -25893,7 +27433,7 @@ normals, and UV coordinates.</p></div>
 
     
   
-    <div class="desc"><p><strong>init</strong>(self: pyjet.TriangleMesh3, points: list=[], normals: list=[], uvs: list=[], pointIndices: list=[], normalIndices: list=[], uvIndices: list=[], transform: pyjet.Transform3=<pyjet.Transform3 object at 0x105a7cc30>, isNormalFlipped: bool=False) -&gt; None</p>
+    <div class="desc"><p><strong>init</strong>(self: pyjet.TriangleMesh3, points: list=[], normals: list=[], uvs: list=[], pointIndices: list=[], normalIndices: list=[], uvIndices: list=[], transform: pyjet.Transform3=<pyjet.Transform3 object at 0x108839e70>, isNormalFlipped: bool=False) -&gt; None</p>
 <p>Constructs mesh with points, normals, uvs, and their indices.</p></div>
   <div class="source_cont">
 </div>
@@ -29907,6 +31447,146 @@ emitter.</p></div>
     <div class="desc inherited"><p>update(self: pyjet.ParticleEmitter3, currentTimeInSeconds: float, timeIntervalInSeconds: float) -&gt; None</p>
 <p>Updates the emitter state from <code>currentTimeInSeconds</code> to the following
 time-step.</p></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.ZhuBridsonPointsToImplicit2" class="name">class <span class="ident">ZhuBridsonPointsToImplicit2</span></p>
+      
+  
+    <div class="desc"><p>2-D points-to-implicit converter based on Zhu and Bridson's method.</p>
+<p>\see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
+     ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.ZhuBridsonPointsToImplicit2">ZhuBridsonPointsToImplicit2</a></li>
+          <li><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ZhuBridsonPointsToImplicit2.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.ZhuBridsonPointsToImplicit2, kernelRadius: float=1.0, cutOffThreshold: float=0.25, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off threshold.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : Smoothing kernel radius.</li>
+<li>cutOffThreshold : Iso-contour value.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ZhuBridsonPointsToImplicit2.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit2">PointsToImplicit2</a></code>.<code><a href="#pyjet.PointsToImplicit2.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit2, points: list, output: pyjet.ScalarGrid2) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 2D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+      </div>
+      </div>
+      
+      <div class="item">
+      <p id="pyjet.ZhuBridsonPointsToImplicit3" class="name">class <span class="ident">ZhuBridsonPointsToImplicit3</span></p>
+      
+  
+    <div class="desc"><p>3-D points-to-implicit converter based on Zhu and Bridson's method.</p>
+<p>\see Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
+     ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.</p></div>
+  <div class="source_cont">
+</div>
+
+
+      <div class="class">
+          <h3>Ancestors (in MRO)</h3>
+          <ul class="class_list">
+          <li><a href="#pyjet.ZhuBridsonPointsToImplicit3">ZhuBridsonPointsToImplicit3</a></li>
+          <li><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></li>
+          <li>pybind11_builtins.pybind11_object_56</li>
+          <li>__builtin__.object</li>
+          </ul>
+          <h3>Methods</h3>
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ZhuBridsonPointsToImplicit3.__init__">
+    <p>def <span class="ident">__init__</span>(</p><p>...)</p>
+    </div>
+    
+
+    
+  
+    <div class="desc"><p><strong>init</strong>(self: pyjet.ZhuBridsonPointsToImplicit3, kernelRadius: float=1.0, cutOffThreshold: float=0.25, isOutputSdf: bool=True) -&gt; None</p>
+<p>Constructs the converter with given kernel radius and cut-off threshold.</p>
+<h2>Parameters</h2>
+<ul>
+<li>kernelRadius : Smoothing kernel radius.</li>
+<li>cutOffThreshold : Iso-contour value.</li>
+<li>isOutputSdf : True if the output should be signed-distance field.</li>
+</ul></div>
+  <div class="source_cont">
+</div>
+
+  </div>
+  
+            
+  <div class="item">
+    <div class="name def" id="pyjet.ZhuBridsonPointsToImplicit3.convert">
+    <p>def <span class="ident">convert</span>(</p><p>...)</p>
+    </div>
+    
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PointsToImplicit3">PointsToImplicit3</a></code>.<code><a href="#pyjet.PointsToImplicit3.convert">convert</a></code>
+    </p>
+
+    
+  
+    <div class="desc inherited"><p>convert(self: pyjet.PointsToImplicit3, points: list, output: pyjet.ScalarGrid3) -&gt; None</p>
+<p>Converts the given points to implicit surface scalar field.</p>
+<h2>Parameters</h2>
+<ul>
+<li>points : List of 3D vectors.</li>
+<li>output : Scalar grid output.</li>
+</ul></div>
   <div class="source_cont">
 </div>
 
