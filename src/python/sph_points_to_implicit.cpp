@@ -19,7 +19,7 @@ void addSphPointsToImplicit2(pybind11::module& m) {
                                         R"pbdoc(
         2-D points-to-implicit converter based on standard SPH kernel.
 
-        \see Müller, Matthias, David Charypar, and Markus Gross.
+        \see M\"uller, Matthias, David Charypar, and Markus Gross.
              "Particle-based fluid simulation for interactive applications."
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
@@ -44,7 +44,7 @@ void addSphPointsToImplicit3(pybind11::module& m) {
                                         R"pbdoc(
         3-D points-to-implicit converter based on standard SPH kernel.
 
-        \see Müller, Matthias, David Charypar, and Markus Gross.
+        \see M\"uller, Matthias, David Charypar, and Markus Gross.
              "Particle-based fluid simulation for interactive applications."
              Proceedings of the 2003 ACM SIGGRAPH/Eurographics symposium on Computer
              animation. Eurographics Association, 2003.
