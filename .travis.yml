@@ -7,29 +7,38 @@ matrix:
       dist: trusty
       sudo: required
       compiler: gcc
+      script:
+        - sh script/travis_build.sh
+    # Test Docker based on Ubuntu 14.04 + gcc
+    - os: linux
+      dist: trusty
+      sudo: required
+      services: docker
+      script:
+        - sh script/travis_build_docer.sh
     # Test OS X 10.11 + Xcode 7.3 + clang
     - os: osx
       osx_image: xcode7.3
       compiler: clang
+      script:
+        - sh script/travis_build.sh
     # Test OS X 10.11 + Xcode 7.3 + gcc
     - os: osx
       osx_image: xcode7.3
       compiler: gcc
+      script:
+        - sh script/travis_build.sh
     # Test OS X 10.12 + Xcode 8.3 + clang
     - os: osx
       osx_image: xcode8.3
       compiler: clang
+      script:
+        - sh script/travis_build.sh
     # Test OS X 10.12 + Xcode 8.3 + gcc
     - os: osx
       osx_image: xcode8.3
       compiler: gcc
+      script:
+        - sh script/travis_build.sh
 
-script:
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
-  - bin/unit_tests
-  - pip install --user -r ../requirements.txt
-  - pip install --user ..
-  - python ../src/tests/python_tests/main.py
+
