@@ -14,3 +14,5 @@ RUN cmake .. && \
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 RUN pip install -r ../requirements.txt && \
     pip install ..
+
+WORKDIR /
