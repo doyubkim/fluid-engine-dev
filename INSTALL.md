@@ -143,6 +143,30 @@ python src/tests/python_tests/main.py
 
 The tests should pass.
 
+### Using Docker
+
+You can also use pre-built docker image by pulling the latest version from Docker Hub:
+
+```
+docker pull doyubkim/fluid-engine-dev
+```
+
+Run a container and see if it can import `pyjet` module and the unit test passes:
+
+```
+docker run -it doyubkim/fluid-engine-dev
+python import -c "pyjet"
+
+docker run doyubkim/fluid-engine-dev /app/jet/build/bin/unit_tests
+```
+
+You can also build the image from the source as well. From the root directory of this codebase, run:
+
+```
+docker build -t doyubkim/fluid-engine-dev .
+```
+
+
 ### Coding Style
 
 Jet uses clang-format. Checkout [`.clang-format`](https://github.com/doyubkim/fluid-engine-dev/blob/master/.clang-format) file for the style guideline.
