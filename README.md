@@ -6,7 +6,7 @@ Jet framework is a fluid simulation engine SDK for computer graphics application
 
 The latest code is always available from the [`master`](https://github.com/doyubkim/fluid-engine-dev/tree/master) branch. Since the code evolves over time, the latest from the master could be somewhat different from the code in the book. To find the version that is consistent with the book, check out the branch [`book-1st-edition`](https://github.com/doyubkim/fluid-engine-dev/tree/book-1st-edition).
 
-### Key Features
+## Key Features
 * Basic math and geometry operations and data structures
 * Spatial query accelerators
 * SPH and PCISPH fluid simulators
@@ -15,13 +15,51 @@ The latest code is always available from the [`master`](https://github.com/doyub
 * PIC, FLIP, and APIC fluid simulators
 * Upwind, ENO, and FMM level set solvers
 * Jacobi, Gauss-Seidel, SOR, MG, CG, ICCG, and MGPCG linear system solvers
-* Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter 
+* Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter
 * Converters between signed distance function and triangular mesh
 * C++ and Python API
 
 Every simulator has both 2-D and 3-D implementations.
 
-## How to Build
+## Quick Start
+
+You will need CMake to build the code. If you're using Windows, you need Visual Studio 2015 or 2017 in addition to CMake.
+
+First, clone the code:
+
+```
+git clone https://github.com/doyubkim/fluid-engine-dev.git --recursive
+cd fluid-engine-dev
+```
+
+### Python API
+
+```
+pip install -U .
+```
+
+### C++ API
+
+For macOS or Linux:
+
+```
+mkdir build && cd build && cmake .. && make
+```
+
+For Windows:
+
+```
+mkdir build && cd build && cmake .. -G"Visual Studio 14 2015 Win64" && MSBuild jet.sln /p:Configuration=Release
+```
+
+### Docker
+
+```
+docker pull doyubkim/fluid-engine-dev:latest
+```
+
+
+### More Instructions of Building the Code
 
 To learn how to build, test, and install the SDK, please check out [INSTALL.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/INSTALL.md).
 
@@ -50,7 +88,7 @@ Here are some of the example simulations generated using Jet framework. Correspo
 ![Cubic-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_cubic.png "Cubic-smoke Example")
 ![Linear-smoke Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/smoke_linear.png "Linear-smoke Example")
 
-### Point-to-Surface Examples 
+### Point-to-Surface Examples
 
 ![Point-to-Surface Example](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/point_to_surface.png "Point-to-Surface Example")
 
