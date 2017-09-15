@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <jet/flip_solver2.h>
@@ -16,6 +20,14 @@ FlipSolver2::FlipSolver2(
 }
 
 FlipSolver2::~FlipSolver2() {
+}
+
+double FlipSolver2::picBlendingFactor() const {
+    return _picBlendingFactor;
+}
+
+void FlipSolver2::setPicBlendingFactor(double factor) {
+    _picBlendingFactor = clamp(factor, 0.0, 1.0);
 }
 
 void FlipSolver2::transferFromParticlesToGrids() {
@@ -69,7 +81,12 @@ void FlipSolver2::transferFromGridsToParticles() {
 
     // Transfer delta to the particles
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] += sampler(positions[i]);
+        Vector2D flipVel = velocities[i] + sampler(positions[i]);
+        if (_picBlendingFactor > 0.0) {
+            Vector2D picVel = flow->sample(positions[i]);
+            flipVel = lerp(flipVel, picVel, _picBlendingFactor);
+        }
+        velocities[i] = flipVel;
     });
 }
 

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/sph_system_data3.h>
 #include <gtest/gtest.h>
@@ -18,6 +22,10 @@ TEST(SphSystemData3, Parameters) {
     EXPECT_EQ(0.549, data.radius());
     EXPECT_EQ(2.5, data.relativeKernelRadius());
     EXPECT_DOUBLE_EQ(2.5 * 0.549, data.kernelRadius());
+
+    data.setKernelRadius(1.9);
+    EXPECT_DOUBLE_EQ(1.9, data.kernelRadius());
+    EXPECT_DOUBLE_EQ(1.9 / 2.5, data.targetSpacing());
 
     data.setRadius(0.413);
     EXPECT_EQ(0.413, data.targetSpacing());

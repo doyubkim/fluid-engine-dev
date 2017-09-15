@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <physics_helpers.h>
@@ -200,7 +204,7 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
         _colliderSdf->fill(kMaxD);
 
         _colliderVel = CustomVectorField2::builder()
-            .withFunction([] (const Vector2D& x) {
+            .withFunction([] (const Vector2D&) {
                 return Vector2D();
             })
             .withDerivativeResolution(gridSpacing.x)

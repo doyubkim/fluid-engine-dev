@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_GRID_SMOKE_SOLVER3_H_
 #define INCLUDE_JET_GRID_SMOKE_SOLVER3_H_
@@ -10,7 +14,7 @@ namespace jet {
 //!
 //! \brief      3-D grid-based smoke solver.
 //!
-//! This class extends GridFluidSolver2 to implement smoke simulation solver.
+//! This class extends GridFluidSolver3 to implement smoke simulation solver.
 //! It adds smoke density and temperature fields to define the smoke and uses
 //! buoyancy force to simulate hot rising smoke.
 //!

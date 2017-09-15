@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_LOGGING_H_
 #define INCLUDE_JET_LOGGING_H_
@@ -10,11 +14,14 @@
 namespace jet {
 
 //! Level of the logging.
-enum class LoggingLevel {
-    Info,
-    Warn,
-    Error,
-    Debug
+//! All < Debug < Info < Warn < Error < Off.
+enum class LoggingLevel : uint8_t {
+    All = 0,
+    Debug = 1,
+    Info = 2,
+    Warn = 3,
+    Error = 4,
+    Off = 5
 };
 
 //!
@@ -63,6 +70,15 @@ class Logging {
 
     //! Returns the header string.
     static std::string getHeader(LoggingLevel level);
+
+    //! Sets the logging level.
+    static void setLevel(LoggingLevel level);
+
+    //! Mutes the logger.
+    static void mute();
+
+    //! Un-mutes the logger.
+    static void unmute();
 };
 
 //! Info-level logger.

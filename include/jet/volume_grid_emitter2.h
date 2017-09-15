@@ -1,9 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VOLUME_GRID_EMITTER2_H_
 #define INCLUDE_JET_VOLUME_GRID_EMITTER2_H_
 
 #include <jet/grid_emitter2.h>
+#include <jet/scalar_grid2.h>
+#include <jet/vector_grid2.h>
 
 #include <tuple>
 #include <vector>
@@ -53,7 +59,7 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
     //!
     //! This function adds a custom target to the emitter. The first parameter
     //! defines which grid should it write to. The second parameter,
-    //! \p customMapper, defines how to map sigend-distance field from the
+    //! \p customMapper, defines how to map signed-distance field from the
     //! volume geometry and location of the point to the final scalar value that
     //! is going to be written to the target grid. The third parameter defines
     //! how to blend the old value from the target grid and the new value from

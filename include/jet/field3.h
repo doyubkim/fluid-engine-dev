@@ -1,7 +1,13 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FIELD3_H_
 #define INCLUDE_JET_FIELD3_H_
+
+#include <memory>
 
 namespace jet {
 
@@ -12,6 +18,8 @@ class Field3 {
 
     virtual ~Field3();
 };
+
+typedef std::shared_ptr<Field3> Field3Ptr;
 
 }  // namespace jet
 

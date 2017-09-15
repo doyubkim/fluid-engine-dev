@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <jet/array_utils.h>
@@ -134,7 +138,7 @@ void GridFluidSolver3::resizeGrid(
     _grids->resize(newSize, newGridSpacing, newGridOrigin);
 }
 
-Size3 GridFluidSolver3::gridResolution() const {
+Size3 GridFluidSolver3::resolution() const {
     return _grids->resolution();
 }
 

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_QUATERNION_INL_H_
 #define INCLUDE_JET_DETAIL_QUATERNION_INL_H_
@@ -152,19 +156,19 @@ inline void Quaternion<T>::set(const Matrix3x3<T>& m) {
         y = (m(0, 2) - m(2, 0)) / S;
         z = (m(1, 0) - m(0, 1)) / S;
     } else if (m(0, 0) > m(1, 1) && m(0, 0) > m(2, 2)) {
-        T S = std::sqrt(1.0 + m(0, 0) - m(1, 1) - m(2, 2)) * 2;
+        T S = std::sqrt(1 + m(0, 0) - m(1, 1) - m(2, 2)) * 2;
         w = (m(2, 1) - m(1, 2)) / S;
         x = quater * S;
         y = (m(0, 1) + m(1, 0)) / S;
         z = (m(0, 2) + m(2, 0)) / S;
     } else if (m(1, 1) > m(2, 2)) {
-        T S = std::sqrt(1.0 + m(1, 1) - m(0, 0) - m(2, 2)) * 2;
+        T S = std::sqrt(1 + m(1, 1) - m(0, 0) - m(2, 2)) * 2;
         w = (m(0, 2) - m(2, 0)) / S;
         x = (m(0, 1) + m(1, 0)) / S;
         y = quater * S;
         z = (m(1, 2) + m(2, 1)) / S;
     } else {
-        T S = std::sqrt(1.0 + m(2, 2) - m(0, 0) - m(1, 1)) * 2;
+        T S = std::sqrt(1 + m(2, 2) - m(0, 0) - m(1, 1)) * 2;
         w = (m(1, 0) - m(0, 1)) / S;
         x = (m(0, 2) + m(2, 0)) / S;
         y = (m(1, 2) + m(2, 1)) / S;

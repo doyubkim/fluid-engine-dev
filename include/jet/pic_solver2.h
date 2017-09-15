@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_PIC_SOLVER2_H_
 #define INCLUDE_JET_PIC_SOLVER2_H_
@@ -51,6 +55,9 @@ class PicSolver2 : public GridFluidSolver2 {
     static Builder builder();
 
  protected:
+    Array2<char> _uMarkers;
+    Array2<char> _vMarkers;
+
     //! Initializes the simulator.
     void onInitialize() override;
 
@@ -76,9 +83,6 @@ class PicSolver2 : public GridFluidSolver2 {
     size_t _signedDistanceFieldId;
     ParticleSystemData2Ptr _particles;
     ParticleEmitter2Ptr _particleEmitter;
-
-    Array2<char> _uMarkers;
-    Array2<char> _vMarkers;
 
     void extrapolateVelocityToAir();
 

@@ -1,10 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_ARRAY3_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY3_INL_H_
 
 #include <jet/macros.h>
 #include <jet/parallel.h>
+
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
 #include <vector>
@@ -12,8 +17,7 @@
 namespace jet {
 
 template <typename T>
-Array<T, 3>::Array() {
-}
+Array<T, 3>::Array() {}
 
 template <typename T>
 Array<T, 3>::Array(const Size3& size, const T& initVal) {
@@ -21,21 +25,25 @@ Array<T, 3>::Array(const Size3& size, const T& initVal) {
 }
 
 template <typename T>
-Array<T, 3>::Array(
-    size_t width, size_t height, size_t depth, const T& initVal) {
+Array<T, 3>::Array(size_t width, size_t height, size_t depth,
+                   const T& initVal) {
     resize(width, height, depth, initVal);
 }
 
 template <typename T>
-Array<T, 3>::Array(
-    const std::initializer_list<
-        std::initializer_list<std::initializer_list<T>>>& lst) {
+Array<T, 3>::Array(const std::initializer_list<
+                   std::initializer_list<std::initializer_list<T>>>& lst) {
     set(lst);
 }
 
 template <typename T>
 Array<T, 3>::Array(const Array& other) {
     set(other);
+}
+
+template <typename T>
+Array<T, 3>::Array(Array&& other) {
+    (*this) = std::move(other);
 }
 
 template <typename T>
@@ -53,9 +61,8 @@ void Array<T, 3>::set(const Array& other) {
 }
 
 template <typename T>
-void Array<T, 3>::set(
-    const std::initializer_list<
-        std::initializer_list<std::initializer_list<T>>>& lst) {
+void Array<T, 3>::set(const std::initializer_list<
+                      std::initializer_list<std::initializer_list<T>>>& lst) {
     size_t depth = lst.size();
     auto pageIter = lst.begin();
     size_t height = (depth > 0) ? pageIter->size() : 0;
@@ -104,20 +111,20 @@ void Array<T, 3>::resize(const Size3& size, const T& initVal) {
 }
 
 template <typename T>
-void Array<T, 3>::resize(
-    size_t width, size_t height, size_t depth, const T& initVal) {
+void Array<T, 3>::resize(size_t width, size_t height, size_t depth,
+                         const T& initVal) {
     resize(Size3(width, height, depth), initVal);
 }
 
 template <typename T>
 T& Array<T, 3>::at(size_t i) {
-    JET_ASSERT(i < _size.x*_size.y*_size.z);
+    JET_ASSERT(i < _size.x * _size.y * _size.z);
     return _data[i];
 }
 
 template <typename T>
 const T& Array<T, 3>::at(size_t i) const {
-    JET_ASSERT(i < _size.x*_size.y*_size.z);
+    JET_ASSERT(i < _size.x * _size.y * _size.z);
     return _data[i];
 }
 
@@ -180,7 +187,7 @@ typename Array<T, 3>::ContainerType::iterator Array<T, 3>::begin() {
 
 template <typename T>
 typename Array<T, 3>::ContainerType::const_iterator Array<T, 3>::begin() const {
-    return _data.begin();
+    return _data.cbegin();
 }
 
 template <typename T>
@@ -190,7 +197,7 @@ typename Array<T, 3>::ContainerType::iterator Array<T, 3>::end() {
 
 template <typename T>
 typename Array<T, 3>::ContainerType::const_iterator Array<T, 3>::end() const {
-    return _data.end();
+    return _data.cend();
 }
 
 template <typename T>
@@ -256,13 +263,13 @@ const T& Array<T, 3>::operator()(size_t i, size_t j, size_t k) const {
 }
 
 template <typename T>
-T& Array<T, 3>::operator()(const Point3UI &pt) {
+T& Array<T, 3>::operator()(const Point3UI& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
 
 template <typename T>
-const T& Array<T, 3>::operator()(const Point3UI &pt) const {
+const T& Array<T, 3>::operator()(const Point3UI& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
@@ -276,6 +283,14 @@ Array<T, 3>& Array<T, 3>::operator=(const T& value) {
 template <typename T>
 Array<T, 3>& Array<T, 3>::operator=(const Array& other) {
     set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 3>& Array<T, 3>::operator=(Array&& other) {
+    _data = std::move(other._data);
+    _size = other._size;
+    other._size = Size3();
     return *this;
 }
 

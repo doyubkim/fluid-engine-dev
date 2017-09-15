@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VECTOR2_H_
 #define INCLUDE_JET_VECTOR2_H_
@@ -19,9 +23,8 @@ namespace jet {
 template <typename T>
 class Vector<T, 2> final {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Vector only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Vector only can be instantiated with floating point types");
 
     //! X (or the first) component of the vector.
     T x;
@@ -32,17 +35,17 @@ class Vector<T, 2> final {
     // MARK: Constructors
 
     //! Constructs default vector (0, 0).
-    Vector();
+    constexpr Vector() : x(0), y(0) {}
 
-    //! Constructs vector with given parameters \p x and \p y.
-    Vector(T x, T y);
+    //! Constructs vector with given parameters \p x_ and \p y_.
+    constexpr Vector(T x_, T y_) : x(x_), y(y_) {}
 
     //! Constructs vector with initializer list.
     template <typename U>
     Vector(const std::initializer_list<U>& lst);
 
     //! Copy constructor.
-    Vector(const Vector& v);
+    constexpr Vector(const Vector& v) : x(v.x), y(v.y) {}
 
     // MARK: Basic setters
 
@@ -204,9 +207,8 @@ class Vector<T, 2> final {
     bool isEqual(const Vector& other) const;
 
     //! Returns true if \p other is similar to this vector.
-    bool isSimilar(
-        const Vector& other,
-        T epsilon = std::numeric_limits<T>::epsilon()) const;
+    bool isSimilar(const Vector& other,
+                   T epsilon = std::numeric_limits<T>::epsilon()) const;
 
     // MARK: Operators
 
@@ -254,9 +256,9 @@ class Vector<T, 2> final {
     bool operator!=(const Vector& v) const;
 };
 
-
 //! Type alias for two dimensional vector.
-template <typename T> using Vector2 = Vector<T, 2>;
+template <typename T>
+using Vector2 = Vector<T, 2>;
 
 //! Positive sign operator.
 template <typename T>
@@ -320,8 +322,8 @@ Vector2<T> max(const Vector2<T>& a, const Vector2<T>& b);
 
 //! Returns element-wise clamped vector.
 template <typename T>
-Vector2<T> clamp(
-    const Vector2<T>& v, const Vector2<T>& low, const Vector2<T>& high);
+Vector2<T> clamp(const Vector2<T>& v, const Vector2<T>& low,
+                 const Vector2<T>& high);
 
 //! Returns element-wise ceiled vector.
 template <typename T>
@@ -341,13 +343,13 @@ typedef Vector2<double> Vector2D;
 
 //! Returns float-type zero vector.
 template <>
-inline Vector2F zero<Vector2F>() {
+constexpr Vector2F zero<Vector2F>() {
     return Vector2F(0.f, 0.f);
 }
 
 //! Returns double-type zero vector.
 template <>
-inline Vector2D zero<Vector2D>() {
+constexpr Vector2D zero<Vector2D>() {
     return Vector2D(0.0, 0.0);
 }
 
@@ -359,12 +361,8 @@ struct ScalarType<Vector2<T>> {
 
 //! Computes monotonic Catmull-Rom interpolation.
 template <typename T>
-Vector2<T> monotonicCatmullRom(
-    const Vector2<T>& v0,
-    const Vector2<T>& v1,
-    const Vector2<T>& v2,
-    const Vector2<T>& v3,
-    T f);
+Vector2<T> monotonicCatmullRom(const Vector2<T>& v0, const Vector2<T>& v1,
+                               const Vector2<T>& v2, const Vector2<T>& v3, T f);
 
 }  // namespace jet
 

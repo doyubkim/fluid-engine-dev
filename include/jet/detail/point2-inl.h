@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_POINT2_INL_H_
 #define INCLUDE_JET_DETAIL_POINT2_INL_H_
@@ -13,27 +17,9 @@ namespace jet {
 
 // Constructors
 template <typename T>
-Point<T, 2>::Point() :
-    x(0),
-    y(0) {
-}
-
-template <typename T>
-Point<T, 2>::Point(T newX, T newY) :
-    x(newX),
-    y(newY) {
-}
-
-template <typename T>
 template <typename U>
 Point<T, 2>::Point(const std::initializer_list<U>& lst) {
     set(lst);
-}
-
-template <typename T>
-Point<T, 2>::Point(const Point& v) :
-    x(v.x),
-    y(v.y) {
 }
 
 // Basic setters

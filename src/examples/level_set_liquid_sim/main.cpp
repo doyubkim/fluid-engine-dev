@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/jet.h>
 #include <pystring/pystring.h>
@@ -22,7 +26,7 @@ using namespace jet;
 void saveTriangleMesh(
     const TriangleMesh3& mesh,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.obj", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -37,7 +41,7 @@ void saveTriangleMesh(
 void triangulateAndSave(
     const ScalarGrid3Ptr& sdf,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     TriangleMesh3 mesh;
     int flag = kDirectionAll & ~kDirectionDown;
     marchingCubes(
@@ -85,7 +89,7 @@ void printInfo(const LevelSetLiquidSolver3Ptr& solver) {
 void runSimulation(
     const std::string& rootDir,
     const LevelSetLiquidSolver3Ptr& solver,
-    size_t numberOfFrames,
+    int numberOfFrames,
     double fps) {
     auto sdf = solver->signedDistanceField();
 
@@ -100,7 +104,7 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     size_t resX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     double fps) {
     // Build solver
     auto solver = LevelSetLiquidSolver3::builder()
@@ -145,7 +149,7 @@ void runExample1(
 void runExample2(
     const std::string& rootDir,
     size_t resX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     double fps) {
     // Build solver
     auto solver = LevelSetLiquidSolver3::builder()
@@ -220,7 +224,7 @@ void runExample2(
 void runExample3(
     const std::string& rootDir,
     size_t resX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     double fps) {
     // Build solver
     auto solver = LevelSetLiquidSolver3::builder()
@@ -234,26 +238,17 @@ void runExample3(
     auto grids = solver->gridSystemData();
 
     // Build emitters
-    VertexCenteredScalarGrid3 bunnySdf;
-    std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        bunnySdf.deserialize(buffer);
-        sdfFile.close();
+    auto bunnyMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
+    if (objFile) {
+        bunnyMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open bunny.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/bunny.obj"
-            " -o bunny.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/bunny.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto bunny = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(bunnySdf.sampler())
-        .withResolution(grids->gridSpacing().x)
+    auto bunny = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(bunnyMesh)
+        .withResolutionX(resX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
@@ -275,7 +270,7 @@ void runExample3(
 void runExample4(
     const std::string& rootDir,
     size_t resX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     double fps) {
     // Build solver
     auto solver = LevelSetLiquidSolver3::builder()
@@ -289,26 +284,17 @@ void runExample4(
     auto grids = solver->gridSystemData();
 
     // Build emitters
-    VertexCenteredScalarGrid3 bunnySdf;
-    std::ifstream sdfFile("bunny.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        bunnySdf.deserialize(buffer);
-        sdfFile.close();
+    auto bunnyMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
+    if (objFile) {
+        bunnyMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open bunny.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/bunny.obj"
-            " -o bunny.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/bunny.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto bunny = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(bunnySdf.sampler())
-        .withResolution(grids->gridSpacing().x)
+    auto bunny = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(bunnyMesh)
+        .withResolutionX(resX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
@@ -328,7 +314,7 @@ void runExample4(
 
 int main(int argc, char* argv[]) {
     size_t resX = 50;
-    unsigned int numberOfFrames = 100;
+    int numberOfFrames = 100;
     double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
@@ -355,7 +341,7 @@ int main(int argc, char* argv[]) {
                 resX = static_cast<size_t>(atoi(optarg));
                 break;
             case 'f':
-                numberOfFrames = static_cast<size_t>(atoi(optarg));
+                numberOfFrames = atoi(optarg);
                 break;
             case 'p':
                 fps = atof(optarg);

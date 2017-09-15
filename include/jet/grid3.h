@@ -1,14 +1,20 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_GRID3_H_
 #define INCLUDE_JET_GRID3_H_
 
-#include <jet/size3.h>
 #include <jet/bounding_box3.h>
 #include <jet/serialization.h>
+#include <jet/size3.h>
+
 #include <functional>
-#include <utility>  // just make cpplint happy..
+#include <memory>
 #include <string>
+#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -86,10 +92,8 @@ class Grid3 : public Serializable {
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
-    void setSizeParameters(
-        const Size3& resolution,
-        const Vector3D& gridSpacing,
-        const Vector3D& origin);
+    void setSizeParameters(const Size3& resolution, const Vector3D& gridSpacing,
+                           const Vector3D& origin);
 
     //! Swaps the size parameters with given grid \p other.
     void swapGrid(Grid3* other);
@@ -110,10 +114,10 @@ class Grid3 : public Serializable {
     BoundingBox3D _boundingBox = BoundingBox3D(Vector3D(), Vector3D());
 };
 
+typedef std::shared_ptr<Grid3> Grid3Ptr;
+
 #define JET_GRID3_TYPE_NAME(DerivedClassName) \
-    std::string typeName() const override { \
-        return #DerivedClassName; \
-    }
+    std::string typeName() const override { return #DerivedClassName; }
 
 }  // namespace jet
 

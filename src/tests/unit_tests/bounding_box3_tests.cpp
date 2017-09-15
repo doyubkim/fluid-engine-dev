@@ -1,8 +1,12 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <unit_tests_utils.h>
 
 #include <jet/bounding_box3.h>
-#include <gtest/gtest.h>
-#include <limits>
 
 using namespace jet;
 
@@ -141,15 +145,13 @@ TEST(BoundingBox3, ClosestIntersection) {
     BoundingBox3D box(Vector3D(-2.0, -2.0, -1.0), Vector3D(1.0, 0.0, 1.0));
 
     Ray3D ray1(Vector3D(-4, -3, 0), Vector3D(1, 1, 0).normalized());
-    BoundingBoxRayIntersection3D intersection1
-        = box.closestIntersection(ray1);
+    BoundingBoxRayIntersection3D intersection1 = box.closestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 2, 0).length(), intersection1.tNear);
     EXPECT_DOUBLE_EQ(Vector3D(3, 3, 0).length(), intersection1.tFar);
 
     Ray3D ray2(Vector3D(0, -1, 0), Vector3D(-2, 1, 1).normalized());
-    BoundingBoxRayIntersection3D intersection2
-        = box.closestIntersection(ray2);
+    BoundingBoxRayIntersection3D intersection2 = box.closestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector3D(2, 1, 1).length(), intersection2.tNear);
 }
@@ -167,14 +169,14 @@ TEST(BoundingBox3, DiagonalLength) {
     BoundingBox3D box(Vector3D(-2.0, -2.0, 1.0), Vector3D(4.0, 3.0, 5.0));
     double diagLen = box.diagonalLength();
 
-    EXPECT_DOUBLE_EQ(std::sqrt(6.0*6.0 + 5.0*5.0 + 4.0*4.0), diagLen);
+    EXPECT_DOUBLE_EQ(std::sqrt(6.0 * 6.0 + 5.0 * 5.0 + 4.0 * 4.0), diagLen);
 }
 
 TEST(BoundingBox3, DiagonalLengthSquared) {
     BoundingBox3D box(Vector3D(-2.0, -2.0, 1.0), Vector3D(4.0, 3.0, 5.0));
     double diagLenSqr = box.diagonalLengthSquared();
 
-    EXPECT_DOUBLE_EQ(6.0*6.0 + 5.0*5.0 + 4.0*4.0, diagLenSqr);
+    EXPECT_DOUBLE_EQ(6.0 * 6.0 + 5.0 * 5.0 + 4.0 * 4.0, diagLenSqr);
 }
 
 TEST(BoundingBox3, Reset) {
@@ -237,4 +239,34 @@ TEST(BoundingBox3, Expand) {
     EXPECT_DOUBLE_EQ(7.0, box.upperCorner.x);
     EXPECT_DOUBLE_EQ(6.0, box.upperCorner.y);
     EXPECT_DOUBLE_EQ(8.0, box.upperCorner.z);
+}
+
+TEST(BoundingBox3, Corner) {
+    BoundingBox3D box(Vector3D(-2.0, -2.0, 1.0), Vector3D(4.0, 3.0, 5.0));
+
+    EXPECT_VECTOR3_EQ(Vector3D(-2.0, -2.0, 1.0), box.corner(0));
+    EXPECT_VECTOR3_EQ(Vector3D(4.0, -2.0, 1.0), box.corner(1));
+    EXPECT_VECTOR3_EQ(Vector3D(-2.0, 3.0, 1.0), box.corner(2));
+    EXPECT_VECTOR3_EQ(Vector3D(4.0, 3.0, 1.0), box.corner(3));
+    EXPECT_VECTOR3_EQ(Vector3D(-2.0, -2.0, 5.0), box.corner(4));
+    EXPECT_VECTOR3_EQ(Vector3D(4.0, -2.0, 5.0), box.corner(5));
+    EXPECT_VECTOR3_EQ(Vector3D(-2.0, 3.0, 5.0), box.corner(6));
+    EXPECT_VECTOR3_EQ(Vector3D(4.0, 3.0, 5.0), box.corner(7));
+}
+
+TEST(BoundingBox3D, IsEmpty) {
+    BoundingBox3D box(Vector3D(-2.0, -2.0, 1.0), Vector3D(4.0, 3.0, 5.0));
+    EXPECT_FALSE(box.isEmpty());
+
+    box.lowerCorner = Vector3D(5.0, 1.0, 3.0);
+    EXPECT_TRUE(box.isEmpty());
+
+    box.lowerCorner = Vector3D(2.0, 4.0, 3.0);
+    EXPECT_TRUE(box.isEmpty());
+
+    box.lowerCorner = Vector3D(2.0, 1.0, 6.0);
+    EXPECT_TRUE(box.isEmpty());
+
+    box.lowerCorner = Vector3D(4.0, 1.0, 3.0);
+    EXPECT_TRUE(box.isEmpty());
 }

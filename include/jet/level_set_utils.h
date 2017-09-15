@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_LEVEL_SET_UTILS_H_
 #define INCLUDE_JET_LEVEL_SET_UTILS_H_
@@ -75,6 +79,27 @@ T smearedDeltaSdf(T phi);
 //!
 template <typename T>
 T fractionInsideSdf(T phi0, T phi1);
+
+//!
+//! \brief      Returns the fraction occupied by the implicit surface.
+//!
+//! Given four signed distance values (square corners), determine what fraction
+//! of the square is "inside". The original implementation can be found from
+//! Christopher Batty's variational fluid code at
+//! https://github.com/christopherbatty/Fluid3D.
+//!
+//! \tparam T               Value type.
+//!
+//! \param phiBottomLeft    The level set value on the bottom-left corner.
+//! \param phiBottomRight   The level set value on the bottom-right corner.
+//! \param phiTopLeft       The level set value on the top-left corner.
+//! \param phiTopRight      The level set value on the top-right corner.
+//!
+//! \return                 The fraction occupied by the implicit surface.
+//!
+template <typename T>
+T fractionInside(T phiBottomLeft, T phiBottomRight, T phiTopLeft,
+                 T phiTopRight);
 
 }  // namespace jet
 

@@ -1,11 +1,24 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
+
 #include <jet/fdm_linear_system3.h>
 #include <jet/math_utils.h>
 #include <jet/parallel.h>
 
 using namespace jet;
+
+void FdmLinearSystem3::clear() {
+    A.clear();
+    x.clear();
+    b.clear();
+}
+
+//
 
 void FdmBlas3::set(double s, FdmVector3* result) {
     result->set(s);

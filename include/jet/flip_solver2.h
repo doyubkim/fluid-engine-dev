@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FLIP_SOLVER2_H_
 #define INCLUDE_JET_FLIP_SOLVER2_H_
@@ -34,6 +38,21 @@ class FlipSolver2 : public PicSolver2 {
     //! Default destructor.
     virtual ~FlipSolver2();
 
+    //! Returns the PIC blending factor.
+    double picBlendingFactor() const;
+
+    //!
+    //! \brief  Sets the PIC blending factor.
+    //!
+    //! This function sets the PIC blendinf factor which mixes FLIP and PIC
+    //! results when transferring velocity from grids to particles in order to
+    //! reduce the noise. The factor can be a value between 0 and 1, where 0
+    //! means no blending and 1 means full PIC. Default is 0.
+    //!
+    //! \param[in]  factor The blending factor.
+    //!
+    void setPicBlendingFactor(double factor);
+
     //! Returns builder fox FlipSolver2.
     static Builder builder();
 
@@ -45,6 +64,7 @@ class FlipSolver2 : public PicSolver2 {
     void transferFromGridsToParticles() override;
 
  private:
+    double _picBlendingFactor = 0.0;
     Array2<float> _uDelta;
     Array2<float> _vDelta;
 };

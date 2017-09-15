@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM3_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM3_H_
@@ -32,6 +36,8 @@ typedef Array3<FdmMatrixRow3> FdmMatrix3;
 struct FdmLinearSystem3 {
     FdmMatrix3 A;
     FdmVector3 x, b;
+
+    void clear();
 };
 
 //! BLAS operator wrapper for 3-D finite differencing.

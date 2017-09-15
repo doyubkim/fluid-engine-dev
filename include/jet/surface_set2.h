@@ -1,9 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SURFACE_SET2_H_
 #define INCLUDE_JET_SURFACE_SET2_H_
 
+#include <jet/bvh2.h>
 #include <jet/surface2.h>
+
 #include <vector>
 
 namespace jet {
@@ -12,8 +18,8 @@ namespace jet {
 //! \brief 2-D surface set.
 //!
 //! This class represents 2-D surface set which extends Surface2 by overriding
-//! surface-related quries. This is class can hold a collection of other surface
-//! instances.
+//! surface-related queries. This is class can hold a collection of other
+//! surface instances.
 //!
 class SurfaceSet2 final : public Surface2 {
  public:
@@ -23,10 +29,9 @@ class SurfaceSet2 final : public Surface2 {
     SurfaceSet2();
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet2(
-        const std::vector<Surface2Ptr>& others,
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    explicit SurfaceSet2(const std::vector<Surface2Ptr>& others,
+                         const Transform2& transform = Transform2(),
+                         bool isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet2(const SurfaceSet2& other);
@@ -45,6 +50,8 @@ class SurfaceSet2 final : public Surface2 {
 
  private:
     std::vector<Surface2Ptr> _surfaces;
+    mutable Bvh2<Surface2Ptr> _bvh;
+    mutable bool _bvhInvalidated = true;
 
     // Surface2 implementations
 
@@ -60,6 +67,10 @@ class SurfaceSet2 final : public Surface2 {
 
     SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer for the SurfaceSet2 type.

@@ -1,15 +1,20 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_TRIANGLE_MESH3_H_
 #define INCLUDE_JET_TRIANGLE_MESH3_H_
 
 #include <jet/array1.h>
+#include <jet/bvh3.h>
 #include <jet/point3.h>
 #include <jet/quaternion.h>
 #include <jet/surface3.h>
 #include <jet/triangle3.h>
+
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 
 namespace jet {
 
@@ -141,10 +146,10 @@ class TriangleMesh3 final : public Surface3 {
         const Point3UI& newNormalIndices);
 
     //! Adds a triangle with point, normal, and UV.
-    void addPointNormalUvTriangle(
+    void addPointUvNormalTriangle(
         const Point3UI& newPointIndices,
-        const Point3UI& newNormalIndices,
-        const Point3UI& newUvIndices);
+        const Point3UI& newUvIndices,
+        const Point3UI& newNormalIndices);
 
     //! Adds a triangle with point and UV.
     void addPointUvTriangle(
@@ -163,7 +168,7 @@ class TriangleMesh3 final : public Surface3 {
     //! Scales the mesh by given factor.
     void scale(double factor);
 
-    //! Traslates the mesh.
+    //! Translates the mesh.
     void translate(const Vector3D& t);
 
     //! Rotates the mesh.
@@ -172,8 +177,14 @@ class TriangleMesh3 final : public Surface3 {
     //! Writes the mesh in obj format to the output stream.
     void writeObj(std::ostream* strm) const;
 
+    //! Writes the mesh in obj format to the file.
+    bool writeObj(const std::string& filename) const;
+
     //! Reads the mesh in obj format from the input stream.
     bool readObj(std::istream* strm);
+
+    //! Reads the mesh in obj format from the file.
+    bool readObj(const std::string& filename);
 
     //! Copies \p other mesh.
     TriangleMesh3& operator=(const TriangleMesh3& other);
@@ -202,6 +213,13 @@ class TriangleMesh3 final : public Surface3 {
     IndexArray _pointIndices;
     IndexArray _normalIndices;
     IndexArray _uvIndices;
+
+    mutable Bvh3<size_t> _bvh;
+    mutable bool _bvhInvalidated = true;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.

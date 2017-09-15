@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_
 #define INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_
@@ -15,8 +19,8 @@ BoundingBox<T, 2>::BoundingBox() {
 }
 
 template <typename T>
-BoundingBox<T, 2>::BoundingBox(
-    const Vector2<T>& point1, const Vector2<T>& point2) {
+BoundingBox<T, 2>::BoundingBox(const Vector2<T>& point1,
+                               const Vector2<T>& point2) {
     lowerCorner.x = std::min(point1.x, point2.x);
     lowerCorner.y = std::min(point1.y, point2.y);
     upperCorner.x = std::max(point1.x, point2.x);
@@ -24,10 +28,8 @@ BoundingBox<T, 2>::BoundingBox(
 }
 
 template <typename T>
-BoundingBox<T, 2>::BoundingBox(const BoundingBox& other) :
-    lowerCorner(other.lowerCorner),
-    upperCorner(other.upperCorner) {
-}
+BoundingBox<T, 2>::BoundingBox(const BoundingBox& other)
+    : lowerCorner(other.lowerCorner), upperCorner(other.upperCorner) {}
 
 template <typename T>
 T BoundingBox<T, 2>::width() const {
@@ -46,13 +48,13 @@ T BoundingBox<T, 2>::length(size_t axis) {
 
 template <typename T>
 bool BoundingBox<T, 2>::overlaps(const BoundingBox& other) const {
-    if (upperCorner.x < other.lowerCorner.x
-        || lowerCorner.x > other.upperCorner.x) {
+    if (upperCorner.x < other.lowerCorner.x ||
+        lowerCorner.x > other.upperCorner.x) {
         return false;
     }
 
-    if (upperCorner.y < other.lowerCorner.y
-        || lowerCorner.y > other.upperCorner.y) {
+    if (upperCorner.y < other.lowerCorner.y ||
+        lowerCorner.y > other.upperCorner.y) {
         return false;
     }
 
@@ -185,18 +187,21 @@ void BoundingBox<T, 2>::expand(T delta) {
 
 template <typename T>
 Vector2<T> BoundingBox<T, 2>::corner(size_t idx) const {
-    Vector2<T> result;
-    if (idx & 1) {
-        result.x = upperCorner.x;
-    } else {
-        result.x = lowerCorner.x;
-    }
-    if (idx & 2) {
-        result.y = upperCorner.y;
-    } else {
-        result.y = lowerCorner.y;
-    }
-    return result;
+    static const T h = static_cast<T>(1) / 2;
+    static const Vector2<T> offset[4] = {
+        {-h, -h}, {+h, -h}, {-h, +h}, {+h, +h}};
+
+    return Vector2<T>(width(), height()) * offset[idx] + midPoint();
+}
+
+template <typename T>
+Vector2<T> BoundingBox<T, 2>::clamp(const Vector2<T>& pt) const {
+    return ::jet::clamp(pt, lowerCorner, upperCorner);
+}
+
+template <typename T>
+bool BoundingBox<T, 2>::isEmpty() const {
+    return (lowerCorner.x >= upperCorner.x || lowerCorner.y >= upperCorner.y);
 }
 
 }  // namespace jet

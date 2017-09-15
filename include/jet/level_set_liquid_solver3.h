@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_LEVEL_SET_LIQUID_SOLVER3_H_
 #define INCLUDE_JET_LEVEL_SET_LIQUID_SOLVER3_H_
@@ -9,9 +13,9 @@
 namespace jet {
 
 //!
-//! \brief      Level set based 2-D liquid solver.
+//! \brief      Level set based 3-D liquid solver.
 //!
-//! This class implements level set-based 2-D liquid solver. It defines the
+//! This class implements level set-based 3-D liquid solver. It defines the
 //! surface of the liquid using signed-distance field and use stable fluids
 //! framework to compute the forces.
 //!

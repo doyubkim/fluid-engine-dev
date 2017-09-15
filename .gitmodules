@@ -1,9 +1,9 @@
-[submodule "external/src/cnpy/cnpy"]
-	path = external/src/cnpy/cnpy
-	url = https://github.com/rogersce/cnpy
-[submodule "external/src/gtest/googletest"]
-	path = external/src/gtest/googletest
+[submodule "external/googletest"]
+	path = external/googletest
 	url = https://github.com/google/googletest
-[submodule "external/src/pystring/pystring"]
-	path = external/src/pystring/pystring
-	url = https://github.com/imageworks/pystring
+[submodule "external/pybind11"]
+	path = external/pybind11
+	url = https://github.com/pybind/pybind11.git
+[submodule "external/googlebenchmark"]
+	path = external/googlebenchmark
+	url = https://github.com/google/benchmark.git

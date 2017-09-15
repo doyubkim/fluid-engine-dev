@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FDM_CG_SOLVER2_H_
 #define INCLUDE_JET_FDM_CG_SOLVER2_H_
@@ -17,16 +21,16 @@ class FdmCgSolver2 final : public FdmLinearSystemSolver2 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
 
-    //! Returns the max number of Jacobi iterations.
+    //! Returns the max number of CG iterations.
     unsigned int maxNumberOfIterations() const;
 
-    //! Returns the last number of Jacobi iterations the solver made.
+    //! Returns the last number of CG iterations the solver made.
     unsigned int lastNumberOfIterations() const;
 
-    //! Returns the max residual tolerance for the Jacobi method.
+    //! Returns the max residual tolerance for the CG method.
     double tolerance() const;
 
-    //! Returns the last residual after the Jacobi iterations.
+    //! Returns the last residual after the CG iterations.
     double lastResidual() const;
 
  private:

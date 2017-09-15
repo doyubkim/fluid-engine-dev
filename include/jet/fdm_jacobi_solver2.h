@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FDM_JACOBI_SOLVER2_H_
 #define INCLUDE_JET_FDM_JACOBI_SOLVER2_H_
@@ -11,10 +15,8 @@ namespace jet {
 class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
  public:
     //! Constructs the solver with given parameters.
-    FdmJacobiSolver2(
-        unsigned int maxNumberOfIterations,
-        unsigned int residualCheckInterval,
-        double tolerance);
+    FdmJacobiSolver2(unsigned int maxNumberOfIterations,
+                     unsigned int residualCheckInterval, double tolerance);
 
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
@@ -31,6 +33,10 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     //! Returns the last residual after the Jacobi iterations.
     double lastResidual() const;
 
+    //! Performs single Jacobi relaxation step.
+    static void relax(const FdmMatrix2& A, const FdmVector2& b, FdmVector2* x,
+                      FdmVector2* xTemp);
+
  private:
     unsigned int _maxNumberOfIterations;
     unsigned int _lastNumberOfIterations;
@@ -40,8 +46,6 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
 
     FdmVector2 _xTemp;
     FdmVector2 _residual;
-
-    void relax(FdmLinearSystem2* system, FdmVector2* xTemp);
 };
 
 //! Shared pointer type for the FdmJacobiSolver2.

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/jet.h>
 #include <pystring/pystring.h>
@@ -33,7 +37,7 @@ inline float smoothStep(float edge0, float edge1, float x) {
 void saveVolumeAsVol(
     const ScalarGrid3Ptr& density,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.vol", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -112,7 +116,7 @@ void saveVolumeAsVol(
 void saveVolumeAsTga(
     const ScalarGrid3Ptr& density,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.tga", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -129,10 +133,10 @@ void saveVolumeAsTga(
         int imgHeight = static_cast<int>(dataSize.y);
 
         header[2] = 2;
-        header[12] = imgWidth & 0xff;
-        header[13] = (imgWidth & 0xff00) >> 8;
-        header[14] = imgHeight & 0xff;
-        header[15] = (imgHeight & 0xff00) >> 8;
+        header[12] = (char)(imgWidth & 0xff);
+        header[13] = (char)((imgWidth & 0xff00) >> 8);
+        header[14] = (char)(imgHeight & 0xff);
+        header[15] = (char)((imgHeight & 0xff00) >> 8);
         header[16] = 24;
 
         file.write(header.data(), header.size());
@@ -148,7 +152,7 @@ void saveVolumeAsTga(
 
         std::vector<char> img(3 * dataSize.x * dataSize.y);
         for (size_t i = 0; i < dataSize.x * dataSize.y; ++i) {
-            uint8_t val = static_cast<char>(clamp(hdrImg[i], 0.0, 1.0) * 255.0);
+            char val = static_cast<char>(clamp(hdrImg[i], 0.0, 1.0) * 255.0);
             img[3 * i + 0] = val;
             img[3 * i + 1] = val;
             img[3 * i + 2] = val;
@@ -195,7 +199,7 @@ void printInfo(const GridSmokeSolver3Ptr& solver) {
 void runSimulation(
     const std::string& rootDir,
     const GridSmokeSolver3Ptr& solver,
-    size_t numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     auto density = solver->smokeDensity();
@@ -214,7 +218,7 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -266,7 +270,7 @@ void runExample1(
 void runExample2(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -318,7 +322,7 @@ void runExample2(
 void runExample3(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -329,26 +333,17 @@ void runExample3(
         .makeShared();
 
     // Build emitter
-    VertexCenteredScalarGrid3 dragonSdf;
-    std::ifstream sdfFile("dragon.sdf", std::ifstream::binary);
-    if (sdfFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(sdfFile)),
-            (std::istreambuf_iterator<char>()));
-        dragonSdf.deserialize(buffer);
-        sdfFile.close();
+    auto dragonMesh = TriangleMesh3::builder().makeShared();
+    std::ifstream objFile(RESOURCES_DIR "dragon.obj");
+    if (objFile) {
+        dragonMesh->readObj(&objFile);
     } else {
-        fprintf(stderr, "Cannot open dragon.sdf\n");
-        fprintf(
-            stderr,
-            "Run\nbin/obj2sdf -i resources/dragon.obj"
-            " -o dragon.sdf\nto generate the sdf file.\n");
+        fprintf(stderr, "Cannot open resources/dragon.obj\n");
         exit(EXIT_FAILURE);
     }
-
-    auto dragon = CustomImplicitSurface3::builder()
-        .withSignedDistanceFunction(dragonSdf.sampler())
-        .withResolution(solver->gridSystemData()->gridSpacing().x)
+    auto dragon = ImplicitTriangleMesh3::builder()
+        .withTriangleMesh(dragonMesh)
+        .withResolutionX(resolutionX)
         .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
@@ -371,7 +366,7 @@ void runExample3(
 void runExample4(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -398,7 +393,7 @@ void runExample4(
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
     emitter->addTarget(
         solver->velocity(),
-        [](double sdf, const Vector3D& pt, const Vector3D& oldVal) {
+        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
             if (sdf < 0.05) {
                 return Vector3D(0.5, oldVal.y, oldVal.z);
             } else {
@@ -417,7 +412,7 @@ void runExample4(
 void runExample5(
     const std::string& rootDir,
     size_t resolutionX,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     // Build solver
@@ -445,7 +440,7 @@ void runExample5(
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
     emitter->addTarget(
         solver->velocity(),
-        [](double sdf, const Vector3D& pt, const Vector3D& oldVal) {
+        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
             if (sdf < 0.05) {
                 return Vector3D(0.5, oldVal.y, oldVal.z);
             } else {
@@ -463,7 +458,7 @@ void runExample5(
 
 int main(int argc, char* argv[]) {
     size_t resolutionX = 50;
-    unsigned int numberOfFrames = 100;
+    int numberOfFrames = 100;
     double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
@@ -492,7 +487,7 @@ int main(int argc, char* argv[]) {
                 resolutionX = static_cast<size_t>(atoi(optarg));
                 break;
             case 'f':
-                numberOfFrames = static_cast<size_t>(atoi(optarg));
+                numberOfFrames = atoi(optarg);
                 break;
             case 'p':
                 fps = atof(optarg);

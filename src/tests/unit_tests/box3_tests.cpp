@@ -1,6 +1,11 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/box3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -67,40 +72,38 @@ TEST(Box3, ClosestDistance) {
     Box3 box(Vector3D(-1, 2, 1), Vector3D(5, 3, 4));
 
     double result0 = box.closestDistance(Vector3D(-2, 4, 5));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(-1, 3, 4).distanceTo(Vector3D(-2, 4, 5)), result0);
+    EXPECT_DOUBLE_EQ(Vector3D(-1, 3, 4).distanceTo(Vector3D(-2, 4, 5)),
+                     result0);
 
     double result1 = box.closestDistance(Vector3D(1, 5, 0));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(1, 3, 1).distanceTo(Vector3D(1, 5, 0)), result1);
+    EXPECT_DOUBLE_EQ(Vector3D(1, 3, 1).distanceTo(Vector3D(1, 5, 0)), result1);
 
     double result2 = box.closestDistance(Vector3D(9, 5, 7));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(5, 3, 4).distanceTo(Vector3D(9, 5, 7)), result2);
+    EXPECT_DOUBLE_EQ(Vector3D(5, 3, 4).distanceTo(Vector3D(9, 5, 7)), result2);
 
     double result3 = box.closestDistance(Vector3D(-2, 2.4, 3));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(-1, 2.4, 3).distanceTo(Vector3D(-2, 2.4, 3)), result3);
+    EXPECT_DOUBLE_EQ(Vector3D(-1, 2.4, 3).distanceTo(Vector3D(-2, 2.4, 3)),
+                     result3);
 
     double result4 = box.closestDistance(Vector3D(1, 2.6, 1.1));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(1, 2.6, 1).distanceTo(Vector3D(1, 2.6, 1.1)), result4);
+    EXPECT_DOUBLE_EQ(Vector3D(1, 2.6, 1).distanceTo(Vector3D(1, 2.6, 1.1)),
+                     result4);
 
     double result5 = box.closestDistance(Vector3D(9, 2.2, -1));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(5, 2.2, 1).distanceTo(Vector3D(9, 2.2, -1)), result5);
+    EXPECT_DOUBLE_EQ(Vector3D(5, 2.2, 1).distanceTo(Vector3D(9, 2.2, -1)),
+                     result5);
 
     double result6 = box.closestDistance(Vector3D(-2, 1, 1.1));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(-1, 2, 1.1).distanceTo(Vector3D(-2, 1, 1.1)), result6);
+    EXPECT_DOUBLE_EQ(Vector3D(-1, 2, 1.1).distanceTo(Vector3D(-2, 1, 1.1)),
+                     result6);
 
     double result7 = box.closestDistance(Vector3D(1, 0, 3.5));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(1, 2, 3.5).distanceTo(Vector3D(1, 0, 3.5)), result7);
+    EXPECT_DOUBLE_EQ(Vector3D(1, 2, 3.5).distanceTo(Vector3D(1, 0, 3.5)),
+                     result7);
 
     double result8 = box.closestDistance(Vector3D(9, -1, -3));
-    EXPECT_DOUBLE_EQ(
-        Vector3D(5, 2, 1).distanceTo(Vector3D(9, -1, -3)), result8);
+    EXPECT_DOUBLE_EQ(Vector3D(5, 2, 1).distanceTo(Vector3D(9, -1, -3)),
+                     result8);
 }
 
 TEST(Box3, Intersects) {
@@ -125,13 +128,13 @@ TEST(Box3, ClosestIntersection) {
     SurfaceRayIntersection3 result0 = box.closestIntersection(
         Ray3D(Vector3D(1, 4, 5), Vector3D(-1, -1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(3), result0.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(3), result0.distance);
     EXPECT_EQ(Vector3D(0, 3, 4), result0.point);
 
     SurfaceRayIntersection3 result1 = box.closestIntersection(
         Ray3D(Vector3D(1, 2.5, 6), Vector3D(-1, -1, 1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(std::sqrt(0.75), result1.t);
+    EXPECT_DOUBLE_EQ(std::sqrt(0.75), result1.distance);
     EXPECT_EQ(Vector3D(0.5, 2, 6.5), result1.point);
 
     SurfaceRayIntersection3 result2 = box.closestIntersection(

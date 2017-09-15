@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_ARRAY_UTILS_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY_UTILS_INL_H_
@@ -232,30 +236,6 @@ void extrapolateToRegion(
         });
 
         valid0.swap(valid1);
-    }
-}
-
-template <typename ArrayType>
-void convertToCsv(const ArrayType& data, std::ostream* strm) {
-    Size2 size = data.size();
-
-    for (size_t j = 0; j < size.y; ++j) {
-        for (size_t i = 0; i < size.x; ++i) {
-            auto val = data(i, j);
-
-            // TODO(doyubkim): Hack to handle char and unsigned char
-            if (sizeof(decltype(val)) == 1) {
-                (*strm) << static_cast<int>(val);
-            } else {
-                (*strm) << val;
-            }
-
-            if (i + 1 < size.x) {
-                (*strm) << ", ";
-            }
-        }
-
-        (*strm) << std::endl;
     }
 }
 

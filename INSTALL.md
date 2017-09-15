@@ -15,17 +15,24 @@ To build the code, a compiler that supports C++11 is required. Platform-specific
 
 ### Building from macOS
 
-Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run
+Jet supports OS X 10.10 Yosemite or higher. Also, Xcode 6.4 or higher and the command line tools are required for building Jet. Once ready, install [Homebrew](http://brew.sh) and run the following command line to setup [CMake](https://cmake.org/):
 
 ```
-brew install scons
+brew install cmake python
 ```
 
-This will install [Scons](http://scons.org/). Once installed, build the code by running
+> Note that we want `brew` version of Python which is recommended. You can still use macOS's default Python.
+
+Once CMake is installed, build the code by running
 
 ```
-scons
+mkdir build
+cd build
+cmake ..
+make
 ```
+
+> Of course, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
 
 This will build entire codebase. To run the unit test, execute
 
@@ -33,27 +40,26 @@ This will build entire codebase. To run the unit test, execute
 bin/unit_tests
 ```
 
-The library can be installed by running
-
-```
-[sudo] scons install --dist=INSTALL_PATH
-```
-
-This will install the header files and the static library `libjet.a` under `INSTALL_PATH`.
+It should show all the tests are passing.
 
 ### Building from Ubuntu
 
 Jet supports Ubuntu 14.04 or higher. Using `apt-get`, install required tools and libraries by running,
 
 ```
-sudo apt-get install build-essential python scons zlib1g-dev
+sudo apt-get install build-essential python-dev python-pip cmake
 ```
 
-This will install GNU compilers, pytho, [Scons](http://scons.org/) (the build tool), and [zlib](www.zlib.net). Once installed, build the code by running
+This will install GNU compilers, python, and CMake. Once installed, build the code by running
 
 ```
-scons
+mkdir build
+cd build
+cmake ..
+make
 ```
+
+> Again, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
 
 This will build entire codebase. To run the unit test, execute
 
@@ -61,39 +67,109 @@ This will build entire codebase. To run the unit test, execute
 bin/unit_tests
 ```
 
-The library can be installed by running
-
-```
-[sudo] scons install --dist=INSTALL_PATH
-```
-
-This will install the header files and the static library `libjet.a` under `INSTALL_PATH`.
+It should show all the tests are passing.
 
 ### Building from Windows
 
-To build the code on Windows, Visual Studio 2015 is required. Free version of the tool can be downloaded from [Visual Studio Community 2015](https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx). In addition to Visual Studio, install [Python](https://www.python.org/) (2.7.9 or higher recommended) to run post-build events.
+To build the code on Windows, CMake, Python, and Visual Studio 2015 (or higher) is required. Windows' version of CMake is available from [this website](https://cmake.org/), Python installer can be downloaded from [here](https://python.org/). For Python, version 2.7.9 or later is recommended. To install Visual Studio, the community edition of the tool can be downloaded from [Visual Studio Community 2015](https://www.Visualstudio.com/en-us/products/Visual-studio-community-vs.aspx). You can also use Visual Studio 2017.
 
-Once Visual Studio is installed, open the solution file `Jet.sln` using Visual Studio. Hit `Ctrl + Shift + B` to build the entire solution. Set `UnitTests` as a start-up project and hit `Ctrl + F5` to run the test. Once built, the distributable files (`jet.lib` and the header files) will be located under `dist` directory.
+Once everything is installed, run the following commands:
+
+```
+md build
+cd build
+cmake .. -G"Visual Studio 14 2015 Win64"
+```
+
+This will generate 64-bit version of VS 2015 solution and projects. (To build with Visual Studio 2017, just replace the parameter with `Visual Studio 15 2017 Win64`.) Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
+
+Alternatively, you can use MSBuild to build the solution from the command prompt. In such case, simply run:
+
+```
+MSBuild jet.sln /p:Configuration=Release
+```
+
+This will build the whole solution in release mode. Once built, run the following command to execute unit tests:
+
+```
+bin\Release\unit_tests.exe
+```
 
 ### Running Tests
 
-There are three different tests in the codebase including the unit test, manual test, and performance test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
+There are four different tests in the codebase including the unit test, manual test, time/memory performance tests, and Python API test. For the detailed instruction on how to run those tests, please checkout the documentation page from [the project website](http://doyubkim.github.io/fluid-engine-dev/documentation/).
 
-### Installing SDK
+### Installing C++ SDK
 
 For macOS and Ubuntu platforms, the library can be installed by running
 
 ```
-[sudo] scons install --dist=INSTALL_PATH
+cmake .. -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
+make
+make install
 ```
 
-This will install the header files and the static library `libjet.a` under `INSTALL_PATH`.
+This will install the header files and the static library `libjet.a` under `_INSTALL_PATH_`.
 
-For Windows, the binaries and header files will be located under `dist` directory after building the solution.
+For Windows, run:
+
+```
+cmake .. -G"Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=_INSTALL_PATH_
+```
+
+Then, build `INSTALL` project under `jet.sln`. This will install the header files and the static library `jet.lib` under `_INSTALL_PATH_`.
+
+### Installing Python SDK
+
+To install the Python SDK, `pyjet`, run the following command from the project root directory (where `setup.py` lives):
+
+```
+pip install -U .
+```
+
+> You can also use `virtualenv` to isolate the SDK installation. Check out [the virtualenv documentation](https://virtualenv.pypa.io/en/stable/) for more details.
+
+To run the test/example scripts, install other Python dependencies as follows:
+
+```
+pip install -r requirements.txt
+```
+
+Once installed, try running the unit test to see if the module is installed correctly:
+
+```
+python src/tests/python_tests/main.py
+```
+
+The tests should pass.
+
+### Using Docker
+
+You can also use pre-built docker image by pulling the latest version from Docker Hub:
+
+```
+docker pull doyubkim/fluid-engine-dev
+```
+
+Run a container and see if it can import `pyjet` module and the unit test passes:
+
+```
+docker run -it doyubkim/fluid-engine-dev
+python import -c "pyjet"
+
+docker run doyubkim/fluid-engine-dev /app/jet/build/bin/unit_tests
+```
+
+You can also build the image from the source as well. From the root directory of this codebase, run:
+
+```
+docker build -t doyubkim/fluid-engine-dev .
+```
+
 
 ### Coding Style
 
-Jet uses a modified version of [cpplint.py](https://github.com/google/styleguide/tree/gh-pages/cpplint) for checking the coding style. Please check out [3RD_PARTY.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for the license of `cpplint.py`. Any pull requests must pass the linter. Use `bin/run_linters` (or `bin\run_linters.bat` for Windows) to test the header and source files of the library.
+Jet uses clang-format. Checkout [`.clang-format`](https://github.com/doyubkim/fluid-engine-dev/blob/master/.clang-format) file for the style guideline.
 
 ### Continuous Integration
 

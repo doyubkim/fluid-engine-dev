@@ -1,31 +1,26 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
-#include <jet/sphere2.h>
 
-#include <limits>
+#include <jet/sphere2.h>
 
 using namespace jet;
 
 Sphere2::Sphere2(const Transform2& transform_, bool isNormalFlipped_)
-: Surface2(transform_, isNormalFlipped_) {
-}
+    : Surface2(transform_, isNormalFlipped_) {}
 
-Sphere2::Sphere2(
-    const Vector2D& center_,
-    double radius_,
-    const Transform2& transform_,
-    bool isNormalFlipped_)
-: Surface2(transform_, isNormalFlipped_)
-, center(center_)
-, radius(radius_) {
-}
+Sphere2::Sphere2(const Vector2D& center_, double radius_,
+                 const Transform2& transform_, bool isNormalFlipped_)
+    : Surface2(transform_, isNormalFlipped_),
+      center(center_),
+      radius(radius_) {}
 
-Sphere2::Sphere2(const Sphere2& other) :
-    Surface2(other),
-    center(other.center),
-    radius(other.radius) {
-}
+Sphere2::Sphere2(const Sphere2& other)
+    : Surface2(other), center(other.center), radius(other.radius) {}
 
 Vector2D Sphere2::closestPointLocal(const Vector2D& otherPoint) const {
     return radius * closestNormalLocal(otherPoint) + center;
@@ -56,7 +51,6 @@ bool Sphere2::intersectsLocal(const Ray2D& ray) const {
 
         if (tMin < 0.0) {
             tMin = tMax;
-            tMax = kMaxD;
         }
 
         if (tMin >= 0.0) {
@@ -82,14 +76,13 @@ SurfaceRayIntersection2 Sphere2::closestIntersectionLocal(
 
         if (tMin < 0.0) {
             tMin = tMax;
-            tMax = kMaxD;
         }
 
         if (tMin < 0.0) {
             intersection.isIntersecting = false;
         } else {
             intersection.isIntersecting = true;
-            intersection.t = tMin;
+            intersection.distance = tMin;
             intersection.point = ray.origin + tMin * ray.direction;
             intersection.normal = (intersection.point - center).normalized();
         }
@@ -105,9 +98,7 @@ BoundingBox2D Sphere2::boundingBoxLocal() const {
     return BoundingBox2D(center - r, center + r);
 }
 
-Sphere2::Builder Sphere2::builder() {
-    return Builder();
-}
+Sphere2::Builder Sphere2::builder() { return Builder(); }
 
 Sphere2::Builder& Sphere2::Builder::withCenter(const Vector2D& center) {
     _center = center;
@@ -125,12 +116,6 @@ Sphere2 Sphere2::Builder::build() const {
 
 Sphere2Ptr Sphere2::Builder::makeShared() const {
     return std::shared_ptr<Sphere2>(
-        new Sphere2(
-            _center,
-            _radius,
-            _transform,
-            _isNormalFlipped),
-        [] (Sphere2* obj) {
-            delete obj;
-    });
+        new Sphere2(_center, _radius, _transform, _isNormalFlipped),
+        [](Sphere2* obj) { delete obj; });
 }

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SCALAR_GRID2_H_
 #define INCLUDE_JET_SCALAR_GRID2_H_
@@ -100,10 +104,12 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     DataPositionFunc dataPosition() const;
 
     //! Fills the grid with given value.
-    void fill(double value);
+    void fill(double value,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
     //! Fills the grid with given position-to-value mapping function.
-    void fill(const std::function<double(const Vector2D&)>& func);
+    void fill(const std::function<double(const Vector2D&)>& func,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
     //!
     //! \brief Invokes the given function \p func for each data point.

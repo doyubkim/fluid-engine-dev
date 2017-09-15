@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <manual_tests.h>
 
@@ -32,6 +36,65 @@ JET_BEGIN_TEST_F(FlipSolver3, WaterDrop) {
         .withResolution({resolutionX, 2 * resolutionX, resolutionX})
         .withDomainSizeX(1.0)
         .makeShared();
+
+    auto grids = solver->gridSystemData();
+    auto particles = solver->particleSystemData();
+
+    Vector3D gridSpacing = grids->gridSpacing();
+    double dx = gridSpacing.x;
+    BoundingBox3D domain = grids->boundingBox();
+
+    // Build emitter
+    auto plane = Plane3::builder()
+        .withNormal({0, 1, 0})
+        .withPoint({0, 0.25 * domain.height(), 0})
+        .makeShared();
+
+    auto sphere = Sphere3::builder()
+        .withCenter(domain.midPoint())
+        .withRadius(0.15 * domain.width())
+        .makeShared();
+
+    auto emitter1 = VolumeParticleEmitter3::builder()
+        .withSurface(plane)
+        .withSpacing(0.5 * dx)
+        .withMaxRegion(domain)
+        .withIsOneShot(true)
+        .makeShared();
+    emitter1->setPointGenerator(std::make_shared<GridPointGenerator3>());
+
+    auto emitter2 = VolumeParticleEmitter3::builder()
+        .withSurface(sphere)
+        .withSpacing(0.5 * dx)
+        .withMaxRegion(domain)
+        .withIsOneShot(true)
+        .makeShared();
+    emitter2->setPointGenerator(std::make_shared<GridPointGenerator3>());
+
+    auto emitterSet = ParticleEmitterSet3::builder()
+        .withEmitters({emitter1, emitter2})
+        .makeShared();
+
+    solver->setParticleEmitter(emitterSet);
+
+    for (Frame frame; frame.index < 120; ++frame) {
+        solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(FlipSolver3, WaterDropWithBlending) {
+    size_t resolutionX = 32;
+
+    // Build solver
+    auto solver = FlipSolver3::builder()
+        .withResolution({resolutionX, 2 * resolutionX, resolutionX})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    solver->setPicBlendingFactor(0.05);
 
     auto grids = solver->gridSystemData();
     auto particles = solver->particleSystemData();

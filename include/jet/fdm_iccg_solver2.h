@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FDM_ICCG_SOLVER2_H_
 #define INCLUDE_JET_FDM_ICCG_SOLVER2_H_
@@ -39,9 +43,7 @@ class FdmIccgSolver2 final : public FdmLinearSystemSolver2 {
 
         void build(const FdmMatrix2& matrix);
 
-        void solve(
-            const FdmVector2& b,
-            FdmVector2* x);
+        void solve(const FdmVector2& b, FdmVector2* x);
     };
 
     unsigned int _maxNumberOfIterations;

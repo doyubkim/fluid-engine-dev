@@ -1,15 +1,16 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/array2.h>
 #include <jet/array3.h>
-#include <jet/constants.h>
-#include <jet/parallel.h>
+
 #include <gtest/gtest.h>
 
-#include <algorithm>
-#include <functional>
+#include <numeric>
 #include <random>
-#include <vector>
 
 using namespace jet;
 
@@ -34,9 +35,25 @@ TEST(Parallel, For) {
         a[i] = static_cast<double>(i);
     }
 
-    parallelFor(kZeroSize, a.size(), [&a] (size_t i) {
+    parallelFor(kZeroSize, a.size(), [&a](size_t i) {
         double expected = static_cast<double>(i);
         EXPECT_DOUBLE_EQ(expected, a[i]);
+    });
+}
+
+TEST(Parallel, RangeFor) {
+    size_t N = std::max(20u, (3 * sNumCores) / 2);
+    std::vector<double> a(N);
+
+    for (size_t i = 0; i < N; ++i) {
+        a[i] = static_cast<double>(i);
+    }
+
+    parallelRangeFor(kZeroSize, a.size(), [&a](size_t iBegin, size_t iEnd) {
+        for (size_t i = iBegin; i < iEnd; ++i) {
+            double expected = static_cast<double>(i);
+            EXPECT_DOUBLE_EQ(expected, a[i]);
+        }
     });
 }
 
@@ -51,13 +68,34 @@ TEST(Parallel, For2D) {
         }
     }
 
-    parallelFor(
-        kZeroSize, a.width(),
-        kZeroSize, a.height(),
-        [&] (size_t i, size_t j) {
-        double expected = static_cast<double>(i + j * nX);
-        EXPECT_DOUBLE_EQ(expected, a(i, j));
-    });
+    parallelFor(kZeroSize, a.width(), kZeroSize, a.height(),
+                [&](size_t i, size_t j) {
+                    double expected = static_cast<double>(i + j * nX);
+                    EXPECT_DOUBLE_EQ(expected, a(i, j));
+                });
+}
+
+TEST(Parallel, RangeFor2D) {
+    size_t nX = std::max(20u, (3 * sNumCores) / 2);
+    size_t nY = std::max(30u, (3 * sNumCores) / 2);
+    Array2<double> a(nX, nY);
+
+    for (size_t j = 0; j < nY; ++j) {
+        for (size_t i = 0; i < nX; ++i) {
+            a(i, j) = static_cast<double>(i + j * nX);
+        }
+    }
+
+    parallelRangeFor(
+        kZeroSize, a.width(), kZeroSize, a.height(),
+        [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
+            for (size_t j = jBegin; j < jEnd; ++j) {
+                for (size_t i = iBegin; i < iEnd; ++i) {
+                    double expected = static_cast<double>(i + j * nX);
+                    EXPECT_DOUBLE_EQ(expected, a(i, j));
+                }
+            }
+        });
 }
 
 TEST(Parallel, For3D) {
@@ -74,14 +112,41 @@ TEST(Parallel, For3D) {
         }
     }
 
-    parallelFor(
-        kZeroSize, a.width(),
-        kZeroSize, a.height(),
-        kZeroSize, a.depth(),
-        [&] (size_t i, size_t j, size_t k) {
-        double expected = static_cast<double>(i + (j + k * nY) * nX);
-        EXPECT_DOUBLE_EQ(expected, a(i, j, k));
-    });
+    parallelFor(kZeroSize, a.width(), kZeroSize, a.height(), kZeroSize,
+                a.depth(), [&](size_t i, size_t j, size_t k) {
+                    double expected =
+                        static_cast<double>(i + (j + k * nY) * nX);
+                    EXPECT_DOUBLE_EQ(expected, a(i, j, k));
+                });
+}
+
+TEST(Parallel, RangeFor3D) {
+    size_t nX = std::max(20u, (3 * sNumCores) / 2);
+    size_t nY = std::max(30u, (3 * sNumCores) / 2);
+    size_t nZ = std::max(30u, (3 * sNumCores) / 2);
+    Array3<double> a(nX, nY, nZ);
+
+    for (size_t k = 0; k < nZ; ++k) {
+        for (size_t j = 0; j < nY; ++j) {
+            for (size_t i = 0; i < nX; ++i) {
+                a(i, j, k) = static_cast<double>(i + (j + k * nY) * nX);
+            }
+        }
+    }
+
+    parallelRangeFor(kZeroSize, a.width(), kZeroSize, a.height(), kZeroSize,
+                     a.depth(), [&](size_t iBegin, size_t iEnd, size_t jBegin,
+                                    size_t jEnd, size_t kBegin, size_t kEnd) {
+                         for (size_t k = kBegin; k < kEnd; ++k) {
+                             for (size_t j = jBegin; j < jEnd; ++j) {
+                                 for (size_t i = iBegin; i < iEnd; ++i) {
+                                     double expected = static_cast<double>(
+                                         i + (j + k * nY) * nX);
+                                     EXPECT_DOUBLE_EQ(expected, a(i, j, k));
+                                 }
+                             }
+                         }
+                     });
 }
 
 TEST(Parallel, Sort) {
@@ -119,11 +184,34 @@ TEST(Parallel, Sort) {
         idx[i] = i;
     }
 
-    parallelSort(idx.begin(), idx.end(), [&](size_t a, size_t b) {
-        return c[a] < c[b];
-    });
+    parallelSort(idx.begin(), idx.end(),
+                 [&](size_t i1, size_t i2) { return c[i1] < c[i2]; });
 
     for (size_t i = 0; i + 1 < a.size(); ++i) {
         EXPECT_LE(c[idx[i]], c[idx[i + 1]]);
     }
+}
+
+TEST(Parallel, Reduce) {
+    size_t N = std::max(20u, (3 * sNumCores) / 2);
+    std::vector<int> a(N);
+
+    std::mt19937 rng;
+    std::uniform_int_distribution<> d(0, 10000);
+
+    for (size_t i = 0; i < N; ++i) {
+        a[i] = d(rng);
+    }
+
+    int sum = parallelReduce(kZeroSize, a.size(), 0,
+                             [&](size_t start, size_t end, int init) {
+                                 int result = init;
+                                 for (size_t i = start; i < end; ++i) {
+                                     result += a[i];
+                                 }
+                                 return result;
+                             },
+                             std::plus<int>());
+    int expected = std::accumulate(a.begin(), a.end(), 0);
+    EXPECT_EQ(expected, sum);
 }

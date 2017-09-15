@@ -1,4 +1,0 @@
-#!/bin/bash
-arg="$@"
-scons run_obj2sdf --obj2sdf_args="$arg"
-

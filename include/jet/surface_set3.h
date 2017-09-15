@@ -1,9 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SURFACE_SET3_H_
 #define INCLUDE_JET_SURFACE_SET3_H_
 
+#include <jet/bvh3.h>
 #include <jet/surface3.h>
+
 #include <vector>
 
 namespace jet {
@@ -12,8 +18,8 @@ namespace jet {
 //! \brief 3-D surface set.
 //!
 //! This class represents 3-D surface set which extends Surface3 by overriding
-//! surface-related quries. This is class can hold a collection of other surface
-//! instances.
+//! surface-related queries. This is class can hold a collection of other
+//! surface instances.
 //!
 class SurfaceSet3 final : public Surface3 {
  public:
@@ -23,10 +29,9 @@ class SurfaceSet3 final : public Surface3 {
     SurfaceSet3();
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet3(
-        const std::vector<Surface3Ptr>& others,
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    explicit SurfaceSet3(const std::vector<Surface3Ptr>& others,
+                         const Transform3& transform = Transform3(),
+                         bool isNormalFlipped = false);
 
     //! Copy constructor.
     SurfaceSet3(const SurfaceSet3& other);
@@ -45,6 +50,8 @@ class SurfaceSet3 final : public Surface3 {
 
  private:
     std::vector<Surface3Ptr> _surfaces;
+    mutable Bvh3<Surface3Ptr> _bvh;
+    mutable bool _bvhInvalidated = true;
 
     // Surface3 implementations
 
@@ -60,6 +67,10 @@ class SurfaceSet3 final : public Surface3 {
 
     SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
+
+    void invalidateBvh();
+
+    void buildBvh() const;
 };
 
 //! Shared pointer for the SurfaceSet3 type.

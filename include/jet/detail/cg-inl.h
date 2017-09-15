@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_CG_INL_H_
 #define INCLUDE_JET_DETAIL_CG_INL_H_
@@ -29,8 +33,6 @@ void pcg(
     BlasType::set(0, d);
     BlasType::set(0, q);
     BlasType::set(0, s);
-
-    M->build(A);
 
     // r = b - Ax
     BlasType::residual(A, *x, b, r);
@@ -86,7 +88,9 @@ void pcg(
     }
 
     *lastNumberOfIterations = iter;
-    *lastResidualNorm = std::sqrt(sigmaNew);
+
+    // std::fabs(sigmaNew) - Workaround for negative zero
+    *lastResidualNorm = std::sqrt(std::fabs(sigmaNew));
 }
 
 template <typename BlasType>

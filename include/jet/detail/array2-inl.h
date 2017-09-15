@@ -1,10 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_ARRAY2_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY2_INL_H_
 
 #include <jet/macros.h>
 #include <jet/parallel.h>
+
 #include <algorithm>
 #include <utility>  // just make cpplint happy..
 #include <vector>
@@ -12,8 +17,7 @@
 namespace jet {
 
 template <typename T>
-Array<T, 2>::Array() {
-}
+Array<T, 2>::Array() {}
 
 template <typename T>
 Array<T, 2>::Array(const Size2& size, const T& initVal) {
@@ -33,6 +37,11 @@ Array<T, 2>::Array(const std::initializer_list<std::initializer_list<T>>& lst) {
 template <typename T>
 Array<T, 2>::Array(const Array& other) {
     set(other);
+}
+
+template <typename T>
+Array<T, 2>::Array(Array&& other) {
+    (*this) = std::move(other);
 }
 
 template <typename T>
@@ -96,13 +105,13 @@ void Array<T, 2>::resize(size_t width, size_t height, const T& initVal) {
 
 template <typename T>
 T& Array<T, 2>::at(size_t i) {
-    JET_ASSERT(i < _size.x*_size.y);
+    JET_ASSERT(i < _size.x * _size.y);
     return _data[i];
 }
 
 template <typename T>
 const T& Array<T, 2>::at(size_t i) const {
-    JET_ASSERT(i < _size.x*_size.y);
+    JET_ASSERT(i < _size.x * _size.y);
     return _data[i];
 }
 
@@ -160,7 +169,7 @@ typename Array<T, 2>::ContainerType::iterator Array<T, 2>::begin() {
 
 template <typename T>
 typename Array<T, 2>::ContainerType::const_iterator Array<T, 2>::begin() const {
-    return _data.begin();
+    return _data.cbegin();
 }
 
 template <typename T>
@@ -170,7 +179,7 @@ typename Array<T, 2>::ContainerType::iterator Array<T, 2>::end() {
 
 template <typename T>
 typename Array<T, 2>::ContainerType::const_iterator Array<T, 2>::end() const {
-    return _data.end();
+    return _data.cend();
 }
 
 template <typename T>
@@ -236,13 +245,13 @@ const T& Array<T, 2>::operator()(size_t i, size_t j) const {
 }
 
 template <typename T>
-T& Array<T, 2>::operator()(const Point2UI &pt) {
+T& Array<T, 2>::operator()(const Point2UI& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
 
 template <typename T>
-const T& Array<T, 2>::operator()(const Point2UI &pt) const {
+const T& Array<T, 2>::operator()(const Point2UI& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
@@ -256,6 +265,14 @@ Array<T, 2>& Array<T, 2>::operator=(const T& value) {
 template <typename T>
 Array<T, 2>& Array<T, 2>::operator=(const Array& other) {
     set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 2>& Array<T, 2>::operator=(Array&& other) {
+    _data = std::move(other._data);
+    _size = other._size;
+    other._size = Size2();
     return *this;
 }
 

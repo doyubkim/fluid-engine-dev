@@ -1,8 +1,19 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
+
+#ifdef _MSC_VER
+#pragma warning(disable: 4244)
+#endif
 
 #include <pch.h>
+
 #include <generated/flat_data_generated.h>
+
 #include <jet/serialization.h>
+
 #include <vector>
 
 namespace jet {

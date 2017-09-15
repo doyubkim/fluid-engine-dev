@@ -1,10 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_MATRIX4X4_H_
 #define INCLUDE_JET_MATRIX4X4_H_
 
 #include <jet/matrix3x3.h>
 #include <jet/vector4.h>
+
 #include <array>
 #include <limits>
 
@@ -21,9 +26,8 @@ namespace jet {
 template <typename T>
 class Matrix<T, 4, 4> {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Matrix only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Matrix only can be instantiated with floating point types");
 
     // MARK: Constructors
 
@@ -37,18 +41,12 @@ class Matrix<T, 4, 4> {
     //! This constructor initialize 3x3 part, and other parts are set to 0
     //! except (3,3) which will be set to 1.
     //! \warning Ordering of the input elements is row-major.
-    Matrix(
-        T m00, T m01, T m02,
-        T m10, T m11, T m12,
-        T m20, T m21, T m22);
+    Matrix(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);
 
     //! Constructs a matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    Matrix(
-        T m00, T m01, T m02, T m03,
-        T m10, T m11, T m12, T m13,
-        T m20, T m21, T m22, T m23,
-        T m30, T m31, T m32, T m33);
+    Matrix(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20, T m21,
+           T m22, T m23, T m30, T m31, T m32, T m33);
 
     //!
     //! \brief Constructs a matrix with given initializer list \p lst.
@@ -57,11 +55,11 @@ class Matrix<T, 4, 4> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 4, 4> arr = {
-    //!     {1, 2, 4, 3},
-    //!     {9, 3, 5, 1},
-    //!     {4, 8, 1, 5},
-    //!     {3, 7, 2, 6}
+    //! Matrix<float, 4, 4> arr = {
+    //!     {1.f, 2.f, 4.f, 3.f},
+    //!     {9.f, 3.f, 5.f, 1.f},
+    //!     {4.f, 8.f, 1.f, 5.f},
+    //!     {3.f, 7.f, 2.f, 6.f}
     //! };
     //! \endcode
     //!
@@ -84,7 +82,6 @@ class Matrix<T, 4, 4> {
     //! \warning Ordering of the input elements is row-major.
     explicit Matrix(const T* arr);
 
-
     // MARK: Basic setters
 
     //! Sets whole matrix with input scalar.
@@ -94,18 +91,12 @@ class Matrix<T, 4, 4> {
     //! This method copies 3x3 part only, and other parts are set to 0
     //! except (3,3) which is set to 1.
     //! \warning Ordering of the input elements is row-major.
-    void set(
-        T m00, T m01, T m02,
-        T m10, T m11, T m12,
-        T m20, T m21, T m22);
+    void set(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22);
 
     //! Sets this matrix with input elements.
     //! \warning Ordering of the input elements is row-major.
-    void set(
-        T m00, T m01, T m02, T m03,
-        T m10, T m11, T m12, T m13,
-        T m20, T m21, T m22, T m23,
-        T m30, T m31, T m32, T m33);
+    void set(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20,
+             T m21, T m22, T m23, T m30, T m31, T m32, T m33);
 
     //!
     //! \brief Sets a matrix with given initializer list \p lst.
@@ -114,11 +105,13 @@ class Matrix<T, 4, 4> {
     //! such as
     //!
     //! \code{.cpp}
-    //! Matrix<int, 3, 3> arr = {
-    //!     {1, 2, 4},
-    //!     {9, 3, 5},
-    //!     {4, 8, 1}
-    //! };
+    //! Matrix<float, 4, 4> arr;
+    //! arr.set({
+    //!     {1.f, 2.f, 4.f, 3.f},
+    //!     {9.f, 3.f, 5.f, 1.f},
+    //!     {4.f, 8.f, 1.f, 5.f},
+    //!     {3.f, 7.f, 2.f, 6.f}
+    //! });
     //! \endcode
     //!
     //! Note the initializer also has 3x3 structure.
@@ -152,14 +145,12 @@ class Matrix<T, 4, 4> {
     //! Sets i-th column with input vector.
     void setColumn(size_t i, const Vector4<T>& col);
 
-
     // MARK: Basic getters
 
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
-    bool isSimilar(
-        const Matrix& m,
-        double tol = std::numeric_limits<double>::epsilon()) const;
+    bool isSimilar(const Matrix& m,
+                   double tol = std::numeric_limits<double>::epsilon()) const;
 
     //! Returns true if this matrix is a square matrix.
     bool isSquare() const;
@@ -178,7 +169,6 @@ class Matrix<T, 4, 4> {
 
     //! Returns 3x3 part of this matrix.
     Matrix<T, 3, 3> matrix3() const;
-
 
     // MARK: Binary operator methods - new instance = this instance (+) input
     //! Returns this matrix + input scalar.
@@ -205,7 +195,6 @@ class Matrix<T, 4, 4> {
     //! Returns this matrix / input scalar.
     Matrix div(T s) const;
 
-
     // MARK: Binary operator methods - new instance = input (+) this instance
     //! Returns input scalar + this matrix.
     Matrix radd(T s) const;
@@ -227,7 +216,6 @@ class Matrix<T, 4, 4> {
 
     //! Returns input matrix / this scalar.
     Matrix rdiv(T s) const;
-
 
     // MARK: Augmented operator methods - this instance (+)= input
     //! Adds input scalar to this matrix.
@@ -256,14 +244,12 @@ class Matrix<T, 4, 4> {
     //! Divides this matrix with input scalar.
     void idiv(T s);
 
-
     // MARK: Modifiers
     //! Transposes this matrix.
     void transpose();
 
     //! Inverts this matrix.
     void invert();
-
 
     // MARK: Complex getters
     //! Returns sum of all elements.
@@ -347,7 +333,6 @@ class Matrix<T, 4, 4> {
     //! Division assignment with input scalar.
     Matrix& operator/=(T s);
 
-
     // MARK: Getter operators
     //! Returns reference of i-th element.
     T& operator[](size_t i);
@@ -366,7 +351,6 @@ class Matrix<T, 4, 4> {
 
     //! Returns true if is not equal to m.
     bool operator!=(const Matrix& m) const;
-
 
     // MARK: Helpers
     //! Sets all matrix entries to zero.
@@ -393,8 +377,8 @@ class Matrix<T, 4, 4> {
 };
 
 //! Type alias for 4x4 matrix.
-template <typename T> using Matrix4x4 = Matrix<T, 4, 4>;
-
+template <typename T>
+using Matrix4x4 = Matrix<T, 4, 4>;
 
 // Operator overloadings
 //! Returns a matrix with opposite sign.
@@ -453,11 +437,11 @@ Matrix4x4<T> operator*(const Matrix3x3<T>& a, const Matrix4x4<T>& b);
 template <typename T>
 Matrix4x4<T> operator*(const Matrix4x4<T>& a, const Matrix4x4<T>& b);
 
-//! Returns a / b', where every element of matrix b' is b.
+//! Returns a' / b, where every element of matrix a' is a.
 template <typename T>
 Matrix4x4<T> operator/(const Matrix4x4<T>& a, T b);
 
-//! Returns a' / b, where every element of matrix a' is a.
+//! Returns a / b', where every element of matrix b' is b.
 template <typename T>
 Matrix4x4<T> operator/(const T& a, const Matrix4x4<T>& b);
 

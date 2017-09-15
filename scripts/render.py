@@ -1,5 +1,9 @@
 """
-Copyright (c) 2016 Doyub Kim
+Copyright (c) 2017 Doyub Kim
+
+I am making my contributions/submissions to this project solely in my personal
+capacity and am not conveying any rights to any intellectual property of any
+third parties.
 """
 
 import fnmatch
@@ -90,7 +94,7 @@ def render_still_points2(filename_x, filename_y, output_filename, **kwargs):
     plt.plot(data_x, data_y, 'bo', markersize=markersize, color=color)
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def render_point2(filename):
     if is_animation(parse_tags(filename)):
@@ -147,7 +151,7 @@ def render_point2(filename):
         output_filename = get_output_movie_filename(filename.replace(',' + X_TAG, ''))
         anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
-        print 'Rendered <%s>' % output_filename
+        print ('Rendered <%s>' % output_filename)
     else:
         fig, ax = plt.subplots()
         ax.set_aspect('equal')
@@ -157,10 +161,10 @@ def render_point2(filename):
         output_filename = get_output_bitmap_filename(filename.replace(',' + X_TAG, ''))
         plt.savefig(output_filename)
         plt.close(fig)
-        print 'Rendered <%s>' % output_filename
+        print ('Rendered <%s>' % output_filename)
 
 def render_point3(filename):
-    print 'Rendering <%s> as point3' % filename
+    print ('Rendering <%s> as point3' % filename)
 
 def render_still_line2(filename_x, filename_y, output_filename, **kwargs):
     has_xtick = True
@@ -198,7 +202,7 @@ def render_still_line2(filename_x, filename_y, output_filename, **kwargs):
     plt.plot(data_x, data_y, linestyle, marker=marker, markersize=markersize, color=color)
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def render_line2(filename):
     if is_animation(parse_tags(filename)):
@@ -255,13 +259,13 @@ def render_line2(filename):
         output_filename = get_output_movie_filename(filename.replace(',' + X_TAG, ''))
         anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
-        print 'Rendered <%s>' % output_filename
+        print ('Rendered <%s>' % output_filename)
     else:
         output_filename = get_output_bitmap_filename(filename.replace(',' + X_TAG, ''))
         render_still_line2(filename, filename.replace(',' + X_TAG, ',' + Y_TAG), output_filename)
 
 def render_line3(filename):
-    print 'Rendering <%s> as line3' % filename
+    print ('Rendering <%s> as line3' % filename)
 
 def render_still_scalar_grid2(filename, output_filename, **kwargs):
     interpolation = 'nearest'
@@ -296,14 +300,15 @@ def render_still_scalar_grid2(filename, output_filename, **kwargs):
     im = ax.imshow(grid_data, cmap=plt.cm.gray, interpolation=interpolation)
     if has_iso:
         if has_iso_colors:
-            plt.contour(grid_data, 10, colors=iso_colors)
+            cs = plt.contour(grid_data, 10, colors=iso_colors)
         else:
-            plt.contour(grid_data, 10)
+            cs = plt.contour(grid_data, 10)
+        plt.clabel(cs, inline=1, fontsize=10)
     if has_colorbar:
         plt.colorbar(im)
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def render_still_vector_grid2(filename_x, filename_y, output_filename, **kwargs):
     has_xtick = True
@@ -330,7 +335,7 @@ def render_still_vector_grid2(filename_x, filename_y, output_filename, **kwargs)
     plt.quiver(X, Y, U, V)
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def render_grid2(filename):
     if is_animation(parse_tags(filename)):
@@ -359,7 +364,7 @@ def render_grid2(filename):
         anim = animation.FuncAnimation(fig, update_image, frames=len(seq), interval=60, blit=False)
         anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
-        print 'Rendered <%s>' % output_filename
+        print ('Rendered <%s>' % output_filename)
     else:
         tags = parse_tags(filename)
         output_filename = get_output_bitmap_filename(filename)
@@ -372,5 +377,5 @@ def render_grid2(filename):
             render_still_scalar_grid2(filename, output_filename, has_iso=has_iso)
 
 def render_grid3(filename):
-    print 'Rendering <%s> as grid3' % filename
+    print ('Rendering <%s> as grid3' % filename)
 

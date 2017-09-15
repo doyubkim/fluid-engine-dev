@@ -1,6 +1,11 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/sphere2.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -74,7 +79,7 @@ TEST(Sphere2, ClosestIntersection) {
 
     auto result1 = sph.closestIntersection(Ray2D({10.0, -1.0}, {-1.0, 0.0}));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(2.0, result1.t);
+    EXPECT_DOUBLE_EQ(2.0, result1.distance);
     EXPECT_DOUBLE_EQ(8.0, result1.point.x);
     EXPECT_DOUBLE_EQ(-1.0, result1.point.y);
 
@@ -83,7 +88,7 @@ TEST(Sphere2, ClosestIntersection) {
 
     auto result3 = sph.closestIntersection(Ray2D({3.0, 3.0}, {0.0, 1.0}));
     EXPECT_TRUE(result3.isIntersecting);
-    EXPECT_DOUBLE_EQ(1.0, result3.t);
+    EXPECT_DOUBLE_EQ(1.0, result3.distance);
     EXPECT_DOUBLE_EQ(3.0, result3.point.x);
     EXPECT_DOUBLE_EQ(4.0, result3.point.y);
 }
@@ -116,10 +121,8 @@ TEST(Sphere2, ClosestNormal) {
 }
 
 TEST(Sphere2, Builder) {
-    Sphere2 sph = Sphere2::builder()
-        .withCenter({3.0, -1.0})
-        .withRadius(5.0)
-        .build();
+    Sphere2 sph =
+        Sphere2::builder().withCenter({3.0, -1.0}).withRadius(5.0).build();
     EXPECT_DOUBLE_EQ(3.0, sph.center.x);
     EXPECT_DOUBLE_EQ(-1.0, sph.center.y);
     EXPECT_DOUBLE_EQ(5.0, sph.radius);

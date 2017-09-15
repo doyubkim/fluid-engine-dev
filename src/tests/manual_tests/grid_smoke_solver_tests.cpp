@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <manual_tests.h>
 
@@ -120,7 +124,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, MovingEmitterWithCollider) {
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0.0, 1.0);
     emitter->addStepFunctionTarget(solver->temperature(), 0.0, 1.0);
     emitter->setOnBeginUpdateCallback(
-        [&box] (GridEmitter2*, double t, double dt) {
+        [&box] (double t, double dt) {
             box->bound.lowerCorner.x = 0.1 * std::sin(kPiD * t) + 0.3;
             box->bound.upperCorner.x = 0.1 * std::sin(kPiD * t) + 0.7;
         });

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VECTOR_GRID3_H_
 #define INCLUDE_JET_VECTOR_GRID3_H_
@@ -64,10 +68,12 @@ class VectorGrid3 : public VectorField3, public Grid3 {
     void resize(const Vector3D& gridSpacing, const Vector3D& origin);
 
     //! Fills the grid with given value.
-    virtual void fill(const Vector3D& value) = 0;
+    virtual void fill(const Vector3D& value,
+                      ExecutionPolicy policy = ExecutionPolicy::kParallel) = 0;
 
     //! Fills the grid with given position-to-value mapping function.
-    virtual void fill(const std::function<Vector3D(const Vector3D&)>& func) = 0;
+    virtual void fill(const std::function<Vector3D(const Vector3D&)>& func,
+                      ExecutionPolicy policy = ExecutionPolicy::kParallel) = 0;
 
     //! Returns the copy of the grid instance.
     virtual std::shared_ptr<VectorGrid3> clone() const = 0;

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef SRC_TESTS_MANUAL_TESTS_MANUAL_TESTS_H_
 #define SRC_TESTS_MANUAL_TESTS_MANUAL_TESTS_H_
@@ -167,6 +171,9 @@ inline void createDirectory(const std::string& dirname) {
         } \
         std::string getTestDirectoryName(const std::string& name) { \
             return pystring::os::path::join(_testCollectionDir, name); \
+        } \
+        std::string getResourceFileName(const std::string& name) { \
+            return pystring::os::path::join(RESOURCES_DIR, name); \
         } \
     }; \
 

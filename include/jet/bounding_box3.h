@@ -1,11 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_BOUNDING_BOX3_H_
 #define INCLUDE_JET_BOUNDING_BOX3_H_
 
 #include <jet/bounding_box.h>
-#include <jet/vector3.h>
 #include <jet/ray3.h>
+#include <jet/vector3.h>
 #include <limits>
 
 namespace jet {
@@ -36,7 +40,7 @@ struct BoundingBoxRayIntersection3 {
 template <typename T>
 class BoundingBox<T, 3> {
  public:
-    //! Upper corner of the bounding box.
+    //! Lower corner of the bounding box.
     Vector3<T> lowerCorner;
 
     //! Upper corner of the bounding box.
@@ -50,7 +54,6 @@ class BoundingBox<T, 3> {
 
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
-
 
     //! Returns width of the box.
     T width() const;
@@ -89,14 +92,13 @@ class BoundingBox<T, 3> {
     //! Returns squared diagonal length of this box.
     T diagonalLengthSquared() const;
 
-
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void reset();
 
     //! Merges this and other point.
     void merge(const Vector3<T>& point);
 
-    //! Merges this and other boxes.
+    //! Merges this and other box.
     void merge(const BoundingBox& other);
 
     //! Expands this box by given delta to all direction.
@@ -106,10 +108,17 @@ class BoundingBox<T, 3> {
 
     //! Returns corner position. Index starts from x-first order.
     Vector3<T> corner(size_t idx) const;
+
+    //! Returns the clamped point.
+    Vector3<T> clamp(const Vector3<T>& point) const;
+
+    //! Returns true if the box is empty.
+    bool isEmpty() const;
 };
 
 //! Type alias for 3-D BoundingBox.
-template <typename T> using BoundingBox3 = BoundingBox<T, 3>;
+template <typename T>
+using BoundingBox3 = BoundingBox<T, 3>;
 
 //! Float-type 3-D BoundingBox.
 typedef BoundingBox3<float> BoundingBox3F;

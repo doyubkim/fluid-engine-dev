@@ -1,11 +1,15 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_BOUNDING_BOX2_H_
 #define INCLUDE_JET_BOUNDING_BOX2_H_
 
 #include <jet/bounding_box.h>
-#include <jet/vector2.h>
 #include <jet/ray2.h>
+#include <jet/vector2.h>
 #include <limits>
 
 namespace jet {
@@ -51,7 +55,6 @@ class BoundingBox<T, 2> {
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
-
     //! Returns width of the box.
     T width() const;
 
@@ -86,14 +89,13 @@ class BoundingBox<T, 2> {
     //! Returns squared diagonal length of this box.
     T diagonalLengthSquared() const;
 
-
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void reset();
 
     //! Merges this and other point.
     void merge(const Vector2<T>& point);
 
-    //! Merges this and other boxes.
+    //! Merges this and other box.
     void merge(const BoundingBox& other);
 
     //! Expands this box by given delta to all direction.
@@ -103,10 +105,17 @@ class BoundingBox<T, 2> {
 
     //! Returns corner position. Index starts from x-first order.
     Vector2<T> corner(size_t idx) const;
+
+    //! Returns the clamped point.
+    Vector2<T> clamp(const Vector2<T>& pt) const;
+
+    //! Returns true if the box is empty.
+    bool isEmpty() const;
 };
 
 //! Type alias for 2-D BoundingBox.
-template <typename T> using BoundingBox2 = BoundingBox<T, 2>;
+template <typename T>
+using BoundingBox2 = BoundingBox<T, 2>;
 
 //! Float-type 2-D BoundingBox.
 typedef BoundingBox2<float> BoundingBox2F;

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_MACROS_H_
 #define INCLUDE_JET_MACROS_H_
@@ -32,6 +36,8 @@
 #include <stdexcept>
 #define JET_THROW_INVALID_ARG_IF(expression) \
     if (expression) { throw std::invalid_argument(#expression); }
+#define JET_THROW_INVALID_ARG_WITH_MESSAGE_IF(expression, message) \
+    if (expression) { throw std::invalid_argument(message); }
 #endif
 
 #ifdef JET_WINDOWS

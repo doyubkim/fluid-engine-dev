@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/sphere2.h>
 #include <jet/surface_to_implicit2.h>
@@ -49,7 +53,7 @@ TEST(VolumeParticleEmitter2, Emit) {
     auto particles = std::make_shared<ParticleSystemData2>();
     emitter.setTarget(particles);
 
-    Frame frame(1, 1.0);
+    Frame frame(0, 1.0);
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     auto pos = particles->positions();

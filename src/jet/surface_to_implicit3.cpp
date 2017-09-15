@@ -1,7 +1,12 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <jet/surface_to_implicit3.h>
+#include <jet/triangle_mesh3.h>
 
 using namespace jet;
 
@@ -11,6 +16,10 @@ SurfaceToImplicit3::SurfaceToImplicit3(
     bool isNormalFlipped)
 : ImplicitSurface3(transform, isNormalFlipped)
 , _surface(surface) {
+    if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr) {
+        JET_WARN << "Using TriangleMesh3 with SurfaceToImplicit3 can cause "
+                 << "undefined behavior. Use ImplicitTriangleMesh3 instead.";
+    }
 }
 
 SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other) :

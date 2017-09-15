@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/jet.h>
 #include <pystring/pystring.h>
@@ -23,7 +27,7 @@ using namespace jet;
 void saveParticleAsPos(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
     copyRange1(
         particles->positions(), particles->numberOfParticles(), &positions);
@@ -34,7 +38,7 @@ void saveParticleAsPos(
     if (file) {
         printf("Writing %s...\n", filename.c_str());
         std::vector<uint8_t> buffer;
-        serialize(positions, &buffer);
+        serialize(positions.constAccessor(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
@@ -43,7 +47,7 @@ void saveParticleAsPos(
 void saveParticleAsXyz(
     const ParticleSystemData3Ptr& particles,
     const std::string& rootDir,
-    unsigned int frameCnt) {
+    int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
     copyRange1(
         particles->positions(), particles->numberOfParticles(), &positions);
@@ -83,7 +87,7 @@ void printInfo(const SphSolver3Ptr& solver) {
 void runSimulation(
     const std::string& rootDir,
     const SphSolver3Ptr& solver,
-    size_t numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     auto particles = solver->sphSystemData();
@@ -108,7 +112,7 @@ void runSimulation(
 void runExample1(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
@@ -172,7 +176,7 @@ void runExample1(
 void runExample2(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
@@ -235,7 +239,7 @@ void runExample2(
 void runExample3(
     const std::string& rootDir,
     double targetSpacing,
-    unsigned int numberOfFrames,
+    int numberOfFrames,
     const std::string& format,
     double fps) {
     BoundingBox3D domain(Vector3D(), Vector3D(3, 2, 1.5));
@@ -320,7 +324,7 @@ void runExample3(
 
 int main(int argc, char* argv[]) {
     double targetSpacing = 0.02;
-    unsigned int numberOfFrames = 100;
+    int numberOfFrames = 100;
     double fps = 60.0;
     int exampleNum = 1;
     std::string logFilename = APP_NAME ".log";
@@ -349,7 +353,7 @@ int main(int argc, char* argv[]) {
                 targetSpacing = atof(optarg);
                 break;
             case 'f':
-                numberOfFrames = static_cast<size_t>(atoi(optarg));
+                numberOfFrames = atoi(optarg);
                 break;
             case 'p':
                 fps = atof(optarg);

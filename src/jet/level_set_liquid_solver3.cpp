@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <jet/array_utils.h>
@@ -68,6 +72,8 @@ double LevelSetLiquidSolver3::computeVolume() const {
 
 void LevelSetLiquidSolver3::onBeginAdvanceTimeStep(
     double timeIntervalInSeconds) {
+    UNUSED_VARIABLE(timeIntervalInSeconds);
+
     // Measure current volume
     _lastKnownVolume = computeVolume();
 

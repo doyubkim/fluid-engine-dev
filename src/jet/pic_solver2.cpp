@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 //
 // buildSignedDistanceField function is adopted from Christopher Batty's code
 // https://cs.uwaterloo.ca/~c2batty/code/variationalplusgfm.zip
@@ -153,12 +157,12 @@ void PicSolver2::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.forEachIndex([&](size_t i, size_t j) {
+    uWeight.parallelForEachIndex([&](size_t i, size_t j) {
         if (uWeight(i, j) > 0.0) {
             u(i, j) /= uWeight(i, j);
         }
     });
-    vWeight.forEachIndex([&](size_t i, size_t j) {
+    vWeight.parallelForEachIndex([&](size_t i, size_t j) {
         if (vWeight(i, j) > 0.0) {
             v(i, j) /= vWeight(i, j);
         }

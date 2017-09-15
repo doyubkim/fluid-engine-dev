@@ -1,6 +1,11 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/sphere3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -78,10 +83,10 @@ TEST(Sphere3, ClosestIntersection) {
     Sphere3 sph({3.0, -1.0, 2.0}, 5.0);
     sph.isNormalFlipped = true;
 
-    auto result1 = sph.closestIntersection(
-        Ray3D({10.0, -1.0, 2.0}, {-1.0, 0.0, 0.0}));
+    auto result1 =
+        sph.closestIntersection(Ray3D({10.0, -1.0, 2.0}, {-1.0, 0.0, 0.0}));
     EXPECT_TRUE(result1.isIntersecting);
-    EXPECT_DOUBLE_EQ(2.0, result1.t);
+    EXPECT_DOUBLE_EQ(2.0, result1.distance);
     EXPECT_DOUBLE_EQ(8.0, result1.point.x);
     EXPECT_DOUBLE_EQ(-1.0, result1.point.y);
     EXPECT_DOUBLE_EQ(2.0, result1.point.z);
@@ -89,14 +94,14 @@ TEST(Sphere3, ClosestIntersection) {
     EXPECT_DOUBLE_EQ(0.0, result1.normal.y);
     EXPECT_DOUBLE_EQ(0.0, result1.normal.z);
 
-    auto result2 = sph.closestIntersection(
-        Ray3D({3.0, -10.0, 2.0}, {0.0, -1.0, 0.0}));
+    auto result2 =
+        sph.closestIntersection(Ray3D({3.0, -10.0, 2.0}, {0.0, -1.0, 0.0}));
     EXPECT_FALSE(result2.isIntersecting);
 
-    auto result3 = sph.closestIntersection(
-        Ray3D({3.0, 3.0, 2.0}, {0.0, 1.0, 0.0}));
+    auto result3 =
+        sph.closestIntersection(Ray3D({3.0, 3.0, 2.0}, {0.0, 1.0, 0.0}));
     EXPECT_TRUE(result3.isIntersecting);
-    EXPECT_DOUBLE_EQ(1.0, result3.t);
+    EXPECT_DOUBLE_EQ(1.0, result3.distance);
     EXPECT_DOUBLE_EQ(3.0, result3.point.x);
     EXPECT_DOUBLE_EQ(4.0, result3.point.y);
     EXPECT_DOUBLE_EQ(2.0, result3.point.z);
@@ -139,10 +144,10 @@ TEST(Sphere3, ClosestNormal) {
 
 TEST(Sphere3, Builder) {
     Sphere3 sph = Sphere3::builder()
-        .withCenter({3.0, -1.0, 2.0})
-        .withRadius(5.0)
-        .withIsNormalFlipped(true)
-        .build();
+                      .withCenter({3.0, -1.0, 2.0})
+                      .withRadius(5.0)
+                      .withIsNormalFlipped(true)
+                      .build();
     EXPECT_DOUBLE_EQ(3.0, sph.center.x);
     EXPECT_DOUBLE_EQ(-1.0, sph.center.y);
     EXPECT_DOUBLE_EQ(2.0, sph.center.z);

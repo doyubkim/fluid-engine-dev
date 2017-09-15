@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SPH_SYSTEM_DATA2_H_
 #define INCLUDE_JET_SPH_SYSTEM_DATA2_H_
@@ -91,7 +95,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \brief Sets the relative kernel radius.
     //!
     //! Sets the relative kernel radius compared to the target particle
-    //! spacing (i.e. kernal radius / target spacing).
+    //! spacing (i.e. kernel radius / target spacing).
     //! Once this function is called, hash grid and density should
     //! be updated using updateHashGrid() and updateDensities).
     //!
@@ -101,9 +105,19 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \brief Returns the relative kernel radius.
     //!
     //! Returns the relative kernel radius compared to the target particle
-    //! spacing (i.e. kernal radius / target spacing).
+    //! spacing (i.e. kernel radius / target spacing).
     //!
     double relativeKernelRadius() const;
+
+    //!
+    //! \brief Sets the absolute kernel radius.
+    //!
+    //! Sets the absolute kernel radius compared to the target particle
+    //! spacing (i.e. relative kernel radius * target spacing).
+    //! Once this function is called, hash grid and density should
+    //! be updated using updateHashGrid() and updateDensities).
+    //!
+    void setKernelRadius(double kernelRadius);
 
     //! Returns the kernel radius in meters unit.
     double kernelRadius() const;
@@ -122,9 +136,8 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \warning You must update the neighbor searcher
     //! (SphSystemData2::buildNeighborSearcher) before calling this function.
     //!
-    double interpolate(
-        const Vector2D& origin,
-        const ConstArrayAccessor1<double>& values) const;
+    double interpolate(const Vector2D& origin,
+                       const ConstArrayAccessor1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -137,9 +150,8 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \warning You must update the neighbor searcher
     //! (SphSystemData2::buildNeighborSearcher) before calling this function.
     //!
-    Vector2D interpolate(
-        const Vector2D& origin,
-        const ConstArrayAccessor1<Vector2D>& values) const;
+    Vector2D interpolate(const Vector2D& origin,
+                         const ConstArrayAccessor1<Vector2D>& values) const;
 
     //!
     //! Returns the gradient of the given values at i-th particle.
@@ -147,9 +159,8 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \warning You must update the neighbor lists
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
-    Vector2D gradientAt(
-        size_t i,
-        const ConstArrayAccessor1<double>& values) const;
+    Vector2D gradientAt(size_t i,
+                        const ConstArrayAccessor1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -157,9 +168,8 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \warning You must update the neighbor lists
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
-    double laplacianAt(
-        size_t i,
-        const ConstArrayAccessor1<double>& values) const;
+    double laplacianAt(size_t i,
+                       const ConstArrayAccessor1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -167,9 +177,8 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! \warning You must update the neighbor lists
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
-    Vector2D laplacianAt(
-        size_t i,
-        const ConstArrayAccessor1<Vector2D>& values) const;
+    Vector2D laplacianAt(size_t i,
+                         const ConstArrayAccessor1<Vector2D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void buildNeighborSearcher();

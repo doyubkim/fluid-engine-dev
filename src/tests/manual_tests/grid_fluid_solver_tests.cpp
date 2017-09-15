@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <manual_tests.h>
 
@@ -36,7 +40,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame(1, 1.0/60.0);
+    Frame frame(0, 1.0 / 60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);
@@ -83,7 +87,7 @@ JET_BEGIN_TEST_F(
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame(1, 1.0/60.0);
+    Frame frame(0, 1.0 / 60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);
@@ -132,7 +136,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
         = std::make_shared<RigidBodyCollider2>(sphere);
     solver.setCollider(collider);
 
-    Frame frame(1, 1.0/60.0);
+    Frame frame(0, 1.0 / 60.0);
     solver.update(frame);
 
     Array2<double> dataU(64, 32);

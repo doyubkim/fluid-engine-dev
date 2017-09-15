@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
@@ -29,6 +33,8 @@ typedef Array2<FdmMatrixRow2> FdmMatrix2;
 struct FdmLinearSystem2 {
     FdmMatrix2 A;
     FdmVector2 x, b;
+
+    void clear();
 };
 
 //! BLAS operator wrapper for 2-D finite differencing.

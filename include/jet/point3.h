@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_POINT3_H_
 #define INCLUDE_JET_POINT3_H_
@@ -16,11 +20,10 @@ namespace jet {
 //! \tparam T - Type of the element
 //!
 template <typename T>
-class Point<T, 3> final {
+class Point<T, 3> {
  public:
-    static_assert(
-        std::is_arithmetic<T>::value,
-        "Point only can be instantiated with arithematic types");
+    static_assert(std::is_arithmetic<T>::value,
+                  "Point only can be instantiated with arithematic types");
 
     //! X (or the first) component of the point.
     T x;
@@ -34,20 +37,20 @@ class Point<T, 3> final {
     // MARK: Constructors
 
     //! Constructs default point (0, 0, 0).
-    Point();
+    constexpr Point() : x(0), y(0), z(0) {}
 
-    //! Constructs point with given parameters \p x, \p y, and \p z.
-    Point(T x, T y, T z);
+    //! Constructs point with given parameters \p x_, \p y_, and \p z_.
+    constexpr Point(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
 
     //! Constructs point with a 2-D point and a scalar.
-    Point(const Point2<T>& pt, T z);
+    constexpr Point(const Point2<T>& v, T z_) : x(v.x), y(v.y), z(z_) {}
 
     //! Constructs point with initializer list.
     template <typename U>
     Point(const std::initializer_list<U>& lst);
 
     //! Copy constructor.
-    Point(const Point& v);
+    constexpr Point(const Point& v) : x(v.x), y(v.y), z(v.z) {}
 
     // MARK: Basic setters
 
@@ -216,9 +219,9 @@ class Point<T, 3> final {
     bool operator!=(const Point& v) const;
 };
 
-
 //! Type alias for three dimensional point.
-template <typename T> using Point3 = Point<T, 3>;
+template <typename T>
+using Point3 = Point<T, 3>;
 
 //! Positive sign operator.
 template <typename T>
@@ -272,24 +275,24 @@ Point3<T> operator/(T a, const Point3<T>& b);
 template <typename T>
 Point3<T> operator/(const Point3<T>& a, const Point3<T>& b);
 
-//! Returns element-wise min vector.
+//! Returns element-wise min point.
 template <typename T>
 Point3<T> min(const Point3<T>& a, const Point3<T>& b);
 
-//! Returns element-wise max vector.
+//! Returns element-wise max point.
 template <typename T>
 Point3<T> max(const Point3<T>& a, const Point3<T>& b);
 
-//! Returns element-wise clamped vector.
+//! Returns element-wise clamped point.
 template <typename T>
-Point3<T> clamp(
-    const Point3<T>& v, const Point3<T>& low, const Point3<T>& high);
+Point3<T> clamp(const Point3<T>& v, const Point3<T>& low,
+                const Point3<T>& high);
 
-//! Returns element-wise ceiled vector.
+//! Returns element-wise ceiled point.
 template <typename T>
 Point3<T> ceil(const Point3<T>& a);
 
-//! Returns element-wise floored vector.
+//! Returns element-wise floored point.
 template <typename T>
 Point3<T> floor(const Point3<T>& a);
 
@@ -310,4 +313,3 @@ typedef Point3<size_t> Point3UI;
 #include "detail/point3-inl.h"
 
 #endif  // INCLUDE_JET_POINT3_H_
-

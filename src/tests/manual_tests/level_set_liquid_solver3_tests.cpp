@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <manual_tests.h>
 
@@ -79,7 +83,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing) {
         "data.#grid2,0000.obj");
     triangulateAndSave(sdf, getFullFilePath(filename));
 
-    for (Frame frame(1, 1.0 / 60.0); frame.index < 120; frame.advance()) {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
 
         output.forEachIndex(sdfToBinary);

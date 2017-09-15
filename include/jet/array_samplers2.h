@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS2_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS2_H_
@@ -101,11 +105,19 @@ class LinearArraySampler<T, R, 2> final {
         std::array<Point2UI, 4>* indices,
         std::array<R, 4>* weights) const;
 
+    //! Returns the indices of points and their gradient of sampling weight for
+    //! given point.
+    void getCoordinatesAndGradientWeights(
+        const Vector2<R>& pt,
+        std::array<Point2UI, 4>* indices,
+        std::array<Vector2<R>, 4>* weights) const;
+
     //! Returns a funtion object that wraps this instance.
     std::function<T(const Vector2<R>&)> functor() const;
 
  private:
     Vector2<R> _gridSpacing;
+    Vector2<R> _invGridSpacing;
     Vector2<R> _origin;
     ConstArrayAccessor2<T> _accessor;
 };

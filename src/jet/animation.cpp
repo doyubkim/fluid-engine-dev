@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
 #include <jet/animation.h>
@@ -11,7 +15,7 @@ using namespace jet;
 Frame::Frame() {
 }
 
-Frame::Frame(unsigned int newIndex, double newTimeIntervalInSeconds)
+Frame::Frame(int newIndex, double newTimeIntervalInSeconds)
     : index(newIndex)
     , timeIntervalInSeconds(newTimeIntervalInSeconds) {
 }
@@ -24,7 +28,7 @@ void Frame::advance() {
     ++index;
 }
 
-void Frame::advance(unsigned int delta) {
+void Frame::advance(int delta) {
     index += delta;
 }
 

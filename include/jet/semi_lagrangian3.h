@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SEMI_LAGRANGIAN3_H_
 #define INCLUDE_JET_SEMI_LAGRANGIAN3_H_
@@ -43,13 +47,10 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! \param boundarySdf Boundary interface defined by signed-distance
     //!     field.
     //!
-    void advect(
-        const ScalarGrid3& input,
-        const VectorField3& flow,
-        double dt,
-        ScalarGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(std::numeric_limits<double>::max())) final;
+    void advect(const ScalarGrid3& input, const VectorField3& flow, double dt,
+                ScalarGrid3* output,
+                const ScalarField3& boundarySdf = ConstantScalarField3(
+                    std::numeric_limits<double>::max())) final;
 
     //!
     //! \brief Computes semi-Langian for given collocated vector grid.
@@ -69,13 +70,10 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! \param boundarySdf Boundary interface defined by signed-distance
     //!     field.
     //!
-    void advect(
-        const CollocatedVectorGrid3& input,
-        const VectorField3& flow,
-        double dt,
-        CollocatedVectorGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(std::numeric_limits<double>::max())) final;
+    void advect(const CollocatedVectorGrid3& input, const VectorField3& flow,
+                double dt, CollocatedVectorGrid3* output,
+                const ScalarField3& boundarySdf = ConstantScalarField3(
+                    std::numeric_limits<double>::max())) final;
 
     //!
     //! \brief Computes semi-Langian for given face-centered vector grid.
@@ -96,13 +94,10 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! \param boundarySdf Boundary interface defined by signed-distance
     //!     field.
     //!
-    void advect(
-        const FaceCenteredGrid3& input,
-        const VectorField3& flow,
-        double dt,
-        FaceCenteredGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(std::numeric_limits<double>::max())) final;
+    void advect(const FaceCenteredGrid3& input, const VectorField3& flow,
+                double dt, FaceCenteredGrid3* output,
+                const ScalarField3& boundarySdf = ConstantScalarField3(
+                    std::numeric_limits<double>::max())) final;
 
  protected:
     //!
@@ -114,8 +109,8 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<double(const Vector3D&)>
-    getScalarSamplerFunc(const ScalarGrid3& input) const;
+    virtual std::function<double(const Vector3D&)> getScalarSamplerFunc(
+        const ScalarGrid3& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -126,8 +121,8 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector3D(const Vector3D&)>
-    getVectorSamplerFunc(const CollocatedVectorGrid3& input) const;
+    virtual std::function<Vector3D(const Vector3D&)> getVectorSamplerFunc(
+        const CollocatedVectorGrid3& input) const;
 
     //!
     //! \brief Returns spatial interpolation function object for given
@@ -138,17 +133,15 @@ class SemiLagrangian3 : public AdvectionSolver3 {
     //! linear interpolation function. Override this function to have custom
     //! interpolation for semi-Lagrangian process.
     //!
-    virtual std::function<Vector3D(const Vector3D&)>
-    getVectorSamplerFunc(const FaceCenteredGrid3& input) const;
+    virtual std::function<Vector3D(const Vector3D&)> getVectorSamplerFunc(
+        const FaceCenteredGrid3& input) const;
 
  private:
-    Vector3D backTrace(
-        const VectorField3& flow,
-        double dt,
-        double h,
-        const Vector3D& pt0,
-        const ScalarField3& boundarySdf);
+    Vector3D backTrace(const VectorField3& flow, double dt, double h,
+                       const Vector3D& pt0, const ScalarField3& boundarySdf);
 };
+
+typedef std::shared_ptr<SemiLagrangian3> SemiLagrangian3Ptr;
 
 }  // namespace jet
 

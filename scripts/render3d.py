@@ -1,5 +1,9 @@
 """
-Copyright (c) 2016 Doyub Kim
+Copyright (c) 2017 Doyub Kim
+
+I am making my contributions/submissions to this project solely in my personal
+capacity and am not conveying any rights to any intellectual property of any
+third parties.
 """
 
 from mpl_toolkits.mplot3d import Axes3D
@@ -35,7 +39,7 @@ def render_still_trimesh(x, y, z, tri, output_filename):
     ax.set_aspect('equal')
     plt.savefig(output_filename)
     plt.close(fig)
-    print 'Rendered <%s>' % output_filename
+    print ('Rendered <%s>' % output_filename)
 
 def obj_to_xyzt(obj_filename):
     vert_x = []

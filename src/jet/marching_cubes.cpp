@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 //
 // Marching Cubes Example Program
 // by Cory Bloyd (corysama@yahoo.com)
@@ -246,7 +250,7 @@ static void singleSquare(
             }
         }
 
-        mesh->addPointNormalUvTriangle(face, face, face);
+        mesh->addPointUvNormalTriangle(face, face, face);
     }
 }
 
@@ -351,7 +355,7 @@ static void singleCube(
                 vertexMap->insert(std::make_pair(vKey, face[j]));
             }
         }
-        mesh->addPointNormalUvTriangle(face, face, face);
+        mesh->addPointUvNormalTriangle(face, face, face);
     }
 }
 

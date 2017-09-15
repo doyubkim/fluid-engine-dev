@@ -1,6 +1,11 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
+
 #include <jet/logging.h>
 #include <jet/macros.h>
 
@@ -20,6 +25,7 @@ static std::ostream* infoOutStream = &std::cout;
 static std::ostream* warnOutStream = &std::cout;
 static std::ostream* errorOutStream = &std::cerr;
 static std::ostream* debugOutStream = &std::cout;
+static LoggingLevel sLoggingLevel = LoggingLevel::All;
 
 inline std::ostream* levelToStream(LoggingLevel level) {
     switch (level) {
@@ -31,8 +37,9 @@ inline std::ostream* levelToStream(LoggingLevel level) {
             return errorOutStream;
         case LoggingLevel::Debug:
             return debugOutStream;
+        default:
+            return infoOutStream;
     }
-    return nullptr;
 }
 
 inline std::string levelToString(LoggingLevel level) {
@@ -45,28 +52,25 @@ inline std::string levelToString(LoggingLevel level) {
             return "ERROR";
         case LoggingLevel::Debug:
             return "DEBUG";
+        default:
+            return "";
     }
-    return nullptr;
 }
 
-
-Logger::Logger(LoggingLevel level)
-    : _level(level) {
+inline bool isLeq(LoggingLevel a, LoggingLevel b) {
+    return (uint8_t)a <= (uint8_t)b;
 }
+
+Logger::Logger(LoggingLevel level) : _level(level) {}
 
 Logger::~Logger() {
     std::lock_guard<std::mutex> lock(critical);
-#ifdef JET_DEBUG_MODE
-    if (_level != LoggingLevel::Debug) {
-#endif
-    auto strm = levelToStream(_level);
-    (*strm) << _buffer.str() << std::endl;
-    strm->flush();
-#ifdef JET_DEBUG_MODE
+    if (isLeq(sLoggingLevel, _level)) {
+        auto strm = levelToStream(_level);
+        (*strm) << _buffer.str() << std::endl;
+        strm->flush();
     }
-#endif
 }
-
 
 void Logging::setInfoStream(std::ostream* strm) {
     std::lock_guard<std::mutex> lock(critical);
@@ -96,8 +100,8 @@ void Logging::setAllStream(std::ostream* strm) {
 }
 
 std::string Logging::getHeader(LoggingLevel level) {
-    auto now = std::chrono::system_clock::to_time_t(
-        std::chrono::system_clock::now());
+    auto now =
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     char timeStr[20];
 #ifdef JET_WINDOWS
     tm time;
@@ -107,11 +111,18 @@ std::string Logging::getHeader(LoggingLevel level) {
     strftime(timeStr, sizeof(timeStr), "%F %T", std::localtime(&now));
 #endif
     char header[256];
-    snprintf(
-        header, sizeof(header), "[%s] %s ",
-        levelToString(level).c_str(),
-        timeStr);
+    snprintf(header, sizeof(header), "[%s] %s ", levelToString(level).c_str(),
+             timeStr);
     return header;
 }
+
+void Logging::setLevel(LoggingLevel level) {
+    std::lock_guard<std::mutex> lock(critical);
+    sLoggingLevel = level;
+}
+
+void Logging::mute() { setLevel(LoggingLevel::Off); }
+
+void Logging::unmute() { setLevel(LoggingLevel::All); }
 
 }  // namespace jet

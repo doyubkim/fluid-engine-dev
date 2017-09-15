@@ -1,31 +1,26 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <pch.h>
-#include <jet/sphere3.h>
 
-#include <limits>
+#include <jet/sphere3.h>
 
 using namespace jet;
 
 Sphere3::Sphere3(const Transform3& transform_, bool isNormalFlipped_)
-: Surface3(transform_, isNormalFlipped_) {
-}
+    : Surface3(transform_, isNormalFlipped_) {}
 
-Sphere3::Sphere3(
-    const Vector3D& center_,
-    double radius_,
-    const Transform3& transform_,
-    bool isNormalFlipped_)
-: Surface3(transform_, isNormalFlipped_)
-, center(center_)
-, radius(radius_) {
-}
+Sphere3::Sphere3(const Vector3D& center_, double radius_,
+                 const Transform3& transform_, bool isNormalFlipped_)
+    : Surface3(transform_, isNormalFlipped_),
+      center(center_),
+      radius(radius_) {}
 
-Sphere3::Sphere3(const Sphere3& other) :
-    Surface3(other),
-    center(other.center),
-    radius(other.radius) {
-}
+Sphere3::Sphere3(const Sphere3& other)
+    : Surface3(other), center(other.center), radius(other.radius) {}
 
 Vector3D Sphere3::closestPointLocal(const Vector3D& otherPoint) const {
     return radius * closestNormalLocal(otherPoint) + center;
@@ -43,8 +38,7 @@ Vector3D Sphere3::closestNormalLocal(const Vector3D& otherPoint) const {
     }
 }
 
-bool Sphere3::intersectsLocal(
-    const Ray3D& ray) const {
+bool Sphere3::intersectsLocal(const Ray3D& ray) const {
     Vector3D r = ray.origin - center;
     double b = ray.direction.dot(r);
     double c = r.lengthSquared() - square(radius);
@@ -57,7 +51,6 @@ bool Sphere3::intersectsLocal(
 
         if (tMin < 0.0) {
             tMin = tMax;
-            tMax = std::numeric_limits<double>::max();
         }
 
         if (tMin >= 0.0) {
@@ -83,14 +76,13 @@ SurfaceRayIntersection3 Sphere3::closestIntersectionLocal(
 
         if (tMin < 0.0) {
             tMin = tMax;
-            tMax = std::numeric_limits<double>::max();
         }
 
         if (tMin < 0.0) {
             intersection.isIntersecting = false;
         } else {
             intersection.isIntersecting = true;
-            intersection.t = tMin;
+            intersection.distance = tMin;
             intersection.point = ray.origin + tMin * ray.direction;
             intersection.normal = (intersection.point - center).normalized();
         }
@@ -106,9 +98,7 @@ BoundingBox3D Sphere3::boundingBoxLocal() const {
     return BoundingBox3D(center - r, center + r);
 }
 
-Sphere3::Builder Sphere3::builder() {
-    return Builder();
-}
+Sphere3::Builder Sphere3::builder() { return Builder(); }
 
 Sphere3::Builder& Sphere3::Builder::withCenter(const Vector3D& center) {
     _center = center;
@@ -126,12 +116,6 @@ Sphere3 Sphere3::Builder::build() const {
 
 Sphere3Ptr Sphere3::Builder::makeShared() const {
     return std::shared_ptr<Sphere3>(
-        new Sphere3(
-            _center,
-            _radius,
-            _transform,
-            _isNormalFlipped),
-        [] (Sphere3* obj) {
-            delete obj;
-    });
+        new Sphere3(_center, _radius, _transform, _isNormalFlipped),
+        [](Sphere3* obj) { delete obj; });
 }

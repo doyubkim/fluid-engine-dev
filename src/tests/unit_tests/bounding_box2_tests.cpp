@@ -1,8 +1,12 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
+
+#include <unit_tests_utils.h>
 
 #include <jet/bounding_box2.h>
-#include <gtest/gtest.h>
-#include <limits>
 
 using namespace jet;
 
@@ -117,15 +121,13 @@ TEST(BoundingBox2, ClosestIntersection) {
     BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(1.0, 0.0));
 
     Ray2D ray1(Vector2D(-4, -3), Vector2D(1, 1).normalized());
-    BoundingBoxRayIntersection2D intersection1
-        = box.closestIntersection(ray1);
+    BoundingBoxRayIntersection2D intersection1 = box.closestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 2).length(), intersection1.tNear);
     EXPECT_DOUBLE_EQ(Vector2D(3, 3).length(), intersection1.tFar);
 
     Ray2D ray2(Vector2D(0, -1), Vector2D(-2, 1).normalized());
-    BoundingBoxRayIntersection2D intersection2
-        = box.closestIntersection(ray2);
+    BoundingBoxRayIntersection2D intersection2 = box.closestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 1).length(), intersection2.tNear);
 }
@@ -142,14 +144,14 @@ TEST(BoundingBox2, DiagonalLength) {
     BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(4.0, 3.0));
     double diagLen = box.diagonalLength();
 
-    EXPECT_DOUBLE_EQ(std::sqrt(6.0*6.0 + 5.0*5.0), diagLen);
+    EXPECT_DOUBLE_EQ(std::sqrt(6.0 * 6.0 + 5.0 * 5.0), diagLen);
 }
 
 TEST(BoundingBox2, DiagonalLengthSquared) {
     BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(4.0, 3.0));
     double diagLenSqr = box.diagonalLengthSquared();
 
-    EXPECT_DOUBLE_EQ(6.0*6.0 + 5.0*5.0, diagLenSqr);
+    EXPECT_DOUBLE_EQ(6.0 * 6.0 + 5.0 * 5.0, diagLenSqr);
 }
 
 TEST(BoundingBox2, Reset) {
@@ -204,4 +206,26 @@ TEST(BoundingBox2, Expand) {
 
     EXPECT_DOUBLE_EQ(7.0, box.upperCorner.x);
     EXPECT_DOUBLE_EQ(6.0, box.upperCorner.y);
+}
+
+TEST(BoundingBox2, Corner) {
+    BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(4.0, 3.0));
+    EXPECT_VECTOR2_EQ(Vector2D(-2.0, -2.0), box.corner(0));
+    EXPECT_VECTOR2_EQ(Vector2D(4.0, -2.0), box.corner(1));
+    EXPECT_VECTOR2_EQ(Vector2D(-2.0, 3.0), box.corner(2));
+    EXPECT_VECTOR2_EQ(Vector2D(4.0, 3.0), box.corner(3));
+}
+
+TEST(BoundingBox2D, IsEmpty) {
+    BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(4.0, 3.0));
+    EXPECT_FALSE(box.isEmpty());
+
+    box.lowerCorner = Vector2D(5.0, 1.0);
+    EXPECT_TRUE(box.isEmpty());
+
+    box.lowerCorner = Vector2D(2.0, 4.0);
+    EXPECT_TRUE(box.isEmpty());
+
+    box.lowerCorner = Vector2D(4.0, 1.0);
+    EXPECT_TRUE(box.isEmpty());
 }

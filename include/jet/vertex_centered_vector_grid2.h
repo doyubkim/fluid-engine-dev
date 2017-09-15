@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VERTEX_CENTERED_VECTOR_GRID2_H_
 #define INCLUDE_JET_VERTEX_CENTERED_VECTOR_GRID2_H_
@@ -72,10 +76,12 @@ class VertexCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
         const VertexCenteredVectorGrid2& other);
 
     //! Fills the grid with given value.
-    void fill(const Vector2D& value) override;
+    void fill(const Vector2D& value,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Fills the grid with given function.
-    void fill(const std::function<Vector2D(const Vector2D&)>& func) override;
+    void fill(const std::function<Vector2D(const Vector2D&)>& func,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Returns the copy of the grid instance.
     std::shared_ptr<VectorGrid2> clone() const override;

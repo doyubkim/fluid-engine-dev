@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VOLUME_PARTICLE_EMITTER3_H_
 #define INCLUDE_JET_VOLUME_PARTICLE_EMITTER3_H_
@@ -124,7 +128,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     Vector3D _initialVel;
     PointGenerator3Ptr _pointsGen;
 
-    size_t _maxNumberOfParticles = std::numeric_limits<size_t>::max();
+    size_t _maxNumberOfParticles = kMaxSize;
     size_t _numberOfEmittedParticles = 0;
 
     double _jitter = 0.0;

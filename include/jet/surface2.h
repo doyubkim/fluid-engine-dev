@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_SURFACE2_H_
 #define INCLUDE_JET_SURFACE2_H_
@@ -14,7 +18,7 @@ namespace jet {
 //! Struct that represents ray-surface intersection point.
 struct SurfaceRayIntersection2 {
     bool isIntersecting = false;
-    double t = kMaxD;
+    double distance = kMaxD;
     Vector2D point;
     Vector2D normal;
 };
@@ -29,9 +33,8 @@ class Surface2 {
     bool isNormalFlipped = false;
 
     //! Constructs a surface with normal direction.
-    Surface2(
-        const Transform2& transform = Transform2(),
-        bool isNormalFlipped = false);
+    Surface2(const Transform2& transform = Transform2(),
+             bool isNormalFlipped = false);
 
     //! Copy constructor.
     Surface2(const Surface2& other);

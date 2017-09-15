@@ -1,4 +1,8 @@
 // Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_GRID_FLUID_SOLVER3_H_
 #define INCLUDE_JET_GRID_FLUID_SOLVER3_H_
@@ -21,7 +25,7 @@ namespace jet {
 //!
 //! This is an abstract base class for grid-based 3-D fluid solver based on
 //! Jos Stam's famous 1999 paper - "Stable Fluids". This solver takes fractional
-//! step method as its foundation which is consisted of independant advection,
+//! step method as its foundation which is consisted of independent advection,
 //! diffusion, external forces, and pressure projection steps. Each step is
 //! configurable so that a custom step can be implemented. For example, if a
 //! user wants to change the advection solver to her/his own implementation,
@@ -58,7 +62,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! This function sets the viscosity coefficient. Non-positive input will be
     //! clamped to zero.
     //!
-    //! \param[in] newValue The new viscosity coefficient value
+    //! \param[in] newValue The new viscosity coefficient value.
     //!
     void setViscosityCoefficient(double newValue);
 
@@ -66,7 +70,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! \brief Returns the CFL number from the current velocity field for given
     //!     time interval.
     //!
-    //! \param[in] timeIntervalInSeconds The time interval in seconds
+    //! \param[in] timeIntervalInSeconds The time interval in seconds.
     //!
     double cfl(double timeIntervalInSeconds) const;
 
@@ -135,7 +139,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    Size3 gridResolution() const;
+    Size3 resolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.

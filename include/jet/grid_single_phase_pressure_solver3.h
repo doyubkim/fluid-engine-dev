@@ -1,11 +1,18 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_GRID_SINGLE_PHASE_PRESSURE_SOLVER3_H_
 #define INCLUDE_JET_GRID_SINGLE_PHASE_PRESSURE_SOLVER3_H_
 
 #include <jet/fdm_linear_system_solver3.h>
+#include <jet/fdm_mg_linear_system3.h>
+#include <jet/fdm_mg_solver3.h>
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_pressure_solver3.h>
+
 #include <memory>
 
 namespace jet {
@@ -53,15 +60,11 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
     //!
     void solve(
-        const FaceCenteredGrid3& input,
-        double timeIntervalInSeconds,
+        const FaceCenteredGrid3& input, double timeIntervalInSeconds,
         FaceCenteredGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const VectorField3& boundaryVelocity
-            = ConstantVectorField3({0, 0, 0}),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) override;
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity = ConstantVectorField3({0, 0, 0}),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -73,8 +76,11 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
     //! GridBlockedBoundaryConditionSolver2 will be returned since this pressure
     //! solver encodes boundaries like pixelated Lego blocks.
     //!
-    GridBoundaryConditionSolver3Ptr
-        suggestedBoundaryConditionSolver() const override;
+    GridBoundaryConditionSolver3Ptr suggestedBoundaryConditionSolver()
+        const override;
+
+    //! Returns the linear system solver.
+    const FdmLinearSystemSolver3Ptr& linearSystemSolver() const;
 
     //! Sets the linear system solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver3Ptr& solver);
@@ -85,19 +91,21 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
  private:
     FdmLinearSystem3 _system;
     FdmLinearSystemSolver3Ptr _systemSolver;
-    Array3<char> _markers;
+
+    FdmMgLinearSystem3 _mgSystem;
+    FdmMgSolver3Ptr _mgSystemSolver;
+
+    std::vector<Array3<char>> _markers;
 
     void buildMarkers(
         const Size3& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
-        const ScalarField3& boundarySdf,
-        const ScalarField3& fluidSdf);
+        const ScalarField3& boundarySdf, const ScalarField3& fluidSdf);
 
     virtual void buildSystem(const FaceCenteredGrid3& input);
 
-    virtual void applyPressureGradient(
-        const FaceCenteredGrid3& input,
-        FaceCenteredGrid3* output);
+    virtual void applyPressureGradient(const FaceCenteredGrid3& input,
+                                       FaceCenteredGrid3* output);
 };
 
 //! Shared pointer type for the GridSinglePhasePressureSolver3.

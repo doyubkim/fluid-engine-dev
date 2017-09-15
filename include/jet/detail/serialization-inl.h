@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_DETAIL_SERIALIZATION_INL_H_
 #define INCLUDE_JET_DETAIL_SERIALIZATION_INL_H_
@@ -10,7 +14,7 @@
 namespace jet {
 
 template <typename T>
-void serialize(const Array1<T>& array, std::vector<uint8_t>* buffer) {
+void serialize(const ConstArrayAccessor1<T>& array, std::vector<uint8_t>* buffer) {
     size_t size = sizeof(T) * array.size();
     serialize(reinterpret_cast<const uint8_t*>(array.data()), size, buffer);
 }

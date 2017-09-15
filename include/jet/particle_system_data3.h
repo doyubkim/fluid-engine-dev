@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
 #define INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
@@ -164,9 +168,9 @@ class ParticleSystemData3 : public Serializable {
     //! responsibility to call ParticleSystemData3::buildNeighborSearcher and
     //! ParticleSystemData3::buildNeighborLists to refresh those data.
     //!
-    //! \param[in]  newPosition The new position.
-    //! \param[in]  newVelocity The new velocity.
-    //! \param[in]  newForce    The new force.
+    //! \param[in]  newPositions  The new positions.
+    //! \param[in]  newVelocities The new velocities.
+    //! \param[in]  newForces     The new forces.
     //!
     void addParticles(
         const ConstArrayAccessor1<Vector3D>& newPositions,

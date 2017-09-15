@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_CELL_CENTERED_VECTOR_GRID3_H_
 #define INCLUDE_JET_CELL_CENTERED_VECTOR_GRID3_H_
@@ -74,10 +78,12 @@ class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
     void swap(Grid3* other) override;
 
     //! Fills the grid with given value.
-    void fill(const Vector3D& value) override;
+    void fill(const Vector3D& value,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Fills the grid with given function.
-    void fill(const std::function<Vector3D(const Vector3D&)>& func) override;
+    void fill(const std::function<Vector3D(const Vector3D&)>& func,
+              ExecutionPolicy policy = ExecutionPolicy::kParallel) override;
 
     //! Sets the contents with the given \p other grid.
     void set(const CellCenteredVectorGrid3& other);

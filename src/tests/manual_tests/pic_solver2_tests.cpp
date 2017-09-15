@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <manual_tests.h>
 
@@ -35,6 +39,64 @@ JET_BEGIN_TEST_F(PicSolver2, SteadyState) {
 
     for (Frame frame; frame.index < 120; ++frame) {
         solver->update(frame);
+
+        saveParticleDataXy(solver->particleSystemData(), frame.index);
+    }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(PicSolver2, Rotation) {
+    // Build solver
+    auto solver = PicSolver2::builder()
+        .withResolution({10, 10})
+        .withDomainSizeX(1.0)
+        .makeShared();
+
+    solver->setGravity({0, 0});
+
+    // Build emitter
+    auto box = Sphere2::builder()
+        .withCenter({0.5, 0.5})
+        .withRadius(0.4)
+        .makeShared();
+
+    auto emitter = VolumeParticleEmitter2::builder()
+        .withSurface(box)
+        .withSpacing(1.0 / 20.0)
+        .withIsOneShot(true)
+        .makeShared();
+
+    solver->setParticleEmitter(emitter);
+
+    Array1<double> r;
+
+    for (Frame frame; frame.index < 360; ++frame) {
+        auto x = solver->particleSystemData()->positions();
+        auto v = solver->particleSystemData()->velocities();
+        r.resize(x.size());
+        for (size_t i = 0; i < x.size(); ++i) {
+            r[i] = (x[i] - Vector2D(0.5, 0.5)).length();
+        }
+
+        solver->update(frame);
+
+        if (frame.index == 0) {
+            x = solver->particleSystemData()->positions();
+            v = solver->particleSystemData()->velocities();
+            for (size_t i = 0; i < x.size(); ++i) {
+                Vector2D rp = x[i] - Vector2D(0.5, 0.5);
+                v[i].x = rp.y;
+                v[i].y = -rp.x;
+            }
+        } else {
+            for (size_t i = 0; i < x.size(); ++i) {
+                Vector2D rp = x[i] - Vector2D(0.5, 0.5);
+                if (rp.lengthSquared() > 0.0) {
+                    double scale = r[i] / rp.length();
+                    x[i] = scale * rp + Vector2D(0.5, 0.5);
+                }
+            }
+        }
 
         saveParticleDataXy(solver->particleSystemData(), frame.index);
     }

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_VECTOR3_H_
 #define INCLUDE_JET_VECTOR3_H_
@@ -20,9 +24,8 @@ namespace jet {
 template <typename T>
 class Vector<T, 3> final {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Vector only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Vector only can be instantiated with floating point types");
 
     //! X (or the first) component of the vector.
     T x;
@@ -36,20 +39,20 @@ class Vector<T, 3> final {
     // MARK: Constructors
 
     //! Constructs default vector (0, 0, 0).
-    Vector();
+    constexpr Vector() : x(0), y(0), z(0) {}
 
-    //! Constructs vector with given parameters \p x, \p y, and \p z.
-    Vector(T x, T y, T z);
+    //! Constructs vector with given parameters \p x_, \p y_, and \p z_.
+    constexpr Vector(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
 
     //! Constructs vector with a 2-D vector and a scalar.
-    Vector(const Vector2<T>& pt, T z);
+    constexpr Vector(const Vector2<T>& v, T z_) : x(v.x), y(v.y), z(z_) {}
 
     //! Constructs vector with initializer list.
     template <typename U>
     Vector(const std::initializer_list<U>& lst);
 
     //! Copy constructor.
-    Vector(const Vector& v);
+    constexpr Vector(const Vector& v) : x(v.x), y(v.y), z(v.z) {}
 
     // MARK: Basic setters
 
@@ -213,9 +216,8 @@ class Vector<T, 3> final {
     bool isEqual(const Vector& other) const;
 
     //! Returns true if \p other is similar to this vector.
-    bool isSimilar(
-        const Vector& other,
-        T epsilon = std::numeric_limits<T>::epsilon()) const;
+    bool isSimilar(const Vector& other,
+                   T epsilon = std::numeric_limits<T>::epsilon()) const;
 
     // MARK: Operators
 
@@ -263,9 +265,9 @@ class Vector<T, 3> final {
     bool operator!=(const Vector& v) const;
 };
 
-
 //! Type alias for three dimensional vector.
-template <typename T> using Vector3 = Vector<T, 3>;
+template <typename T>
+using Vector3 = Vector<T, 3>;
 
 //! Positive sign operator.
 template <typename T>
@@ -329,8 +331,8 @@ Vector3<T> max(const Vector3<T>& a, const Vector3<T>& b);
 
 //! Returns element-wise clamped vector.
 template <typename T>
-Vector3<T> clamp(
-    const Vector3<T>& v, const Vector3<T>& low, const Vector3<T>& high);
+Vector3<T> clamp(const Vector3<T>& v, const Vector3<T>& low,
+                 const Vector3<T>& high);
 
 //! Returns element-wise ceiled vector.
 template <typename T>
@@ -350,13 +352,13 @@ typedef Vector3<double> Vector3D;
 
 //! Returns float-type zero vector.
 template <>
-inline Vector3F zero<Vector3F>() {
+constexpr Vector3F zero<Vector3F>() {
     return Vector3F(0.f, 0.f, 0.f);
 }
 
 //! Returns double-type zero vector.
 template <>
-inline Vector3D zero<Vector3D>() {
+constexpr Vector3D zero<Vector3D>() {
     return Vector3D(0.0, 0.0, 0.0);
 }
 
@@ -368,16 +370,11 @@ struct ScalarType<Vector3<T>> {
 
 //! Computes monotonic Catmull-Rom interpolation.
 template <typename T>
-Vector3<T> monotonicCatmullRom(
-    const Vector3<T>& v0,
-    const Vector3<T>& v1,
-    const Vector3<T>& v2,
-    const Vector3<T>& v3,
-    T f);
+Vector3<T> monotonicCatmullRom(const Vector3<T>& v0, const Vector3<T>& v1,
+                               const Vector3<T>& v2, const Vector3<T>& v3, T f);
 
 }  // namespace jet
 
 #include "detail/vector3-inl.h"
 
 #endif  // INCLUDE_JET_VECTOR3_H_
-

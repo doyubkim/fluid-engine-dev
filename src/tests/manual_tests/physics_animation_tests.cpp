@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include "manual_tests.h"
 
@@ -184,8 +188,7 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
     saveData(y.constAccessor(), filename);
 
-    Frame frame(1, 1.0 / 60.0);
-    for ( ; frame.index < 360; frame.advance())
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.advance())
     {
         anim.update(frame);
         anim.exportStates(x, y);

@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_CONSTANTS_H_
 #define INCLUDE_JET_CONSTANTS_H_
@@ -19,19 +23,19 @@ constexpr ssize_t kZeroSSize = 0;
 
 //! Zero for type T.
 template <typename T>
-inline T zero() {
+constexpr T zero() {
     return 0;
 }
 
 //! Zero for float.
 template <>
-inline float zero<float>() {
+constexpr float zero<float>() {
     return 0.f;
 }
 
 //! Zero for double.
 template <>
-inline double zero<double>() {
+constexpr double zero<double>() {
     return 0.0;
 }
 
@@ -142,27 +146,27 @@ constexpr double halfPi<double>() {
 // MARK: Pi/4
 
 //! Float-type pi/4.
-constexpr float kQuaterPiF = 0.785398163397448309615660845819875721f;
+constexpr float kQuarterPiF = 0.785398163397448309615660845819875721f;
 
 //! Double-type pi/4.
-constexpr double kQuaterPiD = 0.785398163397448309615660845819875721;
+constexpr double kQuarterPiD = 0.785398163397448309615660845819875721;
 
 //! Pi/4 for type T.
 template <typename T>
-constexpr T quaterPi() {
-    return static_cast<T>(kQuaterPiD);
+constexpr T quarterPi() {
+    return static_cast<T>(kQuarterPiD);
 }
 
 //! Pi/2 for float.
 template <>
-constexpr float quaterPi<float>() {
-    return kQuaterPiF;
+constexpr float quarterPi<float>() {
+    return kQuarterPiF;
 }
 
 //! Pi/2 for double.
 template <>
-constexpr double quaterPi<double>() {
-    return kQuaterPiD;
+constexpr double quarterPi<double>() {
+    return kQuarterPiD;
 }
 
 // MARK: 2*Pi

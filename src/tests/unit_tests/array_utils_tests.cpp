@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/array1.h>
 #include <jet/array2.h>
@@ -152,17 +156,4 @@ TEST(ArrayUtils, ExtrapolateToRegion3) {
             }
         }
     }
-}
-
-TEST(ArrayUtils, converToCsv) {
-    Array2<double> array = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-    std::stringstream strm;
-
-    strm << std::fixed;
-    strm << std::setprecision(2);
-    convertToCsv(array, &strm);
-
-    std::string result = strm.str();
-
-    EXPECT_EQ(std::string("1.00, 2.00, 3.00\n4.00, 5.00, 6.00\n"), result);
 }

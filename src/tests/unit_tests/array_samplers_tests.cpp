@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #include <jet/array1.h>
 #include <jet/array2.h>
@@ -52,6 +56,9 @@ TEST(LinearArraySampler1, Sample) {
 
         double s1 = sampler(1.8);
         EXPECT_LT(std::fabs(s1 - 2.8), 1e-9);
+
+        double s2 = sampler(3.5);
+        EXPECT_NEAR(4.0, s2, 1e-9);
     }
     {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });

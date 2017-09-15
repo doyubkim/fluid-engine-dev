@@ -1,4 +1,8 @@
-// Copyright (c) 2016 Doyub Kim
+// Copyright (c) 2017 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
 
 #ifndef INCLUDE_JET_PHYSICS_ANIMATION_H_
 #define INCLUDE_JET_PHYSICS_ANIMATION_H_
@@ -132,7 +136,6 @@ class PhysicsAnimation : public Animation {
     Frame _currentFrame;
     bool _isUsingFixedSubTimeSteps = true;
     unsigned int _numberOfFixedSubTimeSteps = 1;
-    bool _hasInitialized = false;
     double _currentTime = 0.0;
 
     void onUpdate(const Frame& frame) final;
@@ -147,4 +150,3 @@ typedef std::shared_ptr<PhysicsAnimation> PhysicsAnimationPtr;
 }  // namespace jet
 
 #endif  // INCLUDE_JET_PHYSICS_ANIMATION_H_
-
