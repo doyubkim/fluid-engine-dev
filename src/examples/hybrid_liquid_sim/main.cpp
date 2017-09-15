@@ -228,7 +228,7 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
     Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
-    auto solver = PicSolver3::builder()
+    auto solver = FlipSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
                       .makeShared();
