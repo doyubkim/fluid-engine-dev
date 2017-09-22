@@ -150,38 +150,35 @@
     <hr />
     <h2 id="introduction">Introduction</h2>
 
-<p>The performance test measures the computation timing. To list the entire test cases, run</p>
+<p>Jet framework comes with two performance tests; time and memory.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests --gtest_list_tests
+<p>To measure the time-performance, run:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/time_perf_tests
 </code></pre>
 </div>
 
-<p>To run the tests, execute</p>
+<p>The time-performance is driven by Google Benchmark library. Thus, you can pass Benchmark arguments to the test app such as:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/time_perf_tests --benchmark_filter=_some_regex_
 </code></pre>
 </div>
 
-<p>Similar to the unit test and manual test, you can pass the test name pattern to run specific tests, such as</p>
+<p>For Windows, use <code class="highlighter-rouge">bin\Release\time_perf_tests.exe</code> command instead.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>bin/perf_tests --gtest_filter="Point*"
+<p>To measure the memory-performance, run:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/mem_perf_tests
 </code></pre>
 </div>
 
-<p>For Windows, use <code class="highlighter-rouge">bin\Release\perf_tests.exe</code> command instead.</p>
+<p>Similar to the unit test and manual test, the memory-performance test is driven by Google Test (gtest) suite. Thus, you can pass the gtest arguments, such as:</p>
 
-<p>The measured performance for each test will be printed to the console, such as</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>...
-[----------] 1 test from PointHashGridSearcher3
-[ RUN      ] PointHashGridSearcher3.Build
-[----------] PointHashGridSearcher3::build avg. 0.261923 sec.
-[       OK ] PointHashGridSearcher3.Build (2732 ms)
-[----------] 1 test from PointHashGridSearcher3 (2733 ms total)
-...
+<div class="highlighter-rouge"><pre class="highlight"><code>bin/mem_perf_tests --gtest_filter=_name_pattern_
 </code></pre>
 </div>
 
+<p>For Windows, use <code class="highlighter-rouge">bin\Release\mem_perf_tests.exe</code> command instead.</p>
 
   </div>
 </div>
