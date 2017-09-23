@@ -201,7 +201,138 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
         }
     });
 }
+
+void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
+                       Array2<size_t>* coordToIndex,
+                       const Array2<float>& fluidSdf,
+                       const Array2<float>& uWeights,
+                       const Array2<float>& vWeights,
+                       std::function<Vector2D(const Vector2D&)> boundaryVel,
+                       const FaceCenteredGrid2& input) {
+    const Size2 size = input.resolution();
+    const auto uPos = input.uPosition();
+    const auto vPos = input.vPosition();
+
+    const Vector2D invH = 1.0 / input.gridSpacing();
+    const Vector2D invHSqr = invH * invH;
+
+    const auto fluidSdfAcc = fluidSdf.constAccessor();
+
+    fluidSdf.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = fluidSdfAcc.index(i, j);
+        const size_t lIdx = fluidSdfAcc.index(i - 1, j);
+        const size_t rIdx = fluidSdfAcc.index(i + 1, j);
+        const size_t dIdx = fluidSdfAcc.index(i, j - 1);
+        const size_t uIdx = fluidSdfAcc.index(i, j + 1);
+
+        const double centerPhi = fluidSdf(i, j);
+
+        if (isInsideSdf(centerPhi)) {
+            (*coordToIndex)[cIdx] = b->size();
+            double bij = 0.0;
+
+            std::vector<double> row(1, 0.0);
+            std::vector<size_t> colIdx(1, cIdx);
+
+            double term;
+
+            if (i + 1 < size.x) {
+                term = uWeights(i + 1, j) * invHSqr.x;
+                const double rightPhi = fluidSdf(i + 1, j);
+                if (isInsideSdf(rightPhi)) {
+                    row[0] += term;
+                    row.push_back(-term);
+                    colIdx.push_back(rIdx);
+                } else {
+                    double theta = fractionInsideSdf(centerPhi, rightPhi);
+                    theta = std::max(theta, 0.01);
+                    row[0] += term / theta;
+                }
+                bij += uWeights(i + 1, j) * input.u(i + 1, j) * invH.x;
+            } else {
+                bij += input.u(i + 1, j) * invH.x;
+            }
+
+            if (i > 0) {
+                term = uWeights(i, j) * invHSqr.x;
+                const double leftPhi = fluidSdf(i - 1, j);
+                if (isInsideSdf(leftPhi)) {
+                    row[0] += term;
+                    row.push_back(-term);
+                    colIdx.push_back(lIdx);
+                } else {
+                    double theta = fractionInsideSdf(centerPhi, leftPhi);
+                    theta = std::max(theta, 0.01);
+                    row[0] += term / theta;
+                }
+                bij -= uWeights(i, j) * input.u(i, j) * invH.x;
+            } else {
+                bij -= input.u(i, j) * invH.x;
+            }
+
+            if (j + 1 < size.y) {
+                term = vWeights(i, j + 1) * invHSqr.y;
+                const double upPhi = fluidSdf(i, j + 1);
+                if (isInsideSdf(upPhi)) {
+                    row[0] += term;
+                    row.push_back(-term);
+                    colIdx.push_back(uIdx);
+                } else {
+                    double theta = fractionInsideSdf(centerPhi, upPhi);
+                    theta = std::max(theta, 0.01);
+                    row[0] += term / theta;
+                }
+                bij += vWeights(i, j + 1) * input.v(i, j + 1) * invH.y;
+            } else {
+                bij += input.v(i, j + 1) * invH.y;
+            }
+
+            if (j > 0) {
+                term = vWeights(i, j) * invHSqr.y;
+                const double downPhi = fluidSdf(i, j - 1);
+                if (isInsideSdf(downPhi)) {
+                    row[0] += term;
+                    row.push_back(-term);
+                    colIdx.push_back(dIdx);
+                } else {
+                    double theta = fractionInsideSdf(centerPhi, downPhi);
+                    theta = std::max(theta, 0.01);
+                    row[0] += term / theta;
+                }
+                bij -= vWeights(i, j) * input.v(i, j) * invH.y;
+            } else {
+                bij -= input.v(i, j) * invH.y;
+            }
+
+            // Accumulate contributions from the moving boundary
+            const double boundaryContribution =
+                (1.0 - uWeights(i + 1, j)) * boundaryVel(uPos(i + 1, j)).x *
+                    invH.x -
+                (1.0 - uWeights(i, j)) * boundaryVel(uPos(i, j)).x * invH.x +
+                (1.0 - vWeights(i, j + 1)) * boundaryVel(vPos(i, j + 1)).y *
+                    invH.y -
+                (1.0 - vWeights(i, j)) * boundaryVel(vPos(i, j)).y * invH.y;
+            bij += boundaryContribution;
+
+            // If row.center is near-zero, the cell is likely inside a solid
+            // boundary.
+            if (row[0] < kEpsilonD) {
+                row[0] = 1.0;
+                bij = 0.0;
+            }
+
+            A->addRow(row, colIdx);
+            b->append(bij);
+        } else {
+            (*coordToIndex)[cIdx] = kMaxSize;
+        }
+
+    });
+
+    x->resize(b->size(), 0.0);
 }
+
+}  // namespace
 
 GridFractionalSinglePhasePressureSolver2::
     GridFractionalSinglePhasePressureSolver2() {
@@ -214,16 +345,22 @@ GridFractionalSinglePhasePressureSolver2::
 void GridFractionalSinglePhasePressureSolver2::solve(
     const FaceCenteredGrid2& input, double timeIntervalInSeconds,
     FaceCenteredGrid2* output, const ScalarField2& boundarySdf,
-    const VectorField2& boundaryVelocity, const ScalarField2& fluidSdf) {
+    const VectorField2& boundaryVelocity, const ScalarField2& fluidSdf,
+    bool useCompressed) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
 
     buildWeights(input, boundarySdf, boundaryVelocity, fluidSdf);
-    buildSystem(input);
+    buildSystem(input, useCompressed);
 
     if (_systemSolver != nullptr) {
         // Solve the system
         if (_mgSystemSolver == nullptr) {
-            _systemSolver->solve(&_system);
+            if (useCompressed) {
+                _systemSolver->solveCompressed(&_compSystem);
+                _compSystem.decompressSolution(&_system.x);
+            } else {
+                _systemSolver->solve(&_system);
+            }
         } else {
             _mgSystemSolver->solve(&_mgSystem);
         }
@@ -344,18 +481,16 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
 }
 
 void GridFractionalSinglePhasePressureSolver2::buildSystem(
-    const FaceCenteredGrid2& input) {
+    const FaceCenteredGrid2& input, bool useCompressed) {
     Size2 size = input.resolution();
     size_t numLevels = 1;
-    FdmMatrix2* A;
-    FdmVector2* b;
 
     if (_mgSystemSolver == nullptr) {
-        _system.A.resize(size);
-        _system.x.resize(size);
-        _system.b.resize(size);
-        A = &_system.A;
-        b = &_system.b;
+        if (useCompressed) {
+            _compSystem.resize(size);
+        } else {
+            _system.resize(size);
+        }
     } else {
         // Build levels
         size_t maxLevels = _mgSystemSolver->params().maxNumberOfLevels;
@@ -365,16 +500,26 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
                                            &_mgSystem.x.levels);
         FdmMgUtils2::resizeArrayWithFinest(size, maxLevels,
                                            &_mgSystem.b.levels);
-        A = &_mgSystem.A.levels.front();
-        b = &_mgSystem.b.levels.front();
 
         numLevels = _mgSystem.A.levels.size();
     }
 
     // Build top level
     const FaceCenteredGrid2* finer = &input;
-    buildSingleSystem(A, b, _fluidSdf[0], _uWeights[0], _vWeights[0],
-                      _boundaryVel, *finer);
+    if (_mgSystemSolver == nullptr) {
+        if (useCompressed) {
+            buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
+                              &_compSystem.coordToIndex, _fluidSdf[0],
+                              _uWeights[0], _vWeights[0], _boundaryVel, *finer);
+        } else {
+            buildSingleSystem(&_system.A, &_system.b, _fluidSdf[0],
+                              _uWeights[0], _vWeights[0], _boundaryVel, *finer);
+        }
+    } else {
+        buildSingleSystem(&_mgSystem.A.levels.front(),
+                          &_mgSystem.b.levels.front(), _fluidSdf[0],
+                          _uWeights[0], _vWeights[0], _boundaryVel, *finer);
+    }
 
     // Build sub-levels
     FaceCenteredGrid2 coarser;
@@ -390,9 +535,8 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
         coarser.resize(res, h, o);
         coarser.fill(finer->sampler());
 
-        A = &_mgSystem.A.levels[l];
-        b = &_mgSystem.b.levels[l];
-        buildSingleSystem(A, b, _fluidSdf[l], _uWeights[l], _vWeights[l],
+        buildSingleSystem(&_mgSystem.A.levels[l], &_mgSystem.b.levels[l],
+                          _fluidSdf[l], _uWeights[l], _vWeights[l],
                           _boundaryVel, coarser);
 
         finer = &coarser;

@@ -130,6 +130,14 @@ MatrixCsr<T>::MatrixCsr(MatrixCsr&& other) {
 }
 
 template <typename T>
+void MatrixCsr<T>::clear() {
+    _size = {0, 0};
+    _nonZeros.clear();
+    _rowPointers.clear();
+    _columnIndices.clear();
+}
+
+template <typename T>
 void MatrixCsr<T>::set(const T& s) {
     std::fill(_nonZeros.begin(), _nonZeros.end(), s);
 }

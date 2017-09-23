@@ -71,13 +71,15 @@ class GridFractionalSinglePhasePressureSolver2 final
     //! \param[inout] output                The output velocity field.
     //! \param[in]    boundarySdf           The SDF of the boundary.
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
+    //! \param[in]    useCompressed         True if it uses compressed system.
     //!
-    void solve(
-        const FaceCenteredGrid2& input, double timeIntervalInSeconds,
-        FaceCenteredGrid2* output,
-        const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD),
-        const VectorField2& boundaryVelocity = ConstantVectorField2({0, 0}),
-        const ScalarField2& fluidSdf = ConstantScalarField2(-kMaxD)) override;
+    void solve(const FaceCenteredGrid2& input, double timeIntervalInSeconds,
+               FaceCenteredGrid2* output,
+               const ScalarField2& boundarySdf = ConstantScalarField2(kMaxD),
+               const VectorField2& boundaryVelocity = ConstantVectorField2({0,
+                                                                            0}),
+               const ScalarField2& fluidSdf = ConstantScalarField2(-kMaxD),
+               bool useCompressed = false) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -102,6 +104,7 @@ class GridFractionalSinglePhasePressureSolver2 final
 
  private:
     FdmLinearSystem2 _system;
+    FdmCompressedLinearSystem2 _compSystem;
     FdmLinearSystemSolver2Ptr _systemSolver;
 
     FdmMgLinearSystem2 _mgSystem;
@@ -118,7 +121,8 @@ class GridFractionalSinglePhasePressureSolver2 final
                       const VectorField2& boundaryVelocity,
                       const ScalarField2& fluidSdf);
 
-    virtual void buildSystem(const FaceCenteredGrid2& input);
+    virtual void buildSystem(const FaceCenteredGrid2& input,
+                             bool useCompressed);
 
     virtual void applyPressureGradient(const FaceCenteredGrid2& input,
                                        FaceCenteredGrid2* output);

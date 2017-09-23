@@ -18,6 +18,33 @@ void FdmLinearSystem2::clear() {
     b.clear();
 }
 
+void FdmLinearSystem2::resize(const Size2& size) {
+    A.resize(size);
+    x.resize(size);
+    b.resize(size);
+}
+
+//
+
+void FdmCompressedLinearSystem2::clear() {
+    A.clear();
+    x.clear();
+    b.clear();
+    coordToIndex.clear();
+}
+
+void FdmCompressedLinearSystem2::resize(const Size2& size) {
+    coordToIndex.resize(size);
+}
+
+void FdmCompressedLinearSystem2::decompressSolution(FdmVector2* xDecomp) {
+    xDecomp->resize(coordToIndex.size());
+    xDecomp->parallelForEachIndex([&](size_t i, size_t j) {
+        const size_t idx = coordToIndex(i, j);
+        (*xDecomp)(i, j) = (idx == kMaxSize) ? 0.0 : x[idx];
+    });
+}
+
 //
 
 void FdmBlas2::set(double s, FdmVector2* result) { result->set(s); }
@@ -108,4 +135,77 @@ double FdmBlas2::lInfNorm(const FdmVector2& v) {
     }
 
     return std::fabs(result);
+}
+
+//
+
+void FdmCompressedBlas2::set(double s, VectorND* result) { result->set(s); }
+
+void FdmCompressedBlas2::set(const VectorND& v, VectorND* result) {
+    result->set(v);
+}
+
+void FdmCompressedBlas2::set(double s, MatrixCsrD* result) { result->set(s); }
+
+void FdmCompressedBlas2::set(const MatrixCsrD& m, MatrixCsrD* result) {
+    result->set(m);
+}
+
+double FdmCompressedBlas2::dot(const VectorND& a, const VectorND& b) {
+    return a.dot(b);
+}
+
+void FdmCompressedBlas2::axpy(double a, const VectorND& x, const VectorND& y,
+                              VectorND* result) {
+    *result = a * x + y;
+}
+
+void FdmCompressedBlas2::mvm(const MatrixCsrD& m, const VectorND& v,
+                             VectorND* result) {
+    const auto rp = m.rowPointersBegin();
+    const auto ci = m.columnIndicesBegin();
+    const auto nnz = m.nonZeroBegin();
+
+    v.parallelForEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double sum = 0.0;
+
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+            sum += nnz[jj] * v[j];
+        }
+
+        (*result)[i] = sum;
+    });
+}
+
+void FdmCompressedBlas2::residual(const MatrixCsrD& a, const VectorND& x,
+                                  const VectorND& b, VectorND* result) {
+    const auto rp = a.rowPointersBegin();
+    const auto ci = a.columnIndicesBegin();
+    const auto nnz = a.nonZeroBegin();
+
+    x.parallelForEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double sum = 0.0;
+
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+            sum += nnz[jj] * x[j];
+        }
+
+        (*result)[i] = b[i] - sum;
+    });
+}
+
+double FdmCompressedBlas2::l2Norm(const VectorND& v) {
+    return std::sqrt(v.dot(v));
+}
+
+double FdmCompressedBlas2::lInfNorm(const VectorND& v) {
+    return std::fabs(v.absmax());
 }

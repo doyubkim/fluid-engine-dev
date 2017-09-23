@@ -164,6 +164,9 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
 
     // MARK: Basic setters
 
+    //! Clears the matrix and make it zero-dimensional.
+    void clear();
+
     //! Sets whole matrix with input scalar.
     void set(const T& s);
 

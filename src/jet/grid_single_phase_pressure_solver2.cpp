@@ -65,7 +65,73 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
         }
     });
 }
+
+void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
+                       Array2<size_t>* coordToIndex,
+                       const Array2<char>& markers,
+                       const FaceCenteredGrid2& input) {
+    Size2 size = input.resolution();
+    Vector2D invH = 1.0 / input.gridSpacing();
+    Vector2D invHSqr = invH * invH;
+
+    const auto markerAcc = markers.constAccessor();
+
+    markers.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = markerAcc.index(i, j);
+        const size_t lIdx = markerAcc.index(i - 1, j);
+        const size_t rIdx = markerAcc.index(i + 1, j);
+        const size_t dIdx = markerAcc.index(i, j - 1);
+        const size_t uIdx = markerAcc.index(i, j + 1);
+
+        if (markerAcc[cIdx] == kFluid) {
+            (*coordToIndex)[cIdx] = b->size();
+            b->append(input.divergenceAtCellCenter(i, j));
+
+            std::vector<double> row(1, 0.0);
+            std::vector<size_t> colIdx(1, cIdx);
+
+            if (i + 1 < size.x && markers[rIdx] != kBoundary) {
+                row[0] += invHSqr.x;
+                if (markers[rIdx] == kFluid) {
+                    row.push_back(-invHSqr.x);
+                    colIdx.push_back(rIdx);
+                }
+            }
+
+            if (i > 0 && markers[lIdx] != kBoundary) {
+                row[0] += invHSqr.x;
+                if (markers[lIdx] == kFluid) {
+                    row.push_back(-invHSqr.x);
+                    colIdx.push_back(lIdx);
+                }
+            }
+
+            if (j + 1 < size.y && markers[uIdx] != kBoundary) {
+                row[0] += invHSqr.y;
+                if (markers[uIdx] == kFluid) {
+                    row.push_back(-invHSqr.y);
+                    colIdx.push_back(uIdx);
+                }
+            }
+
+            if (j > 0 && markers[dIdx] != kBoundary) {
+                row[0] += invHSqr.y;
+                if (markers[dIdx] == kFluid) {
+                    row.push_back(-invHSqr.y);
+                    colIdx.push_back(dIdx);
+                }
+            }
+
+            A->addRow(row, colIdx);
+        } else {
+            (*coordToIndex)[cIdx] = kMaxSize;
+        }
+    });
+
+    x->resize(b->size(), 0.0);
 }
+
+}  // namespace
 
 GridSinglePhasePressureSolver2::GridSinglePhasePressureSolver2() {
     _systemSolver = std::make_shared<FdmIccgSolver2>(100, kDefaultTolerance);
@@ -78,18 +144,24 @@ void GridSinglePhasePressureSolver2::solve(const FaceCenteredGrid2& input,
                                            FaceCenteredGrid2* output,
                                            const ScalarField2& boundarySdf,
                                            const VectorField2& boundaryVelocity,
-                                           const ScalarField2& fluidSdf) {
+                                           const ScalarField2& fluidSdf,
+                                           bool useCompressed) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
     auto pos = input.cellCenterPosition();
     buildMarkers(input.resolution(), pos, boundarySdf, fluidSdf);
-    buildSystem(input);
+    buildSystem(input, useCompressed);
 
     if (_systemSolver != nullptr) {
         // Solve the system
         if (_mgSystemSolver == nullptr) {
-            _systemSolver->solve(&_system);
+            if (useCompressed) {
+                _systemSolver->solveCompressed(&_compSystem);
+                _compSystem.decompressSolution(&_system.x);
+            } else {
+                _systemSolver->solve(&_system);
+            }
         } else {
             _mgSystemSolver->solve(&_mgSystem);
         }
@@ -199,19 +271,17 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     }
 }
 
-void GridSinglePhasePressureSolver2::buildSystem(
-    const FaceCenteredGrid2& input) {
+void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
+                                                 bool useCompressed) {
     Size2 size = input.resolution();
     size_t numLevels = 1;
-    FdmMatrix2* A;
-    FdmVector2* b;
 
     if (_mgSystemSolver == nullptr) {
-        _system.A.resize(size);
-        _system.x.resize(size);
-        _system.b.resize(size);
-        A = &_system.A;
-        b = &_system.b;
+        if (useCompressed) {
+            _compSystem.resize(size);
+        } else {
+            _system.resize(size);
+        }
     } else {
         // Build levels
         size_t maxLevels = _mgSystemSolver->params().maxNumberOfLevels;
@@ -221,15 +291,23 @@ void GridSinglePhasePressureSolver2::buildSystem(
                                            &_mgSystem.x.levels);
         FdmMgUtils2::resizeArrayWithFinest(size, maxLevels,
                                            &_mgSystem.b.levels);
-        A = &_mgSystem.A.levels.front();
-        b = &_mgSystem.b.levels.front();
 
         numLevels = _mgSystem.A.levels.size();
     }
 
     // Build top level
     const FaceCenteredGrid2* finer = &input;
-    buildSingleSystem(A, b, _markers[0], *finer);
+    if (_mgSystemSolver == nullptr) {
+        if (useCompressed) {
+            buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
+                              &_compSystem.coordToIndex, _markers[0], *finer);
+        } else {
+            buildSingleSystem(&_system.A, &_system.b, _markers[0], *finer);
+        }
+    } else {
+        buildSingleSystem(&_mgSystem.A.levels.front(),
+                          &_mgSystem.b.levels.front(), _markers[0], *finer);
+    }
 
     // Build sub-levels
     FaceCenteredGrid2 coarser;
@@ -245,9 +323,8 @@ void GridSinglePhasePressureSolver2::buildSystem(
         coarser.resize(res, h, o);
         coarser.fill(finer->sampler());
 
-        A = &_mgSystem.A.levels[l];
-        b = &_mgSystem.b.levels[l];
-        buildSingleSystem(A, b, _markers[l], coarser);
+        buildSingleSystem(&_mgSystem.A.levels[l], &_mgSystem.b.levels[l],
+                          _markers[l], coarser);
 
         finer = &coarser;
     }

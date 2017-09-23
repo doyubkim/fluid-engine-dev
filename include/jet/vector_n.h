@@ -61,6 +61,9 @@ class VectorN final : public VectorExpression<T, VectorN<T>> {
     //! Resizes to \p n dimensional vector with initial value \p val.
     void resize(size_t n, const T& val = 0);
 
+    //! Clears the vector and make it zero-dimensional.
+    void clear();
+
     //! Sets all elements to \p s.
     void set(const T& s);
 
@@ -71,6 +74,9 @@ class VectorN final : public VectorExpression<T, VectorN<T>> {
     //! Sets vector with expression template.
     template <typename E>
     void set(const VectorExpression<T, E>& other);
+
+    //! Adds an element.
+    void append(const T& val);
 
     //! Swaps the content of the vector with \p other vector.
     void swap(VectorN& other);

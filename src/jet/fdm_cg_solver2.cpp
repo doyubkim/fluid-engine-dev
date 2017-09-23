@@ -5,19 +5,18 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/constants.h>
+
 #include <jet/cg.h>
+#include <jet/constants.h>
 #include <jet/fdm_cg_solver2.h>
 
 using namespace jet;
 
-FdmCgSolver2::FdmCgSolver2(
-    unsigned int maxNumberOfIterations, double tolerance) :
-    _maxNumberOfIterations(maxNumberOfIterations),
-    _lastNumberOfIterations(0),
-    _tolerance(tolerance),
-    _lastResidual(kMaxD) {
-}
+FdmCgSolver2::FdmCgSolver2(unsigned int maxNumberOfIterations, double tolerance)
+    : _maxNumberOfIterations(maxNumberOfIterations),
+      _lastNumberOfIterations(0),
+      _tolerance(tolerance),
+      _lastResidual(kMaxD) {}
 
 bool FdmCgSolver2::solve(FdmLinearSystem2* system) {
     FdmMatrix2& matrix = system->A;
@@ -39,21 +38,36 @@ bool FdmCgSolver2::solve(FdmLinearSystem2* system) {
     _q.set(0.0);
     _s.set(0.0);
 
-    cg<FdmBlas2>(
-        matrix,
-        rhs,
-        _maxNumberOfIterations,
-        _tolerance,
-        &solution,
-        &_r,
-        &_d,
-        &_q,
-        &_s,
-        &_lastNumberOfIterations,
-        &_lastResidual);
+    cg<FdmBlas2>(matrix, rhs, _maxNumberOfIterations, _tolerance, &solution,
+                 &_r, &_d, &_q, &_s, &_lastNumberOfIterations, &_lastResidual);
 
-    return _lastResidual <= _tolerance
-        || _lastNumberOfIterations < _maxNumberOfIterations;
+    return _lastResidual <= _tolerance ||
+           _lastNumberOfIterations < _maxNumberOfIterations;
+}
+
+bool FdmCgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
+    MatrixCsrD& matrix = system->A;
+    VectorND& solution = system->x;
+    VectorND& rhs = system->b;
+
+    size_t size = solution.size();
+    _rComp.resize(size);
+    _dComp.resize(size);
+    _qComp.resize(size);
+    _sComp.resize(size);
+
+    system->x.set(0.0);
+    _rComp.set(0.0);
+    _dComp.set(0.0);
+    _qComp.set(0.0);
+    _sComp.set(0.0);
+
+    cg<FdmCompressedBlas2>(matrix, rhs, _maxNumberOfIterations, _tolerance,
+                           &solution, &_rComp, &_dComp, &_qComp, &_sComp,
+                           &_lastNumberOfIterations, &_lastResidual);
+
+    return _lastResidual <= _tolerance ||
+           _lastNumberOfIterations < _maxNumberOfIterations;
 }
 
 unsigned int FdmCgSolver2::maxNumberOfIterations() const {
@@ -64,10 +78,6 @@ unsigned int FdmCgSolver2::lastNumberOfIterations() const {
     return _lastNumberOfIterations;
 }
 
-double FdmCgSolver2::tolerance() const {
-    return _tolerance;
-}
+double FdmCgSolver2::tolerance() const { return _tolerance; }
 
-double FdmCgSolver2::lastResidual() const {
-    return _lastResidual;
-}
+double FdmCgSolver2::lastResidual() const { return _lastResidual; }

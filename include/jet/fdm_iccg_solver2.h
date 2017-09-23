@@ -23,6 +23,9 @@ class FdmIccgSolver2 final : public FdmLinearSystemSolver2 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem2* system) override;
+
     //! Returns the max number of Jacobi iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -46,16 +49,34 @@ class FdmIccgSolver2 final : public FdmLinearSystemSolver2 {
         void solve(const FdmVector2& b, FdmVector2* x);
     };
 
+    struct PreconditionerCompressed final {
+        const MatrixCsrD* A;
+        VectorND d;
+        VectorND y;
+
+        void build(const MatrixCsrD& matrix);
+
+        void solve(const VectorND& b, VectorND* x);
+    };
+
     unsigned int _maxNumberOfIterations;
     unsigned int _lastNumberOfIterations;
     double _tolerance;
     double _lastResidualNorm;
 
+    // Uncompressed vectors and preconditioner
     FdmVector2 _r;
     FdmVector2 _d;
     FdmVector2 _q;
     FdmVector2 _s;
     Preconditioner _precond;
+
+    // Compressed vectors and preconditioner
+    VectorND _rComp;
+    VectorND _dComp;
+    VectorND _qComp;
+    VectorND _sComp;
+    PreconditionerCompressed _precondComp;
 };
 
 //! Shared pointer type for the FdmIccgSolver2.

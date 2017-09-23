@@ -54,6 +54,85 @@ void FdmIccgSolver2::Preconditioner::solve(const FdmVector2& b, FdmVector2* x) {
     }
 }
 
+//
+
+void FdmIccgSolver2::PreconditionerCompressed::build(const MatrixCsrD& matrix) {
+    size_t size = matrix.cols();
+    A = &matrix;
+
+    d.resize(size, 0.0);
+    y.resize(size, 0.0);
+
+    const auto rp = A->rowPointersBegin();
+    const auto ci = A->columnIndicesBegin();
+    const auto nnz = A->nonZeroBegin();
+
+    d.forEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double denom = 0.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (j == i) {
+                denom += nnz[jj];
+            } else if (j < i) {
+                denom -= square(nnz[jj]) * d[j];
+            }
+        }
+
+        if (std::fabs(denom) > 0.0) {
+            d[i] = 1.0 / denom;
+        } else {
+            d[i] = 0.0;
+        }
+    });
+}
+
+void FdmIccgSolver2::PreconditionerCompressed::solve(const VectorND& b,
+                                                     VectorND* x) {
+    const ssize_t size = static_cast<ssize_t>(b.size());
+
+    const auto rp = A->rowPointersBegin();
+    const auto ci = A->columnIndicesBegin();
+    const auto nnz = A->nonZeroBegin();
+
+    b.forEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double sum = b[i];
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (j < i) {
+                sum -= nnz[jj] * y[j];
+            }
+        }
+
+        y[i] = sum * d[i];
+    });
+
+    for (ssize_t i = size - 1; i >= 0; --i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double sum = y[i];
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (j > i) {
+                sum -= nnz[jj] * (*x)[j];
+            }
+        }
+
+        (*x)[i] = sum * d[i];
+    }
+}
+
+//
+
 FdmIccgSolver2::FdmIccgSolver2(unsigned int maxNumberOfIterations,
                                double tolerance)
     : _maxNumberOfIterations(maxNumberOfIterations),
@@ -86,6 +165,37 @@ bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
     pcg<FdmBlas2, Preconditioner>(
         matrix, rhs, _maxNumberOfIterations, _tolerance, &_precond, &solution,
         &_r, &_d, &_q, &_s, &_lastNumberOfIterations, &_lastResidualNorm);
+
+    JET_INFO << "Residual after solving ICCG: " << _lastResidualNorm
+             << " Number of ICCG iterations: " << _lastNumberOfIterations;
+
+    return _lastResidualNorm <= _tolerance ||
+           _lastNumberOfIterations < _maxNumberOfIterations;
+}
+
+bool FdmIccgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
+    MatrixCsrD& matrix = system->A;
+    VectorND& solution = system->x;
+    VectorND& rhs = system->b;
+
+    size_t size = solution.size();
+    _rComp.resize(size);
+    _dComp.resize(size);
+    _qComp.resize(size);
+    _sComp.resize(size);
+
+    system->x.set(0.0);
+    _rComp.set(0.0);
+    _dComp.set(0.0);
+    _qComp.set(0.0);
+    _sComp.set(0.0);
+
+    _precondComp.build(matrix);
+
+    pcg<FdmCompressedBlas2, PreconditionerCompressed>(
+        matrix, rhs, _maxNumberOfIterations, _tolerance, &_precondComp,
+        &solution, &_rComp, &_dComp, &_qComp, &_sComp, &_lastNumberOfIterations,
+        &_lastResidualNorm);
 
     JET_INFO << "Residual after solving ICCG: " << _lastResidualNorm
              << " Number of ICCG iterations: " << _lastNumberOfIterations;
