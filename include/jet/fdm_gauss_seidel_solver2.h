@@ -24,6 +24,9 @@ class FdmGaussSeidelSolver2 final : public FdmLinearSystemSolver2 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem2* system) override;
+
     //! Returns the max number of Gauss-Seidel iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -46,9 +49,20 @@ class FdmGaussSeidelSolver2 final : public FdmLinearSystemSolver2 {
     static void relax(const FdmMatrix2& A, const FdmVector2& b,
                       double sorFactor, FdmVector2* x);
 
+    //! \brief Performs single natural Gauss-Seidel relaxation step for
+    //!        compressed sys.
+    static void relax(const MatrixCsrD& A, const VectorND& b, double sorFactor,
+                      VectorND* x);
+
     //! Performs single Red-Black Gauss-Seidel relaxation step.
     static void relaxRedBlack(const FdmMatrix2& A, const FdmVector2& b,
                               double sorFactor, FdmVector2* x);
+
+    //! \brief Performs single Red-Black Gauss-Seidel relaxation step for
+    //!        compressed sys.
+    static void relaxRedBlack(const MatrixCsrD& A, const VectorND& b,
+                              const Array1<Point2UI>& indexToCoord,
+                              double sorFactor, VectorND* x);
 
  private:
     unsigned int _maxNumberOfIterations;
@@ -59,7 +73,11 @@ class FdmGaussSeidelSolver2 final : public FdmLinearSystemSolver2 {
     double _sorFactor;
     bool _useRedBlackOrdering;
 
+    // Uncompressed vectors
     FdmVector2 _residual;
+
+    // Compressed vectors
+    VectorND _residualComp;
 };
 
 //! Shared pointer type for the FdmGaussSeidelSolver2.

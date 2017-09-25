@@ -68,6 +68,7 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
 
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        Array2<size_t>* coordToIndex,
+                       Array1<Point2UI>* indexToCoord,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
     Size2 size = input.resolution();
@@ -85,6 +86,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
         if (markerAcc[cIdx] == kFluid) {
             (*coordToIndex)[cIdx] = b->size();
+            indexToCoord->append({i, j});
             b->append(input.divergenceAtCellCenter(i, j));
 
             std::vector<double> row(1, 0.0);
@@ -300,7 +302,8 @@ void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
     if (_mgSystemSolver == nullptr) {
         if (useCompressed) {
             buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
-                              &_compSystem.coordToIndex, _markers[0], *finer);
+                              &_compSystem.coordToIndex,
+                              &_compSystem.indexToCoord, _markers[0], *finer);
         } else {
             buildSingleSystem(&_system.A, &_system.b, _markers[0], *finer);
         }

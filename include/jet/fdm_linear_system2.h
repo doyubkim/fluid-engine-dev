@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 
+#include <jet/array1.h>
 #include <jet/array2.h>
 #include <jet/matrix_csr.h>
 #include <jet/vector_n.h>
@@ -46,6 +47,7 @@ struct FdmCompressedLinearSystem2 {
     MatrixCsrD A;
     VectorND x, b;
     Array2<size_t> coordToIndex;
+    Array1<Point2UI> indexToCoord;
 
     void clear();
 

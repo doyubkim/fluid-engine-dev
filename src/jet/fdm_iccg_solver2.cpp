@@ -120,7 +120,7 @@ void FdmIccgSolver2::PreconditionerCompressed::solve(const VectorND& b,
 
         double sum = y[i];
         for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
-            size_t j = ci[jj];
+            ssize_t j = static_cast<ssize_t>(ci[jj]);
 
             if (j > i) {
                 sum -= nnz[jj] * (*x)[j];

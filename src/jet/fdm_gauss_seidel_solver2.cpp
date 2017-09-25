@@ -51,6 +51,38 @@ bool FdmGaussSeidelSolver2::solve(FdmLinearSystem2* system) {
     return _lastResidual < _tolerance;
 }
 
+bool FdmGaussSeidelSolver2::solveCompressed(
+    FdmCompressedLinearSystem2* system) {
+    _residualComp.resize(system->x.size());
+
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
+    for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
+        if (_useRedBlackOrdering) {
+            relaxRedBlack(system->A, system->b, system->indexToCoord,
+                          _sorFactor, &system->x);
+        } else {
+            relax(system->A, system->b, _sorFactor, &system->x);
+        }
+
+        if (iter != 0 && iter % _residualCheckInterval == 0) {
+            FdmCompressedBlas2::residual(system->A, system->x, system->b,
+                                         &_residualComp);
+
+            if (FdmCompressedBlas2::l2Norm(_residualComp) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
+                break;
+            }
+        }
+    }
+
+    FdmCompressedBlas2::residual(system->A, system->x, system->b,
+                                 &_residualComp);
+    _lastResidual = FdmCompressedBlas2::l2Norm(_residualComp);
+
+    return _lastResidual < _tolerance;
+}
+
 unsigned int FdmGaussSeidelSolver2::maxNumberOfIterations() const {
     return _maxNumberOfIterations;
 }
@@ -82,6 +114,34 @@ void FdmGaussSeidelSolver2::relax(const FdmMatrix2& A, const FdmVector2& b,
 
         x(i, j) = (1.0 - sorFactor) * x(i, j) +
                   sorFactor * (b(i, j) - r) / A(i, j).center;
+    });
+}
+
+void FdmGaussSeidelSolver2::relax(const MatrixCsrD& A, const VectorND& b,
+                                  double sorFactor, VectorND* x_) {
+    const auto rp = A.rowPointersBegin();
+    const auto ci = A.columnIndicesBegin();
+    const auto nnz = A.nonZeroBegin();
+
+    VectorND& x = *x_;
+
+    b.forEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        x[i] = (b[i] - r) / diag;
     });
 }
 
@@ -128,4 +188,65 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const FdmMatrix2& A,
                 }
             }
         });
+}
+
+void FdmGaussSeidelSolver2::relaxRedBlack(const MatrixCsrD& A,
+                                          const VectorND& b,
+                                          const Array1<Point2UI>& indexToCoord,
+                                          double sorFactor, VectorND* x_) {
+    const auto rp = A.rowPointersBegin();
+    const auto ci = A.columnIndicesBegin();
+    const auto nnz = A.nonZeroBegin();
+
+    VectorND& x = *x_;
+
+    // Red update
+    b.parallelForEachIndex([&](size_t i) {
+        const auto pt = indexToCoord[i];
+        if ((pt.x + pt.y) % 2 != 0) {
+            return;
+        }
+
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        x[i] = (b[i] - r) / diag;
+    });
+
+    // Red update
+    b.parallelForEachIndex([&](size_t i) {
+        const auto pt = indexToCoord[i];
+        if ((pt.x + pt.y) % 2 == 0) {
+            return;
+        }
+
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        x[i] = (b[i] - r) / diag;
+    });
 }

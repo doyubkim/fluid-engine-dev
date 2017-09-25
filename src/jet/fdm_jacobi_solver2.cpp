@@ -47,6 +47,35 @@ bool FdmJacobiSolver2::solve(FdmLinearSystem2* system) {
     return _lastResidual < _tolerance;
 }
 
+bool FdmJacobiSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
+    _xTempComp.resize(system->x.size());
+    _residualComp.resize(system->x.size());
+
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
+    for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
+        relax(system->A, system->b, &system->x, &_xTempComp);
+
+        _xTempComp.swap(system->x);
+
+        if (iter != 0 && iter % _residualCheckInterval == 0) {
+            FdmCompressedBlas2::residual(system->A, system->x, system->b,
+                                         &_residualComp);
+
+            if (FdmCompressedBlas2::l2Norm(_residualComp) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
+                break;
+            }
+        }
+    }
+
+    FdmCompressedBlas2::residual(system->A, system->x, system->b,
+                                 &_residualComp);
+    _lastResidual = FdmCompressedBlas2::l2Norm(_residualComp);
+
+    return _lastResidual < _tolerance;
+}
+
 unsigned int FdmJacobiSolver2::maxNumberOfIterations() const {
     return _maxNumberOfIterations;
 }
@@ -72,5 +101,34 @@ void FdmJacobiSolver2::relax(const FdmMatrix2& A, const FdmVector2& b,
                    ((j + 1 < size.y) ? A(i, j).up * x(i, j + 1) : 0.0);
 
         xTemp(i, j) = (b(i, j) - r) / A(i, j).center;
+    });
+}
+
+void FdmJacobiSolver2::relax(const MatrixCsrD& A, const VectorND& b,
+                             VectorND* x_, VectorND* xTemp_) {
+    const auto rp = A.rowPointersBegin();
+    const auto ci = A.columnIndicesBegin();
+    const auto nnz = A.nonZeroBegin();
+
+    VectorND& x = *x_;
+    VectorND& xTemp = *xTemp_;
+
+    b.forEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        xTemp[i] = (b[i] - r) / diag;
     });
 }

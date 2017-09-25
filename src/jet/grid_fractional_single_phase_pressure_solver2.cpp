@@ -204,6 +204,7 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
 
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        Array2<size_t>* coordToIndex,
+                       Array1<Point2UI>* indexToCoord,
                        const Array2<float>& fluidSdf,
                        const Array2<float>& uWeights,
                        const Array2<float>& vWeights,
@@ -229,6 +230,8 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
         if (isInsideSdf(centerPhi)) {
             (*coordToIndex)[cIdx] = b->size();
+            indexToCoord->append({i, j});
+
             double bij = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -509,7 +512,8 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
     if (_mgSystemSolver == nullptr) {
         if (useCompressed) {
             buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
-                              &_compSystem.coordToIndex, _fluidSdf[0],
+                              &_compSystem.coordToIndex,
+                              &_compSystem.indexToCoord, _fluidSdf[0],
                               _uWeights[0], _vWeights[0], _boundaryVel, *finer);
         } else {
             buildSingleSystem(&_system.A, &_system.b, _fluidSdf[0],

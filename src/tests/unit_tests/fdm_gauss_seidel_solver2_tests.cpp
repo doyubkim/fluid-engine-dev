@@ -174,3 +174,200 @@ TEST(FdmGaussSeidelSolver2, RelaxRedBlack) {
         norm0 = norm;
     }
 }
+
+TEST(FdmGaussSeidelSolver2, SolveCompressedRes) {
+    FdmCompressedLinearSystem2 system;
+    system.coordToIndex.resize(3, 3);
+
+    const auto acc = system.coordToIndex.constAccessor();
+    Size2 size = acc.size();
+
+    system.coordToIndex.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = acc.index(i, j);
+        const size_t lIdx = acc.index(i - 1, j);
+        const size_t rIdx = acc.index(i + 1, j);
+        const size_t dIdx = acc.index(i, j - 1);
+        const size_t uIdx = acc.index(i, j + 1);
+
+        system.coordToIndex[cIdx] = system.b.size();
+        system.indexToCoord.append({i, j});
+        double bij = 0.0;
+
+        std::vector<double> row(1, 0.0);
+        std::vector<size_t> colIdx(1, cIdx);
+
+        if (i > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(lIdx);
+        }
+        if (i < size.x - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(rIdx);
+        }
+
+        if (j > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(dIdx);
+        } else {
+            bij += 1.0;
+        }
+
+        if (j < size.y - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(uIdx);
+        } else {
+            bij -= 1.0;
+        }
+
+        system.A.addRow(row, colIdx);
+        system.b.append(bij);
+    });
+
+    system.x.resize(system.b.size(), 0.0);
+
+    FdmGaussSeidelSolver2 solver(100, 10, 1e-9);
+    solver.solveCompressed(&system);
+
+    EXPECT_GT(solver.tolerance(), solver.lastResidual());
+}
+
+TEST(FdmGaussSeidelSolver2, SolveCompressed) {
+    FdmCompressedLinearSystem2 system;
+    system.coordToIndex.resize(128, 128);
+
+    const auto acc = system.coordToIndex.constAccessor();
+    Size2 size = acc.size();
+
+    system.coordToIndex.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = acc.index(i, j);
+        const size_t lIdx = acc.index(i - 1, j);
+        const size_t rIdx = acc.index(i + 1, j);
+        const size_t dIdx = acc.index(i, j - 1);
+        const size_t uIdx = acc.index(i, j + 1);
+
+        system.coordToIndex[cIdx] = system.b.size();
+        system.indexToCoord.append({i, j});
+        double bij = 0.0;
+
+        std::vector<double> row(1, 0.0);
+        std::vector<size_t> colIdx(1, cIdx);
+
+        if (i > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(lIdx);
+        }
+        if (i < size.x - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(rIdx);
+        }
+
+        if (j > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(dIdx);
+        } else {
+            bij += 1.0;
+        }
+
+        if (j < size.y - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(uIdx);
+        } else {
+            bij -= 1.0;
+        }
+
+        system.A.addRow(row, colIdx);
+        system.b.append(bij);
+    });
+
+    system.x.resize(system.b.size(), 0.0);
+
+    auto buffer = system.x;
+    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+    double norm0 = FdmCompressedBlas2::l2Norm(buffer);
+
+    FdmGaussSeidelSolver2 solver(100, 10, 1e-9);
+    solver.solveCompressed(&system);
+
+    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+    double norm1 = FdmCompressedBlas2::l2Norm(buffer);
+
+    EXPECT_LT(norm1, norm0);
+}
+
+TEST(FdmGaussSeidelSolver2, RelaxRedBlackCompressed) {
+    FdmCompressedLinearSystem2 system;
+    system.coordToIndex.resize(128, 128);
+
+    const auto acc = system.coordToIndex.constAccessor();
+    Size2 size = acc.size();
+
+    system.coordToIndex.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = acc.index(i, j);
+        const size_t lIdx = acc.index(i - 1, j);
+        const size_t rIdx = acc.index(i + 1, j);
+        const size_t dIdx = acc.index(i, j - 1);
+        const size_t uIdx = acc.index(i, j + 1);
+
+        system.coordToIndex[cIdx] = system.b.size();
+        system.indexToCoord.append({i, j});
+        double bij = 0.0;
+
+        std::vector<double> row(1, 0.0);
+        std::vector<size_t> colIdx(1, cIdx);
+
+        if (i > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(lIdx);
+        }
+        if (i < size.x - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(rIdx);
+        }
+
+        if (j > 0) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(dIdx);
+        } else {
+            bij += 1.0;
+        }
+
+        if (j < size.y - 1) {
+            row[0] += 1.0;
+            row.push_back(-1.0);
+            colIdx.push_back(uIdx);
+        } else {
+            bij -= 1.0;
+        }
+
+        system.A.addRow(row, colIdx);
+        system.b.append(bij);
+    });
+
+    system.x.resize(system.b.size(), 0.0);
+
+    auto buffer = system.x;
+    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+    double norm0 = FdmCompressedBlas2::l2Norm(buffer);
+
+    for (int i = 0; i < 200; ++i) {
+        FdmGaussSeidelSolver2::relaxRedBlack(
+            system.A, system.b, system.indexToCoord, 1.0, &system.x);
+
+        FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+        double norm = FdmCompressedBlas2::l2Norm(buffer);
+        EXPECT_LT(norm, norm0);
+
+        norm0 = norm;
+    }
+}

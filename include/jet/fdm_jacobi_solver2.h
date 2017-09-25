@@ -21,6 +21,9 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem2* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem2* system) override;
+
     //! Returns the max number of Jacobi iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -37,6 +40,10 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     static void relax(const FdmMatrix2& A, const FdmVector2& b, FdmVector2* x,
                       FdmVector2* xTemp);
 
+    //! Performs single Jacobi relaxation step for compressed sys.
+    static void relax(const MatrixCsrD& A, const VectorND& b, VectorND* x,
+                      VectorND* xTemp);
+
  private:
     unsigned int _maxNumberOfIterations;
     unsigned int _lastNumberOfIterations;
@@ -44,8 +51,13 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     double _tolerance;
     double _lastResidual;
 
+    // Uncompressed vectors
     FdmVector2 _xTemp;
     FdmVector2 _residual;
+
+    // Compressed vectors
+    VectorND _xTempComp;
+    VectorND _residualComp;
 };
 
 //! Shared pointer type for the FdmJacobiSolver2.
