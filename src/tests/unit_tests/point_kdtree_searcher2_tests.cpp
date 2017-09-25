@@ -50,7 +50,7 @@ TEST(PointKdTreeSearcher2, Serialization) {
     std::vector<uint8_t> buffer;
     searcher.serialize(&buffer);
 
-    EXPECT_GT(buffer.size(), 0);
+    EXPECT_GT(buffer.size(), 0U);
 
     PointKdTreeSearcher2 searcher2;
     searcher2.deserialize(buffer);
