@@ -141,7 +141,7 @@ void FdmGaussSeidelSolver2::relax(const MatrixCsrD& A, const VectorND& b,
             }
         }
 
-        x[i] = (b[i] - r) / diag;
+        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
     });
 }
 
@@ -222,7 +222,7 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const MatrixCsrD& A,
             }
         }
 
-        x[i] = (b[i] - r) / diag;
+        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
     });
 
     // Red update
@@ -247,6 +247,6 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const MatrixCsrD& A,
             }
         }
 
-        x[i] = (b[i] - r) / diag;
+        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
     });
 }
