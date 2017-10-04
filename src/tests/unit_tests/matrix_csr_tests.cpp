@@ -216,6 +216,14 @@ TEST(MatrixCsr, BasicSetters) {
     EXPECT_EQ(-4.0, iterAddRow[5]);
     EXPECT_EQ(1.0, iterAddRow[6]);
     EXPECT_EQ(5.0, iterAddRow[7]);
+
+    // Clear
+    matAddRow.clear();
+    EXPECT_EQ(0u, matAddRow.rows());
+    EXPECT_EQ(0u, matAddRow.cols());
+    EXPECT_EQ(0u, matAddRow.numberOfNonZeros());
+    EXPECT_EQ(1u, matAddRow.rowPointersEnd() - matAddRow.rowPointersBegin());
+    EXPECT_EQ(0u, matAddRow.rowPointersBegin()[0]);
 }
 
 TEST(MatrixCsr, BinaryOperatorMethods) {
@@ -425,12 +433,11 @@ TEST(MatrixCsr, SetterOperators) {
     }
     matA2 *= matC2;
 
-    const MatrixCsrD ans2 = {
-            {175.0, 160.0, 145.0, 130.0, 115.0},
-            {550.0, 510.0, 470.0, 430.0, 390.0},
-            {925.0, 860.0, 795.0, 730.0, 665.0},
-            {1300.0, 1210.0, 1120.0, 1030.0, 940.0},
-            {1675.0, 1560.0, 1445.0, 1330.0, 1215.0}};
+    const MatrixCsrD ans2 = {{175.0, 160.0, 145.0, 130.0, 115.0},
+                             {550.0, 510.0, 470.0, 430.0, 390.0},
+                             {925.0, 860.0, 795.0, 730.0, 665.0},
+                             {1300.0, 1210.0, 1120.0, 1030.0, 940.0},
+                             {1675.0, 1560.0, 1445.0, 1330.0, 1215.0}};
     EXPECT_EQ(ans2, matA2);
 
     mat = matA;
