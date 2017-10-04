@@ -219,6 +219,10 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
     const auto fluidSdfAcc = fluidSdf.constAccessor();
 
+    A->clear();
+    b->clear();
+    indexToCoord->clear();
+
     fluidSdf.forEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = fluidSdfAcc.index(i, j);
         const size_t lIdx = fluidSdfAcc.index(i - 1, j);
@@ -395,6 +399,7 @@ void GridFractionalSinglePhasePressureSolver2::setLinearSystemSolver(
     } else {
         // In case of mg system, use multi-level structure.
         _system.clear();
+        _compSystem.clear();
     }
 }
 

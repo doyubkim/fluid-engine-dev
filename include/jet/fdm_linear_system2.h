@@ -34,25 +34,46 @@ typedef Array2<FdmMatrixRow2> FdmMatrix2;
 
 //! Linear system (Ax=b) for 2-D finite differencing.
 struct FdmLinearSystem2 {
+    //! System matrix.
     FdmMatrix2 A;
-    FdmVector2 x, b;
 
+    //! Solution vector.
+    FdmVector2 x;
+
+    //! RHS vector.
+    FdmVector2 b;
+
+    //! Clears all the data.
     void clear();
 
+    //! Resizes the arrays with given grid size.
     void resize(const Size2& size);
 };
 
 //! Compressed linear system (Ax=b) for 2-D finite differencing.
 struct FdmCompressedLinearSystem2 {
+    //! System matrix.
     MatrixCsrD A;
-    VectorND x, b;
+
+    //! Solution vector.
+    VectorND x;
+
+    //! RHS vector.
+    VectorND b;
+
+    //! Mapping from grid coordinates to row index.
     Array2<size_t> coordToIndex;
+
+    //! Mapping from row index to grid coordinate.
     Array1<Point2UI> indexToCoord;
 
+    //! Clears all the data.
     void clear();
 
+    //! Resizes 2-D arrays with given grid size.
     void resize(const Size2& size);
 
+    //! Decompresses the solution vector to the given FDM vector.
     void decompressSolution(FdmVector2* xDecomp);
 };
 
