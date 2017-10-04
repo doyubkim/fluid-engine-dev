@@ -74,7 +74,7 @@ struct FdmCompressedLinearSystem2 {
     void resize(const Size2& size);
 
     //! Decompresses the solution vector to the given FDM vector.
-    void decompressSolution(FdmVector2* xDecomp);
+    void decompressSolution(FdmVector2* xDecomp, double blankValue = 0.0);
 };
 
 //! BLAS operator wrapper for 2-D finite differencing.

@@ -147,7 +147,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMg) {
     }
 
     const auto& pressure = solver.pressure();
-    for (size_t j = 0; j < 33; ++j) {
+    for (size_t j = 0; j < 32; ++j) {
         for (size_t i = 16; i < 17; ++i) {
             if (j < 16) {
                 EXPECT_NEAR(15.5 - static_cast<double>(j), pressure(i, j), 0.1);

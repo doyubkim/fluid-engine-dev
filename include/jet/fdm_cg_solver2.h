@@ -53,6 +53,9 @@ class FdmCgSolver2 final : public FdmLinearSystemSolver2 {
     VectorND _dComp;
     VectorND _qComp;
     VectorND _sComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmCgSolver2.

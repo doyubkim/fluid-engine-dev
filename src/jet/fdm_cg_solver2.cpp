@@ -26,6 +26,8 @@ bool FdmCgSolver2::solve(FdmLinearSystem2* system) {
     JET_ASSERT(matrix.size() == rhs.size());
     JET_ASSERT(matrix.size() == solution.size());
 
+    clearCompressedVectors();
+
     Size2 size = matrix.size();
     _r.resize(size);
     _d.resize(size);
@@ -49,6 +51,8 @@ bool FdmCgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
     MatrixCsrD& matrix = system->A;
     VectorND& solution = system->x;
     VectorND& rhs = system->b;
+
+    clearUncompressedVectors();
 
     size_t size = solution.size();
     _rComp.resize(size);
@@ -81,3 +85,17 @@ unsigned int FdmCgSolver2::lastNumberOfIterations() const {
 double FdmCgSolver2::tolerance() const { return _tolerance; }
 
 double FdmCgSolver2::lastResidual() const { return _lastResidual; }
+
+void FdmCgSolver2::clearUncompressedVectors() {
+    _r.clear();
+    _d.clear();
+    _q.clear();
+    _s.clear();
+}
+
+void FdmCgSolver2::clearCompressedVectors() {
+    _rComp.clear();
+    _dComp.clear();
+    _qComp.clear();
+    _sComp.clear();
+}

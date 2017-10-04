@@ -21,6 +21,9 @@ class FdmCgSolver3 final : public FdmLinearSystemSolver3 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem3* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem3* system) override;
+
     //! Returns the max number of CG iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -39,10 +42,20 @@ class FdmCgSolver3 final : public FdmLinearSystemSolver3 {
     double _tolerance;
     double _lastResidual;
 
+    // Uncompressed vectors
     FdmVector3 _r;
     FdmVector3 _d;
     FdmVector3 _q;
     FdmVector3 _s;
+
+    // Compressed vectors
+    VectorND _rComp;
+    VectorND _dComp;
+    VectorND _qComp;
+    VectorND _sComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmCgSolver3.
