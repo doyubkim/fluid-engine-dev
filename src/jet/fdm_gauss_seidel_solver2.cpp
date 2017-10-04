@@ -24,6 +24,8 @@ FdmGaussSeidelSolver2::FdmGaussSeidelSolver2(unsigned int maxNumberOfIterations,
       _useRedBlackOrdering(useRedBlackOrdering) {}
 
 bool FdmGaussSeidelSolver2::solve(FdmLinearSystem2* system) {
+    clearCompressedVectors();
+
     _residual.resize(system->x.size());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
@@ -53,6 +55,8 @@ bool FdmGaussSeidelSolver2::solve(FdmLinearSystem2* system) {
 
 bool FdmGaussSeidelSolver2::solveCompressed(
     FdmCompressedLinearSystem2* system) {
+    clearUncompressedVectors();
+
     _residualComp.resize(system->x.size());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
@@ -250,3 +254,7 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const MatrixCsrD& A,
         x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
     });
 }
+
+void FdmGaussSeidelSolver2::clearUncompressedVectors() { _residual.clear(); }
+
+void FdmGaussSeidelSolver2::clearCompressedVectors() { _residualComp.clear(); }

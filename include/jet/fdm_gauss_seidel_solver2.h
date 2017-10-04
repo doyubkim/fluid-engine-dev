@@ -78,6 +78,9 @@ class FdmGaussSeidelSolver2 final : public FdmLinearSystemSolver2 {
 
     // Compressed vectors
     VectorND _residualComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmGaussSeidelSolver2.
