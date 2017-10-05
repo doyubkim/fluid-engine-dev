@@ -58,6 +58,9 @@ class FdmJacobiSolver2 final : public FdmLinearSystemSolver2 {
     // Compressed vectors
     VectorND _xTempComp;
     VectorND _residualComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmJacobiSolver2.

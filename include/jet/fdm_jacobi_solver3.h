@@ -15,13 +15,14 @@ namespace jet {
 class FdmJacobiSolver3 final : public FdmLinearSystemSolver3 {
  public:
     //! Constructs the solver with given parameters.
-    FdmJacobiSolver3(
-        unsigned int maxNumberOfIterations,
-        unsigned int residualCheckInterval,
-        double tolerance);
+    FdmJacobiSolver3(unsigned int maxNumberOfIterations,
+                     unsigned int residualCheckInterval, double tolerance);
 
     //! Solves the given linear system.
     bool solve(FdmLinearSystem3* system) override;
+
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem3* system) override;
 
     //! Returns the max number of Jacobi iterations.
     unsigned int maxNumberOfIterations() const;
@@ -39,6 +40,10 @@ class FdmJacobiSolver3 final : public FdmLinearSystemSolver3 {
     static void relax(const FdmMatrix3& A, const FdmVector3& b, FdmVector3* x,
                       FdmVector3* xTemp);
 
+    //! Performs single Jacobi relaxation step for compressed sys.
+    static void relax(const MatrixCsrD& A, const VectorND& b, VectorND* x,
+                      VectorND* xTemp);
+
  private:
     unsigned int _maxNumberOfIterations;
     unsigned int _lastNumberOfIterations;
@@ -46,8 +51,16 @@ class FdmJacobiSolver3 final : public FdmLinearSystemSolver3 {
     double _tolerance;
     double _lastResidual;
 
+    // Uncompressed vectors
     FdmVector3 _xTemp;
     FdmVector3 _residual;
+
+    // Compressed vectors
+    VectorND _xTempComp;
+    VectorND _residualComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmJacobiSolver3.

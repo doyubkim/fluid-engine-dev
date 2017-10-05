@@ -148,6 +148,8 @@ bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
     JET_ASSERT(matrix.size() == rhs.size());
     JET_ASSERT(matrix.size() == solution.size());
 
+    clearCompressedVectors();
+
     Size2 size = matrix.size();
     _r.resize(size);
     _d.resize(size);
@@ -177,6 +179,8 @@ bool FdmIccgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
     MatrixCsrD& matrix = system->A;
     VectorND& solution = system->x;
     VectorND& rhs = system->b;
+
+    clearUncompressedVectors();
 
     size_t size = solution.size();
     _rComp.resize(size);
@@ -215,3 +219,16 @@ unsigned int FdmIccgSolver2::lastNumberOfIterations() const {
 double FdmIccgSolver2::tolerance() const { return _tolerance; }
 
 double FdmIccgSolver2::lastResidual() const { return _lastResidualNorm; }
+
+void FdmIccgSolver2::clearUncompressedVectors() {
+    _r.clear();
+    _d.clear();
+    _q.clear();
+    _s.clear();
+}
+void FdmIccgSolver2::clearCompressedVectors() {
+    _r.clear();
+    _d.clear();
+    _q.clear();
+    _s.clear();
+}

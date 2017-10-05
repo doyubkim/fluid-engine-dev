@@ -21,6 +21,8 @@ FdmJacobiSolver2::FdmJacobiSolver2(unsigned int maxNumberOfIterations,
       _lastResidual(kMaxD) {}
 
 bool FdmJacobiSolver2::solve(FdmLinearSystem2* system) {
+    clearCompressedVectors();
+
     _xTemp.resize(system->x.size());
     _residual.resize(system->x.size());
 
@@ -48,6 +50,8 @@ bool FdmJacobiSolver2::solve(FdmLinearSystem2* system) {
 }
 
 bool FdmJacobiSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
+    clearUncompressedVectors();
+
     _xTempComp.resize(system->x.size());
     _residualComp.resize(system->x.size());
 
@@ -113,7 +117,7 @@ void FdmJacobiSolver2::relax(const MatrixCsrD& A, const VectorND& b,
     VectorND& x = *x_;
     VectorND& xTemp = *xTemp_;
 
-    b.forEachIndex([&](size_t i) {
+    b.parallelForEachIndex([&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -131,4 +135,14 @@ void FdmJacobiSolver2::relax(const MatrixCsrD& A, const VectorND& b,
 
         xTemp[i] = (b[i] - r) / diag;
     });
+}
+
+void FdmJacobiSolver2::clearUncompressedVectors() {
+    _xTempComp.clear();
+    _residualComp.clear();
+}
+
+void FdmJacobiSolver2::clearCompressedVectors() {
+    _xTemp.clear();
+    _residual.clear();
 }
