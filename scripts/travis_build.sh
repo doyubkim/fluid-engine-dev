@@ -3,7 +3,7 @@
 mkdir build
 cd build
 cmake ..
-make -j`nproc`
+make
 bin/unit_tests
 cd ..
 pip install --user -r requirements.txt
