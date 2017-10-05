@@ -223,23 +223,29 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
     b->clear();
     indexToCoord->clear();
 
+    size_t numRows = 0;
     fluidSdf.forEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = fluidSdfAcc.index(i, j);
-        const size_t lIdx = fluidSdfAcc.index(i - 1, j);
-        const size_t rIdx = fluidSdfAcc.index(i + 1, j);
-        const size_t dIdx = fluidSdfAcc.index(i, j - 1);
-        const size_t uIdx = fluidSdfAcc.index(i, j + 1);
+        const double centerPhi = fluidSdf[cIdx];
+
+        if (isInsideSdf(centerPhi)) {
+            (*coordToIndex)[cIdx] = numRows++;
+            indexToCoord->append({i, j});
+        } else {
+            (*coordToIndex)[cIdx] = kMaxSize;
+        }
+    });
+
+    fluidSdf.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = fluidSdfAcc.index(i, j);
 
         const double centerPhi = fluidSdf(i, j);
 
         if (isInsideSdf(centerPhi)) {
-            (*coordToIndex)[cIdx] = b->size();
-            indexToCoord->append({i, j});
-
             double bij = 0.0;
 
             std::vector<double> row(1, 0.0);
-            std::vector<size_t> colIdx(1, cIdx);
+            std::vector<size_t> colIdx(1, (*coordToIndex)[cIdx]);
 
             double term;
 
@@ -249,7 +255,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 if (isInsideSdf(rightPhi)) {
                     row[0] += term;
                     row.push_back(-term);
-                    colIdx.push_back(rIdx);
+                    colIdx.push_back((*coordToIndex)(i + 1, j));
                 } else {
                     double theta = fractionInsideSdf(centerPhi, rightPhi);
                     theta = std::max(theta, 0.01);
@@ -266,7 +272,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 if (isInsideSdf(leftPhi)) {
                     row[0] += term;
                     row.push_back(-term);
-                    colIdx.push_back(lIdx);
+                    colIdx.push_back((*coordToIndex)(i - 1, j));
                 } else {
                     double theta = fractionInsideSdf(centerPhi, leftPhi);
                     theta = std::max(theta, 0.01);
@@ -283,7 +289,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 if (isInsideSdf(upPhi)) {
                     row[0] += term;
                     row.push_back(-term);
-                    colIdx.push_back(uIdx);
+                    colIdx.push_back((*coordToIndex)(i, j + 1));
                 } else {
                     double theta = fractionInsideSdf(centerPhi, upPhi);
                     theta = std::max(theta, 0.01);
@@ -300,7 +306,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 if (isInsideSdf(downPhi)) {
                     row[0] += term;
                     row.push_back(-term);
-                    colIdx.push_back(dIdx);
+                    colIdx.push_back((*coordToIndex)(i, j - 1));
                 } else {
                     double theta = fractionInsideSdf(centerPhi, downPhi);
                     theta = std::max(theta, 0.01);
@@ -330,10 +336,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
             A->addRow(row, colIdx);
             b->append(bij);
-        } else {
-            (*coordToIndex)[cIdx] = kMaxSize;
         }
-
     });
 
     x->resize(b->size(), 0.0);

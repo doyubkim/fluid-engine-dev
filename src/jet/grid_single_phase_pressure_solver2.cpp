@@ -77,6 +77,22 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
     const auto markerAcc = markers.constAccessor();
 
+    A->clear();
+    b->clear();
+    indexToCoord->clear();
+
+    size_t numRows = 0;
+    markers.forEachIndex([&](size_t i, size_t j) {
+        const size_t cIdx = markerAcc.index(i, j);
+
+        if (markerAcc[cIdx] == kFluid) {
+            (*coordToIndex)[cIdx] = numRows++;
+            indexToCoord->append({i, j});
+        } else {
+            (*coordToIndex)[cIdx] = kMaxSize;
+        }
+    });
+
     markers.forEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
         const size_t lIdx = markerAcc.index(i - 1, j);
@@ -85,18 +101,16 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         const size_t uIdx = markerAcc.index(i, j + 1);
 
         if (markerAcc[cIdx] == kFluid) {
-            (*coordToIndex)[cIdx] = b->size();
-            indexToCoord->append({i, j});
             b->append(input.divergenceAtCellCenter(i, j));
 
             std::vector<double> row(1, 0.0);
-            std::vector<size_t> colIdx(1, cIdx);
+            std::vector<size_t> colIdx(1, (*coordToIndex)[cIdx]);
 
             if (i + 1 < size.x && markers[rIdx] != kBoundary) {
                 row[0] += invHSqr.x;
                 if (markers[rIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back(rIdx);
+                    colIdx.push_back((*coordToIndex)[rIdx]);
                 }
             }
 
@@ -104,7 +118,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.x;
                 if (markers[lIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back(lIdx);
+                    colIdx.push_back((*coordToIndex)[lIdx]);
                 }
             }
 
@@ -112,7 +126,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[uIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back(uIdx);
+                    colIdx.push_back((*coordToIndex)[uIdx]);
                 }
             }
 
@@ -120,13 +134,11 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[dIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back(dIdx);
+                    colIdx.push_back((*coordToIndex)[dIdx]);
                 }
             }
 
             A->addRow(row, colIdx);
-        } else {
-            (*coordToIndex)[cIdx] = kMaxSize;
         }
     });
 
@@ -194,6 +206,7 @@ void GridSinglePhasePressureSolver2::setLinearSystemSolver(
     } else {
         // In case of mg system, use multi-level structure.
         _system.clear();
+        _compSystem.clear();
     }
 }
 
