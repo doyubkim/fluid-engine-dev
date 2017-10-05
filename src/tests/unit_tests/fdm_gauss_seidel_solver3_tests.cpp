@@ -83,10 +83,10 @@ TEST(FdmGaussSeidelSolver3, RelaxRedBlack) {
     }
 }
 
-TEST(FdmGaussSeidelSolver3, SolveCompressedRes) {
+TEST(FdmGaussSeidelSolver3, SolveCompressedLowRes) {
     FdmCompressedLinearSystem3 system;
-    FdmLinearSystemSolverTestHelper3::buildTestCompressedLinearSystem(&system,
-                                                                      {3, 3});
+    FdmLinearSystemSolverTestHelper3::buildTestCompressedLinearSystem(
+        &system, {3, 3, 3});
 
     FdmGaussSeidelSolver3 solver(100, 10, 1e-9);
     solver.solveCompressed(&system);
