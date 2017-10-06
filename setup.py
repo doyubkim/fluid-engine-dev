@@ -12,6 +12,7 @@ import re
 import sys
 import platform
 import subprocess
+import multiprocessing
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -51,6 +52,8 @@ class CMakeBuild(build_ext):
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
 
+        env = os.environ.copy()
+
         if platform.system() == "Windows":
             cmake_args += [
                 '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
@@ -59,9 +62,9 @@ class CMakeBuild(build_ext):
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
-            build_args += ['--', 'pyjet']
+            num_jobs = env.get('NUM_JOBS', multiprocessing.cpu_count())
+            build_args += ['--', '-j%s' % str(num_jobs), 'pyjet']
 
-        env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
                                                               self.distribution.get_version())
         if not os.path.exists(self.build_temp):
