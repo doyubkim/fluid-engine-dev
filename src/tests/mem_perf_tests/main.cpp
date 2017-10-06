@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/jet.h>
 #include <gtest/gtest.h>
+#include <jet/jet.h>
 #include <fstream>
 
 using namespace jet;
@@ -13,7 +13,7 @@ using namespace jet;
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
 
-    std::ofstream logFile("perf_tests.log");
+    std::ofstream logFile("mem_perf_tests.log");
     if (logFile) {
         Logging::setAllStream(&logFile);
     }

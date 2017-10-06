@@ -58,12 +58,6 @@ class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
     static void relaxRedBlack(const FdmMatrix3& A, const FdmVector3& b,
                               double sorFactor, FdmVector3* x);
 
-    //! \brief Performs single Red-Black Gauss-Seidel relaxation step for
-    //!        compressed sys.
-    static void relaxRedBlack(const MatrixCsrD& A, const VectorND& b,
-                              const Array1<Point3UI>& indexToCoord,
-                              double sorFactor, VectorND* x);
-
  private:
     unsigned int _maxNumberOfIterations;
     unsigned int _lastNumberOfIterations;

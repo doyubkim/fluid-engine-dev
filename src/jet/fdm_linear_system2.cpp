@@ -30,21 +30,6 @@ void FdmCompressedLinearSystem2::clear() {
     A.clear();
     x.clear();
     b.clear();
-    coordToIndex.clear();
-    indexToCoord.clear();
-}
-
-void FdmCompressedLinearSystem2::resize(const Size2& size) {
-    coordToIndex.resize(size);
-}
-
-void FdmCompressedLinearSystem2::decompressSolution(FdmVector2* xDecomp,
-                                                    double blankValue) {
-    xDecomp->resize(coordToIndex.size());
-    xDecomp->parallelForEachIndex([&](size_t i, size_t j) {
-        const size_t idx = coordToIndex(i, j);
-        (*xDecomp)(i, j) = (idx == kMaxSize) ? blankValue : x[idx];
-    });
 }
 
 //

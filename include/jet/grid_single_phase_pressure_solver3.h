@@ -105,6 +105,8 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
         const ScalarField3& boundarySdf, const ScalarField3& fluidSdf);
 
+    void decompressSolution();
+
     virtual void buildSystem(const FaceCenteredGrid3& input,
                              bool useCompressed);
 

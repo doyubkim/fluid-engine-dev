@@ -67,8 +67,6 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
 }
 
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
-                       Array2<size_t>* coordToIndex,
-                       Array1<Point2UI>* indexToCoord,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
     Size2 size = input.resolution();
@@ -79,17 +77,14 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
     A->clear();
     b->clear();
-    indexToCoord->clear();
 
     size_t numRows = 0;
+    Array2<size_t> coordToIndex(size);
     markers.forEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
 
         if (markerAcc[cIdx] == kFluid) {
-            (*coordToIndex)[cIdx] = numRows++;
-            indexToCoord->append({i, j});
-        } else {
-            (*coordToIndex)[cIdx] = kMaxSize;
+            coordToIndex[cIdx] = numRows++;
         }
     });
 
@@ -104,13 +99,13 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
             b->append(input.divergenceAtCellCenter(i, j));
 
             std::vector<double> row(1, 0.0);
-            std::vector<size_t> colIdx(1, (*coordToIndex)[cIdx]);
+            std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
 
             if (i + 1 < size.x && markers[rIdx] != kBoundary) {
                 row[0] += invHSqr.x;
                 if (markers[rIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back((*coordToIndex)[rIdx]);
+                    colIdx.push_back(coordToIndex[rIdx]);
                 }
             }
 
@@ -118,7 +113,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.x;
                 if (markers[lIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back((*coordToIndex)[lIdx]);
+                    colIdx.push_back(coordToIndex[lIdx]);
                 }
             }
 
@@ -126,7 +121,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[uIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back((*coordToIndex)[uIdx]);
+                    colIdx.push_back(coordToIndex[uIdx]);
                 }
             }
 
@@ -134,7 +129,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[dIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back((*coordToIndex)[dIdx]);
+                    colIdx.push_back(coordToIndex[dIdx]);
                 }
             }
 
@@ -172,7 +167,7 @@ void GridSinglePhasePressureSolver2::solve(const FaceCenteredGrid2& input,
         if (_mgSystemSolver == nullptr) {
             if (useCompressed) {
                 _systemSolver->solveCompressed(&_compSystem);
-                _compSystem.decompressSolution(&_system.x);
+                decompressSolution();
             } else {
                 _systemSolver->solve(&_system);
             }
@@ -286,15 +281,26 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     }
 }
 
+void GridSinglePhasePressureSolver2::decompressSolution() {
+    const auto acc = _markers[0].constAccessor();
+    _system.x.resize(acc.size());
+
+    size_t row = 0;
+    _markers[0].forEachIndex([&](size_t i, size_t j) {
+        if (acc(i, j) == kFluid) {
+            _system.x(i, j) = _compSystem.x[row];
+            ++row;
+        }
+    });
+}
+
 void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
                                                  bool useCompressed) {
     Size2 size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
-        if (useCompressed) {
-            _compSystem.resize(size);
-        } else {
+        if (!useCompressed) {
             _system.resize(size);
         }
     } else {
@@ -315,8 +321,7 @@ void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
     if (_mgSystemSolver == nullptr) {
         if (useCompressed) {
             buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
-                              &_compSystem.coordToIndex,
-                              &_compSystem.indexToCoord, _markers[0], *finer);
+                              _markers[0], *finer);
         } else {
             buildSingleSystem(&_system.A, &_system.b, _markers[0], *finer);
         }

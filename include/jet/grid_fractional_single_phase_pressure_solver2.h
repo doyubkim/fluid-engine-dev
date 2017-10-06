@@ -121,6 +121,8 @@ class GridFractionalSinglePhasePressureSolver2 final
                       const VectorField2& boundaryVelocity,
                       const ScalarField2& fluidSdf);
 
+    void decompressSolution();
+
     virtual void buildSystem(const FaceCenteredGrid2& input,
                              bool useCompressed);
 

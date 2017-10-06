@@ -79,8 +79,6 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
 }
 
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
-                       Array3<size_t>* coordToIndex,
-                       Array1<Point3UI>* indexToCoord,
                        const Array3<char>& markers,
                        const FaceCenteredGrid3& input) {
     Size3 size = input.resolution();
@@ -91,17 +89,14 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
     A->clear();
     b->clear();
-    indexToCoord->clear();
 
     size_t numRows = 0;
+    Array3<size_t> coordToIndex(size);
     markers.forEachIndex([&](size_t i, size_t j, size_t k) {
         const size_t cIdx = markerAcc.index(i, j, k);
 
         if (markerAcc[cIdx] == kFluid) {
-            (*coordToIndex)[cIdx] = numRows++;
-            indexToCoord->append({i, j, k});
-        } else {
-            (*coordToIndex)[cIdx] = kMaxSize;
+            coordToIndex[cIdx] = numRows++;
         }
     });
 
@@ -118,13 +113,13 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
             b->append(input.divergenceAtCellCenter(i, j, k));
 
             std::vector<double> row(1, 0.0);
-            std::vector<size_t> colIdx(1, (*coordToIndex)[cIdx]);
+            std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
 
             if (i + 1 < size.x && markers[rIdx] != kBoundary) {
                 row[0] += invHSqr.x;
                 if (markers[rIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back((*coordToIndex)[rIdx]);
+                    colIdx.push_back(coordToIndex[rIdx]);
                 }
             }
 
@@ -132,7 +127,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.x;
                 if (markers[lIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
-                    colIdx.push_back((*coordToIndex)[lIdx]);
+                    colIdx.push_back(coordToIndex[lIdx]);
                 }
             }
 
@@ -140,7 +135,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[uIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back((*coordToIndex)[uIdx]);
+                    colIdx.push_back(coordToIndex[uIdx]);
                 }
             }
 
@@ -148,7 +143,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.y;
                 if (markers[dIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
-                    colIdx.push_back((*coordToIndex)[dIdx]);
+                    colIdx.push_back(coordToIndex[dIdx]);
                 }
             }
 
@@ -156,7 +151,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.z;
                 if (markers[fIdx] == kFluid) {
                     row.push_back(-invHSqr.z);
-                    colIdx.push_back((*coordToIndex)[fIdx]);
+                    colIdx.push_back(coordToIndex[fIdx]);
                 }
             }
 
@@ -164,7 +159,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                 row[0] += invHSqr.z;
                 if (markers[bIdx] == kFluid) {
                     row.push_back(-invHSqr.z);
-                    colIdx.push_back((*coordToIndex)[bIdx]);
+                    colIdx.push_back(coordToIndex[bIdx]);
                 }
             }
 
@@ -202,7 +197,7 @@ void GridSinglePhasePressureSolver3::solve(const FaceCenteredGrid3& input,
         if (_mgSystemSolver == nullptr) {
             if (useCompressed) {
                 _systemSolver->solveCompressed(&_compSystem);
-                _compSystem.decompressSolution(&_system.x);
+                decompressSolution();
             } else {
                 _systemSolver->solve(&_system);
             }
@@ -330,15 +325,26 @@ void GridSinglePhasePressureSolver3::buildMarkers(
     }
 }
 
+void GridSinglePhasePressureSolver3::decompressSolution() {
+    const auto acc = _markers[0].constAccessor();
+    _system.x.resize(acc.size());
+
+    size_t row = 0;
+    _markers[0].forEachIndex([&](size_t i, size_t j, size_t k) {
+        if (acc(i, j, k) == kFluid) {
+            _system.x(i, j, k) = _compSystem.x[row];
+            ++row;
+        }
+    });
+}
+
 void GridSinglePhasePressureSolver3::buildSystem(const FaceCenteredGrid3& input,
                                                  bool useCompressed) {
     Size3 size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
-        if (useCompressed) {
-            _compSystem.resize(size);
-        } else {
+        if (!useCompressed) {
             _system.resize(size);
         }
     } else {
@@ -359,8 +365,7 @@ void GridSinglePhasePressureSolver3::buildSystem(const FaceCenteredGrid3& input,
     if (_mgSystemSolver == nullptr) {
         if (useCompressed) {
             buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
-                              &_compSystem.coordToIndex,
-                              &_compSystem.indexToCoord, _markers[0], *finer);
+                              _markers[0], *finer);
         } else {
             buildSingleSystem(&_system.A, &_system.b, _markers[0], *finer);
         }

@@ -105,6 +105,8 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
                       const ScalarField2& boundarySdf,
                       const ScalarField2& fluidSdf);
 
+    void decompressSolution();
+
     virtual void buildSystem(const FaceCenteredGrid2& input,
                              bool useCompressed);
 

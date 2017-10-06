@@ -109,24 +109,3 @@ TEST(FdmGaussSeidelSolver2, SolveCompressed) {
 
     EXPECT_LT(norm1, norm0);
 }
-
-TEST(FdmGaussSeidelSolver2, RelaxRedBlackCompressed) {
-    FdmCompressedLinearSystem2 system;
-    FdmLinearSystemSolverTestHelper2::buildTestCompressedLinearSystem(
-        &system, {128, 128});
-
-    auto buffer = system.x;
-    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
-    double norm0 = FdmCompressedBlas2::l2Norm(buffer);
-
-    for (int i = 0; i < 200; ++i) {
-        FdmGaussSeidelSolver2::relaxRedBlack(
-            system.A, system.b, system.indexToCoord, 1.0, &system.x);
-
-        FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
-        double norm = FdmCompressedBlas2::l2Norm(buffer);
-        EXPECT_LT(norm, norm0);
-
-        norm0 = norm;
-    }
-}

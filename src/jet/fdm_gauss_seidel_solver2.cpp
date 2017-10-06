@@ -62,12 +62,7 @@ bool FdmGaussSeidelSolver2::solveCompressed(
     _lastNumberOfIterations = _maxNumberOfIterations;
 
     for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
-        if (_useRedBlackOrdering) {
-            relaxRedBlack(system->A, system->b, system->indexToCoord,
-                          _sorFactor, &system->x);
-        } else {
-            relax(system->A, system->b, _sorFactor, &system->x);
-        }
+        relax(system->A, system->b, _sorFactor, &system->x);
 
         if (iter != 0 && iter % _residualCheckInterval == 0) {
             FdmCompressedBlas2::residual(system->A, system->x, system->b,
@@ -192,67 +187,6 @@ void FdmGaussSeidelSolver2::relaxRedBlack(const FdmMatrix2& A,
                 }
             }
         });
-}
-
-void FdmGaussSeidelSolver2::relaxRedBlack(const MatrixCsrD& A,
-                                          const VectorND& b,
-                                          const Array1<Point2UI>& indexToCoord,
-                                          double sorFactor, VectorND* x_) {
-    const auto rp = A.rowPointersBegin();
-    const auto ci = A.columnIndicesBegin();
-    const auto nnz = A.nonZeroBegin();
-
-    VectorND& x = *x_;
-
-    // Red update
-    b.parallelForEachIndex([&](size_t i) {
-        const auto pt = indexToCoord[i];
-        if ((pt.x + pt.y) % 2 != 0) {
-            return;
-        }
-
-        const size_t rowBegin = rp[i];
-        const size_t rowEnd = rp[i + 1];
-
-        double r = 0.0;
-        double diag = 1.0;
-        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
-            size_t j = ci[jj];
-
-            if (i == j) {
-                diag = nnz[jj];
-            } else {
-                r += nnz[jj] * x[j];
-            }
-        }
-
-        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
-    });
-
-    // Red update
-    b.parallelForEachIndex([&](size_t i) {
-        const auto pt = indexToCoord[i];
-        if ((pt.x + pt.y) % 2 == 0) {
-            return;
-        }
-
-        const size_t rowBegin = rp[i];
-        const size_t rowEnd = rp[i + 1];
-
-        double r = 0.0;
-        double diag = 1.0;
-        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
-            size_t j = ci[jj];
-
-            if (i == j) {
-                diag = nnz[jj];
-            } else {
-                r += nnz[jj] * x[j];
-            }
-        }
-
-        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
-    });
 }
 
 void FdmGaussSeidelSolver2::clearUncompressedVectors() { _residual.clear(); }

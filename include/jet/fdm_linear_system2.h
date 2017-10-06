@@ -61,20 +61,8 @@ struct FdmCompressedLinearSystem2 {
     //! RHS vector.
     VectorND b;
 
-    //! Mapping from grid coordinates to row index.
-    Array2<size_t> coordToIndex;
-
-    //! Mapping from row index to grid coordinate.
-    Array1<Point2UI> indexToCoord;
-
     //! Clears all the data.
     void clear();
-
-    //! Resizes 2-D arrays with given grid size.
-    void resize(const Size2& size);
-
-    //! Decompresses the solution vector to the given FDM vector.
-    void decompressSolution(FdmVector2* xDecomp, double blankValue = 0.0);
 };
 
 //! BLAS operator wrapper for 2-D finite differencing.

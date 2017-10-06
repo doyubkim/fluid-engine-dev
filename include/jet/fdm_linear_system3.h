@@ -64,20 +64,8 @@ struct FdmCompressedLinearSystem3 {
     //! RHS vector.
     VectorND b;
 
-    //! Mapping from grid coordinates to row index.
-    Array3<size_t> coordToIndex;
-
-    //! Mapping from row index to grid coordinate.
-    Array1<Point3UI> indexToCoord;
-
     //! Clears all the data.
     void clear();
-
-    //! Resizes 3-D arrays with given grid size.
-    void resize(const Size3& size);
-
-    //! Decompresses the solution vector to the given FDM vector.
-    void decompressSolution(FdmVector3* xDecomp, double blankValue = 0.0);
 };
 
 //! BLAS operator wrapper for 3-D finite differencing.

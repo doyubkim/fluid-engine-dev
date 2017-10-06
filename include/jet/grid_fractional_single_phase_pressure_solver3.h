@@ -119,6 +119,8 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
                       const VectorField3& boundaryVelocity,
                       const ScalarField3& fluidSdf);
 
+    void decompressSolution();
+
     virtual void buildSystem(const FaceCenteredGrid3& input,
                              bool useCompressed);
 

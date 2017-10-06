@@ -50,11 +50,10 @@ class FdmLinearSystemSolverTestHelper3 {
 
     static void buildTestCompressedLinearSystem(
         FdmCompressedLinearSystem3* system, const Size3& size) {
-        system->coordToIndex.resize(size);
+        Array3<size_t> coordToIndex(size);
+        const auto acc = coordToIndex.constAccessor();
 
-        const auto acc = system->coordToIndex.constAccessor();
-
-        system->coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
+        coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
             const size_t lIdx = acc.index(i - 1, j, k);
             const size_t rIdx = acc.index(i + 1, j, k);
@@ -63,8 +62,7 @@ class FdmLinearSystemSolverTestHelper3 {
             const size_t bIdx = acc.index(i, j, k - 1);
             const size_t fIdx = acc.index(i, j, k + 1);
 
-            system->coordToIndex[cIdx] = system->b.size();
-            system->indexToCoord.append({i, j, k});
+            coordToIndex[cIdx] = system->b.size();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
