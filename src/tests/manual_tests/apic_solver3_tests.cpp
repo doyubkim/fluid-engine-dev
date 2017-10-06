@@ -100,6 +100,7 @@ JET_BEGIN_TEST_F(ApicSolver3, DamBreakingWithCollider) {
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     auto grids = solver->gridSystemData();
     double dx = grids->gridSpacing().x;
@@ -175,6 +176,7 @@ JET_BEGIN_TEST_F(ApicSolver3, Spherical) {
                       .withResolution({30, 30, 30})
                       .withDomainSizeX(1.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     // Build collider
     auto sphere = Sphere3::builder()
@@ -213,6 +215,7 @@ JET_BEGIN_TEST_F(ApicSolver3, SphericalNonVariational) {
                       .withResolution({30, 30, 30})
                       .withDomainSizeX(1.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     solver->setPressureSolver(
         std::make_shared<GridSinglePhasePressureSolver3>());
