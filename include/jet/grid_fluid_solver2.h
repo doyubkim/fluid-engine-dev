@@ -10,10 +10,10 @@
 #include <jet/advection_solver2.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/collider2.h>
-#include <jet/grid_emitter2.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/grid_boundary_condition_solver2.h>
 #include <jet/grid_diffusion_solver2.h>
+#include <jet/grid_emitter2.h>
 #include <jet/grid_pressure_solver2.h>
 #include <jet/grid_system_data2.h>
 #include <jet/physics_animation.h>
@@ -39,10 +39,8 @@ class GridFluidSolver2 : public PhysicsAnimation {
     GridFluidSolver2();
 
     //! Constructs solver with initial grid size.
-    GridFluidSolver2(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& gridOrigin);
+    GridFluidSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+                     const Vector2D& gridOrigin);
 
     //! Default destructor.
     virtual ~GridFluidSolver2();
@@ -79,6 +77,12 @@ class GridFluidSolver2 : public PhysicsAnimation {
 
     //! Sets the max allowed CFL number.
     void setMaxCfl(double newCfl);
+
+    //! Returns true if the solver is using compressed linear system.
+    bool useCompressedLinearSystem() const;
+
+    //! Sets whether the solver should use compressed linear system.
+    void setUseCompressedLinearSystem(bool onoff);
 
     //! Returns the advection solver instance.
     const AdvectionSolver2Ptr& advectionSolver() const;
@@ -127,10 +131,8 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! \param[in] newGridSpacing The new grid spacing.
     //! \param[in] newGridOrigin  The new grid origin.
     //!
-    void resizeGrid(
-        const Size2& newSize,
-        const Vector2D& newGridSpacing,
-        const Vector2D& newGridOrigin);
+    void resizeGrid(const Size2& newSize, const Vector2D& newGridSpacing,
+                    const Vector2D& newGridOrigin);
 
     //!
     //! \brief Returns the resolution of the grid system data.
@@ -267,6 +269,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     Vector2D _gravity = Vector2D(0.0, -9.8);
     double _viscosityCoefficient = 0.0;
     double _maxCfl = 5.0;
+    bool _useCompressedLinearSys = false;
     int _closedDomainBoundaryFlag = kDirectionAll;
 
     GridSystemData2Ptr _grids;
@@ -289,7 +292,6 @@ class GridFluidSolver2 : public PhysicsAnimation {
 
 //! Shared pointer type for the GridFluidSolver2.
 typedef std::shared_ptr<GridFluidSolver2> GridFluidSolver2Ptr;
-
 
 //!
 //! \brief Base class for grid-based fluid solver builder.
@@ -382,10 +384,8 @@ class GridFluidSolver2::Builder final
 
     //! Builds shared pointer of GridFluidSolver2 instance.
     GridFluidSolver2Ptr makeShared() const {
-        return std::make_shared<GridFluidSolver2>(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin);
+        return std::make_shared<GridFluidSolver2>(_resolution, getGridSpacing(),
+                                                  _gridOrigin);
     }
 };
 

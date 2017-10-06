@@ -48,6 +48,11 @@ void addGridFluidSolver2(py::module& m) {
         .def_property("maxCfl", &GridFluidSolver2::maxCfl,
                       &GridFluidSolver2::setMaxCfl,
                       R"pbdoc(The max allowed CFL number.)pbdoc")
+        .def_property(
+            "useCompressedLinearSystem",
+            &GridFluidSolver2::useCompressedLinearSystem,
+            &GridFluidSolver2::setUseCompressedLinearSystem,
+            R"pbdoc(True if the solver is using compressed linear system.)pbdoc")
         .def_property("advectionSolver", &GridFluidSolver2::advectionSolver,
                       &GridFluidSolver2::setAdvectionSolver,
                       R"pbdoc(The advection solver.)pbdoc")
@@ -179,6 +184,11 @@ void addGridFluidSolver3(py::module& m) {
         .def_property("maxCfl", &GridFluidSolver3::maxCfl,
                       &GridFluidSolver3::setMaxCfl,
                       R"pbdoc(The max allowed CFL number.)pbdoc")
+        .def_property(
+            "useCompressedLinearSystem",
+            &GridFluidSolver3::useCompressedLinearSystem,
+            &GridFluidSolver3::setUseCompressedLinearSystem,
+            R"pbdoc(True if the solver is using compressed linear system.)pbdoc")
         .def_property("advectionSolver", &GridFluidSolver3::advectionSolver,
                       &GridFluidSolver3::setAdvectionSolver,
                       R"pbdoc(The advection solver.)pbdoc")

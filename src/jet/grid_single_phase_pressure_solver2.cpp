@@ -166,9 +166,11 @@ void GridSinglePhasePressureSolver2::solve(const FaceCenteredGrid2& input,
         // Solve the system
         if (_mgSystemSolver == nullptr) {
             if (useCompressed) {
+                _system.clear();
                 _systemSolver->solveCompressed(&_compSystem);
                 decompressSolution();
             } else {
+                _compSystem.clear();
                 _systemSolver->solve(&_system);
             }
         } else {
