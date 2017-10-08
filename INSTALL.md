@@ -157,7 +157,7 @@ Run a container and see if it can import `pyjet` module and the unit test passes
 docker run -it doyubkim/fluid-engine-dev
 python import -c "pyjet"
 
-docker run doyubkim/fluid-engine-dev /app/jet/build/bin/unit_tests
+docker run doyubkim/fluid-engine-dev /app/build/bin/unit_tests
 ```
 
 You can also build the image from the source as well. From the root directory of this codebase, run:
