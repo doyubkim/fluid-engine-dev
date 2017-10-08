@@ -80,7 +80,8 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
         buildSystem(&system, {dim, dim, dim});
     }
 
-    void buildSystem(FdmCompressedLinearSystem3* system, const Size3& size) {
+    static void buildSystem(FdmCompressedLinearSystem3* system,
+                            const Size3& size) {
         system->clear();
 
         Array3<size_t> coordToIndex(size);
