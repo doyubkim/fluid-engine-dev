@@ -33,7 +33,53 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase) {
     }
 
     GridSinglePhasePressureSolver2 solver;
-    solver.solve(vel, 1.0, &vel);
+    solver.solve(vel, 1.0, &vel, ConstantScalarField2(kMaxD),
+                 ConstantVectorField2({0, 0}), ConstantScalarField2(-kMaxD),
+                 false);
+
+    for (size_t j = 0; j < 3; ++j) {
+        for (size_t i = 0; i < 4; ++i) {
+            EXPECT_NEAR(0.0, vel.u(i, j), 1e-6);
+        }
+    }
+
+    for (size_t j = 0; j < 4; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            EXPECT_NEAR(0.0, vel.v(i, j), 1e-6);
+        }
+    }
+
+    const auto& pressure = solver.pressure();
+    for (size_t j = 0; j < 2; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            EXPECT_NEAR(pressure(i, j + 1) - pressure(i, j), -1.0, 1e-6);
+        }
+    }
+}
+
+TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed) {
+    FaceCenteredGrid2 vel(3, 3);
+
+    for (size_t j = 0; j < 3; ++j) {
+        for (size_t i = 0; i < 4; ++i) {
+            vel.u(i, j) = 0.0;
+        }
+    }
+
+    for (size_t j = 0; j < 4; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            if (j == 0 || j == 3) {
+                vel.v(i, j) = 0.0;
+            } else {
+                vel.v(i, j) = 1.0;
+            }
+        }
+    }
+
+    GridSinglePhasePressureSolver2 solver;
+    solver.solve(vel, 1.0, &vel, ConstantScalarField2(kMaxD),
+                 ConstantVectorField2({0, 0}), ConstantScalarField2(-kMaxD),
+                 true);
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -130,6 +176,53 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface) {
     GridSinglePhasePressureSolver2 solver;
     solver.solve(vel, 1.0, &vel, ConstantScalarField2(kMaxD),
                  ConstantVectorField2({0, 0}), fluidSdf);
+
+    for (size_t j = 0; j < 3; ++j) {
+        for (size_t i = 0; i < 4; ++i) {
+            EXPECT_NEAR(0.0, vel.u(i, j), 1e-6);
+        }
+    }
+
+    for (size_t j = 0; j < 4; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            EXPECT_NEAR(0.0, vel.v(i, j), 1e-6);
+        }
+    }
+
+    const auto& pressure = solver.pressure();
+    for (size_t j = 0; j < 3; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            double p = static_cast<double>(2 - j);
+            EXPECT_NEAR(p, pressure(i, j), 1e-6);
+        }
+    }
+}
+
+TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
+    FaceCenteredGrid2 vel(3, 3);
+    CellCenteredScalarGrid2 fluidSdf(3, 3);
+
+    for (size_t j = 0; j < 3; ++j) {
+        for (size_t i = 0; i < 4; ++i) {
+            vel.u(i, j) = 0.0;
+        }
+    }
+
+    for (size_t j = 0; j < 4; ++j) {
+        for (size_t i = 0; i < 3; ++i) {
+            if (j == 0 || j == 3) {
+                vel.v(i, j) = 0.0;
+            } else {
+                vel.v(i, j) = 1.0;
+            }
+        }
+    }
+
+    fluidSdf.fill([&](const Vector2D& x) { return x.y - 2.0; });
+
+    GridSinglePhasePressureSolver2 solver;
+    solver.solve(vel, 1.0, &vel, ConstantScalarField2(kMaxD),
+                 ConstantVectorField2({0, 0}), fluidSdf, true);
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {

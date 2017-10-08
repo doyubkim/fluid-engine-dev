@@ -232,6 +232,7 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     auto grids = solver->gridSystemData();
     double dx = grids->gridSpacing().x;
@@ -309,6 +310,7 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     auto grids = solver->gridSystemData();
     double dx = grids->gridSpacing().x;
@@ -386,6 +388,7 @@ void runExample5(const std::string& rootDir, size_t resolutionX,
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     auto grids = solver->gridSystemData();
     double dx = grids->gridSpacing().x;
@@ -461,6 +464,7 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
                       .withResolution({resolutionX, resolutionX, resolutionX})
                       .withDomainSizeX(1.0)
                       .makeShared();
+    solver->setUseCompressedLinearSystem(true);
 
     // Build collider
     auto sphere = Sphere3::builder()
@@ -475,6 +479,7 @@ void runExample6(const std::string& rootDir, size_t resolutionX,
     solver->setCollider(collider);
 
     // Manually emit particles
+    printf("Start emitting particles...\n");
     std::mt19937 rng;
     std::uniform_real_distribution<> dist(-0.1 * solver->gridSpacing().x,
                                           0.1 * solver->gridSpacing().x);

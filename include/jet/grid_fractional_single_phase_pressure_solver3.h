@@ -68,13 +68,15 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
     //! \param[inout] output                The output velocity field.
     //! \param[in]    boundarySdf           The SDF of the boundary.
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
+    //! \param[in]    useCompressed         True if it uses compressed system.
     //!
     void solve(
         const FaceCenteredGrid3& input, double timeIntervalInSeconds,
         FaceCenteredGrid3* output,
         const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
         const VectorField3& boundaryVelocity = ConstantVectorField3({0, 0, 0}),
-        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD),
+        bool useCompressed = false) override;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -99,6 +101,7 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
 
  private:
     FdmLinearSystem3 _system;
+    FdmCompressedLinearSystem3 _compSystem;
     FdmLinearSystemSolver3Ptr _systemSolver;
 
     FdmMgLinearSystem3 _mgSystem;
@@ -116,7 +119,10 @@ class GridFractionalSinglePhasePressureSolver3 : public GridPressureSolver3 {
                       const VectorField3& boundaryVelocity,
                       const ScalarField3& fluidSdf);
 
-    virtual void buildSystem(const FaceCenteredGrid3& input);
+    void decompressSolution();
+
+    virtual void buildSystem(const FaceCenteredGrid3& input,
+                             bool useCompressed);
 
     virtual void applyPressureGradient(const FaceCenteredGrid3& input,
                                        FaceCenteredGrid3* output);

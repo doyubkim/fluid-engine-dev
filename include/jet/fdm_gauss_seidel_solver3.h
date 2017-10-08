@@ -24,6 +24,9 @@ class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem3* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem3* system) override;
+
     //! Returns the max number of Gauss-Seidel iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -46,6 +49,11 @@ class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
     static void relax(const FdmMatrix3& A, const FdmVector3& b,
                       double sorFactor, FdmVector3* x);
 
+    //! \brief Performs single natural Gauss-Seidel relaxation step for
+    //!        compressed sys.
+    static void relax(const MatrixCsrD& A, const VectorND& b, double sorFactor,
+                      VectorND* x);
+
     //! Performs single Red-Black Gauss-Seidel relaxation step.
     static void relaxRedBlack(const FdmMatrix3& A, const FdmVector3& b,
                               double sorFactor, FdmVector3* x);
@@ -59,7 +67,14 @@ class FdmGaussSeidelSolver3 final : public FdmLinearSystemSolver3 {
     double _sorFactor;
     bool _useRedBlackOrdering;
 
+    // Uncompressed vectors
     FdmVector3 _residual;
+
+    // Compressed vectors
+    VectorND _residualComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmGaussSeidelSolver3.

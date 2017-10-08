@@ -53,17 +53,15 @@ class GridPressureSolver3 {
     //! \param[inout] output                The output velocity field.
     //! \param[in]    boundarySdf           The SDF of the boundary.
     //! \param[in]    fluidSdf              The SDF of the fluid/atmosphere.
+    //! \param[in]    useCompressed         True if it uses compressed system.
     //!
     virtual void solve(
-        const FaceCenteredGrid3& input,
-        double timeIntervalInSeconds,
+        const FaceCenteredGrid3& input, double timeIntervalInSeconds,
         FaceCenteredGrid3* output,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const VectorField3& boundaryVelocity
-            = ConstantVectorField3({0, 0, 0}),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) = 0;
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const VectorField3& boundaryVelocity = ConstantVectorField3({0, 0, 0}),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD),
+        bool useCompressed = false) = 0;
 
     //!
     //! \brief Returns the best boundary condition solver for this solver.
@@ -72,8 +70,8 @@ class GridPressureSolver3 {
     //! with this pressure solver. Depending on the pressure solver
     //! implementation, different boundary condition solver might be used.
     //!
-    virtual GridBoundaryConditionSolver3Ptr
-        suggestedBoundaryConditionSolver() const = 0;
+    virtual GridBoundaryConditionSolver3Ptr suggestedBoundaryConditionSolver()
+        const = 0;
 };
 
 //! Shared pointer type for the GridPressureSolver3.

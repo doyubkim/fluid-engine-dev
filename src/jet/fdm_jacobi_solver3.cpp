@@ -21,6 +21,8 @@ FdmJacobiSolver3::FdmJacobiSolver3(unsigned int maxNumberOfIterations,
       _lastResidual(kMaxD) {}
 
 bool FdmJacobiSolver3::solve(FdmLinearSystem3* system) {
+    clearCompressedVectors();
+
     _xTemp.resize(system->x.size());
     _residual.resize(system->x.size());
 
@@ -43,6 +45,37 @@ bool FdmJacobiSolver3::solve(FdmLinearSystem3* system) {
 
     FdmBlas3::residual(system->A, system->x, system->b, &_residual);
     _lastResidual = FdmBlas3::l2Norm(_residual);
+
+    return _lastResidual < _tolerance;
+}
+
+bool FdmJacobiSolver3::solveCompressed(FdmCompressedLinearSystem3* system) {
+    clearUncompressedVectors();
+
+    _xTempComp.resize(system->x.size());
+    _residualComp.resize(system->x.size());
+
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
+    for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
+        relax(system->A, system->b, &system->x, &_xTempComp);
+
+        _xTempComp.swap(system->x);
+
+        if (iter != 0 && iter % _residualCheckInterval == 0) {
+            FdmCompressedBlas3::residual(system->A, system->x, system->b,
+                                         &_residualComp);
+
+            if (FdmCompressedBlas3::l2Norm(_residualComp) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
+                break;
+            }
+        }
+    }
+
+    FdmCompressedBlas3::residual(system->A, system->x, system->b,
+                                 &_residualComp);
+    _lastResidual = FdmCompressedBlas3::l2Norm(_residualComp);
 
     return _lastResidual < _tolerance;
 }
@@ -76,4 +109,43 @@ void FdmJacobiSolver3::relax(const FdmMatrix3& A, const FdmVector3& b,
 
         xTemp(i, j, k) = (b(i, j, k) - r) / A(i, j, k).center;
     });
+}
+
+void FdmJacobiSolver3::relax(const MatrixCsrD& A, const VectorND& b,
+                             VectorND* x_, VectorND* xTemp_) {
+    const auto rp = A.rowPointersBegin();
+    const auto ci = A.columnIndicesBegin();
+    const auto nnz = A.nonZeroBegin();
+
+    VectorND& x = *x_;
+    VectorND& xTemp = *xTemp_;
+
+    b.parallelForEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        xTemp[i] = (b[i] - r) / diag;
+    });
+}
+
+void FdmJacobiSolver3::clearUncompressedVectors() {
+    _xTempComp.clear();
+    _residualComp.clear();
+}
+
+void FdmJacobiSolver3::clearCompressedVectors() {
+    _xTemp.clear();
+    _residual.clear();
 }

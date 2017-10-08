@@ -17,6 +17,9 @@ class FdmLinearSystemSolver2 {
  public:
     //! Solves the given linear system.
     virtual bool solve(FdmLinearSystem2* system) = 0;
+
+    //! Solves the given compressed linear system.
+    virtual bool solveCompressed(FdmCompressedLinearSystem2*) { return false; }
 };
 
 //! Shared pointer type for the FdmLinearSystemSolver2.

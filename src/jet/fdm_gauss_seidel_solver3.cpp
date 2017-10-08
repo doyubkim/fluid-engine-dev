@@ -24,6 +24,8 @@ FdmGaussSeidelSolver3::FdmGaussSeidelSolver3(unsigned int maxNumberOfIterations,
       _useRedBlackOrdering(useRedBlackOrdering) {}
 
 bool FdmGaussSeidelSolver3::solve(FdmLinearSystem3* system) {
+    clearCompressedVectors();
+
     _residual.resize(system->x.size());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
@@ -43,6 +45,35 @@ bool FdmGaussSeidelSolver3::solve(FdmLinearSystem3* system) {
 
     FdmBlas3::residual(system->A, system->x, system->b, &_residual);
     _lastResidual = FdmBlas3::l2Norm(_residual);
+
+    return _lastResidual < _tolerance;
+}
+
+bool FdmGaussSeidelSolver3::solveCompressed(
+    FdmCompressedLinearSystem3* system) {
+    clearUncompressedVectors();
+
+    _residualComp.resize(system->x.size());
+
+    _lastNumberOfIterations = _maxNumberOfIterations;
+
+    for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
+        relax(system->A, system->b, _sorFactor, &system->x);
+
+        if (iter != 0 && iter % _residualCheckInterval == 0) {
+            FdmCompressedBlas3::residual(system->A, system->x, system->b,
+                                         &_residualComp);
+
+            if (FdmCompressedBlas3::l2Norm(_residualComp) < _tolerance) {
+                _lastNumberOfIterations = iter + 1;
+                break;
+            }
+        }
+    }
+
+    FdmCompressedBlas3::residual(system->A, system->x, system->b,
+                                 &_residualComp);
+    _lastResidual = FdmCompressedBlas3::l2Norm(_residualComp);
 
     return _lastResidual < _tolerance;
 }
@@ -81,6 +112,34 @@ void FdmGaussSeidelSolver3::relax(const FdmMatrix3& A, const FdmVector3& b,
 
         x(i, j, k) = (1.0 - sorFactor) * x(i, j, k) +
                      sorFactor * (b(i, j, k) - r) / A(i, j, k).center;
+    });
+}
+
+void FdmGaussSeidelSolver3::relax(const MatrixCsrD& A, const VectorND& b,
+                                  double sorFactor, VectorND* x_) {
+    const auto rp = A.rowPointersBegin();
+    const auto ci = A.columnIndicesBegin();
+    const auto nnz = A.nonZeroBegin();
+
+    VectorND& x = *x_;
+
+    b.forEachIndex([&](size_t i) {
+        const size_t rowBegin = rp[i];
+        const size_t rowEnd = rp[i + 1];
+
+        double r = 0.0;
+        double diag = 1.0;
+        for (size_t jj = rowBegin; jj < rowEnd; ++jj) {
+            size_t j = ci[jj];
+
+            if (i == j) {
+                diag = nnz[jj];
+            } else {
+                r += nnz[jj] * x[j];
+            }
+        }
+
+        x[i] = (1.0 - sorFactor) * x[i] + sorFactor * (b[i] - r) / diag;
     });
 }
 
@@ -156,3 +215,7 @@ void FdmGaussSeidelSolver3::relaxRedBlack(const FdmMatrix3& A,
             }
         });
 }
+
+void FdmGaussSeidelSolver3::clearUncompressedVectors() { _residual.clear(); }
+
+void FdmGaussSeidelSolver3::clearCompressedVectors() { _residualComp.clear(); }

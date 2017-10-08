@@ -104,7 +104,7 @@ MatrixCsr<T>::Element::Element(size_t i_, size_t j_, const T& value_)
 
 template <typename T>
 MatrixCsr<T>::MatrixCsr() {
-    _rowPointers.push_back(0);
+    clear();
 }
 
 template <typename T>
@@ -127,6 +127,15 @@ MatrixCsr<T>::MatrixCsr(const MatrixCsr& other) {
 template <typename T>
 MatrixCsr<T>::MatrixCsr(MatrixCsr&& other) {
     (*this) = std::move(other);
+}
+
+template <typename T>
+void MatrixCsr<T>::clear() {
+    _size = {0, 0};
+    _nonZeros.clear();
+    _rowPointers.clear();
+    _columnIndices.clear();
+    _rowPointers.push_back(0);
 }
 
 template <typename T>

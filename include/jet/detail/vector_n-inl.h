@@ -50,6 +50,11 @@ void VectorN<T>::resize(size_t n, const T& val) {
 }
 
 template <typename T>
+void VectorN<T>::clear() {
+    _elements.clear();
+}
+
+template <typename T>
 void VectorN<T>::set(const T& s) {
     parallelFill(begin(), end(), s);
 }
@@ -68,6 +73,11 @@ void VectorN<T>::set(const VectorExpression<T, E>& other) {
     // Parallel evaluation of the expression
     const E& expression = other();
     parallelForEachIndex([&](size_t i) { _elements[i] = expression[i]; });
+}
+
+template <typename T>
+void VectorN<T>::append(const T& val) {
+    _elements.push_back(val);
 }
 
 template <typename T>

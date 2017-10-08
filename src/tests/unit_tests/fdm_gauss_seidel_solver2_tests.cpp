@@ -4,39 +4,17 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <gtest/gtest.h>
+#include "fdm_linear_system_solver_test_helper2.h"
+
 #include <jet/fdm_gauss_seidel_solver2.h>
+
+#include <gtest/gtest.h>
 
 using namespace jet;
 
 TEST(FdmGaussSeidelSolver2, SolveLowRes) {
     FdmLinearSystem2 system;
-    system.A.resize(3, 3);
-    system.x.resize(3, 3);
-    system.b.resize(3, 3);
-
-    system.A.forEachIndex([&](size_t i, size_t j) {
-        if (i > 0) {
-            system.A(i, j).center += 1.0;
-        }
-        if (i < system.A.width() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).right -= 1.0;
-        }
-
-        if (j > 0) {
-            system.A(i, j).center += 1.0;
-        } else {
-            system.b(i, j) += 1.0;
-        }
-
-        if (j < system.A.height() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).up -= 1.0;
-        } else {
-            system.b(i, j) -= 1.0;
-        }
-    });
+    FdmLinearSystemSolverTestHelper2::buildTestLinearSystem(&system, {3, 3});
 
     FdmGaussSeidelSolver2 solver(100, 10, 1e-9);
     solver.solve(&system);
@@ -46,32 +24,8 @@ TEST(FdmGaussSeidelSolver2, SolveLowRes) {
 
 TEST(FdmGaussSeidelSolver2, Solve) {
     FdmLinearSystem2 system;
-    system.A.resize(128, 128);
-    system.x.resize(128, 128);
-    system.b.resize(128, 128);
-
-    system.A.forEachIndex([&](size_t i, size_t j) {
-        if (i > 0) {
-            system.A(i, j).center += 1.0;
-        }
-        if (i < system.A.width() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).right -= 1.0;
-        }
-
-        if (j > 0) {
-            system.A(i, j).center += 1.0;
-        } else {
-            system.b(i, j) += 1.0;
-        }
-
-        if (j < system.A.height() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).up -= 1.0;
-        } else {
-            system.b(i, j) -= 1.0;
-        }
-    });
+    FdmLinearSystemSolverTestHelper2::buildTestLinearSystem(&system,
+                                                            {128, 128});
 
     auto buffer = system.x;
     FdmBlas2::residual(system.A, system.x, system.b, &buffer);
@@ -88,32 +42,8 @@ TEST(FdmGaussSeidelSolver2, Solve) {
 
 TEST(FdmGaussSeidelSolver2, Relax) {
     FdmLinearSystem2 system;
-    system.A.resize(128, 128);
-    system.x.resize(128, 128);
-    system.b.resize(128, 128);
-
-    system.A.forEachIndex([&](size_t i, size_t j) {
-        if (i > 0) {
-            system.A(i, j).center += 1.0;
-        }
-        if (i < system.A.width() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).right -= 1.0;
-        }
-
-        if (j > 0) {
-            system.A(i, j).center += 1.0;
-        } else {
-            system.b(i, j) += 1.0;
-        }
-
-        if (j < system.A.height() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).up -= 1.0;
-        } else {
-            system.b(i, j) -= 1.0;
-        }
-    });
+    FdmLinearSystemSolverTestHelper2::buildTestLinearSystem(&system,
+                                                            {128, 128});
 
     auto buffer = system.x;
     FdmBlas2::residual(system.A, system.x, system.b, &buffer);
@@ -132,32 +62,8 @@ TEST(FdmGaussSeidelSolver2, Relax) {
 
 TEST(FdmGaussSeidelSolver2, RelaxRedBlack) {
     FdmLinearSystem2 system;
-    system.A.resize(128, 128);
-    system.x.resize(128, 128);
-    system.b.resize(128, 128);
-
-    system.A.forEachIndex([&](size_t i, size_t j) {
-        if (i > 0) {
-            system.A(i, j).center += 1.0;
-        }
-        if (i < system.A.width() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).right -= 1.0;
-        }
-
-        if (j > 0) {
-            system.A(i, j).center += 1.0;
-        } else {
-            system.b(i, j) += 1.0;
-        }
-
-        if (j < system.A.height() - 1) {
-            system.A(i, j).center += 1.0;
-            system.A(i, j).up -= 1.0;
-        } else {
-            system.b(i, j) -= 1.0;
-        }
-    });
+    FdmLinearSystemSolverTestHelper2::buildTestLinearSystem(&system,
+                                                            {128, 128});
 
     auto buffer = system.x;
     FdmBlas2::residual(system.A, system.x, system.b, &buffer);
@@ -173,4 +79,33 @@ TEST(FdmGaussSeidelSolver2, RelaxRedBlack) {
 
         norm0 = norm;
     }
+}
+
+TEST(FdmGaussSeidelSolver2, SolveCompressedRes) {
+    FdmCompressedLinearSystem2 system;
+    FdmLinearSystemSolverTestHelper2::buildTestCompressedLinearSystem(&system,
+                                                                      {3, 3});
+
+    FdmGaussSeidelSolver2 solver(100, 10, 1e-9);
+    solver.solveCompressed(&system);
+
+    EXPECT_GT(solver.tolerance(), solver.lastResidual());
+}
+
+TEST(FdmGaussSeidelSolver2, SolveCompressed) {
+    FdmCompressedLinearSystem2 system;
+    FdmLinearSystemSolverTestHelper2::buildTestCompressedLinearSystem(
+        &system, {128, 128});
+
+    auto buffer = system.x;
+    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+    double norm0 = FdmCompressedBlas2::l2Norm(buffer);
+
+    FdmGaussSeidelSolver2 solver(100, 10, 1e-9);
+    solver.solveCompressed(&system);
+
+    FdmCompressedBlas2::residual(system.A, system.x, system.b, &buffer);
+    double norm1 = FdmCompressedBlas2::l2Norm(buffer);
+
+    EXPECT_LT(norm1, norm0);
 }

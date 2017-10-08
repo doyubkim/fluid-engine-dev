@@ -5,29 +5,29 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/array_utils.h>
-#include <jet/grid_backward_euler_diffusion_solver2.h>
-#include <jet/cubic_semi_lagrangian2.h>
 #include <jet/constant_scalar_field2.h>
 #include <jet/constants.h>
+#include <jet/cubic_semi_lagrangian2.h>
+#include <jet/grid_backward_euler_diffusion_solver2.h>
 #include <jet/grid_blocked_boundary_condition_solver2.h>
 #include <jet/grid_fluid_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit2.h>
 #include <jet/timer.h>
+
 #include <algorithm>
 
 using namespace jet;
 
 GridFluidSolver2::GridFluidSolver2()
-: GridFluidSolver2({1, 1}, {1, 1}, {0, 0}) {
-}
+    : GridFluidSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-GridFluidSolver2::GridFluidSolver2(
-    const Size2& resolution,
-    const Vector2D& gridSpacing,
-    const Vector2D& gridOrigin) {
+GridFluidSolver2::GridFluidSolver2(const Size2& resolution,
+                                   const Vector2D& gridSpacing,
+                                   const Vector2D& gridOrigin) {
     _grids = std::make_shared<GridSystemData2>();
     _grids->resize(resolution, gridSpacing, gridOrigin);
 
@@ -38,12 +38,9 @@ GridFluidSolver2::GridFluidSolver2(
     setIsUsingFixedSubTimeSteps(false);
 }
 
-GridFluidSolver2::~GridFluidSolver2() {
-}
+GridFluidSolver2::~GridFluidSolver2() {}
 
-const Vector2D& GridFluidSolver2::gravity() const {
-    return _gravity;
-}
+const Vector2D& GridFluidSolver2::gravity() const { return _gravity; }
 
 void GridFluidSolver2::setGravity(const Vector2D& newGravity) {
     _gravity = newGravity;
@@ -61,8 +58,8 @@ double GridFluidSolver2::cfl(double timeIntervalInSeconds) const {
     auto vel = _grids->velocity();
     double maxVel = 0.0;
     vel->forEachCellIndex([&](size_t i, size_t j) {
-        Vector2D v = vel->valueAtCellCenter(i, j)
-            + timeIntervalInSeconds * _gravity;
+        Vector2D v =
+            vel->valueAtCellCenter(i, j) + timeIntervalInSeconds * _gravity;
         maxVel = std::max(maxVel, v.x);
         maxVel = std::max(maxVel, v.y);
     });
@@ -73,12 +70,18 @@ double GridFluidSolver2::cfl(double timeIntervalInSeconds) const {
     return maxVel * timeIntervalInSeconds / minGridSize;
 }
 
-double GridFluidSolver2::maxCfl() const {
-    return _maxCfl;
-}
+double GridFluidSolver2::maxCfl() const { return _maxCfl; }
 
 void GridFluidSolver2::setMaxCfl(double newCfl) {
     _maxCfl = std::max(newCfl, kEpsilonD);
+}
+
+bool GridFluidSolver2::useCompressedLinearSystem() const {
+    return _useCompressedLinearSys;
+}
+
+void GridFluidSolver2::setUseCompressedLinearSystem(bool onoff) {
+    _useCompressedLinearSys = onoff;
 }
 
 const AdvectionSolver2Ptr& GridFluidSolver2::advectionSolver() const {
@@ -107,8 +110,8 @@ void GridFluidSolver2::setPressureSolver(
     const GridPressureSolver2Ptr& newSolver) {
     _pressureSolver = newSolver;
     if (_pressureSolver != nullptr) {
-        _boundaryConditionSolver
-            = _pressureSolver->suggestedBoundaryConditionSolver();
+        _boundaryConditionSolver =
+            _pressureSolver->suggestedBoundaryConditionSolver();
 
         // Apply domain boundary flag
         _boundaryConditionSolver->setClosedDomainBoundaryFlag(
@@ -130,40 +133,29 @@ const GridSystemData2Ptr& GridFluidSolver2::gridSystemData() const {
     return _grids;
 }
 
-void GridFluidSolver2::resizeGrid(
-    const Size2& newSize,
-    const Vector2D& newGridSpacing,
-    const Vector2D& newGridOrigin) {
+void GridFluidSolver2::resizeGrid(const Size2& newSize,
+                                  const Vector2D& newGridSpacing,
+                                  const Vector2D& newGridOrigin) {
     _grids->resize(newSize, newGridSpacing, newGridOrigin);
 }
 
-Size2 GridFluidSolver2::resolution() const {
-    return _grids->resolution();
-}
+Size2 GridFluidSolver2::resolution() const { return _grids->resolution(); }
 
-Vector2D GridFluidSolver2::gridSpacing() const {
-    return _grids->gridSpacing();
-}
+Vector2D GridFluidSolver2::gridSpacing() const { return _grids->gridSpacing(); }
 
-Vector2D GridFluidSolver2::gridOrigin() const {
-    return _grids->origin();
-}
+Vector2D GridFluidSolver2::gridOrigin() const { return _grids->origin(); }
 
 const FaceCenteredGrid2Ptr& GridFluidSolver2::velocity() const {
     return _grids->velocity();
 }
 
-const Collider2Ptr& GridFluidSolver2::collider() const {
-    return _collider;
-}
+const Collider2Ptr& GridFluidSolver2::collider() const { return _collider; }
 
 void GridFluidSolver2::setCollider(const Collider2Ptr& newCollider) {
     _collider = newCollider;
 }
 
-const GridEmitter2Ptr& GridFluidSolver2::emitter() const {
-    return _emitter;
-}
+const GridEmitter2Ptr& GridFluidSolver2::emitter() const { return _emitter; }
 
 void GridFluidSolver2::setEmitter(const GridEmitter2Ptr& newEmitter) {
     _emitter = newEmitter;
@@ -174,13 +166,13 @@ void GridFluidSolver2::onInitialize() {
     // well since they also affects the initial condition of the simulation.
     Timer timer;
     updateCollider(0.0);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update collider took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     updateEmitter(0.0);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update emitter took " << timer.durationInSeconds()
+             << " seconds";
 }
 
 void GridFluidSolver2::onAdvanceTimeStep(double timeIntervalInSeconds) {
@@ -194,23 +186,23 @@ void GridFluidSolver2::onAdvanceTimeStep(double timeIntervalInSeconds) {
 
     Timer timer;
     computeExternalForces(timeIntervalInSeconds);
-    JET_INFO << "Computing external force took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Computing external force took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     computeViscosity(timeIntervalInSeconds);
-    JET_INFO << "Computing viscosity force took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Computing viscosity force took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     computePressure(timeIntervalInSeconds);
-    JET_INFO << "Computing pressure force took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Computing pressure force took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     computeAdvection(timeIntervalInSeconds);
-    JET_INFO << "Computing advection force took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Computing advection force took " << timer.durationInSeconds()
+             << " seconds";
 
     endAdvanceTimeStep(timeIntervalInSeconds);
 }
@@ -239,13 +231,9 @@ void GridFluidSolver2::computeViscosity(double timeIntervalInSeconds) {
         auto vel = velocity();
         auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->clone());
 
-        _diffusionSolver->solve(
-            *vel0,
-            _viscosityCoefficient,
-            timeIntervalInSeconds,
-            vel.get(),
-            *colliderSdf(),
-            *fluidSdf());
+        _diffusionSolver->solve(*vel0, _viscosityCoefficient,
+                                timeIntervalInSeconds, vel.get(),
+                                *colliderSdf(), *fluidSdf());
         applyBoundaryCondition();
     }
 }
@@ -255,13 +243,9 @@ void GridFluidSolver2::computePressure(double timeIntervalInSeconds) {
         auto vel = velocity();
         auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->clone());
 
-        _pressureSolver->solve(
-            *vel0,
-            timeIntervalInSeconds,
-            vel.get(),
-            *colliderSdf(),
-            *colliderVelocityField(),
-            *fluidSdf());
+        _pressureSolver->solve(*vel0, timeIntervalInSeconds, vel.get(),
+                               *colliderSdf(), *colliderVelocityField(),
+                               *fluidSdf(), _useCompressedLinearSys);
         applyBoundaryCondition();
     }
 }
@@ -274,12 +258,8 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
         for (size_t i = 0; i < n; ++i) {
             auto grid = _grids->advectableScalarDataAt(i);
             auto grid0 = grid->clone();
-            _advectionSolver->advect(
-                *grid0,
-                *vel,
-                timeIntervalInSeconds,
-                grid.get(),
-                *colliderSdf());
+            _advectionSolver->advect(*grid0, *vel, timeIntervalInSeconds,
+                                     grid.get(), *colliderSdf());
             extrapolateIntoCollider(grid.get());
         }
 
@@ -295,32 +275,26 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
             auto grid = _grids->advectableVectorDataAt(i);
             auto grid0 = grid->clone();
 
-            auto collocated
-                = std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
-            auto collocated0
-                = std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid0);
+            auto collocated =
+                std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
+            auto collocated0 =
+                std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid0);
             if (collocated != nullptr) {
-                _advectionSolver->advect(
-                    *collocated0,
-                    *vel,
-                    timeIntervalInSeconds,
-                    collocated.get(),
-                    *colliderSdf());
+                _advectionSolver->advect(*collocated0, *vel,
+                                         timeIntervalInSeconds,
+                                         collocated.get(), *colliderSdf());
                 extrapolateIntoCollider(collocated.get());
                 continue;
             }
 
-            auto faceCentered
-                = std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
-            auto faceCentered0
-                = std::dynamic_pointer_cast<FaceCenteredGrid2>(grid0);
+            auto faceCentered =
+                std::dynamic_pointer_cast<FaceCenteredGrid2>(grid);
+            auto faceCentered0 =
+                std::dynamic_pointer_cast<FaceCenteredGrid2>(grid0);
             if (faceCentered != nullptr && faceCentered0 != nullptr) {
-                _advectionSolver->advect(
-                    *faceCentered0,
-                    *vel,
-                    timeIntervalInSeconds,
-                    faceCentered.get(),
-                    *colliderSdf());
+                _advectionSolver->advect(*faceCentered0, *vel,
+                                         timeIntervalInSeconds,
+                                         faceCentered.get(), *colliderSdf());
                 extrapolateIntoCollider(faceCentered.get());
                 continue;
             }
@@ -328,12 +302,8 @@ void GridFluidSolver2::computeAdvection(double timeIntervalInSeconds) {
 
         // Solve velocity advection
         auto vel0 = std::dynamic_pointer_cast<FaceCenteredGrid2>(vel->clone());
-        _advectionSolver->advect(
-            *vel0,
-            *vel0,
-            timeIntervalInSeconds,
-            vel.get(),
-            *colliderSdf());
+        _advectionSolver->advect(*vel0, *vel0, timeIntervalInSeconds, vel.get(),
+                                 *colliderSdf());
         applyBoundaryCondition();
     }
 }
@@ -385,8 +355,8 @@ void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(
-        grid->constDataAccessor(), marker, depth, grid->dataAccessor());
+    extrapolateToRegion(grid->constDataAccessor(), marker, depth,
+                        grid->dataAccessor());
 }
 
 void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
@@ -401,8 +371,8 @@ void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(
-        grid->constDataAccessor(), marker, depth, grid->dataAccessor());
+    extrapolateToRegion(grid->constDataAccessor(), marker, depth,
+                        grid->dataAccessor());
 }
 
 void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
@@ -447,20 +417,18 @@ void GridFluidSolver2::beginAdvanceTimeStep(double timeIntervalInSeconds) {
     // Update collider and emitter
     Timer timer;
     updateCollider(timeIntervalInSeconds);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update collider took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     updateEmitter(timeIntervalInSeconds);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update emitter took " << timer.durationInSeconds()
+             << " seconds";
 
     // Update boundary condition solver
     if (_boundaryConditionSolver != nullptr) {
         _boundaryConditionSolver->updateCollider(
-            _collider,
-            _grids->resolution(),
-            _grids->gridSpacing(),
+            _collider, _grids->resolution(), _grids->gridSpacing(),
             _grids->origin());
     }
 
@@ -489,6 +457,4 @@ void GridFluidSolver2::updateEmitter(double timeIntervalInSeconds) {
     }
 }
 
-GridFluidSolver2::Builder GridFluidSolver2::builder() {
-    return Builder();
-}
+GridFluidSolver2::Builder GridFluidSolver2::builder() { return Builder(); }

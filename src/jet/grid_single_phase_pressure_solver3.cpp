@@ -77,7 +77,100 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
         }
     });
 }
+
+void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
+                       const Array3<char>& markers,
+                       const FaceCenteredGrid3& input) {
+    Size3 size = input.resolution();
+    Vector3D invH = 1.0 / input.gridSpacing();
+    Vector3D invHSqr = invH * invH;
+
+    const auto markerAcc = markers.constAccessor();
+
+    A->clear();
+    b->clear();
+
+    size_t numRows = 0;
+    Array3<size_t> coordToIndex(size);
+    markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+        const size_t cIdx = markerAcc.index(i, j, k);
+
+        if (markerAcc[cIdx] == kFluid) {
+            coordToIndex[cIdx] = numRows++;
+        }
+    });
+
+    markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+        const size_t cIdx = markerAcc.index(i, j, k);
+        const size_t lIdx = markerAcc.index(i - 1, j, k);
+        const size_t rIdx = markerAcc.index(i + 1, j, k);
+        const size_t dIdx = markerAcc.index(i, j - 1, k);
+        const size_t uIdx = markerAcc.index(i, j + 1, k);
+        const size_t bIdx = markerAcc.index(i, j, k - 1);
+        const size_t fIdx = markerAcc.index(i, j, k + 1);
+
+        if (markerAcc[cIdx] == kFluid) {
+            b->append(input.divergenceAtCellCenter(i, j, k));
+
+            std::vector<double> row(1, 0.0);
+            std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
+
+            if (i + 1 < size.x && markers[rIdx] != kBoundary) {
+                row[0] += invHSqr.x;
+                if (markers[rIdx] == kFluid) {
+                    row.push_back(-invHSqr.x);
+                    colIdx.push_back(coordToIndex[rIdx]);
+                }
+            }
+
+            if (i > 0 && markers[lIdx] != kBoundary) {
+                row[0] += invHSqr.x;
+                if (markers[lIdx] == kFluid) {
+                    row.push_back(-invHSqr.x);
+                    colIdx.push_back(coordToIndex[lIdx]);
+                }
+            }
+
+            if (j + 1 < size.y && markers[uIdx] != kBoundary) {
+                row[0] += invHSqr.y;
+                if (markers[uIdx] == kFluid) {
+                    row.push_back(-invHSqr.y);
+                    colIdx.push_back(coordToIndex[uIdx]);
+                }
+            }
+
+            if (j > 0 && markers[dIdx] != kBoundary) {
+                row[0] += invHSqr.y;
+                if (markers[dIdx] == kFluid) {
+                    row.push_back(-invHSqr.y);
+                    colIdx.push_back(coordToIndex[dIdx]);
+                }
+            }
+
+            if (k + 1 < size.z && markers[fIdx] != kBoundary) {
+                row[0] += invHSqr.z;
+                if (markers[fIdx] == kFluid) {
+                    row.push_back(-invHSqr.z);
+                    colIdx.push_back(coordToIndex[fIdx]);
+                }
+            }
+
+            if (k > 0 && markers[bIdx] != kBoundary) {
+                row[0] += invHSqr.z;
+                if (markers[bIdx] == kFluid) {
+                    row.push_back(-invHSqr.z);
+                    colIdx.push_back(coordToIndex[bIdx]);
+                }
+            }
+
+            A->addRow(row, colIdx);
+        }
+    });
+
+    x->resize(b->size(), 0.0);
 }
+
+}  // namespace
 
 GridSinglePhasePressureSolver3::GridSinglePhasePressureSolver3() {
     _systemSolver = std::make_shared<FdmIccgSolver3>(100, kDefaultTolerance);
@@ -90,18 +183,26 @@ void GridSinglePhasePressureSolver3::solve(const FaceCenteredGrid3& input,
                                            FaceCenteredGrid3* output,
                                            const ScalarField3& boundarySdf,
                                            const VectorField3& boundaryVelocity,
-                                           const ScalarField3& fluidSdf) {
+                                           const ScalarField3& fluidSdf,
+                                           bool useCompressed) {
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
     auto pos = input.cellCenterPosition();
     buildMarkers(input.resolution(), pos, boundarySdf, fluidSdf);
-    buildSystem(input);
+    buildSystem(input, useCompressed);
 
     if (_systemSolver != nullptr) {
         // Solve the system
         if (_mgSystemSolver == nullptr) {
-            _systemSolver->solve(&_system);
+            if (useCompressed) {
+                _system.clear();
+                _systemSolver->solveCompressed(&_compSystem);
+                decompressSolution();
+            } else {
+                _compSystem.clear();
+                _systemSolver->solve(&_system);
+            }
         } else {
             _mgSystemSolver->solve(&_mgSystem);
         }
@@ -132,6 +233,7 @@ void GridSinglePhasePressureSolver3::setLinearSystemSolver(
     } else {
         // In case of mg system, use multi-level structure.
         _system.clear();
+        _compSystem.clear();
     }
 }
 
@@ -225,19 +327,28 @@ void GridSinglePhasePressureSolver3::buildMarkers(
     }
 }
 
-void GridSinglePhasePressureSolver3::buildSystem(
-    const FaceCenteredGrid3& input) {
+void GridSinglePhasePressureSolver3::decompressSolution() {
+    const auto acc = _markers[0].constAccessor();
+    _system.x.resize(acc.size());
+
+    size_t row = 0;
+    _markers[0].forEachIndex([&](size_t i, size_t j, size_t k) {
+        if (acc(i, j, k) == kFluid) {
+            _system.x(i, j, k) = _compSystem.x[row];
+            ++row;
+        }
+    });
+}
+
+void GridSinglePhasePressureSolver3::buildSystem(const FaceCenteredGrid3& input,
+                                                 bool useCompressed) {
     Size3 size = input.resolution();
     size_t numLevels = 1;
-    FdmMatrix3* A;
-    FdmVector3* b;
 
     if (_mgSystemSolver == nullptr) {
-        _system.A.resize(size);
-        _system.x.resize(size);
-        _system.b.resize(size);
-        A = &_system.A;
-        b = &_system.b;
+        if (!useCompressed) {
+            _system.resize(size);
+        }
     } else {
         // Build levels
         size_t maxLevels = _mgSystemSolver->params().maxNumberOfLevels;
@@ -247,15 +358,23 @@ void GridSinglePhasePressureSolver3::buildSystem(
                                            &_mgSystem.x.levels);
         FdmMgUtils3::resizeArrayWithFinest(size, maxLevels,
                                            &_mgSystem.b.levels);
-        A = &_mgSystem.A.levels.front();
-        b = &_mgSystem.b.levels.front();
 
         numLevels = _mgSystem.A.levels.size();
     }
 
     // Build top level
     const FaceCenteredGrid3* finer = &input;
-    buildSingleSystem(A, b, _markers[0], *finer);
+    if (_mgSystemSolver == nullptr) {
+        if (useCompressed) {
+            buildSingleSystem(&_compSystem.A, &_compSystem.x, &_compSystem.b,
+                              _markers[0], *finer);
+        } else {
+            buildSingleSystem(&_system.A, &_system.b, _markers[0], *finer);
+        }
+    } else {
+        buildSingleSystem(&_mgSystem.A.levels.front(),
+                          &_mgSystem.b.levels.front(), _markers[0], *finer);
+    }
 
     // Build sub-levels
     FaceCenteredGrid3 coarser;
@@ -272,9 +391,8 @@ void GridSinglePhasePressureSolver3::buildSystem(
         coarser.resize(res, h, o);
         coarser.fill(finer->sampler());
 
-        A = &_mgSystem.A.levels[l];
-        b = &_mgSystem.b.levels[l];
-        buildSingleSystem(A, b, _markers[l], coarser);
+        buildSingleSystem(&_mgSystem.A.levels[l], &_mgSystem.b.levels[l],
+                          _markers[l], coarser);
 
         finer = &coarser;
     }

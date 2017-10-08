@@ -23,6 +23,9 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
     //! Solves the given linear system.
     bool solve(FdmLinearSystem3* system) override;
 
+    //! Solves the given compressed linear system.
+    bool solveCompressed(FdmCompressedLinearSystem3* system) override;
+
     //! Returns the max number of ICCG iterations.
     unsigned int maxNumberOfIterations() const;
 
@@ -43,9 +46,17 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
 
         void build(const FdmMatrix3& matrix);
 
-        void solve(
-            const FdmVector3& b,
-            FdmVector3* x);
+        void solve(const FdmVector3& b, FdmVector3* x);
+    };
+
+    struct PreconditionerCompressed final {
+        const MatrixCsrD* A;
+        VectorND d;
+        VectorND y;
+
+        void build(const MatrixCsrD& matrix);
+
+        void solve(const VectorND& b, VectorND* x);
     };
 
     unsigned int _maxNumberOfIterations;
@@ -53,11 +64,22 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
     double _tolerance;
     double _lastResidualNorm;
 
+    // Uncompressed vectors and preconditioner
     FdmVector3 _r;
     FdmVector3 _d;
     FdmVector3 _q;
     FdmVector3 _s;
     Preconditioner _precond;
+
+    // Compressed vectors and preconditioner
+    VectorND _rComp;
+    VectorND _dComp;
+    VectorND _qComp;
+    VectorND _sComp;
+    PreconditionerCompressed _precondComp;
+
+    void clearUncompressedVectors();
+    void clearCompressedVectors();
 };
 
 //! Shared pointer type for the FdmIccgSolver3.
