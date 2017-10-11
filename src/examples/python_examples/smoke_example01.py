@@ -39,7 +39,7 @@ def main():
     fig = plt.figure()
     den = np.array(solver.smokeDensity.dataAccessor(), copy=False)
     im = plt.imshow(den, vmin=0, vmax=1, cmap=plt.cm.gray,
-                    interpolation='bicubic', animated=True, origin='lower')
+                    interpolation='nearest', animated=True, origin='lower')
 
     # Animation
     frame = Frame(0, 1.0 / ANIM_FPS)
