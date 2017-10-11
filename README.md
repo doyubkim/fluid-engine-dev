@@ -34,8 +34,16 @@ cd fluid-engine-dev
 
 ### Python API
 
+Build and install the package by running
+
 ```
 pip install -U .
+```
+
+Now run some examples, such as:
+
+```
+python src/examples/python_examples/smoke_example01.py
 ```
 
 ### C++ API
@@ -52,10 +60,24 @@ For Windows:
 mkdir build && cd build && cmake .. -G"Visual Studio 14 2015 Win64" && MSBuild jet.sln /p:Configuration=Release
 ```
 
+Now run some examples, such as:
+
+```
+bin/hybrid_liquid_sim
+```
+
 ### Docker
 
 ```
 docker pull doyubkim/fluid-engine-dev:latest
+```
+
+Now run some examples, such as:
+
+```
+docker run -it doyubkim/fluid-engine-dev
+[inside docker container]
+/app/build/bin/hybrid_liquid_sim
 ```
 
 

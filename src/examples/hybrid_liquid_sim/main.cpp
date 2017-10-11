@@ -63,8 +63,7 @@ void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
 void printUsage() {
     printf(
         "Usage: " APP_NAME
-        " "
-        "-r resolution -l length -f frames -e example_num\n"
+        " [options]\n"
         "   -r, --resx: grid resolution in x-axis (default is 50)\n"
         "   -f, --frames: total number of frames (default is 100)\n"
         "   -p, --fps: frames per second (default is 60.0)\n"
