@@ -34,10 +34,8 @@ inline float smoothStep(float edge0, float edge1, float x) {
 }
 
 // Export density field to Mitsuba volume file.
-void saveVolumeAsVol(
-    const ScalarGrid3Ptr& density,
-    const std::string& rootDir,
-    int frameCnt) {
+void saveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
+                     int frameCnt) {
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.vol", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -79,28 +77,22 @@ void saveVolumeAsVol(
                 d *= smoothStep(0.f, kEdgeBlurF, static_cast<float>(i));
             }
             if (i > data.size().x - 1 - kEdgeBlur) {
-                d *= smoothStep(
-                    0.f,
-                    kEdgeBlurF,
-                    static_cast<float>((data.size().x - 1) - i));
+                d *= smoothStep(0.f, kEdgeBlurF,
+                                static_cast<float>((data.size().x - 1) - i));
             }
             if (j < kEdgeBlur) {
                 d *= smoothStep(0.f, kEdgeBlurF, static_cast<float>(j));
             }
             if (j > data.size().y - 1 - kEdgeBlur) {
-                d *= smoothStep(
-                    0.f,
-                    kEdgeBlurF,
-                    static_cast<float>((data.size().y - 1) - j));
+                d *= smoothStep(0.f, kEdgeBlurF,
+                                static_cast<float>((data.size().y - 1) - j));
             }
             if (k < kEdgeBlur) {
                 d *= smoothStep(0.f, kEdgeBlurF, static_cast<float>(k));
             }
             if (k > data.size().z - 1 - kEdgeBlur) {
-                d *= smoothStep(
-                    0.f,
-                    kEdgeBlurF,
-                    static_cast<float>((data.size().z - 1) - k));
+                d *= smoothStep(0.f, kEdgeBlurF,
+                                static_cast<float>((data.size().z - 1) - k));
             }
 
             data(i, j, k) = d;
@@ -113,10 +105,8 @@ void saveVolumeAsVol(
     }
 }
 
-void saveVolumeAsTga(
-    const ScalarGrid3Ptr& density,
-    const std::string& rootDir,
-    int frameCnt) {
+void saveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
+                     int frameCnt) {
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.tga", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -165,14 +155,16 @@ void saveVolumeAsTga(
 
 void printUsage() {
     printf(
-        "Usage: " APP_NAME " "
-        "-r resolution -l length -f frames -e example_num\n"
+        "Usage: " APP_NAME
+        " [options]\n"
         "   -r, --resx: grid resolution in x-axis (default is 50)\n"
         "   -f, --frames: total number of frames (default is 100)\n"
         "   -p, --fps: frames per second (default is 60.0)\n"
-        "   -l, --log: log filename (default is " APP_NAME ".log)\n"
+        "   -l, --log: log filename (default is " APP_NAME
+        ".log)\n"
         "   -o, --output: output directory name "
-        "(default is " APP_NAME "_output)\n"
+        "(default is " APP_NAME
+        "_output)\n"
         "   -e, --example: example number (between 1 and 5, default is 1)\n"
         "   -m, --format: particle output format (tga or vol. default is tga)\n"
         "   -h, --help: print this message\n");
@@ -184,24 +176,18 @@ void printInfo(const GridSmokeSolver3Ptr& solver) {
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 
-    printf(
-        "Resolution: %zu x %zu x %zu\n",
-        resolution.x, resolution.y, resolution.z);
-    printf(
-        "Domain: [%f, %f, %f] x [%f, %f, %f]\n",
-        domain.lowerCorner.x, domain.lowerCorner.y, domain.lowerCorner.z,
-        domain.upperCorner.x, domain.upperCorner.y, domain.upperCorner.z);
-    printf(
-        "Grid spacing: [%f, %f, %f]\n",
-        gridSpacing.x, gridSpacing.y, gridSpacing.z);
+    printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
+           resolution.z);
+    printf("Domain: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,
+           domain.lowerCorner.y, domain.lowerCorner.z, domain.upperCorner.x,
+           domain.upperCorner.y, domain.upperCorner.z);
+    printf("Grid spacing: [%f, %f, %f]\n", gridSpacing.x, gridSpacing.y,
+           gridSpacing.z);
 }
 
-void runSimulation(
-    const std::string& rootDir,
-    const GridSmokeSolver3Ptr& solver,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runSimulation(const std::string& rootDir,
+                   const GridSmokeSolver3Ptr& solver, int numberOfFrames,
+                   const std::string& format, double fps) {
     auto density = solver->smokeDensity();
 
     for (Frame frame(0, 1.0 / fps); frame.index < numberOfFrames; ++frame) {
@@ -215,17 +201,14 @@ void runSimulation(
     }
 }
 
-void runExample1(
-    const std::string& rootDir,
-    size_t resolutionX,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runExample1(const std::string& rootDir, size_t resolutionX,
+                 int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    auto solver = GridSmokeSolver3::builder()
-        .withResolution({resolutionX, 2 * resolutionX, resolutionX})
-        .withDomainSizeX(1.0)
-        .makeShared();
+    auto solver =
+        GridSmokeSolver3::builder()
+            .withResolution({resolutionX, 2 * resolutionX, resolutionX})
+            .withDomainSizeX(1.0)
+            .makeShared();
 
     solver->setAdvectionSolver(std::make_shared<CubicSemiLagrangian3>());
 
@@ -234,14 +217,14 @@ void runExample1(
 
     // Build emitter
     auto box = Box3::builder()
-        .withLowerCorner({0.45, -1, 0.45})
-        .withUpperCorner({0.55, 0.05, 0.55})
-        .makeShared();
+                   .withLowerCorner({0.45, -1, 0.45})
+                   .withUpperCorner({0.55, 0.05, 0.55})
+                   .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
-        .withSourceRegion(box)
-        .withIsOneShot(false)
-        .makeShared();
+                       .withSourceRegion(box)
+                       .withIsOneShot(false)
+                       .makeShared();
 
     solver->setEmitter(emitter);
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0, 1);
@@ -249,13 +232,12 @@ void runExample1(
 
     // Build collider
     auto sphere = Sphere3::builder()
-        .withCenter({0.5, 0.3, 0.5})
-        .withRadius(0.075 * domain.width())
-        .makeShared();
+                      .withCenter({0.5, 0.3, 0.5})
+                      .withRadius(0.075 * domain.width())
+                      .makeShared();
 
-    auto collider = RigidBodyCollider3::builder()
-        .withSurface(sphere)
-        .makeShared();
+    auto collider =
+        RigidBodyCollider3::builder().withSurface(sphere).makeShared();
 
     solver->setCollider(collider);
 
@@ -267,17 +249,14 @@ void runExample1(
     runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
-void runExample2(
-    const std::string& rootDir,
-    size_t resolutionX,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runExample2(const std::string& rootDir, size_t resolutionX,
+                 int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    auto solver = GridSmokeSolver3::builder()
-        .withResolution({resolutionX, 2 * resolutionX, resolutionX})
-        .withDomainSizeX(1.0)
-        .makeShared();
+    auto solver =
+        GridSmokeSolver3::builder()
+            .withResolution({resolutionX, 2 * resolutionX, resolutionX})
+            .withDomainSizeX(1.0)
+            .makeShared();
 
     solver->setAdvectionSolver(std::make_shared<SemiLagrangian3>());
 
@@ -286,14 +265,14 @@ void runExample2(
 
     // Build emitter
     auto box = Box3::builder()
-        .withLowerCorner({0.45, -1, 0.45})
-        .withUpperCorner({0.55, 0.05, 0.55})
-        .makeShared();
+                   .withLowerCorner({0.45, -1, 0.45})
+                   .withUpperCorner({0.55, 0.05, 0.55})
+                   .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
-        .withSourceRegion(box)
-        .withIsOneShot(false)
-        .makeShared();
+                       .withSourceRegion(box)
+                       .withIsOneShot(false)
+                       .makeShared();
 
     solver->setEmitter(emitter);
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0, 1);
@@ -301,13 +280,12 @@ void runExample2(
 
     // Build collider
     auto sphere = Sphere3::builder()
-        .withCenter({0.5, 0.3, 0.5})
-        .withRadius(0.075 * domain.width())
-        .makeShared();
+                      .withCenter({0.5, 0.3, 0.5})
+                      .withRadius(0.075 * domain.width())
+                      .makeShared();
 
-    auto collider = RigidBodyCollider3::builder()
-        .withSurface(sphere)
-        .makeShared();
+    auto collider =
+        RigidBodyCollider3::builder().withSurface(sphere).makeShared();
 
     solver->setCollider(collider);
 
@@ -319,18 +297,15 @@ void runExample2(
     runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
-void runExample3(
-    const std::string& rootDir,
-    size_t resolutionX,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runExample3(const std::string& rootDir, size_t resolutionX,
+                 int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    auto solver = GridSmokeSolver3::builder()
-        .withResolution({resolutionX, resolutionX / 4 * 5, resolutionX / 2})
-        .withDomainSizeX(2.0)
-        .withOrigin({-1, -0.15, -0.5})
-        .makeShared();
+    auto solver =
+        GridSmokeSolver3::builder()
+            .withResolution({resolutionX, resolutionX / 4 * 5, resolutionX / 2})
+            .withDomainSizeX(2.0)
+            .withOrigin({-1, -0.15, -0.5})
+            .makeShared();
 
     // Build emitter
     auto dragonMesh = TriangleMesh3::builder().makeShared();
@@ -342,14 +317,14 @@ void runExample3(
         exit(EXIT_FAILURE);
     }
     auto dragon = ImplicitTriangleMesh3::builder()
-        .withTriangleMesh(dragonMesh)
-        .withResolutionX(resolutionX)
-        .makeShared();
+                      .withTriangleMesh(dragonMesh)
+                      .withResolutionX(resolutionX)
+                      .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
-        .withSourceRegion(dragon)
-        .withIsOneShot(false)
-        .makeShared();
+                       .withSourceRegion(dragon)
+                       .withIsOneShot(false)
+                       .makeShared();
 
     solver->setEmitter(emitter);
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0, 1);
@@ -363,43 +338,39 @@ void runExample3(
     runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
-void runExample4(
-    const std::string& rootDir,
-    size_t resolutionX,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runExample4(const std::string& rootDir, size_t resolutionX,
+                 int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    auto solver = GridSmokeSolver3::builder()
-        .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
-        .withDomainSizeX(1.0)
-        .makeShared();
+    auto solver =
+        GridSmokeSolver3::builder()
+            .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
+            .withDomainSizeX(1.0)
+            .makeShared();
 
     solver->setBuoyancyTemperatureFactor(2.0);
 
     // Build emitter
     auto box = Box3::builder()
-        .withLowerCorner({0.05, 0.1, 0.225})
-        .withUpperCorner({0.1, 0.15, 0.275})
-        .makeShared();
+                   .withLowerCorner({0.05, 0.1, 0.225})
+                   .withUpperCorner({0.1, 0.15, 0.275})
+                   .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
-        .withSourceRegion(box)
-        .withIsOneShot(false)
-        .makeShared();
+                       .withSourceRegion(box)
+                       .withIsOneShot(false)
+                       .makeShared();
 
     solver->setEmitter(emitter);
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0, 1);
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
-    emitter->addTarget(
-        solver->velocity(),
-        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
-            if (sdf < 0.05) {
-                return Vector3D(0.5, oldVal.y, oldVal.z);
-            } else {
-                return Vector3D(oldVal);
-            }
-        });
+    emitter->addTarget(solver->velocity(),
+                       [](double sdf, const Vector3D&, const Vector3D& oldVal) {
+                           if (sdf < 0.05) {
+                               return Vector3D(0.5, oldVal.y, oldVal.z);
+                           } else {
+                               return Vector3D(oldVal);
+                           }
+                       });
 
     // Print simulation info
     printf("Running example 4 (rising smoke with cubic-spline advection)\n");
@@ -409,44 +380,40 @@ void runExample4(
     runSimulation(rootDir, solver, numberOfFrames, format, fps);
 }
 
-void runExample5(
-    const std::string& rootDir,
-    size_t resolutionX,
-    int numberOfFrames,
-    const std::string& format,
-    double fps) {
+void runExample5(const std::string& rootDir, size_t resolutionX,
+                 int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    auto solver = GridSmokeSolver3::builder()
-        .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
-        .withDomainSizeX(1.0)
-        .makeShared();
+    auto solver =
+        GridSmokeSolver3::builder()
+            .withResolution({resolutionX, 6 * resolutionX / 5, resolutionX / 2})
+            .withDomainSizeX(1.0)
+            .makeShared();
 
     solver->setBuoyancyTemperatureFactor(2.0);
     solver->setAdvectionSolver(std::make_shared<SemiLagrangian3>());
 
     // Build emitter
     auto box = Box3::builder()
-        .withLowerCorner({0.05, 0.1, 0.225})
-        .withUpperCorner({0.1, 0.15, 0.275})
-        .makeShared();
+                   .withLowerCorner({0.05, 0.1, 0.225})
+                   .withUpperCorner({0.1, 0.15, 0.275})
+                   .makeShared();
 
     auto emitter = VolumeGridEmitter3::builder()
-        .withSourceRegion(box)
-        .withIsOneShot(false)
-        .makeShared();
+                       .withSourceRegion(box)
+                       .withIsOneShot(false)
+                       .makeShared();
 
     solver->setEmitter(emitter);
     emitter->addStepFunctionTarget(solver->smokeDensity(), 0, 1);
     emitter->addStepFunctionTarget(solver->temperature(), 0, 1);
-    emitter->addTarget(
-        solver->velocity(),
-        [](double sdf, const Vector3D&, const Vector3D& oldVal) {
-            if (sdf < 0.05) {
-                return Vector3D(0.5, oldVal.y, oldVal.z);
-            } else {
-                return Vector3D(oldVal);
-            }
-        });
+    emitter->addTarget(solver->velocity(),
+                       [](double sdf, const Vector3D&, const Vector3D& oldVal) {
+                           if (sdf < 0.05) {
+                               return Vector3D(0.5, oldVal.y, oldVal.z);
+                           } else {
+                               return Vector3D(oldVal);
+                           }
+                       });
 
     // Print simulation info
     printf("Running example 5 (rising smoke with linear advection)\n");
@@ -467,21 +434,20 @@ int main(int argc, char* argv[]) {
 
     // Parse options
     static struct option longOptions[] = {
-        {"resx",      optional_argument, 0, 'r'},
-        {"frames",    optional_argument, 0, 'f'},
-        {"fps",       optional_argument, 0, 'p'},
-        {"example",   optional_argument, 0, 'e'},
-        {"log",       optional_argument, 0, 'l'},
+        {"resx", optional_argument, 0, 'r'},
+        {"frames", optional_argument, 0, 'f'},
+        {"fps", optional_argument, 0, 'p'},
+        {"example", optional_argument, 0, 'e'},
+        {"log", optional_argument, 0, 'l'},
         {"outputDir", optional_argument, 0, 'o'},
-        {"format",    optional_argument, 0, 'm'},
-        {"help",      optional_argument, 0, 'h'},
-        {0,           0,                 0,  0 }
-    };
+        {"format", optional_argument, 0, 'm'},
+        {"help", optional_argument, 0, 'h'},
+        {0, 0, 0, 0}};
 
     int opt = 0;
     int long_index = 0;
-    while ((opt = getopt_long(
-        argc, argv, "r:f:p:e:l:o:m:h", longOptions, &long_index)) != -1) {
+    while ((opt = getopt_long(argc, argv, "r:f:p:e:l:o:m:h", longOptions,
+                              &long_index)) != -1) {
         switch (opt) {
             case 'r':
                 resolutionX = static_cast<size_t>(atoi(optarg));
