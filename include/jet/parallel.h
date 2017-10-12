@@ -241,7 +241,7 @@ void parallelSort(RandomIterator begin, RandomIterator end,
 void setMaxNumberOfThreads(unsigned int numThreads);
 
 //! Returns maximum number of threads to use.
-unsigned int maxNUmberOfThreads();
+unsigned int maxNumberOfThreads();
 
 }  // namespace jet
 

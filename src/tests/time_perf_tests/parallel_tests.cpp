@@ -30,7 +30,7 @@ class Parallel : public ::benchmark::Fixture {
 };
 
 BENCHMARK_DEFINE_F(Parallel, ParallelFor)(benchmark::State& state) {
-    unsigned int oldNumThreads = jet::maxNUmberOfThreads();
+    unsigned int oldNumThreads = jet::maxNumberOfThreads();
     jet::setMaxNumberOfThreads(numThreads);
 
     while (state.KeepRunning()) {
@@ -58,7 +58,7 @@ BENCHMARK_REGISTER_F(Parallel, ParallelFor)
     ->Args({1 << 24, 8});
 
 BENCHMARK_DEFINE_F(Parallel, ParallelRangeFor)(benchmark::State& state) {
-    unsigned int oldNumThreads = jet::maxNUmberOfThreads();
+    unsigned int oldNumThreads = jet::maxNumberOfThreads();
     jet::setMaxNumberOfThreads(numThreads);
 
     while (state.KeepRunning()) {
