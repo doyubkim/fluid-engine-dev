@@ -116,7 +116,7 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
     }
 
     // Estimate number of threads in the pool
-    unsigned int numThreadsHint = maxNUmberOfThreads();
+    unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -165,7 +165,7 @@ void parallelRangeFor(IndexType start, IndexType end, const Function& func,
     }
 
     // Estimate number of threads in the pool
-    unsigned int numThreadsHint = maxNUmberOfThreads();
+    unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -262,7 +262,7 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
     }
 
     // Estimate number of threads in the pool
-    unsigned int numThreadsHint = maxNUmberOfThreads();
+    unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
@@ -327,7 +327,7 @@ void parallelSort(RandomIterator begin, RandomIterator end,
     std::vector<value_type> temp(size);
 
     // Estimate number of threads in the pool
-    unsigned int numThreadsHint = maxNUmberOfThreads();
+    unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
         (policy == ExecutionPolicy::kParallel)
             ? (numThreadsHint == 0u ? 8u : numThreadsHint)
