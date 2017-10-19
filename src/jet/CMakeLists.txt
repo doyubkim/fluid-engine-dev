@@ -27,6 +27,7 @@ file(GLOB headers
     ${header_dir}/detail/*.h)
 
 file(GLOB sources
+    ${headers}
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/obj/*.cpp)
 
