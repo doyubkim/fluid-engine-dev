@@ -581,3 +581,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+Jet uses portion of Ingemar Rask and Johannes Schmid's work for simple volume
+rendering using polygon slices:
+https://graphics.ethz.ch/teaching/former/imagesynthesis_06/miniprojects/p3/
