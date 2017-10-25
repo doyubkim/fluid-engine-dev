@@ -12,6 +12,7 @@ import filecmp
 import inspect
 import shutil
 import os
+import sys
 import utils
 
 dirname = os.path.dirname(os.path.abspath(
@@ -19,10 +20,14 @@ dirname = os.path.dirname(os.path.abspath(
 
 
 def main():
-    include_dir = os.path.join(dirname, "../include/jet")
+    module_name = "jet" if len(sys.argv) <= 1 else sys.argv[1]
+    module_name_upper = module_name.upper().replace(".", "_")
+
+    include_dir = os.path.join(dirname, "../include/" + module_name)
     filenames = utils.get_all_files(include_dir, ["*.h"])
     filenames.sort()
-    header = os.path.join(dirname, "../include/jet/jet.h")
+    header = os.path.join(dirname, "../include/%s/%s.h" %
+                          (module_name, module_name))
     header_tmp = header + ".tmp"
     with open(header_tmp, "w") as header_file:
         header_file.write("""// Copyright (c) 2018 Doyub Kim
@@ -31,13 +36,16 @@ def main():
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.\n
 """)
-        header_file.write("#ifndef INCLUDE_JET_JET_H_\n")
-        header_file.write("#define INCLUDE_JET_JET_H_\n")
+        header_file.write("#ifndef INCLUDE_%s_%s_H_\n" %
+                          (module_name_upper, module_name_upper))
+        header_file.write("#define INCLUDE_%s_%s_H_\n" %
+                          (module_name_upper, module_name_upper))
         for filename in filenames:
             if not filename.endswith("-inl.h"):
-                line = "#include <jet/%s>\n" % os.path.basename(filename)
+                line = "#include <%s/%s>\n" % (module_name, os.path.basename(filename))
                 header_file.write(line)
-        header_file.write("#endif  // INCLUDE_JET_JET_H_\n")
+        header_file.write("#endif  // INCLUDE_%s_%s_H_\n" %
+                          (module_name_upper, module_name_upper))
     if not filecmp.cmp(header, header_tmp):
         shutil.move(header_tmp, header)
     else:
