@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER Doyub Kim <doyubkim@gmail.com>
 
 RUN apt-get update -yq && \
-    apt-get install -yq build-essential python-dev cmake curl
+    apt-get install -yq build-essential python-dev cmake curl libglfw3-dev
 
 ADD . /app
 
