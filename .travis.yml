@@ -8,7 +8,8 @@ matrix:
       sudo: required
       compiler: gcc
       before_install:
-        - libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+        - sudo apt-get -qq update
+        - sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
         - git clone https://github.com/glfw/glfw
         - cd glfw && mkdir build && cd build && cmake .. && make install
       script:
