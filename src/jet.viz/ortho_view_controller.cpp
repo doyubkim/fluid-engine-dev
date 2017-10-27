@@ -36,7 +36,6 @@ void OrthoViewController::onPointerHover(const PointerEvent& pointerEvent) {
 }
 
 void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
-    // TODO: Logic here should be rewritten - doesn't work
     double deltaX = pointerEvent.deltaX();
     double deltaY = pointerEvent.deltaY();
 
@@ -51,7 +50,6 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
     } else {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
-        // BasicCameraState state = orthoCamera->basicCameraState();
 
         // TODO: This is inaccurate.
         double scaleX = 0.5 * orthoCamera->width() /
@@ -78,7 +76,6 @@ void OrthoViewController::onMouseWheel(const PointerEvent& pointerEvent) {
 }
 
 void OrthoViewController::updateCamera() {
-    // TODO: Logic here should be rewritten - doesn't work
     OrthoCameraPtr orthoCamera =
         std::dynamic_pointer_cast<OrthoCamera>(camera());
     BasicCameraState state = orthoCamera->basicCameraState();
