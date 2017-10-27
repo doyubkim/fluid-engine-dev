@@ -15,7 +15,7 @@ namespace viz {
 const GLchar* kSimpleColorShaders[2] = {
     // Vertex shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform mat4 ModelViewProjection;
     in vec3 position;
     in vec4 color;
@@ -30,7 +30,7 @@ const GLchar* kSimpleColorShaders[2] = {
 
     // Fragment shader
     R"glsl(
-    #version 330
+    #version 330 core
     in VertexData {
         vec4 color;
     } inData;
@@ -38,13 +38,12 @@ const GLchar* kSimpleColorShaders[2] = {
     void main() {
         fragColor = inData.color;
     }
-    )glsl"
-};
+    )glsl"};
 
 const GLchar* kSimpleTexture2Shader[2] = {
     // Vertex shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform mat4 ModelViewProjection;
     in vec3 position;
     in vec2 texCoord2;
@@ -59,7 +58,7 @@ const GLchar* kSimpleTexture2Shader[2] = {
 
     // Fragment shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform sampler2D tex0;
     uniform vec4 Multiplier;
     in VertexData {
@@ -69,13 +68,12 @@ const GLchar* kSimpleTexture2Shader[2] = {
     void main() {
         fragColor = Multiplier * texture(tex0, inData.texCoord2);
     }
-    )glsl"
-};
+    )glsl"};
 
 const GLchar* kSimpleTexture3Shader[2] = {
     // Vertex shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform mat4 ModelViewProjection;
     in vec3 position;
     in vec3 texCoord3;
@@ -90,7 +88,7 @@ const GLchar* kSimpleTexture3Shader[2] = {
 
     // Fragment shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform sampler3D tex0;
     uniform vec4 Multiplier;
     in VertexData {
@@ -100,13 +98,12 @@ const GLchar* kSimpleTexture3Shader[2] = {
     void main() {
         fragColor = Multiplier * texture(tex0, inData.texCoord3);
     }
-    )glsl"
-};
+    )glsl"};
 
 const GLchar* kPointsShaders[2] = {
     // Vertex shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform mat4 ModelViewProjection;
     uniform float Radius;
     in vec3 position;
@@ -123,7 +120,7 @@ const GLchar* kPointsShaders[2] = {
 
     // Fragment shader
     R"glsl(
-    #version 330
+    #version 330 core
     in VertexData {
     	 vec4 color;
     } inData;
@@ -131,16 +128,15 @@ const GLchar* kPointsShaders[2] = {
     void main() {
     	 fragColor = inData.color;
     }
-    )glsl"
-};
+    )glsl"};
 
 const GLchar* kPointSpriteShaders[3] = {
     // Vertex shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform mat4 ModelViewProjection;
-    in vec3 position;
-    in vec4 color;
+    layout(location = 0) in vec3 position;
+    layout(location = 1) in vec4 color;
     out VertexData {
         vec4 color;
     } outData;
@@ -152,7 +148,7 @@ const GLchar* kPointSpriteShaders[3] = {
 
     // Geometry shader
     R"glsl(
-    #version 330
+    #version 330 core
     uniform float ViewWidth;
     uniform float ViewHeight;
     uniform float Radius;
@@ -192,7 +188,7 @@ const GLchar* kPointSpriteShaders[3] = {
 
     // Fragment shader
     R"glsl(
-    #version 330
+    #version 330 core
     in VertexData {
     	vec4 color;
         vec2 texCoord2;
@@ -205,8 +201,7 @@ const GLchar* kPointSpriteShaders[3] = {
         }
     	fragColor = inData.color;
     }
-    )glsl"
-};
+    )glsl"};
 
 }  // namespace viz
 }  // namespace jet

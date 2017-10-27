@@ -85,7 +85,7 @@ static void applyParameters(GLuint program, const RenderParameters& params) {
                     glUniform4fv(location, 1, floatData);
                     break;
                 case RenderParameters::Type::kMatrix:
-                    glUniformMatrix4fv(location, 1, false, floatData);
+                    glUniformMatrix4fv(location, 1, GL_TRUE, floatData);
                     break;
             }
         }
