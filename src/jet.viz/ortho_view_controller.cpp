@@ -51,10 +51,9 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
 
-        // TODO: This is inaccurate.
-        double scaleX = 0.5 * orthoCamera->width() /
-                        camera()->basicCameraState().viewport.width;
-        double scaleY = 0.5 * orthoCamera->height() /
+        double scaleX =
+            orthoCamera->width() / camera()->basicCameraState().viewport.width;
+        double scaleY = orthoCamera->height() /
                         camera()->basicCameraState().viewport.height;
         _origin += -(_panSpeed * scaleX * deltaX * _basisX) +
                    (_panSpeed * scaleY * deltaY * _basisY);
