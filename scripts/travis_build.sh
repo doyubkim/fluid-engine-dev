@@ -4,6 +4,7 @@ set -e
 
 export NUM_JOBS=1
 
+apt-get install libglfw3-dev
 mkdir build
 cd build
 cmake ..
