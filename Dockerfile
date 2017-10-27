@@ -7,7 +7,7 @@ RUN apt-get update -yq && \
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. && \
+RUN cmake .. -DUSE_GL=OFF && \
     make -j`nproc` && \
     make install
 
