@@ -2,12 +2,12 @@ FROM ubuntu:14.04
 MAINTAINER Doyub Kim <doyubkim@gmail.com>
 
 RUN apt-get update -yq && \
-    apt-get install -yq build-essential python-dev python-pip cmake libglfw3-dev
+    apt-get install -yq build-essential python-dev python-pip cmake
 
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. && \
+RUN cmake .. -DUSE_GL=OFF && \
     make -j`nproc` && \
     make install
 
