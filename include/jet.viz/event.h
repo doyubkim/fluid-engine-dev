@@ -10,8 +10,9 @@
 #include <functional>
 #include <map>
 
-namespace jet { namespace viz {
-typedef std::size_t EventToken;
+namespace jet {
+namespace viz {
+typedef size_t EventToken;
 
 static const EventToken kEmptyEventToken = 0;
 
@@ -31,7 +32,8 @@ class Event {
     std::map<EventToken, CallbackType> _callbacks;
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #include "detail/event-inl.h"
 

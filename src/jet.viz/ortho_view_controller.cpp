@@ -74,6 +74,11 @@ void OrthoViewController::onMouseWheel(const PointerEvent& pointerEvent) {
     updateCamera();
 }
 
+void OrthoViewController::onResize(const Viewport& viewport) {
+    UNUSED_VARIABLE(viewport);
+    updateCamera();
+}
+
 void OrthoViewController::updateCamera() {
     OrthoCameraPtr orthoCamera =
         std::dynamic_pointer_cast<OrthoCamera>(camera());
@@ -86,7 +91,9 @@ void OrthoViewController::updateCamera() {
     double oldHeight = orthoCamera->height();
     double scale = _viewHeight / oldHeight;
     double newHalfHeight = 0.5 * scale * oldHeight;
-    double newHalfWidth = 0.5 * scale * orthoCamera->width();
+    double newHalfWidth = (preserveAspectRatio)
+                              ? newHalfHeight * state.viewport.aspectRatio()
+                              : 0.5 * scale * orthoCamera->width();
     Vector2D center = orthoCamera->center();
     double newLeft = center.x - newHalfWidth;
     double newRight = center.x + newHalfWidth;

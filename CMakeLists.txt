@@ -23,6 +23,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # Options
 option(USE_GL "Use OpenGL features" ON)
+option(USE_IMGUI "Use dear ImGui features" ON)
 if (USE_GL)
     find_package(OpenGL REQUIRED)
     find_package(glfw3 REQUIRED)
@@ -35,6 +36,15 @@ if (USE_GL)
             ${corefoundation_lib}
             glfw)
     add_definitions(-DJET_USE_GL)
+
+    if (USE_IMGUI)
+        set(IMGUI_LIBRARIES imgui)
+        add_definitions(-DJET_USE_IMGUI)
+    else()
+        set(IMGUI_LIBRARIES "")
+    endif()
+else()
+    set(USE_IMGUI OFF CACHE BOOL "" FORCE)
 endif()
 
 # Includes
@@ -51,8 +61,6 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif()
 if (USE_GL)
     include_directories(external/imgui)
-    include_directories(external/imgui/opengl2)
-    include_directories(external/imgui/opengl3)
     include_directories(${OPENGL_INCLUDE_DIRS})
 else()
     set(OPENGL_LIBRARIES "")

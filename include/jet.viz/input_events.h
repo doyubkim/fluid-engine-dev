@@ -12,21 +12,21 @@
 
 namespace jet { namespace viz {
 
-enum class PointerInputType : std::int8_t {
+enum class PointerInputType : int8_t {
     Unknown = 0,
     Mouse = 1,
     Touch = 2,
     Pen = 3,
 };
 
-enum class MouseButtonType : std::int8_t {
+enum class MouseButtonType : int8_t {
     None = 0,
     Left = 1,
     Middle = 2,
     Right = 3,
 };
 
-enum class ModifierKey : std::int8_t {
+enum class ModifierKey : int8_t {
     None = 0,
     Shift = 1 << 0,
     Ctrl = 1 << 1,
@@ -41,7 +41,7 @@ inline ModifierKey operator|(ModifierKey a, ModifierKey b) {
     return static_cast<ModifierKey>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-enum class SpecialKey : std::int8_t {
+enum class SpecialKey : int8_t {
     None = 0,
     F1,
     F2,

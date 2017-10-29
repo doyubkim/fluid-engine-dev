@@ -23,14 +23,14 @@ class GLTexture2 : public Texture2, public GLTexture {
 
     virtual void update(const float* const data) override;
 
-    virtual void update(const std::uint8_t* const data) override;
+    virtual void update(const uint8_t* const data) override;
 
  protected:
     virtual void onClear() override;
 
     virtual void onResize(const float* const data, const Size2& size) override;
 
-    virtual void onResize(const std::uint8_t* const data,
+    virtual void onResize(const uint8_t* const data,
                           const Size2& size) override;
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) override;

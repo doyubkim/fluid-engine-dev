@@ -35,8 +35,11 @@ class GLFWWindow final {
     bool isAnimationEnabled() const;
     void setIsAnimationEnabled(bool enabled);
 
+    void setSwapInterval(int interval);
+
     // Event handlers
     Event<GLFWWindow*>& onUpdateEvent();
+    Event<GLFWWindow*>& onGuiEvent();
     Event<GLFWWindow*, const KeyEvent&>& onKeyDownEvent();
     Event<GLFWWindow*, const KeyEvent&>& onKeyUpEvent();
     Event<GLFWWindow*, const PointerEvent&>& onPointerPressedEvent();
@@ -44,6 +47,14 @@ class GLFWWindow final {
     Event<GLFWWindow*, const PointerEvent&>& onPointerDraggedEvent();
     Event<GLFWWindow*, const PointerEvent&>& onPointerHoverEvent();
     Event<GLFWWindow*, const PointerEvent&>& onMouseWheelEvent();
+
+    //! Returns the framebuffer size.
+    //! Note that the framebuffer size can be different from the window size,
+    //! especially on a Retina display (2x the window size).
+    Size2 framebufferSize() const;
+
+    //! Returns the window size.
+    Size2 windowSize() const;
 
  private:
     GLFWwindow* _window = nullptr;
@@ -65,7 +76,10 @@ class GLFWWindow final {
     GLRendererPtr _renderer;
     ViewControllerPtr _viewController;
 
+    int _swapInterval = 0;
+
     Event<GLFWWindow*> _onUpdateEvent;
+    Event<GLFWWindow*> _onGuiEvent;
     Event<GLFWWindow*, const KeyEvent&> _onKeyDownEvent;
     Event<GLFWWindow*, const KeyEvent&> _onKeyUpEvent;
     Event<GLFWWindow*, const PointerEvent&> _onPointerPressedEvent;

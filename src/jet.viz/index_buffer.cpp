@@ -22,8 +22,7 @@ void IndexBuffer::clear() {
 }
 
 void IndexBuffer::resize(const VertexBufferPtr& vertexBuffer,
-                         const std::uint32_t* indices,
-                         std::size_t numberOfIndices) {
+                         const uint32_t* indices, size_t numberOfIndices) {
     if (numberOfIndices == 0) {
         clear();
     } else if (_numberOfIndices == numberOfIndices) {
@@ -41,4 +40,4 @@ void IndexBuffer::bind(Renderer* renderer) { onBind(renderer); }
 
 void IndexBuffer::unbind(Renderer* renderer) { onUnbind(renderer); }
 
-std::size_t IndexBuffer::numberOfIndices() const { return _numberOfIndices; }
+size_t IndexBuffer::numberOfIndices() const { return _numberOfIndices; }

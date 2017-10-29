@@ -10,22 +10,22 @@
 #include <jet/vector4.h>
 #include <cstdint>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 struct Color;
 
 struct ByteColor final {
-    std::uint8_t r = 0;
-    std::uint8_t g = 0;
-    std::uint8_t b = 0;
-    std::uint8_t a = 0;
+    uint8_t r = 0;
+    uint8_t g = 0;
+    uint8_t b = 0;
+    uint8_t a = 0;
 
     ByteColor();
 
     explicit ByteColor(const Color& other);
 
-    explicit ByteColor(std::uint8_t newR, std::uint8_t newG, std::uint8_t newB,
-                       std::uint8_t newA);
+    explicit ByteColor(uint8_t newR, uint8_t newG, uint8_t newB, uint8_t newA);
 
     ByteColor(const ByteColor& other);
 
@@ -69,7 +69,8 @@ struct Color final {
     static Color makeBlue();
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #include "detail/color-inl.h"
 

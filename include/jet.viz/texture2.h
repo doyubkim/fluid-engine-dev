@@ -12,7 +12,8 @@
 #include <cstdint>
 #include <memory>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class Renderer;
 
@@ -21,7 +22,7 @@ class Texture2 {
     Texture2();
     virtual ~Texture2();
 
-    virtual void update(const std::uint8_t* const data) = 0;
+    virtual void update(const uint8_t* const data) = 0;
 
     virtual void update(const float* const data) = 0;
 
@@ -29,7 +30,7 @@ class Texture2 {
 
     void resize(const float* const data, const Size2& size);
 
-    void resize(const std::uint8_t* const data, const Size2& size);
+    void resize(const uint8_t* const data, const Size2& size);
 
     void bind(Renderer* renderer, unsigned int slotId);
 
@@ -40,8 +41,7 @@ class Texture2 {
 
     virtual void onResize(const float* const data, const Size2& size) = 0;
 
-    virtual void onResize(const std::uint8_t* const data,
-                          const Size2& size) = 0;
+    virtual void onResize(const uint8_t* const data, const Size2& size) = 0;
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
 
@@ -51,6 +51,7 @@ class Texture2 {
 
 typedef std::shared_ptr<Texture2> Texture2Ptr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_TEXTURE2_H_

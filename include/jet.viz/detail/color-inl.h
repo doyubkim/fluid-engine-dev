@@ -9,19 +9,20 @@
 
 #include <jet/math_utils.h>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 inline ByteColor::ByteColor() {}
 
 inline ByteColor::ByteColor(const Color& other) {
-    r = static_cast<std::uint8_t>(clamp(other.r, 0.f, 1.f) * 255.f);
-    g = static_cast<std::uint8_t>(clamp(other.g, 0.f, 1.f) * 255.f);
-    b = static_cast<std::uint8_t>(clamp(other.b, 0.f, 1.f) * 255.f);
-    a = static_cast<std::uint8_t>(clamp(other.a, 0.f, 1.f) * 255.f);
+    r = static_cast<uint8_t>(clamp(other.r, 0.f, 1.f) * 255.f);
+    g = static_cast<uint8_t>(clamp(other.g, 0.f, 1.f) * 255.f);
+    b = static_cast<uint8_t>(clamp(other.b, 0.f, 1.f) * 255.f);
+    a = static_cast<uint8_t>(clamp(other.a, 0.f, 1.f) * 255.f);
 }
 
-inline ByteColor::ByteColor(std::uint8_t newR, std::uint8_t newG,
-                            std::uint8_t newB, std::uint8_t newA)
+inline ByteColor::ByteColor(uint8_t newR, uint8_t newG, uint8_t newB,
+                            uint8_t newA)
     : r(newR), g(newG), b(newB), a(newA) {}
 
 inline ByteColor::ByteColor(const ByteColor& other)
@@ -78,6 +79,7 @@ inline Color Color::makeGreen() { return Color(0.f, 1.f, 0.f, 1.f); }
 
 inline Color Color::makeBlue() { return Color(0.f, 0.f, 1.f, 1.f); }
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_DETAIL_COLOR_INL_H_

@@ -7,28 +7,20 @@ set(target imgui)
 
 # Includes
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/opengl2
-    ${CMAKE_CURRENT_SOURCE_DIR}/opengl3
-)
+    ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
 file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/opengl2/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/opengl3/*.cpp
-)
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 # Build library
 add_library(${target}
-    ${sources}
-)
+    ${sources})
 
 # Project options
 set_target_properties(${target}
     PROPERTIES
-    ${DEFAULT_PROJECT_OPTIONS}
-)
+    ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
 target_compile_options(${target}
@@ -37,8 +29,7 @@ target_compile_options(${target}
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
 
-    INTERFACE
-)
+    INTERFACE)
 
 target_link_libraries(${target}
     PRIVATE
@@ -46,5 +37,4 @@ target_link_libraries(${target}
     PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
 
-    INTERFACE
-)
+    INTERFACE)
