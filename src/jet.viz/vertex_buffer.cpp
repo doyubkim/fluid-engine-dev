@@ -24,7 +24,7 @@ void VertexBuffer::clear() {
 }
 
 void VertexBuffer::resize(const ShaderPtr& shader, const float* vertices,
-                          std::size_t numberOfVertices) {
+                          size_t numberOfVertices) {
     if (numberOfVertices == 0) {
         clear();
     } else if (_shader == shader && _vertexFormat == shader->vertexFormat() &&
@@ -45,7 +45,7 @@ void VertexBuffer::bind(Renderer* renderer) { onBind(renderer); }
 
 void VertexBuffer::unbind(Renderer* renderer) { onUnbind(renderer); }
 
-std::size_t VertexBuffer::numberOfVertices() const { return _numberOfVertices; }
+size_t VertexBuffer::numberOfVertices() const { return _numberOfVertices; }
 
 VertexFormat VertexBuffer::vertexFormat() const { return _vertexFormat; }
 

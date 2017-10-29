@@ -90,7 +90,7 @@ void GLVertexBuffer::onClear() {
 }
 
 void GLVertexBuffer::onResize(const ShaderPtr& shader, const float* vertices,
-                              std::size_t numberOfVertices) {
+                              size_t numberOfVertices) {
     GLShader* glShader = dynamic_cast<GLShader*>(shader.get());
     assert(glShader != nullptr);
 

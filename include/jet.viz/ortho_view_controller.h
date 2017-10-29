@@ -10,22 +10,27 @@
 #include "ortho_camera.h"
 #include "view_controller.h"
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class OrthoViewController : public ViewController {
  public:
+    bool preserveAspectRatio = true;
+
     OrthoViewController(const OrthoCameraPtr& camera);
     virtual ~OrthoViewController();
 
  protected:
-    virtual void onKeyDown(const KeyEvent& keyEvent) override;
-    virtual void onKeyUp(const KeyEvent& keyEvent) override;
+    void onKeyDown(const KeyEvent& keyEvent) override;
+    void onKeyUp(const KeyEvent& keyEvent) override;
 
-    virtual void onPointerPressed(const PointerEvent& pointerEvent) override;
-    virtual void onPointerHover(const PointerEvent& pointerEvent) override;
-    virtual void onPointerDragged(const PointerEvent& pointerEvent) override;
-    virtual void onPointerReleased(const PointerEvent& pointerEvent) override;
-    virtual void onMouseWheel(const PointerEvent& pointerEvent) override;
+    void onPointerPressed(const PointerEvent& pointerEvent) override;
+    void onPointerHover(const PointerEvent& pointerEvent) override;
+    void onPointerDragged(const PointerEvent& pointerEvent) override;
+    void onPointerReleased(const PointerEvent& pointerEvent) override;
+    void onMouseWheel(const PointerEvent& pointerEvent) override;
+
+    void onResize(const Viewport& viewport) override;
 
  private:
     Vector3D _origin = Vector3D(0, 0, 1);
@@ -43,6 +48,7 @@ class OrthoViewController : public ViewController {
 
 typedef std::shared_ptr<OrthoViewController> OrthoViewControllerPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_ORTHO_VIEW_CONTROLLER_H_

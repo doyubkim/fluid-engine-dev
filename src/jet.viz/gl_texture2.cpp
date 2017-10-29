@@ -24,7 +24,7 @@ void GLTexture2::update(const float* const data) {
                     static_cast<GLsizei>(_size.y), GL_RGBA, GL_FLOAT, data);
 }
 
-void GLTexture2::update(const std::uint8_t* const data) {
+void GLTexture2::update(const uint8_t* const data) {
     glBindTexture(GL_TEXTURE_2D, glTextureId());
 
     glTexSubImage2D(glTarget(), 0, 0, 0, static_cast<GLsizei>(_size.x),
@@ -51,7 +51,7 @@ void GLTexture2::onResize(const float* const data, const Size2& size) {
                  static_cast<GLsizei>(size.y), 0, GL_RGBA, GL_FLOAT, data);
 }
 
-void GLTexture2::onResize(const std::uint8_t* const data, const Size2& size) {
+void GLTexture2::onResize(const uint8_t* const data, const Size2& size) {
     _size = size;
 
     createGLTexture();

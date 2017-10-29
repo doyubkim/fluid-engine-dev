@@ -26,14 +26,14 @@ class GLIndexBuffer final : public IndexBuffer {
     GLIndexBuffer();
     virtual ~GLIndexBuffer();
 
-    virtual void update(const std::uint32_t* indices) override;
+    virtual void update(const uint32_t* indices) override;
 
  protected:
     virtual void onClear() override;
 
     virtual void onResize(const VertexBufferPtr& vertexBuffer,
-                          const std::uint32_t* indices,
-                          std::size_t numberOfIndices) override;
+                          const uint32_t* indices,
+                          size_t numberOfIndices) override;
 
     virtual void onBind(Renderer* renderer) override;
 

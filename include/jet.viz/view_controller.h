@@ -27,6 +27,8 @@ class ViewController {
     void pointerReleased(const PointerEvent& pointerEvent);
     void mouseWheel(const PointerEvent& pointerEvent);
 
+    void resize(const Viewport& viewport);
+
     const CameraPtr& camera() const;
 
     Event<ViewController*>& onBasicCameraStateChanged();
@@ -40,6 +42,8 @@ class ViewController {
     virtual void onPointerDragged(const PointerEvent& pointerEvent);
     virtual void onPointerReleased(const PointerEvent& pointerEvent);
     virtual void onMouseWheel(const PointerEvent& pointerEvent);
+
+    virtual void onResize(const Viewport& viewport);
 
     void setBasicCameraState(const BasicCameraState& newState);
 

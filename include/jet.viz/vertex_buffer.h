@@ -11,7 +11,8 @@
 #include <jet.viz/shader.h>
 #include <jet.viz/vertex.h>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class Renderer;
 
@@ -25,13 +26,13 @@ class VertexBuffer {
     void clear();
 
     void resize(const ShaderPtr& shader, const float* vertices,
-                std::size_t numberOfVertices);
+                size_t numberOfVertices);
 
     void bind(Renderer* renderer);
 
     void unbind(Renderer* renderer);
 
-    std::size_t numberOfVertices() const;
+    size_t numberOfVertices() const;
 
     VertexFormat vertexFormat() const;
 
@@ -41,20 +42,21 @@ class VertexBuffer {
     virtual void onClear() = 0;
 
     virtual void onResize(const ShaderPtr& shader, const float* vertices,
-                          std::size_t numberOfVertices) = 0;
+                          size_t numberOfVertices) = 0;
 
     virtual void onBind(Renderer* renderer) = 0;
 
     virtual void onUnbind(Renderer* renderer) = 0;
 
  private:
-    std::size_t _numberOfVertices = 0;
+    size_t _numberOfVertices = 0;
     VertexFormat _vertexFormat = VertexFormat::Position3;
     ShaderPtr _shader;
 };
 
 typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_VERTEX_BUFFER_H_

@@ -32,10 +32,12 @@ target_compile_options(${target}
         ${DEFAULT_COMPILE_OPTIONS}
         )
 message(${OPENGL_LIBRARIES})
+
 # Link libraries
 target_link_libraries(${target}
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
         ${OPENGL_LIBRARIES}
+        ${IMGUI_LIBRARIES}
         jet
         jet.viz)

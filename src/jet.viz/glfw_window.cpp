@@ -31,7 +31,7 @@ GLFWWindow::GLFWWindow(const std::string& title, int width, int height) {
     _window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
     glfwMakeContextCurrent(_window);
-    glfwSwapInterval(1);
+    setSwapInterval(_swapInterval);
 
     if (gl3wInit()) {
         JET_ERROR << "failed to initialize OpenGL";
@@ -76,6 +76,11 @@ void GLFWWindow::setIsAnimationEnabled(bool enabled) {
     _isAnimationEnabled = enabled;
 }
 
+void GLFWWindow::setSwapInterval(int interval) {
+    _swapInterval = interval;
+    glfwSwapInterval(interval);
+}
+
 GLFWwindow* GLFWWindow::glfwWindow() const { return _window; }
 
 void GLFWWindow::requestRender() {
@@ -84,6 +89,8 @@ void GLFWWindow::requestRender() {
 }
 
 Event<GLFWWindow*>& GLFWWindow::onUpdateEvent() { return _onUpdateEvent; }
+
+Event<GLFWWindow*>& GLFWWindow::onGuiEvent() { return _onGuiEvent; }
 
 Event<GLFWWindow*, const KeyEvent&>& GLFWWindow::onKeyDownEvent() {
     return _onKeyDownEvent;
@@ -113,12 +120,24 @@ Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onMouseWheelEvent() {
     return _onMouseWheelEvent;
 }
 
+Size2 GLFWWindow::framebufferSize() const {
+    int w, h;
+    glfwGetFramebufferSize(_window, &w, &h);
+    return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
+}
+
+Size2 GLFWWindow::windowSize() const {
+    int w, h;
+    glfwGetWindowSize(_window, &w, &h);
+    return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
+}
+
 void GLFWWindow::render() {
     if (_renderer != nullptr) {
         _renderer->render();
-
-        glfwSwapBuffers(_window);
     }
+
+    _onGuiEvent(this);
 }
 
 void GLFWWindow::resize(int width, int height) {
@@ -132,11 +151,15 @@ void GLFWWindow::resize(int width, int height) {
         _width = width;
         _height = height;
 
+        _viewController->resize(viewport);
         _renderer->resize(viewport);
     }
 }
 
-void GLFWWindow::update() { _onUpdateEvent(this); }
+void GLFWWindow::update() {
+    // Update
+    _onUpdateEvent(this);
+}
 
 void GLFWWindow::key(int key, int scancode, int action, int mods) {
     UNUSED_VARIABLE(scancode);

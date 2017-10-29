@@ -7,23 +7,24 @@
 #ifndef INCLUDE_JET_VIZ_IMAGE_H_
 #define INCLUDE_JET_VIZ_IMAGE_H_
 
-#include <jet/array2.h>
 #include <jet.viz/color.h>
+#include <jet/array2.h>
 
 #include <memory>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class ByteImage final {
  public:
     ByteImage();
 
-    explicit ByteImage(std::size_t width, std::size_t height,
+    explicit ByteImage(size_t width, size_t height,
                        const ByteColor& initialValue = ByteColor());
 
     void clear();
 
-    void resize(std::size_t width, std::size_t height,
+    void resize(size_t width, size_t height,
                 const ByteColor& initialValue = ByteColor());
 
     Size2 size() const;
@@ -32,9 +33,9 @@ class ByteImage final {
 
     const ByteColor* const data() const;
 
-    ByteColor& operator()(std::size_t i, std::size_t j);
+    ByteColor& operator()(size_t i, size_t j);
 
-    const ByteColor& operator()(std::size_t i, std::size_t j) const;
+    const ByteColor& operator()(size_t i, size_t j) const;
 
  private:
     Array2<ByteColor> _data;
@@ -42,6 +43,7 @@ class ByteImage final {
 
 typedef std::shared_ptr<ByteImage> ByteImagePtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_IMAGE_H_

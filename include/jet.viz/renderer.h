@@ -22,7 +22,8 @@
 #include <string>
 #include <vector>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class Renderer {
  public:
@@ -31,13 +32,13 @@ class Renderer {
 
     virtual VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
                                                const float* vertices,
-                                               std::size_t numberOfPoints) = 0;
+                                               size_t numberOfPoints) = 0;
 
     virtual IndexBufferPtr createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer, const std::uint32_t* indices,
-        std::size_t numberOfIndices) = 0;
+        const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+        size_t numberOfIndices) = 0;
 
-    virtual Texture2Ptr createTexture2(const std::uint8_t* const data,
+    virtual Texture2Ptr createTexture2(const uint8_t* const data,
                                        const Size2& size) = 0;
 
     virtual Texture2Ptr createTexture2(const float* const data,
@@ -51,9 +52,9 @@ class Renderer {
 
     virtual void setPrimitiveType(PrimitiveType type) = 0;
 
-    virtual void draw(std::size_t numberOfVertices) = 0;
+    virtual void draw(size_t numberOfVertices) = 0;
 
-    virtual void drawIndexed(std::size_t numberOfIndices) = 0;
+    virtual void drawIndexed(size_t numberOfIndices) = 0;
 
     void render();
     void resize(const Viewport& viewport);
@@ -96,6 +97,7 @@ class Renderer {
 
 typedef std::shared_ptr<Renderer> RendererPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_RENDERER_H_
