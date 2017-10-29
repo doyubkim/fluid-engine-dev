@@ -52,10 +52,9 @@ class Shader {
 
     void setViewHeight(float viewHeight);
 
-    void setUserRenderParameter(const std::string& name, std::int32_t newValue);
+    void setUserRenderParameter(const std::string& name, int32_t newValue);
 
-    void setUserRenderParameter(const std::string& name,
-                                std::uint32_t newValue);
+    void setUserRenderParameter(const std::string& name, uint32_t newValue);
 
     void setUserRenderParameter(const std::string& name, float newValue);
 

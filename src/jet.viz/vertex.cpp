@@ -11,8 +11,8 @@
 using namespace jet;
 using namespace viz;
 
-std::size_t VertexHelper::getNumberOfFloats(VertexFormat format) {
-    std::size_t size = 0;
+size_t VertexHelper::getNumberOfFloats(VertexFormat format) {
+    size_t size = 0;
 
     if (static_cast<int>(format & VertexFormat::Position3)) {
         size += 3;
@@ -37,6 +37,6 @@ std::size_t VertexHelper::getNumberOfFloats(VertexFormat format) {
     return size;
 }
 
-std::size_t VertexHelper::getSizeInBytes(VertexFormat format) {
+size_t VertexHelper::getSizeInBytes(VertexFormat format) {
     return sizeof(float) * getNumberOfFloats(format);
 }

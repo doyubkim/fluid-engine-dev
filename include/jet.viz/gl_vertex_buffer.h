@@ -37,7 +37,7 @@ class GLVertexBuffer final : public VertexBuffer {
     virtual void onClear() override;
 
     virtual void onResize(const ShaderPtr& shader, const float* vertices,
-                          std::size_t numberOfVertices) override;
+                          size_t numberOfVertices) override;
 
     virtual void onBind(Renderer* renderer) override;
 

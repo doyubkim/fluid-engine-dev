@@ -31,9 +31,9 @@ void PointsRenderable3::render(Renderer* renderer) {
 }
 
 void PointsRenderable3::setPositions(const Vector3F* positions,
-                                     std::size_t numberOfParticles) {
+                                     size_t numberOfParticles) {
     std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (std::size_t i = 0; i < numberOfParticles; ++i) {
+    for (size_t i = 0; i < numberOfParticles; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;
@@ -49,9 +49,9 @@ void PointsRenderable3::setPositions(const Vector3F* positions,
 
 void PointsRenderable3::setPositionsAndColors(const Vector3F* positions,
                                               const Color* colors,
-                                              std::size_t numberOfParticles) {
+                                              size_t numberOfParticles) {
     std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (std::size_t i = 0; i < numberOfParticles; ++i) {
+    for (size_t i = 0; i < numberOfParticles; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;

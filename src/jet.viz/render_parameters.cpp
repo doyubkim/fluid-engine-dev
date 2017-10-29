@@ -11,7 +11,7 @@
 using namespace jet;
 using namespace viz;
 
-inline std::size_t sizeWithPadding(std::size_t size) {
+inline size_t sizeWithPadding(size_t size) {
     if (size == 0) {
         return 0;
     } else {
@@ -19,7 +19,7 @@ inline std::size_t sizeWithPadding(std::size_t size) {
     }
 }
 
-inline std::size_t getNumberOfElements(RenderParameters::Type type) {
+inline size_t getNumberOfElements(RenderParameters::Type type) {
     switch (type) {
         case RenderParameters::Type::kInt:
         case RenderParameters::Type::kFloat:
@@ -39,71 +39,71 @@ inline std::size_t getNumberOfElements(RenderParameters::Type type) {
     return 0;
 }
 
-void RenderParameters::add(const std::string& name, std::int32_t defaultValue) {
+void RenderParameters::add(const std::string& name, int32_t defaultValue) {
     add(name, &defaultValue, Type::kInt);
 }
 
 void RenderParameters::add(const std::string& name,
-                           std::uint32_t defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(&defaultValue),
+                           uint32_t defaultValue) {
+    add(name, reinterpret_cast<const int32_t*>(&defaultValue),
         Type::kUInt);
 }
 
 void RenderParameters::add(const std::string& name, float defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(&defaultValue),
+    add(name, reinterpret_cast<const int32_t*>(&defaultValue),
         Type::kFloat);
 }
 
 void RenderParameters::add(const std::string& name,
                            const Vector2F& defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(&defaultValue[0]),
+    add(name, reinterpret_cast<const int32_t*>(&defaultValue[0]),
         Type::kFloat2);
 }
 
 void RenderParameters::add(const std::string& name,
                            const Vector3F& defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(&defaultValue[0]),
+    add(name, reinterpret_cast<const int32_t*>(&defaultValue[0]),
         Type::kFloat3);
 }
 
 void RenderParameters::add(const std::string& name,
                            const Vector4F& defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(&defaultValue[0]),
+    add(name, reinterpret_cast<const int32_t*>(&defaultValue[0]),
         Type::kFloat4);
 }
 
 void RenderParameters::add(const std::string& name,
                            const Matrix4x4F& defaultValue) {
-    add(name, reinterpret_cast<const std::int32_t*>(defaultValue.data()),
+    add(name, reinterpret_cast<const int32_t*>(defaultValue.data()),
         Type::kMatrix);
 }
 
-void RenderParameters::set(const std::string& name, std::int32_t value) {
+void RenderParameters::set(const std::string& name, int32_t value) {
     set(name, &value);
 }
 
-void RenderParameters::set(const std::string& name, std::uint32_t value) {
-    set(name, reinterpret_cast<const std::int32_t*>(&value));
+void RenderParameters::set(const std::string& name, uint32_t value) {
+    set(name, reinterpret_cast<const int32_t*>(&value));
 }
 
 void RenderParameters::set(const std::string& name, float value) {
-    set(name, reinterpret_cast<const std::int32_t*>(&value));
+    set(name, reinterpret_cast<const int32_t*>(&value));
 }
 
 void RenderParameters::set(const std::string& name, const Vector2F& value) {
-    set(name, reinterpret_cast<const std::int32_t*>(&value[0]));
+    set(name, reinterpret_cast<const int32_t*>(&value[0]));
 }
 
 void RenderParameters::set(const std::string& name, const Vector3F& value) {
-    set(name, reinterpret_cast<const std::int32_t*>(&value[0]));
+    set(name, reinterpret_cast<const int32_t*>(&value[0]));
 }
 
 void RenderParameters::set(const std::string& name, const Vector4F& value) {
-    set(name, reinterpret_cast<const std::int32_t*>(&value[0]));
+    set(name, reinterpret_cast<const int32_t*>(&value[0]));
 }
 
 void RenderParameters::set(const std::string& name, const Matrix4x4F& value) {
-    set(name, reinterpret_cast<const std::int32_t*>(value.data()));
+    set(name, reinterpret_cast<const int32_t*>(value.data()));
 }
 
 bool RenderParameters::has(const std::string& name) const {
@@ -115,9 +115,9 @@ const std::vector<std::string>& RenderParameters::names() const {
     return _names;
 }
 
-const std::int32_t* RenderParameters::buffer() const { return _buffer.data(); }
+const int32_t* RenderParameters::buffer() const { return _buffer.data(); }
 
-const std::int32_t* RenderParameters::buffer(const std::string& name) const {
+const int32_t* RenderParameters::buffer(const std::string& name) const {
     auto iter = _metadata.find(name);
 
     if (iter != _metadata.end()) {
@@ -127,8 +127,8 @@ const std::int32_t* RenderParameters::buffer(const std::string& name) const {
     }
 }
 
-std::size_t RenderParameters::bufferSizeInBytes() const {
-    return _buffer.size() * sizeof(std::int32_t);
+size_t RenderParameters::bufferSizeInBytes() const {
+    return _buffer.size() * sizeof(int32_t);
 }
 
 RenderParameters::Metadata RenderParameters::metadata(
@@ -143,7 +143,7 @@ RenderParameters::Metadata RenderParameters::metadata(
 }
 
 void RenderParameters::add(const std::string& name,
-                           const std::int32_t* defaultValue, Type type) {
+                           const int32_t* defaultValue, Type type) {
     // Can't add with exiting name
     assert(_metadata.find(name) == _metadata.end());
 
@@ -151,24 +151,24 @@ void RenderParameters::add(const std::string& name,
     _metadata[name] = metadata;
     _names.push_back(name);
 
-    std::size_t numberOfElements = getNumberOfElements(type);
+    size_t numberOfElements = getNumberOfElements(type);
 
     _buffer.resize(sizeWithPadding(_lastParameterOffset + numberOfElements));
-    for (std::size_t i = 0; i < numberOfElements; ++i) {
+    for (size_t i = 0; i < numberOfElements; ++i) {
         _buffer[_lastParameterOffset + i] = defaultValue[i];
     }
 
     _lastParameterOffset += numberOfElements;
 }
 
-void RenderParameters::set(const std::string& name, const std::int32_t* value) {
+void RenderParameters::set(const std::string& name, const int32_t* value) {
     auto iter = _metadata.find(name);
     assert(iter != _metadata.end());
 
-    std::size_t offset = iter->second.offset;
-    std::size_t numberOfElements = getNumberOfElements(iter->second.type);
+    size_t offset = iter->second.offset;
+    size_t numberOfElements = getNumberOfElements(iter->second.type);
 
-    for (std::size_t i = 0; i < numberOfElements; ++i) {
+    for (size_t i = 0; i < numberOfElements; ++i) {
         _buffer[offset + i] = value[i];
     }
 }

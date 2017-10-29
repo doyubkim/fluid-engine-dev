@@ -13,64 +13,73 @@ set(target jet.viz)
 set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 
 # Includes
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w
-)
+if (USE_GL)
+    include_directories(
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w)
+else()
+    include_directories(
+            ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
 
 # Sources
 file(GLOB header_dir
-    ${root_dir}/include/${target})
+        ${root_dir}/include/${target})
 
 file(GLOB headers
-    ${header_dir}/*.h
-    ${header_dir}/detail/*.h)
+        ${header_dir}/*.h
+        ${header_dir}/detail/*.h)
 list(REMOVE_ITEM headers ${header_dir}/jet.viz.h)
 
 file(GLOB sources
-    ${headers}
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w/GL/gl3w.cpp)
+        ${headers}
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+if (USE_GL)
+    file(GLOB sources
+            ${sources}
+            ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w/GL/gl3w.cpp)
+endif()
+if (USE_IMGUI)
+    file(GLOB sources
+            ${sources}
+            ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/imgui_impl_glfw_gl3/*.cpp)
+endif()
 
 # Custom-build event
 set(jet_viz_header_gen_py ${root_dir}/scripts/header_gen.py)
 add_custom_command(
-    COMMAND python ${jet_viz_header_gen_py} jet.viz
-    DEPENDS ${headers}
-    OUTPUT ${root_dir}/include/jet.viz/jet.viz.h
-)
+        COMMAND python ${jet_viz_header_gen_py} jet.viz
+        DEPENDS ${headers}
+        OUTPUT ${root_dir}/include/jet.viz/jet.viz.h)
 add_custom_target(jet_viz_header_gen_py ALL
-    DEPENDS ${root_dir}/include/jet.viz/jet.viz.h)
+        DEPENDS ${root_dir}/include/jet.viz/jet.viz.h)
 
 # Build library
 add_library(${target}
-    ${sources})
+        ${sources})
 add_dependencies(${target} jet_viz_header_gen_py)
 
 # Project options
 set_target_properties(${target}
-    PROPERTIES
-    ${DEFAULT_PROJECT_OPTIONS}
-)
+        PROPERTIES
+        ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
 target_compile_options(${target}
-    PRIVATE
+        PRIVATE
 
-    PUBLIC
-    ${DEFAULT_COMPILE_OPTIONS}
+        PUBLIC
+        ${DEFAULT_COMPILE_OPTIONS}
 
-    INTERFACE
-)
+        INTERFACE)
 
 target_link_libraries(${target}
-    PRIVATE
+        PRIVATE
 
-    PUBLIC
-    ${DEFAULT_LINKER_OPTIONS}
+        PUBLIC
+        ${DEFAULT_LINKER_OPTIONS}
 
-    INTERFACE
-)
+        INTERFACE)
 
 # Install
 install(TARGETS ${target} DESTINATION lib)

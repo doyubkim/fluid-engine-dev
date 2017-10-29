@@ -48,12 +48,12 @@ void Shader::setViewHeight(float viewHeight) {
 }
 
 void Shader::setUserRenderParameter(const std::string& name,
-                                    std::int32_t newValue) {
+                                    int32_t newValue) {
     _userRenderParams.set(name, newValue);
 }
 
 void Shader::setUserRenderParameter(const std::string& name,
-                                    std::uint32_t newValue) {
+                                    uint32_t newValue) {
     _userRenderParams.set(name, newValue);
 }
 

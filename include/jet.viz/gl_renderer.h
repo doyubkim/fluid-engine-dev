@@ -19,15 +19,15 @@ class GLRenderer final : public Renderer {
     GLRenderer();
     virtual ~GLRenderer();
 
-    virtual VertexBufferPtr createVertexBuffer(
-        const ShaderPtr& shader, const float* vertices,
-        std::size_t numberOfPoints) override;
+    virtual VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
+                                               const float* vertices,
+                                               size_t numberOfPoints) override;
 
     virtual IndexBufferPtr createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer, const std::uint32_t* indices,
-        std::size_t numberOfIndices) override;
+        const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+        size_t numberOfIndices) override;
 
-    virtual Texture2Ptr createTexture2(const std::uint8_t* const data,
+    virtual Texture2Ptr createTexture2(const uint8_t* const data,
                                        const Size2& size) override;
 
     virtual Texture2Ptr createTexture2(const float* const data,
@@ -41,9 +41,9 @@ class GLRenderer final : public Renderer {
 
     virtual void setPrimitiveType(PrimitiveType type) override;
 
-    virtual void draw(std::size_t numberOfVertices) override;
+    virtual void draw(size_t numberOfVertices) override;
 
-    virtual void drawIndexed(std::size_t numberOfIndices) override;
+    virtual void drawIndexed(size_t numberOfIndices) override;
 
  protected:
     virtual void onRenderBegin() override;

@@ -13,14 +13,14 @@ using namespace viz;
 
 ByteImage::ByteImage() {}
 
-ByteImage::ByteImage(std::size_t width, std::size_t height,
+ByteImage::ByteImage(size_t width, size_t height,
                      const ByteColor& initialValue) {
     _data.resize(width, height, initialValue);
 }
 
 void ByteImage::clear() {}
 
-void ByteImage::resize(std::size_t width, std::size_t height,
+void ByteImage::resize(size_t width, size_t height,
                        const ByteColor& initialValue) {
     _data.resize(width, height, initialValue);
 }
@@ -31,10 +31,8 @@ ByteColor* ByteImage::data() { return _data.data(); }
 
 const ByteColor* const ByteImage::data() const { return _data.data(); }
 
-ByteColor& ByteImage::operator()(std::size_t i, std::size_t j) {
-    return _data(i, j);
-}
+ByteColor& ByteImage::operator()(size_t i, size_t j) { return _data(i, j); }
 
-const ByteColor& ByteImage::operator()(std::size_t i, std::size_t j) const {
+const ByteColor& ByteImage::operator()(size_t i, size_t j) const {
     return _data(i, j);
 }

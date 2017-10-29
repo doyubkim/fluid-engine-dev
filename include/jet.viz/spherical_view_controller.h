@@ -17,14 +17,16 @@ class SphericalViewController : public ViewController {
     virtual ~SphericalViewController();
 
  protected:
-    virtual void onKeyDown(const KeyEvent& keyEvent) override;
-    virtual void onKeyUp(const KeyEvent& keyEvent) override;
+    void onKeyDown(const KeyEvent& keyEvent) override;
+    void onKeyUp(const KeyEvent& keyEvent) override;
 
-    virtual void onPointerPressed(const PointerEvent& pointerEvent) override;
-    virtual void onPointerHover(const PointerEvent& pointerEvent) override;
-    virtual void onPointerDragged(const PointerEvent& pointerEvent) override;
-    virtual void onPointerReleased(const PointerEvent& pointerEvent) override;
-    virtual void onMouseWheel(const PointerEvent& pointerEvent) override;
+    void onPointerPressed(const PointerEvent& pointerEvent) override;
+    void onPointerHover(const PointerEvent& pointerEvent) override;
+    void onPointerDragged(const PointerEvent& pointerEvent) override;
+    void onPointerReleased(const PointerEvent& pointerEvent) override;
+    void onMouseWheel(const PointerEvent& pointerEvent) override;
+
+    void onResize(const Viewport& viewport) override;
 
  private:
     Vector3D _origin;

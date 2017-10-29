@@ -75,6 +75,11 @@ void SphericalViewController::onMouseWheel(const PointerEvent& pointerEvent) {
     updateCamera();
 }
 
+void SphericalViewController::onResize(const Viewport& viewport) {
+    UNUSED_VARIABLE(viewport);
+    updateCamera();
+}
+
 void SphericalViewController::updateCamera() {
     double x = _radialDistance * std::sin(_polarAngleInRadians) *
                std::sin(_azimuthalAngleInRadians);

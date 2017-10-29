@@ -85,7 +85,7 @@ VertexBufferPtr GLRenderer::createVertexBuffer(const ShaderPtr& shader,
 }
 
 IndexBufferPtr GLRenderer::createIndexBuffer(
-    const VertexBufferPtr& vertexBuffer, const std::uint32_t* indices,
+    const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
     size_t numberOfIndices) {
     GLIndexBuffer* indexBuffer = new GLIndexBuffer();
     indexBuffer->resize(vertexBuffer, indices, numberOfIndices);
@@ -93,7 +93,7 @@ IndexBufferPtr GLRenderer::createIndexBuffer(
     return IndexBufferPtr(indexBuffer);
 }
 
-Texture2Ptr GLRenderer::createTexture2(const std::uint8_t* const data,
+Texture2Ptr GLRenderer::createTexture2(const uint8_t* const data,
                                        const Size2& size) {
     GLTexture2* texture2 = new GLTexture2();
     texture2->resize(data, size);

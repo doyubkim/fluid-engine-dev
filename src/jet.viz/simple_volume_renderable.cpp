@@ -201,10 +201,10 @@ void SimpleVolumeRenderable::updateVertexBuffer(Renderer* renderer) {
         // Index buffer
         if (numberOfIntersectingPoints >= 3) {
             // Build indices
-            std::vector<std::uint32_t> indices;
+            std::vector<uint32_t> indices;
             for (int i = 0; i < numberOfIntersectingPoints - 2; ++i) {
-                std::uint32_t baseIndex =
-                    static_cast<std::uint32_t>(vertices.size());
+                uint32_t baseIndex =
+                    static_cast<uint32_t>(vertices.size());
                 indices.push_back(baseIndex);
                 indices.push_back(baseIndex + i + 1);
                 indices.push_back(baseIndex + i + 2);
@@ -212,7 +212,7 @@ void SimpleVolumeRenderable::updateVertexBuffer(Renderer* renderer) {
 
             _indexBuffers.push_back(renderer->createIndexBuffer(
                 _vertexBuffer,
-                reinterpret_cast<const std::uint32_t*>(indices.data()),
+                reinterpret_cast<const uint32_t*>(indices.data()),
                 indices.size()));
         }
     }

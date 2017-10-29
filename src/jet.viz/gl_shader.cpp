@@ -59,7 +59,7 @@ static void applyParameters(GLuint program, const RenderParameters& params) {
 
         if (location >= 0) {
             RenderParameters::Metadata metadata = params.metadata(paramName);
-            const std::int32_t* buffer = params.buffer(paramName);
+            const int32_t* buffer = params.buffer(paramName);
 
             const GLint* intData = reinterpret_cast<const GLint*>(buffer);
             const GLuint* uintData = reinterpret_cast<const GLuint*>(buffer);

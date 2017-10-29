@@ -20,32 +20,31 @@ class IndexBuffer {
     IndexBuffer();
     virtual ~IndexBuffer();
 
-    virtual void update(const std::uint32_t* indices) = 0;
+    virtual void update(const uint32_t* indices) = 0;
 
     void clear();
 
-    void resize(const VertexBufferPtr& vertexBuffer,
-                const std::uint32_t* indices, std::size_t numberOfIndices);
+    void resize(const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+                size_t numberOfIndices);
 
     void bind(Renderer* renderer);
 
     void unbind(Renderer* renderer);
 
-    std::size_t numberOfIndices() const;
+    size_t numberOfIndices() const;
 
  protected:
     virtual void onClear() = 0;
 
     virtual void onResize(const VertexBufferPtr& vertexBuffer,
-                          const std::uint32_t* indices,
-                          std::size_t numberOfIndices) = 0;
+                          const uint32_t* indices, size_t numberOfIndices) = 0;
 
     virtual void onBind(Renderer* renderer) = 0;
 
     virtual void onUnbind(Renderer* renderer) = 0;
 
  private:
-    std::size_t _numberOfIndices = 0;
+    size_t _numberOfIndices = 0;
 };
 
 typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;

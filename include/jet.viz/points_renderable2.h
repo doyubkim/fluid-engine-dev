@@ -12,7 +12,8 @@
 #include <jet.viz/shader.h>
 #include <jet.viz/vertex_buffer.h>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class PointsRenderable2 final : public Renderable {
  public:
@@ -20,10 +21,10 @@ class PointsRenderable2 final : public Renderable {
 
     virtual ~PointsRenderable2();
 
-    void setPositions(const Vector2F* positions, std::size_t numberOfParticles);
+    void setPositions(const Vector2F* positions, size_t numberOfParticles);
 
     void setPositionsAndColors(const Vector2F* positions, const Color* colors,
-                               std::size_t numberOfParticles);
+                               size_t numberOfParticles);
 
     float radius() const;
 
@@ -43,6 +44,7 @@ class PointsRenderable2 final : public Renderable {
 
 typedef std::shared_ptr<PointsRenderable2> PointsRenderable2Ptr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_POINTS_RENDERABLE2_H_

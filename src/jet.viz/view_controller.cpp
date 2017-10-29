@@ -41,6 +41,12 @@ void ViewController::mouseWheel(const PointerEvent& pointerEvent) {
     onMouseWheel(pointerEvent);
 }
 
+void ViewController::resize(const Viewport& viewport) {
+    _camera->resize(viewport);
+
+    onResize(viewport);
+}
+
 const CameraPtr& ViewController::camera() const { return _camera; }
 
 Event<ViewController*>& ViewController::onBasicCameraStateChanged() {
@@ -73,6 +79,10 @@ void ViewController::onPointerReleased(const PointerEvent& pointerEvent) {
 
 void ViewController::onMouseWheel(const PointerEvent& pointerEvent) {
     UNUSED_VARIABLE(pointerEvent);
+}
+
+void ViewController::onResize(const Viewport& viewport) {
+    UNUSED_VARIABLE(viewport);
 }
 
 void ViewController::setBasicCameraState(const BasicCameraState& newState) {

@@ -12,7 +12,8 @@
 #include "shader.h"
 #include "vertex_buffer.h"
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class PointsRenderable3 final : public Renderable {
  public:
@@ -20,10 +21,10 @@ class PointsRenderable3 final : public Renderable {
 
     virtual ~PointsRenderable3();
 
-    void setPositions(const Vector3F* positions, std::size_t numberOfParticles);
+    void setPositions(const Vector3F* positions, size_t numberOfParticles);
 
     void setPositionsAndColors(const Vector3F* positions, const Color* colors,
-                               std::size_t numberOfParticles);
+                               size_t numberOfParticles);
 
     float radius() const;
 
@@ -43,6 +44,7 @@ class PointsRenderable3 final : public Renderable {
 
 typedef std::shared_ptr<PointsRenderable3> PointsRenderable3Ptr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_POINTS_RENDERABLE3_H_

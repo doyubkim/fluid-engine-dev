@@ -18,9 +18,9 @@ GLIndexBuffer::GLIndexBuffer() : _bufferId(0) {}
 
 GLIndexBuffer::~GLIndexBuffer() { clear(); }
 
-void GLIndexBuffer::update(const std::uint32_t* indices) {
+void GLIndexBuffer::update(const uint32_t* indices) {
     GLsizei sizeInBytes =
-        static_cast<GLsizei>(sizeof(std::uint32_t) * numberOfIndices());
+        static_cast<GLsizei>(sizeof(uint32_t) * numberOfIndices());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferId);
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeInBytes, indices);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -35,8 +35,8 @@ void GLIndexBuffer::onClear() {
 }
 
 void GLIndexBuffer::onResize(const VertexBufferPtr& vertexBuffer,
-                             const std::uint32_t* indices,
-                             std::size_t numberOfIndices) {
+                             const uint32_t* indices,
+                             size_t numberOfIndices) {
     const auto& glVertexBuffer =
         std::dynamic_pointer_cast<GLVertexBuffer>(vertexBuffer);
     assert(glVertexBuffer != nullptr);
@@ -47,7 +47,7 @@ void GLIndexBuffer::onResize(const VertexBufferPtr& vertexBuffer,
     glGenBuffers(1, &_bufferId);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bufferId);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                 sizeof(std::uint32_t) * numberOfIndices, indices,
+                 sizeof(uint32_t) * numberOfIndices, indices,
                  GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 

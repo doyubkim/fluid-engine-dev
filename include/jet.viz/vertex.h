@@ -10,7 +10,8 @@
 #include <jet/vector4.h>
 #include <cstdint>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 enum class VertexFormat {
     Position3 = 1 << 0,
 
@@ -94,11 +95,12 @@ struct VertexPosition3Normal3TexCoord3Color4 {
 
 class VertexHelper {
  public:
-    static std::size_t getNumberOfFloats(VertexFormat format);
+    static size_t getNumberOfFloats(VertexFormat format);
 
-    static std::size_t getSizeInBytes(VertexFormat format);
+    static size_t getSizeInBytes(VertexFormat format);
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_VERTEX_H_
