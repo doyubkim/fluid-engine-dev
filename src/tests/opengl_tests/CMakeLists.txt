@@ -23,15 +23,16 @@ add_executable(${target}
 # Project options
 set_target_properties(${target}
         PROPERTIES
-        ${DEFAULT_PROJECT_OPTIONS}
-        )
+        ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
 target_compile_options(${target}
         PRIVATE
-        ${DEFAULT_COMPILE_OPTIONS}
-        )
-message(${OPENGL_LIBRARIES})
+        ${DEFAULT_COMPILE_OPTIONS})
+
+target_compile_definitions(${target}
+        PRIVATE
+        RESOURCES_DIR="${RESOURCES_DIR}")
 
 # Link libraries
 target_link_libraries(${target}
