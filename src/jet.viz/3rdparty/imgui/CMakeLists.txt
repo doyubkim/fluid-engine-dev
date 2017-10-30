@@ -7,34 +7,35 @@ set(target imgui)
 
 # Includes
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR})
+        ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
 file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GL/*.cpp)
 
 # Build library
 add_library(${target}
-    ${sources})
+        ${sources})
 
 # Project options
 set_target_properties(${target}
-    PROPERTIES
-    ${DEFAULT_PROJECT_OPTIONS})
+        PROPERTIES
+        ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
 target_compile_options(${target}
-    PRIVATE
+        PRIVATE
 
-    PUBLIC
-    ${DEFAULT_COMPILE_OPTIONS}
+        PUBLIC
+        ${DEFAULT_COMPILE_OPTIONS}
 
-    INTERFACE)
+        INTERFACE)
 
 target_link_libraries(${target}
-    PRIVATE
+        PRIVATE
 
-    PUBLIC
-    ${DEFAULT_LINKER_OPTIONS}
+        PUBLIC
+        ${DEFAULT_LINKER_OPTIONS}
 
-    INTERFACE)
+        INTERFACE)

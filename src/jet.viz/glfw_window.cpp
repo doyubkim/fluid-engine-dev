@@ -63,6 +63,7 @@ void GLFWWindow::setViewController(const ViewControllerPtr& viewController) {
         viewController->onBasicCameraStateChanged() += [this](ViewController*) {
             // When basic camera state changes, update the view.
             requestRender();
+            return true;
         };
 
     _renderer->setCamera(_viewController->camera());
