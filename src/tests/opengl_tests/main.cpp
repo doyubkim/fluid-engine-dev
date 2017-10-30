@@ -103,7 +103,9 @@ int main(int, const char**) {
     // Setup renderer
     auto renderer = window->renderer();
     renderer->setBackgroundColor(Color{1, 1, 1, 1});
-    const ByteImage img(128, 128, ByteColor::makeGreen());
+
+    // Load sample image renderable
+    const ByteImage img(RESOURCES_DIR "/airplane.png");
     const auto renderable = std::make_shared<ImageRenderable>(renderer.get());
     renderable->setImage(img);
     renderer->addRenderable(renderable);
