@@ -11,17 +11,24 @@
 #include <jet.viz/glfw_app.h>
 #include <jet.viz/glfw_window.h>
 
-#ifdef JET_USE_IMGUI
-#include <imgui/imgui.h>
-
-#include <3rdparty/imgui_impl_glfw_gl3/imgui_impl_glfw_gl3.h>
-#endif
-
 using namespace jet;
 using namespace viz;
 
+namespace {
+
 std::vector<GLFWWindowPtr> sWindows;
 GLFWWindowPtr sCurrentWindow;
+
+Event<GLFWwindow*, int, int, int, int> sOnBeginGlfwKeyEvent;
+Event<GLFWwindow*, int, int, int> sOnBeginGlfwMouseButtonEvent;
+Event<GLFWwindow*, double, double> sOnBeginGlfwMouseCursorPosEvent;
+Event<GLFWwindow*, int> sOnBeginGlfwMouseCursorEnterEvent;
+Event<GLFWwindow*, double, double> sOnBeginGlfwMouseScrollEvent;
+Event<GLFWwindow*, unsigned int> sOnBeginGlfwCharEvent;
+Event<GLFWwindow*, unsigned int, int> sOnBeginGlfwCharModsEvent;
+Event<GLFWwindow*, int, const char**> sOnBeginGlfwDropEvent;
+
+}  // namespace
 
 static GLFWWindowPtr findWindow(GLFWwindow* glfwWindow) {
     for (auto w : sWindows) {
@@ -58,16 +65,14 @@ int GLFWApp::run() {
     }
 
     while (sCurrentWindow != nullptr) {
+        JET_INFO << "blocked: " << sCurrentWindow->_renderRequested;
         glfwWaitEvents();
+        JET_INFO << "escaped: " << sCurrentWindow->_renderRequested;
 
         auto window = sCurrentWindow->glfwWindow();
 
         if (sCurrentWindow->isAnimationEnabled() ||
             sCurrentWindow->_renderRequested) {
-#ifdef JET_USE_IMGUI
-            ImGui_ImplGlfwGL3_NewFrame();
-#endif
-
             int width, height;
             glfwGetFramebufferSize(window, &width, &height);
             sCurrentWindow->resize(width, height);
@@ -76,11 +81,8 @@ int GLFWApp::run() {
                 sCurrentWindow->update();
             }
 
+            JET_INFO << "render";
             sCurrentWindow->render();
-
-#ifdef JET_USE_IMGUI
-            ImGui::Render();
-#endif
 
             // Reset render request
             sCurrentWindow->_renderRequested = false;
@@ -109,19 +111,48 @@ GLFWWindowPtr GLFWApp::createWindow(const std::string& title, int width,
 
     auto glfwWindow = sCurrentWindow->glfwWindow();
 
-    glfwSetKeyCallback(glfwWindow, onKeyEvent);
-    glfwSetMouseButtonCallback(glfwWindow, onMouseButtonEvent);
-    glfwSetCursorPosCallback(glfwWindow, onMouseCursorPosEvent);
-    glfwSetCursorEnterCallback(glfwWindow, onMouseCursorEnterEvent);
-    glfwSetScrollCallback(glfwWindow, onMouseScrollEvent);
-    glfwSetCharCallback(glfwWindow, ImGui_ImplGlfwGL3_CharCallback);
-
-#ifdef JET_USE_IMGUI
-    // Setup ImGui binding
-    ImGui_ImplGlfwGL3_Init(glfwWindow, false);
-#endif
+    glfwSetKeyCallback(glfwWindow, onKey);
+    glfwSetMouseButtonCallback(glfwWindow, onMouseButton);
+    glfwSetCursorPosCallback(glfwWindow, onMouseCursorPos);
+    glfwSetCursorEnterCallback(glfwWindow, onMouseCursorEnter);
+    glfwSetScrollCallback(glfwWindow, onMouseScroll);
+    glfwSetCharCallback(glfwWindow, onChar);
+    glfwSetCharModsCallback(glfwWindow, onCharMods);
+    glfwSetDropCallback(glfwWindow, onDrop);
 
     return sCurrentWindow;
+}
+
+Event<GLFWwindow*, int, int, int, int>& GLFWApp::onBeginGlfwKeyEvent() {
+    return sOnBeginGlfwKeyEvent;
+}
+
+Event<GLFWwindow*, int, int, int>& GLFWApp::onBeginGlfwMouseButtonEvent() {
+    return sOnBeginGlfwMouseButtonEvent;
+}
+
+Event<GLFWwindow*, double, double>& GLFWApp::onBeginGlfwMouseCursorPosEvent() {
+    return sOnBeginGlfwMouseCursorPosEvent;
+}
+
+Event<GLFWwindow*, int>& GLFWApp::onBeginGlfwMouseCursorEnterEvent() {
+    return sOnBeginGlfwMouseCursorEnterEvent;
+}
+
+Event<GLFWwindow*, double, double>& GLFWApp::onBeginGlfwMouseScrollEvent() {
+    return sOnBeginGlfwMouseScrollEvent;
+}
+
+Event<GLFWwindow*, unsigned int>& GLFWApp::onBeginGlfwCharEvent() {
+    return sOnBeginGlfwCharEvent;
+}
+
+Event<GLFWwindow*, unsigned int, int>& GLFWApp::onBeginGlfwCharModsEvent() {
+    return sOnBeginGlfwCharModsEvent;
+}
+
+Event<GLFWwindow*, int, const char**>& GLFWApp::onBeginGlfwDropEvent() {
+    return sOnBeginGlfwDropEvent;
 }
 
 void GLFWApp::onSetCurrentWindow(const GLFWWindowPtr& window) {
@@ -144,90 +175,111 @@ void GLFWApp::onCloseCurrentWindow(const GLFWWindowPtr& window) {
     }
 }
 
-void GLFWApp::onKeyEvent(GLFWwindow* glfwWindow, int key, int scancode,
-                         int action, int mods) {
-#ifdef JET_USE_IMGUI
-    ImGui_ImplGlfwGL3_KeyCallback(glfwWindow, key, scancode, action, mods);
-#endif
-
+void GLFWApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
+                    int mods) {
     GLFWWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
+    window->requestRender();
 
-#ifdef JET_USE_IMGUI
-    if (!ImGui::GetIO().WantCaptureKeyboard)
-#endif
-    {
-        window->key(key, scancode, action, mods);
+    bool handled =
+        sOnBeginGlfwKeyEvent(glfwWindow, key, scancode, action, mods);
+    if (handled) {
+        return;
     }
 
-    window->requestRender();
+    window->key(key, scancode, action, mods);
 }
 
-void GLFWApp::onMouseButtonEvent(GLFWwindow* glfwWindow, int button, int action,
-                                 int mods) {
-#ifdef JET_USE_IMGUI
-    ImGui_ImplGlfwGL3_MouseButtonCallback(glfwWindow, button, action, mods);
-#endif
-
+void GLFWApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
+                            int mods) {
     GLFWWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
+    window->requestRender();
 
-#ifdef JET_USE_IMGUI
-    if (!ImGui::GetIO().WantCaptureMouse)
-#endif
-    {
-        window->pointerButton(button, action, mods);
+    bool handled =
+        sOnBeginGlfwMouseButtonEvent(glfwWindow, button, action, mods);
+    if (handled) {
+        return;
     }
 
-    window->requestRender();
+    window->pointerButton(button, action, mods);
 }
 
-void GLFWApp::onMouseCursorEnterEvent(GLFWwindow* glfwWindow, int entered) {
+void GLFWApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
     GLFWWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
+    window->requestRender();
 
-#ifdef JET_USE_IMGUI
-    if (!ImGui::GetIO().WantCaptureMouse)
-#endif
-    {
-        window->pointerEnter(entered == GL_TRUE);
+    bool handled = sOnBeginGlfwMouseCursorEnterEvent(glfwWindow, entered);
+    if (handled) {
+        return;
     }
 
-    window->requestRender();
+    window->pointerEnter(entered == GL_TRUE);
 }
 
-void GLFWApp::onMouseCursorPosEvent(GLFWwindow* glfwWindow, double x,
-                                    double y) {
+void GLFWApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
     GLFWWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
+    window->requestRender();
 
-#ifdef JET_USE_IMGUI
-    if (!ImGui::GetIO().WantCaptureMouse)
-#endif
-    {
-        window->pointerMoved(x, y);
+    bool handled = sOnBeginGlfwMouseCursorPosEvent(glfwWindow, x, y);
+    if (handled) {
+        return;
     }
 
-    window->requestRender();
+    window->pointerMoved(x, y);
 }
 
-void GLFWApp::onMouseScrollEvent(GLFWwindow* glfwWindow, double deltaX,
-                                 double deltaY) {
-#ifdef JET_USE_IMGUI
-    ImGui_ImplGlfwGL3_ScrollCallback(glfwWindow, deltaX, deltaY);
-#endif
-
+void GLFWApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
+                            double deltaY) {
     GLFWWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
+    window->requestRender();
 
-#ifdef JET_USE_IMGUI
-    if (!ImGui::GetIO().WantCaptureMouse)
-#endif
-    {
-        window->mouseWheel(deltaX, deltaY);
+    bool handled = sOnBeginGlfwMouseScrollEvent(glfwWindow, deltaX, deltaY);
+    if (handled) {
+        return;
     }
 
+    window->mouseWheel(deltaX, deltaY);
+}
+
+void GLFWApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
+    GLFWWindowPtr window = findWindow(glfwWindow);
+    assert(window != nullptr);
     window->requestRender();
+
+    bool handled = sOnBeginGlfwCharEvent(glfwWindow, code);
+    if (handled) {
+        return;
+    }
+}
+
+void GLFWApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
+    GLFWWindowPtr window = findWindow(glfwWindow);
+    assert(window != nullptr);
+    window->requestRender();
+
+    bool handled = sOnBeginGlfwCharModsEvent(glfwWindow, code, mods);
+    if (handled) {
+        return;
+    }
+}
+
+void GLFWApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
+                     const char** pathNames) {
+    GLFWWindowPtr window = findWindow(glfwWindow);
+    assert(window != nullptr);
+    window->requestRender();
+
+    bool handled =
+        sOnBeginGlfwDropEvent(glfwWindow, numDroppedFiles, pathNames);
+    if (handled) {
+        return;
+    }
+
+    // TODO: Handle from Window
 }
 
 void GLFWApp::onErrorEvent(int error, const char* description) {

@@ -19,9 +19,9 @@ static const EventToken kEmptyEventToken = 0;
 template <typename... EventArgTypes>
 class Event {
  public:
-    typedef std::function<void(EventArgTypes...)> CallbackType;
+    typedef std::function<bool(EventArgTypes...)> CallbackType;
 
-    void operator()(EventArgTypes... args);
+    bool operator()(EventArgTypes... args);
 
     EventToken operator+=(const CallbackType& callback);
 

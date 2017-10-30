@@ -11,12 +11,15 @@
 
 #include <jet/macros.h>
 
+#include <jet.viz/event.h>
+
 #include <memory>
 #include <string>
 
 struct GLFWwindow;
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class GLFWWindow;
 typedef std::shared_ptr<GLFWWindow> GLFWWindowPtr;
@@ -30,6 +33,22 @@ class GLFWApp {
     static GLFWWindowPtr createWindow(const std::string& title, int width,
                                       int height);
 
+    static Event<GLFWwindow*, int, int, int, int>& onBeginGlfwKeyEvent();
+
+    static Event<GLFWwindow*, int, int, int>& onBeginGlfwMouseButtonEvent();
+
+    static Event<GLFWwindow*, double, double>& onBeginGlfwMouseCursorPosEvent();
+
+    static Event<GLFWwindow*, int>& onBeginGlfwMouseCursorEnterEvent();
+
+    static Event<GLFWwindow*, double, double>& onBeginGlfwMouseScrollEvent();
+
+    static Event<GLFWwindow*, unsigned int>& onBeginGlfwCharEvent();
+
+    static Event<GLFWwindow*, unsigned int, int>& onBeginGlfwCharModsEvent();
+
+    static Event<GLFWwindow*, int, const char**>& onBeginGlfwDropEvent();
+
     friend class GLFWWindow;
 
  private:
@@ -37,24 +56,31 @@ class GLFWApp {
 
     static void onCloseCurrentWindow(const GLFWWindowPtr& window);
 
-    static void onKeyEvent(GLFWwindow* glfwWindow, int key, int scancode,
-                           int action, int mods);
+    static void onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
+                      int mods);
 
-    static void onMouseButtonEvent(GLFWwindow* glfwWindow, int button,
-                                   int action, int mods);
+    static void onMouseButton(GLFWwindow* glfwWindow, int button, int action,
+                              int mods);
 
-    static void onMouseCursorEnterEvent(GLFWwindow* glfwWindow, int entered);
+    static void onMouseCursorEnter(GLFWwindow* glfwWindow, int entered);
 
-    static void onMouseCursorPosEvent(GLFWwindow* glfwWindow, double x,
-                                      double y);
+    static void onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y);
 
-    static void onMouseScrollEvent(GLFWwindow* glfwWindow, double deltaX,
-                                   double deltaY);
+    static void onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
+                              double deltaY);
+
+    static void onChar(GLFWwindow* glfwWindow, unsigned int code);
+
+    static void onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods);
+
+    static void onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
+                       const char** pathNames);
 
     static void onErrorEvent(int error, const char* description);
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // JET_USE_GL
 
