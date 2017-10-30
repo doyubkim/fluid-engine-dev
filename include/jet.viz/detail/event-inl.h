@@ -10,10 +10,12 @@
 namespace jet { namespace viz {
 
 template <typename... EventArgTypes>
-void Event<EventArgTypes...>::operator()(EventArgTypes... args) {
+bool Event<EventArgTypes...>::operator()(EventArgTypes... args) {
+    bool handled = false;
     for (auto& callback : _callbacks) {
-        callback.second(args...);
+        handled |= callback.second(args...);
     }
+    return handled;
 }
 
 template <typename... EventArgTypes>
