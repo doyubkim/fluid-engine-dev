@@ -37,7 +37,6 @@ bool onGui(GLFWWindow*) {
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-    JET_INFO << "ImGui::Render();";
     ImGui::Render();
 
     return true;
@@ -54,6 +53,12 @@ bool onBeginGlfwKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
 bool onBeginGlfwMouseButton(GLFWwindow* glfwWindow, int button, int action,
                             int mods) {
     ImGui_ImplGlfwGL3_MouseButtonCallback(glfwWindow, button, action, mods);
+
+    // ImGui Issue #1206 (https://github.com/ocornut/imgui/issues/1206)
+    // Some UI features require number of frames to redisplay when
+    // glfwWaitEvents() is on hold.
+    GLFWApp::findWindow(glfwWindow)->requestRender(3);
+
     return ImGui::GetIO().WantCaptureMouse;
 }
 

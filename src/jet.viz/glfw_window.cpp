@@ -84,8 +84,8 @@ void GLFWWindow::setSwapInterval(int interval) {
 
 GLFWwindow* GLFWWindow::glfwWindow() const { return _window; }
 
-void GLFWWindow::requestRender() {
-    _renderRequested = true;
+void GLFWWindow::requestRender(unsigned int numFrames) {
+    _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
     glfwPostEmptyEvent();
 }
 

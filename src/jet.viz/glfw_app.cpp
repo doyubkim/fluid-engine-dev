@@ -30,16 +30,6 @@ Event<GLFWwindow*, int, const char**> sOnBeginGlfwDropEvent;
 
 }  // namespace
 
-static GLFWWindowPtr findWindow(GLFWwindow* glfwWindow) {
-    for (auto w : sWindows) {
-        if (w->glfwWindow() == glfwWindow) {
-            return w;
-        }
-    }
-
-    return nullptr;
-}
-
 int GLFWApp::initialize() {
     glfwSetErrorCallback(onErrorEvent);
 
@@ -65,14 +55,12 @@ int GLFWApp::run() {
     }
 
     while (sCurrentWindow != nullptr) {
-        JET_INFO << "blocked: " << sCurrentWindow->_renderRequested;
         glfwWaitEvents();
-        JET_INFO << "escaped: " << sCurrentWindow->_renderRequested;
 
         auto window = sCurrentWindow->glfwWindow();
 
         if (sCurrentWindow->isAnimationEnabled() ||
-            sCurrentWindow->_renderRequested) {
+            sCurrentWindow->_numRequestedRenderFrames > 0) {
             int width, height;
             glfwGetFramebufferSize(window, &width, &height);
             sCurrentWindow->resize(width, height);
@@ -81,11 +69,10 @@ int GLFWApp::run() {
                 sCurrentWindow->update();
             }
 
-            JET_INFO << "render";
             sCurrentWindow->render();
 
-            // Reset render request
-            sCurrentWindow->_renderRequested = false;
+            // Decrease render request count
+            sCurrentWindow->_numRequestedRenderFrames -= 1;
 
             if (sCurrentWindow->isAnimationEnabled()) {
                 glfwPostEmptyEvent();
@@ -121,6 +108,16 @@ GLFWWindowPtr GLFWApp::createWindow(const std::string& title, int width,
     glfwSetDropCallback(glfwWindow, onDrop);
 
     return sCurrentWindow;
+}
+
+GLFWWindowPtr GLFWApp::findWindow(GLFWwindow* glfwWindow) {
+    for (auto w : sWindows) {
+        if (w->glfwWindow() == glfwWindow) {
+            return w;
+        }
+    }
+
+    return nullptr;
 }
 
 Event<GLFWwindow*, int, int, int, int>& GLFWApp::onBeginGlfwKeyEvent() {
