@@ -33,6 +33,8 @@ class GLFWApp {
     static GLFWWindowPtr createWindow(const std::string& title, int width,
                                       int height);
 
+    static GLFWWindowPtr findWindow(GLFWwindow* glfwWindow);
+
     static Event<GLFWwindow*, int, int, int, int>& onBeginGlfwKeyEvent();
 
     static Event<GLFWwindow*, int, int, int>& onBeginGlfwMouseButtonEvent();
