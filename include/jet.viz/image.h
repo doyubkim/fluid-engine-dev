@@ -22,6 +22,8 @@ class ByteImage final {
     explicit ByteImage(size_t width, size_t height,
                        const ByteColor& initialValue = ByteColor());
 
+    explicit ByteImage(const std::string& filename);
+
     void clear();
 
     void resize(size_t width, size_t height,

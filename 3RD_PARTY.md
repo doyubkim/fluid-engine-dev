@@ -600,6 +600,21 @@ https://github.com/juliettef/IconFontCppHeaders
 
 Copyright (c) 2017 Juliette Foucaut and Doug Binks
 
+---
+
+Jet uses stb_image for loading images:
+https://github.com/nothings/stb/blob/master/stb_image.h
+
+stb_image - v2.16 - public domain image loader - http://nothings.org/stb_image.h
+                                     no warranty implied; use at your own risk 
+
+---
+
+Jet uses airplane.png image file for the testing from
+http://homepages.cae.wisc.edu/~ece533/images/index.html
+
+
+
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
 arising from the use of this software.

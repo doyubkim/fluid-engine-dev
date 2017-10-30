@@ -8,6 +8,9 @@
 
 #include <jet.viz/image.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 using namespace jet;
 using namespace viz;
 
@@ -16,6 +19,29 @@ ByteImage::ByteImage() {}
 ByteImage::ByteImage(size_t width, size_t height,
                      const ByteColor& initialValue) {
     _data.resize(width, height, initialValue);
+}
+
+ByteImage::ByteImage(const std::string& filename) {
+    int width, height, bpp;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char* rawData =
+        stbi_load(filename.c_str(), &width, &height, &bpp, 4);
+
+    _data.resize(static_cast<size_t>(width), static_cast<size_t>(height));
+
+    size_t c = 0;
+    ByteColor color;
+    for (size_t j = 0; j < height; ++j) {
+        for (size_t i = 0; i < width; ++i) {
+            color.r = rawData[c++];
+            color.g = rawData[c++];
+            color.b = rawData[c++];
+            color.a = rawData[c++];
+            _data(i, j) = color;
+        }
+    }
+
+    stbi_image_free(rawData);
 }
 
 void ByteImage::clear() {}
