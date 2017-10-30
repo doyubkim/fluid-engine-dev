@@ -30,7 +30,7 @@ class GLFWWindow final {
 
     GLFWwindow* glfwWindow() const;
 
-    void requestRender();
+    void requestRender(unsigned int numFrames = 1);
 
     bool isAnimationEnabled() const;
     void setIsAnimationEnabled(bool enabled);
@@ -63,7 +63,7 @@ class GLFWWindow final {
     ModifierKey _lastModifierKey = ModifierKey::None;
 
     bool _isAnimationEnabled = false;
-    bool _renderRequested = false;
+    unsigned int _numRequestedRenderFrames = 0;
 
     int _width = 1;
     int _height = 1;
