@@ -26,13 +26,15 @@ ByteImage::ByteImage(const std::string& filename) {
     stbi_set_flip_vertically_on_load(true);
     unsigned char* rawData =
         stbi_load(filename.c_str(), &width, &height, &bpp, 4);
+    const auto swidth = static_cast<size_t>(width);
+    const auto sheight = static_cast<size_t>(height);
 
-    _data.resize(static_cast<size_t>(width), static_cast<size_t>(height));
+    _data.resize(swidth, sheight);
 
     size_t c = 0;
     ByteColor color;
-    for (size_t j = 0; j < height; ++j) {
-        for (size_t i = 0; i < width; ++i) {
+    for (size_t j = 0; j < sheight; ++j) {
+        for (size_t i = 0; i < swidth; ++i) {
             color.r = rawData[c++];
             color.g = rawData[c++];
             color.b = rawData[c++];
