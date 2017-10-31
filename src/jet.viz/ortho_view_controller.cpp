@@ -15,7 +15,12 @@ using namespace viz;
 static const double kZoomSpeedMultiplier = 0.1;
 
 OrthoViewController::OrthoViewController(const OrthoCameraPtr& camera)
-    : ViewController(camera) {}
+    : ViewController(camera) {
+    _origin = camera->basicCameraState().origin;
+    _basisY = camera->basicCameraState().lookUp;
+    _basisX = camera->basicCameraState().lookAt.cross(_basisY);
+    _viewHeight = camera->height();
+}
 
 OrthoViewController::~OrthoViewController() {}
 
@@ -51,12 +56,18 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
 
-        double scaleX =
+        const double scaleX =
             orthoCamera->width() / camera()->basicCameraState().viewport.width;
-        double scaleY = orthoCamera->height() /
-                        camera()->basicCameraState().viewport.height;
-        _origin += -(_panSpeed * scaleX * deltaX * _basisX) +
-                   (_panSpeed * scaleY * deltaY * _basisY);
+        const double scaleY = orthoCamera->height() /
+                              camera()->basicCameraState().viewport.height;
+
+        const auto right = std::cos(_viewRotateAngleInRadians) * _basisX +
+                           -std::sin(_viewRotateAngleInRadians) * _basisY;
+        const auto up = std::sin(_viewRotateAngleInRadians) * _basisX +
+                        std::cos(_viewRotateAngleInRadians) * _basisY;
+
+        _origin += -(_panSpeed * scaleX * deltaX * right) +
+                   (_panSpeed * scaleY * deltaY * up);
     }
 
     updateCamera();
