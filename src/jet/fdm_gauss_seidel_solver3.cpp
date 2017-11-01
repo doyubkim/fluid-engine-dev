@@ -31,7 +31,11 @@ bool FdmGaussSeidelSolver3::solve(FdmLinearSystem3* system) {
     _lastNumberOfIterations = _maxNumberOfIterations;
 
     for (unsigned int iter = 0; iter < _maxNumberOfIterations; ++iter) {
-        relax(system->A, system->b, _sorFactor, &system->x);
+        if (_useRedBlackOrdering) {
+            relaxRedBlack(system->A, system->b, _sorFactor, &system->x);
+        } else {
+            relax(system->A, system->b, _sorFactor, &system->x);
+        }
 
         if (iter != 0 && iter % _residualCheckInterval == 0) {
             FdmBlas3::residual(system->A, system->x, system->b, &_residual);
