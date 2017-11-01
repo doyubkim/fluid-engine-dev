@@ -44,7 +44,7 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
     double deltaX = pointerEvent.deltaX();
     double deltaY = pointerEvent.deltaY();
 
-    if (pointerEvent.modifierKey() == ModifierKey::Ctrl) {
+    if (_enableRotation && pointerEvent.modifierKey() == ModifierKey::Ctrl) {
         Vector2D center = camera()->basicCameraState().viewport.center();
         Vector2D offset(pointerEvent.x() - center.x,
                         center.y - pointerEvent.y());
@@ -52,7 +52,7 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
         double endAngle = std::atan2(offset.y - deltaY, offset.x + deltaX);
 
         _viewRotateAngleInRadians += endAngle - startAngle;
-    } else {
+    } else if (_enablePan) {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
 
@@ -78,11 +78,40 @@ void OrthoViewController::onPointerReleased(const PointerEvent& pointerEvent) {
 }
 
 void OrthoViewController::onMouseWheel(const PointerEvent& pointerEvent) {
-    double scale = pow(0.5, kZoomSpeedMultiplier * _zoomSpeed *
-                                pointerEvent.wheelData().deltaY);
-    _viewHeight *= scale;
+    if (_enableZoom) {
+        OrthoCameraPtr orthoCamera =
+            std::dynamic_pointer_cast<OrthoCamera>(camera());
 
-    updateCamera();
+        const double scale = pow(0.5, kZoomSpeedMultiplier * _zoomSpeed *
+                                          pointerEvent.wheelData().deltaY);
+        const auto screen = camera()->basicCameraState().viewport;
+        const double aspectRatio = screen.aspectRatio();
+        const double oldViewHeight = _viewHeight;
+        const double oldViewWidth = oldViewHeight * aspectRatio;
+        const double newViewHeight = _viewHeight * scale;
+        const double newViewWidth = newViewHeight * aspectRatio;
+
+        const double sx = pointerEvent.x();
+        const double sy = screen.height - pointerEvent.y();
+
+        const double newCameraLeft =
+            sx / screen.width * (1.0 - scale) * oldViewWidth +
+            orthoCamera->left();
+        const double newCameraBottom =
+            sy / screen.height * (1.0 - scale) * oldViewHeight +
+            orthoCamera->bottom();
+
+        const double newCameraRight = newCameraLeft + newViewWidth;
+        const double newCameraTop = newCameraBottom + newViewHeight;
+
+        _viewHeight = newViewHeight;
+        orthoCamera->setLeft(newCameraLeft);
+        orthoCamera->setRight(newCameraRight);
+        orthoCamera->setBottom(newCameraBottom);
+        orthoCamera->setTop(newCameraTop);
+
+        updateCamera();
+    }
 }
 
 void OrthoViewController::onResize(const Viewport& viewport) {
