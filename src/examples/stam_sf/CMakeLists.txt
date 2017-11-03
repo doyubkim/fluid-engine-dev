@@ -14,43 +14,32 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
 file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/solver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/demo.c)
+        ${CMAKE_CURRENT_SOURCE_DIR}/solver.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 
 # Build executable
 add_executable(${target}
-    ${sources})
+        ${sources})
 
 # Project options
 set_target_properties(${target}
-    PROPERTIES
-    ${DEFAULT_PROJECT_OPTIONS}
-)
+        PROPERTIES
+        ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
 target_compile_options(${target}
-    PRIVATE
+        PRIVATE
 
-    PUBLIC
-    ${DEFAULT_COMPILE_OPTIONS}
+        PUBLIC
+        ${DEFAULT_COMPILE_OPTIONS}
 
-    INTERFACE
-)
+        INTERFACE)
 
 # Link libraries
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_link_libraries(${target}
+target_link_libraries(${target}
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
+        ${OPENGL_LIBRARIES}
+        ${IMGUI_LIBRARIES}
         jet
-        pystring
-        winix
-        ${OPENGL_LIBRARIES})
-else()
-    target_link_libraries(${target}
-        PRIVATE
-        ${DEFAULT_LINKER_OPTIONS}
-        jet
-        pystring
-        ${OPENGL_LIBRARIES})
-endif()
+        jet.viz)

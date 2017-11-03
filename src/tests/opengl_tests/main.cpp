@@ -4,23 +4,19 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet.viz/jet.viz.h>
-#include <jet/jet.h>
-
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
 
+#include <cmath>
 #include <imgui/ImGuiUtils.h>
+
+#include <jet.viz/jet.viz.h>
+#include <jet/jet.h>
 
 #include <GLFW/glfw3.h>
 
 using namespace jet;
 using namespace viz;
-
-// ImGui Issue #1206 (https://github.com/ocornut/imgui/issues/1206)
-// Some UI features require number of frames to redisplay when
-// glfwWaitEvents() is on hold.
-#define IMGUI_RENDER_REQUEST_FRAMES 3
 
 bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
@@ -51,37 +47,6 @@ bool onGui(GLFWWindow*) {
 
 bool onUpdate(GLFWWindow*) { return false; }
 
-bool onBeginGlfwKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
-                    int mods) {
-    ImGui_ImplGlfwGL3_KeyCallback(glfwWindow, key, scancode, action, mods);
-    GLFWApp::findWindow(glfwWindow)->requestRender(IMGUI_RENDER_REQUEST_FRAMES);
-
-    return ImGui::GetIO().WantCaptureKeyboard;
-}
-
-bool onBeginGlfwMouseButton(GLFWwindow* glfwWindow, int button, int action,
-                            int mods) {
-    ImGui_ImplGlfwGL3_MouseButtonCallback(glfwWindow, button, action, mods);
-    GLFWApp::findWindow(glfwWindow)->requestRender(IMGUI_RENDER_REQUEST_FRAMES);
-
-    return ImGui::GetIO().WantCaptureMouse;
-}
-
-bool onBeginGlfwMouseScroll(GLFWwindow* glfwWindow, double deltaX,
-                            double deltaY) {
-    ImGui_ImplGlfwGL3_ScrollCallback(glfwWindow, deltaX, deltaY);
-    GLFWApp::findWindow(glfwWindow)->requestRender(IMGUI_RENDER_REQUEST_FRAMES);
-
-    return ImGui::GetIO().WantCaptureMouse;
-}
-
-bool onBeginGlfwChar(GLFWwindow* glfwWindow, unsigned int code) {
-    ImGui_ImplGlfwGL3_CharCallback(glfwWindow, code);
-    GLFWApp::findWindow(glfwWindow)->requestRender(IMGUI_RENDER_REQUEST_FRAMES);
-
-    return ImGui::GetIO().WantCaptureKeyboard;
-}
-
 int main(int, const char**) {
     GLFWApp::initialize();
 
@@ -89,13 +54,9 @@ int main(int, const char**) {
     GLFWWindowPtr window = GLFWApp::createWindow("OpenGL Test", 1280, 720);
 
     // Setup ImGui binding
-    ImGui_ImplGlfwGL3_Init(window->glfwWindow(), false);
-    GLFWApp::onBeginGlfwKeyEvent() += onBeginGlfwKey;
-    GLFWApp::onBeginGlfwMouseButtonEvent() += onBeginGlfwMouseButton;
-    GLFWApp::onBeginGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
-    GLFWApp::onBeginGlfwCharEvent() += onBeginGlfwChar;
+    ImGuiForGLFWApp::configureApp();
+    ImGuiForGLFWApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
-    window->requestRender(IMGUI_RENDER_REQUEST_FRAMES);
 
     window->setViewController(
         std::make_shared<OrthoViewController>(std::make_shared<OrthoCamera>()));
