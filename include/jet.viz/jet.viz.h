@@ -17,6 +17,7 @@
 #include <jet.viz/gl_texture3.h>
 #include <jet.viz/gl_vertex_buffer.h>
 #include <jet.viz/glfw_app.h>
+#include <jet.viz/glfw_imgui_utils.h>
 #include <jet.viz/glfw_window.h>
 #include <jet.viz/image.h>
 #include <jet.viz/image_renderable.h>

@@ -9,11 +9,15 @@
 
 #include "camera.h"
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class OrthoCamera : public Camera {
  public:
     OrthoCamera();
+
+    OrthoCamera(double left, double right, double bottom, double top);
+
     OrthoCamera(const Vector3D& origin, const Vector3D& lookAt,
                 const Vector3D& lookUp, double nearClipPlane,
                 double farClipPlane, double left, double right, double bottom,
@@ -57,6 +61,7 @@ class OrthoCamera : public Camera {
 
 typedef std::shared_ptr<OrthoCamera> OrthoCameraPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_ORTHO_CAMERA_H_
