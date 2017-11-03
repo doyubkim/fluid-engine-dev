@@ -44,7 +44,7 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
     double deltaX = pointerEvent.deltaX();
     double deltaY = pointerEvent.deltaY();
 
-    if (_enableRotation && pointerEvent.modifierKey() == ModifierKey::Ctrl) {
+    if (enableRotation && pointerEvent.modifierKey() == ModifierKey::Ctrl) {
         Vector2D center = camera()->basicCameraState().viewport.center();
         Vector2D offset(pointerEvent.x() - center.x,
                         center.y - pointerEvent.y());
@@ -52,7 +52,7 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
         double endAngle = std::atan2(offset.y - deltaY, offset.x + deltaX);
 
         _viewRotateAngleInRadians += endAngle - startAngle;
-    } else if (_enablePan) {
+    } else if (enablePan) {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
 
@@ -78,7 +78,7 @@ void OrthoViewController::onPointerReleased(const PointerEvent& pointerEvent) {
 }
 
 void OrthoViewController::onMouseWheel(const PointerEvent& pointerEvent) {
-    if (_enableZoom) {
+    if (enableZoom) {
         OrthoCameraPtr orthoCamera =
             std::dynamic_pointer_cast<OrthoCamera>(camera());
 

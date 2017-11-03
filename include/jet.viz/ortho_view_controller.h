@@ -16,6 +16,9 @@ namespace viz {
 class OrthoViewController : public ViewController {
  public:
     bool preserveAspectRatio = true;
+    bool enablePan = true;
+    bool enableZoom = true;
+    bool enableRotation = true;
 
     OrthoViewController(const OrthoCameraPtr& camera);
     virtual ~OrthoViewController();
@@ -33,10 +36,6 @@ class OrthoViewController : public ViewController {
     void onResize(const Viewport& viewport) override;
 
  private:
-    bool _enablePan = true;
-    bool _enableZoom = true;
-    bool _enableRotation = true;
-
     Vector3D _origin = Vector3D(0, 0, 1);
     Vector3D _basisX = Vector3D(1, 0, 0);
     Vector3D _basisY = Vector3D(0, 1, 0);
