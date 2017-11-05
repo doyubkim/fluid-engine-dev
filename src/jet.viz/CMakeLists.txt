@@ -49,7 +49,7 @@ endif()
 set(jet_viz_header_gen_py ${root_dir}/scripts/header_gen.py)
 add_custom_command(
         COMMAND python ${jet_viz_header_gen_py} jet.viz
-        DEPENDS ${headers}
+        DEPENDS ${headers} ${root_dir}/scripts/header_gen.py
         OUTPUT ${root_dir}/include/jet.viz/jet.viz.h)
 add_custom_target(jet_viz_header_gen_py ALL
         DEPENDS ${root_dir}/include/jet.viz/jet.viz.h)

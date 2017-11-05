@@ -4,12 +4,16 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "image_renderable_tests.h"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
 
 #include <cmath>
+
 #include <imgui/ImGuiUtils.h>
 
+#include <jet.viz/glfw_imgui_utils-ext.h>
 #include <jet.viz/jet.viz.h>
 #include <jet/jet.h>
 
@@ -18,10 +22,28 @@
 using namespace jet;
 using namespace viz;
 
+static std::vector<OpenGLTestsPtr> sTests;
+static size_t sCurrentTestIdx = 0;
+static RendererPtr sRenderer;
+
+void nextTests() {
+    sRenderer->clearRenderables();
+
+    ++sCurrentTestIdx;
+    if (sCurrentTestIdx == sTests.size()) {
+        sCurrentTestIdx = 0;
+    }
+
+    sTests[sCurrentTestIdx]->setup(sRenderer.get());
+}
+
 bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
         win->setIsAnimationEnabled(!win->isAnimationEnabled());
+        return true;
+    } else if (keyEvent.key() == GLFW_KEY_SPACE) {
+        nextTests();
         return true;
     }
 
@@ -29,16 +51,21 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
 }
 
 bool onGui(GLFWWindow*) {
-    static float f = 0.0f;
-    static ImVec4 clear_color = ImColor(114, 144, 154);
-
     ImGui_ImplGlfwGL3_NewFrame();
 
-    ImGui::Text("Hello, world!");
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-    ImGui::ColorEdit3("clear color", (float*)&clear_color);
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Begin("Info");
+    {
+        ImGui::Text(
+            "%s",
+            ("Current test set #: " + std::to_string(sCurrentTestIdx)).c_str());
+        if (ImGui::Button("Next test set")) {
+            nextTests();
+        }
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                    1000.0f / ImGui::GetIO().Framerate,
+                    ImGui::GetIO().Framerate);
+    }
+    ImGui::End();
 
     ImGui::Render();
 
@@ -51,7 +78,7 @@ int main(int, const char**) {
     GLFWApp::initialize();
 
     // Create GLFW window
-    GLFWWindowPtr window = GLFWApp::createWindow("OpenGL Test", 1280, 720);
+    GLFWWindowPtr window = GLFWApp::createWindow("OpenGL Tests", 1280, 720);
 
     // Setup ImGui binding
     ImGuiForGLFWApp::configureApp();
@@ -62,14 +89,12 @@ int main(int, const char**) {
         std::make_shared<OrthoViewController>(std::make_shared<OrthoCamera>()));
 
     // Setup renderer
-    auto renderer = window->renderer();
-    renderer->setBackgroundColor(Color{1, 1, 1, 1});
+    sRenderer = window->renderer();
+    sRenderer->setBackgroundColor(Color{1, 1, 1, 1});
 
-    // Load sample image renderable
-    const ByteImage img(RESOURCES_DIR "/airplane.png");
-    const auto renderable = std::make_shared<ImageRenderable>(renderer.get());
-    renderable->setImage(img);
-    renderer->addRenderable(renderable);
+    // Setup tests
+    sTests.push_back(std::make_shared<ImageRenderableTests>());
+    sTests[sCurrentTestIdx]->setup(sRenderer.get());
 
     // Set up event handlers
     window->onKeyDownEvent() += onKeyDown;

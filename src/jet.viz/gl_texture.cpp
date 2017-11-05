@@ -25,6 +25,20 @@ GLTexture::GLTexture(unsigned int target) : _target(target) {}
 
 GLTexture::~GLTexture() {}
 
+const GLTextureParameters& GLTexture::glTextureParameters() const {
+    return _param;
+}
+
+void GLTexture::setGLTextureParamters(const GLTextureParameters& params) {
+    _param = params;
+
+    glBindTexture(_target, _texId);
+    glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, _param.minFilter);
+    glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _param.magFilter);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_S, _param.wrapS);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_T, _param.wrapT);
+}
+
 void GLTexture::clearGLTexture() {
     if (_texId > 0) {
         glDeleteTextures(1, &_texId);
@@ -45,8 +59,6 @@ void GLTexture::bindGLTexture(unsigned int slotId) {
     glActiveTexture(GL_TEXTURE0 + slotId);
     glBindTexture(_target, _texId);
 }
-
-const GLTextureParameters& GLTexture::glParameters() const { return _param; }
 
 unsigned int GLTexture::glTextureId() const { return _texId; }
 

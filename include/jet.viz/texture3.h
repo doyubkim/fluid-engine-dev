@@ -9,6 +9,7 @@
 
 #include <jet/macros.h>
 #include <jet/size3.h>
+#include <jet.viz/texture.h>
 
 #include <memory>
 
@@ -31,6 +32,10 @@ class Texture3 {
 
     const Size3& size() const;
 
+    const TextureSamplingMode& samplingMode() const;
+
+    void setSamplingMode(const TextureSamplingMode& mode);
+
  protected:
     virtual void onClear() = 0;
 
@@ -38,8 +43,11 @@ class Texture3 {
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
 
+    virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
+
  private:
     Size3 _size;
+    TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
 };
 
 typedef std::shared_ptr<Texture3> Texture3Ptr;

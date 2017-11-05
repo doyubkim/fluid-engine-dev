@@ -36,7 +36,7 @@ file(GLOB sources
 set(jet_header_gen_py ${root_dir}/scripts/header_gen.py)
 add_custom_command(
     COMMAND python ${jet_header_gen_py}
-    DEPENDS ${headers}
+    DEPENDS ${headers} ${root_dir}/scripts/header_gen.py
     OUTPUT ${root_dir}/include/jet/jet.h
 )
 add_custom_target(jet_header_gen_py ALL
