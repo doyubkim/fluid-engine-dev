@@ -21,6 +21,8 @@ class ImageRenderable final : public Renderable {
 
     void setImage(const ByteImage& image);
 
+    void setTextureSamplingMode(const TextureSamplingMode& mode);
+
  protected:
     void render(Renderer* renderer) override;
 

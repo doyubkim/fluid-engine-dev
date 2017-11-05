@@ -40,3 +40,12 @@ void Texture3::bind(Renderer* renderer, unsigned int slotId) {
 }
 
 const Size3& Texture3::size() const { return _size; }
+
+const TextureSamplingMode& Texture3::samplingMode() const {
+    return _samplingMode;
+}
+
+void Texture3::setSamplingMode(const TextureSamplingMode& mode) {
+    _samplingMode = mode;
+    onSamplingModeChanged(mode);
+}

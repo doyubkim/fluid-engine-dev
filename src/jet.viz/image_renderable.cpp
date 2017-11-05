@@ -62,6 +62,10 @@ void ImageRenderable::setImage(const ByteImage& image) {
     }
 }
 
+void ImageRenderable::setTextureSamplingMode(const TextureSamplingMode& mode) {
+    _texture->setSamplingMode(mode);
+}
+
 void ImageRenderable::render(Renderer* renderer) {
     if (_shader != nullptr && _texture != nullptr &&
         _texture->size() != Size2()) {

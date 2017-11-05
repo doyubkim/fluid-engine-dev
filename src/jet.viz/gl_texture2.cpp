@@ -40,7 +40,7 @@ void GLTexture2::onResize(const float* const data, const Size2& size) {
     createGLTexture();
 
     auto target = glTarget();
-    const auto& param = glParameters();
+    const auto& param = glTextureParameters();
 
     glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param.minFilter);
     glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param.magFilter);
@@ -57,7 +57,7 @@ void GLTexture2::onResize(const uint8_t* const data, const Size2& size) {
     createGLTexture();
 
     auto target = glTarget();
-    const auto& param = glParameters();
+    const auto& param = glTextureParameters();
 
     glTexParameteri(target, GL_TEXTURE_MIN_FILTER, param.minFilter);
     glTexParameteri(target, GL_TEXTURE_MAG_FILTER, param.magFilter);
@@ -73,6 +73,18 @@ void GLTexture2::onBind(Renderer* renderer, unsigned int slotId) {
     UNUSED_VARIABLE(renderer);
 
     bindGLTexture(slotId);
+}
+
+void GLTexture2::onSamplingModeChanged(const TextureSamplingMode& mode) {
+    auto param = glTextureParameters();
+
+    if (mode == TextureSamplingMode::kNearest) {
+        param.magFilter = param.minFilter = GL_NEAREST;
+        setGLTextureParamters(param);
+    } else if (mode == TextureSamplingMode::kLinear) {
+        param.magFilter = param.minFilter = GL_LINEAR;
+        setGLTextureParamters(param);
+    }
 }
 
 #endif  // JET_USE_GL

@@ -14,7 +14,6 @@
 namespace jet {
 namespace viz {
 
-// TODO: Make this a common parameter set
 struct GLTextureParameters final {
     int minFilter;
     int magFilter;
@@ -31,14 +30,16 @@ class GLTexture {
 
     virtual ~GLTexture();
 
+    const GLTextureParameters& glTextureParameters() const;
+
+    void setGLTextureParamters(const GLTextureParameters& params);
+
  protected:
     void clearGLTexture();
 
     void createGLTexture();
 
     void bindGLTexture(unsigned int slotId);
-
-    const GLTextureParameters& glParameters() const;
 
     unsigned int glTextureId() const;
 
