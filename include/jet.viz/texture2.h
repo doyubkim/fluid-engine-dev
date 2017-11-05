@@ -9,6 +9,8 @@
 
 #include <jet/macros.h>
 #include <jet/size2.h>
+#include <jet.viz/texture.h>
+
 #include <cstdint>
 #include <memory>
 
@@ -36,7 +38,13 @@ class Texture2 {
 
     const Size2& size() const;
 
+    const TextureSamplingMode& samplingMode() const;
+
+    void setSamplingMode(const TextureSamplingMode& mode);
+
  protected:
+    TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
+
     virtual void onClear() = 0;
 
     virtual void onResize(const float* const data, const Size2& size) = 0;
@@ -44,6 +52,8 @@ class Texture2 {
     virtual void onResize(const uint8_t* const data, const Size2& size) = 0;
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
+
+    virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
  private:
     Size2 _size;

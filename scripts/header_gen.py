@@ -41,7 +41,7 @@ def main():
         header_file.write("#define INCLUDE_%s_%s_H_\n" %
                           (module_name_upper, module_name_upper))
         for filename in filenames:
-            if not filename.endswith("-inl.h"):
+            if not filename.endswith("-inl.h") and not filename.endswith("-ext.h"):
                 line = "#include <%s/%s>\n" % (module_name, os.path.basename(filename))
                 header_file.write(line)
         header_file.write("#endif  // INCLUDE_%s_%s_H_\n" %

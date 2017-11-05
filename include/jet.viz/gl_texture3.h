@@ -21,14 +21,16 @@ class GLTexture3 : public Texture3, public GLTexture {
     GLTexture3();
     virtual ~GLTexture3();
 
-    virtual void update(const float* data) override;
+    void update(const float* data) override;
 
  protected:
-    virtual void onClear() override;
+    void onClear() override;
 
-    virtual void onResize(const float* data, const Size3& size) override;
+    void onResize(const float* data, const Size3& size) override;
 
-    virtual void onBind(Renderer* renderer, unsigned int slotId) override;
+    void onBind(Renderer* renderer, unsigned int slotId) override;
+
+    void onSamplingModeChanged(const TextureSamplingMode& mode) override;
 
  private:
     Size3 _size;

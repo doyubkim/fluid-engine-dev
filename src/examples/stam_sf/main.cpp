@@ -22,6 +22,7 @@
 
 #include <imgui/ImGuiUtils.h>
 
+#include <jet.viz/glfw_imgui_utils-ext.h>
 #include <jet.viz/jet.viz.h>
 #include <jet/jet.h>
 
