@@ -5,6 +5,7 @@
 // property of any third parties.
 
 #include "image_renderable_tests.h"
+#include "points_renderable3_tests.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
@@ -24,17 +25,17 @@ using namespace viz;
 
 static std::vector<OpenGLTestsPtr> sTests;
 static size_t sCurrentTestIdx = 0;
-static RendererPtr sRenderer;
+static GLFWWindow* sWindow;
 
 void nextTests() {
-    sRenderer->clearRenderables();
+    sWindow->renderer()->clearRenderables();
 
     ++sCurrentTestIdx;
     if (sCurrentTestIdx == sTests.size()) {
         sCurrentTestIdx = 0;
     }
 
-    sTests[sCurrentTestIdx]->setup(sRenderer.get());
+    sTests[sCurrentTestIdx]->setup(sWindow);
 }
 
 bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
@@ -79,22 +80,18 @@ int main(int, const char**) {
 
     // Create GLFW window
     GLFWWindowPtr window = GLFWApp::createWindow("OpenGL Tests", 1280, 720);
+    sWindow = window.get();
 
     // Setup ImGui binding
     ImGuiForGLFWApp::configureApp();
     ImGuiForGLFWApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
 
-    window->setViewController(
-        std::make_shared<OrthoViewController>(std::make_shared<OrthoCamera>()));
-
-    // Setup renderer
-    sRenderer = window->renderer();
-    sRenderer->setBackgroundColor(Color{1, 1, 1, 1});
-
     // Setup tests
-    sTests.push_back(std::make_shared<ImageRenderableTests>());
-    sTests[sCurrentTestIdx]->setup(sRenderer.get());
+    sTests.push_back(std::make_shared<ImageRenderableTests>(true));
+    sTests.push_back(std::make_shared<ImageRenderableTests>(false));
+    sTests.push_back(std::make_shared<PointsRenderable3Tests>());
+    sTests[sCurrentTestIdx]->setup(window.get());
 
     // Set up event handlers
     window->onKeyDownEvent() += onKeyDown;

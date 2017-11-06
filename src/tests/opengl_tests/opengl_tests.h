@@ -18,7 +18,7 @@ class OpenGLTests {
     OpenGLTests() = default;
     virtual ~OpenGLTests() = default;
 
-    virtual void setup(Renderer* renderer) = 0;
+    virtual void setup(GLFWWindow* window) = 0;
 };
 
 typedef std::shared_ptr<OpenGLTests> OpenGLTestsPtr;

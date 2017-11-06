@@ -47,20 +47,20 @@ void PerspCamera::updateMatrix() {
         (_state.farClipPlane - _state.nearClipPlane);
 
     Matrix4x4D projection(
-        2.0 * _state.nearClipPlane / (right - left), 0, 0, 0,  // 1st column
-        0, 2.0 * _state.nearClipPlane / (top - bottom), 0, 0,  // 2nd column
-        a, b, c, -1,                                           // 3rd column
-        0, 0, d, 0);                                           // 4th column
+        2.0 * _state.nearClipPlane / (right - left), 0, a, 0,  // 1st row
+        0, 2.0 * _state.nearClipPlane / (top - bottom), b, 0,  // 2nd row
+        0, 0, c, d,                                            // 3rd row
+        0, 0, -1, 0);                                          // 4th row
 
     // https://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml
     const Vector3D& f = _state.lookAt;
     Vector3D s = f.cross(_state.lookUp);
     Vector3D u = s.normalized().cross(f);
 
-    Matrix4x4D view(s.x, u.x, -f.x, 0,  // 1st column
-                    s.y, u.y, -f.y, 0,  // 2nd column
-                    s.z, u.z, -f.z, 0,  // 3rd column
-                    0, 0, 0, 1);        // 4th column
+    Matrix4x4D view(s.x, s.y, s.z, 0,     // 1st row
+                    u.x, u.y, u.z, 0,     // 2nd row
+                    -f.x, -f.y, -f.z, 0,  // 3rd row
+                    0, 0, 0, 1);          // 4th row
 
     Matrix4x4D model;
     model = Matrix4x4D::makeTranslationMatrix(-_state.origin);
