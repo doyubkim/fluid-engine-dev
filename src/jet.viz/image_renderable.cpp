@@ -53,12 +53,10 @@ ImageRenderable::ImageRenderable(Renderer* renderer) : _renderer(renderer) {
 }
 
 void ImageRenderable::setImage(const ByteImage& image) {
-    auto data = reinterpret_cast<const uint8_t*>(image.data());
-
     if (_texture != nullptr && image.size() == _texture->size()) {
-        _texture->update(data);
+        _texture->update(image.data());
     } else {
-        _texture = _renderer->createTexture2(data, image.size());
+        _texture = _renderer->createTexture2(image.data(), image.size());
     }
 }
 

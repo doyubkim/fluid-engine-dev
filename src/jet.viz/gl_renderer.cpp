@@ -93,7 +93,7 @@ IndexBufferPtr GLRenderer::createIndexBuffer(
     return IndexBufferPtr(indexBuffer);
 }
 
-Texture2Ptr GLRenderer::createTexture2(const uint8_t* const data,
+Texture2Ptr GLRenderer::createTexture2(const ByteColor* const data,
                                        const Size2& size) {
     GLTexture2* texture2 = new GLTexture2();
     texture2->resize(data, size);
@@ -101,7 +101,7 @@ Texture2Ptr GLRenderer::createTexture2(const uint8_t* const data,
     return Texture2Ptr(texture2);
 }
 
-Texture2Ptr GLRenderer::createTexture2(const float* const data,
+Texture2Ptr GLRenderer::createTexture2(const Color* const data,
                                        const Size2& size) {
     GLTexture2* texture2 = new GLTexture2();
     texture2->resize(data, size);
@@ -109,7 +109,7 @@ Texture2Ptr GLRenderer::createTexture2(const float* const data,
     return Texture2Ptr(texture2);
 }
 
-Texture3Ptr GLRenderer::createTexture3(const float* data, const Size3& size) {
+Texture3Ptr GLRenderer::createTexture3(const Color* data, const Size3& size) {
     GLTexture3* texture3 = new GLTexture3();
     texture3->resize(data, size);
 

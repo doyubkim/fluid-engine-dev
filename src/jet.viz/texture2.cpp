@@ -21,7 +21,7 @@ void Texture2::clear() {
     onClear();
 }
 
-void Texture2::resize(const float* const data, const Size2& size) {
+void Texture2::resize(const Color* const data, const Size2& size) {
     if (size == Size2()) {
         clear();
     } else if (size == _size) {
@@ -35,7 +35,7 @@ void Texture2::resize(const float* const data, const Size2& size) {
     }
 }
 
-void Texture2::resize(const uint8_t* const data, const Size2& size) {
+void Texture2::resize(const ByteColor* const data, const Size2& size) {
     if (size == Size2()) {
         clear();
     } else if (size == _size) {
