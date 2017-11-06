@@ -14,7 +14,7 @@ using namespace viz;
 
 static const double kRotateSpeedMultiplier = 0.01;
 static const double kZoomSpeedMultiplier = 0.01;
-static const double kPanSpeedMultiplier = 0.01;
+static const double kPanSpeedMultiplier = 0.001;
 
 SphericalViewController::SphericalViewController(const CameraPtr& camera)
     : ViewController(camera) {

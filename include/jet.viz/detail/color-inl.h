@@ -79,6 +79,35 @@ inline Color Color::makeGreen() { return Color(0.f, 1.f, 0.f, 1.f); }
 
 inline Color Color::makeBlue() { return Color(0.f, 0.f, 1.f, 1.f); }
 
+inline Color Color::makeJet(float value) {
+    // Adopted from
+    // https://stackoverflow.com/questions/7706339/grayscale-to-red-green-blue-matlab-jet-color-scale
+    static const auto interpolate = [](float val, float y0, float x0, float y1,
+                                       float x1) -> float {
+        return (val - x0) * (y1 - y0) / (x1 - x0) + y0;
+    };
+
+    static const auto base = [](float val) -> float {
+        if (val <= -0.75) {
+            return 0;
+        } else if (val <= -0.25f) {
+            return interpolate(val, 0.0f, -0.75f, 1.0f, -0.25f);
+        } else if (val <= 0.25f) {
+            return 1.0f;
+        } else if (val <= 0.75f) {
+            return interpolate(val, 1.0f, 0.25f, 0.0f, 0.75f);
+        } else {
+            return 0.0f;
+        }
+    };
+
+    static const auto red = [](float val) { return base(val - 0.5f); };
+    static const auto green = [](float val) { return base(val); };
+    static const auto blue = [](float val) { return base(val + 0.5f); };
+
+    return Color{red(value), green(value), blue(value), 1.0f};
+}
+
 }  // namespace viz
 }  // namespace jet
 

@@ -9,7 +9,23 @@
 using namespace jet;
 using namespace viz;
 
-void ImageRenderableTests::setup(Renderer* renderer) {
+ImageRenderableTests::ImageRenderableTests(bool useOrthoCam)
+    : _useOrthoCam(useOrthoCam) {}
+
+void ImageRenderableTests::setup(GLFWWindow* window) {
+    // Setup desired view controller
+    if (_useOrthoCam) {
+        window->setViewController(
+                std::make_shared<OrthoViewController>(std::make_shared<OrthoCamera>()));
+    } else {
+        window->setViewController(
+                std::make_shared<SphericalViewController>(std::make_shared<PerspCamera>()));
+    }
+
+    // Setup desired background
+    auto renderer = window->renderer().get();
+    renderer->setBackgroundColor(Color{1, 1, 1, 1});
+
     // Load sample image renderable
     const ByteImage img(RESOURCES_DIR "/airplane.png");
     auto renderable = std::make_shared<ImageRenderable>(renderer);
