@@ -67,6 +67,8 @@ struct Color final {
     static Color makeGreen();
 
     static Color makeBlue();
+
+    static Color makeJet(float value);
 };
 
 }  // namespace viz

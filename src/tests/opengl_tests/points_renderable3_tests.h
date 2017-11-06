@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_TESTS_OPENGL_TESTS_IMAGE_RENDERABLE_TESTS_H_
-#define SRC_TESTS_OPENGL_TESTS_IMAGE_RENDERABLE_TESTS_H_
+#ifndef SRC_TESTS_OPENGL_TESTS_POINTS_RENDERABLE3_TESTS_H_
+#define SRC_TESTS_OPENGL_TESTS_POINTS_RENDERABLE3_TESTS_H_
 
 #include "opengl_tests.h"
 
@@ -13,18 +13,15 @@ namespace jet {
 
 namespace viz {
 
-class ImageRenderableTests final : public OpenGLTests {
+class PointsRenderable3Tests final : public OpenGLTests {
  public:
-    ImageRenderableTests(bool useOrthoCam);
+    PointsRenderable3Tests() = default;
 
     void setup(GLFWWindow* window) override;
-
-private:
-    bool _useOrthoCam = true;
 };
 
 }  // namespace viz
 
 }  // namespace jet
 
-#endif  // SRC_TESTS_OPENGL_TESTS_IMAGE_RENDERABLE_TESTS_H_
+#endif  // SRC_TESTS_OPENGL_TESTS_POINTS_RENDERABLE3_TESTS_H_
