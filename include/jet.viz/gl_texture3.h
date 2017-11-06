@@ -21,12 +21,12 @@ class GLTexture3 : public Texture3, public GLTexture {
     GLTexture3();
     virtual ~GLTexture3();
 
-    void update(const float* data) override;
+    void update(const Color* data) override;
 
  protected:
     void onClear() override;
 
-    void onResize(const float* data, const Size3& size) override;
+    void onResize(const Color* data, const Size3& size) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 

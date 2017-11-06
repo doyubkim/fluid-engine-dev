@@ -21,7 +21,7 @@ void Texture3::clear() {
     onClear();
 }
 
-void Texture3::resize(const float* data, const Size3& size) {
+void Texture3::resize(const Color* data, const Size3& size) {
     if (size == Size3()) {
         clear();
     } else if (size == _size) {

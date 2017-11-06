@@ -23,7 +23,7 @@ class SimpleVolumeRenderable final : public Renderable {
 
     virtual ~SimpleVolumeRenderable();
 
-    void setVolume(const float* data, const Size3& size);
+    void setVolume(const Color* data, const Size3& size);
 
     float brightness() const;
 

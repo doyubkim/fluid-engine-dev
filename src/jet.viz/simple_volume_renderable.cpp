@@ -90,7 +90,7 @@ void SimpleVolumeRenderable::render(Renderer* renderer) {
     }
 }
 
-void SimpleVolumeRenderable::setVolume(const float* data, const Size3& size) {
+void SimpleVolumeRenderable::setVolume(const Color* data, const Size3& size) {
     if (_texture != nullptr && size == _texture->size()) {
         _texture->update(data);
     } else {

@@ -17,7 +17,7 @@ GLTexture3::GLTexture3() : GLTexture(GL_TEXTURE_3D) {}
 
 GLTexture3::~GLTexture3() {}
 
-void GLTexture3::update(const float* data) {
+void GLTexture3::update(const Color* data) {
     glBindTexture(GL_TEXTURE_3D, glTextureId());
 
     glTexSubImage3D(glTarget(), 0, 0, 0, 0, static_cast<GLsizei>(_size.x),
@@ -27,7 +27,7 @@ void GLTexture3::update(const float* data) {
 
 void GLTexture3::onClear() { clearGLTexture(); }
 
-void GLTexture3::onResize(const float* data, const Size3& size) {
+void GLTexture3::onResize(const Color* data, const Size3& size) {
     _size = size;
 
     createGLTexture();

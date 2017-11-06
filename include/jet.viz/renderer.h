@@ -38,13 +38,13 @@ class Renderer {
         const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
         size_t numberOfIndices) = 0;
 
-    virtual Texture2Ptr createTexture2(const uint8_t* const data,
+    virtual Texture2Ptr createTexture2(const ByteColor* const data,
                                        const Size2& size) = 0;
 
-    virtual Texture2Ptr createTexture2(const float* const data,
+    virtual Texture2Ptr createTexture2(const Color* const data,
                                        const Size2& size) = 0;
 
-    virtual Texture3Ptr createTexture3(const float* const data,
+    virtual Texture3Ptr createTexture3(const Color* const data,
                                        const Size3& size) = 0;
 
     virtual ShaderPtr createPresetShader(
