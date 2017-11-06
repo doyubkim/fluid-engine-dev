@@ -9,6 +9,7 @@
 
 #include <jet/macros.h>
 #include <jet/size3.h>
+#include <jet.viz/color.h>
 #include <jet.viz/texture.h>
 
 #include <memory>
@@ -22,11 +23,11 @@ class Texture3 {
     Texture3();
     virtual ~Texture3();
 
-    virtual void update(const float* data) = 0;
+    virtual void update(const Color* data) = 0;
 
     void clear();
 
-    void resize(const float* data, const Size3& size);
+    void resize(const Color* data, const Size3& size);
 
     void bind(Renderer* renderer, unsigned int slotId);
 
@@ -39,7 +40,7 @@ class Texture3 {
  protected:
     virtual void onClear() = 0;
 
-    virtual void onResize(const float* data, const Size3& size) = 0;
+    virtual void onResize(const Color* data, const Size3& size) = 0;
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
 

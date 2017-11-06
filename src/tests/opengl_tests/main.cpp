@@ -6,6 +6,7 @@
 
 #include "image_renderable_tests.h"
 #include "points_renderable3_tests.h"
+#include "simple_volume_renderable_tests.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
@@ -91,6 +92,7 @@ int main(int, const char**) {
     sTests.push_back(std::make_shared<ImageRenderableTests>(true));
     sTests.push_back(std::make_shared<ImageRenderableTests>(false));
     sTests.push_back(std::make_shared<PointsRenderable3Tests>());
+    sTests.push_back(std::make_shared<SimpleVolumeRenderableTests>());
     sTests[sCurrentTestIdx]->setup(window.get());
 
     // Set up event handlers

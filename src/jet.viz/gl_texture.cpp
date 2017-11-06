@@ -23,7 +23,9 @@ GLTextureParameters::GLTextureParameters() {
 
 GLTexture::GLTexture(unsigned int target) : _target(target) {}
 
-GLTexture::~GLTexture() {}
+GLTexture::~GLTexture() {
+    clearGLTexture();
+}
 
 const GLTextureParameters& GLTexture::glTextureParameters() const {
     return _param;

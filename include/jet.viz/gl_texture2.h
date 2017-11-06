@@ -21,17 +21,16 @@ class GLTexture2 : public Texture2, public GLTexture {
     GLTexture2();
     virtual ~GLTexture2();
 
-    void update(const float* const data) override;
+    void update(const Color* const data) override;
 
-    void update(const uint8_t* const data) override;
+    void update(const ByteColor* const data) override;
 
  protected:
     void onClear() override;
 
-    void onResize(const float* const data, const Size2& size) override;
+    void onResize(const Color* const data, const Size2& size) override;
 
-    void onResize(const uint8_t* const data,
-                          const Size2& size) override;
+    void onResize(const ByteColor* const data, const Size2& size) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 

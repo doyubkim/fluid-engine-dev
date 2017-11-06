@@ -9,6 +9,7 @@
 
 #include <jet/macros.h>
 #include <jet/size2.h>
+#include <jet.viz/color.h>
 #include <jet.viz/texture.h>
 
 #include <cstdint>
@@ -24,15 +25,15 @@ class Texture2 {
     Texture2();
     virtual ~Texture2();
 
-    virtual void update(const uint8_t* const data) = 0;
+    virtual void update(const Color* const data) = 0;
 
-    virtual void update(const float* const data) = 0;
+    virtual void update(const ByteColor* const data) = 0;
 
     void clear();
 
-    void resize(const float* const data, const Size2& size);
+    void resize(const Color* const data, const Size2& size);
 
-    void resize(const uint8_t* const data, const Size2& size);
+    void resize(const ByteColor* const data, const Size2& size);
 
     void bind(Renderer* renderer, unsigned int slotId);
 
@@ -47,9 +48,9 @@ class Texture2 {
 
     virtual void onClear() = 0;
 
-    virtual void onResize(const float* const data, const Size2& size) = 0;
+    virtual void onResize(const Color* const data, const Size2& size) = 0;
 
-    virtual void onResize(const uint8_t* const data, const Size2& size) = 0;
+    virtual void onResize(const ByteColor* const data, const Size2& size) = 0;
 
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
 
