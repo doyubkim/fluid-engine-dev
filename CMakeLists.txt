@@ -7,7 +7,7 @@
 #
 
 # CMake version
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -86,6 +86,9 @@ include(cmake/CompileOptions.cmake)
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
+
+# Options
+option(ENABLE_CUDA "Enable CUDA Feature" ON)
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
