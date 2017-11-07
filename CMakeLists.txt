@@ -7,7 +7,7 @@
 #
 
 # CMake version
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -94,6 +94,9 @@ if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
     setup_target_for_coverage(${PROJECT_NAME}_coverage unit_tests coverage)
 endif()
+
+# Options
+option(ENABLE_CUDA "Enable CUDA Feature" ON)
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
