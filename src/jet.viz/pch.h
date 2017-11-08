@@ -9,6 +9,7 @@
 #include <jet/macros.h>
 
 // OpenGL stuffs
+#define NOMINMAX
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 

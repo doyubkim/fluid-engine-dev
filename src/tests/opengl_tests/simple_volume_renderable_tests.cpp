@@ -23,7 +23,7 @@ void SimpleVolumeRenderableTests::setup(GLFWWindow* window) {
     // Generate sphere
     Array3<Color> data(64, 64, 64);
     data.forEachIndex([&](size_t i, size_t j, size_t k) {
-        const Vector3F grid(i, j, k);
+        const Vector3F grid((float)i, (float)j, (float)k);
         const float phi = (grid - Vector3F(32, 32, 32)).length() - 12.0f;
         const float den = 1.0f - smearedHeavisideSdf(phi / 10.0f);
         data(i, j, k).r = 1.0f;
