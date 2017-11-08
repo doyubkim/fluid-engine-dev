@@ -39,6 +39,58 @@ constexpr double zero<double>() {
     return 0.0;
 }
 
+// MARK: 1/3
+
+//! 1/3 float
+constexpr float kOneThirdF = 1.f / 3.f;
+
+//! 1/3 double
+constexpr double kOneThirdD = 1.0 / 3.0;
+
+//! 1/3 for type T
+template <typename T>
+constexpr T oneThird() {
+    return static_cast<T>(kOneThirdD);
+}
+
+//! 1/3 for float
+template <>
+constexpr float oneThird<float>() {
+    return kOneThirdF;
+}
+
+//! 1/3 for double
+template <>
+constexpr double oneThird<double>() {
+    return kOneThirdD;
+}
+
+// MARK: 1/2
+
+//! 1/2 float
+constexpr float kHalfF = 0.5f;
+
+//! 1/2 double
+constexpr double kHalfD = 0.5;
+
+//! 1/2 for type T
+template <typename T>
+constexpr T half() {
+    return static_cast<T>(kHalfD);
+}
+
+//! 1/2 for float
+template <>
+constexpr float half<float>() {
+    return kHalfF;
+}
+
+//! 1/2 for double
+template <>
+constexpr double half<double>() {
+    return kHalfD;
+}
+
 // MARK: One
 
 //! One size_t.
@@ -65,6 +117,52 @@ constexpr double one<double>() {
     return 1.0;
 }
 
+// MARK: 1.5
+
+//! 1.5 for type T.
+template <typename T>
+constexpr T oneAndHalf() {
+    return static_cast<T>(1.5);
+}
+
+//! 1.5 for float.
+template <>
+constexpr float oneAndHalf<float>() {
+    return 1.5f;
+}
+
+//! 1.5 for double.
+template <>
+constexpr double oneAndHalf<double>() {
+    return 1.5;
+}
+
+// MARK: Two
+
+//! Two size_t.
+constexpr size_t kTwoSize = 2;
+
+//! Two ssize_t.
+constexpr ssize_t kTwoSSize = 2;
+
+//! Two for type T.
+template <typename T>
+constexpr T two() {
+    return 2;
+}
+
+//! Two for float.
+template <>
+constexpr float two<float>() {
+    return 2.f;
+}
+
+//! Two for double.
+template <>
+constexpr double two<double>() {
+    return 2.0;
+}
+
 // MARK: Epsilon
 
 //! Float-type epsilon.
@@ -72,7 +170,6 @@ constexpr float kEpsilonF = std::numeric_limits<float>::epsilon();
 
 //! Double-type epsilon.
 constexpr double kEpsilonD = std::numeric_limits<double>::epsilon();
-
 
 // MARK: Max
 
@@ -87,7 +184,6 @@ constexpr float kMaxF = std::numeric_limits<float>::max();
 
 //! Max double.
 constexpr double kMaxD = std::numeric_limits<double>::max();
-
 
 // MARK: Pi
 
@@ -115,7 +211,6 @@ constexpr double pi<double>() {
     return kPiD;
 }
 
-
 // MARK: Pi/2
 
 //! Float-type pi/2.
@@ -141,7 +236,6 @@ template <>
 constexpr double halfPi<double>() {
     return kHalfPiD;
 }
-
 
 // MARK: Pi/4
 
@@ -221,7 +315,6 @@ constexpr double invPi<double>() {
     return kInvPiD;
 }
 
-
 // MARK: 1/2*Pi
 
 //! Float-type 1/2*pi.
@@ -248,7 +341,6 @@ constexpr double invTwoPi<double>() {
     return kInvTwoPiD;
 }
 
-
 // MARK: Physics
 
 //! Gravity.
@@ -259,7 +351,6 @@ constexpr double kWaterDensity = 1000.0;
 
 //! Speed of sound in water at 20 degrees celcius.
 constexpr double kSpeedOfSoundInWater = 1482.0;
-
 
 // MARK: Common enums
 
@@ -285,10 +376,9 @@ constexpr int kDirectionBack = 1 << 4;
 constexpr int kDirectionFront = 1 << 5;
 
 //! All direction.
-constexpr int kDirectionAll
-    = kDirectionLeft | kDirectionRight
-    | kDirectionDown | kDirectionUp
-    | kDirectionBack | kDirectionFront;
+constexpr int kDirectionAll = kDirectionLeft | kDirectionRight |
+                              kDirectionDown | kDirectionUp | kDirectionBack |
+                              kDirectionFront;
 
 }  // namespace jet
 
