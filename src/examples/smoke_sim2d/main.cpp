@@ -60,16 +60,19 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
 
 bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
+    (void)pointerEvent;
     return true;
 }
 
 bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
+    (void)pointerEvent;
     return true;
 }
 
 bool onPointerDragged(GLFWWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
+    (void)pointerEvent;
     return true;
 }
 
@@ -80,6 +83,7 @@ bool onGui(GLFWWindow*) {
         ImGui::Text("Application average %.3f ms/sFrame (%.1f FPS)",
                     1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     }
+    ImGui::End();
     ImGui::Render();
     return true;
 }
@@ -95,7 +99,7 @@ bool onUpdate(GLFWWindow* win) {
     return true;
 }
 
-int main(int argc, const char** argv) {
+int main(int, const char**) {
     Logging::mute();
 
     GLFWApp::initialize();

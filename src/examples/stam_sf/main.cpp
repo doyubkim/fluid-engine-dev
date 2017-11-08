@@ -41,23 +41,27 @@ extern void vel_step(int N, float* u, float* v, float* u0, float* v0,
                      float visc, float dt);
 
 // MARK: Global variables
-static int N;
-static float dt, diff, visc;
-static float force, source;
-static int dvel;
+namespace global {
 
-static float *u, *v, *uPrev, *vPrev;
-static float *dens, *densPrev;
+int N;
+float dt, diff, visc;
+float force, source;
+int dvel;
 
-static int frameX, frameY;
-static int mouseDown[2];
-static int omx, omy, mx, my;
+float *u, *v, *uPrev, *vPrev;
+float *dens, *densPrev;
 
-static ImageRenderablePtr sRenderable;
-static ByteImage sImage;
+int frameX, frameY;
+int mouseDown[2];
+int omx, omy, mx, my;
+
+ImageRenderablePtr sRenderable;
+ByteImage sImage;
+}
 
 // MARK: Free/clear/allocate simulation data
 static void freeData(void) {
+    using namespace global;
     if (u) free(u);
     if (v) free(v);
     if (uPrev) free(uPrev);
@@ -67,6 +71,7 @@ static void freeData(void) {
 }
 
 static void clearData(void) {
+    using namespace global;
     int i, size = (N + 2) * (N + 2);
 
     for (i = 0; i < size; i++) {
@@ -75,6 +80,7 @@ static void clearData(void) {
 }
 
 static bool allocateData(void) {
+    using namespace global;
     int size = (N + 2) * (N + 2);
 
     u = (float*)malloc(size * sizeof(float));
@@ -93,11 +99,12 @@ static bool allocateData(void) {
 }
 
 // MARK: Relates mouse movements to forces sources
-static void getFromUI(float* d, float* u, float* v) {
+static void getFromUI(float* d_, float* u_, float* v_) {
+    using namespace global;
     int i, j, size = (N + 2) * (N + 2);
 
     for (i = 0; i < size; i++) {
-        u[i] = v[i] = d[i] = 0.0f;
+        u_[i] = v_[i] = d_[i] = 0.0f;
     }
 
     if (!mouseDown[0] && !mouseDown[1]) return;
@@ -108,12 +115,12 @@ static void getFromUI(float* d, float* u, float* v) {
     if (i < 1 || i > N || j < 1 || j > N) return;
 
     if (mouseDown[0]) {
-        u[IX(i, j)] = force * (mx - omx);
-        v[IX(i, j)] = force * (omy - my);
+        u_[IX(i, j)] = force * (mx - omx);
+        v_[IX(i, j)] = force * (omy - my);
     }
 
     if (mouseDown[1]) {
-        d[IX(i, j)] = source;
+        d_[IX(i, j)] = source;
     }
 
     omx = mx;
@@ -122,6 +129,8 @@ static void getFromUI(float* d, float* u, float* v) {
 
 // MARK: Rendering
 void densityToImage() {
+    using namespace global;
+
     sImage.resize(N, N);
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
@@ -136,6 +145,8 @@ void densityToImage() {
 
 // MARK: Event handlers
 bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
+    using namespace global;
+
     switch (keyEvent.key()) {
         case 'c':
         case 'C':
@@ -161,6 +172,8 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
 }
 
 bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
+    using namespace global;
+    (void)win;
     int button =
         (pointerEvent.pressedMouseButton() == MouseButtonType::Left) ? 0 : 1;
     mouseDown[button] = true;
@@ -168,6 +181,8 @@ bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
 }
 
 bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
+    using namespace global;
+    (void)win;
     int button =
         (pointerEvent.pressedMouseButton() == MouseButtonType::Left) ? 0 : 1;
     mouseDown[button] = false;
@@ -175,6 +190,8 @@ bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
 }
 
 bool onPointerDragged(GLFWWindow* win, const PointerEvent& pointerEvent) {
+    using namespace global;
+    (void)win;
     mx = (int)pointerEvent.x();
     my = (int)pointerEvent.y();
     return true;
@@ -189,6 +206,7 @@ bool onGui(GLFWWindow*) {
 }
 
 bool onUpdate(GLFWWindow* win) {
+    using namespace global;
     const auto fbSize = win->framebufferSize();
     frameX = (int)fbSize.x;
     frameY = (int)fbSize.y;
@@ -203,6 +221,8 @@ bool onUpdate(GLFWWindow* win) {
 }
 
 int main(int argc, const char** argv) {
+    using namespace global;
+
     GLFWApp::initialize();
 
     // Setup solver

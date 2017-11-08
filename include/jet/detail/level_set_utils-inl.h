@@ -33,8 +33,9 @@ inline T smearedHeavisideSdf(T phi) {
         if (phi < -1.5) {
             return 0;
         } else {
-            return 0.5f + phi / 3.0 +
-                   0.5f * invPi<T>() * std::sin(pi<T>() * phi / 1.5);
+            return half<T>() + phi * oneThird<T>() +
+                   half<T>() * invPi<T>() *
+                       std::sin(pi<T>() * phi / oneAndHalf<T>());
         }
     }
 }
@@ -44,7 +45,8 @@ inline T smearedDeltaSdf(T phi) {
     if (std::fabs(phi) > 1.5) {
         return 0;
     } else {
-        return 1.0 / 3.0 + 1.0 / 3.0 * std::cos(pi<T>() * phi / 1.5);
+        return oneThird<T>() +
+               oneThird<T>() * std::cos(pi<T>() * phi / oneAndHalf<T>());
     }
 }
 
