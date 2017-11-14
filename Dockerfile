@@ -8,7 +8,7 @@ ADD . /app
 
 WORKDIR /app/build
 RUN cmake .. -DUSE_GL=OFF && \
-    make -j`nproc` && \
+    make -j && \
     make install
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
