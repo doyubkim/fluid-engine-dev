@@ -8,7 +8,7 @@ ADD . /app
 
 WORKDIR /app/build
 RUN cmake .. -DUSE_GL=OFF && \
-    make -j`nproc` && \
+    make -j && \
     make install
 
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
