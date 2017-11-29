@@ -7,13 +7,10 @@ RUN apt-get update -yq && \
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. -DUSE_GL=OFF && \
-    make -j && \
-    make install
+RUN cmake .. -DUSE_GL=OFF && make install
 
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
-RUN pip install -r ../requirements.txt && \
-    pip install ..
+RUN pip install -r ../requirements.txt && pip install ..
 
 WORKDIR /
