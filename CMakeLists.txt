@@ -25,9 +25,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 option(USE_GL "Use OpenGL features" ON)
 if (USE_GL)
     find_package(OpenGL REQUIRED)
-    set(corefoundation_lib "")
     if (APPLE)
-        find_library(corefoundation_lib CoreFoundation)
+        find_library(COREFOUNDATION_LIB CoreFoundation)
+    else()
+        set(COREFOUNDATION_LIB "")
     endif()
     if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         find_program(NUGET nuget)
@@ -50,7 +51,7 @@ if (USE_GL)
         set(GLFW_LIBRARY glfw)
     endif()
     set(OPENGL_LIBRARIES ${OPENGL_LIBRARIES}
-            ${corefoundation_lib}
+            ${COREFOUNDATION_LIB}
             ${GLFW_LIBRARY})
     add_definitions(-DJET_USE_GL)
 
