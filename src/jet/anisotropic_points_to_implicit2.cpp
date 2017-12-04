@@ -139,14 +139,13 @@ void AnisotropicPointsToImplicit2::convert(
             // Constrain Sigma
             const double maxSingularVal = v.absmax();
             const double kr = 4.0;
-            v[0] = std::max(v[0], maxSingularVal / kr);
-            v[1] = std::max(v[1], maxSingularVal / kr);
+            v.x = sign(v.x) * absmax(v.x, maxSingularVal / kr);
+            v.y = sign(v.y) * absmax(v.y, maxSingularVal / kr);
             const auto invSigma = Matrix2x2D::makeScaleMatrix(1.0 / v);
 
             // Compute G
-            const double relA = v[0] * v[1];  // area preservation
-            const Matrix2x2D g =
-                invH * std::sqrt(relA) * (w * invSigma * u.transposed());
+            const double scale = std::sqrt(v.x * v.y);  // area preservation
+            const Matrix2x2D g = invH * scale * (w * invSigma * u.transposed());
             gs[i] = g;
         }
     });

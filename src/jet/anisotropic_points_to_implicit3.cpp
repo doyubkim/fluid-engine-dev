@@ -85,6 +85,8 @@ void AnisotropicPointsToImplicit3::convert(
         PointKdTreeSearcher3::builder().makeShared();
     meanNeighborSearcher->build(points);
 
+    JET_INFO << "Built neighbor searcher.";
+
     SphSystemData3 meanParticles;
     meanParticles.addParticles(points);
     meanParticles.setNeighborSearcher(meanNeighborSearcher);
@@ -142,18 +144,21 @@ void AnisotropicPointsToImplicit3::convert(
             // Constrain Sigma
             const double maxSingularVal = v.absmax();
             const double kr = 4.0;
-            v[0] = std::max(v[0], maxSingularVal / kr);
-            v[1] = std::max(v[1], maxSingularVal / kr);
-            v[2] = std::max(v[2], maxSingularVal / kr);
+            v.x = sign(v.x) * absmax(v.x, maxSingularVal / kr);
+            v.y = sign(v.y) * absmax(v.y, maxSingularVal / kr);
+            v.z = sign(v.z) * absmax(v.z, maxSingularVal / kr);
+
             const auto invSigma = Matrix3x3D::makeScaleMatrix(1.0 / v);
 
             // Compute G
-            const double relV = v[0] * v[1] * v[2];  // area preservation
-            const Matrix3x3D g = invH * std::pow(relV, 1.0 / 3.0) *
-                                 (w * invSigma * u.transposed());
+            const double scale =
+                std::pow(v.x * v.y * v.z, 1.0 / 3.0);  // volume preservation
+            const Matrix3x3D g = invH * scale * (w * invSigma * u.transposed());
             gs[i] = g;
         }
     });
+
+    JET_INFO << "Computed G and means.";
 
     // SPH estimator
     meanParticles.setKernelRadius(h);
@@ -177,9 +182,13 @@ void AnisotropicPointsToImplicit3::convert(
         return _cutOffDensity - sum;
     });
 
+    JET_INFO << "Computed SDF.";
+
     if (_isOutputSdf) {
         FmmLevelSetSolver3 solver;
         solver.reinitialize(*temp, kMaxD, output);
+
+        JET_INFO << "Completed einitialization.";
     } else {
         temp->swap(output);
     }
