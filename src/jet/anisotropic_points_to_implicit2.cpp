@@ -82,6 +82,8 @@ void AnisotropicPointsToImplicit2::convert(
         PointKdTreeSearcher2::builder().makeShared();
     meanNeighborSearcher->build(points);
 
+    JET_INFO << "Built neighbor searcher.";
+
     SphSystemData2 meanParticles;
     meanParticles.addParticles(points);
     meanParticles.setNeighborSearcher(meanNeighborSearcher);
@@ -150,6 +152,8 @@ void AnisotropicPointsToImplicit2::convert(
         }
     });
 
+    JET_INFO << "Computed G and means.";
+
     // SPH estimator
     meanParticles.setKernelRadius(h);
     meanParticles.updateDensities();
@@ -172,10 +176,16 @@ void AnisotropicPointsToImplicit2::convert(
         return _cutOffDensity - sum;
     });
 
+    JET_INFO << "Computed SDF.";
+
     if (_isOutputSdf) {
         FmmLevelSetSolver2 solver;
         solver.reinitialize(*temp, kMaxD, output);
+
+        JET_INFO << "Completed einitialization.";
     } else {
         temp->swap(output);
     }
+
+    JET_INFO << "Done converting points to implicit surface.";
 }
