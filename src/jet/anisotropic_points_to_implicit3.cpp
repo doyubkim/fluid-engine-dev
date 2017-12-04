@@ -141,12 +141,17 @@ void AnisotropicPointsToImplicit3::convert(
             Matrix3x3D w;
             svd(cov, u, v, w);
 
+            // Take off the sign
+            v.x = std::fabs(v.x);
+            v.y = std::fabs(v.y);
+            v.z = std::fabs(v.z);
+
             // Constrain Sigma
-            const double maxSingularVal = v.absmax();
+            const double maxSingularVal = v.max();
             const double kr = 4.0;
-            v.x = sign(v.x) * absmax(v.x, maxSingularVal / kr);
-            v.y = sign(v.y) * absmax(v.y, maxSingularVal / kr);
-            v.z = sign(v.z) * absmax(v.z, maxSingularVal / kr);
+            v.x = std::max(v.x, maxSingularVal / kr);
+            v.y = std::max(v.y, maxSingularVal / kr);
+            v.z = std::max(v.z, maxSingularVal / kr);
 
             const auto invSigma = Matrix3x3D::makeScaleMatrix(1.0 / v);
 
