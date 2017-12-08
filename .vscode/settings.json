@@ -1,14 +1,8 @@
 // Place your settings in this file to overwrite the default settings
 {
 	"editor.tabSize": 4,
-
 	"editor.insertSpaces": true,
-
 	"files.trimTrailingWhitespace": true,
-
-	"files.insertFinalNewline": false,
-
-    "C_Cpp.clang_format_style": "file",
-
-    "C_Cpp.clang_format_formatOnSave": true
+	"files.insertFinalNewline": true,
+	"C_Cpp.clang_format_style": "file"
 }
