@@ -7,19 +7,34 @@
 #ifndef INCLUDE_JET_VIZ_CAMERA_H_
 #define INCLUDE_JET_VIZ_CAMERA_H_
 
+#include <jet.viz/viewport.h>
 #include <jet/matrix4x4.h>
 #include <jet/ray3.h>
-#include <jet.viz/viewport.h>
 
 #include <memory>
 
-namespace jet { namespace viz {
+namespace jet {
+
+namespace viz {
+
+//! Common camera state representation.
 struct BasicCameraState {
+    //! Origin of the camera.
     Vector3D origin;
+
+    //! Look-at direction.
     Vector3D lookAt;
+
+    //! Up vector.
     Vector3D lookUp;
+
+    //! Distance to the near-clip plane.
     double nearClipPlane;
+
+    //! Distance to the far-clip plane.
     double farClipPlane;
+
+    //! Viewport.
     Viewport viewport;
 };
 
@@ -51,6 +66,8 @@ class Camera {
 
 typedef std::shared_ptr<Camera> CameraPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_CAMERA_H_
