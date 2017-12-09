@@ -9,7 +9,7 @@ var searchData=
   ['scalargridbuilder2ptr',['ScalarGridBuilder2Ptr',['../namespacejet.html#a9f63e5fa5ef0628c70642317ddefdd71',1,'jet']]],
   ['scalargridbuilder3ptr',['ScalarGridBuilder3Ptr',['../namespacejet.html#a113e2a157cba013adf53f04837a5f663',1,'jet']]],
   ['scalarmapper',['ScalarMapper',['../classjet_1_1_volume_grid_emitter2.html#add489a713187469d57b1aecd6cabce50',1,'jet::VolumeGridEmitter2::ScalarMapper()'],['../classjet_1_1_volume_grid_emitter3.html#ac8053b822b43c09e73686596056aa386',1,'jet::VolumeGridEmitter3::ScalarMapper()']]],
-  ['scalartype',['ScalarType',['../structjet_1_1_blas.html#a1056d49e8e0d387cf06bbe27a2f0159d',1,'jet::Blas::ScalarType()'],['../structjet_1_1_fdm_blas2.html#a3afea5d45a3a9b145942ba11a61da482',1,'jet::FdmBlas2::ScalarType()'],['../structjet_1_1_fdm_blas3.html#a80d253194e576565b7083a0e879570eb',1,'jet::FdmBlas3::ScalarType()']]],
+  ['scalartype',['ScalarType',['../structjet_1_1_blas.html#a1056d49e8e0d387cf06bbe27a2f0159d',1,'jet::Blas::ScalarType()'],['../structjet_1_1_fdm_blas2.html#a3afea5d45a3a9b145942ba11a61da482',1,'jet::FdmBlas2::ScalarType()'],['../structjet_1_1_fdm_compressed_blas2.html#a9f1cd5a4c9ec454d3539df5921d48159',1,'jet::FdmCompressedBlas2::ScalarType()'],['../structjet_1_1_fdm_blas3.html#a80d253194e576565b7083a0e879570eb',1,'jet::FdmBlas3::ScalarType()'],['../structjet_1_1_fdm_compressed_blas3.html#a60a4216c172db60519518fb76ef01ff3',1,'jet::FdmCompressedBlas3::ScalarType()']]],
   ['semilagrangian2ptr',['SemiLagrangian2Ptr',['../namespacejet.html#a34ba59f317163e2526ef1c2acafbc318',1,'jet']]],
   ['semilagrangian3ptr',['SemiLagrangian3Ptr',['../namespacejet.html#aaf977a988640f81aab7a11a0413cb8c0',1,'jet']]],
   ['size',['Size',['../namespacejet.html#a6d7499296318d7cea4c0eddf6a46247f',1,'jet']]],
