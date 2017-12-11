@@ -100,7 +100,7 @@ void GridSmokeSolver3::computeDiffusion(double timeIntervalInSeconds) {
                 *den0,
                 _smokeDiffusionCoefficient,
                 timeIntervalInSeconds,
-                den0.get(),
+                den.get(),
                 colliderSdf());
             extrapolateIntoCollider(den.get());
         }
