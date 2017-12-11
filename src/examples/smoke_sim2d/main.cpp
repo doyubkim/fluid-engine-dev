@@ -33,9 +33,8 @@ void densityToImage() {
     sImage.resize(sN, sN);
     for (size_t i = 0; i < sN; i++) {
         for (size_t j = 0; j < sN; j++) {
-            const double d = clamp(den(i, j), 0.0, 1.0);
-            const auto bd = static_cast<uint8_t>(d * 255);
-            ByteColor color{bd, bd, bd, 255};
+            const double d = clamp(2.0f * den(i, j) - 1.0, -1.0, 1.0);
+            auto color = ByteColor(Color::makeJet(d));
             sImage(i, j) = color;
         }
     }
@@ -81,7 +80,8 @@ bool onGui(GLFWWindow*) {
     ImGui::Begin("Info");
     {
         ImGui::Text("Application average %.3f ms/sFrame (%.1f FPS)",
-                    1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                    1000.0f / ImGui::GetIO().Framerate,
+                    ImGui::GetIO().Framerate);
     }
     ImGui::End();
     ImGui::Render();
@@ -112,7 +112,7 @@ int main(int, const char**) {
     auto pressureSolver =
         std::make_shared<GridFractionalSinglePhasePressureSolver2>();
     pressureSolver->setLinearSystemSolver(
-        std::make_shared<FdmGaussSeidelSolver2>(20, 20, 0.001));
+        std::make_shared<FdmMgSolver2>(6, 5, 5, 10, 10));
     sSolver->setPressureSolver(pressureSolver);
     auto sphere =
         Sphere2::builder().withCenter({0.5, 0.2}).withRadius(0.15).makeShared();
