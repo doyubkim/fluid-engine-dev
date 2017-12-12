@@ -17,6 +17,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <random>
+
 using namespace jet;
 using namespace viz;
 
@@ -26,6 +28,11 @@ static Frame sFrame{0, 1.0 / 60.0};
 static GridSmokeSolver2Ptr sSolver;
 static ImageRenderablePtr sRenderable;
 static ByteImage sImage;
+static VolumeGridEmitter2Ptr sEmitter;
+
+std::random_device sRandomDevice;
+std::mt19937 sRandomGen(sRandomDevice());
+std::uniform_real_distribution<> sRandomDist(0.0, 1.0);
 
 // MARK: Rendering
 void densityToImage() {
@@ -39,6 +46,21 @@ void densityToImage() {
         }
     }
     sRenderable->setImage(sImage);
+}
+
+// MARK: Emitter
+void resetEmitter() {
+    auto sphere = Sphere2::builder()
+                      .withCenter({0.2 + 0.6 * sRandomDist(sRandomGen),
+                                   0.1 + 0.3 * sRandomDist(sRandomGen)})
+                      .withRadius(0.05 + 0.1 * sRandomDist(sRandomGen))
+                      .makeShared();
+    auto emitter =
+        VolumeGridEmitter2::builder().withSourceRegion(sphere).makeShared();
+    sSolver->setEmitter(emitter);
+    emitter->addStepFunctionTarget(sSolver->smokeDensity(), 0.0, 1.0);
+    emitter->addStepFunctionTarget(sSolver->temperature(), 0.0,
+                                   1.0 * 0.5 * sRandomDist(sRandomGen));
 }
 
 // MARK: Event handlers
@@ -82,6 +104,18 @@ bool onGui(GLFWWindow*) {
         ImGui::Text("Application average %.3f ms/sFrame (%.1f FPS)",
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
+
+        if (ImGui::Button("Add Source")) {
+            resetEmitter();
+        }
+
+        float diff = sSolver->smokeDiffusionCoefficient();
+        ImGui::DragFloat("Smoke Diffusion", &diff, 0.001f, 0.0f, 0.1f, "%.4f");
+        sSolver->setSmokeDiffusionCoefficient(diff);
+
+        float decay = sSolver->smokeDecayFactor();
+        ImGui::DragFloat("Smoke Decay", &decay, 0.0001f, 0.0f, 0.01f);
+        sSolver->setSmokeDecayFactor(decay);
     }
     ImGui::End();
     ImGui::Render();
@@ -112,15 +146,14 @@ int main(int, const char**) {
     auto pressureSolver =
         std::make_shared<GridFractionalSinglePhasePressureSolver2>();
     pressureSolver->setLinearSystemSolver(
-        std::make_shared<FdmMgSolver2>(6, 5, 5, 10, 10));
+        std::make_shared<FdmMgSolver2>(6, 3, 3, 3, 3));
+    auto diffusionSolver =
+        std::make_shared<GridBackwardEulerDiffusionSolver2>();
+    diffusionSolver->setLinearSystemSolver(
+        std::make_shared<FdmMgSolver2>(6, 3, 3, 3, 3));
     sSolver->setPressureSolver(pressureSolver);
-    auto sphere =
-        Sphere2::builder().withCenter({0.5, 0.2}).withRadius(0.15).makeShared();
-    auto emitter =
-        VolumeGridEmitter2::builder().withSourceRegion(sphere).makeShared();
-    sSolver->setEmitter(emitter);
-    emitter->addStepFunctionTarget(sSolver->smokeDensity(), 0.0, 1.0);
-    emitter->addStepFunctionTarget(sSolver->temperature(), 0.0, 1.0);
+    sSolver->setDiffusionSolver(diffusionSolver);
+    resetEmitter();
 
     // Create GLFW window
     GLFWWindowPtr window = GLFWApp::createWindow("Smoke Sim 2D", 512, 512);
