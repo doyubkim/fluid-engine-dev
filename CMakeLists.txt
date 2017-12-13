@@ -56,8 +56,6 @@ if (USE_GL)
     add_definitions(-DJET_USE_GL)
 
     set(IMGUI_LIBRARIES imgui)
-else()
-    set(USE_IMGUI OFF CACHE BOOL "" FORCE)
 endif()
 
 # Includes
