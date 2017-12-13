@@ -30,8 +30,7 @@ static ImageRenderablePtr sRenderable;
 static ByteImage sImage;
 static VolumeGridEmitter2Ptr sEmitter;
 
-std::random_device sRandomDevice;
-std::mt19937 sRandomGen(sRandomDevice());
+std::mt19937 sRandomGen(0);
 std::uniform_real_distribution<> sRandomDist(0.0, 1.0);
 
 // MARK: Rendering
@@ -52,7 +51,7 @@ void densityToImage() {
 void resetEmitter() {
     auto sphere = Sphere2::builder()
                       .withCenter({0.2 + 0.6 * sRandomDist(sRandomGen),
-                                   0.1 + 0.3 * sRandomDist(sRandomGen)})
+                                   0.2 + 0.3 * sRandomDist(sRandomGen)})
                       .withRadius(0.05 + 0.1 * sRandomDist(sRandomGen))
                       .makeShared();
     auto emitter =
@@ -109,12 +108,12 @@ bool onGui(GLFWWindow*) {
             resetEmitter();
         }
 
-        float diff = sSolver->smokeDiffusionCoefficient();
-        ImGui::DragFloat("Smoke Diffusion", &diff, 0.001f, 0.0f, 0.1f, "%.4f");
+        auto diff = (float)sSolver->smokeDiffusionCoefficient();
+        ImGui::SliderFloat("Smoke Diffusion", &diff, 0.0f, 0.005f, "%.5f");
         sSolver->setSmokeDiffusionCoefficient(diff);
 
-        float decay = sSolver->smokeDecayFactor();
-        ImGui::DragFloat("Smoke Decay", &decay, 0.0001f, 0.0f, 0.01f);
+        auto decay = (float)sSolver->smokeDecayFactor();
+        ImGui::SliderFloat("Smoke Decay", &decay, 0.0f, 0.01f);
         sSolver->setSmokeDecayFactor(decay);
     }
     ImGui::End();
@@ -150,7 +149,7 @@ int main(int, const char**) {
     auto diffusionSolver =
         std::make_shared<GridBackwardEulerDiffusionSolver2>();
     diffusionSolver->setLinearSystemSolver(
-        std::make_shared<FdmMgSolver2>(6, 3, 3, 3, 3));
+        std::make_shared<FdmGaussSeidelSolver2>(10, 10, 1e-3));
     sSolver->setPressureSolver(pressureSolver);
     sSolver->setDiffusionSolver(diffusionSolver);
     resetEmitter();

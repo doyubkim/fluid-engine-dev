@@ -49,8 +49,6 @@ void Camera::onResize(const Viewport& viewport) { UNUSED_VARIABLE(viewport); }
 
 const Matrix4x4D& Camera::matrix() const { return _matrix; }
 
-Matrix4x4F Camera::matrixF() const { return _matrix.castTo<float>(); }
-
 const BasicCameraState& Camera::basicCameraState() const { return _state; }
 
 void Camera::setBasicCameraState(const BasicCameraState& state) {

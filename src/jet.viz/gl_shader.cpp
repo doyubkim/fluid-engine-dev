@@ -189,9 +189,10 @@ void GLShader::onBind(Renderer* renderer) {
     glUseProgram(_program);
 
     // Load default parameters
-    Matrix4x4F modelViewProjection = renderer->camera()->matrixF();
-    float viewWidth = static_cast<float>(renderer->viewport().width);
-    float viewHeight = static_cast<float>(renderer->viewport().height);
+    const auto modelViewProjection =
+        renderer->camera()->matrix().castTo<float>();
+    const float viewWidth = static_cast<float>(renderer->viewport().width);
+    const float viewHeight = static_cast<float>(renderer->viewport().height);
 
     setModelViewProjectionMatrix(modelViewProjection);
     setViewWidth(viewWidth);
