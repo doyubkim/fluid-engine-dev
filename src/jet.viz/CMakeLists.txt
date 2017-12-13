@@ -39,11 +39,6 @@ if (USE_GL)
             ${sources}
             ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w/GL/gl3w.cpp)
 endif()
-if (USE_IMGUI)
-    file(GLOB sources
-            ${sources}
-            ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/imgui_impl_glfw_gl3/*.cpp)
-endif()
 
 # Custom-build event
 set(jet_viz_header_gen_py ${root_dir}/scripts/header_gen.py)
