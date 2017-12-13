@@ -40,6 +40,10 @@ inline ByteColor ByteColor::makeGreen() { return ByteColor(0, 255, 0, 255); }
 
 inline ByteColor ByteColor::makeBlue() { return ByteColor(0, 0, 255, 255); }
 
+inline ByteColor ByteColor::makeJet(float value) {
+    return ByteColor(Color::makeJet(value));
+}
+
 inline Color::Color() {}
 
 inline Color::Color(const ByteColor& other) {

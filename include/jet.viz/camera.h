@@ -38,29 +38,64 @@ struct BasicCameraState {
     Viewport viewport;
 };
 
+//! Base class for cameras.
 class Camera {
  public:
+    //! Default constructor.
     Camera();
+
+    //!
+    //! Constructs a camera with parameters.
+    //!
+    //! \param origin Origin of the camera (eye position).
+    //! \param lookAt Direction of the camera.
+    //! \param lookUp Up-direction of the camera.
+    //! \param nearClipPlane Position of the near-clip plane.
+    //! \param farClipPlane Position of the far-clip plane.
+    //! \param viewport The viewport.
+    //!
     Camera(const Vector3D& origin, const Vector3D& lookAt,
            const Vector3D& lookUp, double nearClipPlane, double farClipPlane,
            const Viewport& viewport);
+
+    //! Destructor.
     virtual ~Camera();
 
+    //!
+    //! Resizes the view.
+    //!
+    //! \param viewport New viewport to set.
+    //!
     void resize(const Viewport& viewport);
 
+    //! Returns the corresponding transformation matrix.
     const Matrix4x4D& matrix() const;
 
-    Matrix4x4F matrixF() const;
-
+    //! Returns the camera state.
     const BasicCameraState& basicCameraState() const;
+
+    //!
+    //! Sets the camera state.
+    //!
+    //! \param state New camera state.
+    //!
     void setBasicCameraState(const BasicCameraState& state);
 
  protected:
+    //! Transformation matrix.
     Matrix4x4D _matrix;
+
+    //! Camera state.
     BasicCameraState _state;
 
+    //!
+    //! Called when resize function is invoked.
+    //!
+    //! \param viewport New viewport.
+    //!
     virtual void onResize(const Viewport& viewport);
 
+    //! Update the matrix based on the current camera state.
     virtual void updateMatrix();
 };
 
