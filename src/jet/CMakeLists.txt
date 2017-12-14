@@ -10,8 +10,6 @@
 set(target jet)
 
 if (ENABLE_CUDA)
-    #set(CUDA_BIN_PATH $ENV{CUDA_PATH}/bin)
-    #set(CUDA_TOOLKIT_ROOT_DIR $ENV{CUDA_PATH})
     find_package(CUDA)
     list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
 endif()
@@ -56,13 +54,6 @@ add_custom_command(
 )
 add_custom_target(jet_header_gen_py ALL
     DEPENDS ${root_dir}/include/jet/jet.h)
-
-
-if (APPLE)
-    # We need to add the default path to the driver (libcuda.dylib) as an rpath,
-    # so that the static cuda runtime can find it at runtime.
-    set_property(TARGET ${target} PROPERTY BUILD_RPATH ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-endif()
 
 # Build library
 if (ENABLE_CUDA)
