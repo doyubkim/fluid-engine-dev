@@ -140,7 +140,11 @@ TEST(MatrixCsr, BasicSetters) {
 
     // Set other CSR mat
     matInitLst.set(matSparse);
+    iterInitLst = matInitLst.nonZeroBegin();
+
+    EXPECT_EQ(1.0, iterInitLst[0]);
     for (size_t i = 0; i < 8; ++i) {
+        std::cout << i << std::endl;
         EXPECT_EQ(iterSparse[i], iterInitLst[i]);
     }
 
@@ -232,71 +236,73 @@ TEST(MatrixCsr, BinaryOperatorMethods) {
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(i + 4.5, addResult1.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD matC = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
     const MatrixCsrD addResult2 = matA.add(matC);
     const MatrixCsrD addAns1 = {{4.0, 1.0, 5.0}, {13.0, 7.0, 14.0}};
     EXPECT_TRUE(addAns1.isEqual(addResult2));
-
+printf("999\n");
     const MatrixCsrD matD = {{3.0, 0.0, 2.0}, {0.0, 2.0, 0.0}};
+    printf("999\n");
     const MatrixCsrD addResult3 = matA.add(matD);
     const MatrixCsrD addAns2 = {{4.0, 2.0, 5.0}, {4.0, 7.0, 6.0}};
+printf("999\n");
     EXPECT_TRUE(addAns2.isEqual(addResult3));
-
+printf("999\n");
     const MatrixCsrD matE = {{3.0, 0.0, 2.0}, {0.0, 0.0, 0.0}};
     const MatrixCsrD addResult4 = matA.add(matE);
     const MatrixCsrD addAns3 = {{4.0, 2.0, 5.0}, {4.0, 5.0, 6.0}};
     EXPECT_TRUE(addAns3.isEqual(addResult4));
-
+printf("999\n");
     const MatrixCsrD subResult1 = matA.sub(1.5);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(i - 0.5, subResult1.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD subResult2 = matA.sub(matC);
     const MatrixCsrD ans2 = {{-2.0, 3.0, 1.0}, {-5.0, 3.0, -2.0}};
     EXPECT_TRUE(ans2.isSimilar(subResult2));
-
+printf("999\n");
     const MatrixCsrD matB = matA.mul(2.0);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(2.0 * (i + 1.0), matB.nonZero(i));
     }
-
+printf("999\n");
     const VectorND vecA = {-1.0, 9.0, 8.0};
     const VectorND vecB = matA.mul(vecA);
     const VectorND ansV = {41.0, 89.0};
     EXPECT_TRUE(ansV.isEqual(vecB));
-
+printf("999\n");
     const MatrixCsrD matF = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
     const MatrixCsrD matG = matA.mul(matF);
     const MatrixCsrD ans3 = {{13.0, 41.0}, {34.0, 89.0}};
     EXPECT_TRUE(ans3.isEqual(matG));
-
+printf("999\n");
     const MatrixCsrD matH = matA.div(2.0);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ((i + 1.0) / 2.0, matH.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD matI = matA.radd(3.5);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(i + 4.5, matI.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD matJ = matA.rsub(1.5);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(0.5 - i, matJ.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD matK = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
     const MatrixCsrD matL = matA.rsub(matK);
     const MatrixCsrD ans4 = {{2.0, -3.0, -1.0}, {5.0, -3.0, 2.0}};
     EXPECT_EQ(ans4, matL);
-
+printf("999\n");
     const MatrixCsrD matM = matA.rmul(2.0);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(2.0 * (i + 1.0), matM.nonZero(i));
     }
-
+printf("999\n");
     const MatrixCsrD matP = matA.rdiv(2.0);
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(2.0 / (i + 1.0), matP.nonZero(i));

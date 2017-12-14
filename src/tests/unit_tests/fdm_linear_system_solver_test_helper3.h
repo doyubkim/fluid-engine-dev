@@ -55,12 +55,6 @@ class FdmLinearSystemSolverTestHelper3 {
 
         coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
-            const size_t lIdx = acc.index(i - 1, j, k);
-            const size_t rIdx = acc.index(i + 1, j, k);
-            const size_t dIdx = acc.index(i, j - 1, k);
-            const size_t uIdx = acc.index(i, j + 1, k);
-            const size_t bIdx = acc.index(i, j, k - 1);
-            const size_t fIdx = acc.index(i, j, k + 1);
 
             coordToIndex[cIdx] = system->b.size();
             double bijk = 0.0;
@@ -69,17 +63,20 @@ class FdmLinearSystemSolverTestHelper3 {
             std::vector<size_t> colIdx(1, cIdx);
 
             if (i > 0) {
+                const size_t lIdx = acc.index(i - 1, j, k);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(lIdx);
             }
             if (i < size.x - 1) {
+                const size_t rIdx = acc.index(i + 1, j, k);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(rIdx);
             }
 
             if (j > 0) {
+                const size_t dIdx = acc.index(i, j - 1, k);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(dIdx);
@@ -88,6 +85,7 @@ class FdmLinearSystemSolverTestHelper3 {
             }
 
             if (j < size.y - 1) {
+                const size_t uIdx = acc.index(i, j + 1, k);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(uIdx);
@@ -96,6 +94,7 @@ class FdmLinearSystemSolverTestHelper3 {
             }
 
             if (k > 0) {
+                const size_t bIdx = acc.index(i, j, k - 1);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(bIdx);
@@ -104,6 +103,7 @@ class FdmLinearSystemSolverTestHelper3 {
             }
 
             if (k < size.z - 1) {
+                const size_t fIdx = acc.index(i, j, k + 1);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(fIdx);
