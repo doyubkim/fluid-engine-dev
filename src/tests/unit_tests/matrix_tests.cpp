@@ -283,37 +283,37 @@ TEST(Matrix, ComplexGetters) {
     ans = {{0.0, 2.0, 3.0}, {4.0, 0.0, 6.0}};
     EXPECT_EQ(ans, mat);
 
-    mat = matC.strictLowerTri();
-    ans = {{0.0, 0.0, 0.0, 0.0, 0.0},
+    const auto matCStrictLowerTri = matC.strictLowerTri();
+    Matrix<double, 5, 5> ansStrictLowerTri = {{0.0, 0.0, 0.0, 0.0, 0.0},
            {-9.0, 0.0, 0.0, 0.0, 0.0},
            {4.0, 3.0, 0.0, 0.0, 0.0},
            {-2.0, 6.0, 7.0, 0.0, 0.0},
            {4.0, 2.0, 3.0, 3.0, 0.0}};
-    EXPECT_EQ(ans, mat);
+    EXPECT_EQ(ansStrictLowerTri, matCStrictLowerTri);
 
-    mat = matC.strictUpperTri();
-    ans = {{0.0, -1.0, 2.0, 4.0, 5.0},
+    const auto matCStrictUpperTri = matC.strictUpperTri();
+    Matrix<double, 5, 5> ansStrictUpperTri = {{0.0, -1.0, 2.0, 4.0, 5.0},
            {0.0, 0.0, 8.0, -1.0, 2.0},
            {0.0, 0.0, 0.0, 7.0, -5.0},
            {0.0, 0.0, 0.0, 0.0, 0.0},
            {0.0, 0.0, 0.0, 0.0, 0.0}};
-    EXPECT_EQ(ans, mat);
+    EXPECT_EQ(ansStrictUpperTri, matCStrictUpperTri);
 
-    mat = matC.lowerTri();
-    ans = {{3.0, 0.0, 0.0, 0.0, 0.0},
+    const auto matCLowerTri = matC.lowerTri();
+    Matrix<double, 5, 5> ansLowerTri = {{3.0, 0.0, 0.0, 0.0, 0.0},
            {-9.0, 2.0, 0.0, 0.0, 0.0},
            {4.0, 3.0, 6.0, 0.0, 0.0},
            {-2.0, 6.0, 7.0, 1.0, 0.0},
            {4.0, 2.0, 3.0, 3.0, -9.0}};
-    EXPECT_EQ(ans, mat);
+    EXPECT_EQ(ansLowerTri, matCLowerTri);
 
-    mat = matC.upperTri();
-    ans = {{3.0, -1.0, 2.0, 4.0, 5.0},
+    const auto matUpperTri = matC.upperTri();
+    Matrix<double, 5, 5> ansUpperTri = {{3.0, -1.0, 2.0, 4.0, 5.0},
            {0.0, 2.0, 8.0, -1.0, 2.0},
            {0.0, 0.0, 6.0, 7.0, -5.0},
            {0.0, 0.0, 0.0, 1.0, 0.0},
            {0.0, 0.0, 0.0, 0.0, -9.0}};
-    EXPECT_EQ(ans, mat);
+    EXPECT_EQ(ansUpperTri, matUpperTri);
 
     const Matrix<float, 5, 5> matF = matC.castTo<float>();
     const Matrix<float, 5, 5> ansF = {{3.f, -1.f, 2.f, 4.f, 5.f},
@@ -336,16 +336,6 @@ TEST(Matrix, ComplexGetters) {
         {-0.25, -0.0227273, 0.477273, -0.136364, -0.409091},
         {0.0827586, -0.0238245, -0.0376176, 0.0570533, -0.0495298}};
     EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-6));
-
-    matI = {{1.0, 2.0, 3.0}, {0.0, 1.0, 4.0}, {5.0, 6.0, 0.0}};
-    mat2I = matI.inverse();
-    ansI = {{-24.0, 18.0, 5.0}, {20.0, -15.0, -4.0}, {-5.0, 4.0, 1.0}};
-    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9)) << mat2I;
-
-    matI = {{0.0, 1.0, 4.0}, {1.0, 2.0, 3.0}, {5.0, 6.0, 0.0}};
-    mat2I = matI.inverse();
-    ansI = {{18.0, -24.0, 5.0}, {-15.0, 20.0, -4.0}, {4.0, -5.0, 1.0}};
-    EXPECT_TRUE(mat2I.isSimilar(ansI, 1e-9)) << mat2I;
 }
 
 TEST(Matrix, Modifiers) {

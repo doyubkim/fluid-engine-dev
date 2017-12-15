@@ -851,12 +851,12 @@ MatrixCsr<T> MatrixCsr<T>::binaryOp(const MatrixCsr& m, Op op) const {
         auto nnzIterB = m._nonZeros.begin() + m._rowPointers[i];
 
         while (colIterA != colEndA || colIterB != colEndB) {
-            if (*colIterA < *colIterB || colIterB == colEndB) {
+            if (colIterB == colEndB || *colIterA < *colIterB) {
                 col.push_back(*colIterA);
                 nnz.push_back(op(*nnzIterA, 0));
                 ++colIterA;
                 ++nnzIterA;
-            } else if (*colIterA > *colIterB || colIterA == colEndA) {
+            } else if (colIterA == colEndA || *colIterA > *colIterB) {
                 col.push_back(*colIterB);
                 nnz.push_back(op(0, *nnzIterB));
                 ++colIterB;
