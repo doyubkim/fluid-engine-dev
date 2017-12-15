@@ -4,12 +4,14 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef JET_USE_CUDA
+
 #include <jet/cuda_test.h>
 
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(CudaTest, TestCuda) {
-    testCuda();
-}
+TEST(CudaTest, TestCuda) { testCuda(); }
+
+#endif  // JET_USE_CUDA
