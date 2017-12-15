@@ -89,6 +89,9 @@ endif()
 
 # Options
 option(ENABLE_CUDA "Enable CUDA Feature" ON)
+if (ENABLE_CUDA)
+    add_definitions(-DJET_USE_CUDA)
+endif()
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
