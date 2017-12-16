@@ -13,12 +13,25 @@ set(target unit_tests)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
-file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+if (ENABLE_CUDA)
+    file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        "${CMAKE_CURRENT_SOURCE_DIR}/*.cu")
+else()
+    file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
+
+
 
 # Build executable
-add_executable(${target}
-    ${sources})
+if (ENABLE_CUDA)
+    cuda_add_executable(${target}
+        ${sources})
+else()
+    add_executable(${target}
+        ${sources})
+endif()
 
 # Project options
 set_target_properties(${target}

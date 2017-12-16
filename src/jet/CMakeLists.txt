@@ -9,11 +9,6 @@
 # Target name
 set(target jet)
 
-if (ENABLE_CUDA)
-    find_package(CUDA)
-    list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
-endif()
-
 # Define
 set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 

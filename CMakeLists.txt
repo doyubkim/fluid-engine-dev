@@ -90,7 +90,17 @@ endif()
 # Options
 option(ENABLE_CUDA "Enable CUDA Feature" ON)
 if (ENABLE_CUDA)
+    find_package(CUDA)
+    list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
     add_definitions(-DJET_USE_CUDA)
+
+    if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        list(APPEND DEFAULT_COMPILE_OPTIONS
+            /wd4515 # -> disable warning: [Thrust issue] 'detail': namespace uses itself
+            /wd4996 # -> disable warning: [Thrust issue] 'strerror': This function or variable may be unsafe.
+            /wd4800 # -> disable warning: [Thrust issue] forcing value to bool 'true' or 'false' (performance warning)
+        )
+    endif()
 endif()
 
 # Overrides
