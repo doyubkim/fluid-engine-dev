@@ -90,10 +90,6 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
 
     markers.forEachIndex([&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
-        const size_t lIdx = markerAcc.index(i - 1, j);
-        const size_t rIdx = markerAcc.index(i + 1, j);
-        const size_t dIdx = markerAcc.index(i, j - 1);
-        const size_t uIdx = markerAcc.index(i, j + 1);
 
         if (markerAcc[cIdx] == kFluid) {
             b->append(input.divergenceAtCellCenter(i, j));
@@ -101,32 +97,36 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
             std::vector<double> row(1, 0.0);
             std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
 
-            if (i + 1 < size.x && markers[rIdx] != kBoundary) {
+            if (i + 1 < size.x && markers(i + 1, j) != kBoundary) {
                 row[0] += invHSqr.x;
+                const size_t rIdx = markerAcc.index(i + 1, j);
                 if (markers[rIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
                     colIdx.push_back(coordToIndex[rIdx]);
                 }
             }
 
-            if (i > 0 && markers[lIdx] != kBoundary) {
+            if (i > 0 && markers(i - 1, j) != kBoundary) {
                 row[0] += invHSqr.x;
+                const size_t lIdx = markerAcc.index(i - 1, j);
                 if (markers[lIdx] == kFluid) {
                     row.push_back(-invHSqr.x);
                     colIdx.push_back(coordToIndex[lIdx]);
                 }
             }
 
-            if (j + 1 < size.y && markers[uIdx] != kBoundary) {
+            if (j + 1 < size.y && markers(i, j + 1) != kBoundary) {
                 row[0] += invHSqr.y;
+                const size_t uIdx = markerAcc.index(i, j + 1);
                 if (markers[uIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
                     colIdx.push_back(coordToIndex[uIdx]);
                 }
             }
 
-            if (j > 0 && markers[dIdx] != kBoundary) {
+            if (j > 0 && markers(i, j - 1) != kBoundary) {
                 row[0] += invHSqr.y;
+                const size_t dIdx = markerAcc.index(i, j - 1);
                 if (markers[dIdx] == kFluid) {
                     row.push_back(-invHSqr.y);
                     colIdx.push_back(coordToIndex[dIdx]);

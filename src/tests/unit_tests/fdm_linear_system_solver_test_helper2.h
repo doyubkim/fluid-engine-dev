@@ -47,10 +47,6 @@ class FdmLinearSystemSolverTestHelper2 {
 
         coordToIndex.forEachIndex([&](size_t i, size_t j) {
             const size_t cIdx = acc.index(i, j);
-            const size_t lIdx = acc.index(i - 1, j);
-            const size_t rIdx = acc.index(i + 1, j);
-            const size_t dIdx = acc.index(i, j - 1);
-            const size_t uIdx = acc.index(i, j + 1);
 
             coordToIndex[cIdx] = system->b.size();
             double bij = 0.0;
@@ -59,17 +55,20 @@ class FdmLinearSystemSolverTestHelper2 {
             std::vector<size_t> colIdx(1, cIdx);
 
             if (i > 0) {
+                const size_t lIdx = acc.index(i - 1, j);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(lIdx);
             }
             if (i < size.x - 1) {
+                const size_t rIdx = acc.index(i + 1, j);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(rIdx);
             }
 
             if (j > 0) {
+                const size_t dIdx = acc.index(i, j - 1);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(dIdx);
@@ -78,6 +77,7 @@ class FdmLinearSystemSolverTestHelper2 {
             }
 
             if (j < size.y - 1) {
+                const size_t uIdx = acc.index(i, j + 1);
                 row[0] += 1.0;
                 row.push_back(-1.0);
                 colIdx.push_back(uIdx);
