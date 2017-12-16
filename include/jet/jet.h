@@ -54,6 +54,9 @@
 #include <jet/cpp_utils.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/cubic_semi_lagrangian3.h>
+#include <jet/cuda_array1.h>
+#include <jet/cuda_array_view1.h>
+#include <jet/cuda_test.h>
 #include <jet/custom_implicit_surface2.h>
 #include <jet/custom_implicit_surface3.h>
 #include <jet/custom_scalar_field2.h>

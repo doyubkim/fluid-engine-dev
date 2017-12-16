@@ -46,7 +46,7 @@ def main():
                 header_file.write(line)
         header_file.write("#endif  // INCLUDE_%s_%s_H_\n" %
                           (module_name_upper, module_name_upper))
-    if not filecmp.cmp(header, header_tmp):
+    if not os.path.exists(header) or not filecmp.cmp(header, header_tmp):
         shutil.move(header_tmp, header)
     else:
         os.remove(header_tmp)
