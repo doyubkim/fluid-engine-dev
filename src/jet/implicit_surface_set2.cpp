@@ -30,6 +30,8 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
     : ImplicitSurface2(other), _surfaces(other._surfaces) {}
 
+void ImplicitSurfaceSet2::updateQueryEngine() { buildBvh(); }
+
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
 }

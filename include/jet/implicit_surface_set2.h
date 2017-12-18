@@ -41,6 +41,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Copy constructor.
     ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other);
 
+    //! Updates internal spatial query engine.
+    void updateQueryEngine() override;
+
     //! Returns the number of implicit surfaces.
     size_t numberOfSurfaces() const;
 

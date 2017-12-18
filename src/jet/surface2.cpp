@@ -5,23 +5,20 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/surface2.h>
+
 #include <algorithm>
 
 using namespace jet;
 
 Surface2::Surface2(const Transform2& transform_, bool isNormalFlipped_)
-: transform(transform_)
-, isNormalFlipped(isNormalFlipped_) {
-}
+    : transform(transform_), isNormalFlipped(isNormalFlipped_) {}
 
 Surface2::Surface2(const Surface2& other)
-: transform(other.transform)
-, isNormalFlipped(other.isNormalFlipped) {
-}
+    : transform(other.transform), isNormalFlipped(other.isNormalFlipped) {}
 
-Surface2::~Surface2() {
-}
+Surface2::~Surface2() {}
 
 Vector2D Surface2::closestPoint(const Vector2D& otherPoint) const {
     return transform.toWorld(closestPointLocal(transform.toLocal(otherPoint)));
@@ -52,6 +49,10 @@ Vector2D Surface2::closestNormal(const Vector2D& otherPoint) const {
         closestNormalLocal(transform.toLocal(otherPoint)));
     result *= (isNormalFlipped) ? -1.0 : 1.0;
     return result;
+}
+
+void Surface2::updateQueryEngine() {
+    // Do nothing
 }
 
 bool Surface2::intersectsLocal(const Ray2D& rayLocal) const {

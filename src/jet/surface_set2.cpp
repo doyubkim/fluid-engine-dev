@@ -14,14 +14,16 @@ SurfaceSet2::SurfaceSet2() {}
 
 SurfaceSet2::SurfaceSet2(const std::vector<Surface2Ptr>& others,
                          const Transform2& transform, bool isNormalFlipped)
-        : Surface2(transform, isNormalFlipped), _surfaces(others) {
+    : Surface2(transform, isNormalFlipped), _surfaces(others) {
     invalidateBvh();
 }
 
 SurfaceSet2::SurfaceSet2(const SurfaceSet2& other)
-        : Surface2(other), _surfaces(other._surfaces) {
+    : Surface2(other), _surfaces(other._surfaces) {
     invalidateBvh();
 }
+
+void SurfaceSet2::updateQueryEngine() { buildBvh(); }
 
 size_t SurfaceSet2::numberOfSurfaces() const { return _surfaces.size(); }
 
@@ -81,7 +83,7 @@ bool SurfaceSet2::intersectsLocal(const Ray2D& ray) const {
 }
 
 SurfaceRayIntersection2 SurfaceSet2::closestIntersectionLocal(
-        const Ray2D& ray) const {
+    const Ray2D& ray) const {
     buildBvh();
 
     const auto testFunc = [](const Surface2Ptr& surface, const Ray2D& ray) {
@@ -124,7 +126,7 @@ void SurfaceSet2::buildBvh() const {
 SurfaceSet2::Builder SurfaceSet2::builder() { return Builder(); }
 
 SurfaceSet2::Builder& SurfaceSet2::Builder::withSurfaces(
-        const std::vector<Surface2Ptr>& others) {
+    const std::vector<Surface2Ptr>& others) {
     _surfaces = others;
     return *this;
 }
@@ -135,6 +137,6 @@ SurfaceSet2 SurfaceSet2::Builder::build() const {
 
 SurfaceSet2Ptr SurfaceSet2::Builder::makeShared() const {
     return std::shared_ptr<SurfaceSet2>(
-            new SurfaceSet2(_surfaces, _transform, _isNormalFlipped),
-            [](SurfaceSet2* obj) { delete obj; });
+        new SurfaceSet2(_surfaces, _transform, _isNormalFlipped),
+        [](SurfaceSet2* obj) { delete obj; });
 }

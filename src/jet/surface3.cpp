@@ -5,23 +5,20 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/surface3.h>
+
 #include <algorithm>
 
 using namespace jet;
 
 Surface3::Surface3(const Transform3& transform_, bool isNormalFlipped_)
-: transform(transform_)
-, isNormalFlipped(isNormalFlipped_) {
-}
+    : transform(transform_), isNormalFlipped(isNormalFlipped_) {}
 
 Surface3::Surface3(const Surface3& other)
-: transform(other.transform)
-, isNormalFlipped(other.isNormalFlipped) {
-}
+    : transform(other.transform), isNormalFlipped(other.isNormalFlipped) {}
 
-Surface3::~Surface3() {
-}
+Surface3::~Surface3() {}
 
 Vector3D Surface3::closestPoint(const Vector3D& otherPoint) const {
     return transform.toWorld(closestPointLocal(transform.toLocal(otherPoint)));
@@ -57,6 +54,10 @@ Vector3D Surface3::closestNormal(const Vector3D& otherPoint) const {
 bool Surface3::intersectsLocal(const Ray3D& rayLocal) const {
     auto result = closestIntersectionLocal(rayLocal);
     return result.isIntersecting;
+}
+
+void Surface3::updateQueryEngine() {
+    // Do nothing
 }
 
 double Surface3::closestDistanceLocal(const Vector3D& otherPointLocal) const {

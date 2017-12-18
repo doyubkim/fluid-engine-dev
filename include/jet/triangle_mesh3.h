@@ -38,23 +38,21 @@ class TriangleMesh3 final : public Surface3 {
     typedef Vector2DArray UvArray;
 
     //! Default constructor.
-    TriangleMesh3(
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    TriangleMesh3(const Transform3& transform = Transform3(),
+                  bool isNormalFlipped = false);
 
     //! Constructs mesh with points, normals, uvs, and their indices.
-    TriangleMesh3(
-        const PointArray& points,
-        const NormalArray& normals,
-        const UvArray& uvs,
-        const IndexArray& pointIndices,
-        const IndexArray& normalIndices,
-        const IndexArray& uvIndices,
-        const Transform3& transform_ = Transform3(),
-        bool isNormalFlipped = false);
+    TriangleMesh3(const PointArray& points, const NormalArray& normals,
+                  const UvArray& uvs, const IndexArray& pointIndices,
+                  const IndexArray& normalIndices, const IndexArray& uvIndices,
+                  const Transform3& transform_ = Transform3(),
+                  bool isNormalFlipped = false);
 
     //! Copy constructor.
     TriangleMesh3(const TriangleMesh3& other);
+
+    //! Updates internal spatial query engine.
+    void updateQueryEngine() override;
 
     //! Clears all content.
     void clear();
@@ -141,20 +139,17 @@ class TriangleMesh3 final : public Surface3 {
     void addPointTriangle(const Point3UI& newPointIndices);
 
     //! Adds a triangle with point and normal.
-    void addPointNormalTriangle(
-        const Point3UI& newPointIndices,
-        const Point3UI& newNormalIndices);
+    void addPointNormalTriangle(const Point3UI& newPointIndices,
+                                const Point3UI& newNormalIndices);
 
     //! Adds a triangle with point, normal, and UV.
-    void addPointUvNormalTriangle(
-        const Point3UI& newPointIndices,
-        const Point3UI& newUvIndices,
-        const Point3UI& newNormalIndices);
+    void addPointUvNormalTriangle(const Point3UI& newPointIndices,
+                                  const Point3UI& newUvIndices,
+                                  const Point3UI& newNormalIndices);
 
     //! Adds a triangle with point and UV.
-    void addPointUvTriangle(
-        const Point3UI& newPointIndices,
-        const Point3UI& newUvIndices);
+    void addPointUvTriangle(const Point3UI& newPointIndices,
+                            const Point3UI& newUvIndices);
 
     //! Add a triangle.
     void addTriangle(const Triangle3& tri);
@@ -224,7 +219,6 @@ class TriangleMesh3 final : public Surface3 {
 
 //! Shared pointer for the TriangleMesh3 type.
 typedef std::shared_ptr<TriangleMesh3> TriangleMesh3Ptr;
-
 
 //!
 //! \brief Front-end to create TriangleMesh3 objects step by step.

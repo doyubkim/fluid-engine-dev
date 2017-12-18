@@ -5,22 +5,19 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/collider3.h>
+
 #include <algorithm>
 
 using namespace jet;
 
-Collider3::Collider3() {
-}
+Collider3::Collider3() {}
 
-Collider3::~Collider3() {
-}
+Collider3::~Collider3() {}
 
-void Collider3::resolveCollision(
-    double radius,
-    double restitutionCoefficient,
-    Vector3D* newPosition,
-    Vector3D* newVelocity) {
+void Collider3::resolveCollision(double radius, double restitutionCoefficient,
+                                 Vector3D* newPosition, Vector3D* newVelocity) {
     ColliderQueryResult colliderPoint;
 
     getClosestPoint(_surface, *newPosition, &colliderPoint);
@@ -44,8 +41,8 @@ void Collider3::resolveCollision(
         if (normalDotRelativeVel < 0.0) {
             // Apply restitution coefficient to the surface normal component of
             // the velocity
-            Vector3D deltaRelativeVelN
-                = (-restitutionCoefficient - 1.0) * relativeVelN;
+            Vector3D deltaRelativeVelN =
+                (-restitutionCoefficient - 1.0) * relativeVelN;
             relativeVelN *= -restitutionCoefficient;
 
             // Apply friction to the tangential component of the velocity
@@ -53,18 +50,16 @@ void Collider3::resolveCollision(
             // Friction for Cloth Animation, 2002
             // http://graphics.stanford.edu/papers/cloth-sig02/cloth.pdf
             if (relativeVelT.lengthSquared() > 0.0) {
-                double frictionScale
-                    = std::max(
-                        1.0
-                        - _frictionCoeffient
-                            * deltaRelativeVelN.length()
-                            / relativeVelT.length(), 0.0);
+                double frictionScale = std::max(
+                    1.0 - _frictionCoeffient * deltaRelativeVelN.length() /
+                              relativeVelT.length(),
+                    0.0);
                 relativeVelT *= frictionScale;
             }
 
             // Reassemble the components
-            *newVelocity
-                = relativeVelN + relativeVelT + colliderVelAtTargetPoint;
+            *newVelocity =
+                relativeVelN + relativeVelT + colliderVelAtTargetPoint;
         }
 
         // Geometric fix
@@ -72,46 +67,40 @@ void Collider3::resolveCollision(
     }
 }
 
-double Collider3::frictionCoefficient() const {
-    return _frictionCoeffient;
-}
+double Collider3::frictionCoefficient() const { return _frictionCoeffient; }
 
 void Collider3::setFrictionCoefficient(double newFrictionCoeffient) {
     _frictionCoeffient = std::max(newFrictionCoeffient, 0.0);
 }
 
-const Surface3Ptr& Collider3::surface() const {
-    return _surface;
-}
+const Surface3Ptr& Collider3::surface() const { return _surface; }
 
 void Collider3::setSurface(const Surface3Ptr& newSurface) {
     _surface = newSurface;
 }
 
-void Collider3::getClosestPoint(
-    const Surface3Ptr& surface,
-    const Vector3D& queryPoint,
-    ColliderQueryResult* result) const {
+void Collider3::getClosestPoint(const Surface3Ptr& surface,
+                                const Vector3D& queryPoint,
+                                ColliderQueryResult* result) const {
     result->distance = surface->closestDistance(queryPoint);
     result->point = surface->closestPoint(queryPoint);
     result->normal = surface->closestNormal(queryPoint);
     result->velocity = velocityAt(queryPoint);
 }
 
-bool Collider3::isPenetrating(
-    const ColliderQueryResult& colliderPoint,
-    const Vector3D& position,
-    double radius) {
+bool Collider3::isPenetrating(const ColliderQueryResult& colliderPoint,
+                              const Vector3D& position, double radius) {
     // If the new candidate position of the particle is on the other side of
     // the surface OR the new distance to the surface is less than the
     // particle's radius, this particle is in colliding state.
     return (position - colliderPoint.point).dot(colliderPoint.normal) < 0.0 ||
-        colliderPoint.distance < radius;
+           colliderPoint.distance < radius;
 }
 
-void Collider3::update(
-    double currentTimeInSeconds,
-    double timeIntervalInSeconds) {
+void Collider3::update(double currentTimeInSeconds,
+                       double timeIntervalInSeconds) {
+    _surface->updateQueryEngine();
+
     if (_onUpdateCallback) {
         _onUpdateCallback(this, currentTimeInSeconds, timeIntervalInSeconds);
     }
