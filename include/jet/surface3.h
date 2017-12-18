@@ -63,6 +63,9 @@ class Surface3 {
     //! point \p otherPoint.
     Vector3D closestNormal(const Vector3D& otherPoint) const;
 
+    //! Updates internal spatial query engine.
+    virtual void updateQueryEngine();
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.

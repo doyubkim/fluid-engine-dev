@@ -63,6 +63,9 @@ class Surface2 {
     //! point \p otherPoint.
     Vector2D closestNormal(const Vector2D& otherPoint) const;
 
+    //! Updates internal spatial query engine.
+    virtual void updateQueryEngine();
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.

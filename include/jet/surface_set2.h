@@ -36,6 +36,9 @@ class SurfaceSet2 final : public Surface2 {
     //! Copy constructor.
     SurfaceSet2(const SurfaceSet2& other);
 
+    //! Updates internal spatial query engine.
+    void updateQueryEngine() override;
+
     //! Returns the number of surfaces.
     size_t numberOfSurfaces() const;
 

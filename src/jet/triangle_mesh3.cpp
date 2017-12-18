@@ -48,6 +48,8 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
     set(other);
 }
 
+void TriangleMesh3::updateQueryEngine() { buildBvh(); }
+
 Vector3D TriangleMesh3::closestPointLocal(const Vector3D& otherPoint) const {
     buildBvh();
 
@@ -69,7 +71,7 @@ Vector3D TriangleMesh3::closestNormalLocal(const Vector3D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-//    printf("%zu\n", *queryResult.item);
+    //    printf("%zu\n", *queryResult.item);
     return triangle(*queryResult.item).closestNormal(otherPoint);
 }
 

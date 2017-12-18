@@ -23,6 +23,8 @@ SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
     invalidateBvh();
 }
 
+void SurfaceSet3::updateQueryEngine() { buildBvh(); }
+
 size_t SurfaceSet3::numberOfSurfaces() const { return _surfaces.size(); }
 
 const Surface3Ptr& SurfaceSet3::surfaceAt(size_t i) const {
