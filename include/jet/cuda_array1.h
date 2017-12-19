@@ -16,6 +16,9 @@ namespace jet {
 namespace experimental {
 
 template <typename T>
+class CudaArrayView1;
+
+template <typename T>
 class CudaArray1 final {
  public:
     typedef thrust::device_vector<T> ContainerType;
@@ -24,9 +27,17 @@ class CudaArray1 final {
 
     explicit CudaArray1(size_t size, const T& initVal = T());
 
+    explicit CudaArray1(const CudaArrayView1<T>& view);
+
+    explicit CudaArray1(const thrust::device_vector<T>& vec);
+
     CudaArray1(const CudaArray1& other);
 
     void set(const T& value);
+
+    void set(const CudaArrayView1<T>& view);
+
+    void set(const thrust::device_vector<T>& vec);
 
     void set(const CudaArray1& other);
 
@@ -35,6 +46,14 @@ class CudaArray1 final {
     void resize(size_t size, const T& initVal);
 
     size_t size() const;
+
+    T* data();
+
+    const T* data() const;
+
+    CudaArrayView1<T> view();
+
+    const CudaArrayView1<T> view() const;
 
     //! Returns the reference to i-th element.
     typename CudaArray1<T>::ContainerType::reference operator[](size_t i);

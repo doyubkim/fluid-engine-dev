@@ -6,6 +6,7 @@
 
 
 #include <jet/cuda_array1.h>
+#include <jet/cuda_array_view1.h>
 
 #include <gtest/gtest.h>
 
@@ -23,5 +24,15 @@ TEST(CudaArray1, Constructors) {
         for (size_t i = 0; i < 9; ++i) {
             EXPECT_FLOAT_EQ(1.5f, arr[i]);
         }
+    }
+}
+
+TEST(CudaArray1, View) {
+    CudaArray1<float> arr(15, 3.14f);
+    CudaArrayView1<float> view = arr.view();
+    EXPECT_EQ(15u, view.size());
+    EXPECT_EQ(arr.data(), view.data());
+    for (size_t i = 0; i < 15; ++i) {
+        EXPECT_FLOAT_EQ(3.14f, view[i]);
     }
 }
