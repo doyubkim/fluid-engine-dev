@@ -41,19 +41,19 @@ CudaArrayView1<T>::CudaArrayView1(const CudaArrayView1& other) {
 }
 
 template <typename T>
-void CudaArrayView1<T>::set(const T& value) {
-    thrust::fill(_data, _data + _size, value);
+CudaArrayView1<T>::CudaArrayView1(CudaArrayView1&& other) {
+    *this = std::move(other);
 }
 
 template <typename T>
 void CudaArrayView1<T>::set(T* data, size_t size) {
-    _data = thrust::device_pointer_cast(data);
+    _data = thrust::device_pointer_cast<T>(data);
     _size = size;
 }
 
 template <typename T>
 void CudaArrayView1<T>::set(const CudaArray1<T>& array) {
-    set(array.view());
+    set(const_cast<T*>(array.data()), array.size());
 }
 
 template <typename T>
@@ -102,6 +102,34 @@ typename thrust::device_ptr<T>::reference CudaArrayView1<T>::operator[](
 template <typename T>
 const T& CudaArrayView1<T>::operator[](size_t i) const {
     return _data[i];
+}
+
+template <typename T>
+CudaArrayView1<T>& CudaArrayView1<T>::operator=(const CudaArray1<T>& array) {
+    set(array);
+    return *this;
+}
+
+template <typename T>
+CudaArrayView1<T>& CudaArrayView1<T>::operator=(
+    const thrust::device_vector<T>& vec) {
+    set(vec);
+    return *this;
+}
+
+template <typename T>
+CudaArrayView1<T>& CudaArrayView1<T>::operator=(const CudaArrayView1<T>& view) {
+    set(view);
+    return *this;
+}
+
+template <typename T>
+CudaArrayView1<T>& CudaArrayView1<T>::operator=(CudaArrayView1<T>&& view) {
+    _data = view._data;
+    _size = view._size;
+    view._data = thrust::device_ptr<T>(nullptr);
+    view._size = 0;
+    return *this;
 }
 
 }  // namespace experimental

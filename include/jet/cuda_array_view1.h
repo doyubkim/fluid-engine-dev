@@ -18,19 +18,17 @@ namespace experimental {
 template <typename T>
 class CudaArrayView1 final {
  public:
-    typedef thrust::device_vector<T> ContainerType;
-
     CudaArrayView1();
 
     explicit CudaArrayView1(T* data, size_t size);
 
-    explicit CudaArrayView1(const CudaArray1<T>& array);
+    CudaArrayView1(const CudaArray1<T>& array);
 
-    explicit CudaArrayView1(const thrust::device_vector<T>& vec);
+    CudaArrayView1(const thrust::device_vector<T>& vec);
 
     CudaArrayView1(const CudaArrayView1& other);
 
-    void set(const T& value);
+    CudaArrayView1(CudaArrayView1&& other);
 
     void set(T* data, size_t size);
 
@@ -39,6 +37,8 @@ class CudaArrayView1 final {
     void set(const thrust::device_vector<T>& vec);
 
     void set(const CudaArrayView1& other);
+
+    void swap(CudaArrayView1& other);
 
     size_t size() const;
 
@@ -55,6 +55,16 @@ class CudaArrayView1 final {
 
     //! Returns the const reference to i-th element.
     const T& operator[](size_t i) const;
+
+    CudaArrayView1& operator=(const CudaArray1<T>& array);
+
+    CudaArrayView1& operator=(const thrust::host_vector<T>& vec);
+
+    CudaArrayView1& operator=(const thrust::device_vector<T>& vec);
+
+    CudaArrayView1& operator=(const CudaArrayView1& other);
+
+    CudaArrayView1& operator=(CudaArrayView1&& other);
 
  private:
     thrust::device_ptr<T> _data;
