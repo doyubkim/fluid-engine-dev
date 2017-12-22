@@ -51,12 +51,12 @@ const T& ArrayAccessor<T, 1>::at(size_t i) const {
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 1>::begin() const {
+const T* ArrayAccessor<T, 1>::begin() const {
     return _data;
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 1>::end() const {
+const T* ArrayAccessor<T, 1>::end() const {
     return _data + _size;
 }
 
@@ -76,7 +76,7 @@ size_t ArrayAccessor<T, 1>::size() const {
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 1>::data() const {
+const T* ArrayAccessor<T, 1>::data() const {
     return _data;
 }
 
@@ -169,12 +169,12 @@ const T& ConstArrayAccessor<T, 1>::at(size_t i) const {
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 1>::begin() const {
+const T* ConstArrayAccessor<T, 1>::begin() const {
     return _data;
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 1>::end() const {
+const T* ConstArrayAccessor<T, 1>::end() const {
     return _data + _size;
 }
 
@@ -184,7 +184,7 @@ size_t ConstArrayAccessor<T, 1>::size() const {
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 1>::data() const {
+const T* ConstArrayAccessor<T, 1>::data() const {
     return _data;
 }
 

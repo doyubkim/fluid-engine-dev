@@ -105,6 +105,7 @@ endif()
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
+cmake_policy(SET CMP0023 NEW)
 
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
