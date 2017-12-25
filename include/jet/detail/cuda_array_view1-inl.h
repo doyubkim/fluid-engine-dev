@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef __CUDACC__
+
 #ifdef JET_USE_CUDA
 
 #ifndef INCLUDE_JET_DETAIL_CUDA_ARRAY_VIEW1_INL_H_
@@ -139,3 +141,5 @@ CudaArrayView1<T>& CudaArrayView1<T>::operator=(CudaArrayView1<T>&& view) {
 #endif  // INCLUDE_JET_DETAIL_CUDA_ARRAY_VIEW1_INL_H_
 
 #endif  // JET_USE_CUDA
+
+#endif  // __CUDACC__

@@ -36,6 +36,8 @@ class Vector final : public VectorExpression<T, Vector<T, N>> {
                   "Vector only can be instantiated with floating point types");
 
     typedef std::array<T, N> ContainerType;
+    typedef typename ContainerType::iterator Iterator;
+    typedef typename ContainerType::const_iterator ConstIterator;
 
     //! Constructs a vector with zeros.
     Vector();
@@ -86,19 +88,19 @@ class Vector final : public VectorExpression<T, Vector<T, N>> {
     T* data();
 
     //! Returns the const raw pointer to the vector data.
-    const T* const data() const;
+    const T* data() const;
 
     //! Returns the begin iterator of the vector.
-    typename ContainerType::iterator begin();
+    typename Iterator begin();
 
     //! Returns the begin const iterator of the vector.
-    typename ContainerType::const_iterator begin() const;
+    typename ConstIterator begin() const;
 
     //! Returns the end iterator of the vector.
-    typename ContainerType::iterator end();
+    typename Iterator end();
 
     //! Returns the end const iterator of the vector.
-    typename ContainerType::const_iterator end() const;
+    typename ConstIterator end() const;
 
     //! Returns the array accessor.
     ArrayAccessor1<T> accessor();
