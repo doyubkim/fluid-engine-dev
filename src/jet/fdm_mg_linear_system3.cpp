@@ -167,7 +167,7 @@ void FdmMgUtils3::correct(const FdmVector3 &coarser, FdmVector3 *finer) {
                                     double w = iWeights[x] * jWeights[y] *
                                                kWeights[z] *
                                                coarser(iIndices[x], jIndices[y],
-                                                       kIndices[y]);
+                                                       kIndices[z]);
                                     (*finer)(i, j, k) += w;
                                 }
                             }
