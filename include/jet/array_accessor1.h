@@ -63,6 +63,9 @@ class ArrayAccessor<T, 1> final {
     size_t size() const;
 
     //! Returns the raw pointer to the array data.
+    T* data();
+
+    //! Returns the raw pointer to the array data.
     const T* data() const;
 
     //! Swaps the content of with \p other array accessor.
@@ -169,8 +172,8 @@ class ArrayAccessor<T, 1> final {
 };
 
 //! Type alias for 1-D array accessor.
-template <typename T> using ArrayAccessor1 = ArrayAccessor<T, 1>;
-
+template <typename T>
+using ArrayAccessor1 = ArrayAccessor<T, 1>;
 
 //!
 //! \brief 1-D read-only array accessor class.
@@ -278,7 +281,8 @@ class ConstArrayAccessor<T, 1> {
 };
 
 //! Type alias for 1-D const array accessor.
-template <typename T> using ConstArrayAccessor1 = ConstArrayAccessor<T, 1>;
+template <typename T>
+using ConstArrayAccessor1 = ConstArrayAccessor<T, 1>;
 
 }  // namespace jet
 

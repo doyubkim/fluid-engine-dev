@@ -14,8 +14,7 @@
 namespace jet {
 
 template <typename T>
-ArrayAccessor<T, 1>::ArrayAccessor() : _size(0), _data(nullptr) {
-}
+ArrayAccessor<T, 1>::ArrayAccessor() : _size(0), _data(nullptr) {}
 
 template <typename T>
 ArrayAccessor<T, 1>::ArrayAccessor(size_t size, T* const data) {
@@ -76,6 +75,11 @@ size_t ArrayAccessor<T, 1>::size() const {
 }
 
 template <typename T>
+T* ArrayAccessor<T, 1>::data() {
+    return _data;
+}
+
+template <typename T>
 const T* ArrayAccessor<T, 1>::data() const {
     return _data;
 }
@@ -105,9 +109,7 @@ void ArrayAccessor<T, 1>::forEachIndex(Callback func) const {
 template <typename T>
 template <typename Callback>
 void ArrayAccessor<T, 1>::parallelForEach(Callback func) {
-    parallelFor(kZeroSize, size(), [&](size_t i) {
-        func(at(i));
-    });
+    parallelFor(kZeroSize, size(), [&](size_t i) { func(at(i)); });
 }
 
 template <typename T>
@@ -127,8 +129,8 @@ const T& ArrayAccessor<T, 1>::operator[](size_t i) const {
 }
 
 template <typename T>
-ArrayAccessor<T, 1>&
-ArrayAccessor<T, 1>::operator=(const ArrayAccessor& other) {
+ArrayAccessor<T, 1>& ArrayAccessor<T, 1>::operator=(
+    const ArrayAccessor& other) {
     set(other);
     return *this;
 }
@@ -138,14 +140,11 @@ ArrayAccessor<T, 1>::operator ConstArrayAccessor<T, 1>() const {
     return ConstArrayAccessor<T, 1>(*this);
 }
 
+template <typename T>
+ConstArrayAccessor<T, 1>::ConstArrayAccessor() : _size(0), _data(nullptr) {}
 
 template <typename T>
-ConstArrayAccessor<T, 1>::ConstArrayAccessor() : _size(0), _data(nullptr) {
-}
-
-template <typename T>
-ConstArrayAccessor<T, 1>::ConstArrayAccessor(
-    size_t size, const T* const data) {
+ConstArrayAccessor<T, 1>::ConstArrayAccessor(size_t size, const T* const data) {
     _size = size;
     _data = data;
 }

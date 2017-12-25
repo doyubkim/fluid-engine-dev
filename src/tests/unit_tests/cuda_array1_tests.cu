@@ -4,8 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifdef JET_USE_CUDA
-
 #include <jet/cuda_array1.h>
 #include <jet/cuda_array_view1.h>
 
@@ -103,5 +101,3 @@ TEST(CudaArray1, View) {
         EXPECT_FLOAT_EQ(3.14f, view[i]);
     }
 }
-
-#endif  // JET_USE_CUDA

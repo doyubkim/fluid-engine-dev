@@ -12,6 +12,14 @@
 using namespace jet;
 using namespace experimental;
 
+namespace {
+
+float4 toFloat4(const Vector4F& vec) {
+    return make_float4(vec.x, vec.y, vec.z, vec.w);
+}
+
+}
+
 CudaParticleSystemData3::CudaParticleSystemData3()
     : CudaParticleSystemData3(0) {}
 
@@ -61,10 +69,22 @@ size_t CudaParticleSystemData3::addFloatData(float initialVal) {
     return attrIdx;
 }
 
-size_t CudaParticleSystemData3::addVectorData(const float4& initialVal) {
+size_t CudaParticleSystemData3::addVectorData(const Vector4F& initialVal) {
     size_t attrIdx = _vectorDataList.size();
-    _vectorDataList.emplace_back(numberOfParticles(), initialVal);
+    _vectorDataList.emplace_back(numberOfParticles(), toFloat4(initialVal));
     return attrIdx;
+}
+
+size_t CudaParticleSystemData3::numberOfIntData() const {
+    return _intDataList.size();
+}
+
+size_t CudaParticleSystemData3::numberOfFloatData() const {
+    return _floatDataList.size();
+}
+
+size_t CudaParticleSystemData3::numberOfVectorData() const {
+    return _vectorDataList.size();
 }
 
 CudaArrayView1<float4> CudaParticleSystemData3::positions() {
@@ -109,16 +129,34 @@ const CudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(
     return _vectorDataList[idx].view();
 }
 
-void CudaParticleSystemData3::addParticle(const float4& newPosition,
-                                          const float4& newVelocity) {
+void CudaParticleSystemData3::addParticle(const Vector4F& newPosition,
+                                          const Vector4F& newVelocity) {
     thrust::host_vector<float4> hostPos;
     thrust::host_vector<float4> hostVel;
-    hostPos.push_back(newPosition);
-    hostVel.push_back(newVelocity);
-    CudaArray1<float4> newPositions{hostPos};
-    CudaArray1<float4> newVelocities{hostVel};
+    hostPos.push_back(toFloat4(newPosition));
+    hostVel.push_back(toFloat4(newVelocity));
+    CudaArray1<float4> devicePos{hostPos};
+    CudaArray1<float4> deviceVel{hostVel};
 
-    addParticles(newPositions, newVelocities);
+    addParticles(devicePos, deviceVel);
+}
+
+void CudaParticleSystemData3::addParticles(
+    const ArrayView1<Vector4F>& newPositions,
+    const ArrayView1<Vector4F>& newVelocities) {
+    thrust::host_vector<float4> hostPos(newPositions.size());
+    thrust::host_vector<float4> hostVel(newVelocities.size());
+    for (size_t i = 0; i < newPositions.size(); ++i) {
+        hostPos[i] = toFloat4(newPositions[i]);
+    }
+    for (size_t i = 0; i < newVelocities.size(); ++i) {
+        hostVel[i] = toFloat4(newVelocities[i]);
+    }
+
+    CudaArray1<float4> devicePos{hostPos};
+    CudaArray1<float4> deviceVel{hostVel};
+
+    addParticles(devicePos, deviceVel);
 }
 
 void CudaParticleSystemData3::addParticles(

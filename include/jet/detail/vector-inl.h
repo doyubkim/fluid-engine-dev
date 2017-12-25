@@ -96,28 +96,27 @@ T* Vector<T, N>::data() {
 }
 
 template <typename T, size_t N>
-const T* const Vector<T, N>::data() const {
+const T* Vector<T, N>::data() const {
     return _elements.data();
 }
 
 template <typename T, size_t N>
-typename Vector<T, N>::ContainerType::iterator Vector<T, N>::begin() {
+typename Vector<T, N>::Iterator Vector<T, N>::begin() {
     return _elements.begin();
 }
 
 template <typename T, size_t N>
-typename Vector<T, N>::ContainerType::const_iterator Vector<T, N>::begin()
-    const {
+typename Vector<T, N>::ConstIterator Vector<T, N>::begin() const {
     return _elements.cbegin();
 }
 
 template <typename T, size_t N>
-typename Vector<T, N>::ContainerType::iterator Vector<T, N>::end() {
+typename Vector<T, N>::Iterator Vector<T, N>::end() {
     return _elements.end();
 }
 
 template <typename T, size_t N>
-typename Vector<T, N>::ContainerType::const_iterator Vector<T, N>::end() const {
+typename Vector<T, N>::ConstIterator Vector<T, N>::end() const {
     return _elements.cend();
 }
 

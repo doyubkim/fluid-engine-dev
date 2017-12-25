@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef __CUDACC__
+
 #ifdef JET_USE_CUDA
 
 #ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_DATA3_H_
@@ -11,6 +13,7 @@
 
 #include <jet/array_view1.h>
 #include <jet/cuda_array1.h>
+#include <jet/vector4.h>
 
 #include <cuda_runtime.h>
 
@@ -60,7 +63,16 @@ class CudaParticleSystemData3 {
     size_t addFloatData(float initialVal = 0.0f);
 
     //!
-    size_t addVectorData(const float4& initialVal = make_float4(0, 0, 0, 0));
+    size_t addVectorData(const Vector4F& initialVal = Vector4F{});
+
+    //!
+    size_t numberOfIntData() const;
+
+    //!
+    size_t numberOfFloatData() const;
+
+    //!
+    size_t numberOfVectorData() const;
 
     //!
     CudaArrayView1<float4> positions();
@@ -93,8 +105,13 @@ class CudaParticleSystemData3 {
     const CudaArrayView1<float4> vectorDataAt(size_t idx) const;
 
     //!
-    void addParticle(const float4& newPosition,
-                     const float4& newVelocity = make_float4(0, 0, 0, 0));
+    void addParticle(const Vector4F& newPosition,
+                     const Vector4F& newVelocity = Vector4F{});
+
+    //!
+    void addParticles(
+        const ArrayView1<Vector4F>& newPositions,
+        const ArrayView1<Vector4F>& newVelocities = ArrayView1<Vector4F>{});
 
     //!
     void addParticles(
@@ -127,3 +144,5 @@ typedef std::shared_ptr<CudaParticleSystemData3> CudaParticleSystemData3Ptr;
 #endif  // INCLUDE_JET_CUDA_PARTICLE_SYSTEM_DATA3_H_
 
 #endif  // JET_USE_CUDA
+
+#endif  // __CUDACC__

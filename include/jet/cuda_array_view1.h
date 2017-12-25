@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef __CUDACC__
+
 #ifdef JET_USE_CUDA
 
 #ifndef INCLUDE_JET_CUDA_ARRAY_VIEW1_H_
@@ -80,3 +82,5 @@ class CudaArrayView1 final {
 #endif  // INCLUDE_JET_CUDA_ARRAY_VIEW1_H_
 
 #endif  // JET_USE_CUDA
+
+#endif  // __CUDACC__
