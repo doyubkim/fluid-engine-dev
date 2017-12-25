@@ -20,7 +20,7 @@ TEST(CudaParticleSystemData3, Constructors) {
     CudaParticleSystemData3 particles2(15);
     EXPECT_EQ(15u, particles2.numberOfParticles());
 
-    CudaParticleSystemData3 particles3(15);
+    CudaParticleSystemData3 particles3(particles2);
     EXPECT_EQ(15u, particles3.numberOfParticles());
 }
 
