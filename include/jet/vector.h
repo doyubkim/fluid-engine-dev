@@ -91,16 +91,16 @@ class Vector final : public VectorExpression<T, Vector<T, N>> {
     const T* data() const;
 
     //! Returns the begin iterator of the vector.
-    typename Iterator begin();
+    Iterator begin();
 
     //! Returns the begin const iterator of the vector.
-    typename ConstIterator begin() const;
+    ConstIterator begin() const;
 
     //! Returns the end iterator of the vector.
-    typename Iterator end();
+    Iterator end();
 
     //! Returns the end const iterator of the vector.
-    typename ConstIterator end() const;
+    ConstIterator end() const;
 
     //! Returns the array accessor.
     ArrayAccessor1<T> accessor();
