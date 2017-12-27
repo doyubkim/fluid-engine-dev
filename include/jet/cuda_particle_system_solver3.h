@@ -113,8 +113,8 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
 
     //! Resolves any collisions occured by the particles where the particle
     //! state is given by the position and velocity arrays.
-    void resolveCollision(ArrayView1<Vector4F> newPositions,
-                          ArrayView1<Vector4F> newVelocities);
+    void resolveCollision(CudaArrayView1<float4> newPositions,
+                          CudaArrayView1<float4> newVelocities);
 
  private:
     float _radius = 1e-3f;
