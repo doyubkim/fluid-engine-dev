@@ -101,6 +101,7 @@ if (ENABLE_CUDA)
     find_package(CUDA)
     list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
     add_definitions(-DJET_USE_CUDA)
+    include_directories($ENV{NVCUDASAMPLES_ROOT}/common/inc)
 
     if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         list(APPEND DEFAULT_COMPILE_OPTIONS

@@ -21,8 +21,6 @@ namespace jet {
 
 namespace experimental {
 
-enum class CudaChannelType { kInt, kFloat, kVector };
-
 class CudaParticleSystemData3 {
  public:
     //! Scalar int data chunk.
