@@ -18,7 +18,7 @@ float4 toFloat4(const Vector4F& vec) {
     return make_float4(vec.x, vec.y, vec.z, vec.w);
 }
 
-}
+}  // namespace
 
 CudaParticleSystemData3::CudaParticleSystemData3()
     : CudaParticleSystemData3(0) {}

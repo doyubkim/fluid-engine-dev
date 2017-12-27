@@ -56,6 +56,8 @@ TEST(CudaArray1, Constructors) {
     CudaArray1<float> arr3({ 1.0f, 2.0f, 3.0f });
     EXPECT_EQ(3u, arr3.size());
     for (size_t i = 0; i < arr3.size(); ++i) {
+        float a = arr3[i];
+        printf("%f\n", a);
         EXPECT_FLOAT_EQ(1.0f + i, arr3[i]);
     }
 
