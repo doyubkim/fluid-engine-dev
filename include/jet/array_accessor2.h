@@ -75,10 +75,10 @@ class ArrayAccessor<T, 2> final {
     const T& at(size_t i, size_t j) const;
 
     //! Returns the begin iterator of the array.
-    T* const begin() const;
+    const T* begin() const;
 
     //! Returns the end iterator of the array.
-    T* const end() const;
+    const T* end() const;
 
     //! Returns the begin iterator of the array.
     T* begin();
@@ -96,7 +96,10 @@ class ArrayAccessor<T, 2> final {
     size_t height() const;
 
     //! Returns the raw pointer to the array data.
-    T* const data() const;
+    T* data();
+
+    //! Returns the raw pointer to the array data.
+    const T* data() const;
 
     //! Swaps the content of with \p other array accessor.
     void swap(ArrayAccessor& other);
@@ -243,8 +246,8 @@ class ArrayAccessor<T, 2> final {
 };
 
 //! Type alias for 2-D array accessor.
-template <typename T> using ArrayAccessor2 = ArrayAccessor<T, 2>;
-
+template <typename T>
+using ArrayAccessor2 = ArrayAccessor<T, 2>;
 
 //!
 //! \brief 2-D read-only array accessor class.
@@ -272,8 +275,7 @@ class ConstArrayAccessor<T, 2> {
     //! \param width Width of the 2-D array.
     //! \param height Height of the 2-D array.
     //! \param data Raw array pointer.
-    ConstArrayAccessor(
-        size_t width, size_t height, const T* const data);
+    ConstArrayAccessor(size_t width, size_t height, const T* const data);
 
     //! Constructs a read-only array accessor from read/write accessor.
     explicit ConstArrayAccessor(const ArrayAccessor<T, 2>& other);
@@ -291,10 +293,10 @@ class ConstArrayAccessor<T, 2> {
     const T& at(size_t i, size_t j) const;
 
     //! Returns the begin iterator of the array.
-    const T* const begin() const;
+    const T* begin() const;
 
     //! Returns the end iterator of the array.
-    const T* const end() const;
+    const T* end() const;
 
     //! Returns the size of the array.
     Size2 size() const;
@@ -306,7 +308,7 @@ class ConstArrayAccessor<T, 2> {
     size_t height() const;
 
     //! Returns the raw pointer to the array data.
-    const T* const data() const;
+    const T* data() const;
 
     //!
     //! \brief Iterates the array and invoke given \p func for each index.
@@ -412,7 +414,8 @@ class ConstArrayAccessor<T, 2> {
 };
 
 //! Type alias for 2-D const array accessor.
-template <typename T> using ConstArrayAccessor2 = ConstArrayAccessor<T, 2>;
+template <typename T>
+using ConstArrayAccessor2 = ConstArrayAccessor<T, 2>;
 
 }  // namespace jet
 

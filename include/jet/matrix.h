@@ -149,7 +149,7 @@ class Matrix final : public MatrixExpression<T, Matrix<T, M, N>> {
     T* data();
 
     //! Returns constant pointer of this matrix.
-    const T* const data() const;
+    const T* data() const;
 
     //! Returns the begin iterator of the matrix.
     Iterator begin();
