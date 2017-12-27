@@ -22,8 +22,6 @@ else()
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 endif()
 
-
-
 # Build executable
 if (ENABLE_CUDA)
     cuda_add_executable(${target}

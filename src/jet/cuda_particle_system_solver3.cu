@@ -33,6 +33,23 @@ struct UpdateStateVectors {
     }
 };
 
+struct ResolveCollision {
+    template <typename Tuple>
+    __device__ void operator()(Tuple t) {
+        // TODO: Replace with proper collider
+        float4 x = get<0>(t);
+        float4 v = get<1>(t);
+
+        if (x.y < 0.0) {
+            x.y = 0.0;
+            v.y *= -1.0;
+        }
+
+        get<0>(t) = x;
+        get<1>(t) = v;
+    }
+};
+
 struct AccumulateExternalForces {
     float mass;
     float4 gravity;
@@ -192,30 +209,18 @@ void CudaParticleSystemSolver3::onEndAdvanceTimeStep(double timeStepInSeconds) {
 }
 
 void CudaParticleSystemSolver3::resolveCollision() {
-    // resolveCollision(
-    //    ArrayView1<Vector3F>(_newPositions),
-    //    ArrayView1<Vector3F>(_newVelocities));
+    resolveCollision(_particleSystemData->vectorDataAt(_newPositionsIdx),
+                     _particleSystemData->vectorDataAt(_newVelocitiesIdx));
 }
 
 void CudaParticleSystemSolver3::resolveCollision(
-    ArrayView1<Vector4F> newPositions, ArrayView1<Vector4F> newVelocities) {
-    UNUSED_VARIABLE(newPositions);
-    UNUSED_VARIABLE(newVelocities);
-    // if (_collider != nullptr) {
-    //     size_t numberOfParticles = _particleSystemData->numberOfParticles();
-    //     const float radius = _particleSystemData->radius();
-
-    //     parallelFor(
-    //         kZeroSize,
-    //         numberOfParticles,
-    //         [&] (size_t i) {
-    //             _collider->resolveCollision(
-    //                 radius,
-    //                 _restitutionCoefficient,
-    //                 &newPositions[i],
-    //                 &newVelocities[i]);
-    //         });
-    // }
+    CudaArrayView1<float4> newPositions, CudaArrayView1<float4> newVelocities) {
+    thrust::for_each(
+        thrust::device,
+        make_zip_iterator(
+            make_tuple(newPositions.begin(), newVelocities.begin())),
+        make_zip_iterator(make_tuple(newPositions.end(), newVelocities.end())),
+        ResolveCollision());
 }
 
 void CudaParticleSystemSolver3::accumulateExternalForces() {

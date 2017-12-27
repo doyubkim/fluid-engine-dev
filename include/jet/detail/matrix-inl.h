@@ -181,7 +181,7 @@ T* Matrix<T, M, N>::data() {
 }
 
 template <typename T, size_t M, size_t N>
-const T* const Matrix<T, M, N>::data() const {
+const T* Matrix<T, M, N>::data() const {
     return _elements.data();
 }
 

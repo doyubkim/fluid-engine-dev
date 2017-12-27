@@ -14,8 +14,7 @@
 namespace jet {
 
 template <typename T>
-ArrayAccessor<T, 3>::ArrayAccessor() : _data(nullptr) {
-}
+ArrayAccessor<T, 3>::ArrayAccessor() : _data(nullptr) {}
 
 template <typename T>
 ArrayAccessor<T, 3>::ArrayAccessor(const Size3& size, T* const data) {
@@ -23,8 +22,8 @@ ArrayAccessor<T, 3>::ArrayAccessor(const Size3& size, T* const data) {
 }
 
 template <typename T>
-ArrayAccessor<T, 3>::ArrayAccessor(
-    size_t width, size_t height, size_t depth, T* const data) {
+ArrayAccessor<T, 3>::ArrayAccessor(size_t width, size_t height, size_t depth,
+                                   T* const data) {
     reset(width, height, depth, data);
 }
 
@@ -45,20 +44,20 @@ void ArrayAccessor<T, 3>::reset(const Size3& size, T* const data) {
 }
 
 template <typename T>
-void ArrayAccessor<T, 3>::reset(
-    size_t width, size_t height, size_t depth, T* const data) {
+void ArrayAccessor<T, 3>::reset(size_t width, size_t height, size_t depth,
+                                T* const data) {
     reset(Size3(width, height, depth), data);
 }
 
 template <typename T>
 T& ArrayAccessor<T, 3>::at(size_t i) {
-    JET_ASSERT(i < _size.x*_size.y*_size.z);
+    JET_ASSERT(i < _size.x * _size.y * _size.z);
     return _data[i];
 }
 
 template <typename T>
 const T& ArrayAccessor<T, 3>::at(size_t i) const {
-    JET_ASSERT(i < _size.x*_size.y*_size.z);
+    JET_ASSERT(i < _size.x * _size.y * _size.z);
     return _data[i];
 }
 
@@ -73,12 +72,12 @@ const T& ArrayAccessor<T, 3>::at(const Point3UI& pt) const {
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::begin() const {
+const T* ArrayAccessor<T, 3>::begin() const {
     return _data;
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::end() const {
+const T* ArrayAccessor<T, 3>::end() const {
     return _data + _size.x * _size.y * _size.z;
 }
 
@@ -93,13 +92,13 @@ T* ArrayAccessor<T, 3>::end() {
 }
 
 template <typename T>
-T& ArrayAccessor<T, 3>::operator()(const Point3UI &pt) {
+T& ArrayAccessor<T, 3>::operator()(const Point3UI& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
 
 template <typename T>
-const T& ArrayAccessor<T, 3>::operator()(const Point3UI &pt) const {
+const T& ArrayAccessor<T, 3>::operator()(const Point3UI& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
@@ -137,7 +136,12 @@ size_t ArrayAccessor<T, 3>::depth() const {
 }
 
 template <typename T>
-T* const ArrayAccessor<T, 3>::data() const {
+T* ArrayAccessor<T, 3>::data() {
+    return _data;
+}
+
+template <typename T>
+const T* ArrayAccessor<T, 3>::data() const {
     return _data;
 }
 
@@ -175,16 +179,14 @@ template <typename T>
 template <typename Callback>
 void ArrayAccessor<T, 3>::parallelForEach(Callback func) {
     parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z,
-        [&](size_t i, size_t j, size_t k) {
-            func(at(i, j, k));
-        });
+                [&](size_t i, size_t j, size_t k) { func(at(i, j, k)); });
 }
 
 template <typename T>
 template <typename Callback>
 void ArrayAccessor<T, 3>::parallelForEachIndex(Callback func) const {
-    parallelFor(
-        kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z, func);
+    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z,
+                func);
 }
 
 template <typename T>
@@ -233,21 +235,20 @@ ArrayAccessor<T, 3>::operator ConstArrayAccessor<T, 3>() const {
     return ConstArrayAccessor<T, 3>(*this);
 }
 
+template <typename T>
+ConstArrayAccessor<T, 3>::ConstArrayAccessor() : _data(nullptr) {}
 
 template <typename T>
-ConstArrayAccessor<T, 3>::ConstArrayAccessor() : _data(nullptr) {
-}
-
-template <typename T>
-ConstArrayAccessor<T, 3>::ConstArrayAccessor(
-    const Size3& size, const T* const data) {
+ConstArrayAccessor<T, 3>::ConstArrayAccessor(const Size3& size,
+                                             const T* const data) {
     _size = size;
     _data = data;
 }
 
 template <typename T>
-ConstArrayAccessor<T, 3>::ConstArrayAccessor(
-    size_t width, size_t height, size_t depth, const T* const data) {
+ConstArrayAccessor<T, 3>::ConstArrayAccessor(size_t width, size_t height,
+                                             size_t depth,
+                                             const T* const data) {
     _size = Size3(width, height, depth);
     _data = data;
 }
@@ -266,7 +267,7 @@ ConstArrayAccessor<T, 3>::ConstArrayAccessor(const ConstArrayAccessor& other) {
 
 template <typename T>
 const T& ConstArrayAccessor<T, 3>::at(size_t i) const {
-    JET_ASSERT(i < _size.x*_size.y*_size.z);
+    JET_ASSERT(i < _size.x * _size.y * _size.z);
     return _data[i];
 }
 
@@ -282,12 +283,12 @@ const T& ConstArrayAccessor<T, 3>::at(size_t i, size_t j, size_t k) const {
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::begin() const {
+const T* ConstArrayAccessor<T, 3>::begin() const {
     return _data;
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::end() const {
+const T* ConstArrayAccessor<T, 3>::end() const {
     return _data + _size.x * _size.y * _size.z;
 }
 
@@ -312,7 +313,7 @@ size_t ConstArrayAccessor<T, 3>::depth() const {
 }
 
 template <typename T>
-const T* const ConstArrayAccessor<T, 3>::data() const {
+const T* ConstArrayAccessor<T, 3>::data() const {
     return _data;
 }
 
@@ -343,8 +344,8 @@ void ConstArrayAccessor<T, 3>::forEachIndex(Callback func) const {
 template <typename T>
 template <typename Callback>
 void ConstArrayAccessor<T, 3>::parallelForEachIndex(Callback func) const {
-    parallelFor(
-        kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z, func);
+    parallelFor(kZeroSize, _size.x, kZeroSize, _size.y, kZeroSize, _size.z,
+                func);
 }
 
 template <typename T>
@@ -365,14 +366,14 @@ const T& ConstArrayAccessor<T, 3>::operator[](size_t i) const {
 }
 
 template <typename T>
-const T& ConstArrayAccessor<T, 3>::operator()(
-    size_t i, size_t j, size_t k) const {
+const T& ConstArrayAccessor<T, 3>::operator()(size_t i, size_t j,
+                                              size_t k) const {
     JET_ASSERT(i < _size.x && j < _size.y && k < _size.z);
     return _data[i + _size.x * (j + _size.y * k)];
 }
 
 template <typename T>
-const T& ConstArrayAccessor<T, 3>::operator()(const Point3UI &pt) const {
+const T& ConstArrayAccessor<T, 3>::operator()(const Point3UI& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
