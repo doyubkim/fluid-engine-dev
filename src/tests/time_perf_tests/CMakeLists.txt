@@ -14,12 +14,23 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(external/googlebenchmark/include)
 
 # Sources
-file(GLOB sources
+if (ENABLE_CUDA)
+    file(GLOB sources
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        "${CMAKE_CURRENT_SOURCE_DIR}/*.cu")
+else()
+    file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+endif()
 
 # Build executable
-add_executable(${target}
+if (ENABLE_CUDA)
+    cuda_add_executable(${target}
         ${sources})
+else()
+    add_executable(${target}
+        ${sources})
+endif()
 
 # Project options
 set_target_properties(${target}
@@ -41,7 +52,6 @@ target_compile_definitions(${target}
 
 # Link libraries
 target_link_libraries(${target}
-        PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
         jet
         benchmark)
