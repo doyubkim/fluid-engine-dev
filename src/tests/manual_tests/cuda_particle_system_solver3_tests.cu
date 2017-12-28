@@ -35,8 +35,6 @@ JET_BEGIN_TEST_F(CudaParticleSystemSolver3, PerfectBounce) {
         solver.update(frame);
 
         float4 pos = particles->positions()[0];
-        printf("%f, %f\n", pos.x, pos.y);
-
         x[frame.index] = pos.x;
         y[frame.index] = pos.y;
         snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy",
