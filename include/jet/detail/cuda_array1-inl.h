@@ -160,6 +160,26 @@ const T* CudaArray1<T>::data() const {
 }
 
 template <typename T>
+typename CudaArray1<T>::Iterator CudaArray1<T>::begin() {
+    return _data.data();
+}
+
+template <typename T>
+typename CudaArray1<T>::Iterator CudaArray1<T>::begin() const {
+    return _data.data();
+}
+
+template <typename T>
+typename CudaArray1<T>::Iterator CudaArray1<T>::end() {
+    return _data.data() + _size;
+}
+
+template <typename T>
+typename CudaArray1<T>::Iterator CudaArray1<T>::end() const {
+    return _data.data() + _size;
+}
+
+template <typename T>
 CudaArrayView1<T> CudaArray1<T>::view() {
     return CudaArrayView1<T>(*this);
 }

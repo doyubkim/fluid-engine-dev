@@ -29,24 +29,23 @@ template <typename T>
 class CudaArray1 final {
  public:
     typedef thrust::device_vector<T> ContainerType;
+    typedef thrust::device_ptr<T> Iterator;
 
     CudaArray1();
 
     CudaArray1(size_t size, const T& initVal = T());
 
-    JET_CUDA_HOST
     CudaArray1(const ArrayView1<T>& view);
 
     CudaArray1(const CudaArrayView1<T>& view);
 
-    JET_CUDA_HOST
     CudaArray1(const std::initializer_list<T>& lst);
 
     template <typename Alloc>
-    JET_CUDA_HOST CudaArray1(const thrust::host_vector<T, Alloc>& vec);
+    CudaArray1(const thrust::host_vector<T, Alloc>& vec);
 
     template <typename Alloc>
-    JET_CUDA_HOST CudaArray1(const std::vector<T, Alloc>& vec);
+    CudaArray1(const std::vector<T, Alloc>& vec);
 
     template <typename Alloc>
     CudaArray1(const thrust::device_vector<T, Alloc>& vec);
@@ -57,19 +56,17 @@ class CudaArray1 final {
 
     void set(const T& value);
 
-    JET_CUDA_HOST
     void set(const ArrayView1<T>& view);
 
     void set(const CudaArrayView1<T>& view);
 
-    JET_CUDA_HOST
     void set(const std::initializer_list<T>& lst);
 
     template <typename Alloc>
-    JET_CUDA_HOST void set(const std::vector<T, Alloc>& vec);
+    void set(const std::vector<T, Alloc>& vec);
 
     template <typename Alloc>
-    JET_CUDA_HOST void set(const thrust::host_vector<T, Alloc>& vec);
+    void set(const thrust::host_vector<T, Alloc>& vec);
 
     template <typename Alloc>
     void set(const thrust::device_vector<T, Alloc>& vec);
@@ -87,6 +84,14 @@ class CudaArray1 final {
     T* data();
 
     const T* data() const;
+
+    Iterator begin();
+
+    Iterator begin() const;
+
+    Iterator end();
+
+    Iterator end() const;
 
     CudaArrayView1<T> view();
 

@@ -86,12 +86,22 @@ const T* CudaArrayView1<T>::data() const {
 }
 
 template <typename T>
-thrust::device_ptr<T> CudaArrayView1<T>::begin() const {
+typename CudaArrayView1<T>::Iterator CudaArrayView1<T>::begin() {
     return _data;
 }
 
 template <typename T>
-thrust::device_ptr<T> CudaArrayView1<T>::end() const {
+typename CudaArrayView1<T>::Iterator CudaArrayView1<T>::begin() const {
+    return _data;
+}
+
+template <typename T>
+typename CudaArrayView1<T>::Iterator CudaArrayView1<T>::end() {
+    return _data + _size;
+}
+
+template <typename T>
+typename CudaArrayView1<T>::Iterator CudaArrayView1<T>::end() const {
     return _data + _size;
 }
 
