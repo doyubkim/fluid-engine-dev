@@ -20,6 +20,8 @@ namespace experimental {
 template <typename T>
 class CudaArrayView1 final {
  public:
+    typedef thrust::device_ptr<T> Iterator;
+
     CudaArrayView1();
 
     explicit CudaArrayView1(T* data, size_t size);
@@ -48,9 +50,13 @@ class CudaArrayView1 final {
 
     const T* data() const;
 
-    thrust::device_ptr<T> begin() const;
+    Iterator begin();
 
-    thrust::device_ptr<T> end() const;
+    Iterator begin() const;
+
+    Iterator end();
+
+    Iterator end() const;
 
     //! Returns the reference to i-th element.
     typename thrust::device_ptr<T>::reference operator[](size_t i);
