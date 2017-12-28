@@ -60,8 +60,7 @@ void CudaArrayView1<T>::set(const CudaArray1<T>& array) {
 
 template <typename T>
 void CudaArrayView1<T>::set(const thrust::device_vector<T>& vec) {
-    _data = vec.data();
-    _size = vec.size();
+    set(const_cast<T*>(thrust::raw_pointer_cast(vec.data())), vec.size());
 }
 
 template <typename T>
