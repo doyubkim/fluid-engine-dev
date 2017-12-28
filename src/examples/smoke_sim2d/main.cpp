@@ -39,7 +39,7 @@ void densityToImage() {
     sImage.resize(sN, sN);
     for (size_t i = 0; i < sN; i++) {
         for (size_t j = 0; j < sN; j++) {
-            const double d = clamp(2.0f * den(i, j) - 1.0, -1.0, 1.0);
+            const float d = (float)clamp(2.0 * den(i, j) - 1.0, -1.0, 1.0);
             auto color = ByteColor(Color::makeJet(d));
             sImage(i, j) = color;
         }
