@@ -6,6 +6,7 @@
 
 #include <jet/constants.h>
 #include <jet/cuda_particle_system_solver3.h>
+#include <jet/timer.h>
 
 #include <benchmark/benchmark.h>
 
@@ -76,13 +77,13 @@ BENCHMARK_DEFINE_F(CudaParticleSystemSolver3, Update)
     using namespace std::chrono;
 
     while (state.KeepRunning()) {
-        auto start = high_resolution_clock::now();
+        jet::Timer timer;
+
         update();
-        auto end = high_resolution_clock::now();
+        
+        const double elapsedSeconds = timer.durationInSeconds();
 
-        auto elapsed_seconds = duration_cast<duration<double>>(end - start);
-
-        state.SetIterationTime(elapsed_seconds.count());
+        state.SetIterationTime(elapsedSeconds);
     }
 }
 BENCHMARK_REGISTER_F(CudaParticleSystemSolver3, Update)
