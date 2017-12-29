@@ -5,21 +5,19 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/timer.h>
 
 using namespace jet;
 
-Timer::Timer() {
-    _startingPoint = _clock.now();
-}
+Timer::Timer() { _startingPoint = _clock.now(); }
 
 double Timer::durationInSeconds() const {
     auto end = std::chrono::high_resolution_clock::now();
-    auto count = std::chrono::duration_cast<std::chrono::microseconds>(
-        end - _startingPoint).count();
-    return count / 1000000.0;
+    auto count = std::chrono::duration_cast<std::chrono::duration<double>>(
+                     end - _startingPoint)
+                     .count();
+    return count;
 }
 
-void Timer::reset() {
-    _startingPoint = _clock.now();
-}
+void Timer::reset() { _startingPoint = _clock.now(); }
