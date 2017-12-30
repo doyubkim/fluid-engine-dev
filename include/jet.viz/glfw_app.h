@@ -21,19 +21,19 @@ struct GLFWwindow;
 namespace jet {
 namespace viz {
 
-class GLFWWindow;
-typedef std::shared_ptr<GLFWWindow> GLFWWindowPtr;
+class GlfwWindow;
+typedef std::shared_ptr<GlfwWindow> GlfwWindowPtr;
 
-class GLFWApp {
+class GlfwApp {
  public:
     static int initialize();
 
     static int run();
 
-    static GLFWWindowPtr createWindow(const std::string& title, int width,
+    static GlfwWindowPtr createWindow(const std::string& title, int width,
                                       int height);
 
-    static GLFWWindowPtr findWindow(GLFWwindow* glfwWindow);
+    static GlfwWindowPtr findWindow(GLFWwindow* glfwWindow);
 
     static Event<GLFWwindow*, int, int, int, int>& onBeginGlfwKeyEvent();
 
@@ -51,12 +51,12 @@ class GLFWApp {
 
     static Event<GLFWwindow*, int, const char**>& onBeginGlfwDropEvent();
 
-    friend class GLFWWindow;
+    friend class GlfwWindow;
 
  private:
-    static void onSetCurrentWindow(const GLFWWindowPtr& window);
+    static void onSetCurrentWindow(const GlfwWindowPtr& window);
 
-    static void onCloseCurrentWindow(const GLFWWindowPtr& window);
+    static void onCloseCurrentWindow(const GlfwWindowPtr& window);
 
     static void onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
                       int mods);

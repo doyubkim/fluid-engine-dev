@@ -12,7 +12,7 @@ using namespace viz;
 ImageRenderableTests::ImageRenderableTests(bool useOrthoCam)
     : _useOrthoCam(useOrthoCam) {}
 
-void ImageRenderableTests::setup(GLFWWindow* window) {
+void ImageRenderableTests::setup(GlfwWindow* window) {
     // Setup desired view controller
     if (_useOrthoCam) {
         window->setViewController(

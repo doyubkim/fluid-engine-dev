@@ -16,8 +16,8 @@ using namespace viz;
 
 namespace {
 
-std::vector<GLFWWindowPtr> sWindows;
-GLFWWindowPtr sCurrentWindow;
+std::vector<GlfwWindowPtr> sWindows;
+GlfwWindowPtr sCurrentWindow;
 
 Event<GLFWwindow*, int, int, int, int> sOnBeginGlfwKeyEvent;
 Event<GLFWwindow*, int, int, int> sOnBeginGlfwMouseButtonEvent;
@@ -30,7 +30,7 @@ Event<GLFWwindow*, int, const char**> sOnBeginGlfwDropEvent;
 
 }  // namespace
 
-int GLFWApp::initialize() {
+int GlfwApp::initialize() {
     glfwSetErrorCallback(onErrorEvent);
 
     if (!glfwInit()) {
@@ -48,7 +48,7 @@ int GLFWApp::initialize() {
     return 0;
 }
 
-int GLFWApp::run() {
+int GlfwApp::run() {
     // Force render first frame
     if (sCurrentWindow != nullptr) {
         sCurrentWindow->requestRender();
@@ -91,9 +91,9 @@ int GLFWApp::run() {
     return 0;
 }
 
-GLFWWindowPtr GLFWApp::createWindow(const std::string& title, int width,
+GlfwWindowPtr GlfwApp::createWindow(const std::string& title, int width,
                                     int height) {
-    sCurrentWindow = GLFWWindowPtr(new GLFWWindow(title, width, height));
+    sCurrentWindow = GlfwWindowPtr(new GlfwWindow(title, width, height));
     sWindows.push_back(sCurrentWindow);
 
     auto glfwWindow = sCurrentWindow->glfwWindow();
@@ -110,7 +110,7 @@ GLFWWindowPtr GLFWApp::createWindow(const std::string& title, int width,
     return sCurrentWindow;
 }
 
-GLFWWindowPtr GLFWApp::findWindow(GLFWwindow* glfwWindow) {
+GlfwWindowPtr GlfwApp::findWindow(GLFWwindow* glfwWindow) {
     for (auto w : sWindows) {
         if (w->glfwWindow() == glfwWindow) {
             return w;
@@ -120,46 +120,46 @@ GLFWWindowPtr GLFWApp::findWindow(GLFWwindow* glfwWindow) {
     return nullptr;
 }
 
-Event<GLFWwindow*, int, int, int, int>& GLFWApp::onBeginGlfwKeyEvent() {
+Event<GLFWwindow*, int, int, int, int>& GlfwApp::onBeginGlfwKeyEvent() {
     return sOnBeginGlfwKeyEvent;
 }
 
-Event<GLFWwindow*, int, int, int>& GLFWApp::onBeginGlfwMouseButtonEvent() {
+Event<GLFWwindow*, int, int, int>& GlfwApp::onBeginGlfwMouseButtonEvent() {
     return sOnBeginGlfwMouseButtonEvent;
 }
 
-Event<GLFWwindow*, double, double>& GLFWApp::onBeginGlfwMouseCursorPosEvent() {
+Event<GLFWwindow*, double, double>& GlfwApp::onBeginGlfwMouseCursorPosEvent() {
     return sOnBeginGlfwMouseCursorPosEvent;
 }
 
-Event<GLFWwindow*, int>& GLFWApp::onBeginGlfwMouseCursorEnterEvent() {
+Event<GLFWwindow*, int>& GlfwApp::onBeginGlfwMouseCursorEnterEvent() {
     return sOnBeginGlfwMouseCursorEnterEvent;
 }
 
-Event<GLFWwindow*, double, double>& GLFWApp::onBeginGlfwMouseScrollEvent() {
+Event<GLFWwindow*, double, double>& GlfwApp::onBeginGlfwMouseScrollEvent() {
     return sOnBeginGlfwMouseScrollEvent;
 }
 
-Event<GLFWwindow*, unsigned int>& GLFWApp::onBeginGlfwCharEvent() {
+Event<GLFWwindow*, unsigned int>& GlfwApp::onBeginGlfwCharEvent() {
     return sOnBeginGlfwCharEvent;
 }
 
-Event<GLFWwindow*, unsigned int, int>& GLFWApp::onBeginGlfwCharModsEvent() {
+Event<GLFWwindow*, unsigned int, int>& GlfwApp::onBeginGlfwCharModsEvent() {
     return sOnBeginGlfwCharModsEvent;
 }
 
-Event<GLFWwindow*, int, const char**>& GLFWApp::onBeginGlfwDropEvent() {
+Event<GLFWwindow*, int, const char**>& GlfwApp::onBeginGlfwDropEvent() {
     return sOnBeginGlfwDropEvent;
 }
 
-void GLFWApp::onSetCurrentWindow(const GLFWWindowPtr& window) {
+void GlfwApp::onSetCurrentWindow(const GlfwWindowPtr& window) {
     assert(std::find(sWindows.begin(), sWindows.end(), window) !=
            sWindows.end());
 
     sCurrentWindow = window;
 }
 
-void GLFWApp::onCloseCurrentWindow(const GLFWWindowPtr& window) {
+void GlfwApp::onCloseCurrentWindow(const GlfwWindowPtr& window) {
     auto it = std::find(sWindows.begin(), sWindows.end(), window);
     sWindows.erase(it);
 
@@ -172,9 +172,9 @@ void GLFWApp::onCloseCurrentWindow(const GLFWWindowPtr& window) {
     }
 }
 
-void GLFWApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
+void GlfwApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
                     int mods) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -187,9 +187,9 @@ void GLFWApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
     window->key(key, scancode, action, mods);
 }
 
-void GLFWApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
+void GlfwApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
                             int mods) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -202,8 +202,8 @@ void GLFWApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
     window->pointerButton(button, action, mods);
 }
 
-void GLFWApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+void GlfwApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -215,8 +215,8 @@ void GLFWApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
     window->pointerEnter(entered == GL_TRUE);
 }
 
-void GLFWApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+void GlfwApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -228,9 +228,9 @@ void GLFWApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
     window->pointerMoved(x, y);
 }
 
-void GLFWApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
+void GlfwApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
                             double deltaY) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -242,8 +242,8 @@ void GLFWApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
     window->mouseWheel(deltaX, deltaY);
 }
 
-void GLFWApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+void GlfwApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -253,8 +253,8 @@ void GLFWApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
     }
 }
 
-void GLFWApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+void GlfwApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -264,9 +264,9 @@ void GLFWApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
     }
 }
 
-void GLFWApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
+void GlfwApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
                      const char** pathNames) {
-    GLFWWindowPtr window = findWindow(glfwWindow);
+    GlfwWindowPtr window = findWindow(glfwWindow);
     assert(window != nullptr);
     window->requestRender();
 
@@ -279,7 +279,7 @@ void GLFWApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
     // TODO: Handle from Window
 }
 
-void GLFWApp::onErrorEvent(int error, const char* description) {
+void GlfwApp::onErrorEvent(int error, const char* description) {
     JET_ERROR << "GLFW Error [" << error << "] " << description;
 }
 

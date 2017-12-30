@@ -22,7 +22,7 @@ struct GLFWwindow;
 namespace jet {
 namespace viz {
 
-class GLFWWindow final {
+class GlfwWindow final {
  public:
     void setViewController(const ViewControllerPtr& viewController);
 
@@ -38,15 +38,15 @@ class GLFWWindow final {
     void setSwapInterval(int interval);
 
     // Event handlers
-    Event<GLFWWindow*>& onUpdateEvent();
-    Event<GLFWWindow*>& onGuiEvent();
-    Event<GLFWWindow*, const KeyEvent&>& onKeyDownEvent();
-    Event<GLFWWindow*, const KeyEvent&>& onKeyUpEvent();
-    Event<GLFWWindow*, const PointerEvent&>& onPointerPressedEvent();
-    Event<GLFWWindow*, const PointerEvent&>& onPointerReleasedEvent();
-    Event<GLFWWindow*, const PointerEvent&>& onPointerDraggedEvent();
-    Event<GLFWWindow*, const PointerEvent&>& onPointerHoverEvent();
-    Event<GLFWWindow*, const PointerEvent&>& onMouseWheelEvent();
+    Event<GlfwWindow*>& onUpdateEvent();
+    Event<GlfwWindow*>& onGuiEvent();
+    Event<GlfwWindow*, const KeyEvent&>& onKeyDownEvent();
+    Event<GlfwWindow*, const KeyEvent&>& onKeyUpEvent();
+    Event<GlfwWindow*, const PointerEvent&>& onPointerPressedEvent();
+    Event<GlfwWindow*, const PointerEvent&>& onPointerReleasedEvent();
+    Event<GlfwWindow*, const PointerEvent&>& onPointerDraggedEvent();
+    Event<GlfwWindow*, const PointerEvent&>& onPointerHoverEvent();
+    Event<GlfwWindow*, const PointerEvent&>& onMouseWheelEvent();
 
     //! Returns the framebuffer size.
     //! Note that the framebuffer size can be different from the window size,
@@ -78,19 +78,19 @@ class GLFWWindow final {
 
     int _swapInterval = 0;
 
-    Event<GLFWWindow*> _onUpdateEvent;
-    Event<GLFWWindow*> _onGuiEvent;
-    Event<GLFWWindow*, const KeyEvent&> _onKeyDownEvent;
-    Event<GLFWWindow*, const KeyEvent&> _onKeyUpEvent;
-    Event<GLFWWindow*, const PointerEvent&> _onPointerPressedEvent;
-    Event<GLFWWindow*, const PointerEvent&> _onPointerReleasedEvent;
-    Event<GLFWWindow*, const PointerEvent&> _onPointerDraggedEvent;
-    Event<GLFWWindow*, const PointerEvent&> _onPointerHoverEvent;
-    Event<GLFWWindow*, const PointerEvent&> _onMouseWheelEvent;
+    Event<GlfwWindow*> _onUpdateEvent;
+    Event<GlfwWindow*> _onGuiEvent;
+    Event<GlfwWindow*, const KeyEvent&> _onKeyDownEvent;
+    Event<GlfwWindow*, const KeyEvent&> _onKeyUpEvent;
+    Event<GlfwWindow*, const PointerEvent&> _onPointerPressedEvent;
+    Event<GlfwWindow*, const PointerEvent&> _onPointerReleasedEvent;
+    Event<GlfwWindow*, const PointerEvent&> _onPointerDraggedEvent;
+    Event<GlfwWindow*, const PointerEvent&> _onPointerHoverEvent;
+    Event<GlfwWindow*, const PointerEvent&> _onMouseWheelEvent;
 
     EventToken _onBasicCameraStateChangedEventToken = kEmptyEventToken;
 
-    GLFWWindow(const std::string& title, int width, int height);
+    GlfwWindow(const std::string& title, int width, int height);
 
     void render();
 
@@ -110,10 +110,10 @@ class GLFWWindow final {
 
     double getScaleFactor() const;
 
-    friend class GLFWApp;
+    friend class GlfwApp;
 };
 
-typedef std::shared_ptr<GLFWWindow> GLFWWindowPtr;
+typedef std::shared_ptr<GlfwWindow> GlfwWindowPtr;
 
 }  // namespace viz
 }  // namespace jet

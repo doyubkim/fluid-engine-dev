@@ -17,7 +17,7 @@ class ImageRenderableTests final : public OpenGLTests {
  public:
     ImageRenderableTests(bool useOrthoCam);
 
-    void setup(GLFWWindow* window) override;
+    void setup(GlfwWindow* window) override;
 
 private:
     bool _useOrthoCam = true;
