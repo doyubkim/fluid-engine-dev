@@ -17,7 +17,7 @@ class PointsRenderable3Tests final : public OpenGLTests {
  public:
     PointsRenderable3Tests() = default;
 
-    void setup(GLFWWindow* window) override;
+    void setup(GlfwWindow* window) override;
 };
 
 }  // namespace viz

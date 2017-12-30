@@ -14,7 +14,7 @@ Timer::Timer() {
 }
 
 double Timer::durationInSeconds() const {
-    auto end = std::chrono::steady_clock::now();
+    auto end = std::chrono::high_resolution_clock::now();
     auto count = std::chrono::duration_cast<std::chrono::microseconds>(
         end - _startingPoint).count();
     return count / 1000000.0;

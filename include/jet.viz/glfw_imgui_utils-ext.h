@@ -23,15 +23,15 @@ namespace viz {
 // glfwWaitEvents() is on hold.
 constexpr int kImGuiRenderRequestFrames = 3;
 
-class ImGuiForGLFWApp {
+class ImGuiForGlfwApp {
  public:
     static void configureApp() {
-        GLFWApp::onBeginGlfwKeyEvent() += onBeginGlfwKey;
-        GLFWApp::onBeginGlfwMouseButtonEvent() += onBeginGlfwMouseButton;
-        GLFWApp::onBeginGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
-        GLFWApp::onBeginGlfwCharEvent() += onBeginGlfwChar;
+        GlfwApp::onBeginGlfwKeyEvent() += onBeginGlfwKey;
+        GlfwApp::onBeginGlfwMouseButtonEvent() += onBeginGlfwMouseButton;
+        GlfwApp::onBeginGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
+        GlfwApp::onBeginGlfwCharEvent() += onBeginGlfwChar;
     }
-    static void configureWindow(GLFWWindowPtr window) {
+    static void configureWindow(GlfwWindowPtr window) {
         ImGui_ImplGlfwGL3_Init(window->glfwWindow(), false);
         window->requestRender(kImGuiRenderRequestFrames);
     }
@@ -39,7 +39,7 @@ class ImGuiForGLFWApp {
     static bool onBeginGlfwKey(GLFWwindow* glfwWindow, int key, int scancode,
                                int action, int mods) {
         ImGui_ImplGlfwGL3_KeyCallback(glfwWindow, key, scancode, action, mods);
-        GLFWApp::findWindow(glfwWindow)
+        GlfwApp::findWindow(glfwWindow)
             ->requestRender(kImGuiRenderRequestFrames);
 
         return ImGui::GetIO().WantCaptureKeyboard;
@@ -48,7 +48,7 @@ class ImGuiForGLFWApp {
     static bool onBeginGlfwMouseButton(GLFWwindow* glfwWindow, int button,
                                        int action, int mods) {
         ImGui_ImplGlfwGL3_MouseButtonCallback(glfwWindow, button, action, mods);
-        GLFWApp::findWindow(glfwWindow)
+        GlfwApp::findWindow(glfwWindow)
             ->requestRender(kImGuiRenderRequestFrames);
 
         return ImGui::GetIO().WantCaptureMouse;
@@ -57,7 +57,7 @@ class ImGuiForGLFWApp {
     static bool onBeginGlfwMouseScroll(GLFWwindow* glfwWindow, double deltaX,
                                        double deltaY) {
         ImGui_ImplGlfwGL3_ScrollCallback(glfwWindow, deltaX, deltaY);
-        GLFWApp::findWindow(glfwWindow)
+        GlfwApp::findWindow(glfwWindow)
             ->requestRender(kImGuiRenderRequestFrames);
 
         return ImGui::GetIO().WantCaptureMouse;
@@ -65,7 +65,7 @@ class ImGuiForGLFWApp {
 
     static bool onBeginGlfwChar(GLFWwindow* glfwWindow, unsigned int code) {
         ImGui_ImplGlfwGL3_CharCallback(glfwWindow, code);
-        GLFWApp::findWindow(glfwWindow)
+        GlfwApp::findWindow(glfwWindow)
             ->requestRender(kImGuiRenderRequestFrames);
 
         return ImGui::GetIO().WantCaptureKeyboard;

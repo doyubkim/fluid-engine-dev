@@ -17,8 +17,6 @@
 
 #include <GLFW/glfw3.h>
 
-#include <random>
-
 using namespace jet;
 using namespace viz;
 
@@ -33,6 +31,12 @@ static VolumeGridEmitter2Ptr sEmitter;
 std::mt19937 sRandomGen(0);
 std::uniform_real_distribution<> sRandomDist(0.0, 1.0);
 
+std::atomic_bool sIsImageDirty{true};
+std::atomic<double> sSimTime{0.0};
+std::atomic<double> sSimDiffCoeff{0.0};
+std::atomic<double> sSimDecayCoeff{0.0};
+std::mutex sSimMutex;
+
 // MARK: Rendering
 void densityToImage() {
     const auto den = sSolver->smokeDensity()->dataAccessor();
@@ -44,7 +48,6 @@ void densityToImage() {
             sImage(i, j) = color;
         }
     }
-    sRenderable->setImage(sImage);
 }
 
 // MARK: Emitter
@@ -56,6 +59,8 @@ void resetEmitter() {
                       .makeShared();
     auto emitter =
         VolumeGridEmitter2::builder().withSourceRegion(sphere).makeShared();
+
+    std::lock_guard<std::mutex> lock(sSimMutex);
     sSolver->setEmitter(emitter);
     emitter->addStepFunctionTarget(sSolver->smokeDensity(), 0.0, 1.0);
     emitter->addStepFunctionTarget(sSolver->temperature(), 0.0,
@@ -63,7 +68,7 @@ void resetEmitter() {
 }
 
 // MARK: Event handlers
-bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
+bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     switch (keyEvent.key()) {
         case 'q':
         case 'Q':
@@ -78,56 +83,60 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
     return false;
 }
 
-bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerPressed(GlfwWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
     (void)pointerEvent;
     return true;
 }
 
-bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerReleased(GlfwWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
     (void)pointerEvent;
     return true;
 }
 
-bool onPointerDragged(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerDragged(GlfwWindow* win, const PointerEvent& pointerEvent) {
     (void)win;
     (void)pointerEvent;
     return true;
 }
 
-bool onGui(GLFWWindow*) {
+bool onGui(GlfwWindow*) {
     ImGui_ImplGlfwGL3_NewFrame();
     ImGui::Begin("Info");
     {
-        ImGui::Text("Application average %.3f ms/sFrame (%.1f FPS)",
+        ImGui::Text("Rendering average %.3f ms/frame (%.1f FPS)",
                     1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
+
+        const double simTime = sSimTime;
+        ImGui::Text("Simulation average %.3f ms/frame (%.1f FPS)",
+                    simTime * 1000.0, 1.0 / simTime);
 
         if (ImGui::Button("Add Source")) {
             resetEmitter();
         }
 
-        auto diff = (float)sSolver->smokeDiffusionCoefficient();
+        auto diff = (float)sSimDiffCoeff;
         ImGui::SliderFloat("Smoke Diffusion", &diff, 0.0f, 0.005f, "%.5f");
-        sSolver->setSmokeDiffusionCoefficient(diff);
+        sSimDiffCoeff = diff;
 
-        auto decay = (float)sSolver->smokeDecayFactor();
+        auto decay = (float)sSimDecayCoeff;
         ImGui::SliderFloat("Smoke Decay", &decay, 0.0f, 0.01f);
-        sSolver->setSmokeDecayFactor(decay);
+        sSimDecayCoeff = decay;
     }
     ImGui::End();
     ImGui::Render();
     return true;
 }
 
-bool onUpdate(GLFWWindow* win) {
+bool onUpdate(GlfwWindow* win) {
     (void)win;
 
-    sSolver->update(sFrame);
-    densityToImage();
-
-    ++sFrame;
+    if (sIsImageDirty) {
+        sRenderable->setImage(sImage);
+        sIsImageDirty = false;
+    }
 
     return true;
 }
@@ -135,9 +144,9 @@ bool onUpdate(GLFWWindow* win) {
 int main(int, const char**) {
     Logging::mute();
 
-    GLFWApp::initialize();
+    GlfwApp::initialize();
 
-    // Setup sSolver
+    // Setup solver
     sSolver = GridSmokeSolver2::builder()
                   .withResolution({sN, sN})
                   .withDomainSizeX(1.0)
@@ -152,14 +161,16 @@ int main(int, const char**) {
         std::make_shared<FdmGaussSeidelSolver2>(10, 10, 1e-3));
     sSolver->setPressureSolver(pressureSolver);
     sSolver->setDiffusionSolver(diffusionSolver);
+    sSimDiffCoeff = sSolver->smokeDiffusionCoefficient();
+    sSimDecayCoeff = sSolver->smokeDecayFactor();
     resetEmitter();
 
     // Create GLFW window
-    GLFWWindowPtr window = GLFWApp::createWindow("Smoke Sim 2D", 512, 512);
+    GlfwWindowPtr window = GlfwApp::createWindow("Smoke Sim 2D", 512, 512);
 
     // Setup ImGui binding
-    ImGuiForGLFWApp::configureApp();
-    ImGuiForGLFWApp::configureWindow(window);
+    ImGuiForGlfwApp::configureApp();
+    ImGuiForGlfwApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
     window->setIsAnimationEnabled(true);
 
@@ -189,7 +200,29 @@ int main(int, const char**) {
     window->onGuiEvent() += onGui;
     window->onUpdateEvent() += onUpdate;
 
-    GLFWApp::run();
+    // Worker thread for sim
+    bool done = false;
+    std::thread t([&]() {
+        Timer timer;
+
+        while (!done) {
+            std::lock_guard<std::mutex> lock(sSimMutex);
+
+            timer.reset();
+            sSolver->setSmokeDiffusionCoefficient(sSimDiffCoeff);
+            sSolver->setSmokeDecayFactor(sSimDecayCoeff);
+            sSolver->update(sFrame);
+            sSimTime = timer.durationInSeconds();
+
+            ++sFrame;
+            densityToImage();
+            sIsImageDirty = true;
+        }
+    });
+
+    GlfwApp::run();
+    done = true;
+    t.join();
 
     return 0;
 }

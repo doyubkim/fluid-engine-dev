@@ -144,7 +144,7 @@ void densityToImage() {
 }
 
 // MARK: Event handlers
-bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
+bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     using namespace global;
 
     switch (keyEvent.key()) {
@@ -171,7 +171,7 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
     return false;
 }
 
-bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerPressed(GlfwWindow* win, const PointerEvent& pointerEvent) {
     using namespace global;
     (void)win;
     int button =
@@ -180,7 +180,7 @@ bool onPointerPressed(GLFWWindow* win, const PointerEvent& pointerEvent) {
     return true;
 }
 
-bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerReleased(GlfwWindow* win, const PointerEvent& pointerEvent) {
     using namespace global;
     (void)win;
     int button =
@@ -189,7 +189,7 @@ bool onPointerReleased(GLFWWindow* win, const PointerEvent& pointerEvent) {
     return true;
 }
 
-bool onPointerDragged(GLFWWindow* win, const PointerEvent& pointerEvent) {
+bool onPointerDragged(GlfwWindow* win, const PointerEvent& pointerEvent) {
     using namespace global;
     (void)win;
     mx = (int)pointerEvent.x();
@@ -197,7 +197,7 @@ bool onPointerDragged(GLFWWindow* win, const PointerEvent& pointerEvent) {
     return true;
 }
 
-bool onGui(GLFWWindow*) {
+bool onGui(GlfwWindow*) {
     ImGui_ImplGlfwGL3_NewFrame();
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -205,7 +205,7 @@ bool onGui(GLFWWindow*) {
     return true;
 }
 
-bool onUpdate(GLFWWindow* win) {
+bool onUpdate(GlfwWindow* win) {
     using namespace global;
     const auto fbSize = win->framebufferSize();
     frameX = (int)fbSize.x;
@@ -223,7 +223,7 @@ bool onUpdate(GLFWWindow* win) {
 int main(int argc, const char** argv) {
     using namespace global;
 
-    GLFWApp::initialize();
+    GlfwApp::initialize();
 
     // Setup solver
     if (argc != 1 && argc != 6) {
@@ -276,12 +276,12 @@ int main(int argc, const char** argv) {
     clearData();
 
     // Create GLFW window
-    GLFWWindowPtr window =
-        GLFWApp::createWindow("Jos Stam's Stable Fluids", 512, 512);
+    GlfwWindowPtr window =
+        GlfwApp::createWindow("Jos Stam's Stable Fluids", 512, 512);
 
     // Setup ImGui binding
-    ImGuiForGLFWApp::configureApp();
-    ImGuiForGLFWApp::configureWindow(window);
+    ImGuiForGlfwApp::configureApp();
+    ImGuiForGlfwApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
     window->setIsAnimationEnabled(true);
 
@@ -310,7 +310,7 @@ int main(int argc, const char** argv) {
     window->onGuiEvent() += onGui;
     window->onUpdateEvent() += onUpdate;
 
-    GLFWApp::run();
+    GlfwApp::run();
 
     return 0;
 }
