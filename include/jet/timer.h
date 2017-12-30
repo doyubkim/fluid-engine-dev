@@ -24,8 +24,8 @@ class Timer {
     void reset();
 
  private:
-    std::chrono::steady_clock _clock;
-    std::chrono::steady_clock::time_point _startingPoint;
+    std::chrono::high_resolution_clock _clock;
+    std::chrono::high_resolution_clock::time_point _startingPoint;
 };
 
 }  // namespace jet

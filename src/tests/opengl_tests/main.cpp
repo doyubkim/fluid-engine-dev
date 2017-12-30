@@ -26,7 +26,7 @@ using namespace viz;
 
 static std::vector<OpenGLTestsPtr> sTests;
 static size_t sCurrentTestIdx = 0;
-static GLFWWindow* sWindow;
+static GlfwWindow* sWindow;
 
 void nextTests() {
     sWindow->renderer()->clearRenderables();
@@ -39,7 +39,7 @@ void nextTests() {
     sTests[sCurrentTestIdx]->setup(sWindow);
 }
 
-bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
+bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
         win->setIsAnimationEnabled(!win->isAnimationEnabled());
@@ -52,7 +52,7 @@ bool onKeyDown(GLFWWindow* win, const KeyEvent& keyEvent) {
     return false;
 }
 
-bool onGui(GLFWWindow*) {
+bool onGui(GlfwWindow*) {
     ImGui_ImplGlfwGL3_NewFrame();
 
     ImGui::Begin("Info");
@@ -74,18 +74,18 @@ bool onGui(GLFWWindow*) {
     return true;
 }
 
-bool onUpdate(GLFWWindow*) { return false; }
+bool onUpdate(GlfwWindow*) { return false; }
 
 int main(int, const char**) {
-    GLFWApp::initialize();
+    GlfwApp::initialize();
 
     // Create GLFW window
-    GLFWWindowPtr window = GLFWApp::createWindow("OpenGL Tests", 1280, 720);
+    GlfwWindowPtr window = GlfwApp::createWindow("OpenGL Tests", 1280, 720);
     sWindow = window.get();
 
     // Setup ImGui binding
-    ImGuiForGLFWApp::configureApp();
-    ImGuiForGLFWApp::configureWindow(window);
+    ImGuiForGlfwApp::configureApp();
+    ImGuiForGlfwApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
 
     // Setup tests
@@ -100,7 +100,7 @@ int main(int, const char**) {
     window->onGuiEvent() += onGui;
     window->onUpdateEvent() += onUpdate;
 
-    GLFWApp::run();
+    GlfwApp::run();
 
     return 0;
 }

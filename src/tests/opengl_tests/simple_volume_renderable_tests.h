@@ -17,7 +17,7 @@ class SimpleVolumeRenderableTests final : public OpenGLTests {
  public:
     SimpleVolumeRenderableTests() = default;
 
-    void setup(GLFWWindow* window) override;
+    void setup(GlfwWindow* window) override;
 };
 
 }  // namespace viz

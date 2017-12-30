@@ -11,7 +11,7 @@
 using namespace jet;
 using namespace viz;
 
-void SimpleVolumeRenderableTests::setup(GLFWWindow* window) {
+void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<SphericalViewController>(
         std::make_shared<PerspCamera>()));

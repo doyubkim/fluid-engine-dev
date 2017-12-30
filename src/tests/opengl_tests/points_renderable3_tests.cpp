@@ -11,7 +11,7 @@
 using namespace jet;
 using namespace viz;
 
-void PointsRenderable3Tests::setup(GLFWWindow* window) {
+void PointsRenderable3Tests::setup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<SphericalViewController>(
         std::make_shared<PerspCamera>()));

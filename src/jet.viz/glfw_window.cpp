@@ -27,7 +27,7 @@ static ModifierKey getModifier(int mods) {
     return modifier;
 }
 
-GLFWWindow::GLFWWindow(const std::string& title, int width, int height) {
+GlfwWindow::GlfwWindow(const std::string& title, int width, int height) {
     _window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 
     glfwMakeContextCurrent(_window);
@@ -49,7 +49,7 @@ GLFWWindow::GLFWWindow(const std::string& title, int width, int height) {
     _renderer = std::make_shared<GLRenderer>();
 }
 
-void GLFWWindow::setViewController(const ViewControllerPtr& viewController) {
+void GlfwWindow::setViewController(const ViewControllerPtr& viewController) {
     // Detach event handler from old view controller
     if (_onBasicCameraStateChangedEventToken != kEmptyEventToken &&
         _viewController != nullptr) {
@@ -69,71 +69,71 @@ void GLFWWindow::setViewController(const ViewControllerPtr& viewController) {
     _renderer->setCamera(_viewController->camera());
 }
 
-const GLRendererPtr& GLFWWindow::renderer() const { return _renderer; }
+const GLRendererPtr& GlfwWindow::renderer() const { return _renderer; }
 
-bool GLFWWindow::isAnimationEnabled() const { return _isAnimationEnabled; }
+bool GlfwWindow::isAnimationEnabled() const { return _isAnimationEnabled; }
 
-void GLFWWindow::setIsAnimationEnabled(bool enabled) {
+void GlfwWindow::setIsAnimationEnabled(bool enabled) {
     _isAnimationEnabled = enabled;
 }
 
-void GLFWWindow::setSwapInterval(int interval) {
+void GlfwWindow::setSwapInterval(int interval) {
     _swapInterval = interval;
     glfwSwapInterval(interval);
 }
 
-GLFWwindow* GLFWWindow::glfwWindow() const { return _window; }
+GLFWwindow* GlfwWindow::glfwWindow() const { return _window; }
 
-void GLFWWindow::requestRender(unsigned int numFrames) {
+void GlfwWindow::requestRender(unsigned int numFrames) {
     _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
     glfwPostEmptyEvent();
 }
 
-Event<GLFWWindow*>& GLFWWindow::onUpdateEvent() { return _onUpdateEvent; }
+Event<GlfwWindow*>& GlfwWindow::onUpdateEvent() { return _onUpdateEvent; }
 
-Event<GLFWWindow*>& GLFWWindow::onGuiEvent() { return _onGuiEvent; }
+Event<GlfwWindow*>& GlfwWindow::onGuiEvent() { return _onGuiEvent; }
 
-Event<GLFWWindow*, const KeyEvent&>& GLFWWindow::onKeyDownEvent() {
+Event<GlfwWindow*, const KeyEvent&>& GlfwWindow::onKeyDownEvent() {
     return _onKeyDownEvent;
 }
 
-Event<GLFWWindow*, const KeyEvent&>& GLFWWindow::onKeyUpEvent() {
+Event<GlfwWindow*, const KeyEvent&>& GlfwWindow::onKeyUpEvent() {
     return _onKeyUpEvent;
 }
 
-Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onPointerPressedEvent() {
+Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onPointerPressedEvent() {
     return _onPointerPressedEvent;
 }
 
-Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onPointerReleasedEvent() {
+Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onPointerReleasedEvent() {
     return _onPointerReleasedEvent;
 }
 
-Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onPointerDraggedEvent() {
+Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onPointerDraggedEvent() {
     return _onPointerDraggedEvent;
 }
 
-Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onPointerHoverEvent() {
+Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onPointerHoverEvent() {
     return _onPointerHoverEvent;
 }
 
-Event<GLFWWindow*, const PointerEvent&>& GLFWWindow::onMouseWheelEvent() {
+Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onMouseWheelEvent() {
     return _onMouseWheelEvent;
 }
 
-Size2 GLFWWindow::framebufferSize() const {
+Size2 GlfwWindow::framebufferSize() const {
     int w, h;
     glfwGetFramebufferSize(_window, &w, &h);
     return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
 }
 
-Size2 GLFWWindow::windowSize() const {
+Size2 GlfwWindow::windowSize() const {
     int w, h;
     glfwGetWindowSize(_window, &w, &h);
     return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
 }
 
-void GLFWWindow::render() {
+void GlfwWindow::render() {
     if (_renderer != nullptr) {
         _renderer->render();
     }
@@ -141,7 +141,7 @@ void GLFWWindow::render() {
     _onGuiEvent(this);
 }
 
-void GLFWWindow::resize(int width, int height) {
+void GlfwWindow::resize(int width, int height) {
     if (_renderer != nullptr) {
         Viewport viewport;
         viewport.x = 0.0;
@@ -157,12 +157,12 @@ void GLFWWindow::resize(int width, int height) {
     }
 }
 
-void GLFWWindow::update() {
+void GlfwWindow::update() {
     // Update
     _onUpdateEvent(this);
 }
 
-void GLFWWindow::key(int key, int scancode, int action, int mods) {
+void GlfwWindow::key(int key, int scancode, int action, int mods) {
     UNUSED_VARIABLE(scancode);
 
     ModifierKey modifier = getModifier(mods);
@@ -219,7 +219,7 @@ void GLFWWindow::key(int key, int scancode, int action, int mods) {
     }
 }
 
-void GLFWWindow::pointerButton(int button, int action, int mods) {
+void GlfwWindow::pointerButton(int button, int action, int mods) {
     PointerInputType newInputType = PointerInputType::Mouse;
     ModifierKey newModifierKey = getModifier(mods);
 
@@ -253,7 +253,7 @@ void GLFWWindow::pointerButton(int button, int action, int mods) {
     }
 }
 
-void GLFWWindow::pointerMoved(double x, double y) {
+void GlfwWindow::pointerMoved(double x, double y) {
     x = getScaleFactor() * x;
     y = getScaleFactor() * y;
 
@@ -280,7 +280,7 @@ void GLFWWindow::pointerMoved(double x, double y) {
     }
 }
 
-void GLFWWindow::mouseWheel(double deltaX, double deltaY) {
+void GlfwWindow::mouseWheel(double deltaX, double deltaY) {
     MouseWheelData wheelData;
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
@@ -295,9 +295,9 @@ void GLFWWindow::mouseWheel(double deltaX, double deltaY) {
     _onMouseWheelEvent(this, pointerEvent);
 }
 
-void GLFWWindow::pointerEnter(bool entered) { _hasPointerEntered = entered; }
+void GlfwWindow::pointerEnter(bool entered) { _hasPointerEntered = entered; }
 
-double GLFWWindow::getScaleFactor() const {
+double GlfwWindow::getScaleFactor() const {
     int fbWidth, fbHeight;
     int winWidth, winHeight;
     glfwGetFramebufferSize(_window, &fbWidth, &fbHeight);
