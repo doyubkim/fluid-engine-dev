@@ -14,42 +14,100 @@
 namespace jet {
 namespace viz {
 
+//! OpenGL renderer.
 class GLRenderer final : public Renderer {
  public:
+    //! Default constructor.
     GLRenderer();
+
+    //! Destructor.
     virtual ~GLRenderer();
 
-    virtual VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
-                                               const float* vertices,
-                                               size_t numberOfPoints) override;
+    //!
+    //! Creates a vertex buffer with given parameters.
+    //!
+    //! \param shader Shader object for the buffer.
+    //! \param vertices Vertex data.
+    //! \param numberOfPoints Number of vertices.
+    //! \return New vertex buffer.
+    //!
+    VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
+                                       const float* vertices,
+                                       size_t numberOfPoints) override;
 
-    virtual IndexBufferPtr createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
-        size_t numberOfIndices) override;
+    //!
+    //! Creates an index buffer with given parameters.
+    //!
+    //! \param vertexBuffer Vertices for the index buffer.
+    //! \param indices Index data.
+    //! \param numberOfIndices Number of indicies.
+    //! \return New index buffer.
+    //!
+    IndexBufferPtr createIndexBuffer(const VertexBufferPtr& vertexBuffer,
+                                     const uint32_t* indices,
+                                     size_t numberOfIndices) override;
 
-    virtual Texture2Ptr createTexture2(const ByteColor* const data,
-                                       const Size2& size) override;
+    //!
+    //! Creates a 2-D texture with 8-bit image and given parameters.
+    //!
+    //! \param data 8-bit texture image data.
+    //! \param size Size of the data.
+    //! \return New 2-D texture.
+    //!
+    Texture2Ptr createTexture2(const ByteColor* data,
+                               const Size2& size) override;
 
-    virtual Texture2Ptr createTexture2(const Color* const data,
-                                       const Size2& size) override;
+    //!
+    //! Creates a 2-D texture with 32-bit image and given parameters.
+    //!
+    //! \param data 32-bit texture image data.
+    //! \param size Size of the data.
+    //! \return New 2-D texture.
+    //!
+    Texture2Ptr createTexture2(const Color* data, const Size2& size) override;
 
-    virtual Texture3Ptr createTexture3(const Color* const data,
-                                       const Size3& size) override;
+    //!
+    //! Creates a 3-D texture with 32-bit image and given parameters.
+    //!
+    //! \param data 32-bit texture image data.
+    //! \param size Size of the data.
+    //! \return New 3-D texture.
+    //!
+    Texture3Ptr createTexture3(const Color* data, const Size3& size) override;
 
-    virtual ShaderPtr createPresetShader(
-        const std::string& shaderName) const override;
+    //!
+    //! Creates a shader object with given preset shader name.
+    //!
+    //! \param shaderName Preset shader name.
+    //! \return
+    ShaderPtr createPresetShader(const std::string& shaderName) const override;
 
-    virtual void setPrimitiveType(PrimitiveType type) override;
+    //!
+    //! Sets current render primitive type state for drawing.
+    //!
+    //! \param type Primitive type.
+    //!
+    void setPrimitiveType(PrimitiveType type) override;
 
-    virtual void draw(size_t numberOfVertices) override;
+    //!
+    //! Draws currently bound object.
+    //!
+    //! \param numberOfVertices Number of vertices.
+    //!
+    void draw(size_t numberOfVertices) override;
 
-    virtual void drawIndexed(size_t numberOfIndices) override;
+    //!
+    //! Draws currently bound indexed object.
+    //!
+    //! \param numberOfIndices Number of indices.
+    //!
+    void drawIndexed(size_t numberOfIndices) override;
 
  protected:
-    virtual void onRenderBegin() override;
-    virtual void onRenderEnd() override;
-    virtual void onResize(const Viewport& viewport) override;
-    virtual void onSetRenderStates(const RenderStates& states) override;
+    void onRenderBegin() override;
+    void onRenderEnd() override;
+    void onResize(const Viewport& viewport) override;
+    void onSetRenderStates(const RenderStates& states) override;
 
  private:
     PrimitiveType _primitiveType;
