@@ -12,40 +12,48 @@
 #include <jet.viz/index_buffer.h>
 
 namespace jet {
+
 namespace viz {
 
 //!
 //! \brief Dynamic index buffer implementation for OpenGL.
 //!
-//! This class implements OpenGL version of index buffer. This index
-//! buffer is dynamic, meaning that the contents can be updated dynamically
+//! This class implements OpenGL version of index buffer. This index buffer is
+//! dynamic, meaning that the contents can be updated dynamically
 //! (GL_DYNAMIC_DRAW).
 //!
 class GLIndexBuffer final : public IndexBuffer {
  public:
+    //! Default constructor.
     GLIndexBuffer();
+
+    //! Destructor.
     virtual ~GLIndexBuffer();
 
-    virtual void update(const uint32_t* indices) override;
-
- protected:
-    virtual void onClear() override;
-
-    virtual void onResize(const VertexBufferPtr& vertexBuffer,
-                          const uint32_t* indices,
-                          size_t numberOfIndices) override;
-
-    virtual void onBind(Renderer* renderer) override;
-
-    virtual void onUnbind(Renderer* renderer) override;
+    //!
+    //! Updates the buffer with given indicies array.
+    //!
+    //! \param indices Index array.
+    //!
+    void update(const uint32_t* indices) override;
 
  private:
     unsigned int _bufferId = 0;
+
+    void onClear() override;
+
+    void onResize(const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+                  size_t numberOfIndices) override;
+
+    void onBind(Renderer* renderer) override;
+
+    void onUnbind(Renderer* renderer) override;
 };
 
 typedef std::shared_ptr<GLIndexBuffer> GLIndexBufferPtr;
 
 }  // namespace viz
+
 }  // namespace jet
 
 #endif  // JET_USE_GL
