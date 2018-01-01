@@ -12,7 +12,14 @@ namespace viz {
 
 class Renderer;
 
-enum class TextureSamplingMode : uint8_t { kNearest = 0, kLinear = 1 };
+//! Texture sampling modes.
+enum class TextureSamplingMode : uint8_t {
+    //! Sample nearest pixel.
+    kNearest = 0,
+
+    //! Linear-interpolate nearby pixels.
+    kLinear = 1
+};
 
 }  // namespace viz
 }  // namespace jet

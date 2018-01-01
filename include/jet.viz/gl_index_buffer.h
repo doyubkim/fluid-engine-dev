@@ -31,7 +31,7 @@ class GLIndexBuffer final : public IndexBuffer {
     virtual ~GLIndexBuffer();
 
     //!
-    //! Updates the buffer with given indicies array.
+    //! Updates the buffer with given indices array.
     //!
     //! \param indices Index array.
     //!
@@ -50,6 +50,7 @@ class GLIndexBuffer final : public IndexBuffer {
     void onUnbind(Renderer* renderer) override;
 };
 
+//! Shared pointer type for GLIndexBuffer.
 typedef std::shared_ptr<GLIndexBuffer> GLIndexBufferPtr;
 
 }  // namespace viz

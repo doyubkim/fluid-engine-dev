@@ -14,35 +14,62 @@
 namespace jet {
 namespace viz {
 
+//! OpenGL texture parameters.
 struct GLTextureParameters final {
+    //! GL_TEXTURE_MIN_FILTER
     int minFilter;
+
+    //! GL_TEXTURE_MAG_FILTER
     int magFilter;
+
+    //! GL_TEXTURE_WRAP_S
     int wrapS;
+
+    //! GL_TEXTURE_WRAP_T
     int wrapT;
+
+    //! GL_TEXTURE_WRAP_R
     int wrapR;
 
+    //! Default constructor.
     GLTextureParameters();
 };
 
+//! OpenGL texture class.
 class GLTexture {
  public:
-    GLTexture(unsigned int target);
+    //!
+    //! Constructs texture with given target.
+    //!
+    //! \param target OpenGL texture target.
+    //!
+    explicit GLTexture(unsigned int target);
 
+    //! Destructor.
     virtual ~GLTexture();
 
+    //! Returns OpenGL texture parameters.
     const GLTextureParameters& glTextureParameters() const;
 
+    //! Sets OpenGL texture parameters.
     void setGLTextureParamters(const GLTextureParameters& params);
 
  protected:
+    //! Clears OpenGL texture resource.
     void clearGLTexture();
 
+    //! \brief Creates OpenGL texture resource.
+    //! This function will allocated texture resource for previously set texture
+    //! parameters and store the generated texture ID internally.
     void createGLTexture();
 
+    //! Binds OpenGL texture to current context.
     void bindGLTexture(unsigned int slotId);
 
+    //! Returns OpenGL texture ID.
     unsigned int glTextureId() const;
 
+    //! Returns OpenGL texture target.
     unsigned int glTarget() const;
 
  private:
