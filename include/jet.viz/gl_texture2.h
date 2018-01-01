@@ -16,28 +16,33 @@
 namespace jet {
 namespace viz {
 
-class GLTexture2 : public Texture2, public GLTexture {
+//! 2-D OpenGL texture representation.
+class GLTexture2 final : public Texture2, public GLTexture {
  public:
+    //! Constructs an empty texture.
     GLTexture2();
+
+    //! Destructor.
     virtual ~GLTexture2();
 
-    void update(const Color* const data) override;
+    //! Updates current texture with given 32-bit color data.
+    void update(const Color* data) override;
 
-    void update(const ByteColor* const data) override;
+    //! Updates current texture with given 8-bit color data.
+    void update(const ByteColor* data) override;
 
- protected:
+ private:
+    Size2 _size;
+
     void onClear() override;
 
-    void onResize(const Color* const data, const Size2& size) override;
+    void onResize(const Color* data, const Size2& size) override;
 
-    void onResize(const ByteColor* const data, const Size2& size) override;
+    void onResize(const ByteColor* data, const Size2& size) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 
     void onSamplingModeChanged(const TextureSamplingMode& mode) override;
-
- private:
-    Size2 _size;
 };
 
 }  // namespace viz

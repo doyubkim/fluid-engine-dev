@@ -17,14 +17,14 @@ GLTexture2::GLTexture2() : GLTexture(GL_TEXTURE_2D) {}
 
 GLTexture2::~GLTexture2() {}
 
-void GLTexture2::update(const Color* const data) {
+void GLTexture2::update(const Color* data) {
     glBindTexture(GL_TEXTURE_2D, glTextureId());
 
     glTexSubImage2D(glTarget(), 0, 0, 0, static_cast<GLsizei>(_size.x),
                     static_cast<GLsizei>(_size.y), GL_RGBA, GL_FLOAT, data);
 }
 
-void GLTexture2::update(const ByteColor* const data) {
+void GLTexture2::update(const ByteColor* data) {
     glBindTexture(GL_TEXTURE_2D, glTextureId());
 
     glTexSubImage2D(glTarget(), 0, 0, 0, static_cast<GLsizei>(_size.x),
@@ -34,7 +34,7 @@ void GLTexture2::update(const ByteColor* const data) {
 
 void GLTexture2::onClear() { clearGLTexture(); }
 
-void GLTexture2::onResize(const Color* const data, const Size2& size) {
+void GLTexture2::onResize(const Color* data, const Size2& size) {
     _size = size;
 
     createGLTexture();
@@ -51,7 +51,7 @@ void GLTexture2::onResize(const Color* const data, const Size2& size) {
                  static_cast<GLsizei>(size.y), 0, GL_RGBA, GL_FLOAT, data);
 }
 
-void GLTexture2::onResize(const ByteColor* const data, const Size2& size) {
+void GLTexture2::onResize(const ByteColor* data, const Size2& size) {
     _size = size;
 
     createGLTexture();

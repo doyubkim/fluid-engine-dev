@@ -16,24 +16,33 @@
 namespace jet {
 namespace viz {
 
+//! 3-D OpenGL texture representation.
 class GLTexture3 : public Texture3, public GLTexture {
  public:
+    //! Constructs an empty texture.
     GLTexture3();
+
+    //! Destructor.
     virtual ~GLTexture3();
 
+    //! Updates current texture with given 32-bit color data.
     void update(const Color* data) override;
 
- protected:
+    //! Updates current texture with given 8-bit color data.
+    void update(const ByteColor* data) override;
+
+ private:
+    Size3 _size;
+
     void onClear() override;
 
     void onResize(const Color* data, const Size3& size) override;
 
+    void onResize(const ByteColor* data, const Size3& size) override;
+
     void onBind(Renderer* renderer, unsigned int slotId) override;
 
     void onSamplingModeChanged(const TextureSamplingMode& mode) override;
-
- private:
-    Size3 _size;
 };
 
 }  // namespace viz
