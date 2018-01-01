@@ -40,7 +40,7 @@ class GLRenderer final : public Renderer {
     //!
     //! \param vertexBuffer Vertices for the index buffer.
     //! \param indices Index data.
-    //! \param numberOfIndices Number of indicies.
+    //! \param numberOfIndices Number of indices.
     //! \return New index buffer.
     //!
     IndexBufferPtr createIndexBuffer(const VertexBufferPtr& vertexBuffer,

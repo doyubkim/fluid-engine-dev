@@ -14,8 +14,8 @@ using namespace jet;
 using namespace viz;
 
 GLTextureParameters::GLTextureParameters() {
-    minFilter = GL_NEAREST;  // GL_LINEAR;
-    magFilter = GL_NEAREST;  // GL_LINEAR;
+    minFilter = GL_NEAREST;
+    magFilter = GL_NEAREST;
     wrapS = GL_CLAMP_TO_EDGE;
     wrapT = GL_CLAMP_TO_EDGE;
     wrapR = GL_CLAMP_TO_EDGE;
@@ -23,9 +23,7 @@ GLTextureParameters::GLTextureParameters() {
 
 GLTexture::GLTexture(unsigned int target) : _target(target) {}
 
-GLTexture::~GLTexture() {
-    clearGLTexture();
-}
+GLTexture::~GLTexture() { clearGLTexture(); }
 
 const GLTextureParameters& GLTexture::glTextureParameters() const {
     return _param;
@@ -39,6 +37,7 @@ void GLTexture::setGLTextureParamters(const GLTextureParameters& params) {
     glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _param.magFilter);
     glTexParameteri(_target, GL_TEXTURE_WRAP_S, _param.wrapS);
     glTexParameteri(_target, GL_TEXTURE_WRAP_T, _param.wrapT);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_R, _param.wrapR);
 }
 
 void GLTexture::clearGLTexture() {

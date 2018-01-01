@@ -26,22 +26,21 @@ namespace viz {
 //!
 class GLVertexBuffer final : public VertexBuffer {
  public:
+    //! Default constructor.
     GLVertexBuffer();
+
+    //! Destructor.
     virtual ~GLVertexBuffer();
 
-    virtual void update(const float* vertices) override;
+    //!
+    //! Updates the buffer with given vertex array.
+    //!
+    //! \param vertices Vertex array.
+    //!
+    void update(const float* vertices) override;
 
+    //! Returns OpenGL vertex array ID.
     unsigned int vertexArrayId() const;
-
- protected:
-    virtual void onClear() override;
-
-    virtual void onResize(const ShaderPtr& shader, const float* vertices,
-                          size_t numberOfVertices) override;
-
-    virtual void onBind(Renderer* renderer) override;
-
-    virtual void onUnbind(Renderer* renderer) override;
 
  private:
     unsigned int _vertexArrayId = 0;
@@ -49,8 +48,18 @@ class GLVertexBuffer final : public VertexBuffer {
     unsigned int _indexBufferId = 0;
 
     std::map<std::string, unsigned int> _attributes;
+
+    void onClear() override;
+
+    void onResize(const ShaderPtr& shader, const float* vertices,
+                  size_t numberOfVertices) override;
+
+    void onBind(Renderer* renderer) override;
+
+    void onUnbind(Renderer* renderer) override;
 };
 
+//! Shared pointer type for GLVertexBuffer.
 typedef std::shared_ptr<GLVertexBuffer> GLVertexBufferPtr;
 
 }  // namespace viz

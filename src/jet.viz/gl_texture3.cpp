@@ -25,6 +25,15 @@ void GLTexture3::update(const Color* data) {
                     static_cast<GLsizei>(_size.z), GL_RGBA, GL_FLOAT, data);
 }
 
+void GLTexture3::update(const ByteColor* data) {
+    glBindTexture(GL_TEXTURE_3D, glTextureId());
+
+    glTexSubImage3D(glTarget(), 0, 0, 0, 0, static_cast<GLsizei>(_size.x),
+                    static_cast<GLsizei>(_size.y),
+                    static_cast<GLsizei>(_size.z), GL_RGBA, GL_UNSIGNED_BYTE,
+                    data);
+}
+
 void GLTexture3::onClear() { clearGLTexture(); }
 
 void GLTexture3::onResize(const Color* data, const Size3& size) {
@@ -44,6 +53,25 @@ void GLTexture3::onResize(const Color* data, const Size3& size) {
     glTexImage3D(target, 0, GL_RGBA32F, static_cast<GLsizei>(size.x),
                  static_cast<GLsizei>(size.y), static_cast<GLsizei>(size.z), 0,
                  GL_RGBA, GL_FLOAT, data);
+}
+
+void GLTexture3::onResize(const ByteColor* data, const Size3& size) {
+    _size = size;
+
+    createGLTexture();
+
+    auto target = glTarget();
+    const auto& param = glTextureParameters();
+
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, param.minFilter);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, param.magFilter);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, param.wrapS);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, param.wrapT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, param.wrapR);
+
+    glTexImage3D(target, 0, GL_RGBA8, static_cast<GLsizei>(size.x),
+                 static_cast<GLsizei>(size.y), static_cast<GLsizei>(size.z), 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, data);
 }
 
 void GLTexture3::onBind(Renderer* renderer, unsigned int slotId) {
