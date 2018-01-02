@@ -13,28 +13,36 @@
 #include "texture2.h"
 #include "vertex_buffer.h"
 
-namespace jet { namespace viz {
+namespace jet {
 
+namespace viz {
+
+//! Renderable for displaying a single image.
 class ImageRenderable final : public Renderable {
  public:
-    ImageRenderable(Renderer* renderer);
+    //! Constructs the renderable.
+    explicit ImageRenderable(Renderer* renderer);
 
+    //! Sets an image to be rendered.
     void setImage(const ByteImage& image);
 
+    //! Sets the sampling mode for the image texture.
     void setTextureSamplingMode(const TextureSamplingMode& mode);
-
- protected:
-    void render(Renderer* renderer) override;
 
  private:
     Renderer* _renderer;
     ShaderPtr _shader;
     VertexBufferPtr _vertexBuffer;
     Texture2Ptr _texture;
+
+    void render(Renderer* renderer) override;
 };
 
+//! Shared pointer type for ImageRenderable.
 typedef std::shared_ptr<ImageRenderable> ImageRenderablePtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_IMAGE_RENDERABLE_H_

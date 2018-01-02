@@ -24,10 +24,10 @@ namespace viz {
 //!
 class GLIndexBuffer final : public IndexBuffer {
  public:
-    //! Default constructor.
+    //! Constructs an empty buffer.
     GLIndexBuffer();
 
-    //! Destructor.
+    //! Releases OpenGL buffer object.
     virtual ~GLIndexBuffer();
 
     //!
