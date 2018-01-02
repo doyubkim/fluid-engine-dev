@@ -74,7 +74,7 @@ bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
         case 'Q':
             exit(EXIT_SUCCESS);
         case GLFW_KEY_ENTER:
-            win->setIsAnimationEnabled(!win->isAnimationEnabled());
+            win->setIsUpdateEnabled(!win->isUpdateEnabled());
             return true;
         default:
             break;
@@ -172,7 +172,7 @@ int main(int, const char**) {
     ImGuiForGlfwApp::configureApp();
     ImGuiForGlfwApp::configureWindow(window);
     ImGui::SetupImGuiStyle(true, 0.75f);
-    window->setIsAnimationEnabled(true);
+    window->setIsUpdateEnabled(true);
 
     auto camera = std::make_shared<OrthoCamera>(-0.5, 0.5, -0.5, 0.5);
     auto viewController = std::make_shared<OrthoViewController>(camera);

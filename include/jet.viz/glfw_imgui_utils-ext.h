@@ -26,10 +26,10 @@ constexpr int kImGuiRenderRequestFrames = 3;
 class ImGuiForGlfwApp {
  public:
     static void configureApp() {
-        GlfwApp::onBeginGlfwKeyEvent() += onBeginGlfwKey;
-        GlfwApp::onBeginGlfwMouseButtonEvent() += onBeginGlfwMouseButton;
-        GlfwApp::onBeginGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
-        GlfwApp::onBeginGlfwCharEvent() += onBeginGlfwChar;
+        GlfwApp::onGlfwKeyEvent() += onBeginGlfwKey;
+        GlfwApp::onGlfwMouseButtonEvent() += onBeginGlfwMouseButton;
+        GlfwApp::onGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
+        GlfwApp::onGlfwCharEvent() += onBeginGlfwChar;
     }
     static void configureWindow(GlfwWindowPtr window) {
         ImGui_ImplGlfwGL3_Init(window->glfwWindow(), false);

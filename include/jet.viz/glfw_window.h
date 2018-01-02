@@ -22,30 +22,192 @@ struct GLFWwindow;
 namespace jet {
 namespace viz {
 
+//!
+//! \brief Helper class for GLFW-based window.
+//!
+//! \see GlfwApp
+//!
 class GlfwWindow final {
  public:
+    //! Sets view controller to the window.
     void setViewController(const ViewControllerPtr& viewController);
 
+    //! Returns OpenGL renderer.
     const GLRendererPtr& renderer() const;
 
+    //! Returns raw GLFW window object.
     GLFWwindow* glfwWindow() const;
 
+    //! Request to render given number of frames to the renderer.
     void requestRender(unsigned int numFrames = 1);
 
-    bool isAnimationEnabled() const;
-    void setIsAnimationEnabled(bool enabled);
+    //! Returns true if update is enabled.
+    bool isUpdateEnabled() const;
 
+    //! Enables/disables update.
+    void setIsUpdateEnabled(bool enabled);
+
+    //! Sets swap interval.
     void setSwapInterval(int interval);
 
     // Event handlers
+
+    //!
+    //! \brief Returns update event object.
+    //!
+    //! An update callback function can be attached to this event object such
+    //! as:
+    //!
+    //! \code{.cpp}
+    //! bool onUpdate(GlfwWindow* win) { ... }
+    //! ...
+    //! window->onUpdateEvent() += onUpdate;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*>& onUpdateEvent();
+
+    //!
+    //! \brief Returns GUI update event object.
+    //!
+    //! An ImGui update callback function can be attached to this event object
+    //! such as:
+    //!
+    //! \code{.cpp}
+    //! bool onGui(GlfwWindow*) {
+    //!     ImGui_ImplGlfwGL3_NewFrame();
+    //!     ImGui::Begin("Info");
+    //!     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+    //!                 1000.0f / ImGui::GetIO().Framerate,
+    //!                 ImGui::GetIO().Framerate);
+    //!     ImGui::End();
+    //!     ImGui::Render();
+    //!     return true;
+    //! }
+    //! ...
+    //! window->onUpdateEvent() += onGui;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*>& onGuiEvent();
+
+    //!
+    //! \brief Returns key-down event object.
+    //!
+    //! A key-down callback function can be attached to this event object such
+    //! as:
+    //!
+    //! \code{.cpp}
+    //! bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) { ... }
+    //! ...
+    //! window->onKeyDownEvent() += onKeyDown;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const KeyEvent&>& onKeyDownEvent();
+
+    //!
+    //! \brief Returns key-up event object.
+    //!
+    //! A key-up callback function can be attached to this event object such
+    //! as:
+    //!
+    //! \code{.cpp}
+    //! bool onKeyUp(GlfwWindow* win, const KeyEvent& keyEvent) { ... }
+    //! ...
+    //! window->onKeyUpEvent() += onKeyUp;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const KeyEvent&>& onKeyUpEvent();
+
+    //!
+    //! \brief Returns pointer-pressed event object.
+    //!
+    //! A pointer-pressed callback function can be attached to this event object
+    //! such as:
+    //!
+    //! \code{.cpp}
+    //! bool onPointerPressed(GlfwWindow* win, const PointerEvent& pointerEvent)
+    //! { ... }
+    //! ...
+    //! window->onPointerPressedEvent() += onPointerPressed;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const PointerEvent&>& onPointerPressedEvent();
+
+    //!
+    //! \brief Returns pointer-released event object.
+    //!
+    //! A pointer-released callback function can be attached to this event
+    //! object such as:
+    //!
+    //! \code{.cpp}
+    //! bool onPointerReleased(GlfwWindow* win, const PointerEvent&
+    //! pointerEvent) { ... }
+    //! ...
+    //! window->onPointerReleasedEvent() += onPointerReleased;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const PointerEvent&>& onPointerReleasedEvent();
+
+    //!
+    //! \brief Returns pointer-dragged event object.
+    //!
+    //! A pointer-dragged callback function can be attached to this event
+    //! object such as:
+    //!
+    //! \code{.cpp}
+    //! bool onPointerDragged(GlfwWindow* win, const PointerEvent&
+    //! pointerEvent) { ... }
+    //! ...
+    //! window->onPointerDraggedEvent() += onPointerDragged;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const PointerEvent&>& onPointerDraggedEvent();
+
+    //!
+    //! \brief Returns pointer-hover event object.
+    //!
+    //! A pointer-hover (pointer button is in released state, but the pointer is
+    //! moving) callback function can be attached to this event object such as:
+    //!
+    //! \code{.cpp}
+    //! bool onPointerHover(GlfwWindow* win, const PointerEvent&
+    //! pointerEvent) { ... }
+    //! ...
+    //! window->onPointerHoverEvent() += onPointerHover;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const PointerEvent&>& onPointerHoverEvent();
+
+    //!
+    //! \brief Returns mouse wheel event object.
+    //!
+    //! A mouse wheel callback function can be attached to this event
+    //! object such as:
+    //!
+    //! \code{.cpp}
+    //! bool onMouseWheel(GlfwWindow* win, const PointerEvent&
+    //! pointerEvent) { ... }
+    //! ...
+    //! window->onMouseWheelEvent() += onMouseWheel;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
     Event<GlfwWindow*, const PointerEvent&>& onMouseWheelEvent();
 
     //! Returns the framebuffer size.
@@ -62,7 +224,7 @@ class GlfwWindow final {
     MouseButtonType _pressedMouseButton = MouseButtonType::None;
     ModifierKey _lastModifierKey = ModifierKey::None;
 
-    bool _isAnimationEnabled = false;
+    bool _isUpdateEnabled = false;
     unsigned int _numRequestedRenderFrames = 0;
 
     int _width = 1;

@@ -71,10 +71,10 @@ void GlfwWindow::setViewController(const ViewControllerPtr& viewController) {
 
 const GLRendererPtr& GlfwWindow::renderer() const { return _renderer; }
 
-bool GlfwWindow::isAnimationEnabled() const { return _isAnimationEnabled; }
+bool GlfwWindow::isUpdateEnabled() const { return _isUpdateEnabled; }
 
-void GlfwWindow::setIsAnimationEnabled(bool enabled) {
-    _isAnimationEnabled = enabled;
+void GlfwWindow::setIsUpdateEnabled(bool enabled) {
+    _isUpdateEnabled = enabled;
 }
 
 void GlfwWindow::setSwapInterval(int interval) {
