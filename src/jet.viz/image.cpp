@@ -57,7 +57,7 @@ Size2 ByteImage::size() const { return _data.size(); }
 
 ByteColor* ByteImage::data() { return _data.data(); }
 
-const ByteColor* const ByteImage::data() const { return _data.data(); }
+const ByteColor* ByteImage::data() const { return _data.data(); }
 
 ByteColor& ByteImage::operator()(size_t i, size_t j) { return _data(i, j); }
 
