@@ -19,14 +19,14 @@ namespace {
 std::vector<GlfwWindowPtr> sWindows;
 GlfwWindowPtr sCurrentWindow;
 
-Event<GLFWwindow*, int, int, int, int> sOnBeginGlfwKeyEvent;
-Event<GLFWwindow*, int, int, int> sOnBeginGlfwMouseButtonEvent;
-Event<GLFWwindow*, double, double> sOnBeginGlfwMouseCursorPosEvent;
-Event<GLFWwindow*, int> sOnBeginGlfwMouseCursorEnterEvent;
-Event<GLFWwindow*, double, double> sOnBeginGlfwMouseScrollEvent;
-Event<GLFWwindow*, unsigned int> sOnBeginGlfwCharEvent;
-Event<GLFWwindow*, unsigned int, int> sOnBeginGlfwCharModsEvent;
-Event<GLFWwindow*, int, const char**> sOnBeginGlfwDropEvent;
+Event<GLFWwindow*, int, int, int, int> sOnGlfwKeyEvent;
+Event<GLFWwindow*, int, int, int> sOnGlfwMouseButtonEvent;
+Event<GLFWwindow*, double, double> sOnGlfwMouseCursorPosEvent;
+Event<GLFWwindow*, int> sOnGlfwMouseCursorEnterEvent;
+Event<GLFWwindow*, double, double> sOnGlfwMouseScrollEvent;
+Event<GLFWwindow*, unsigned int> sOnGlfwCharEvent;
+Event<GLFWwindow*, unsigned int, int> sOnGlfwCharModsEvent;
+Event<GLFWwindow*, int, const char**> sOnGlfwDropEvent;
 
 }  // namespace
 
@@ -59,13 +59,13 @@ int GlfwApp::run() {
 
         auto window = sCurrentWindow->glfwWindow();
 
-        if (sCurrentWindow->isAnimationEnabled() ||
+        if (sCurrentWindow->isUpdateEnabled() ||
             sCurrentWindow->_numRequestedRenderFrames > 0) {
             int width, height;
             glfwGetFramebufferSize(window, &width, &height);
             sCurrentWindow->resize(width, height);
 
-            if (sCurrentWindow->isAnimationEnabled()) {
+            if (sCurrentWindow->isUpdateEnabled()) {
                 sCurrentWindow->update();
             }
 
@@ -74,7 +74,7 @@ int GlfwApp::run() {
             // Decrease render request count
             sCurrentWindow->_numRequestedRenderFrames -= 1;
 
-            if (sCurrentWindow->isAnimationEnabled()) {
+            if (sCurrentWindow->isUpdateEnabled()) {
                 glfwPostEmptyEvent();
             }
 
@@ -120,36 +120,36 @@ GlfwWindowPtr GlfwApp::findWindow(GLFWwindow* glfwWindow) {
     return nullptr;
 }
 
-Event<GLFWwindow*, int, int, int, int>& GlfwApp::onBeginGlfwKeyEvent() {
-    return sOnBeginGlfwKeyEvent;
+Event<GLFWwindow*, int, int, int, int>& GlfwApp::onGlfwKeyEvent() {
+    return sOnGlfwKeyEvent;
 }
 
-Event<GLFWwindow*, int, int, int>& GlfwApp::onBeginGlfwMouseButtonEvent() {
-    return sOnBeginGlfwMouseButtonEvent;
+Event<GLFWwindow*, int, int, int>& GlfwApp::onGlfwMouseButtonEvent() {
+    return sOnGlfwMouseButtonEvent;
 }
 
-Event<GLFWwindow*, double, double>& GlfwApp::onBeginGlfwMouseCursorPosEvent() {
-    return sOnBeginGlfwMouseCursorPosEvent;
+Event<GLFWwindow*, double, double>& GlfwApp::onGlfwMouseCursorPosEvent() {
+    return sOnGlfwMouseCursorPosEvent;
 }
 
-Event<GLFWwindow*, int>& GlfwApp::onBeginGlfwMouseCursorEnterEvent() {
-    return sOnBeginGlfwMouseCursorEnterEvent;
+Event<GLFWwindow*, int>& GlfwApp::onGlfwMouseCursorEnterEvent() {
+    return sOnGlfwMouseCursorEnterEvent;
 }
 
-Event<GLFWwindow*, double, double>& GlfwApp::onBeginGlfwMouseScrollEvent() {
-    return sOnBeginGlfwMouseScrollEvent;
+Event<GLFWwindow*, double, double>& GlfwApp::onGlfwMouseScrollEvent() {
+    return sOnGlfwMouseScrollEvent;
 }
 
-Event<GLFWwindow*, unsigned int>& GlfwApp::onBeginGlfwCharEvent() {
-    return sOnBeginGlfwCharEvent;
+Event<GLFWwindow*, unsigned int>& GlfwApp::onGlfwCharEvent() {
+    return sOnGlfwCharEvent;
 }
 
-Event<GLFWwindow*, unsigned int, int>& GlfwApp::onBeginGlfwCharModsEvent() {
-    return sOnBeginGlfwCharModsEvent;
+Event<GLFWwindow*, unsigned int, int>& GlfwApp::onGlfwCharModsEvent() {
+    return sOnGlfwCharModsEvent;
 }
 
-Event<GLFWwindow*, int, const char**>& GlfwApp::onBeginGlfwDropEvent() {
-    return sOnBeginGlfwDropEvent;
+Event<GLFWwindow*, int, const char**>& GlfwApp::onGlfwDropEvent() {
+    return sOnGlfwDropEvent;
 }
 
 void GlfwApp::onSetCurrentWindow(const GlfwWindowPtr& window) {
@@ -179,7 +179,7 @@ void GlfwApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
     window->requestRender();
 
     bool handled =
-        sOnBeginGlfwKeyEvent(glfwWindow, key, scancode, action, mods);
+        sOnGlfwKeyEvent(glfwWindow, key, scancode, action, mods);
     if (handled) {
         return;
     }
@@ -194,7 +194,7 @@ void GlfwApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
     window->requestRender();
 
     bool handled =
-        sOnBeginGlfwMouseButtonEvent(glfwWindow, button, action, mods);
+        sOnGlfwMouseButtonEvent(glfwWindow, button, action, mods);
     if (handled) {
         return;
     }
@@ -207,7 +207,7 @@ void GlfwApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
     assert(window != nullptr);
     window->requestRender();
 
-    bool handled = sOnBeginGlfwMouseCursorEnterEvent(glfwWindow, entered);
+    bool handled = sOnGlfwMouseCursorEnterEvent(glfwWindow, entered);
     if (handled) {
         return;
     }
@@ -220,7 +220,7 @@ void GlfwApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
     assert(window != nullptr);
     window->requestRender();
 
-    bool handled = sOnBeginGlfwMouseCursorPosEvent(glfwWindow, x, y);
+    bool handled = sOnGlfwMouseCursorPosEvent(glfwWindow, x, y);
     if (handled) {
         return;
     }
@@ -234,7 +234,7 @@ void GlfwApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
     assert(window != nullptr);
     window->requestRender();
 
-    bool handled = sOnBeginGlfwMouseScrollEvent(glfwWindow, deltaX, deltaY);
+    bool handled = sOnGlfwMouseScrollEvent(glfwWindow, deltaX, deltaY);
     if (handled) {
         return;
     }
@@ -247,7 +247,7 @@ void GlfwApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
     assert(window != nullptr);
     window->requestRender();
 
-    bool handled = sOnBeginGlfwCharEvent(glfwWindow, code);
+    bool handled = sOnGlfwCharEvent(glfwWindow, code);
     if (handled) {
         return;
     }
@@ -258,7 +258,7 @@ void GlfwApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
     assert(window != nullptr);
     window->requestRender();
 
-    bool handled = sOnBeginGlfwCharModsEvent(glfwWindow, code, mods);
+    bool handled = sOnGlfwCharModsEvent(glfwWindow, code, mods);
     if (handled) {
         return;
     }
@@ -271,7 +271,7 @@ void GlfwApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
     window->requestRender();
 
     bool handled =
-        sOnBeginGlfwDropEvent(glfwWindow, numDroppedFiles, pathNames);
+        sOnGlfwDropEvent(glfwWindow, numDroppedFiles, pathNames);
     if (handled) {
         return;
     }

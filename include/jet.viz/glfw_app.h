@@ -24,32 +24,181 @@ namespace viz {
 class GlfwWindow;
 typedef std::shared_ptr<GlfwWindow> GlfwWindowPtr;
 
+//!
+//! \brief Helper class for GLFW-based applications.
+//!
+//! This class provides simple C++ wrapper around GLFW library. Here's a minimal
+//! example that shows how to create and launch an OpenGL app:
+//!
+//! \code{.cpp}
+//! #include <jet.viz/jet.viz.h>
+//!
+//! int main() {
+//!     GlfwApp::initialize();
+//!     auto window = GlfwApp::createWindow("OpenGL Tests", 1280, 720);
+//!     GlfwApp::run();
+//! }
+//!
+//! \endcode
+//!
 class GlfwApp {
  public:
+    //! Initializes the app.
     static int initialize();
 
+    //! Starts the run-loop.
     static int run();
 
+    //!
+    //! Creates a GLFW window.
+    //!
+    //! \param title Title of the window.
+    //! \param width Width of the window.
+    //! \param height Height of the window.
+    //! \return GLFW Window object.
+    //!
     static GlfwWindowPtr createWindow(const std::string& title, int width,
                                       int height);
 
+    //!
+    //! Finds Jet.Viz GLFW window object using raw GLFW window object.
+    //!
+    //! \param glfwWindow raw GLFW window object.
+    //! \return Jet.Viz GLFW window object.
+    //!
     static GlfwWindowPtr findWindow(GLFWwindow* glfwWindow);
 
-    static Event<GLFWwindow*, int, int, int, int>& onBeginGlfwKeyEvent();
+    //!
+    //! \brief Returns key event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWkeyfun in GLFW. Unless there is a
+    //! need for accessing raw GLFW event handling cycle, use onKeyDownEvent or
+    //! onKeyUpEvent from GlfwWindow.
+    //!
+    //! Here's an example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwKeyEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, int, int, int, int>& onGlfwKeyEvent();
 
-    static Event<GLFWwindow*, int, int, int>& onBeginGlfwMouseButtonEvent();
+    //!
+    //! \brief Returns mouse button event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWmousebuttonfun in GLFW. Unless there
+    //! is a need for accessing raw GLFW event handling cycle, use
+    //! onPointerPressedEvent or onPointerReleasedEvent from GlfwWindow.
+    //!
+    //! Here's an example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwMouseButtonEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, int, int, int>& onGlfwMouseButtonEvent();
 
-    static Event<GLFWwindow*, double, double>& onBeginGlfwMouseCursorPosEvent();
+    //!
+    //! \brief Returns mouse cursor position event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWcursorposfun in GLFW. Unless there
+    //! is a need for accessing raw GLFW event handling cycle, use
+    //! onPointerDraggedEvent or onPointerHoverEvent from GlfwWindow.
+    //!
+    //! Here's an example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwMouseCursorPosEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, double, double>& onGlfwMouseCursorPosEvent();
 
-    static Event<GLFWwindow*, int>& onBeginGlfwMouseCursorEnterEvent();
+    //!
+    //! \brief Returns mouse cursor enter event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWcursorenterfun in GLFW. Here's an
+    //! example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwMouseCursorEnterEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, int>& onGlfwMouseCursorEnterEvent();
 
-    static Event<GLFWwindow*, double, double>& onBeginGlfwMouseScrollEvent();
+    //!
+    //! \brief Returns mouse scroll event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to  GLFWscrollfun in GLFW. Unless there
+    //! is a need for accessing raw GLFW event handling cycle, use
+    //! onMouseWheelEvent from GlfwWindow.
+    //!
+    //! Here's an example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwMouseScrollEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, double, double>& onGlfwMouseScrollEvent();
 
-    static Event<GLFWwindow*, unsigned int>& onBeginGlfwCharEvent();
+    //!
+    //! \brief Returns Unicode character event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWcharfun in GLFW. Here's an
+    //! example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwCharEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, unsigned int>& onGlfwCharEvent();
 
-    static Event<GLFWwindow*, unsigned int, int>& onBeginGlfwCharModsEvent();
+    //!
+    //! \brief Returns Unicode character with modifier event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWcharmodsfun in GLFW. Here's an
+    //! example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwCharModsEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, unsigned int, int>& onGlfwCharModsEvent();
 
-    static Event<GLFWwindow*, int, const char**>& onBeginGlfwDropEvent();
+    //!
+    //! \brief Returns Unicode character with modifier event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to GLFWdropfun in GLFW. Here's an
+    //! example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwDropEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, int, const char**>& onGlfwDropEvent();
 
     friend class GlfwWindow;
 

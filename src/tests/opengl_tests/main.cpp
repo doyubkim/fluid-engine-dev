@@ -42,7 +42,7 @@ void nextTests() {
 bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
-        win->setIsAnimationEnabled(!win->isAnimationEnabled());
+        win->setIsUpdateEnabled(!win->isUpdateEnabled());
         return true;
     } else if (keyEvent.key() == GLFW_KEY_SPACE) {
         nextTests();
