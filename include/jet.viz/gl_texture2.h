@@ -36,9 +36,9 @@ class GLTexture2 final : public Texture2, public GLTexture {
 
     void onClear() override;
 
-    void onResize(const ConstArrayAccessor2<Color>& data) override;
+    void onSetTexture(const ConstArrayAccessor2<Color>& data) override;
 
-    void onResize(const ConstArrayAccessor2<ByteColor>& data) override;
+    void onSetTexture(const ConstArrayAccessor2<ByteColor>& data) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 
