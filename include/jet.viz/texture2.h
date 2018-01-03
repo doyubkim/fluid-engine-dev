@@ -11,6 +11,7 @@
 #include <jet.viz/texture.h>
 #include <jet/macros.h>
 #include <jet/size2.h>
+#include <jet/array_accessor2.h>
 
 #include <cstdint>
 #include <memory>
@@ -39,10 +40,10 @@ class Texture2 {
     void clear();
 
     //! Resizes the texture with given 32-bit color data and size.
-    void resize(const Color* data, const Size2& size);
+    void resize(const ConstArrayAccessor2<Color>& data);
 
     //! Resizes the texture with given 8-bit color data and size.
-    void resize(const ByteColor* data, const Size2& size);
+    void resize(const ConstArrayAccessor2<ByteColor>& data);
 
     //! Binds the texture to given renderer with slot ID.
     void bind(Renderer* renderer, unsigned int slotId);
@@ -61,10 +62,10 @@ class Texture2 {
     virtual void onClear() = 0;
 
     //! Called when resize(...) is invoked.
-    virtual void onResize(const Color* data, const Size2& size) = 0;
+    virtual void onResize(const ConstArrayAccessor2<Color>& data) = 0;
 
     //! Called when resize(...) is invoked.
-    virtual void onResize(const ByteColor* data, const Size2& size) = 0;
+    virtual void onResize(const ConstArrayAccessor2<ByteColor>& data) = 0;
 
     //! Called when bind(...) is invoked.
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;

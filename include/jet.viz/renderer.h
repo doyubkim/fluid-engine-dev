@@ -18,6 +18,9 @@
 #include <jet.viz/vertex_buffer.h>
 #include <jet.viz/viewport.h>
 
+#include <jet/array_accessor2.h>
+#include <jet/array_accessor3.h>
+
 #include <map>
 #include <string>
 #include <vector>
@@ -38,14 +41,17 @@ class Renderer {
         const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
         size_t numberOfIndices) = 0;
 
-    virtual Texture2Ptr createTexture2(const ByteColor* data,
-                                       const Size2& size) = 0;
+    virtual Texture2Ptr createTexture2(
+        const ConstArrayAccessor2<ByteColor>& data) = 0;
 
-    virtual Texture2Ptr createTexture2(const Color* data,
-                                       const Size2& size) = 0;
+    virtual Texture2Ptr createTexture2(
+        const ConstArrayAccessor2<Color>& data) = 0;
 
-    virtual Texture3Ptr createTexture3(const Color* data,
-                                       const Size3& size) = 0;
+    virtual Texture3Ptr createTexture3(
+            const ConstArrayAccessor3<ByteColor>& data) = 0;
+
+    virtual Texture3Ptr createTexture3(
+        const ConstArrayAccessor3<Color>& data) = 0;
 
     virtual ShaderPtr createPresetShader(
         const std::string& shaderName) const = 0;

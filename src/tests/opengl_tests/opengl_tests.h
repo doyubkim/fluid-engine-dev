@@ -19,6 +19,8 @@ class OpenGLTests {
     virtual ~OpenGLTests() = default;
 
     virtual void setup(GlfwWindow* window) = 0;
+
+    virtual void onGui(GlfwWindow* window);
 };
 
 typedef std::shared_ptr<OpenGLTests> OpenGLTestsPtr;

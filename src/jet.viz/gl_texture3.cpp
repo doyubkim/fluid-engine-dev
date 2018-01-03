@@ -36,8 +36,8 @@ void GLTexture3::update(const ByteColor* data) {
 
 void GLTexture3::onClear() { clearGLTexture(); }
 
-void GLTexture3::onResize(const Color* data, const Size3& size) {
-    _size = size;
+void GLTexture3::onResize(const ConstArrayAccessor3<Color>& data) {
+    _size = data.size();
 
     createGLTexture();
 
@@ -50,13 +50,13 @@ void GLTexture3::onResize(const Color* data, const Size3& size) {
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, param.wrapT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, param.wrapR);
 
-    glTexImage3D(target, 0, GL_RGBA32F, static_cast<GLsizei>(size.x),
-                 static_cast<GLsizei>(size.y), static_cast<GLsizei>(size.z), 0,
-                 GL_RGBA, GL_FLOAT, data);
+    glTexImage3D(target, 0, GL_RGBA32F, static_cast<GLsizei>(_size.x),
+                 static_cast<GLsizei>(_size.y), static_cast<GLsizei>(_size.z),
+                 0, GL_RGBA, GL_FLOAT, data.data());
 }
 
-void GLTexture3::onResize(const ByteColor* data, const Size3& size) {
-    _size = size;
+void GLTexture3::onResize(const ConstArrayAccessor3<ByteColor>& data) {
+    _size = data.size();
 
     createGLTexture();
 
@@ -69,9 +69,9 @@ void GLTexture3::onResize(const ByteColor* data, const Size3& size) {
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, param.wrapT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, param.wrapR);
 
-    glTexImage3D(target, 0, GL_RGBA8, static_cast<GLsizei>(size.x),
-                 static_cast<GLsizei>(size.y), static_cast<GLsizei>(size.z), 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glTexImage3D(target, 0, GL_RGBA8, static_cast<GLsizei>(_size.x),
+                 static_cast<GLsizei>(_size.y), static_cast<GLsizei>(_size.z),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
 }
 
 void GLTexture3::onBind(Renderer* renderer, unsigned int slotId) {
