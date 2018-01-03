@@ -36,9 +36,9 @@ class GLTexture3 : public Texture3, public GLTexture {
 
     void onClear() override;
 
-    void onResize(const Color* data, const Size3& size) override;
+    void onResize(const ConstArrayAccessor3<Color>& data) override;
 
-    void onResize(const ByteColor* data, const Size3& size) override;
+    void onResize(const ConstArrayAccessor3<ByteColor>& data) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 

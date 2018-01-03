@@ -21,17 +21,31 @@ void Texture3::clear() {
     onClear();
 }
 
-void Texture3::resize(const Color* data, const Size3& size) {
-    if (size == Size3()) {
+void Texture3::resize(const ConstArrayAccessor3<ByteColor>& data) {
+    if (data.size() == Size3()) {
         clear();
-    } else if (size == _size) {
-        update(data);
+    } else if (data.size() == _size) {
+        update(data.data());
     } else {
         clear();
 
-        _size = size;
+        _size = data.size();
 
-        onResize(data, size);
+        onResize(data);
+    }
+}
+
+void Texture3::resize(const ConstArrayAccessor3<Color>& data) {
+    if (data.size() == Size3()) {
+        clear();
+    } else if (data.size() == _size) {
+        update(data.data());
+    } else {
+        clear();
+
+        _size = data.size();
+
+        onResize(data);
     }
 }
 

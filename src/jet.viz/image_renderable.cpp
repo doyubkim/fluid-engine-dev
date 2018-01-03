@@ -56,7 +56,8 @@ void ImageRenderable::setImage(const ByteImage& image) {
     if (_texture != nullptr && image.size() == _texture->size()) {
         _texture->update(image.data());
     } else {
-        _texture = _renderer->createTexture2(image.data(), image.size());
+        _texture = _renderer->createTexture2(
+            ConstArrayAccessor2<ByteColor>(image.size(), image.data()));
     }
 }
 

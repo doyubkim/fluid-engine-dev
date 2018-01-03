@@ -21,31 +21,31 @@ void Texture2::clear() {
     onClear();
 }
 
-void Texture2::resize(const Color* const data, const Size2& size) {
-    if (size == Size2()) {
+void Texture2::resize(const ConstArrayAccessor2<Color>& data) {
+    if (data.size() == Size2()) {
         clear();
-    } else if (size == _size) {
-        update(data);
+    } else if (data.size() == _size) {
+        update(data.data());
     } else {
         clear();
 
-        _size = size;
+        _size = data.size();
 
-        onResize(data, size);
+        onResize(data);
     }
 }
 
-void Texture2::resize(const ByteColor* const data, const Size2& size) {
-    if (size == Size2()) {
+void Texture2::resize(const ConstArrayAccessor2<ByteColor>& data) {
+    if (data.size() == Size2()) {
         clear();
-    } else if (size == _size) {
-        update(data);
+    } else if (data.size() == _size) {
+        update(data.data());
     } else {
         clear();
 
-        _size = size;
+        _size = data.size();
 
-        onResize(data, size);
+        onResize(data);
     }
 }
 

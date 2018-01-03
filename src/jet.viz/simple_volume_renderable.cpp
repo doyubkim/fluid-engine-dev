@@ -68,7 +68,8 @@ void SimpleVolumeRenderable::render(Renderer* renderer) {
         const Vector3D& currentOrigin =
             renderer->camera()->basicCameraState().origin;
 
-        if (!_prevCameraLookAtDir.isSimilar(currentLookAt) ||
+        if (_updateVertexBufferRequested ||
+            !_prevCameraLookAtDir.isSimilar(currentLookAt) ||
             !_prevCameraOrigin.isSimilar(currentOrigin)) {
             updateVertexBuffer(renderer);
         }
@@ -90,11 +91,12 @@ void SimpleVolumeRenderable::render(Renderer* renderer) {
     }
 }
 
-void SimpleVolumeRenderable::setVolume(const Color* data, const Size3& size) {
-    if (_texture != nullptr && size == _texture->size()) {
-        _texture->update(data);
+void SimpleVolumeRenderable::setVolume(const ConstArrayAccessor3<Color>& data) {
+    if (_texture != nullptr && data.size() == _texture->size()) {
+        _texture->update(data.data());
     } else {
-        _texture = _renderer->createTexture3(data, size);
+        _texture = _renderer->createTexture3(
+            ConstArrayAccessor3<Color>(data.size(), data.data()));
     }
 }
 
@@ -120,6 +122,10 @@ float SimpleVolumeRenderable::stepSize() const { return _stepSize; }
 
 void SimpleVolumeRenderable::setStepSize(float newStepSize) {
     _stepSize = newStepSize;
+}
+
+void SimpleVolumeRenderable::requestUpdateVertexBuffer() {
+    _updateVertexBufferRequested = true;
 }
 
 void SimpleVolumeRenderable::updateVertexBuffer(Renderer* renderer) {
@@ -203,8 +209,7 @@ void SimpleVolumeRenderable::updateVertexBuffer(Renderer* renderer) {
             // Build indices
             std::vector<uint32_t> indices;
             for (int i = 0; i < numberOfIntersectingPoints - 2; ++i) {
-                uint32_t baseIndex =
-                    static_cast<uint32_t>(vertices.size());
+                uint32_t baseIndex = static_cast<uint32_t>(vertices.size());
                 indices.push_back(baseIndex);
                 indices.push_back(baseIndex + i + 1);
                 indices.push_back(baseIndex + i + 2);
@@ -216,4 +221,6 @@ void SimpleVolumeRenderable::updateVertexBuffer(Renderer* renderer) {
                 indices.size()));
         }
     }
+
+    _updateVertexBufferRequested = false;
 }

@@ -6,6 +6,8 @@
 
 #include "simple_volume_renderable_tests.h"
 
+#include <imgui/imgui.h>
+
 #include <jet/jet.h>
 
 using namespace jet;
@@ -24,7 +26,12 @@ void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
     Array3<Color> data(64, 64, 64);
     data.forEachIndex([&](size_t i, size_t j, size_t k) {
         const Vector3F grid((float)i, (float)j, (float)k);
-        const float phi = (grid - Vector3F(32, 32, 32)).length() - 12.0f;
+        const float phi0 = (grid - Vector3F(32, 32, 32)).length() - 12.0f;
+        const float phi1 = (grid - Vector3F(20, 40, 30)).length() - 8.0f;
+        const float phi2 = (grid - Vector3F(40, 30, 15)).length() - 4.0f;
+
+        const float phi = min3(phi0, phi1, phi2);
+
         const float den = 1.0f - smearedHeavisideSdf(phi / 10.0f);
         data(i, j, k).r = 1.0f;
         data(i, j, k).g = 1.0f;
@@ -33,7 +40,34 @@ void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
 
     });
 
-    auto renderable = std::make_shared<SimpleVolumeRenderable>(renderer);
-    renderable->setVolume(data.data(), Size3{64, 64, 64});
-    renderer->addRenderable(renderable);
+    _renderable = std::make_shared<SimpleVolumeRenderable>(renderer);
+    _renderable->setVolume(data.constAccessor());
+    renderer->addRenderable(_renderable);
+}
+
+void SimpleVolumeRenderableTests::onGui(GlfwWindow*) {
+    bool needsUpdate = false;
+
+    ImGui::Begin("Parameters");
+    {
+        float brightness = _renderable->brightness();
+        ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f, "%.2f");
+        needsUpdate |= brightness != _renderable->brightness();
+        _renderable->setBrightness(brightness);
+
+        float density = _renderable->density();
+        ImGui::SliderFloat("Density", &density, 0.0f, 1.0f, "%.2f");
+        needsUpdate |= density != _renderable->density();
+        _renderable->setDensity(density);
+
+        float stepSize = _renderable->stepSize();
+        ImGui::SliderFloat("Step size", &stepSize, 0.001f, 0.050f, "%.3f");
+        needsUpdate |= stepSize != _renderable->stepSize();
+        _renderable->setStepSize(stepSize);
+    }
+    ImGui::End();
+
+    if (needsUpdate) {
+        _renderable->requestUpdateVertexBuffer();
+    }
 }
