@@ -9,6 +9,7 @@
 
 #ifdef JET_USE_GL
 
+#include <jet.viz/gl_common.h>
 #include <jet/size3.h>
 
 namespace jet {
@@ -43,7 +44,7 @@ class GLTexture {
     //!
     //! \param target OpenGL texture target.
     //!
-    explicit GLTexture(unsigned int target);
+    explicit GLTexture(GLenum target);
 
     //! Destructor.
     virtual ~GLTexture();
@@ -64,18 +65,18 @@ class GLTexture {
     void createGLTexture();
 
     //! Binds OpenGL texture to current context.
-    void bindGLTexture(unsigned int slotId);
+    void bindGLTexture(GLenum slotId);
 
     //! Returns OpenGL texture ID.
-    unsigned int glTextureId() const;
+    GLuint glTextureId() const;
 
     //! Returns OpenGL texture target.
-    unsigned int glTarget() const;
+    GLenum glTarget() const;
 
  private:
     GLTextureParameters _param;
-    unsigned int _texId = 0;
-    unsigned int _target;
+    GLuint _texId = 0;
+    GLenum _target;
 };
 
 }  // namespace viz

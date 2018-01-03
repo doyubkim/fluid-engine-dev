@@ -9,6 +9,8 @@
 #include <jet.viz/camera.h>
 #include <jet.viz/color.h>
 #include <jet.viz/event.h>
+#include <jet.viz/gl_common.h>
+#include <jet.viz/gl_framebuffer_object.h>
 #include <jet.viz/gl_index_buffer.h>
 #include <jet.viz/gl_renderer.h>
 #include <jet.viz/gl_shader.h>

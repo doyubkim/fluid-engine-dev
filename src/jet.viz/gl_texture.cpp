@@ -21,7 +21,7 @@ GLTextureParameters::GLTextureParameters() {
     wrapR = GL_CLAMP_TO_EDGE;
 }
 
-GLTexture::GLTexture(unsigned int target) : _target(target) {}
+GLTexture::GLTexture(GLenum target) : _target(target) {}
 
 GLTexture::~GLTexture() { clearGLTexture(); }
 
@@ -53,16 +53,16 @@ void GLTexture::createGLTexture() {
     glBindTexture(_target, _texId);
 }
 
-void GLTexture::bindGLTexture(unsigned int slotId) {
+void GLTexture::bindGLTexture(GLenum slotId) {
     // OpenGL defines GL_TEXTURE0 to GLTEXTURE31 only.
-    assert(slotId < 32);
+    JET_ASSERT(slotId < 32);
 
     glActiveTexture(GL_TEXTURE0 + slotId);
     glBindTexture(_target, _texId);
 }
 
-unsigned int GLTexture::glTextureId() const { return _texId; }
+GLuint GLTexture::glTextureId() const { return _texId; }
 
-unsigned int GLTexture::glTarget() const { return _target; }
+GLenum GLTexture::glTarget() const { return _target; }
 
 #endif  // JET_USE_GL
