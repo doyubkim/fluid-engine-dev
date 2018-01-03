@@ -36,7 +36,7 @@ void GLTexture3::update(const ByteColor* data) {
 
 void GLTexture3::onClear() { clearGLTexture(); }
 
-void GLTexture3::onResize(const ConstArrayAccessor3<Color>& data) {
+void GLTexture3::onSetTexture(const ConstArrayAccessor3<Color>& data) {
     _size = data.size();
 
     createGLTexture();
@@ -55,7 +55,7 @@ void GLTexture3::onResize(const ConstArrayAccessor3<Color>& data) {
                  0, GL_RGBA, GL_FLOAT, data.data());
 }
 
-void GLTexture3::onResize(const ConstArrayAccessor3<ByteColor>& data) {
+void GLTexture3::onSetTexture(const ConstArrayAccessor3<ByteColor>& data) {
     _size = data.size();
 
     createGLTexture();
