@@ -52,7 +52,7 @@ bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     return false;
 }
 
-bool onGui(GlfwWindow*) {
+bool onGui(GlfwWindow* window) {
     ImGui_ImplGlfwGL3_NewFrame();
 
     ImGui::Begin("Info");
@@ -68,6 +68,8 @@ bool onGui(GlfwWindow*) {
                     ImGui::GetIO().Framerate);
     }
     ImGui::End();
+
+    sTests[sCurrentTestIdx]->onGui(window);
 
     ImGui::Render();
 

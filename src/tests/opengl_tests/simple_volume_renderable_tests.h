@@ -9,6 +9,8 @@
 
 #include "opengl_tests.h"
 
+#include <jet.viz/jet.viz.h>
+
 namespace jet {
 
 namespace viz {
@@ -18,6 +20,11 @@ class SimpleVolumeRenderableTests final : public OpenGLTests {
     SimpleVolumeRenderableTests() = default;
 
     void setup(GlfwWindow* window) override;
+
+    void onGui(GlfwWindow* window) override;
+
+private:
+    SimpleVolumeRenderablePtr _renderable;
 };
 
 }  // namespace viz
