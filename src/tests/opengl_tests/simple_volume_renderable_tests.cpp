@@ -33,9 +33,9 @@ void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
         const float phi = min3(phi0, phi1, phi2);
 
         const float den = 1.0f - smearedHeavisideSdf(phi / 10.0f);
-        data(i, j, k).r = 1.0f;
-        data(i, j, k).g = 1.0f;
-        data(i, j, k).b = 1.0f;
+        data(i, j, k).r = (float)i / 64;
+        data(i, j, k).g = (float)j / 64;
+        data(i, j, k).b = (float)k / 64;
         data(i, j, k).a = den;
 
     });
