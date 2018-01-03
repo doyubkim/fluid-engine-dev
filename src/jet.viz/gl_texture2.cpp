@@ -34,7 +34,7 @@ void GLTexture2::update(const ByteColor* data) {
 
 void GLTexture2::onClear() { clearGLTexture(); }
 
-void GLTexture2::onResize(const ConstArrayAccessor2<Color>& data) {
+void GLTexture2::onSetTexture(const ConstArrayAccessor2<Color>& data) {
     _size = data.size();
 
     createGLTexture();
@@ -52,7 +52,7 @@ void GLTexture2::onResize(const ConstArrayAccessor2<Color>& data) {
                  data.data());
 }
 
-void GLTexture2::onResize(const ConstArrayAccessor2<ByteColor>& data) {
+void GLTexture2::onSetTexture(const ConstArrayAccessor2<ByteColor>& data) {
     _size = data.size();
 
     createGLTexture();

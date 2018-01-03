@@ -21,7 +21,7 @@ void Texture2::clear() {
     onClear();
 }
 
-void Texture2::resize(const ConstArrayAccessor2<Color>& data) {
+void Texture2::setTexture(const ConstArrayAccessor2<Color>& data) {
     if (data.size() == Size2()) {
         clear();
     } else if (data.size() == _size) {
@@ -31,11 +31,11 @@ void Texture2::resize(const ConstArrayAccessor2<Color>& data) {
 
         _size = data.size();
 
-        onResize(data);
+        onSetTexture(data);
     }
 }
 
-void Texture2::resize(const ConstArrayAccessor2<ByteColor>& data) {
+void Texture2::setTexture(const ConstArrayAccessor2<ByteColor>& data) {
     if (data.size() == Size2()) {
         clear();
     } else if (data.size() == _size) {
@@ -45,7 +45,7 @@ void Texture2::resize(const ConstArrayAccessor2<ByteColor>& data) {
 
         _size = data.size();
 
-        onResize(data);
+        onSetTexture(data);
     }
 }
 

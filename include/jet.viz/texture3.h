@@ -38,11 +38,11 @@ class Texture3 {
     //! Clears the contents.
     void clear();
 
-    //! Resizes the texture with given 32-bit color data and size.
-    void resize(const ConstArrayAccessor3<Color>& data);
+    //! Sets the texture with given 32-bit color data and size.
+    void setTexture(const ConstArrayAccessor3<Color>& data);
 
-    //! Resizes the texture with given 8-bit color data and size.
-    void resize(const ConstArrayAccessor3<ByteColor>& data);
+    //! Sets the texture with given 8-bit color data and size.
+    void setTexture(const ConstArrayAccessor3<ByteColor>& data);
 
     //! Binds the texture to given renderer with slot ID.
     void bind(Renderer* renderer, unsigned int slotId);
@@ -61,10 +61,10 @@ class Texture3 {
     virtual void onClear() = 0;
 
     //! Called when resize(...) is invoked.
-    virtual void onResize(const ConstArrayAccessor3<Color>& data) = 0;
+    virtual void onSetTexture(const ConstArrayAccessor3<Color>& data) = 0;
 
     //! Called when resize(...) is invoked.
-    virtual void onResize(const ConstArrayAccessor3<ByteColor>& data) = 0;
+    virtual void onSetTexture(const ConstArrayAccessor3<ByteColor>& data) = 0;
 
     //! Called when bind(...) is invoked.
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;

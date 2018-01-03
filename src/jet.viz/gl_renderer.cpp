@@ -95,28 +95,28 @@ IndexBufferPtr GLRenderer::createIndexBuffer(
 
 Texture2Ptr GLRenderer::createTexture2(const ConstArrayAccessor2<ByteColor>& data) {
     GLTexture2* texture2 = new GLTexture2();
-    texture2->resize(data);
+    texture2->setTexture(data);
 
     return Texture2Ptr(texture2);
 }
 
 Texture2Ptr GLRenderer::createTexture2(const ConstArrayAccessor2<Color>& data) {
     GLTexture2* texture2 = new GLTexture2();
-    texture2->resize(data);
+    texture2->setTexture(data);
 
     return Texture2Ptr(texture2);
 }
 
 Texture3Ptr GLRenderer::createTexture3(const ConstArrayAccessor3<ByteColor>& data) {
     GLTexture3* texture3 = new GLTexture3();
-    texture3->resize(data);
+    texture3->setTexture(data);
 
     return Texture3Ptr(texture3);
 }
 
 Texture3Ptr GLRenderer::createTexture3(const ConstArrayAccessor3<Color>& data) {
     GLTexture3* texture3 = new GLTexture3();
-    texture3->resize(data);
+    texture3->setTexture(data);
 
     return Texture3Ptr(texture3);
 }
