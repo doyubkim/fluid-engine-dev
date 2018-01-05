@@ -99,43 +99,16 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
-    //! Accumulates forces applied to the particles.
-    virtual void accumulateForces(double timeStepInSeconds);
-
-    //! Called when a time-step is about to begin.
-    virtual void onBeginAdvanceTimeStep(double timeStepInSeconds);
-
-    //! Called after a time-step is completed.
-    virtual void onEndAdvanceTimeStep(double timeStepInSeconds);
-
-    //! Resolves any collisions occured by the particles.
-    void resolveCollision();
-
-    //! Resolves any collisions occured by the particles where the particle
-    //! state is given by the position and velocity arrays.
-    void resolveCollision(CudaArrayView1<float4> newPositions,
-                          CudaArrayView1<float4> newVelocities);
-
  private:
     float _radius = 1e-3f;
     float _mass = 1e-3f;
     float _dragCoefficient = 1e-4f;
     float _restitutionCoefficient = 0.0f;
-    Vector3F _gravity{0.0, static_cast<float>(kGravity), 0.0};
-
-    size_t _forcesIdx;
-    size_t _newPositionsIdx;
-    size_t _newVelocitiesIdx;
+    Vector3F _gravity{0.0f, static_cast<float>(kGravity), 0.0f};
 
     CudaParticleSystemData3Ptr _particleSystemData;
 
-    void beginAdvanceTimeStep(double timeStepInSeconds);
-
-    void endAdvanceTimeStep(double timeStepInSeconds);
-
-    void accumulateExternalForces();
-
-    void timeIntegration(double timeStepInSeconds);
+    void onBeginAdvanceTimeStep(double timeStepInSeconds);
 
     void updateCollider(double timeStepInSeconds);
 

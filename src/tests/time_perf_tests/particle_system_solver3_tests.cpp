@@ -74,6 +74,7 @@ BENCHMARK_DEFINE_F(ParticleSystemSolver3, Update)
     }
 }
 BENCHMARK_REGISTER_F(ParticleSystemSolver3, Update)
+    ->Arg(1 << 14)
     ->Arg(1 << 18)
     ->UseManualTime()
     ->Unit(benchmark::kMicrosecond);
