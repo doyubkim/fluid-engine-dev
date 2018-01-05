@@ -17,10 +17,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    std::ofstream logFile("mem_perf_tests.log");
-    if (logFile) {
-        jet::Logging::setAllStream(&logFile);
-    }
+    jet::Logging::mute();
 
     ::benchmark::RunSpecifiedBenchmarks();
 }

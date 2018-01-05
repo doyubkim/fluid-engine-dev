@@ -25,28 +25,16 @@ using thrust::make_zip_iterator;
 
 namespace {
 
-struct UpdateStateVectors {
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
-        get<0>(t) = get<1>(t);
-        get<2>(t) = get<3>(t);
-    }
-};
-
 struct ResolveCollision {
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
-        // TODO: Replace with proper collider
-        float4 x = get<0>(t);
-        float4 v = get<1>(t);
+    __host__ __device__ ResolveCollision() {}
 
-        if (x.y < 0.0) {
-            x.y = 0.0;
-            v.y *= -1.0;
+    __device__ void operator()(float4* newPosition, float4* newVelocity) {
+        if (newPosition->y < 0.0f) {
+            newPosition->y = 0.0f;
+            if (newVelocity->y < 0.0f) {
+                newVelocity->y *= -1.0;
+            }
         }
-
-        get<0>(t) = x;
-        get<1>(t) = v;
     }
 };
 
@@ -56,17 +44,10 @@ struct AccumulateExternalForces {
 
     AccumulateExternalForces(float m, float4 g) : mass(m), gravity(g) {}
 
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
+    __device__ float4 operator()(const float4& initialForce) {
         // Gravity
-        float4 force = mass * gravity;
-
-        // // Wind forces
-        // Vector3F relativeVel = velocities[i] -
-        // _wind->sample(positions[i]); force += -_dragCoefficient *
-        // relativeVel;
-
-        get<2>(t) += force;
+        float4 force = mass * gravity + initialForce;
+        return force;
     }
 };
 
@@ -76,13 +57,36 @@ struct TimeIntegration {
 
     TimeIntegration(float m, float dt) : mass(m), timeStepInSeconds(dt) {}
 
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
-        // Integrate velocity first
-        get<3>(t) = get<2>(t) + timeStepInSeconds * get<4>(t) / mass;
+    __device__ void operator()(const float4& p0, const float4& v0,
+                               const float4& f, float4* p1, float4* v1) const {
+        *v1 = v0 + timeStepInSeconds * f / mass;
+        *p1 = p0 + timeStepInSeconds * (*v1);
+    }
+};
 
-        // Integrate position.
-        get<1>(t) = get<0>(t) + timeStepInSeconds * get<3>(t);
+struct AdvanceTimeStepKernel {
+    AccumulateExternalForces accExtForces;
+    TimeIntegration ti;
+    ResolveCollision rc;
+
+    AdvanceTimeStepKernel(float m, float dt, float4 gravity)
+        : accExtForces(m, gravity), ti(m, dt) {}
+
+    template <typename Tuple>
+    __device__ void operator()(const Tuple& t) {
+        // posCurr: 0
+        // velCurr: 1
+        float4 p0 = get<0>(t);
+        float4 v0 = get<1>(t);
+        float4 p1;
+        float4 v1;
+
+        float4 f = accExtForces(make_float4(0, 0, 0, 0));
+        ti(p0, v0, f, &p1, &v1);
+        rc(&p1, &v1);
+
+        get<0>(t) = p1;
+        get<1>(t) = v1;
     }
 };
 
@@ -94,9 +98,6 @@ CudaParticleSystemSolver3::CudaParticleSystemSolver3()
 CudaParticleSystemSolver3::CudaParticleSystemSolver3(float radius, float mass)
     : _radius(radius), _mass(mass) {
     _particleSystemData = std::make_shared<CudaParticleSystemData3>();
-    _forcesIdx = _particleSystemData->addVectorData();
-    _newPositionsIdx = _particleSystemData->addVectorData();
-    _newVelocitiesIdx = _particleSystemData->addVectorData();
 }
 
 CudaParticleSystemSolver3::~CudaParticleSystemSolver3() {}
@@ -144,127 +145,41 @@ void CudaParticleSystemSolver3::onInitialize() {
 }
 
 void CudaParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
-    beginAdvanceTimeStep(timeStepInSeconds);
-
-    Timer timer;
-    accumulateForces(timeStepInSeconds);
-    JET_INFO << "Accumulating forces took " << timer.durationInSeconds()
-             << " seconds";
-
-    timer.reset();
-    timeIntegration(timeStepInSeconds);
-    JET_INFO << "Time integration took " << timer.durationInSeconds()
-             << " seconds";
-
-    timer.reset();
-    resolveCollision();
-    JET_INFO << "Resolving collision took " << timer.durationInSeconds()
-             << " seconds";
-
-    endAdvanceTimeStep(timeStepInSeconds);
-}
-
-void CudaParticleSystemSolver3::accumulateForces(double timeStepInSeconds) {
-    UNUSED_VARIABLE(timeStepInSeconds);
-
-    // Add external forces
-    accumulateExternalForces();
-}
-
-void CudaParticleSystemSolver3::beginAdvanceTimeStep(double timeStepInSeconds) {
-    UNUSED_VARIABLE(timeStepInSeconds);
-    // Clear forces
-    auto forces = _particleSystemData->vectorDataAt(_forcesIdx);
-    thrust::fill(forces.begin(), forces.end(), make_float4(0, 0, 0, 0));
-
     onBeginAdvanceTimeStep(timeStepInSeconds);
-}
-
-void CudaParticleSystemSolver3::endAdvanceTimeStep(double timeStepInSeconds) {
-    UNUSED_VARIABLE(timeStepInSeconds);
 
     auto posCurr = _particleSystemData->positions();
     auto velCurr = _particleSystemData->velocities();
-    auto posNew = _particleSystemData->vectorDataAt(_newPositionsIdx);
-    auto velNew = _particleSystemData->vectorDataAt(_newVelocitiesIdx);
+    auto dt = static_cast<float>(timeStepInSeconds);
+    auto g = make_float4(_gravity.x, _gravity.y, _gravity.z, 0.0f);
+
+    AdvanceTimeStepKernel kernel(_mass, dt, g);
 
     thrust::for_each(
         thrust::device,
-        make_zip_iterator(make_tuple(posCurr.begin(), posNew.begin(),
-                                     velCurr.begin(), velNew.begin())),
-        make_zip_iterator(make_tuple(posCurr.end(), posNew.end(), velCurr.end(),
-                                     velNew.end())),
-        UpdateStateVectors());
-
-    onEndAdvanceTimeStep(timeStepInSeconds);
+        make_zip_iterator(make_tuple(posCurr.begin(), velCurr.begin())),
+        make_zip_iterator(make_tuple(posCurr.end(), velCurr.end())), kernel);
 }
 
 void CudaParticleSystemSolver3::onBeginAdvanceTimeStep(
     double timeStepInSeconds) {
-    UNUSED_VARIABLE(timeStepInSeconds);
-}
+    // Update collider and emitter
+    Timer timer;
+    updateCollider(timeStepInSeconds);
+    JET_INFO << "Update collider took " << timer.durationInSeconds()
+             << " seconds";
 
-void CudaParticleSystemSolver3::onEndAdvanceTimeStep(double timeStepInSeconds) {
-    UNUSED_VARIABLE(timeStepInSeconds);
-}
-
-void CudaParticleSystemSolver3::resolveCollision() {
-    resolveCollision(_particleSystemData->vectorDataAt(_newPositionsIdx),
-                     _particleSystemData->vectorDataAt(_newVelocitiesIdx));
-}
-
-void CudaParticleSystemSolver3::resolveCollision(
-    CudaArrayView1<float4> newPositions, CudaArrayView1<float4> newVelocities) {
-    thrust::for_each(
-        thrust::device,
-        make_zip_iterator(
-            make_tuple(newPositions.begin(), newVelocities.begin())),
-        make_zip_iterator(make_tuple(newPositions.end(), newVelocities.end())),
-        ResolveCollision());
-}
-
-void CudaParticleSystemSolver3::accumulateExternalForces() {
-    auto pos = _particleSystemData->positions();
-    auto vel = _particleSystemData->velocities();
-    auto forces = _particleSystemData->vectorDataAt(_forcesIdx);
-
-    thrust::for_each(
-        thrust::device,
-        make_zip_iterator(make_tuple(pos.begin(), vel.begin(), forces.begin())),
-        make_zip_iterator(make_tuple(pos.end(), vel.end(), forces.end())),
-        AccumulateExternalForces(
-            _mass, make_float4(_gravity.x, _gravity.y, _gravity.z, 0.0f)));
-}
-
-void CudaParticleSystemSolver3::timeIntegration(double timeStepInSeconds) {
-    auto posCurr = _particleSystemData->positions();
-    auto velCurr = _particleSystemData->velocities();
-    auto posNew = _particleSystemData->vectorDataAt(_newPositionsIdx);
-    auto velNew = _particleSystemData->vectorDataAt(_newVelocitiesIdx);
-    auto forces = _particleSystemData->vectorDataAt(_forcesIdx);
-
-    thrust::for_each(
-        thrust::device,
-        make_zip_iterator(make_tuple(posCurr.begin(), posNew.begin(),
-                                     velCurr.begin(), velNew.begin(),
-                                     forces.begin())),
-        make_zip_iterator(make_tuple(posCurr.end(), posNew.end(), velCurr.end(),
-                                     velNew.end(), forces.end())),
-        TimeIntegration(_mass, static_cast<float>(timeStepInSeconds)));
+    timer.reset();
+    updateEmitter(timeStepInSeconds);
+    JET_INFO << "Update emitter took " << timer.durationInSeconds()
+             << " seconds";
 }
 
 void CudaParticleSystemSolver3::updateCollider(double timeStepInSeconds) {
     UNUSED_VARIABLE(timeStepInSeconds);
-    // if (_collider != nullptr) {
-    //     _collider->update(currentTimeInSeconds(), timeStepInSeconds);
-    // }
 }
 
 void CudaParticleSystemSolver3::updateEmitter(double timeStepInSeconds) {
     UNUSED_VARIABLE(timeStepInSeconds);
-    // if (_emitter != nullptr) {
-    //     _emitter->update(currentTimeInSeconds(), timeStepInSeconds);
-    // }
 }
 
 CudaParticleSystemSolver3::Builder CudaParticleSystemSolver3::builder() {

@@ -87,6 +87,7 @@ BENCHMARK_DEFINE_F(CudaParticleSystemSolver3, Update)
     }
 }
 BENCHMARK_REGISTER_F(CudaParticleSystemSolver3, Update)
+    ->Arg(1 << 14)
     ->Arg(1 << 18)
     ->UseManualTime()
     ->Unit(benchmark::kMicrosecond);
