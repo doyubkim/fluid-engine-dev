@@ -11,8 +11,6 @@
 
 #include <benchmark/benchmark.h>
 
-#include <thrust/random.h>
-
 #include <random>
 
 class ParticleSystemSolver3 : public benchmark::Fixture {
