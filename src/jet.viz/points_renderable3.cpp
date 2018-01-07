@@ -31,9 +31,9 @@ void PointsRenderable3::render(Renderer* renderer) {
 }
 
 void PointsRenderable3::setPositions(const Vector3F* positions,
-                                     size_t numberOfParticles) {
-    std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (size_t i = 0; i < numberOfParticles; ++i) {
+                                     size_t numberOfVertices) {
+    std::vector<VertexPosition3Color4> vertices(numberOfVertices);
+    for (size_t i = 0; i < numberOfVertices; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;
@@ -44,14 +44,14 @@ void PointsRenderable3::setPositions(const Vector3F* positions,
         vertex.a = 1.f;
     }
 
-    updateVertexBuffer(vertices);
+    setPositionsAndColors(vertices.data(), vertices.size());
 }
 
 void PointsRenderable3::setPositionsAndColors(const Vector3F* positions,
                                               const Color* colors,
-                                              size_t numberOfParticles) {
-    std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (size_t i = 0; i < numberOfParticles; ++i) {
+                                              size_t numberOfVertices) {
+    std::vector<VertexPosition3Color4> vertices(numberOfVertices);
+    for (size_t i = 0; i < numberOfVertices; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;
@@ -62,7 +62,22 @@ void PointsRenderable3::setPositionsAndColors(const Vector3F* positions,
         vertex.a = colors[i].a;
     }
 
-    updateVertexBuffer(vertices);
+    setPositionsAndColors(vertices.data(), vertices.size());
+}
+
+void PointsRenderable3::setPositionsAndColors(
+    const VertexPosition3Color4* vertices, size_t numberOfVertices) {
+    if (_vertexBuffer == nullptr) {
+        _vertexBuffer = _renderer->createVertexBuffer(
+            _shader, (const float*)vertices, numberOfVertices);
+    } else {
+        _vertexBuffer->resize(_shader, (const float*)vertices,
+                              numberOfVertices);
+    }
+}
+
+VertexBuffer* PointsRenderable3::vertexBuffer() const {
+    return _vertexBuffer.get();
 }
 
 float PointsRenderable3::radius() const { return _radius; }
@@ -70,15 +85,4 @@ float PointsRenderable3::radius() const { return _radius; }
 void PointsRenderable3::setRadius(float radius) {
     _radius = radius;
     _shader->setUserRenderParameter("Radius", radius);
-}
-
-void PointsRenderable3::updateVertexBuffer(
-    const std::vector<VertexPosition3Color4>& vertices) {
-    if (_vertexBuffer == nullptr) {
-        _vertexBuffer = _renderer->createVertexBuffer(
-            _shader, (const float*)vertices.data(), vertices.size());
-    } else {
-        _vertexBuffer->resize(_shader, (const float*)vertices.data(),
-                              vertices.size());
-    }
 }

@@ -158,7 +158,7 @@ T* Array<T, 2>::data() {
 }
 
 template <typename T>
-const T* const Array<T, 2>::data() const {
+const T* Array<T, 2>::data() const {
     return _data.data();
 }
 

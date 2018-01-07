@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "cuda_vbo_tests.h"
 #include "image_renderable_tests.h"
 #include "points_renderable3_tests.h"
 #include "simple_volume_renderable_tests.h"
@@ -95,6 +96,7 @@ int main(int, const char**) {
     sTests.push_back(std::make_shared<ImageRenderableTests>(false));
     sTests.push_back(std::make_shared<PointsRenderable3Tests>());
     sTests.push_back(std::make_shared<SimpleVolumeRenderableTests>());
+    sTests.push_back(std::make_shared<CudaVboTests>());
     sTests[sCurrentTestIdx]->setup(window.get());
 
     // Set up event handlers

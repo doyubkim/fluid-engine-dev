@@ -15,6 +15,10 @@ VertexBuffer::VertexBuffer() {}
 
 VertexBuffer::~VertexBuffer() {}
 
+#ifdef JET_USE_CUDA
+void VertexBuffer::updateWithCuda(const float*) {}
+#endif
+
 void VertexBuffer::clear() {
     _numberOfVertices = 0;
     _vertexFormat = VertexFormat::Position3;

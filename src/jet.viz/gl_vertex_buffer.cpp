@@ -11,6 +11,10 @@
 #include <jet.viz/gl_shader.h>
 #include <jet.viz/gl_vertex_buffer.h>
 
+#ifdef JET_USE_CUDA
+#include <cuda_gl_interop.h>
+#endif
+
 using namespace jet;
 using namespace viz;
 
@@ -25,7 +29,11 @@ static GLuint glCreateBufferWithVertexCountStrideAndData(GLuint vertexCount,
 
     if (bufferId) {
         glBindBuffer(GL_ARRAY_BUFFER, bufferId);
-        glBufferData(GL_ARRAY_BUFFER, sizeInBytes, data, GL_DYNAMIC_DRAW);
+        if (data == nullptr) {
+            glBufferData(GL_ARRAY_BUFFER, sizeInBytes, 0, GL_DYNAMIC_DRAW);
+        } else {
+            glBufferData(GL_ARRAY_BUFFER, sizeInBytes, data, GL_DYNAMIC_DRAW);
+        }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
@@ -67,7 +75,34 @@ void GLVertexBuffer::update(const float* vertices) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-unsigned int GLVertexBuffer::vertexArrayId() const { return _vertexArrayId; }
+#ifdef JET_USE_CUDA
+void GLVertexBuffer::updateWithCuda(const float* vertices) {
+    GLsizei strideInBytes = static_cast<GLsizei>(
+        VertexHelper::getSizeInBytes(shader()->vertexFormat()));
+    GLsizeiptr sizeInBytes = strideInBytes * numberOfVertices();
+
+    if (_resource == nullptr) {
+        // Register this buffer object with CUDA
+        cudaGraphicsGLRegisterBuffer(&_resource, _vertexBufferId,
+                                     cudaGraphicsMapFlagsNone);
+    }
+
+    // Map resource
+    float* ptrVbo;
+    size_t size = sizeInBytes;
+    cudaGraphicsMapResources(1, &_resource, 0);
+    cudaGraphicsResourceGetMappedPointer((void**)&ptrVbo, &size, _resource);
+
+    cudaMemcpy(ptrVbo, vertices, sizeInBytes, cudaMemcpyDeviceToDevice);
+
+    // Unmap resource
+    cudaGraphicsUnmapResources(1, &_resource, 0);
+}
+#endif  // JET_USE_CUDA
+
+GLuint GLVertexBuffer::vertexArrayId() const { return _vertexArrayId; }
+
+GLuint GLVertexBuffer::vertexBufferObjectId() const { return _vertexBufferId; }
 
 void GLVertexBuffer::onClear() {
     if (_vertexBufferId > 0) {
@@ -87,6 +122,13 @@ void GLVertexBuffer::onClear() {
     _vertexArrayId = 0;
     _vertexBufferId = 0;
     _indexBufferId = 0;
+
+#ifdef JET_USE_CUDA
+    if (_resource != nullptr) {
+        cudaGraphicsUnregisterResource(_resource);
+    }
+    _resource = nullptr;
+#endif  // JET_USE_CUDA
 }
 
 void GLVertexBuffer::onResize(const ShaderPtr& shader, const float* vertices,

@@ -17,6 +17,12 @@ if (USE_GL)
     include_directories(
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w)
+    if (USE_CUDA)
+        include_directories(
+                ${CUDA_INCLUDE_DIRECTORIES}
+                ${CMAKE_CURRENT_SOURCE_DIR}
+                ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w)
+    endif()
 else()
     include_directories(
             ${CMAKE_CURRENT_SOURCE_DIR})
@@ -39,6 +45,11 @@ if (USE_GL)
             ${sources}
             ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/gl3w/GL/gl3w.cpp)
 endif()
+if (USE_CUDA)
+    file(GLOB sources
+            ${sources}
+            ${CMAKE_CURRENT_SOURCE_DIR}/*.cu)
+endif()
 
 # Custom-build event
 set(jet_viz_header_gen_py ${root_dir}/scripts/header_gen.py)
@@ -50,8 +61,14 @@ add_custom_target(jet_viz_header_gen_py ALL
         DEPENDS ${root_dir}/include/jet.viz/jet.viz.h)
 
 # Build library
-add_library(${target}
+if (USE_CUDA)
+    cuda_add_library(${target}
         ${sources})
+else()
+    add_library(${target}
+        ${sources})
+endif()
+
 add_dependencies(${target} jet_viz_header_gen_py)
 
 # Project options

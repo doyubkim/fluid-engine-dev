@@ -165,7 +165,7 @@ class Array<T, 2> final {
     T* data();
 
     //! Returns the const raw pointer to the array data.
-    const T* const data() const;
+    const T* data() const;
 
     //! Returns the begin iterator of the array.
     Iterator begin();

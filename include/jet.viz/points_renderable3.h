@@ -12,6 +12,10 @@
 #include "shader.h"
 #include "vertex_buffer.h"
 
+#ifdef JET_USE_CUDA
+#include <cuda_runtime.h>
+#endif  // JET_USE_CUDA
+
 namespace jet {
 namespace viz {
 
@@ -21,10 +25,15 @@ class PointsRenderable3 final : public Renderable {
 
     virtual ~PointsRenderable3();
 
-    void setPositions(const Vector3F* positions, size_t numberOfParticles);
+    void setPositions(const Vector3F* positions, size_t numberOfVertices);
 
     void setPositionsAndColors(const Vector3F* positions, const Color* colors,
-                               size_t numberOfParticles);
+                               size_t numberOfVertices);
+
+    void setPositionsAndColors(const VertexPosition3Color4* deviceData,
+                               size_t numberOfVertices);
+
+    VertexBuffer* vertexBuffer() const;
 
     float radius() const;
 
@@ -39,7 +48,10 @@ class PointsRenderable3 final : public Renderable {
     VertexBufferPtr _vertexBuffer;
     float _radius = 1.f;
 
-    void updateVertexBuffer(const std::vector<VertexPosition3Color4>& vertices);
+#ifdef JET_USE_CUDA
+    //! CUDA graphics resource handle.
+    cudaGraphicsResource* _resource = nullptr;
+#endif
 };
 
 typedef std::shared_ptr<PointsRenderable3> PointsRenderable3Ptr;

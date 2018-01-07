@@ -21,10 +21,10 @@ class PointsRenderable2 final : public Renderable {
 
     virtual ~PointsRenderable2();
 
-    void setPositions(const Vector2F* positions, size_t numberOfParticles);
+    void setPositions(const Vector2F* positions, size_t numberOfVertices);
 
     void setPositionsAndColors(const Vector2F* positions, const Color* colors,
-                               size_t numberOfParticles);
+                               size_t numberOfVertices);
 
     float radius() const;
 
