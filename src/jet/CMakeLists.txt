@@ -27,7 +27,7 @@ file(GLOB headers
     ${header_dir}/detail/*.h)
 list(REMOVE_ITEM headers ${header_dir}/jet.h)
 
-if (ENABLE_CUDA)
+if (USE_CUDA)
     file(GLOB sources
         ${headers}
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
@@ -51,7 +51,7 @@ add_custom_target(jet_header_gen_py ALL
     DEPENDS ${root_dir}/include/jet/jet.h)
 
 # Build library
-if (ENABLE_CUDA)
+if (USE_CUDA)
     cuda_add_library(${target}
         ${sources})
 else()

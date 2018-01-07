@@ -7,7 +7,7 @@ RUN apt-get update -yq && \
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. -DUSE_GL=OFF -DENABLE_CUDA=OFF && make install
+RUN cmake .. -DUSE_GL=OFF -DUSE_CUDA=OFF && make install
 
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 RUN pip install -r ../requirements.txt && pip install ..

@@ -9,7 +9,12 @@
 
 #ifdef JET_USE_GL
 
+#include <jet.viz/gl_common.h>
 #include <jet.viz/vertex_buffer.h>
+
+#ifdef JET_USE_CUDA
+#include <cuda_runtime.h>
+#endif  // JET_USE_CUDA
 
 #include <map>
 #include <string>
@@ -39,15 +44,31 @@ class GLVertexBuffer final : public VertexBuffer {
     //!
     void update(const float* vertices) override;
 
+#ifdef JET_USE_CUDA
+    //!
+    //! Updates the buffer with given CUDA vertex array.
+    //!
+    //! \param vertices Vertex array in CUDA device memory.
+    //!
+    void updateWithCuda(const float* vertices) override;
+#endif  // JET_USE_CUDA
+
     //! Returns OpenGL vertex array ID.
-    unsigned int vertexArrayId() const;
+    GLuint vertexArrayId() const;
+
+    //! Returns OpenGL vertex buffer object ID.
+    GLuint vertexBufferObjectId() const;
 
  private:
-    unsigned int _vertexArrayId = 0;
-    unsigned int _vertexBufferId = 0;
-    unsigned int _indexBufferId = 0;
+    GLuint _vertexArrayId = 0;
+    GLuint _vertexBufferId = 0;
+    GLuint _indexBufferId = 0;
 
-    std::map<std::string, unsigned int> _attributes;
+    std::map<std::string, GLuint> _attributes;
+
+#ifdef JET_USE_CUDA
+    cudaGraphicsResource* _resource = nullptr;
+#endif
 
     void onClear() override;
 
