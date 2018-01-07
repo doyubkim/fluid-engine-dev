@@ -31,9 +31,9 @@ void PointsRenderable2::render(Renderer* renderer) {
 }
 
 void PointsRenderable2::setPositions(const Vector2F* positions,
-                                     size_t numberOfParticles) {
-    std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (size_t i = 0; i < numberOfParticles; ++i) {
+                                     size_t numberOfVertices) {
+    std::vector<VertexPosition3Color4> vertices(numberOfVertices);
+    for (size_t i = 0; i < numberOfVertices; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;
@@ -49,9 +49,9 @@ void PointsRenderable2::setPositions(const Vector2F* positions,
 
 void PointsRenderable2::setPositionsAndColors(const Vector2F* positions,
                                               const Color* colors,
-                                              size_t numberOfParticles) {
-    std::vector<VertexPosition3Color4> vertices(numberOfParticles);
-    for (size_t i = 0; i < numberOfParticles; ++i) {
+                                              size_t numberOfVertices) {
+    std::vector<VertexPosition3Color4> vertices(numberOfVertices);
+    for (size_t i = 0; i < numberOfVertices; ++i) {
         VertexPosition3Color4& vertex = vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;

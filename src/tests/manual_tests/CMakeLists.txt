@@ -13,7 +13,7 @@ set(target manual_tests)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Sources
-if (ENABLE_CUDA)
+if (USE_CUDA)
     file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
         "${CMAKE_CURRENT_SOURCE_DIR}/*.cu")
@@ -23,7 +23,7 @@ else()
 endif()
 
 # Build executable
-if (ENABLE_CUDA)
+if (USE_CUDA)
     cuda_add_executable(${target}
         ${sources})
 else()

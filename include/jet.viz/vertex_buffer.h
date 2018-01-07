@@ -21,7 +21,21 @@ class VertexBuffer {
     VertexBuffer();
     virtual ~VertexBuffer();
 
+    //!
+    //! Updates the buffer with given vertex array.
+    //!
+    //! \param vertices Vertex array.
+    //!
     virtual void update(const float* vertices) = 0;
+
+#ifdef JET_USE_CUDA
+    //!
+    //! Updates the buffer with given CUDA vertex array.
+    //!
+    //! \param vertices Vertex array in CUDA device memory.
+    //!
+    virtual void updateWithCuda(const float* vertices);
+#endif
 
     void clear();
 

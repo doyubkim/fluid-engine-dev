@@ -96,8 +96,8 @@ if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 # Options
-option(ENABLE_CUDA "Enable CUDA Feature" ON)
-if (ENABLE_CUDA)
+option(USE_CUDA "Use CUDA features" ON)
+if (USE_CUDA)
     find_package(CUDA)
     list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
     add_definitions(-DJET_USE_CUDA)

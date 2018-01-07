@@ -54,6 +54,8 @@
 
 #include <jet.viz/gl_common.h>
 
+#include <memory>
+
 namespace jet {
 
 namespace viz {
