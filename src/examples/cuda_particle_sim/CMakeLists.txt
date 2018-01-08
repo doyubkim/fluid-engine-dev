@@ -7,7 +7,7 @@
 #
 
 # Target name
-set(target opengl_tests)
+set(target cuda_particle_sim)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

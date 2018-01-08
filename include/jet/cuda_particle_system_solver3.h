@@ -4,8 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifdef __CUDACC__
-
 #ifdef JET_USE_CUDA
 
 #ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER3_H_
@@ -168,5 +166,3 @@ class CudaParticleSystemSolver3::Builder final
 #endif  // INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER3_H_
 
 #endif  // JET_USE_CUDA
-
-#endif  // __CUDACC__

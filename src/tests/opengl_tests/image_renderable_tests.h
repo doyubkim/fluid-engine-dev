@@ -9,22 +9,14 @@
 
 #include "opengl_tests.h"
 
-namespace jet {
-
-namespace viz {
-
 class ImageRenderableTests final : public OpenGLTests {
  public:
     ImageRenderableTests(bool useOrthoCam);
 
-    void setup(GlfwWindow* window) override;
+    void setup(jet::viz::GlfwWindow* window) override;
 
-private:
+ private:
     bool _useOrthoCam = true;
 };
-
-}  // namespace viz
-
-}  // namespace jet
 
 #endif  // SRC_TESTS_OPENGL_TESTS_IMAGE_RENDERABLE_TESTS_H_
