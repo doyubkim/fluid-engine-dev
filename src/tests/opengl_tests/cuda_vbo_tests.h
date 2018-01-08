@@ -9,19 +9,11 @@
 
 #include "opengl_tests.h"
 
-namespace jet {
-
-namespace viz {
-
 class CudaVboTests final : public OpenGLTests {
  public:
     CudaVboTests() = default;
 
-    void setup(GlfwWindow* window) override;
+    void setup(jet::viz::GlfwWindow* window) override;
 };
-
-}  // namespace viz
-
-}  // namespace jet
 
 #endif  // SRC_TESTS_OPENGL_TESTS_CUDA_VBO_TESTS_H_

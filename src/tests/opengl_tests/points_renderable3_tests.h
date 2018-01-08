@@ -9,19 +9,11 @@
 
 #include "opengl_tests.h"
 
-namespace jet {
-
-namespace viz {
-
 class PointsRenderable3Tests final : public OpenGLTests {
  public:
     PointsRenderable3Tests() = default;
 
-    void setup(GlfwWindow* window) override;
+    void setup(jet::viz::GlfwWindow* window) override;
 };
-
-}  // namespace viz
-
-}  // namespace jet
 
 #endif  // SRC_TESTS_OPENGL_TESTS_POINTS_RENDERABLE3_TESTS_H_

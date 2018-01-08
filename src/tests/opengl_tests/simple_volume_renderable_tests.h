@@ -11,24 +11,16 @@
 
 #include <jet.viz/jet.viz.h>
 
-namespace jet {
-
-namespace viz {
-
 class SimpleVolumeRenderableTests final : public OpenGLTests {
  public:
     SimpleVolumeRenderableTests() = default;
 
-    void setup(GlfwWindow* window) override;
+    void setup(jet::viz::GlfwWindow* window) override;
 
-    void onGui(GlfwWindow* window) override;
+    void onGui(jet::viz::GlfwWindow* window) override;
 
-private:
-    SimpleVolumeRenderablePtr _renderable;
+ private:
+     jet::viz::SimpleVolumeRenderablePtr _renderable;
 };
-
-}  // namespace viz
-
-}  // namespace jet
 
 #endif  // SRC_TESTS_OPENGL_TESTS_SIMPLE_VOLUME_RENDERABLE_TESTS_H_
