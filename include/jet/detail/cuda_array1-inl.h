@@ -4,8 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifdef __CUDACC__
-
 #ifdef JET_USE_CUDA
 
 #ifndef INCLUDE_JET_DETAIL_CUDA_ARRAY1_INL_H_
@@ -261,5 +259,3 @@ CudaArray1<T>& CudaArray1<T>::operator=(CudaArray1&& other) {
 #endif  // INCLUDE_JET_DETAIL_CUDA_ARRAY1_INL_H_
 
 #endif  // JET_USE_CUDA
-
-#endif  // __CUDACC__

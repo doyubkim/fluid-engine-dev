@@ -4,6 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "opengl_tests.h"
+#include "particle_sim_example.h"
 
-void OpenGLTests::onGui(jet::viz::GlfwWindow* window) { (void)window; }
+void ParticleSimExample::onGui(jet::viz::GlfwWindow* window) { (void)window; }

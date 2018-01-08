@@ -18,6 +18,7 @@ static const double kPanSpeedMultiplier = 0.001;
 
 SphericalViewController::SphericalViewController(const CameraPtr& camera)
     : ViewController(camera) {
+    _origin = camera->basicCameraState().origin;
     updateCamera();
 }
 
@@ -105,6 +106,10 @@ void SphericalViewController::updateCamera() {
 
     state.lookUp =
         (upX * _basisX + upY * _rotationAxis + upZ * _basisZ).normalized();
+
+    printf("%f, %f, %f; %f, %f, %f; %f, %f, %f\n", state.origin.x,
+           state.origin.y, state.origin.z, state.lookAt.x, state.lookAt.y,
+           state.lookAt.z, state.lookUp.x, state.lookUp.y, state.lookUp.z);
 
     setBasicCameraState(state);
 }

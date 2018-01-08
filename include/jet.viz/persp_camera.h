@@ -9,15 +9,16 @@
 
 #include "camera.h"
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 class PerspCamera : public Camera {
  public:
     PerspCamera();
     PerspCamera(const Vector3D& origin, const Vector3D& lookAt,
                 const Vector3D& lookUp, double nearClipPlane,
-                double farClipPlane, const Viewport& viewport,
-                double fieldOfViewInRadians);
+                double farClipPlane, const Viewport& viewport = Viewport(),
+                double fieldOfViewInRadians = pi<double>() / 2.0);
 
     virtual ~PerspCamera();
 
@@ -30,6 +31,7 @@ class PerspCamera : public Camera {
 
 typedef std::shared_ptr<PerspCamera> PerspCameraPtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_PERSP_CAMERA_H_

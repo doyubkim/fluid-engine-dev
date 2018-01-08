@@ -4,21 +4,21 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_TESTS_OPENGL_TESTS_OPENGL_TESTS_H_
-#define SRC_TESTS_OPENGL_TESTS_OPENGL_TESTS_H_
+#ifndef SRC_EXAMPLES_CUDA_PARTICLE_SIM_PARTICLE_SIM_EXAMPLE_H_
+#define SRC_EXAMPLES_CUDA_PARTICLE_SIM_PARTICLE_SIM_EXAMPLE_H_
 
 #include <jet.viz/jet.viz.h>
 
-class OpenGLTests {
+class ParticleSimExample {
  public:
-    OpenGLTests() = default;
-    virtual ~OpenGLTests() = default;
+    ParticleSimExample() = default;
+    virtual ~ParticleSimExample() = default;
 
     virtual void setup(jet::viz::GlfwWindow* window) = 0;
 
     virtual void onGui(jet::viz::GlfwWindow* window);
 };
 
-typedef std::shared_ptr<OpenGLTests> OpenGLTestsPtr;
+typedef std::shared_ptr<ParticleSimExample> ParticleSimExamplePtr;
 
-#endif  // SRC_TESTS_OPENGL_TESTS_OPENGL_TESTS_H_
+#endif  // SRC_EXAMPLES_CUDA_PARTICLE_SIM_PARTICLE_SIM_EXAMPLE_H_
