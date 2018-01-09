@@ -136,7 +136,7 @@ template <typename T>
 CudaArrayView1<T>& CudaArrayView1<T>::operator=(CudaArrayView1<T>&& view) {
     _data = view._data;
     _size = view._size;
-    view._data = thrust::device_ptr<T>(nullptr);
+    view._data = thrust::device_ptr<T>();
     view._size = 0;
     return *this;
 }

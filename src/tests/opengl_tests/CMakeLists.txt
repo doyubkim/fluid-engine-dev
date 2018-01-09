@@ -49,7 +49,7 @@ target_compile_definitions(${target}
 # Link libraries
 target_link_libraries(${target}
         ${DEFAULT_LINKER_OPTIONS}
-        ${OPENGL_LIBRARIES}
-        ${IMGUI_LIBRARIES}
+        jet.viz
         jet
-        jet.viz)
+        ${IMGUI_LIBRARIES}
+        ${OPENGL_LIBRARIES})

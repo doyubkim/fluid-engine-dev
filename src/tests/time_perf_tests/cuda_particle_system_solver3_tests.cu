@@ -61,7 +61,9 @@ class CudaParticleSystemSolver3 : public benchmark::Fixture {
 
     void SetUp(const benchmark::State&) override {}
 
-    void TearDown(benchmark::State&) override {}
+    void TearDown(benchmark::State&) override {
+        solver = jet::experimental::CudaParticleSystemSolver3();
+    }
 
     void TearDown(const benchmark::State&) override {}
 
@@ -80,14 +82,13 @@ BENCHMARK_DEFINE_F(CudaParticleSystemSolver3, Update)
         jet::Timer timer;
 
         update();
-        
+
         const double elapsedSeconds = timer.durationInSeconds();
 
         state.SetIterationTime(elapsedSeconds);
     }
 }
 BENCHMARK_REGISTER_F(CudaParticleSystemSolver3, Update)
-    ->Arg(1 << 14)
     ->Arg(1 << 18)
     ->UseManualTime()
     ->Unit(benchmark::kMicrosecond);

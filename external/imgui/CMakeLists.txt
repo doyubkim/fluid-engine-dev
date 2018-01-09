@@ -26,7 +26,7 @@ set_target_properties(${target}
 # Compile options
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(IMGUI_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
-            -Wno-error=maybe-uninitialized)
+            -Wno-maybe-uninitialized)
 else()
     set(IMGUI_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS})
 endif()

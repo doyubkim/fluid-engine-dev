@@ -24,6 +24,7 @@ endif()
 
 # Build executable
 if (USE_CUDA)
+    list(APPEND CUDA_NVCC_FLAGS -DRESOURCES_DIR="${RESOURCES_DIR}")
     cuda_add_executable(${target}
         ${sources})
 else()
