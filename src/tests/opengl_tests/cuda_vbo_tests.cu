@@ -17,7 +17,7 @@ using namespace viz;
 
 void CudaVboTests::setup(GlfwWindow* window) {
     // Setup desired view controller
-    window->setViewController(std::make_shared<SphericalViewController>(
+    window->setViewController(std::make_shared<PitchYawViewController>(
         std::make_shared<PerspCamera>()));
 
     // Setup desired background

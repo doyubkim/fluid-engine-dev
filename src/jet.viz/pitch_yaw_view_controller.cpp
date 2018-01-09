@@ -7,41 +7,45 @@
 #include <pch.h>
 
 #include <jet.viz/persp_camera.h>
-#include <jet.viz/spherical_view_controller.h>
+#include <jet.viz/pitch_yaw_view_controller.h>
 
 using namespace jet;
 using namespace viz;
 
-static const double kRotateSpeedMultiplier = 0.01;
-static const double kZoomSpeedMultiplier = 0.01;
-static const double kPanSpeedMultiplier = 0.001;
+constexpr double kRotateSpeedMultiplier = 0.01;
+constexpr double kZoomSpeedMultiplier = 0.01;
+constexpr double kPanSpeedMultiplier = 0.001;
+constexpr double kMinRadialDistance = 1e-3;
 
-SphericalViewController::SphericalViewController(const CameraPtr& camera)
-    : ViewController(camera) {
-    _origin = camera->basicCameraState().origin;
+PitchYawViewController::PitchYawViewController(const CameraPtr& camera,
+                                               const Vector3D& rotationOrigin)
+    : ViewController(camera), _origin(rotationOrigin) {
+    _radialDistance =
+        std::max((camera->basicCameraState().origin - _origin).length(),
+                 kMinRadialDistance);
     updateCamera();
 }
 
-SphericalViewController::~SphericalViewController() {}
+PitchYawViewController::~PitchYawViewController() {}
 
-void SphericalViewController::onKeyDown(const KeyEvent& keyEvent) {
+void PitchYawViewController::onKeyDown(const KeyEvent& keyEvent) {
     UNUSED_VARIABLE(keyEvent);
 }
 
-void SphericalViewController::onKeyUp(const KeyEvent& keyEvent) {
+void PitchYawViewController::onKeyUp(const KeyEvent& keyEvent) {
     UNUSED_VARIABLE(keyEvent);
 }
 
-void SphericalViewController::onPointerPressed(
+void PitchYawViewController::onPointerPressed(
     const PointerEvent& pointerEvent) {
     UNUSED_VARIABLE(pointerEvent);
 }
 
-void SphericalViewController::onPointerHover(const PointerEvent& pointerEvent) {
+void PitchYawViewController::onPointerHover(const PointerEvent& pointerEvent) {
     UNUSED_VARIABLE(pointerEvent);
 }
 
-void SphericalViewController::onPointerDragged(
+void PitchYawViewController::onPointerDragged(
     const PointerEvent& pointerEvent) {
     double deltaX = static_cast<double>(pointerEvent.deltaX());
     double deltaY = static_cast<double>(pointerEvent.deltaY());
@@ -63,25 +67,25 @@ void SphericalViewController::onPointerDragged(
     updateCamera();
 }
 
-void SphericalViewController::onPointerReleased(
+void PitchYawViewController::onPointerReleased(
     const PointerEvent& pointerEvent) {
     UNUSED_VARIABLE(pointerEvent);
 }
 
-void SphericalViewController::onMouseWheel(const PointerEvent& pointerEvent) {
+void PitchYawViewController::onMouseWheel(const PointerEvent& pointerEvent) {
     _radialDistance -=
         kZoomSpeedMultiplier * _zoomSpeed * pointerEvent.wheelData().deltaY;
-    _radialDistance = std::max(_radialDistance, 0.0);
+    _radialDistance = std::max(_radialDistance, kMinRadialDistance);
 
     updateCamera();
 }
 
-void SphericalViewController::onResize(const Viewport& viewport) {
+void PitchYawViewController::onResize(const Viewport& viewport) {
     UNUSED_VARIABLE(viewport);
     updateCamera();
 }
 
-void SphericalViewController::updateCamera() {
+void PitchYawViewController::updateCamera() {
     double x = _radialDistance * std::sin(_polarAngleInRadians) *
                std::sin(_azimuthalAngleInRadians);
     double y = _radialDistance * std::cos(_polarAngleInRadians);
@@ -106,10 +110,6 @@ void SphericalViewController::updateCamera() {
 
     state.lookUp =
         (upX * _basisX + upY * _rotationAxis + upZ * _basisZ).normalized();
-
-    printf("%f, %f, %f; %f, %f, %f; %f, %f, %f\n", state.origin.x,
-           state.origin.y, state.origin.z, state.lookAt.x, state.lookAt.y,
-           state.lookAt.z, state.lookUp.x, state.lookUp.y, state.lookUp.z);
 
     setBasicCameraState(state);
 }

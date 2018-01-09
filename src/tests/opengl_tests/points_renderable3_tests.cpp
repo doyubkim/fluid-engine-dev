@@ -13,7 +13,7 @@ using namespace viz;
 
 void PointsRenderable3Tests::setup(GlfwWindow* window) {
     // Setup desired view controller
-    window->setViewController(std::make_shared<SphericalViewController>(
+    window->setViewController(std::make_shared<PitchYawViewController>(
         std::make_shared<PerspCamera>()));
 
     // Setup desired background
@@ -32,7 +32,8 @@ void PointsRenderable3Tests::setup(GlfwWindow* window) {
     }
 
     auto renderable = std::make_shared<PointsRenderable3>(renderer);
-    renderable->setRadius(5.0f * (float)window->framebufferSize().x / window->windowSize().x);
+    renderable->setRadius(5.0f * (float)window->framebufferSize().x /
+                          window->windowSize().x);
     renderable->setPositionsAndColors(positions.data(), colors.data(),
                                       positions.size());
 
