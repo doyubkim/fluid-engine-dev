@@ -38,7 +38,7 @@ target_compile_options(${target}
 target_link_libraries(${target}
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
-        ${OPENGL_LIBRARIES}
-        ${IMGUI_LIBRARIES}
         jet
-        jet.viz)
+        jet.viz
+        ${IMGUI_LIBRARIES}
+        ${OPENGL_LIBRARIES})

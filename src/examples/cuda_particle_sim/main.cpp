@@ -100,5 +100,9 @@ int main(int, const char**) {
 
     GlfwApp::run();
 
+    // Clears the device memory before main() terminates
+    sWindow->renderer()->clearRenderables();
+    sTests.clear();
+
     return 0;
 }

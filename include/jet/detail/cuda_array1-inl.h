@@ -169,12 +169,12 @@ typename CudaArray1<T>::Iterator CudaArray1<T>::begin() const {
 
 template <typename T>
 typename CudaArray1<T>::Iterator CudaArray1<T>::end() {
-    return _data.data() + _size;
+    return _data.data() + _data.size();
 }
 
 template <typename T>
 typename CudaArray1<T>::Iterator CudaArray1<T>::end() const {
-    return _data.data() + _size;
+    return _data.data() + _data.size();
 }
 
 template <typename T>
