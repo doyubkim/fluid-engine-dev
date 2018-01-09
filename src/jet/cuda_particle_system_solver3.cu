@@ -155,7 +155,6 @@ void CudaParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     AdvanceTimeStepKernel kernel(_mass, dt, g);
 
     thrust::for_each(
-        thrust::device,
         make_zip_iterator(make_tuple(posCurr.begin(), velCurr.begin())),
         make_zip_iterator(make_tuple(posCurr.end(), velCurr.end())), kernel);
 }
