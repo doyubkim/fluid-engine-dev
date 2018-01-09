@@ -28,6 +28,7 @@
 #include <jet.viz/ortho_camera.h>
 #include <jet.viz/ortho_view_controller.h>
 #include <jet.viz/persp_camera.h>
+#include <jet.viz/pitch_yaw_view_controller.h>
 #include <jet.viz/points_renderable2.h>
 #include <jet.viz/points_renderable3.h>
 #include <jet.viz/primitive_types.h>
@@ -37,7 +38,6 @@
 #include <jet.viz/renderer.h>
 #include <jet.viz/shader.h>
 #include <jet.viz/simple_volume_renderable.h>
-#include <jet.viz/spherical_view_controller.h>
 #include <jet.viz/texture.h>
 #include <jet.viz/texture2.h>
 #include <jet.viz/texture3.h>

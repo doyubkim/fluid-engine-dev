@@ -55,10 +55,11 @@ struct PosToVertex {
 
 void CudaParticleSystemSolver3Example::setup(GlfwWindow* window) {
     // Setup desired view controller
-    window->setViewController(
-        std::make_shared<SphericalViewController>(std::make_shared<PerspCamera>(
-            Vector3D{0.5, 0.5, 3.0}, Vector3D{0.0, 0.0, -1.0},
-            Vector3D{0.0, 1.0, 0.0}, 0.01, 10.0)));
+    window->setViewController(std::make_shared<PitchYawViewController>(
+        std::make_shared<PerspCamera>(Vector3D{0.5, 0.5, 3.0},
+                                      Vector3D{0.0, 0.0, -1.0},
+                                      Vector3D{0.0, 1.0, 0.0}, 0.01, 10.0),
+        Vector3D{0.5, 0.5, 0.5}));
 
     // Setup desired background
     auto renderer = window->renderer().get();
