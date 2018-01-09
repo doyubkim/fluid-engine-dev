@@ -15,11 +15,11 @@ ImageRenderableTests::ImageRenderableTests(bool useOrthoCam)
 void ImageRenderableTests::setup(GlfwWindow* window) {
     // Setup desired view controller
     if (_useOrthoCam) {
-        window->setViewController(
-                std::make_shared<OrthoViewController>(std::make_shared<OrthoCamera>()));
+        window->setViewController(std::make_shared<OrthoViewController>(
+            std::make_shared<OrthoCamera>()));
     } else {
-        window->setViewController(
-                std::make_shared<SphericalViewController>(std::make_shared<PerspCamera>()));
+        window->setViewController(std::make_shared<PitchYawViewController>(
+            std::make_shared<PerspCamera>()));
     }
 
     // Setup desired background
