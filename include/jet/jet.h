@@ -59,6 +59,7 @@
 #include <jet/cuda_array_view1.h>
 #include <jet/cuda_particle_system_data3.h>
 #include <jet/cuda_particle_system_solver3.h>
+#include <jet/cuda_point_hash_grid_searcher3.h>
 #include <jet/custom_implicit_surface2.h>
 #include <jet/custom_implicit_surface3.h>
 #include <jet/custom_scalar_field2.h>
