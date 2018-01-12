@@ -74,7 +74,7 @@ void VertexCenteredVectorGrid3::fill(const Vector3D& value) {
         kZeroSize, size.x,
         kZeroSize, size.y,
         kZeroSize, size.z,
-        [this, value, &acc](size_t i, size_t j, size_t k) {
+        [value, &acc](size_t i, size_t j, size_t k) {
             acc(i, j, k) = value;
         });
 }
@@ -88,7 +88,7 @@ void VertexCenteredVectorGrid3::fill(
         kZeroSize, size.x,
         kZeroSize, size.y,
         kZeroSize, size.z,
-        [this, &func, &acc, &pos](size_t i, size_t j, size_t k) {
+        [&func, &acc, &pos](size_t i, size_t j, size_t k) {
             acc(i, j, k) = func(pos(i, j, k));
         });
 }

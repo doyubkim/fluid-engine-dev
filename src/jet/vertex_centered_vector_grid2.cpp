@@ -80,7 +80,7 @@ void VertexCenteredVectorGrid2::fill(const Vector2D& value) {
     parallelFor(
         kZeroSize, size.x,
         kZeroSize, size.y,
-        [this, value, &acc](size_t i, size_t j) {
+        [value, &acc](size_t i, size_t j) {
             acc(i, j) = value;
         });
 }
@@ -93,7 +93,7 @@ void VertexCenteredVectorGrid2::fill(
     parallelFor(
         kZeroSize, size.x,
         kZeroSize, size.y,
-        [this, &func, &acc, &pos](size_t i, size_t j) {
+        [&func, &acc, &pos](size_t i, size_t j) {
             acc(i, j) = func(pos(i, j));
         });
 }
