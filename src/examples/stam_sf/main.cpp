@@ -176,7 +176,7 @@ bool onPointerPressed(GlfwWindow* win, const PointerEvent& pointerEvent) {
     using namespace global;
     (void)win;
     int button =
-        (pointerEvent.pressedMouseButton() == MouseButtonType::Left) ? 0 : 1;
+        (pointerEvent.pressedMouseButton() == MouseButtonType::kLeft) ? 0 : 1;
     mouseDown[button] = true;
     return true;
 }
@@ -185,7 +185,7 @@ bool onPointerReleased(GlfwWindow* win, const PointerEvent& pointerEvent) {
     using namespace global;
     (void)win;
     int button =
-        (pointerEvent.pressedMouseButton() == MouseButtonType::Left) ? 0 : 1;
+        (pointerEvent.pressedMouseButton() == MouseButtonType::kLeft) ? 0 : 1;
     mouseDown[button] = false;
     return true;
 }

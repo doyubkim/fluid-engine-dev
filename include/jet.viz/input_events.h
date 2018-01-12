@@ -8,85 +8,121 @@
 #define INCLUDE_JET_VIZ_INPUT_EVENTS_H_
 
 #include <jet/macros.h>
+
 #include <cstdint>
 
-namespace jet { namespace viz {
+namespace jet {
 
+namespace viz {
+
+//! Pointer input types.
 enum class PointerInputType : int8_t {
-    Unknown = 0,
-    Mouse = 1,
-    Touch = 2,
-    Pen = 3,
+    //! Unknown pointer input type.
+    kUnknown = 0,
+
+    //! Mouse pointer input type.
+    kMouse = 1,
+
+    //! Touch pointer input type.
+    kTouch = 2,
+
+    //! Pen pointer input type.
+    kPen = 3,
 };
 
+//! Mouse button types.
 enum class MouseButtonType : int8_t {
-    None = 0,
-    Left = 1,
-    Middle = 2,
-    Right = 3,
+    //! No mouse button.
+    kNone = 0,
+
+    //! Left mouse button.
+    kLeft = 1,
+
+    //! Middle mouse button.
+    kMiddle = 2,
+
+    //! Right mouse button.
+    kRight = 3,
 };
 
+//! Modifier key types.
 enum class ModifierKey : int8_t {
-    None = 0,
-    Shift = 1 << 0,
-    Ctrl = 1 << 1,
-    Alt = 1 << 2,
+    //! No modifier.
+    kNone = 0,
+
+    //! Shift modifier key.
+    kShift = 1 << 0,
+
+    //! Ctrl modifier key.
+    kCtrl = 1 << 1,
+
+    //! Alt modifier key.
+    kAlt = 1 << 2,
 };
 
+//! And operator for two modifier keys.
 inline ModifierKey operator&(ModifierKey a, ModifierKey b) {
     return static_cast<ModifierKey>(static_cast<int>(a) & static_cast<int>(b));
 }
 
+//! Or operator for two modifier keys.
 inline ModifierKey operator|(ModifierKey a, ModifierKey b) {
     return static_cast<ModifierKey>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-enum class SpecialKey : int8_t {
-    None = 0,
-    F1,
-    F2,
-    F3,
-    F4,
-    F5,
-    F6,
-    F7,
-    F8,
-    F9,
-    F10,
-    F11,
-    F12,
-    Left,
-    Up,
-    Right,
-    Down,
-    PageUp,
-    PageDown,
-    Home,
-    End,
-    Insert,
-};
-
+//! Mouse wheel event data.
 struct MouseWheelData {
+    //! Horizontal scroll amount.
     double deltaX = 0.0;
+
+    //! Vertical scroll amount.
     double deltaY = 0.0;
 };
 
+//! Pointer event representation.
 class PointerEvent {
  public:
+    //! Constructs an empty event.
     PointerEvent();
 
+    //!
+    //! \brief Constructs an event with parameters.
+    //!
+    //! \param newInputType Pointer input type.
+    //! \param newModifierKey Currently pressed modifier key.
+    //! \param newX X position.
+    //! \param newY Y position.
+    //! \param newDeltaX Delta of X from previous event.
+    //! \param newDelyaY Delta of Y from previous event.
+    //! \param pressedMouseButton Currently pressed mouse button.
+    //! \param wheelData Mouse scroll wheel event data.
+    //!
     PointerEvent(PointerInputType newInputType, ModifierKey newModifierKey,
                  double newX, double newY, double newDeltaX, double newDelyaY,
                  MouseButtonType pressedMouseButton, MouseWheelData wheelData);
 
+    //! Returns pointer input type.
     PointerInputType inputType() const;
+
+    //! Returns modifier key.
     ModifierKey modifierKey() const;
+
+    //! Returns current x position.
     double x() const;
+
+    //! Returns current y position.
     double y() const;
+
+    //! Returns delta of x position.
     double deltaX() const;
+
+    //! Returns delta of y position.
     double deltaY() const;
 
+    //! Returns currently pressed mouse button.
     MouseButtonType pressedMouseButton() const;
+
+    //! Returns mouse scroll wheel data.
     const MouseWheelData& wheelData() const;
 
  private:
@@ -101,22 +137,33 @@ class PointerEvent {
     MouseWheelData _wheelData;
 };
 
+//! Key input event representation.
 class KeyEvent {
  public:
+    //! Constructs an empty event.
     KeyEvent();
 
-    KeyEvent(int newKey, SpecialKey newSpecialKey, ModifierKey newModifierKey);
+    //!
+    //! \brief Constructs an event with parameters.
+    //!
+    //! \param newKey Key code.
+    //! \param newModifierKey Modifier key type.
+    //!
+    KeyEvent(int newKey, ModifierKey newModifierKey);
 
+    //! Returns key code.
     int key() const;
-    SpecialKey specialKey() const;
+
+    //! Returns modifier key type.
     ModifierKey modifierKey() const;
 
  private:
     int _key = 0;
-    SpecialKey _specialKey = SpecialKey::None;
-    ModifierKey _modifierKey = ModifierKey::None;
+    ModifierKey _modifierKey = ModifierKey::kNone;
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_INPUT_EVENTS_H_
