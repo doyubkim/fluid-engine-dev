@@ -44,7 +44,7 @@ void OrthoViewController::onPointerDragged(const PointerEvent& pointerEvent) {
     double deltaX = pointerEvent.deltaX();
     double deltaY = pointerEvent.deltaY();
 
-    if (enableRotation && pointerEvent.modifierKey() == ModifierKey::Ctrl) {
+    if (enableRotation && pointerEvent.modifierKey() == ModifierKey::kCtrl) {
         Vector2D center = camera()->basicCameraState().viewport.center();
         Vector2D offset(pointerEvent.x() - center.x,
                         center.y - pointerEvent.y());

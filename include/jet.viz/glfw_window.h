@@ -221,8 +221,8 @@ class GlfwWindow final {
  private:
     GLFWwindow* _window = nullptr;
 
-    MouseButtonType _pressedMouseButton = MouseButtonType::None;
-    ModifierKey _lastModifierKey = ModifierKey::None;
+    MouseButtonType _pressedMouseButton = MouseButtonType::kNone;
+    ModifierKey _lastModifierKey = ModifierKey::kNone;
 
     bool _isUpdateEnabled = false;
     unsigned int _numRequestedRenderFrames = 0;

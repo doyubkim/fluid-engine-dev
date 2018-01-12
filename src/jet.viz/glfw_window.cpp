@@ -14,14 +14,14 @@ using namespace jet;
 using namespace viz;
 
 static ModifierKey getModifier(int mods) {
-    ModifierKey modifier = ModifierKey::None;
+    ModifierKey modifier = ModifierKey::kNone;
 
     if (mods == GLFW_MOD_ALT) {
-        modifier = ModifierKey::Alt;
+        modifier = ModifierKey::kAlt;
     } else if (mods == GLFW_MOD_CONTROL) {
-        modifier = ModifierKey::Ctrl;
+        modifier = ModifierKey::kCtrl;
     } else if (mods == GLFW_MOD_SHIFT) {
-        modifier = ModifierKey::Shift;
+        modifier = ModifierKey::kShift;
     }
 
     return modifier;
@@ -166,45 +166,9 @@ void GlfwWindow::key(int key, int scancode, int action, int mods) {
     UNUSED_VARIABLE(scancode);
 
     ModifierKey modifier = getModifier(mods);
-    SpecialKey specialKey = SpecialKey::None;
-
     _lastModifierKey = modifier;
 
-    if (key >= GLFW_KEY_F1 && key <= GLFW_KEY_F12) {
-        specialKey = static_cast<SpecialKey>(static_cast<int>(SpecialKey::F1) +
-                                             (key - GLFW_KEY_F1));
-    } else {
-        switch (key) {
-            case GLFW_KEY_LEFT:
-                specialKey = SpecialKey::Left;
-                break;
-            case GLFW_KEY_RIGHT:
-                specialKey = SpecialKey::Right;
-                break;
-            case GLFW_KEY_DOWN:
-                specialKey = SpecialKey::Down;
-                break;
-            case GLFW_KEY_UP:
-                specialKey = SpecialKey::Up;
-                break;
-            case GLFW_KEY_PAGE_DOWN:
-                specialKey = SpecialKey::PageDown;
-                break;
-            case GLFW_KEY_PAGE_UP:
-                specialKey = SpecialKey::PageUp;
-                break;
-            case GLFW_KEY_HOME:
-                specialKey = SpecialKey::Home;
-                break;
-            case GLFW_KEY_END:
-                specialKey = SpecialKey::End;
-                break;
-            case GLFW_KEY_INSERT:
-                specialKey = SpecialKey::Insert;
-        }
-    }
-
-    KeyEvent keyEvent(key, specialKey, modifier);
+    KeyEvent keyEvent(key, modifier);
 
     if (action == GLFW_PRESS) {
         if (_viewController != nullptr) {
@@ -220,18 +184,18 @@ void GlfwWindow::key(int key, int scancode, int action, int mods) {
 }
 
 void GlfwWindow::pointerButton(int button, int action, int mods) {
-    PointerInputType newInputType = PointerInputType::Mouse;
+    PointerInputType newInputType = PointerInputType::kMouse;
     ModifierKey newModifierKey = getModifier(mods);
 
     _lastModifierKey = newModifierKey;
 
-    _pressedMouseButton = MouseButtonType::None;
+    _pressedMouseButton = MouseButtonType::kNone;
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        _pressedMouseButton = MouseButtonType::Left;
+        _pressedMouseButton = MouseButtonType::kLeft;
     } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-        _pressedMouseButton = MouseButtonType::Right;
+        _pressedMouseButton = MouseButtonType::kRight;
     } else if (button == GLFW_MOUSE_BUTTON_MIDDLE) {
-        _pressedMouseButton = MouseButtonType::Middle;
+        _pressedMouseButton = MouseButtonType::kMiddle;
     }
 
     PointerEvent pointerEvent(newInputType, newModifierKey, _pointerPosX,
@@ -249,7 +213,7 @@ void GlfwWindow::pointerButton(int button, int action, int mods) {
             _onPointerReleasedEvent(this, pointerEvent);
         }
 
-        _pressedMouseButton = MouseButtonType::None;
+        _pressedMouseButton = MouseButtonType::kNone;
     }
 }
 
@@ -264,10 +228,10 @@ void GlfwWindow::pointerMoved(double x, double y) {
     _pointerPosY = y;
 
     PointerEvent pointerEvent(
-        PointerInputType::Mouse, _lastModifierKey, _pointerPosX, _pointerPosY,
+        PointerInputType::kMouse, _lastModifierKey, _pointerPosX, _pointerPosY,
         _pointerDeltaX, _pointerDeltaY, _pressedMouseButton, MouseWheelData());
 
-    if (_pressedMouseButton != MouseButtonType::None) {
+    if (_pressedMouseButton != MouseButtonType::kNone) {
         if (_viewController != nullptr) {
             _viewController->pointerDragged(pointerEvent);
         }
@@ -285,7 +249,7 @@ void GlfwWindow::mouseWheel(double deltaX, double deltaY) {
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
 
-    PointerEvent pointerEvent(PointerInputType::Mouse, _lastModifierKey,
+    PointerEvent pointerEvent(PointerInputType::kMouse, _lastModifierKey,
                               _pointerPosX, _pointerPosY, _pointerDeltaX,
                               _pointerDeltaY, _pressedMouseButton, wheelData);
 

@@ -24,7 +24,9 @@ set_target_properties(${target}
         ${DEFAULT_PROJECT_OPTIONS})
 
 # Compile options
-if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(IMGUI_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS})
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(IMGUI_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
             -Wno-maybe-uninitialized)
 else()

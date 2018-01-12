@@ -96,7 +96,9 @@ int main(int, const char**) {
     sTests.push_back(std::make_shared<ImageRenderableTests>(false));
     sTests.push_back(std::make_shared<PointsRenderable3Tests>());
     sTests.push_back(std::make_shared<SimpleVolumeRenderableTests>());
+#if JET_USE_CUDA
     sTests.push_back(std::make_shared<CudaVboTests>());
+#endif
     sTests[sCurrentTestIdx]->setup(window.get());
 
     // Set up event handlers

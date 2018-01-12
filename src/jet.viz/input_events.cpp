@@ -13,13 +13,13 @@ using namespace viz;
 
 // PointerEvent implementation
 PointerEvent::PointerEvent()
-    : _inputType(PointerInputType::Unknown),
-      _modifierKey(ModifierKey::None),
+    : _inputType(PointerInputType::kUnknown),
+      _modifierKey(ModifierKey::kNone),
       _x(0.0),
       _y(0.0),
       _deltaX(0.0),
       _deltaY(0.0),
-      _pressedMouseButton(MouseButtonType::None) {}
+      _pressedMouseButton(MouseButtonType::kNone) {}
 
 PointerEvent::PointerEvent(PointerInputType newInputType,
                            ModifierKey newModifierKey, double newX, double newY,
@@ -54,15 +54,11 @@ MouseButtonType PointerEvent::pressedMouseButton() const {
 const MouseWheelData& PointerEvent::wheelData() const { return _wheelData; }
 
 // KeyEvent implementation
-KeyEvent::KeyEvent()
-    : _key(0), _specialKey(SpecialKey::None), _modifierKey(ModifierKey::None) {}
+KeyEvent::KeyEvent() : _key(0), _modifierKey(ModifierKey::kNone) {}
 
-KeyEvent::KeyEvent(int newKey, SpecialKey newSpecialKey,
-                   ModifierKey newModifierKey)
-    : _key(newKey), _specialKey(newSpecialKey), _modifierKey(newModifierKey) {}
+KeyEvent::KeyEvent(int newKey, ModifierKey newModifierKey)
+    : _key(newKey), _modifierKey(newModifierKey) {}
 
 int KeyEvent::key() const { return _key; }
-
-SpecialKey KeyEvent::specialKey() const { return _specialKey; }
 
 ModifierKey KeyEvent::modifierKey() const { return _modifierKey; }
