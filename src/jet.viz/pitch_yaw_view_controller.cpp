@@ -50,7 +50,7 @@ void PitchYawViewController::onPointerDragged(
     double deltaX = static_cast<double>(pointerEvent.deltaX());
     double deltaY = static_cast<double>(pointerEvent.deltaY());
 
-    if (pointerEvent.modifierKey() == ModifierKey::Ctrl) {
+    if (pointerEvent.modifierKey() == ModifierKey::kCtrl) {
         _azimuthalAngleInRadians -=
             kRotateSpeedMultiplier * _rotateSpeed * deltaX;
         _polarAngleInRadians -= kRotateSpeedMultiplier * _rotateSpeed * deltaY;
