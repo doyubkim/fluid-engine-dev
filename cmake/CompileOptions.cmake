@@ -35,7 +35,11 @@ set(DEFAULT_INCLUDE_DIRECTORIES)
 # Libraries
 #
 
-set(DEFAULT_LIBRARIES)
+set(DEFAULT_LIBRARIES
+  PUBLIC
+  ${TASKING_SYSTEM_LIBS}
+  PRIVATE
+)
 
 
 #
@@ -93,7 +97,7 @@ endif ()
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         -Wall
-        -Werror
+        #-Werror
 
         # Required for CMake < 3.1; should be removed if minimum required CMake version is raised.
         $<$<VERSION_LESS:${CMAKE_VERSION},3.1>:
