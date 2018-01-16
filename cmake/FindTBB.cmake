@@ -108,8 +108,7 @@ set(TBB_ROOT_LAST ${TBB_ROOT} CACHE INTERNAL "Last value of TBB_ROOT to detect c
 
 set(TBB_ERROR_MESSAGE
   "Threading Building Blocks (TBB) with minimum version ${TBB_VERSION_REQUIRED} not found.
-Jet uses TBB as default tasking system. Please make sure you have the TBB headers installed as well (the package is typically named 'libtbb-dev' or 'tbb-devel') and/or hint the location of TBB in TBB_ROOT.
-Alternatively, you can try to use OpenMP as tasking system by setting JET_TASKING_SYSTEM=OpenMP")
+Please make sure you have the TBB headers installed as well (the package is typically named 'libtbb-dev' or 'tbb-devel') and/or hint the location of TBB in TBB_ROOT. Alternatively, you can try to use OpenMP as tasking system by setting JET_TASKING_SYSTEM=OpenMP or C++11 threads using JET_TASKING_SYSTEM=CPP11Threads")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(TBB

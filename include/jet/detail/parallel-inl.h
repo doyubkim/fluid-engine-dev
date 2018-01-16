@@ -32,8 +32,7 @@ namespace internal {
 template<typename TASK_T>
 inline void schedule(TASK_T&& fcn) {
 #ifdef JET_TASKING_TBB
-    struct LocalTBBTask : public tbb::task
-    {
+    struct LocalTBBTask : public tbb::task {
         TASK_T func;
         tbb::task* execute() override { func(); return nullptr; }
         LocalTBBTask(TASK_T&& f) : func(std::forward<TASK_T>(f)) {}
