@@ -3,7 +3,24 @@
 # Setup tasking system build configuration
 #
 
-set(JET_TASKING_SYSTEM CPP11Threads CACHE STRING
+# Determine the best default option for tasking system backend
+if(NOT DEFINED JET_TASKING_SYSTEM)
+  find_package(TBB QUIET)
+  if(TBB_FOUND)
+    set(TASKING_DEFAULT TBB)
+  else()
+    find_package(OpenMP QUIET)
+    if(OpenMP_FOUND)
+      set(TASKING_DEFAULT OpenMP)
+    else()
+      set(TASKING_DEFAULT CPP11Threads)
+    endif()
+  endif()
+else()
+  set(TASKING_DEFAULT ${JET_TASKING_SYSTEM})
+endif()
+
+set(JET_TASKING_SYSTEM ${TASKING_DEFAULT} CACHE STRING
     "Per-node thread tasking system [CPP11Threads,TBB,OpenMP,Serial]")
 
 set_property(CACHE JET_TASKING_SYSTEM PROPERTY
