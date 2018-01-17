@@ -216,10 +216,18 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
 #else
 #  ifdef JET_TASKING_OPENMP
 #    pragma omp parallel for
-#  endif
+#    if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
+    for (ssize_t i = start; i < ssize_t(end); ++i) {
+#    else // !MSVC || Intel
+    for (auto i = start; i < end; ++i) {
+#    endif // MSVC && !Intel
+      func(i);
+    }
+#  else // JET_TASKING_OPENMP
     for (auto i = start; i < end; ++i) {
       func(i);
     }
+#  endif // JET_TASKING_OPENMP
 #endif
 }
 
