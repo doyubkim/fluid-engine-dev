@@ -171,6 +171,8 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
     }
 
 #ifdef JET_TASKING_TBB
+    (void)policy;
+
     tbb::parallel_for(start, end, func);
 #elif JET_TASKING_CPP11THREADS
     // Estimate number of threads in the pool
@@ -214,6 +216,9 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
         }
     }
 #else
+
+    (void)policy;
+
 #  ifdef JET_TASKING_OPENMP
 #    pragma omp parallel for
 #    if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
