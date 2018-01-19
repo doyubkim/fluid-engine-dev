@@ -2,6 +2,8 @@
 
 version: 1.2.2 ({build})
 
+skip_branch_with_pr: true
+
 os:
   - Visual Studio 2017
   - Visual Studio 2015
@@ -40,6 +42,3 @@ build:
 
 after_build:
   - c:\jet\build\bin\Release\unit_tests.exe
-  - pip install --user -r c:\jet\requirements.txt
-  - pip install --user c:\jet
-  - python c:\jet\src\tests\python_tests\main.py
