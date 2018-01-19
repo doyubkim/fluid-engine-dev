@@ -73,7 +73,7 @@ obj
 doc/doxygen/html
 
 # Output files
-build
+build*
 *.csv
 *.log.*
 *.xml

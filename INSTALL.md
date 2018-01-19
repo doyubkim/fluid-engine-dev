@@ -23,7 +23,13 @@ brew install cmake python
 
 > Note that we want `brew` version of Python which is recommended. You can still use macOS's default Python.
 
-Once CMake is installed, build the code by running
+Optionally, which is recommended, you can [Intel TBB](https://www.threadingbuildingblocks.org) for multithreading backend:
+
+```
+brew install tbb
+```
+
+Once CMake and Python is installed, build the code by running
 
 ```
 mkdir build
@@ -32,7 +38,7 @@ cmake ..
 make
 ```
 
-> Of course, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+> Of course, use `make -j<num_threads>` flag to boost up the build performance by using multithreads. Also, pass `-DJET_TASKING_SYSTEM=TBB` or `-DJET_TASKING_SYSTEM=CPP11Threads` to the `cmake` command in order to explicitly enable either Intel TBB or C++11 thread-based multithreading backend. If not specified, the build script will try to use Intel TBB first. If not found, it will fall back to C++11 threads.
 
 This will build entire codebase. To run the unit test, execute
 
@@ -50,6 +56,12 @@ Jet supports Ubuntu 14.04 or higher. Using `apt-get`, install required tools and
 sudo apt-get install build-essential python-dev python-pip cmake
 ```
 
+Optionally, which is recommended, you can [Intel TBB](https://www.threadingbuildingblocks.org) for multithreading backend:
+
+```
+sudo apt-get install libtbb-dev
+```
+
 This will install GNU compilers, python, and CMake. Once installed, build the code by running
 
 ```
@@ -59,7 +71,7 @@ cmake ..
 make
 ```
 
-> Again, use `make -j<num_threads>` flag to boost up the build performance by using multithreads.
+> Again, use `make -j<num_threads>` flag to boost up the build performance by using multithreads. Also, pass `-DJET_TASKING_SYSTEM=TBB`, `-DJET_TASKING_SYSTEM=OpenMP` or `-DJET_TASKING_SYSTEM=CPP11Threads` to the `cmake` command in order to explicitly enable either Intel TBB , OpenMP, or C++11 thread-based multithreading backend. If not specified, the build script will try to use Intel TBB first. If not found, it will fall back to OpenMP and then C++11 threads.
 
 This will build entire codebase. To run the unit test, execute
 
@@ -80,6 +92,7 @@ md build
 cd build
 cmake .. -G"Visual Studio 14 2015 Win64"
 ```
+> Again, pass `-DJET_TASKING_SYSTEM=TBB`, `-DJET_TASKING_SYSTEM=OpenMP` or `-DJET_TASKING_SYSTEM=CPP11Threads` to the `cmake` command in order to explicitly enable either Intel TBB , OpenMP, or C++11 thread-based multithreading backend. If not specified, the build script will try to use Intel TBB first. If not found, it will fall back to OpenMP and then C++11 threads.
 
 This will generate 64-bit version of VS 2015 solution and projects. (To build with Visual Studio 2017, just replace the parameter with `Visual Studio 15 2017 Win64`.) Once executed, you can find `jet.sln` solution file in the `build` directory. Open the solution file and hit `Ctrl + Shift + B` to build the entire solution. Set `unit_tests` as a start-up project and hit `Ctrl + F5` to run the test.
 
