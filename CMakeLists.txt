@@ -30,6 +30,9 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     include_directories(src/winix)
 endif()
 
+# Configure tasking system backend
+include(cmake/TaskingSystemOptions.cmake)
+
 # Compile options
 include(cmake/CompileOptions.cmake)
 

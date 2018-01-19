@@ -12,12 +12,58 @@
 
 #include <algorithm>
 #include <functional>
-#include <thread>
+#include <future>
 #include <vector>
+
+#ifdef JET_TASKING_TBB
+#  include <tbb/parallel_for.h>
+#  include <tbb/task.h>
+#elif defined(JET_TASKING_CPP11THREADS)
+#  include <thread>
+#endif
 
 namespace jet {
 
 namespace internal {
+
+// NOTE - This abstraction takes a lambda which should take captured
+//        variables by *value* to ensure no captured references race
+//        with the task itself.
+template<typename TASK_T>
+inline void schedule(TASK_T&& fcn) {
+#ifdef JET_TASKING_TBB
+    struct LocalTBBTask : public tbb::task {
+        TASK_T func;
+        tbb::task* execute() override { func(); return nullptr; }
+        LocalTBBTask(TASK_T&& f) : func(std::forward<TASK_T>(f)) {}
+    };
+
+    auto *tbb_node =
+      new(tbb::task::allocate_root())LocalTBBTask(std::forward<TASK_T>(fcn));
+    tbb::task::enqueue(*tbb_node);
+#elif defined(JET_TASKING_CPP11THREADS)
+    std::thread thread(fcn);
+    thread.detach();
+#else// OpenMP or Serial --> synchronous!
+    fcn();
+#endif
+}
+
+template<typename TASK_T>
+using operator_return_t = typename std::result_of<TASK_T()>::type;
+
+// NOTE - see above, same issues associated with schedule()
+template<typename TASK_T>
+inline auto async(TASK_T&& fcn) -> std::future<operator_return_t<TASK_T>> {
+    using package_t = std::packaged_task<operator_return_t<TASK_T>()>;
+
+    auto task   = new package_t(std::forward<TASK_T>(fcn));
+    auto future = task->get_future();
+
+    schedule([=](){ (*task)(); delete task; });
+
+    return future;
+}
 
 // Adopted from:
 // Radenski, A.
@@ -68,7 +114,7 @@ void parallelMergeSort(RandomIterator a, size_t size, RandomIterator2 temp,
     if (numThreads == 1) {
         std::sort(a, a + size, compareFunction);
     } else if (numThreads > 1) {
-        std::vector<std::thread> pool;
+        std::vector<std::future<void>> pool;
         pool.reserve(2);
 
         auto launchRange = [compareFunction](RandomIterator begin, size_t k2,
@@ -77,14 +123,23 @@ void parallelMergeSort(RandomIterator a, size_t size, RandomIterator2 temp,
             parallelMergeSort(begin, k2, temp, numThreads, compareFunction);
         };
 
-        pool.emplace_back(launchRange, a, size / 2, temp, numThreads / 2);
-        pool.emplace_back(launchRange, a + size / 2, size - size / 2,
-                          temp + size / 2, numThreads - numThreads / 2);
+        pool.emplace_back(
+            internal::async([=]() {
+                launchRange(a, size / 2, temp, numThreads / 2);
+            })
+        );
+
+        pool.emplace_back(
+            internal::async([=]() {
+                launchRange(a + size / 2, size - size / 2,
+                            temp + size / 2, numThreads - numThreads / 2);
+            })
+        );
 
         // Wait for jobs to finish
-        for (std::thread& t : pool) {
-            if (t.joinable()) {
-                t.join();
+        for (auto& f : pool) {
+            if (f.valid()) {
+                f.wait();
             }
         }
 
@@ -115,6 +170,11 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
         return;
     }
 
+#ifdef JET_TASKING_TBB
+    (void)policy;
+
+    tbb::parallel_for(start, end, func);
+#elif JET_TASKING_CPP11THREADS
     // Estimate number of threads in the pool
     unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
@@ -155,6 +215,25 @@ void parallelFor(IndexType start, IndexType end, const Function& func,
             t.join();
         }
     }
+#else
+
+    (void)policy;
+
+#  ifdef JET_TASKING_OPENMP
+#    pragma omp parallel for
+#    if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
+    for (ssize_t i = start; i < ssize_t(end); ++i) {
+#    else // !MSVC || Intel
+    for (auto i = start; i < end; ++i) {
+#    endif // MSVC && !Intel
+      func(i);
+    }
+#  else // JET_TASKING_OPENMP
+    for (auto i = start; i < end; ++i) {
+      func(i);
+    }
+#  endif // JET_TASKING_OPENMP
+#endif
 }
 
 template <typename IndexType, typename Function>
@@ -178,23 +257,23 @@ void parallelRangeFor(IndexType start, IndexType end, const Function& func,
     slice = std::max(slice, IndexType(1));
 
     // Create pool and launch jobs
-    std::vector<std::thread> pool;
+    std::vector<std::future<void>> pool;
     pool.reserve(numThreads);
     IndexType i1 = start;
     IndexType i2 = std::min(start + slice, end);
     for (unsigned int i = 0; i + 1 < numThreads && i1 < end; ++i) {
-        pool.emplace_back(func, i1, i2);
+        pool.emplace_back(internal::async([=](){ func(i1, i2); }));
         i1 = i2;
         i2 = std::min(i2 + slice, end);
     }
     if (i1 < end) {
-        pool.emplace_back(func, i1, end);
+        pool.emplace_back(internal::async([=](){ func(i1, end); }));
     }
 
     // Wait for jobs to finish
-    for (std::thread& t : pool) {
-        if (t.joinable()) {
-            t.join();
+    for (auto& f : pool) {
+        if (f.valid()) {
+            f.wait();
         }
     }
 }
@@ -283,24 +362,24 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
     };
 
     // Create pool and launch jobs
-    std::vector<std::thread> pool;
+    std::vector<std::future<void>> pool;
     pool.reserve(numThreads);
     IndexType i1 = start;
     IndexType i2 = std::min(start + slice, end);
     unsigned int tid = 0;
     for (; tid + 1 < numThreads && i1 < end; ++tid) {
-        pool.emplace_back(launchRange, i1, i2, tid);
+        pool.emplace_back(internal::async([=](){ launchRange(i1, i2, tid); }));
         i1 = i2;
         i2 = std::min(i2 + slice, end);
     }
     if (i1 < end) {
-        pool.emplace_back(launchRange, i1, end, tid);
+        pool.emplace_back(internal::async([=]() {launchRange(i1, end, tid); }));
     }
 
     // Wait for jobs to finish
-    for (std::thread& t : pool) {
-        if (t.joinable()) {
-            t.join();
+    for (auto& f : pool) {
+        if (f.valid()) {
+            f.wait();
         }
     }
 

@@ -3,6 +3,15 @@
 # Platform and architecture setup
 #
 
+option(JET_WARNINGS_AS_ERRORS ON)
+if(JET_WARNINGS_AS_ERRORS)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        set(WARN_AS_ERROR_FLAGS "/WX")
+    else()
+        set(WARN_AS_ERROR_FLAGS "-Werror")
+    endif()
+endif()
+
 # Get upper case system name
 string(TOUPPER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_UPPER)
 
@@ -35,7 +44,11 @@ set(DEFAULT_INCLUDE_DIRECTORIES)
 # Libraries
 #
 
-set(DEFAULT_LIBRARIES)
+set(DEFAULT_LIBRARIES
+  PUBLIC
+  ${TASKING_SYSTEM_LIBS}
+  PRIVATE
+)
 
 
 #
@@ -66,7 +79,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         /MP           # -> build with multiple processes
         /W4           # -> warning level 4
-        /WX           # -> treat warnings as errors
+        ${WARN_AS_ERROR_FLAGS}
 
         # /wd4251       # -> disable warning: 'identifier': class 'type' needs to have dll-interface to be used by clients of class 'type2'
         # /wd4592       # -> disable warning: 'identifier': symbol will be dynamically initialized (implementation limitation)
@@ -93,7 +106,7 @@ endif ()
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         -Wall
-        -Werror
+        ${WARN_AS_ERROR_FLAGS}
 
         # Required for CMake < 3.1; should be removed if minimum required CMake version is raised.
         $<$<VERSION_LESS:${CMAKE_VERSION},3.1>:
