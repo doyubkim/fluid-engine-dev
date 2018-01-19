@@ -30,11 +30,11 @@ install:
 before_build:
   - md c:\jet\build
   - cd c:\jet\build
-  - cmake .. -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%"
+  - cmake .. -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%" -DJET_TASKING_SYSTEM=CPP11Threads
 
 build:
   project: c:\jet\build\jet.sln
-  parallel: false
+  parallel: true
   verbosity: normal
 
 after_build:
