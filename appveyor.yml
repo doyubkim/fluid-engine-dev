@@ -2,6 +2,8 @@
 
 version: 1.2.2 ({build})
 
+skip_branch_with_pr: true
+
 os:
   - Visual Studio 2017
   - Visual Studio 2015
@@ -26,11 +28,12 @@ install:
       $env:PYTHON = "27"
       if ($env:PLATFORM -eq "x64") { $env:PYTHON = "$env:PYTHON-x64" }
       $env:PATH = "C:\Python$env:PYTHON\;C:\Python$env:PYTHON\Scripts\;$env:PATH"
+      $env:JET_TASKING_SYSTEM = "CPP11Threads"
 
 before_build:
   - md c:\jet\build
   - cd c:\jet\build
-  - cmake .. -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%"
+  - cmake .. -G "%CMAKE_GENERATOR%" -A "%CMAKE_ARCH%" -DJET_TASKING_SYSTEM=CPP11Threads
 
 build:
   project: c:\jet\build\jet.sln
@@ -39,6 +42,3 @@ build:
 
 after_build:
   - c:\jet\build\bin\Release\unit_tests.exe
-  - pip install --user -r c:\jet\requirements.txt
-  - pip install --user c:\jet
-  - python c:\jet\src\tests\python_tests\main.py

@@ -18,6 +18,7 @@ The latest code is always available from the [`master`](https://github.com/doyub
 * Spherical, SPH, Zhu & Bridson, and Anisotropic kernel for points-to-surface converter
 * Converters between signed distance function and triangular mesh
 * C++ and Python API
+* Intel TBB, OpenMP, and C++11 multi-threading backends
 
 Every simulator has both 2-D and 3-D implementations.
 
@@ -57,7 +58,10 @@ mkdir build && cd build && cmake .. && make
 For Windows:
 
 ```
-mkdir build && cd build && cmake .. -G"Visual Studio 14 2015 Win64" && MSBuild jet.sln /p:Configuration=Release
+mkdir build
+cd build
+cmake .. -G"Visual Studio 14 2015 Win64"
+MSBuild jet.sln /p:Configuration=Release
 ```
 
 Now run some examples, such as:

@@ -49,10 +49,13 @@ class CMakeBuild(build_ext):
                       '-DPYTHON_EXECUTABLE=' + sys.executable,
                       '-DBUILD_FROM_PIP=ON']
 
+        env = os.environ.copy()
+        tasking_sys = env.get('TASKING_SYSTEM', '')
+        if tasking_sys:
+            cmake_args += ['-DJET_TASKING_SYSTEM=' + tasking_sys]
+
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
-
-        env = os.environ.copy()
 
         if platform.system() == "Windows":
             cmake_args += [
