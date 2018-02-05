@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Copyright (c) 2017 Doyub Kim
+Copyright (c) 2018 Doyub Kim
 
 I am making my contributions/submissions to this project solely in my personal
 capacity and am not conveying any rights to any intellectual property of any
@@ -25,7 +25,7 @@ def main():
     header = os.path.join(dirname, "../include/jet/jet.h")
     header_tmp = header + ".tmp"
     with open(header_tmp, "w") as header_file:
-        header_file.write("""// Copyright (c) 2017 Doyub Kim
+        header_file.write("""// Copyright (c) 2018 Doyub Kim
 
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
