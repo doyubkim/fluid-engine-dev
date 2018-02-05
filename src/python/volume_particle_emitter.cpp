@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Doyub Kim
+// Copyright (c) 2018 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -113,11 +113,11 @@ void addVolumeParticleEmitter2(py::module& m) {
              R"pbdoc(
              Constructs VolumeParticleEmitter2
 
-             This method constructs VolumeParticleEmitter2 with implicit 
-             surface, bounding box, particle spacing, initial velocity 
-             (optional), max number of particles (optional), jitter 
-             (optional), whether it's one shot or not (optional), whether it 
-             should allow overlapping or not (optional), and random seed 
+             This method constructs VolumeParticleEmitter2 with implicit
+             surface, bounding box, particle spacing, initial velocity
+             (optional), max number of particles (optional), jitter
+             (optional), whether it's one shot or not (optional), whether it
+             should allow overlapping or not (optional), and random seed
              (optional).
              )pbdoc");
 }

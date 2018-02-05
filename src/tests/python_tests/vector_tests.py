@@ -1,5 +1,5 @@
 """
-Copyright (c) 2017 Doyub Kim
+Copyright (c) 2018 Doyub Kim
 
 I am making my contributions/submissions to this project solely in my personal
 capacity and am not conveying any rights to any intellectual property of any
@@ -89,7 +89,7 @@ class Vector2DTest(unittest.TestCase):
         self.assertAlmostEqual(c.x, 1.0 / 4.0)
         self.assertAlmostEqual(c.y, 1.0 / 3.0)
 
-        
+
 class Vector3FTest(unittest.TestCase):
     def testInit(self):
         a = pyjet.Vector3F()
