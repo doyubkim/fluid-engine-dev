@@ -52,7 +52,7 @@ void addCellCenteredVectorGrid2(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredVectorGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid2::dataSize,
+        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -127,7 +127,7 @@ void addCellCenteredVectorGrid3(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredVectorGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid3::dataSize,
+        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 

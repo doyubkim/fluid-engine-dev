@@ -53,7 +53,7 @@ void addVertexCenteredVectorGrid2(py::module& m) {
             "dataSize", &VertexCenteredVectorGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &VertexCenteredVectorGrid2::dataSize,
+                               &VertexCenteredVectorGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -129,7 +129,7 @@ void addVertexCenteredVectorGrid3(py::module& m) {
             "dataSize", &VertexCenteredVectorGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
         .def_property_readonly("dataOrigin",
-                               &VertexCenteredVectorGrid3::dataSize,
+                               &VertexCenteredVectorGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 
