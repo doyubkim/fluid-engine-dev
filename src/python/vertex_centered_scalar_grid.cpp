@@ -46,13 +46,13 @@ void addVertexCenteredScalarGrid2(py::module& m) {
              - `**kwargs`
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
-                 - gridOrigin : Origin point ot the grid.
+                 - gridOrigin : Origin point at the grid.
                  - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid2::dataSize,
+        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -101,13 +101,13 @@ void addVertexCenteredScalarGrid3(py::module& m) {
              - `**kwargs`
                  - resolution : Grid resolution.
                  - gridSpacing : Grid spacing.
-                 - gridOrigin : Origin point ot the grid.
+                 - gridOrigin : Origin point at the grid.
                  - domainSizeX : Domain size in x-direction.
              )pbdoc")
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid3::dataSize,
+        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 
