@@ -27,6 +27,14 @@ PerspCamera::PerspCamera(const Vector3D& origin, const Vector3D& lookAt,
 
 PerspCamera::~PerspCamera() {}
 
+double PerspCamera::fieldOfViewInRadians() const {
+    return _fieldOfViewInRadians;
+}
+
+void PerspCamera::setFieldOfViewInRadians(double fov) {
+    _fieldOfViewInRadians = fov;
+}
+
 void PerspCamera::updateMatrix() {
     double fov_2, left, right, bottom, top;
 
