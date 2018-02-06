@@ -51,6 +51,10 @@ class GLVertexBuffer final : public VertexBuffer {
     //! \param vertices Vertex array in CUDA device memory.
     //!
     void updateWithCuda(const float* vertices) override;
+
+    void* cudaMapResources() override;
+
+    void cudaUnmapResources() override;
 #endif  // JET_USE_CUDA
 
     //! Returns OpenGL vertex array ID.

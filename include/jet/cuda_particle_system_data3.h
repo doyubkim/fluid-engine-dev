@@ -11,6 +11,7 @@
 
 #include <jet/array_view1.h>
 #include <jet/cuda_array1.h>
+#include <jet/cuda_point_hash_grid_searcher3.h>
 #include <jet/vector4.h>
 
 #include <cuda_runtime.h>
@@ -114,11 +115,34 @@ class CudaParticleSystemData3 {
         const CudaArrayView1<float4>& newPositions,
         const CudaArrayView1<float4>& newVelocities = CudaArrayView1<float4>{});
 
+    //!
+    const CudaArrayView1<uint32_t> neighborStarts() const;
+
+    //!
+    const CudaArrayView1<uint32_t> neighborEnds() const;
+
+    //!
+    const CudaArrayView1<uint32_t> neighborLists() const;
+
+    const CudaPointHashGridSearcher3* neighborSearcher() const;
+
+    //! Builds neighbor searcher with given search radius.
+    void buildNeighborSearcher(float maxSearchRadius);
+
+    //! Builds neighbor lists with given search radius.
+    void buildNeighborLists(float maxSearchRadius);
+
     //! Copies from other particle system data.
     void set(const CudaParticleSystemData3& other);
 
     //! Copies from other particle system data.
     CudaParticleSystemData3& operator=(const CudaParticleSystemData3& other);
+
+ protected:
+    CudaPointHashGridSearcher3Ptr _neighborSearcher;
+    CudaArray1<uint32_t> _neighborStarts;
+    CudaArray1<uint32_t> _neighborEnds;
+    CudaArray1<uint32_t> _neighborLists;
 
  private:
     size_t _numberOfParticles = 0;

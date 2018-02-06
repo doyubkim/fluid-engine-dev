@@ -24,7 +24,6 @@
 #include <jet.viz/image_renderable.h>
 #include <jet.viz/index_buffer.h>
 #include <jet.viz/input_events.h>
-#include <jet.viz/jet.viz.h>
 #include <jet.viz/ortho_camera.h>
 #include <jet.viz/ortho_view_controller.h>
 #include <jet.viz/persp_camera.h>

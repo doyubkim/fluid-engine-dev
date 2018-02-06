@@ -44,30 +44,46 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
     //! Destructor.
     virtual ~CudaParticleSystemSolver3();
 
-    //! Returns the drag coefficient.
+    //! Radius of a particle.
+    float radius() const;
+
+    //! Sets the radius of a particle.
+    void setRadius(float newRadius);
+
+    //! Mass of a particle.
+    float mass() const;
+
+    //! Sets the mass of a particle.
+    void setMass(float newMass);
+
+    //! The amount of air-drag.
     float dragCoefficient() const;
 
     //!
-    //! \brief      Sets the drag coefficient.
+    //! \brief Sets the drag coefficient.
     //!
-    //! The drag coefficient controls the amount of air-drag. The coefficient
-    //! should be a positive number and 0 means no drag force.
+    //! The coefficient should be a positive number and 0 means no drag force.
     //!
-    //! \param[in]  newDragCoefficient The new drag coefficient.
+    //! \param newDragCoefficient The new drag coefficient.
     //!
     void setDragCoefficient(float newDragCoefficient);
 
-    //! Sets the restitution coefficient.
+    //!
+    //! \brief The restitution coefficient.
+    //!
+    //! The restitution coefficient controls the bouncy-ness of a particle when
+    //! it hits a collider surface. 0 means no bounce back and 1 means perfect
+    //! reflection.
+    //!
     float restitutionCoefficient() const;
 
     //!
-    //! \brief      Sets the restitution coefficient.
+    //! \brief Sets the restitution coefficient.
     //!
-    //! The restitution coefficient controls the bouncy-ness of a particle when
-    //! it hits a collider surface. The range of the coefficient should be 0 to
-    //! 1 -- 0 means no bounce back and 1 means perfect reflection.
+    //! The range of the coefficient should be 0 to 1 -- 0 means no bounce back
+    //! and 1 means perfect reflection.
     //!
-    //! \param[in]  newRestitutionCoefficient The new restitution coefficient.
+    //! \param newRestitutionCoefficient The new restitution coefficient.
     //!
     void setRestitutionCoefficient(float newRestitutionCoefficient);
 
@@ -78,12 +94,10 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
     void setGravity(const Vector3F& newGravity);
 
     //!
-    //! \brief      Returns the particle system data.
+    //! \brief Returns the particle system data.
     //!
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
-    //!
-    //! \return     The particle system data.
     //!
     const CudaParticleSystemData3Ptr& particleSystemData() const;
 
@@ -97,6 +111,10 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
+    virtual void onBeginAdvanceTimeStep(double timeStepInSeconds);
+
+    virtual void onEndAdvanceTimeStep(double timeStepInSeconds);
+
  private:
     float _radius = 1e-3f;
     float _mass = 1e-3f;
@@ -106,7 +124,9 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
 
     CudaParticleSystemData3Ptr _particleSystemData;
 
-    void onBeginAdvanceTimeStep(double timeStepInSeconds);
+    void beginAdvanceTimeStep(double timeStepInSeconds);
+
+    void endAdvanceTimeStep(double timeStepInSeconds);
 
     void updateCollider(double timeStepInSeconds);
 
@@ -117,46 +137,25 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
 typedef std::shared_ptr<CudaParticleSystemSolver3> CudaParticleSystemSolver3Ptr;
 
 //!
-//! \brief Base class for particle-based solver builder.
-//!
-template <typename DerivedBuilder>
-class CudaParticleSystemSolverBuilderBase3 {
- public:
-    //! Returns builder with particle radius.
-    DerivedBuilder& withRadius(float radius);
-
-    //! Returns builder with mass per particle.
-    DerivedBuilder& withMass(float mass);
-
- protected:
-    float _radius = 1e-3f;
-    float _mass = 1e-3f;
-};
-
-template <typename T>
-T& CudaParticleSystemSolverBuilderBase3<T>::withRadius(float radius) {
-    _radius = radius;
-    return static_cast<T&>(*this);
-}
-
-template <typename T>
-T& CudaParticleSystemSolverBuilderBase3<T>::withMass(float mass) {
-    _mass = mass;
-    return static_cast<T&>(*this);
-}
-
-//!
 //! \brief Front-end to create CudaParticleSystemSolver3 objects step by step.
 //!
-class CudaParticleSystemSolver3::Builder final
-    : public CudaParticleSystemSolverBuilderBase3<
-          CudaParticleSystemSolver3::Builder> {
+class CudaParticleSystemSolver3::Builder final {
  public:
+    //! Returns builder with particle radius.
+    CudaParticleSystemSolver3::Builder& withRadius(float radius);
+
+    //! Returns builder with mass per particle.
+    CudaParticleSystemSolver3::Builder& withMass(float mass);
+
     //! Builds CudaParticleSystemSolver3.
     CudaParticleSystemSolver3 build() const;
 
     //! Builds shared pointer of CudaParticleSystemSolver3 instance.
     CudaParticleSystemSolver3Ptr makeShared() const;
+
+ private:
+    float _radius = 1e-3f;
+    float _mass = 1e-3f;
 };
 
 }  // namespace experimental

@@ -77,6 +77,20 @@ void GLVertexBuffer::update(const float* vertices) {
 
 #ifdef JET_USE_CUDA
 void GLVertexBuffer::updateWithCuda(const float* vertices) {
+    // Map resource
+    void* ptrVbo = cudaMapResources();
+
+    // Copy data
+    GLsizei strideInBytes = static_cast<GLsizei>(
+        VertexHelper::getSizeInBytes(shader()->vertexFormat()));
+    GLsizeiptr sizeInBytes = strideInBytes * numberOfVertices();
+    cudaMemcpy(ptrVbo, vertices, sizeInBytes, cudaMemcpyDeviceToDevice);
+
+    // Unmap resource
+    cudaUnmapResources();
+}
+
+void* GLVertexBuffer::cudaMapResources() {
     GLsizei strideInBytes = static_cast<GLsizei>(
         VertexHelper::getSizeInBytes(shader()->vertexFormat()));
     GLsizeiptr sizeInBytes = strideInBytes * numberOfVertices();
@@ -87,15 +101,16 @@ void GLVertexBuffer::updateWithCuda(const float* vertices) {
                                      cudaGraphicsMapFlagsNone);
     }
 
-    // Map resource
-    float* ptrVbo;
-    size_t size = sizeInBytes;
     cudaGraphicsMapResources(1, &_resource, 0);
-    cudaGraphicsResourceGetMappedPointer((void**)&ptrVbo, &size, _resource);
 
-    cudaMemcpy(ptrVbo, vertices, sizeInBytes, cudaMemcpyDeviceToDevice);
+    void* ptrVbo = nullptr;
+    size_t size = sizeInBytes;
+    cudaGraphicsResourceGetMappedPointer(&ptrVbo, &size, _resource);
 
-    // Unmap resource
+    return ptrVbo;
+}
+
+void GLVertexBuffer::cudaUnmapResources() {
     cudaGraphicsUnmapResources(1, &_resource, 0);
 }
 #endif  // JET_USE_CUDA
