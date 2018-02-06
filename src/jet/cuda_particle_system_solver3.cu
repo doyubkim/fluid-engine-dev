@@ -7,13 +7,12 @@
 #include <pch.h>
 
 #include <jet/cuda_particle_system_solver3.h>
+#include <jet/cuda_utils.h>
 #include <jet/timer.h>
 
 #include <thrust/fill.h>
 #include <thrust/for_each.h>
 #include <thrust/tuple.h>
-
-#include <helper_math.h>
 
 #include <algorithm>
 
@@ -145,7 +144,7 @@ void CudaParticleSystemSolver3::onInitialize() {
 }
 
 void CudaParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
-    onBeginAdvanceTimeStep(timeStepInSeconds);
+    beginAdvanceTimeStep(timeStepInSeconds);
 
     auto posCurr = _particleSystemData->positions();
     auto velCurr = _particleSystemData->velocities();
@@ -157,6 +156,8 @@ void CudaParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     thrust::for_each(
         make_zip_iterator(make_tuple(posCurr.begin(), velCurr.begin())),
         make_zip_iterator(make_tuple(posCurr.end(), velCurr.end())), kernel);
+
+    endAdvanceTimeStep(timeStepInSeconds);
 }
 
 void CudaParticleSystemSolver3::onBeginAdvanceTimeStep(
@@ -173,6 +174,18 @@ void CudaParticleSystemSolver3::onBeginAdvanceTimeStep(
              << " seconds";
 }
 
+void CudaParticleSystemSolver3::onEndAdvanceTimeStep(double timeStepInSeconds) {
+    UNUSED_VARIABLE(timeStepInSeconds);
+}
+
+void CudaParticleSystemSolver3::beginAdvanceTimeStep(double timeStepInSeconds) {
+    onBeginAdvanceTimeStep(timeStepInSeconds);
+}
+
+void CudaParticleSystemSolver3::endAdvanceTimeStep(double timeStepInSeconds) {
+    onEndAdvanceTimeStep(timeStepInSeconds);
+}
+
 void CudaParticleSystemSolver3::updateCollider(double timeStepInSeconds) {
     UNUSED_VARIABLE(timeStepInSeconds);
 }
@@ -183,6 +196,20 @@ void CudaParticleSystemSolver3::updateEmitter(double timeStepInSeconds) {
 
 CudaParticleSystemSolver3::Builder CudaParticleSystemSolver3::builder() {
     return Builder();
+}
+
+//
+
+CudaParticleSystemSolver3::Builder&
+CudaParticleSystemSolver3::Builder::withRadius(float radius) {
+    _radius = radius;
+    return (*this);
+}
+
+CudaParticleSystemSolver3::Builder&
+CudaParticleSystemSolver3::Builder::withMass(float mass) {
+    _mass = mass;
+    return (*this);
 }
 
 CudaParticleSystemSolver3 CudaParticleSystemSolver3::Builder::build() const {

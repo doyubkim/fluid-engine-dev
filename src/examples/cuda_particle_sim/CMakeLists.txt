@@ -11,6 +11,7 @@ set(target cuda_particle_sim)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../jet)
 
 # Sources
 if (USE_CUDA)

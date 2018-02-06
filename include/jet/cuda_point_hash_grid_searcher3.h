@@ -14,7 +14,7 @@
 #include <jet/size3.h>
 #include <jet/vector3.h>
 
-#include <thrust/device_vector.h>
+#include <cuda_runtime.h>
 
 namespace jet {
 
@@ -31,8 +31,53 @@ class CudaPointHashGridSearcher3 final {
  public:
     class Builder;
 
+    class HashUtils {
+     public:
+        inline JET_CUDA_HOST_DEVICE HashUtils();
+
+        inline JET_CUDA_HOST_DEVICE HashUtils(float gridSpacing,
+                                              uint3 resolution);
+
+        inline JET_CUDA_HOST_DEVICE void getNearbyKeys(
+            float4 position, uint32_t* nearbyKeys) const;
+
+        inline JET_CUDA_HOST_DEVICE int3 getBucketIndex(float4 position) const;
+
+        inline JET_CUDA_HOST_DEVICE uint32_t
+        getHashKeyFromBucketIndex(int3 bucketIndex) const;
+
+        inline JET_CUDA_HOST_DEVICE uint32_t
+        getHashKeyFromPosition(float4 position) const;
+
+     private:
+        float _gridSpacing;
+        uint3 _resolution;
+    };
+
+    template <typename Callback>
+    class ForEachNearbyPointFunc {
+     public:
+        inline JET_CUDA_HOST_DEVICE ForEachNearbyPointFunc(
+            float r, float gridSpacing, uint3 resolution, const uint32_t* sit,
+            const uint32_t* eit, const uint32_t* si, const float4* p,
+            const float4* o, Callback cb);
+
+        template <typename Index>
+        inline JET_CUDA_HOST_DEVICE void operator()(Index idx);
+
+     private:
+        HashUtils _hashUtils;
+        float _radius;
+        const uint32_t* _startIndexTable;
+        const uint32_t* _endIndexTable;
+        const uint32_t* _sortedIndices;
+        const float4* _points;
+        const float4* _origins;
+        Callback _callback;
+    };
+
     //!
-    //! \brief      Constructs hash grid with given resolution and grid spacing.
+    //! \brief Constructs hash grid with given resolution and grid spacing.
     //!
     //! This constructor takes hash grid resolution and its grid spacing as
     //! its input parameters. The grid spacing must be 2x or greater than
@@ -41,10 +86,10 @@ class CudaPointHashGridSearcher3 final {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    CudaPointHashGridSearcher3(const Size3& resolution, float gridSpacing);
+    CudaPointHashGridSearcher3(const uint3& resolution, float gridSpacing);
 
     //!
-    //! \brief      Constructs hash grid with given resolution and grid spacing.
+    //! \brief Constructs hash grid with given resolution and grid spacing.
     //!
     //! This constructor takes hash grid resolution and its grid spacing as
     //! its input parameters. The grid spacing must be 2x or greater than
@@ -55,8 +100,8 @@ class CudaPointHashGridSearcher3 final {
     //! \param[in]  resolutionZ The resolution z.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    CudaPointHashGridSearcher3(size_t resolutionX, size_t resolutionY,
-                               size_t resolutionZ, float gridSpacing);
+    CudaPointHashGridSearcher3(uint32_t resolutionX, uint32_t resolutionY,
+                               uint32_t resolutionZ, float gridSpacing);
 
     //! Copy constructor
     CudaPointHashGridSearcher3(const CudaPointHashGridSearcher3& other);
@@ -69,19 +114,20 @@ class CudaPointHashGridSearcher3 final {
     //! \param[in]  points The points to be added.
     //!
     void build(const CudaArrayView1<float4>& points);
-#if 0
+
     //!
-    //! Invokes the callback function for each nearby point around the origin
-    //! within given radius.
+    //! Invokes the callback function for each nearby point around the
+    //! origin within given radius.
     //!
-    //! \param[in]  origin   The origin position.
-    //! \param[in]  radius   The search radius.
+    //! \param[in]  origins  Array of the origin positions.
+    //! \param[in]  radii    The search radius.
     //! \param[in]  callback The callback function.
     //!
-    void forEachNearbyPoint(
-        const Vector3D& origin, float radius,
-        const ForEachNearbyPointFunc& callback) const override;
+    template <typename Callback>
+    void forEachNearbyPoint(const CudaArrayView1<float4>& origins, float radius,
+                            Callback callback) const;
 
+#if 0
     //!
     //! Returns true if there are any nearby points for given origin within
     //! radius.
@@ -93,21 +139,28 @@ class CudaPointHashGridSearcher3 final {
     //!
     bool hasNearbyPoint(const Vector3D& origin, float radius) const override;
 #endif
+
+    float gridSpacing() const;
+
+    Size3 resolution() const;
+
+    const CudaArrayView1<float4> sortedPoints() const;
+
     //!
-    //! \brief      Returns the hash key list.
+    //! \brief Returns the hash key list.
     //!
     //! The hash key list maps sorted point index i to its hash key value.
     //! The sorting order is based on the key value itself.
     //!
-    //! \return     The hash key list.
+    //! \return The hash key list.
     //!
-    CudaArrayView1<size_t> keys() const;
+    const CudaArrayView1<uint32_t> keys() const;
 
     //!
-    //! \brief      Returns the start index table.
+    //! \brief Returns the start index table.
     //!
-    //! The start index table maps the hash grid bucket index to starting index
-    //! of the sorted point list. Assume the hash key list looks like:
+    //! The start index table maps the hash grid bucket index to starting
+    //! index of the sorted point list. Assume the hash key list looks like:
     //!
     //! \code
     //! [5|8|8|10|10|10]
@@ -124,15 +177,15 @@ class CudaPointHashGridSearcher3 final {
     //! So that endIndexTable[i] - startIndexTable[i] is the number points
     //! in i-th table bucket.
     //!
-    //! \return     The start index table.
+    //! \return The start index table.
     //!
-    CudaArrayView1<size_t> startIndexTable() const;
+    const CudaArrayView1<uint32_t> startIndexTable() const;
 
     //!
-    //! \brief      Returns the end index table.
+    //! \brief Returns the end index table.
     //!
-    //! The end index table maps the hash grid bucket index to starting index
-    //! of the sorted point list. Assume the hash key list looks like:
+    //! The end index table maps the hash grid bucket index to starting
+    //! index of the sorted point list. Assume the hash key list looks like:
     //!
     //! \code
     //! [5|8|8|10|10|10]
@@ -149,55 +202,29 @@ class CudaPointHashGridSearcher3 final {
     //! So that endIndexTable[i] - startIndexTable[i] is the number points
     //! in i-th table bucket.
     //!
-    //! \return     The end index table.
+    //! \return The end index table.
     //!
-    CudaArrayView1<size_t> endIndexTable() const;
+    const CudaArrayView1<uint32_t> endIndexTable() const;
 
     //!
-    //! \brief      Returns the sorted indices of the points.
+    //! \brief Returns the sorted indices of the points.
     //!
-    //! When the hash grid is built, it sorts the points in hash key order. But
-    //! rather than sorting the original points, this class keeps the shuffled
-    //! indices of the points. The list this function returns maps sorted index
-    //! i to original index j.
+    //! When the hash grid is built, it sorts the points in hash key order.
+    //! But rather than sorting the original points, this class keeps the
+    //! shuffled indices of the points. The list this function returns maps
+    //! sorted index i to original index j.
     //!
-    //! \return     The sorted indices of the points.
+    //! \return The sorted indices of the points.
     //!
-    CudaArrayView1<size_t> sortedIndices() const;
-#if 0
-
-    //!
-    //! Returns the hash value for given 3-D bucket index.
-    //!
-    //! \param[in]  bucketIndex The bucket index.
-    //!
-    //! \return     The hash key from bucket index.
-    //!
-    size_t getHashKeyFromBucketIndex(const Point3I& bucketIndex) const;
-
-    //!
-    //! Gets the bucket index from a point.
-    //!
-    //! \param[in]  position The position of the point.
-    //!
-    //! \return     The bucket index.
-    //!
-    Point3I getBucketIndex(const Vector3D& position) const;
-
-    //!
-    //! \brief      Creates a new instance of the object with same properties
-    //!             than original.
-    //!
-    //! \return     Copy of this object.
-    //!
-    PointNeighborSearcher3Ptr clone() const override;
+    const CudaArrayView1<uint32_t> sortedIndices() const;
 
     //! Assignment operator.
     CudaPointHashGridSearcher3& operator=(
         const CudaPointHashGridSearcher3& other);
-#endif
+
     //! Copy from the other instance.
     void set(const CudaPointHashGridSearcher3& other);
+
 #if 0
     //! Serializes the neighbor searcher into the buffer.
     void serialize(std::vector<uint8_t>* buffer) const override;
@@ -205,23 +232,18 @@ class CudaPointHashGridSearcher3 final {
     //! Deserializes the neighbor searcher from the buffer.
     void deserialize(const std::vector<uint8_t>& buffer) override;
 #endif
+
     //! Returns builder fox CudaPointHashGridSearcher3.
     static Builder builder();
 
  private:
     float _gridSpacing = 1.0f;
-    Point3I _resolution = Point3I(1, 1, 1);
-    CudaArray1<float4> _points;
-    CudaArray1<size_t> _keys;
-    CudaArray1<size_t> _startIndexTable;
-    CudaArray1<size_t> _endIndexTable;
-    CudaArray1<size_t> _sortedIndices;
-    /*
-        size_t getHashKeyFromPosition(const Vector3D& position) const;
-
-        void getNearbyKeys(const Vector3D& position, size_t* bucketIndices)
-       const;
-        */
+    uint3 _resolution = make_uint3(1, 1, 1);
+    CudaArrayView1<float4> _points;
+    CudaArray1<uint32_t> _keys;
+    CudaArray1<uint32_t> _startIndexTable;
+    CudaArray1<uint32_t> _endIndexTable;
+    CudaArray1<uint32_t> _sortedIndices;
 };
 
 //! Shared pointer for the CudaPointHashGridSearcher3 type.
@@ -254,6 +276,8 @@ class CudaPointHashGridSearcher3::Builder final {
 }  // namespace experimental
 
 }  // namespace jet
+
+#include "detail/cuda_point_hash_grid_searcher3-inl.h"
 
 #endif  // JET_USE_CUDA
 

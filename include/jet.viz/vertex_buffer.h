@@ -35,6 +35,10 @@ class VertexBuffer {
     //! \param vertices Vertex array in CUDA device memory.
     //!
     virtual void updateWithCuda(const float* vertices);
+
+    virtual void* cudaMapResources();
+
+    virtual void cudaUnmapResources();
 #endif
 
     void clear();

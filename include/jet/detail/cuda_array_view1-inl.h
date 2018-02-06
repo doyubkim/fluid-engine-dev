@@ -109,7 +109,7 @@ typename thrust::device_ptr<T>::reference CudaArrayView1<T>::operator[](
 }
 
 template <typename T>
-const T& CudaArrayView1<T>::operator[](size_t i) const {
+T CudaArrayView1<T>::operator[](size_t i) const {
     return _data[i];
 }
 

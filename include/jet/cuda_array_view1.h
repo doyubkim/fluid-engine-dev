@@ -60,7 +60,7 @@ class CudaArrayView1 final {
     typename thrust::device_ptr<T>::reference operator[](size_t i);
 
     //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    T operator[](size_t i) const;
 
     CudaArrayView1& operator=(const CudaArray1<T>& array);
 

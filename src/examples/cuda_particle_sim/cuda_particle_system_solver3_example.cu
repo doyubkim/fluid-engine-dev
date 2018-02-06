@@ -53,7 +53,11 @@ struct PosToVertex {
 
 }  // namespace
 
-void CudaParticleSystemSolver3Example::setup(GlfwWindow* window) {
+CudaParticleSystemSolver3Example::CudaParticleSystemSolver3Example(
+    const jet::Frame& frame)
+    : ParticleSimExample(frame) {}
+
+void CudaParticleSystemSolver3Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<PitchYawViewController>(
         std::make_shared<PerspCamera>(Vector3D{0.5, 0.5, 3.0},
@@ -87,11 +91,22 @@ void CudaParticleSystemSolver3Example::setup(GlfwWindow* window) {
     thrust::device_vector<VertexPosition3Color4> vertices(numParticles);
     thrust::transform(pos.begin(), pos.end(), vertices.begin(), PosToVertex());
 
-    auto renderable = std::make_shared<PointsRenderable3>(renderer);
-    renderable->setRadius(5.0f * (float)window->framebufferSize().x /
-                          window->windowSize().x);
-    renderable->setPositionsAndColors(nullptr, vertices.size());
-    renderable->vertexBuffer()->updateWithCuda(
+    _renderable = std::make_shared<PointsRenderable3>(renderer);
+    _renderable->setRadius(5.0f * (float)window->framebufferSize().x /
+                           window->windowSize().x);
+    _renderable->setPositionsAndColors(nullptr, vertices.size());
+    _renderable->vertexBuffer()->updateWithCuda(
         (const float*)thrust::raw_pointer_cast(vertices.data()));
-    renderer->addRenderable(renderable);
+    renderer->addRenderable(_renderable);
+}
+
+void CudaParticleSystemSolver3Example::onUpdate(const Frame& frame) {
+    _solver->update(frame);
+
+    auto pos = _solver->particleSystemData()->positions();
+
+    thrust::device_ptr<VertexPosition3Color4> vertices(
+        (VertexPosition3Color4*)_renderable->vertexBuffer()->cudaMapResources());
+    thrust::transform(pos.begin(), pos.end(), vertices, PosToVertex());
+    _renderable->vertexBuffer()->cudaUnmapResources();
 }
