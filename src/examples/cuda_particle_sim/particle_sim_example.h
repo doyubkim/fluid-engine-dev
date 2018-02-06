@@ -8,15 +8,28 @@
 #define SRC_EXAMPLES_CUDA_PARTICLE_SIM_PARTICLE_SIM_EXAMPLE_H_
 
 #include <jet.viz/jet.viz.h>
+#include <jet/animation.h>
 
 class ParticleSimExample {
  public:
-    ParticleSimExample() = default;
+    ParticleSimExample(const jet::Frame& frame);
     virtual ~ParticleSimExample() = default;
 
-    virtual void setup(jet::viz::GlfwWindow* window) = 0;
+    void setup(jet::viz::GlfwWindow* window);
+
+    void gui(jet::viz::GlfwWindow* window);
+
+    void update();
+
+ protected:
+    virtual void onSetup(jet::viz::GlfwWindow* window);
 
     virtual void onGui(jet::viz::GlfwWindow* window);
+
+    virtual void onUpdate(const jet::Frame& frame);
+
+ private:
+    jet::Frame _frame;
 };
 
 typedef std::shared_ptr<ParticleSimExample> ParticleSimExamplePtr;

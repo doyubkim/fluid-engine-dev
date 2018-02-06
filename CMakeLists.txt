@@ -109,9 +109,21 @@ endif()
 option(USE_CUDA "Use CUDA features" ON)
 if (USE_CUDA)
     find_package(CUDA)
-    list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
+    list(APPEND CUDA_NVCC_FLAGS
+         -Wno-deprecated-gpu-targets
+         -arch=sm_30
+         -gencode=arch=compute_30,code=sm_30
+         -gencode=arch=compute_50,code=sm_50
+         -gencode=arch=compute_52,code=sm_52
+         -gencode=arch=compute_60,code=sm_60
+         -gencode=arch=compute_61,code=sm_61
+         -gencode=arch=compute_62,code=sm_62
+         -gencode=arch=compute_70,code=sm_70
+         -gencode=arch=compute_70,code=compute_70)
     add_definitions(-DJET_USE_CUDA)
     include_directories(${CUDA_INCLUDE_DIRS})
+
+    # Temp
     include_directories($ENV{NVCUDASAMPLES_ROOT}/common/inc)
 
     if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -119,6 +131,9 @@ if (USE_CUDA)
             /wd4515 # -> disable warning: [Thrust issue] 'detail': namespace uses itself
             /wd4996 # -> disable warning: [Thrust issue] 'strerror': This function or variable may be unsafe.
             /wd4800 # -> disable warning: [Thrust issue] forcing value to bool 'true' or 'false' (performance warning)
+
+            # Temp
+            /wd4505
         )
     else()
         list(APPEND CUDA_NVCC_FLAGS --std=c++11)

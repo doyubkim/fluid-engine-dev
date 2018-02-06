@@ -17,6 +17,10 @@ VertexBuffer::~VertexBuffer() {}
 
 #ifdef JET_USE_CUDA
 void VertexBuffer::updateWithCuda(const float*) {}
+
+void* VertexBuffer::cudaMapResources() { return nullptr; }
+
+void VertexBuffer::cudaUnmapResources() {}
 #endif
 
 void VertexBuffer::clear() {
