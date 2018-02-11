@@ -9,10 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER3_H_
 #define INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER3_H_
 
-#include <jet/constants.h>
-#include <jet/cuda_particle_system_data3.h>
-#include <jet/physics_animation.h>
-#include <jet/vector3.h>
+#include <jet/cuda_particle_system_solver_base3.h>
 
 namespace jet {
 
@@ -31,7 +28,7 @@ namespace experimental {
 //! \see ParticleSystemSolver3
 //! \see SphSolver3
 //!
-class CudaParticleSystemSolver3 : public PhysicsAnimation {
+class CudaParticleSystemSolver3 : public CudaParticleSystemSolverBase3 {
  public:
     class Builder;
 
@@ -56,81 +53,20 @@ class CudaParticleSystemSolver3 : public PhysicsAnimation {
     //! Sets the mass of a particle.
     void setMass(float newMass);
 
-    //! The amount of air-drag.
-    float dragCoefficient() const;
-
-    //!
-    //! \brief Sets the drag coefficient.
-    //!
-    //! The coefficient should be a positive number and 0 means no drag force.
-    //!
-    //! \param newDragCoefficient The new drag coefficient.
-    //!
-    void setDragCoefficient(float newDragCoefficient);
-
-    //!
-    //! \brief The restitution coefficient.
-    //!
-    //! The restitution coefficient controls the bouncy-ness of a particle when
-    //! it hits a collider surface. 0 means no bounce back and 1 means perfect
-    //! reflection.
-    //!
-    float restitutionCoefficient() const;
-
-    //!
-    //! \brief Sets the restitution coefficient.
-    //!
-    //! The range of the coefficient should be 0 to 1 -- 0 means no bounce back
-    //! and 1 means perfect reflection.
-    //!
-    //! \param newRestitutionCoefficient The new restitution coefficient.
-    //!
-    void setRestitutionCoefficient(float newRestitutionCoefficient);
-
-    //! Returns the gravity.
-    const Vector3F& gravity() const;
-
-    //! Sets the gravity.
-    void setGravity(const Vector3F& newGravity);
-
-    //!
-    //! \brief Returns the particle system data.
-    //!
-    //! This function returns the particle system data. The data is created when
-    //! this solver is constructed and also owned by the solver.
-    //!
-    const CudaParticleSystemData3Ptr& particleSystemData() const;
-
     //! Returns builder fox CudaParticleSystemSolver3.
     static Builder builder();
 
  protected:
-    //! Initializes the simulator.
-    void onInitialize() override;
-
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
-
-    virtual void onBeginAdvanceTimeStep(double timeStepInSeconds);
-
-    virtual void onEndAdvanceTimeStep(double timeStepInSeconds);
 
  private:
     float _radius = 1e-3f;
     float _mass = 1e-3f;
-    float _dragCoefficient = 1e-4f;
-    float _restitutionCoefficient = 0.0f;
-    Vector3F _gravity{0.0f, static_cast<float>(kGravity), 0.0f};
-
-    CudaParticleSystemData3Ptr _particleSystemData;
 
     void beginAdvanceTimeStep(double timeStepInSeconds);
 
     void endAdvanceTimeStep(double timeStepInSeconds);
-
-    void updateCollider(double timeStepInSeconds);
-
-    void updateEmitter(double timeStepInSeconds);
 };
 
 //! Shared pointer type for the CudaParticleSystemSolver3.
@@ -139,7 +75,9 @@ typedef std::shared_ptr<CudaParticleSystemSolver3> CudaParticleSystemSolver3Ptr;
 //!
 //! \brief Front-end to create CudaParticleSystemSolver3 objects step by step.
 //!
-class CudaParticleSystemSolver3::Builder final {
+class CudaParticleSystemSolver3::Builder final
+    : public CudaParticleSystemSolverBuilderBase3<
+          CudaParticleSystemSolver3::Builder> {
  public:
     //! Returns builder with particle radius.
     CudaParticleSystemSolver3::Builder& withRadius(float radius);

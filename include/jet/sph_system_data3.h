@@ -171,7 +171,7 @@ class SphSystemData3 : public ParticleSystemData3 {
 
  private:
     //! Target density of this particle system in kg/m^3.
-    double _targetDensity = kWaterDensity;
+    double _targetDensity = kWaterDensityD;
 
     //! Target spacing of this particle system in meters.
     double _targetSpacing = 0.1;

@@ -145,7 +145,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
  private:
     double _dragCoefficient = 1e-4;
     double _restitutionCoefficient = 0.0;
-    Vector3D _gravity = Vector3D(0.0, kGravity, 0.0);
+    Vector3D _gravity = Vector3D(0.0, kGravityD, 0.0);
 
     ParticleSystemData3Ptr _particleSystemData;
     ParticleSystemData3::VectorData _newPositions;
