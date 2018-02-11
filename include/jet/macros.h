@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_MACROS_H_
 #define INCLUDE_JET_MACROS_H_
 
+// Platforms
 #if defined(_WIN32) || defined(_WIN64)
 #define JET_WINDOWS
 #elif defined(__APPLE__)
@@ -18,6 +19,7 @@
 #define JET_LINUX
 #endif
 
+// Debug mode
 #if defined(DEBUG) || defined(_DEBUG)
 #define JET_DEBUG_MODE
 #include <cassert>
@@ -26,12 +28,14 @@
 #define JET_ASSERT(x)
 #endif
 
+// C++ shortcuts
 #ifdef __cplusplus
 #define JET_NON_COPYABLE(ClassName)       \
     ClassName(const ClassName&) = delete; \
     ClassName& operator=(const ClassName&) = delete;
 #endif
 
+// C++ exceptions
 #ifdef __cplusplus
 #include <stdexcept>
 #define JET_THROW_INVALID_ARG_IF(expression)      \
@@ -44,11 +48,13 @@
     }
 #endif
 
+// Windows specific
 #ifdef JET_WINDOWS
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif
 
+// CUDA specific
 #if defined(JET_USE_CUDA) && defined(__CUDACC__)
 #define JET_CUDA_DEVICE __device__
 #define JET_CUDA_HOST __host__
@@ -58,6 +64,18 @@ typedef SSIZE_T ssize_t;
 #endif
 #define JET_CUDA_HOST_DEVICE JET_CUDA_HOST JET_CUDA_DEVICE
 
+// Alignment
+#if defined(__CUDACC__) // NVCC
+#define JET_ALIGN(n) __align__(n)
+#elif defined(__GNUC__) // GCC
+#define JET_ALIGN(n) __attribute__((aligned(n)))
+#elif defined(_MSC_VER) // MSVC
+#define JET_ALIGN(n) __declspec(align(n))
+#else
+#error "Don't know how to handle JET_ALIGN"
+#endif
+
+// Compiler-specific warning toggle
 #define JET_DIAG_STR(s) #s
 #define JET_DIAG_JOINSTR(x, y) JET_DIAG_STR(x##y)
 #ifdef _MSC_VER

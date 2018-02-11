@@ -145,7 +145,7 @@ class ParticleSystemSolver2 : public PhysicsAnimation {
  private:
     double _dragCoefficient = 1e-4;
     double _restitutionCoefficient = 0.0;
-    Vector2D _gravity = Vector2D(0.0, kGravity);
+    Vector2D _gravity = Vector2D(0.0, kGravityD);
 
     ParticleSystemData2Ptr _particleSystemData;
     ParticleSystemData2::VectorData _newPositions;

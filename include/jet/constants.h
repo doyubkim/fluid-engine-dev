@@ -344,13 +344,16 @@ constexpr double invTwoPi<double>() {
 // MARK: Physics
 
 //! Gravity.
-constexpr double kGravity = -9.8;
+constexpr double kGravityF = -9.8f;
+constexpr double kGravityD = -9.8;
 
 //! Water density.
-constexpr double kWaterDensity = 1000.0;
+constexpr double kWaterDensityF = 1000.0f;
+constexpr double kWaterDensityD = 1000.0;
 
 //! Speed of sound in water at 20 degrees celcius.
-constexpr double kSpeedOfSoundInWater = 1482.0;
+constexpr double kSpeedOfSoundInWaterF = 1482.0f;
+constexpr double kSpeedOfSoundInWaterD = 1482.0;
 
 // MARK: Common enums
 
