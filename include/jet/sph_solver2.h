@@ -204,7 +204,7 @@ class SphSolverBuilderBase2 {
     DerivedBuilder& withRelativeKernelRadius(double relativeKernelRadius);
 
  protected:
-    double _targetDensity = kWaterDensity;
+    double _targetDensity = kWaterDensityD;
     double _targetSpacing = 0.1;
     double _relativeKernelRadius = 1.8;
 };

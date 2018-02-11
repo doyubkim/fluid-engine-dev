@@ -33,7 +33,7 @@ void addSphSolver2(py::module& m) {
              Constructs a solver with target density, spacing, and relative kernel
              radius.
              )pbdoc",
-             py::arg("targetDensity") = kWaterDensity,
+             py::arg("targetDensity") = kWaterDensityD,
              py::arg("targetSpacing") = 0.1,
              py::arg("relativeKernelRadius") = 1.8)
         .def_property("eosExponent", &SphSolver2::eosExponent,
@@ -114,7 +114,7 @@ void addSphSolver3(py::module& m) {
              Constructs a solver with target density, spacing, and relative kernel
              radius.
              )pbdoc",
-             py::arg("targetDensity") = kWaterDensity,
+             py::arg("targetDensity") = kWaterDensityD,
              py::arg("targetSpacing") = 0.1,
              py::arg("relativeKernelRadius") = 1.8)
         .def_property("eosExponent", &SphSolver3::eosExponent,
