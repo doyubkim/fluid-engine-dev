@@ -276,17 +276,17 @@ class TimeIntegration {
 
 }  // namespace
 
-void CudaSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
-    beginAdvanceTimeStep(timeStepInSeconds);
+void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
+    auto sph = sphSystemData();
 
     // Build neighbor searcher
-    _sphSystemData->buildNeighborSearcher();
-    _sphSystemData->buildNeighborListsAndUpdateDensities();
+    sph->buildNeighborSearcher();
+    sph->buildNeighborListsAndUpdateDensities();
 
     // Compute pressure
-    auto d = _sphSystemData->densities();
-    auto p = _sphSystemData->pressures();
-    const float targetDensity = _sphSystemData->targetDensity();
+    auto d = sph->densities();
+    auto p = sph->pressures();
+    const float targetDensity = sph->targetDensity();
     const float eosScale = targetDensity * square(_speedOfSound) / _eosExponent;
     thrust::transform(
         d.begin(), d.end(), p.begin(),
@@ -294,28 +294,28 @@ void CudaSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
                             negativePressureScale()));
 
     // Compute pressure / viscosity forces and smoothed velocity
-    size_t n = _sphSystemData->numberOfParticles();
-    float mass = _sphSystemData->mass();
-    float h = _sphSystemData->kernelRadius();
-    auto ns = _sphSystemData->neighborStarts();
-    auto ne = _sphSystemData->neighborEnds();
-    auto nl = _sphSystemData->neighborLists();
-    auto x = _sphSystemData->positions();
-    auto v = _sphSystemData->velocities();
-    auto s = _sphSystemData->vectorDataAt(_smoothedVelIdx);
-    auto f = _sphSystemData->vectorDataAt(_forcesIdx);
+    size_t n = sph->numberOfParticles();
+    float mass = sph->mass();
+    float h = sph->kernelRadius();
+    auto ns = sph->neighborStarts();
+    auto ne = sph->neighborEnds();
+    auto nl = sph->neighborLists();
+    auto x = sph->positions();
+    auto v = sph->velocities();
+    auto s = smoothedVelocities();
+    auto f = forces();
 
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(n),
 
-        ComputeForces(mass, h, toFloat4(_gravity, 0.0f), viscosityCoefficient(),
+        ComputeForces(mass, h, toFloat4(gravity(), 0.0f), viscosityCoefficient(),
                       ns.data(), ne.data(), nl.data(), x.data(), v.data(),
                       s.data(), f.data(), d.data(), p.data()));
 
     // Time-integration
     float dt = static_cast<float>(timeStepInSeconds);
-    float factor = dt * _pseudoViscosityCoefficient;
+    float factor = dt * pseudoViscosityCoefficient();
     factor = clamp(factor, 0.0f, 1.0f);
 
     thrust::for_each(
@@ -323,6 +323,4 @@ void CudaSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
         thrust::counting_iterator<size_t>(n),
 
         TimeIntegration(dt, factor, x.data(), v.data(), s.data(), f.data()));
-
-    endAdvanceTimeStep(timeStepInSeconds);
 }

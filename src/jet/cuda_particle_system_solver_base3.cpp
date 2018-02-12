@@ -42,9 +42,14 @@ void CudaParticleSystemSolverBase3::setGravity(const Vector3F& newGravity) {
     _gravity = newGravity;
 }
 
-const CudaParticleSystemData3Ptr&
+CudaParticleSystemData3*
+CudaParticleSystemSolverBase3::particleSystemData() {
+    return _particleSystemData.get();
+}
+
+const CudaParticleSystemData3*
 CudaParticleSystemSolverBase3::particleSystemData() const {
-    return _particleSystemData;
+    return _particleSystemData.get();
 }
 
 void CudaParticleSystemSolverBase3::onInitialize() {

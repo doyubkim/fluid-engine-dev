@@ -9,14 +9,14 @@
 
 #include "particle_sim_example.h"
 
-#include <jet/cuda_sph_solver3.h>
+#include <jet/cuda_wc_sph_solver3.h>
 
 class CudaSphSolver3Example final : public ParticleSimExample {
  public:
     CudaSphSolver3Example(const jet::Frame& frame);
 
  private:
-    jet::experimental::CudaSphSolver3Ptr _solver;
+    jet::experimental::CudaWcSphSolver3Ptr _solver;
     jet::viz::PointsRenderable3Ptr _renderable;
 
     void onSetup(jet::viz::GlfwWindow* window) override;

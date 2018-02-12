@@ -97,10 +97,11 @@ void CudaParticleSystemSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     updateCollider(timeStepInSeconds);
     updateEmitter(timeStepInSeconds);
 
-    auto posCurr = _particleSystemData->positions();
-    auto velCurr = _particleSystemData->velocities();
+    auto particles = particleSystemData();
+    auto posCurr = particles->positions();
+    auto velCurr = particles->velocities();
     auto dt = static_cast<float>(timeStepInSeconds);
-    auto g = make_float4(_gravity.x, _gravity.y, _gravity.z, 0.0f);
+    auto g = toFloat4(gravity(), 0.0f);
 
     AdvanceTimeStepKernel kernel(_mass, dt, g);
 

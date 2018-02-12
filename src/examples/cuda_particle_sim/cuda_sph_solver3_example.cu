@@ -76,7 +76,7 @@ void CudaSphSolver3Example::onSetup(GlfwWindow* window) {
 
     // Setup solver
     const float targetSpacing = 1.0f / 50.0f;
-    _solver = jet::experimental::CudaSphSolver3::builder().makeShared();
+    _solver = jet::experimental::CudaWcSphSolver3::builder().makeShared();
     _solver->setDragCoefficient(0.0f);
     _solver->setRestitutionCoefficient(1.0f);
     _solver->setViscosityCoefficient(0.1f);
@@ -84,7 +84,7 @@ void CudaSphSolver3Example::onSetup(GlfwWindow* window) {
     _solver->setIsUsingFixedSubTimeSteps(true);
     _solver->setNumberOfFixedSubTimeSteps(1);
 
-    auto particles = _solver->particleSystemData();
+    auto particles = _solver->sphSystemData();
     particles->setTargetSpacing(targetSpacing);
     particles->setRelativeKernelRadius(1.8f);
 
@@ -123,8 +123,8 @@ void CudaSphSolver3Example::onSetup(GlfwWindow* window) {
 void CudaSphSolver3Example::onUpdate(const Frame& frame) {
     _solver->update(frame);
 
-    auto pos = _solver->particleSystemData()->positions();
-    auto den = _solver->particleSystemData()->densities();
+    auto pos = _solver->sphSystemData()->positions();
+    auto den = _solver->sphSystemData()->densities();
 
     thrust::device_ptr<VertexPosition3Color4> vertices(
         (VertexPosition3Color4*)_renderable->vertexBuffer()

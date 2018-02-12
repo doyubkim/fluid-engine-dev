@@ -6,6 +6,13 @@
 
 #ifdef JET_USE_CUDA
 
+#include <pch.h>
+
+#include <jet/cuda_sph_solver_base3.h>
+
+using namespace jet;
+using namespace experimental;
+
 CudaSphSolverBase3::CudaSphSolverBase3() {
     _sphSystemData = std::make_shared<CudaSphSystemData3>();
     _forcesIdx = _sphSystemData->addVectorData();
@@ -14,7 +21,7 @@ CudaSphSolverBase3::CudaSphSolverBase3() {
     setIsUsingFixedSubTimeSteps(false);
 }
 
-CudaSphSolverBase3::~CudaSphSolver3() {}
+CudaSphSolverBase3::~CudaSphSolverBase3() {}
 
 float CudaSphSolverBase3::negativePressureScale() const {
     return _negativePressureScale;
@@ -22,7 +29,7 @@ float CudaSphSolverBase3::negativePressureScale() const {
 
 void CudaSphSolverBase3::setNegativePressureScale(
     float newNegativePressureScale) {
-    _negativePressureScale = negativePressureScale;
+    _negativePressureScale = newNegativePressureScale;
 }
 
 float CudaSphSolverBase3::viscosityCoefficient() const {
@@ -31,7 +38,7 @@ float CudaSphSolverBase3::viscosityCoefficient() const {
 
 void CudaSphSolverBase3::setViscosityCoefficient(
     float newViscosityCoefficient) {
-    _viscosityCoefficient = viscosityCoefficient;
+    _viscosityCoefficient = newViscosityCoefficient;
 }
 
 float CudaSphSolverBase3::pseudoViscosityCoefficient() const {
@@ -43,20 +50,20 @@ void CudaSphSolverBase3::setPseudoViscosityCoefficient(
     _pseudoViscosityCoefficient = newPseudoViscosityCoefficient;
 }
 
-CudaSphSystemData3* CudaSphSolverBase3::particleSystemData() {
+CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() {
     return _sphSystemData.get();
 }
 
-const CudaSphSystemData3* CudaSphSolverBase3::particleSystemData() const {
+const CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() const {
     return _sphSystemData.get();
 }
 
 CudaArrayView1<float4> CudaSphSolverBase3::forces() const {
-    return _sphSystemData.vectorDataAt(_forceIdx);
+    return _sphSystemData->vectorDataAt(_forcesIdx);
 }
 
 CudaArrayView1<float4> CudaSphSolverBase3::smoothedVelocities() const {
-    return _sphSystemData.vectorDataAt(_smoothedVelIdx);
+    return _sphSystemData->vectorDataAt(_smoothedVelIdx);
 }
 
 #endif  // JET_USE_CUDA
