@@ -116,20 +116,20 @@ class CudaParticleSystemSolverBuilderBase3 {
 };
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3::withDragCoefficient(float coeff) {
+T& CudaParticleSystemSolverBuilderBase3<T>::withDragCoefficient(float coeff) {
     _dragCoefficient = coeff;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3::withRestitutionCoefficient(
+T& CudaParticleSystemSolverBuilderBase3<T>::withRestitutionCoefficient(
     float coeff) {
     _restitutionCoefficient = coeff;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3::withGravity(const Vector3F& gravity) {
+T& CudaParticleSystemSolverBuilderBase3<T>::withGravity(const Vector3F& gravity) {
     _gravity = gravity;
     return static_cast<T&>(*this);
 }

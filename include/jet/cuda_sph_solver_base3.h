@@ -10,6 +10,7 @@
 #define INCLUDE_JET_CUDA_SPH_SOLVER_BASE3_H_
 
 #include <jet/cuda_particle_system_solver_base3.h>
+#include <jet/cuda_sph_system_data3.h>
 
 namespace jet {
 
@@ -22,7 +23,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     CudaSphSolverBase3();
 
     //! Destructor.
-    virtual ~CudaSphSolver3();
+    virtual ~CudaSphSolverBase3();
 
     //!
     //! \brief Negative pressure scaling factor.
@@ -64,7 +65,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    CudaSphSystemData3* particleSystemData();
+    CudaSphSystemData3* sphSystemData();
 
     //!
     //! \brief Returns the particle system data.
@@ -72,7 +73,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    const CudaSphSystemData3* particleSystemData() const;
+    const CudaSphSystemData3* sphSystemData() const;
 
  protected:
     CudaArrayView1<float4> forces() const;
@@ -125,40 +126,40 @@ class CudaSphSolverBuilderBase3
 };
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withTargetDensity(float targetDensity) {
+T& CudaSphSolverBuilderBase3<T>::withTargetDensity(float targetDensity) {
     _targetDensity = targetDensity;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withTargetSpacing(float targetSpacing) {
+T& CudaSphSolverBuilderBase3<T>::withTargetSpacing(float targetSpacing) {
     _targetSpacing = targetSpacing;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withRelativeKernelRadius(
+T& CudaSphSolverBuilderBase3<T>::withRelativeKernelRadius(
     float relativeKernelRadius) {
     _relativeKernelRadius = relativeKernelRadius;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withNegativePressureScale(
+T& CudaSphSolverBuilderBase3<T>::withNegativePressureScale(
     float negativePressureScale) {
     _negativePressureScale = negativePressureScale;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withViscosityCoefficient(
+T& CudaSphSolverBuilderBase3<T>::withViscosityCoefficient(
     float viscosityCoefficient) {
     _viscosityCoefficient = viscosityCoefficient;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3::withPseudoViscosityCoefficient(
+T& CudaSphSolverBuilderBase3<T>::withPseudoViscosityCoefficient(
     float pseudoViscosityCoefficient) {
     _pseudoViscosityCoefficient = pseudoViscosityCoefficient;
     return static_cast<T&>(*this);
