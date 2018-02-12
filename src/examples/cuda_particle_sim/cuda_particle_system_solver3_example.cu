@@ -11,6 +11,7 @@
 #include <thrust/random.h>
 
 using namespace jet;
+using namespace experimental;
 using namespace viz;
 
 namespace {
@@ -76,7 +77,7 @@ void CudaParticleSystemSolver3Example::onSetup(GlfwWindow* window) {
     _solver->setRestitutionCoefficient(1.0);
 
     size_t numParticles = static_cast<size_t>(1 << 14);
-    auto& particles = _solver->particleSystemData();
+    CudaParticleSystemData3* particles = _solver->particleSystemData();
 
     thrust::device_vector<float4> pos(numParticles);
     thrust::for_each(

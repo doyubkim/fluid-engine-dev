@@ -9,6 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_SPH_SYSTEM_DATA3_H_
 #define INCLUDE_JET_CUDA_SPH_SYSTEM_DATA3_H_
 
+#include <jet/constants.h>
 #include <jet/cuda_particle_system_data3.h>
 
 namespace jet {
@@ -99,7 +100,7 @@ class CudaSphSystemData3 : public CudaParticleSystemData3 {
 
  private:
     //! Target density of this particle system in kg/m^3.
-    float _targetDensity = static_cast<float>(kWaterDensity);
+    float _targetDensity = kWaterDensityF;
 
     //! Target spacing of this particle system in meters.
     float _targetSpacing = 0.1f;

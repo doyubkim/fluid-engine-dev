@@ -21,10 +21,12 @@ CudaWcSphSolver3::CudaWcSphSolver3()
 
 CudaWcSphSolver3::CudaWcSphSolver3(float targetDensity, float targetSpacing,
                                    float relativeKernelRadius)
-    : _targetDensity(targetDensity),
-      _targetSpacing(targetSpacing),
-      _relativeKernelRadius(relativeKernelRadius)
-    : CudaSphSolverBase3() {}
+    : CudaSphSolverBase3() {
+    auto sph = sphSystemData();
+    sph->setTargetDensity(targetDensity);
+    sph->setTargetSpacing(targetSpacing);
+    sph->setRelativeKernelRadius(relativeKernelRadius);
+}
 
 CudaWcSphSolver3::~CudaWcSphSolver3() {}
 
@@ -50,8 +52,8 @@ void CudaWcSphSolver3::setTimeStepLimitScale(float newScale) {
 
 unsigned int CudaWcSphSolver3::numberOfSubTimeSteps(
     double timeIntervalInSeconds) const {
-    auto particles = particleSystemData();
-    size_t numberOfParticles = particles->numberOfParticles();
+    auto particles = sphSystemData();
+    // size_t numberOfParticles = particles->numberOfParticles();
     // auto f = particles->forces();
 
     const double kernelRadius = particles->kernelRadius();
@@ -62,7 +64,7 @@ unsigned int CudaWcSphSolver3::numberOfSubTimeSteps(
     // for (size_t i = 0; i < numberOfParticles; ++i) {
     //     maxForceMagnitude = std::max(maxForceMagnitude, f[i].length());
     // }
-    maxForceMagnitude = kGravity;
+    maxForceMagnitude = kGravityD;
 
     double timeStepLimitBySpeed =
         kTimeStepLimitBySpeedFactor * kernelRadius / _speedOfSound;
