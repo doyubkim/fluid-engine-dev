@@ -50,6 +50,14 @@ void CudaSphSolverBase3::setPseudoViscosityCoefficient(
     _pseudoViscosityCoefficient = newPseudoViscosityCoefficient;
 }
 
+float CudaSphSolverBase3::timeStepLimitScale() const {
+    return _timeStepLimitScale;
+}
+
+void CudaSphSolverBase3::setTimeStepLimitScale(float newScale) {
+    _timeStepLimitScale = std::max(newScale, 0.0f);
+}
+
 CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() {
     return _sphSystemData.get();
 }

@@ -69,18 +69,6 @@ class CudaWcSphSolver3 : public CudaSphSolverBase3 {
     //! Sets the speed of sound.
     void setSpeedOfSound(float newSpeedOfSound);
 
-    //!
-    //! \brief Multiplier that scales the max allowed time-step.
-    //!
-    //! This function returns the multiplier that scales the max allowed
-    //! time-step. When the scale is 1.0, the time-step is bounded by the speed
-    //! of sound and max acceleration.
-    //!
-    float timeStepLimitScale() const;
-
-    //! Sets the multiplier that scales the max allowed time-step.
-    void setTimeStepLimitScale(float newScale);
-
     //! Returns builder fox CudaParticleSystemSolver3.
     static Builder builder();
 
@@ -96,7 +84,6 @@ class CudaWcSphSolver3 : public CudaSphSolverBase3 {
     // WCSPH solver properties
     float _eosExponent = 7.0f;
     float _speedOfSound = 100.0f;
-    float _timeStepLimitScale = 1.0f;
 };
 
 //! Shared pointer type for the CudaWcSphSolver3.

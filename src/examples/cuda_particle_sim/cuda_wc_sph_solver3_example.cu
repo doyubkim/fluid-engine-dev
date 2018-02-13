@@ -17,30 +17,9 @@ using namespace viz;
 
 namespace {
 
-struct Rng {
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
-        size_t idx = thrust::get<0>(t);
-
-        thrust::default_random_engine randEng;
-        thrust::uniform_real_distribution<float> uniDist(0.0f, 1.0f);
-
-        float4 result;
-        randEng.discard(3 * idx);
-        result.x = uniDist(randEng);
-        randEng.discard(3 * idx + 1);
-        result.y = uniDist(randEng);
-        randEng.discard(3 * idx + 2);
-        result.z = uniDist(randEng);
-        result.w = 0.0f;
-
-        thrust::get<1>(t) = result;
-    }
-};
-
 struct PosToVertex {
     template <typename Tuple>
-    __device__ VertexPosition3Color4 operator()(Tuple t) {
+    JET_CUDA_DEVICE VertexPosition3Color4 operator()(Tuple t) {
         float4 pos = thrust::get<0>(t);
         float d = thrust::get<1>(t);
 
@@ -59,10 +38,10 @@ struct PosToVertex {
 
 }  // namespace
 
-CudaSphSolver3Example::CudaSphSolver3Example(const jet::Frame& frame)
+CudaWcSphSolver3Example::CudaWcSphSolver3Example(const jet::Frame& frame)
     : ParticleSimExample(frame) {}
 
-void CudaSphSolver3Example::onSetup(GlfwWindow* window) {
+void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<PitchYawViewController>(
         std::make_shared<PerspCamera>(Vector3D{0.5, 0.5, 2.0},
@@ -120,7 +99,7 @@ void CudaSphSolver3Example::onSetup(GlfwWindow* window) {
     renderer->addRenderable(_renderable);
 }
 
-void CudaSphSolver3Example::onUpdate(const Frame& frame) {
+void CudaWcSphSolver3Example::onUpdate(const Frame& frame) {
     _solver->update(frame);
 
     auto pos = _solver->sphSystemData()->positions();
