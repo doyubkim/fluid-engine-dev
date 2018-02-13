@@ -42,14 +42,6 @@ void CudaWcSphSolver3::setSpeedOfSound(float newSpeedOfSound) {
     _speedOfSound = std::max(newSpeedOfSound, kEpsilonF);
 }
 
-float CudaWcSphSolver3::timeStepLimitScale() const {
-    return _timeStepLimitScale;
-}
-
-void CudaWcSphSolver3::setTimeStepLimitScale(float newScale) {
-    _timeStepLimitScale = std::max(newScale, 0.0f);
-}
-
 unsigned int CudaWcSphSolver3::numberOfSubTimeSteps(
     double timeIntervalInSeconds) const {
     auto particles = sphSystemData();

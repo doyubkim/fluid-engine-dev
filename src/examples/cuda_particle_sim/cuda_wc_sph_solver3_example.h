@@ -4,16 +4,16 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_EXAMPLES_CUDA_SPH_SOLVER3_EXAMPLE_H_
-#define SRC_EXAMPLES_CUDA_SPH_SOLVER3_EXAMPLE_H_
+#ifndef SRC_EXAMPLES_CUDA_WC_SPH_SOLVER3_EXAMPLE_H_
+#define SRC_EXAMPLES_CUDA_WC_SPH_SOLVER3_EXAMPLE_H_
 
 #include "particle_sim_example.h"
 
 #include <jet/cuda_wc_sph_solver3.h>
 
-class CudaSphSolver3Example final : public ParticleSimExample {
+class CudaWcSphSolver3Example final : public ParticleSimExample {
  public:
-    CudaSphSolver3Example(const jet::Frame& frame);
+    CudaWcSphSolver3Example(const jet::Frame& frame);
 
  private:
     jet::experimental::CudaWcSphSolver3Ptr _solver;
@@ -24,4 +24,4 @@ class CudaSphSolver3Example final : public ParticleSimExample {
     void onUpdate(const jet::Frame& frame) override;
 };
 
-#endif  // SRC_EXAMPLES_CUDA_SPH_SOLVER3_EXAMPLE_H_
+#endif  // SRC_EXAMPLES_CUDA_WC_SPH_SOLVER3_EXAMPLE_H_
