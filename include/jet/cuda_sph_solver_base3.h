@@ -60,6 +60,18 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     void setPseudoViscosityCoefficient(float newPseudoViscosityCoefficient);
 
     //!
+    //! \brief Multiplier that scales the max allowed time-step.
+    //!
+    //! This function returns the multiplier that scales the max allowed
+    //! time-step. When the scale is 1.0, the time-step is bounded by the speed
+    //! of sound and max acceleration.
+    //!
+    float timeStepLimitScale() const;
+
+    //! Sets the multiplier that scales the max allowed time-step.
+    void setTimeStepLimitScale(float newScale);
+
+    //!
     //! \brief Returns the particle system data.
     //!
     //! This function returns the particle system data. The data is created when
@@ -87,6 +99,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     float _negativePressureScale = 0.0f;
     float _viscosityCoefficient = 0.01f;
     float _pseudoViscosityCoefficient = 10.0f;
+    float _timeStepLimitScale = 1.0f;
 
     // Data model
     CudaSphSystemData3Ptr _sphSystemData;

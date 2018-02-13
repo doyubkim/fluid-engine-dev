@@ -60,6 +60,7 @@
 #include <jet/cuda_particle_system_data3.h>
 #include <jet/cuda_particle_system_solver3.h>
 #include <jet/cuda_particle_system_solver_base3.h>
+#include <jet/cuda_pci_sph_solver3.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
 #include <jet/cuda_sph_solver_base3.h>
 #include <jet/cuda_sph_system_data3.h>
