@@ -111,15 +111,14 @@ if (USE_CUDA)
     find_package(CUDA)
     list(APPEND CUDA_NVCC_FLAGS
          -Wno-deprecated-gpu-targets
-         -arch=sm_30
-         -gencode=arch=compute_30,code=sm_30
-         -gencode=arch=compute_50,code=sm_50
-         -gencode=arch=compute_52,code=sm_52
-         -gencode=arch=compute_60,code=sm_60
-         -gencode=arch=compute_61,code=sm_61
-         -gencode=arch=compute_62,code=sm_62
-         -gencode=arch=compute_70,code=sm_70
-         -gencode=arch=compute_70,code=compute_70)
+            -arch=sm_30
+            -gencode=arch=compute_20,code=sm_20
+            -gencode=arch=compute_30,code=sm_30
+            -gencode=arch=compute_50,code=sm_50
+            -gencode=arch=compute_52,code=sm_52
+            -gencode=arch=compute_60,code=sm_60
+            -gencode=arch=compute_61,code=sm_61
+            -gencode=arch=compute_61,code=compute_61)
     add_definitions(-DJET_USE_CUDA)
     include_directories(${CUDA_INCLUDE_DIRS})
 
@@ -160,7 +159,7 @@ endif()
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
-cmake_policy(SET CMP0023 NEW)
+cmake_policy(SET CMP0023 OLD) # TODO: blaming FindCUDA in default CMake for Ubuntu 14.04
 
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
