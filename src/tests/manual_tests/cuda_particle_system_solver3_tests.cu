@@ -18,7 +18,7 @@ JET_BEGIN_TEST_F(CudaParticleSystemSolver3, PerfectBounce) {
     solver.setDragCoefficient(0.0);
     solver.setRestitutionCoefficient(1.0);
 
-    auto& particles = solver.particleSystemData();
+    auto particles = solver.particleSystemData();
     particles->addParticle({0.0f, 3.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 0.0f});
 
     Array1<float> x(1000);

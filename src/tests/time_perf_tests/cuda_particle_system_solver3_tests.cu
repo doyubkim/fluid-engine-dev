@@ -47,7 +47,7 @@ class CudaParticleSystemSolver3 : public benchmark::Fixture {
         solver.setRestitutionCoefficient(1.0);
 
         size_t numParticles = static_cast<size_t>(state.range(0));
-        auto& particles = solver.particleSystemData();
+        auto particles = solver.particleSystemData();
 
         thrust::device_vector<float4> pos(numParticles);
         thrust::for_each(

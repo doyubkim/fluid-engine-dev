@@ -60,6 +60,17 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     void setPseudoViscosityCoefficient(float newPseudoViscosityCoefficient);
 
     //!
+    //! \brief Speed of sound in medium to determin the stiffness of the system.
+    //!
+    //! Ideally, it should be the actual speed of sound in the fluid, but in
+    //! practice, use lower value to trace-off performance and compressibility.
+    //!
+    float speedOfSound() const;
+
+    //! Sets the speed of sound.
+    void setSpeedOfSound(float newSpeedOfSound);
+
+    //!
     //! \brief Multiplier that scales the max allowed time-step.
     //!
     //! This function returns the multiplier that scales the max allowed
@@ -88,6 +99,10 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     const CudaSphSystemData3* sphSystemData() const;
 
  protected:
+    //! Returns the number of sub-time-steps.
+    unsigned int numberOfSubTimeSteps(
+        double timeIntervalInSeconds) const override;
+
     CudaArrayView1<float4> forces() const;
 
     CudaArrayView1<float4> smoothedVelocities() const;
@@ -99,6 +114,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     float _negativePressureScale = 0.0f;
     float _viscosityCoefficient = 0.01f;
     float _pseudoViscosityCoefficient = 10.0f;
+    float _speedOfSound = 100.0f;
     float _timeStepLimitScale = 1.0f;
 
     // Data model

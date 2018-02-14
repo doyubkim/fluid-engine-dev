@@ -58,32 +58,16 @@ class CudaWcSphSolver3 : public CudaSphSolverBase3 {
     //!
     void setEosExponent(float newEosExponent);
 
-    //!
-    //! \brief Speed of sound in medium to determin the stiffness of the system.
-    //!
-    //! Ideally, it should be the actual speed of sound in the fluid, but in
-    //! practice, use lower value to trace-off performance and compressibility.
-    //!
-    float speedOfSound() const;
-
-    //! Sets the speed of sound.
-    void setSpeedOfSound(float newSpeedOfSound);
-
     //! Returns builder fox CudaParticleSystemSolver3.
     static Builder builder();
 
  protected:
-    //! Returns the number of sub-time-steps.
-    unsigned int numberOfSubTimeSteps(
-        double timeIntervalInSeconds) const override;
-
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
  private:
     // WCSPH solver properties
     float _eosExponent = 7.0f;
-    float _speedOfSound = 100.0f;
 };
 
 //! Shared pointer type for the CudaWcSphSolver3.

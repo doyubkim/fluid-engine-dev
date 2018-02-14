@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "cuda_wc_sph_solver3_example.h"
+#include "cuda_pci_sph_solver3_example.h"
 
 #include <jet.viz/points_renderable3.h>
 #include <jet/cuda_array1.h>
@@ -38,10 +38,10 @@ struct PosToVertex {
 
 }  // namespace
 
-CudaWcSphSolver3Example::CudaWcSphSolver3Example(const jet::Frame& frame)
+CudaPciSphSolver3Example::CudaPciSphSolver3Example(const jet::Frame& frame)
     : ParticleSimExample(frame) {}
 
-void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
+void CudaPciSphSolver3Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<PitchYawViewController>(
         std::make_shared<PerspCamera>(Vector3D{0.5, 0.5, 2.0},
@@ -54,8 +54,8 @@ void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
     renderer->setBackgroundColor(Color{0, 0, 0, 1});
 
     // Setup solver
-    const float targetSpacing = 1.0f / 50.0f;
-    _solver = jet::experimental::CudaWcSphSolver3::builder().makeShared();
+    const float targetSpacing = 1.0f / 30.0f;
+    _solver = jet::experimental::CudaPciSphSolver3::builder().makeShared();
     _solver->setDragCoefficient(0.0f);
     _solver->setRestitutionCoefficient(1.0f);
     _solver->setViscosityCoefficient(0.1f);
@@ -99,7 +99,7 @@ void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
     renderer->addRenderable(_renderable);
 }
 
-void CudaWcSphSolver3Example::onUpdate(const Frame& frame) {
+void CudaPciSphSolver3Example::onUpdate(const Frame& frame) {
     _solver->update(frame);
 
     auto pos = _solver->sphSystemData()->positions();

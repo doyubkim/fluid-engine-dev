@@ -117,7 +117,6 @@ if (USE_CUDA)
     list(APPEND CUDA_NVCC_FLAGS
          -Wno-deprecated-gpu-targets
             -arch=sm_30
-            -gencode=arch=compute_20,code=sm_20
             -gencode=arch=compute_30,code=sm_30
             -gencode=arch=compute_50,code=sm_50
             -gencode=arch=compute_52,code=sm_52
