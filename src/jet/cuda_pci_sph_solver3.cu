@@ -402,9 +402,6 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
 
     auto d = sph->densities();
     auto p = sph->pressures();
-    auto ns = sph->neighborStarts();
-    auto ne = sph->neighborEnds();
-    auto nl = sph->neighborLists();
     auto x = sph->positions();
     auto v = sph->velocities();
     auto s = smoothedVelocities();
@@ -425,6 +422,9 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     // Build neighbor searcher
     sph->buildNeighborSearcher();
     sph->buildNeighborListsAndUpdateDensities();
+    auto ns = sph->neighborStarts();
+    auto ne = sph->neighborEnds();
+    auto nl = sph->neighborLists();
 
     // Initialize buffers and compute non-pressure forces
     thrust::for_each(

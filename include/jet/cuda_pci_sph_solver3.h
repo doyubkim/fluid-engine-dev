@@ -64,10 +64,6 @@ class CudaPciSphSolver3 : public CudaSphSolverBase3 {
     static Builder builder();
 
  protected:
-    //! Returns the number of sub-time-steps.
-    unsigned int numberOfSubTimeSteps(
-        double timeIntervalInSeconds) const override;
-
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
@@ -82,7 +78,7 @@ class CudaPciSphSolver3 : public CudaSphSolverBase3 {
     CudaArrayView1<float> densityErrors() const;
 
  private:
-    float _maxDensityErrorRatio = 0.01;
+    float _maxDensityErrorRatio = 0.01f;
     unsigned int _maxNumberOfIterations = 5;
 
     size_t _tempPositionsIdx;

@@ -287,7 +287,7 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto d = sph->densities();
     auto p = sph->pressures();
     const float targetDensity = sph->targetDensity();
-    const float eosScale = targetDensity * square(_speedOfSound) / _eosExponent;
+    const float eosScale = targetDensity * square(speedOfSound()) / _eosExponent;
     thrust::transform(
         d.begin(), d.end(), p.begin(),
         ComputePressureFunc(targetDensity, eosScale, eosExponent(),
