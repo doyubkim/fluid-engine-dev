@@ -65,7 +65,7 @@ unsigned int CudaWcSphSolver3::numberOfSubTimeSteps(
         std::sqrt(kernelRadius * mass / maxForceMagnitude);
 
     double desiredTimeStep =
-        _timeStepLimitScale *
+        timeStepLimitScale() *
         std::min(timeStepLimitBySpeed, timeStepLimitByForce);
 
     return static_cast<unsigned int>(
