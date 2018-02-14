@@ -24,15 +24,19 @@ CudaPciSphSolver3::CudaPciSphSolver3() {
 
 CudaPciSphSolver3::CudaPciSphSolver3(float targetDensity, float targetSpacing,
                                      float relativeKernelRadius)
-    : SphSolver3(targetDensity, targetSpacing, relativeKernelRadius) {
-    setTimeStepLimitScale(kDefaultTimeStepLimitScale);
-
+    : CudaSphSolverBase3() {
     auto sph = sphSystemData();
+    sph->setTargetDensity(targetDensity);
+    sph->setTargetSpacing(targetSpacing);
+    sph->setRelativeKernelRadius(relativeKernelRadius);
+
     _tempPositionsIdx = sph->addVectorData();
     _tempVelocitiesIdx = sph->addVectorData();
-    _tempDensitiesIdx = sph->addScalarData();
+    _tempDensitiesIdx = sph->addFloatData();
     _pressureForcesIdx = sph->addVectorData();
-    _densityErrorsIdx = sph->addScalarData();
+    _densityErrorsIdx = sph->addFloatData();
+
+    setTimeStepLimitScale(kDefaultTimeStepLimitScale);
 }
 
 CudaPciSphSolver3::~CudaPciSphSolver3() {}
@@ -62,7 +66,7 @@ CudaArrayView1<float4> CudaPciSphSolver3::tempVelocities() const {
 }
 
 CudaArrayView1<float> CudaPciSphSolver3::tempDensities() const {
-    return sphSystemData()->scalarDataAt(_tempDensitiesIdx);
+    return sphSystemData()->floatDataAt(_tempDensitiesIdx);
 }
 
 CudaArrayView1<float4> CudaPciSphSolver3::pressureForces() const {
@@ -70,7 +74,7 @@ CudaArrayView1<float4> CudaPciSphSolver3::pressureForces() const {
 }
 
 CudaArrayView1<float> CudaPciSphSolver3::densityErrors() const {
-    return sphSystemData()->vectorDataAt(_densityErrorsIdx);
+    return sphSystemData()->floatDataAt(_densityErrorsIdx);
 }
 
 float CudaPciSphSolver3::computeDelta(float timeStepInSeconds) {

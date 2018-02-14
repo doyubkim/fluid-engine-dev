@@ -79,6 +79,9 @@ target_compile_options(${target}
 )
 
 target_link_libraries(${target}
+    PRIVATE
+
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
     ${DEFAULT_LIBRARIES}
 
