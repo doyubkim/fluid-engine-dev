@@ -13,6 +13,9 @@
 using namespace jet;
 using namespace experimental;
 
+static double kTimeStepLimitBySpeedFactor = 0.4;
+static double kTimeStepLimitByForceFactor = 0.25;
+
 CudaSphSolverBase3::CudaSphSolverBase3() {
     _sphSystemData = std::make_shared<CudaSphSystemData3>();
     _forcesIdx = _sphSystemData->addVectorData();
@@ -50,6 +53,12 @@ void CudaSphSolverBase3::setPseudoViscosityCoefficient(
     _pseudoViscosityCoefficient = newPseudoViscosityCoefficient;
 }
 
+float CudaSphSolverBase3::speedOfSound() const { return _speedOfSound; }
+
+void CudaSphSolverBase3::setSpeedOfSound(float newSpeedOfSound) {
+    _speedOfSound = std::max(newSpeedOfSound, kEpsilonF);
+}
+
 float CudaSphSolverBase3::timeStepLimitScale() const {
     return _timeStepLimitScale;
 }
@@ -64,6 +73,36 @@ CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() {
 
 const CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() const {
     return _sphSystemData.get();
+}
+
+unsigned int CudaSphSolverBase3::numberOfSubTimeSteps(
+    double timeIntervalInSeconds) const {
+    auto particles = sphSystemData();
+    // size_t numberOfParticles = particles->numberOfParticles();
+    // auto f = particles->forces();
+
+    const double kernelRadius = particles->kernelRadius();
+    const double mass = particles->mass();
+
+    double maxForceMagnitude = 0.0;
+
+    // for (size_t i = 0; i < numberOfParticles; ++i) {
+    //     maxForceMagnitude = std::max(maxForceMagnitude, f[i].length());
+    // }
+    maxForceMagnitude = kGravityD;
+
+    double timeStepLimitBySpeed =
+        kTimeStepLimitBySpeedFactor * kernelRadius / _speedOfSound;
+    double timeStepLimitByForce =
+        kTimeStepLimitByForceFactor *
+        std::sqrt(kernelRadius * mass / maxForceMagnitude);
+
+    double desiredTimeStep =
+        timeStepLimitScale() *
+        std::min(timeStepLimitBySpeed, timeStepLimitByForce);
+
+    return static_cast<unsigned int>(
+        std::ceil(timeIntervalInSeconds / desiredTimeStep));
 }
 
 CudaArrayView1<float4> CudaSphSolverBase3::forces() const {

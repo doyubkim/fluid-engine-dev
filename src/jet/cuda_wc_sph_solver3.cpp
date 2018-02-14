@@ -13,9 +13,6 @@
 using namespace jet;
 using namespace experimental;
 
-static double kTimeStepLimitBySpeedFactor = 0.4;
-static double kTimeStepLimitByForceFactor = 0.25;
-
 CudaWcSphSolver3::CudaWcSphSolver3()
     : CudaWcSphSolver3(kWaterDensityF, 0.1f, 1.8f) {}
 
@@ -34,42 +31,6 @@ float CudaWcSphSolver3::eosExponent() const { return _eosExponent; }
 
 void CudaWcSphSolver3::setEosExponent(float newEosExponent) {
     _eosExponent = std::max(newEosExponent, 1.0f);
-}
-
-float CudaWcSphSolver3::speedOfSound() const { return _speedOfSound; }
-
-void CudaWcSphSolver3::setSpeedOfSound(float newSpeedOfSound) {
-    _speedOfSound = std::max(newSpeedOfSound, kEpsilonF);
-}
-
-unsigned int CudaWcSphSolver3::numberOfSubTimeSteps(
-    double timeIntervalInSeconds) const {
-    auto particles = sphSystemData();
-    // size_t numberOfParticles = particles->numberOfParticles();
-    // auto f = particles->forces();
-
-    const double kernelRadius = particles->kernelRadius();
-    const double mass = particles->mass();
-
-    double maxForceMagnitude = 0.0;
-
-    // for (size_t i = 0; i < numberOfParticles; ++i) {
-    //     maxForceMagnitude = std::max(maxForceMagnitude, f[i].length());
-    // }
-    maxForceMagnitude = kGravityD;
-
-    double timeStepLimitBySpeed =
-        kTimeStepLimitBySpeedFactor * kernelRadius / _speedOfSound;
-    double timeStepLimitByForce =
-        kTimeStepLimitByForceFactor *
-        std::sqrt(kernelRadius * mass / maxForceMagnitude);
-
-    double desiredTimeStep =
-        timeStepLimitScale() *
-        std::min(timeStepLimitBySpeed, timeStepLimitByForce);
-
-    return static_cast<unsigned int>(
-        std::ceil(timeIntervalInSeconds / desiredTimeStep));
 }
 
 CudaWcSphSolver3::Builder CudaWcSphSolver3::builder() { return Builder(); }
