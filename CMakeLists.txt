@@ -15,6 +15,11 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Declare project
 project(jet)
 
+# Overrides
+set(CMAKE_MACOSX_RPATH ON)
+cmake_policy(SET CMP0023 OLD) # TODO: blaming FindCUDA in default CMake for Ubuntu 14.04
+cmake_policy(SET CMP0063 OLD)
+
 # Compile options
 include(cmake/CompileOptions.cmake)
 
@@ -156,10 +161,6 @@ endif()
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
-
-# Overrides
-set(CMAKE_MACOSX_RPATH ON)
-cmake_policy(SET CMP0023 OLD) # TODO: blaming FindCUDA in default CMake for Ubuntu 14.04
 
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)

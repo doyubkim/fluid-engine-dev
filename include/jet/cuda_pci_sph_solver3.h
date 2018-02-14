@@ -66,10 +66,10 @@ class CudaPciSphSolver3 : public CudaSphSolverBase3 {
  protected:
     //! Returns the number of sub-time-steps.
     unsigned int numberOfSubTimeSteps(
-        float timeIntervalInSeconds) const override;
+        double timeIntervalInSeconds) const override;
 
     //! Called to advane a single time-step.
-    void onAdvanceTimeStep(float timeStepInSeconds) override;
+    void onAdvanceTimeStep(double timeStepInSeconds) override;
 
     CudaArrayView1<float4> tempPositions() const;
 
