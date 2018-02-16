@@ -120,7 +120,8 @@ class InitializeBuffersAndComputeForces {
         float d_i = _densities[i];
         float4 f = _gravity;
         float w_i = _mass / d_i;
-        float weightSum = w_i;
+        float weightSum = w_i * _spikyKernel(0.0f);
+        ;
         float4 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
@@ -252,11 +253,12 @@ class TimeIntegration {
 
 class ComputeDensityError {
  public:
-    inline ComputeDensityError(float m, float h, float targetDensity, float delta, float negativePressureScale, uint32_t* neighborStarts,
-                               uint32_t* neighborEnds, uint32_t* neighborLists,
-                               float4* positions, float* densities,
-                               float* pressures, float* densityErrors,
-                               float* densitiesPredicted)
+    inline ComputeDensityError(float m, float h, float targetDensity,
+                               float delta, float negativePressureScale,
+                               uint32_t* neighborStarts, uint32_t* neighborEnds,
+                               uint32_t* neighborLists, float4* positions,
+                               float* densities, float* pressures,
+                               float* densityErrors, float* densitiesPredicted)
         : _mass(m),
           _h2(h * h),
           _h3(h * h * h),
@@ -277,9 +279,7 @@ class ComputeDensityError {
         uint32_t ns = _neighborStarts[i];
         uint32_t ne = _neighborEnds[i];
         float4 x_i = _positions[i];
-        float d_i = _densities[i];
-        float w_i = _mass / d_i;
-        float weightSum = w_i;
+        float kernelSum = stdKernel(0.f, _h2, _h3);
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
             uint32_t j = _neighborLists[jj];
@@ -288,15 +288,11 @@ class ComputeDensityError {
             float dist = length(r);
 
             if (dist > 0.0f) {
-                float4 dir = r / dist;
-
-                float d_j = _densities[j];
-                float w_j = _mass / d_j * stdKernel(dist * dist, _h2, _h3);
-                weightSum += w_j;
+                kernelSum += stdKernel(dist * dist, _h2, _h3);
             }
         }
 
-        float density = _mass * weightSum;
+        float density = _mass * kernelSum;
         float densityError = (density - _targetDensity);
         float pressure = _delta * densityError;
 
@@ -447,24 +443,26 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
             thrust::counting_iterator<size_t>(0),
             thrust::counting_iterator<size_t>(n),
 
-            TimeIntegration(dt, 0.0f, x.data(), v.data(), xs.data(),
-                            vs.data(), s.data(), f.data(), pf.data()));
+            TimeIntegration(dt, 0.0f, x.data(), v.data(), xs.data(), vs.data(),
+                            s.data(), f.data(), pf.data()));
 
         // Compute pressure from density error
-        thrust::for_each(thrust::counting_iterator<size_t>(0),
-                         thrust::counting_iterator<size_t>(n),
+        thrust::for_each(
+            thrust::counting_iterator<size_t>(0),
+            thrust::counting_iterator<size_t>(n),
 
-                         ComputeDensityError(mass, h, targetDensity, delta, negativePressureScale(), ns.data(), ne.data(),
-                                             nl.data(), xs.data(), d.data(),
-                                             p.data(), de.data(), ds.data()));
+            ComputeDensityError(mass, h, targetDensity, delta,
+                                negativePressureScale(), ns.data(), ne.data(),
+                                nl.data(), xs.data(), d.data(), p.data(),
+                                de.data(), ds.data()));
 
         // Compute pressure gradient force
-        thrust::for_each(thrust::counting_iterator<size_t>(0),
-                         thrust::counting_iterator<size_t>(n),
+        thrust::for_each(
+            thrust::counting_iterator<size_t>(0),
+            thrust::counting_iterator<size_t>(n),
 
-                         ComputePressureForces(mass, h, ns.data(), ne.data(),
-                                               nl.data(), x.data(), pf.data(),
-                                               ds.data(), p.data()));
+            ComputePressureForces(mass, h, ns.data(), ne.data(), nl.data(),
+                                  x.data(), pf.data(), ds.data(), p.data()));
 
         // Compute max density error
     }
