@@ -58,8 +58,12 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
         if (cnt == 0) {
             _densities[i] = 0.0f;
         }
-        _neighborLists[_neighborStarts[i] + cnt] = j;
+
         _densities[i] += _mass * stdKernel(d2, _h2, _h3);
+
+        if (i != j) {
+            _neighborLists[_neighborStarts[i] + cnt] = j;
+        }
     }
 
  private:

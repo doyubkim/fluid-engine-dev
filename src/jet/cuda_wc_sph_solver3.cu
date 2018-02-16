@@ -150,7 +150,7 @@ class ComputeForces {
         float4 f = _gravity;
 
         float w_i = _mass / d_i;
-        float weightSum = w_i;
+        float weightSum = w_i * _spikyKernel(0.0f);
         float4 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
@@ -287,7 +287,8 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto d = sph->densities();
     auto p = sph->pressures();
     const float targetDensity = sph->targetDensity();
-    const float eosScale = targetDensity * square(speedOfSound()) / _eosExponent;
+    const float eosScale =
+        targetDensity * square(speedOfSound()) / _eosExponent;
     thrust::transform(
         d.begin(), d.end(), p.begin(),
         ComputePressureFunc(targetDensity, eosScale, eosExponent(),
@@ -305,13 +306,13 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto s = smoothedVelocities();
     auto f = forces();
 
-    thrust::for_each(
-        thrust::counting_iterator<size_t>(0),
-        thrust::counting_iterator<size_t>(n),
+    thrust::for_each(thrust::counting_iterator<size_t>(0),
+                     thrust::counting_iterator<size_t>(n),
 
-        ComputeForces(mass, h, toFloat4(gravity(), 0.0f), viscosityCoefficient(),
-                      ns.data(), ne.data(), nl.data(), x.data(), v.data(),
-                      s.data(), f.data(), d.data(), p.data()));
+                     ComputeForces(mass, h, toFloat4(gravity(), 0.0f),
+                                   viscosityCoefficient(), ns.data(), ne.data(),
+                                   nl.data(), x.data(), v.data(), s.data(),
+                                   f.data(), d.data(), p.data()));
 
     // Time-integration
     float dt = static_cast<float>(timeStepInSeconds);

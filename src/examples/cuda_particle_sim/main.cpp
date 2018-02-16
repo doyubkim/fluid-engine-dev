@@ -5,8 +5,9 @@
 // property of any third parties.
 
 #include "cuda_particle_system_solver3_example.h"
-#include "cuda_wc_sph_solver3_example.h"
 #include "cuda_pci_sph_solver3_example.h"
+#include "cuda_wc_sph_solver3_example.h"
+#include "pci_sph_solver3_example.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
@@ -99,6 +100,8 @@ int main(int, const char**) {
     // Setup tests
     sTests.push_back(
         std::make_shared<CudaPciSphSolver3Example>(Frame(0, 1.0 / 3000.0)));
+    sTests.push_back(
+        std::make_shared<PciSphSolver3Example>(Frame(0, 1.0 / 3000.0)));
     sTests.push_back(
         std::make_shared<CudaWcSphSolver3Example>(Frame(0, 1.0 / 3000.0)));
     sTests.push_back(std::make_shared<CudaParticleSystemSolver3Example>(

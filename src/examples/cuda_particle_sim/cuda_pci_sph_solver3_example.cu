@@ -54,10 +54,10 @@ void CudaPciSphSolver3Example::onSetup(GlfwWindow* window) {
     renderer->setBackgroundColor(Color{0, 0, 0, 1});
 
     // Setup solver
-    const float targetSpacing = 1.0f / 30.0f;
+    const float targetSpacing = 1.0f / 50.0f;
     _solver = jet::experimental::CudaPciSphSolver3::builder().makeShared();
     _solver->setDragCoefficient(0.0f);
-    _solver->setRestitutionCoefficient(1.0f);
+    _solver->setRestitutionCoefficient(0.0f);
     _solver->setViscosityCoefficient(0.1f);
     _solver->setPseudoViscosityCoefficient(10.0f);
     _solver->setIsUsingFixedSubTimeSteps(true);
