@@ -54,9 +54,11 @@ class ForEachNeighborFunc {
                 uint32_t j = _sortedIndices[jj];
                 float4 r = _points[j] - origin;
                 float distanceSquared = lengthSquared(r);
-                if (i != j && distanceSquared <= queryRadiusSquared) {
+                if (distanceSquared <= queryRadiusSquared) {
                     _neighborCallback(i, j, cnt, distanceSquared);
-                    ++cnt;
+                    if (i != j) {
+                        ++cnt;
+                    }
                 }
             }
         }
@@ -97,7 +99,9 @@ class BuildNeighborListsFunc {
     template <typename Index>
     inline JET_CUDA_HOST_DEVICE void operator()(size_t i, Index j, Index cnt,
                                                 float) {
-        _neighborLists[_neighborStarts[i] + cnt] = j;
+        if (i != j) {
+            _neighborLists[_neighborStarts[i] + cnt] = j;
+        }
     }
 
  private:
