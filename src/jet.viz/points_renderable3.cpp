@@ -47,6 +47,10 @@ void PointsRenderable3::setPositions(const Vector3F* positions,
     setPositionsAndColors(vertices.data(), vertices.size());
 }
 
+void PointsRenderable3::setPositions(ConstArrayView1<Vector3F> positions) {
+    setPositions(positions.data(), positions.size());
+}
+
 void PointsRenderable3::setPositionsAndColors(const Vector3F* positions,
                                               const Color* colors,
                                               size_t numberOfVertices) {
@@ -66,6 +70,11 @@ void PointsRenderable3::setPositionsAndColors(const Vector3F* positions,
 }
 
 void PointsRenderable3::setPositionsAndColors(
+    ConstArrayView1<Vector3F> positions, ConstArrayView1<Color> colors) {
+    setPositionsAndColors(positions.data(), colors.data(), positions.size());
+}
+
+void PointsRenderable3::setPositionsAndColors(
     const VertexPosition3Color4* vertices, size_t numberOfVertices) {
     if (_vertexBuffer == nullptr) {
         _vertexBuffer = _renderer->createVertexBuffer(
@@ -74,6 +83,11 @@ void PointsRenderable3::setPositionsAndColors(
         _vertexBuffer->resize(_shader, (const float*)vertices,
                               numberOfVertices);
     }
+}
+
+void PointsRenderable3::setPositionsAndColors(
+    ConstArrayView1<VertexPosition3Color4> vertices) {
+    setPositionsAndColors(vertices.data(), vertices.size());
 }
 
 VertexBuffer* PointsRenderable3::vertexBuffer() const {
