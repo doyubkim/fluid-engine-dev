@@ -11,8 +11,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 template <typename T>
 class ArrayView1 final {
  public:
@@ -75,7 +73,62 @@ class ArrayView1 final {
     size_t _size = 0;
 };
 
-}  // namespace experimental
+template <typename T>
+class ConstArrayView1 final {
+ public:
+    ConstArrayView1();
+
+    explicit ConstArrayView1(const T* data, size_t size);
+
+    ConstArrayView1(const Array1<T>& array);
+
+    ConstArrayView1(const std::vector<T>& vec);
+
+    ConstArrayView1(const ArrayView1<T>& other);
+
+    ConstArrayView1(const ConstArrayView1& other);
+
+    ConstArrayView1(ConstArrayView1&& other);
+
+    void swap(ConstArrayView1& other);
+
+    size_t size() const;
+
+    const T* data() const;
+
+    const T* begin() const;
+
+    const T* end() const;
+
+    //! Returns the const reference to i-th element.
+    const T& operator[](size_t i) const;
+
+    ConstArrayView1& operator=(const std::vector<T>& vec);
+
+    ConstArrayView1& operator=(const Array1<T>& array);
+
+    ConstArrayView1& operator=(const ArrayView1<T>& other);
+
+    ConstArrayView1& operator=(const ConstArrayView1& other);
+
+    ConstArrayView1& operator=(ConstArrayView1&& other);
+
+ private:
+    const T* _data = nullptr;
+    size_t _size = 0;
+
+    void set(const T& value);
+
+    void set(const T* data, size_t size);
+
+    void set(const Array1<T>& array);
+
+    void set(const std::vector<T>& vec);
+
+    void set(const ArrayView1<T>& other);
+
+    void set(const ConstArrayView1& other);
+};
 
 }  // namespace jet
 
