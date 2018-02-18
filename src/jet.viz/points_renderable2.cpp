@@ -47,6 +47,10 @@ void PointsRenderable2::setPositions(const Vector2F* positions,
     updateVertexBuffer(vertices);
 }
 
+void PointsRenderable2::setPositions(ConstArrayView1<Vector2F> positions) {
+    setPositions(positions.data(), positions.size());
+}
+
 void PointsRenderable2::setPositionsAndColors(const Vector2F* positions,
                                               const Color* colors,
                                               size_t numberOfVertices) {
@@ -63,6 +67,15 @@ void PointsRenderable2::setPositionsAndColors(const Vector2F* positions,
     }
 
     updateVertexBuffer(vertices);
+}
+
+void PointsRenderable2::setPositionsAndColors(
+    ConstArrayView1<Vector2F> positions, ConstArrayView1<Color> colors) {
+    setPositionsAndColors(positions.data(), colors.data(), positions.size());
+}
+
+VertexBuffer* PointsRenderable2::vertexBuffer() const {
+    return _vertexBuffer.get();
 }
 
 float PointsRenderable2::radius() const { return _radius; }
