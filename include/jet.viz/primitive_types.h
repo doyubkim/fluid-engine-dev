@@ -10,8 +10,11 @@
 #include "shader.h"
 #include "vertex.h"
 
-namespace jet { namespace viz {
+namespace jet {
 
+namespace viz {
+
+//! Render primitive types
 enum class PrimitiveType {
     Points = 0,
     Lines,
@@ -19,6 +22,9 @@ enum class PrimitiveType {
     Triangles,
     TriangleStrip,
 };
-} }  // namespace jet::viz
+
+}  // namespace viz
+
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_PRIMITIVE_TYPES_H_
