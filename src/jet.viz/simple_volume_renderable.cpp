@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Doyub Kim
+// Copyright (c) 2018 Doyub Kim
 //
 // This code is adopted from Ingemar Rask and Johannes Schmid's work:
 // https://graphics.ethz.ch/teaching/former/imagesynthesis_06/miniprojects/p3/
