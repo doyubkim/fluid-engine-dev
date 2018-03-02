@@ -96,7 +96,7 @@ def render_still_points2(filename_x, filename_y, output_filename, **kwargs):
     plt.close(fig)
     print ('Rendered <%s>' % output_filename)
 
-def render_point2(filename):
+def render_point2(filename, frame_rate=60):
     if is_animation(parse_tags(filename)):
         data = []
         def get_pt_data(filename, frame):
@@ -149,7 +149,7 @@ def render_point2(filename):
         pt, = ax.plot(x, y, 'bo', markersize=3)
         anim = animation.FuncAnimation(fig, update_pts, len(seq), fargs=(pt,), interval=60, blit=False)
         output_filename = get_output_movie_filename(filename.replace(',' + X_TAG, ''))
-        anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
+        anim.save(output_filename, fps=frame_rate, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
         print ('Rendered <%s>' % output_filename)
     else:
@@ -204,7 +204,7 @@ def render_still_line2(filename_x, filename_y, output_filename, **kwargs):
     plt.close(fig)
     print ('Rendered <%s>' % output_filename)
 
-def render_line2(filename):
+def render_line2(filename, frame_rate=60):
     if is_animation(parse_tags(filename)):
         data = []
         def get_line_data(filename, frame):
@@ -257,7 +257,7 @@ def render_line2(filename):
         line, = ax.plot(x, y, lw=2, marker='o', markersize=3)
         anim = animation.FuncAnimation(fig, update_lines, len(seq), fargs=(line,), interval=60, blit=False)
         output_filename = get_output_movie_filename(filename.replace(',' + X_TAG, ''))
-        anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
+        anim.save(output_filename, fps=frame_rate, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
         print ('Rendered <%s>' % output_filename)
     else:
@@ -337,7 +337,7 @@ def render_still_vector_grid2(filename_x, filename_y, output_filename, **kwargs)
     plt.close(fig)
     print ('Rendered <%s>' % output_filename)
 
-def render_grid2(filename):
+def render_grid2(filename, frame_rate=60):
     if is_animation(parse_tags(filename)):
         dirname = os.path.dirname(filename)
         basename = os.path.basename(filename).replace('0000', '[0-9][0-9][0-9][0-9]')
@@ -362,7 +362,7 @@ def render_grid2(filename):
 
         output_filename = get_output_movie_filename(filename.replace(',' + X_TAG, ''))
         anim = animation.FuncAnimation(fig, update_image, frames=len(seq), interval=60, blit=False)
-        anim.save(output_filename, fps=60, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
+        anim.save(output_filename, fps=frame_rate, bitrate=5000, writer=video_writer, extra_args=video_extra_args)
         plt.close(fig)
         print ('Rendered <%s>' % output_filename)
     else:
