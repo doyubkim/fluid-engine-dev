@@ -9,23 +9,33 @@
 
 #include <memory>
 
-namespace jet { namespace viz {
+namespace jet {
+
+namespace viz {
 
 class Renderer;
 
+//! Abstract renderable representation.
 class Renderable {
  public:
+    //! Default constructor.
     Renderable();
+
+    //! Default destructor.
     virtual ~Renderable();
 
  protected:
     friend class Renderer;
 
+    //! Renders this renderable for given \p renderer context.
     virtual void render(Renderer* renderer) = 0;
 };
 
+//! Shared pointer type for Renderable.
 typedef std::shared_ptr<Renderable> RenderablePtr;
 
-} }  // namespace jet::viz
+}  // namespace viz
+
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_RENDERABLE_H_
