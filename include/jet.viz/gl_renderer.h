@@ -87,7 +87,8 @@ class GLRenderer final : public Renderer {
     //! Creates a shader object with given preset shader name.
     //!
     //! \param shaderName Preset shader name.
-    //! \return
+    //! \return New shader.
+    //!
     ShaderPtr createPresetShader(const std::string& shaderName) const override;
 
     //!
@@ -112,9 +113,16 @@ class GLRenderer final : public Renderer {
     void drawIndexed(size_t numberOfIndices) override;
 
  protected:
+    //! Called when rendering a frame begins.
     void onRenderBegin() override;
+
+    //! Called when rendering a frame ended.
     void onRenderEnd() override;
+
+    //! Called when the view has resized.
     void onResize(const Viewport& viewport) override;
+
+    //! Called when the render states has changed.
     void onSetRenderStates(const RenderStates& states) override;
 
  private:
