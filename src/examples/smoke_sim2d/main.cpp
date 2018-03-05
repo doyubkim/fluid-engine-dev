@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <argparse/argparse.hpp>
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
 
@@ -172,7 +174,7 @@ int main(int, const char**) {
 
     // Setup ImGui binding
     ImGuiForGlfwApp::configureApp();
-    ImGuiForGlfwApp::configureWindow(window);
+    ImGuiForGlfwApp::configureWindow(window.get());
     ImGui::SetupImGuiStyle(true, 0.75f);
     window->setIsUpdateEnabled(true);
 

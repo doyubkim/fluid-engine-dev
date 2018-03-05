@@ -9,6 +9,8 @@
 #ifdef JET_USE_GL
 
 #include <jet.viz/glfw_window.h>
+#include <jet.viz/persp_camera.h>
+#include <jet.viz/pitch_yaw_view_controller.h>
 
 using namespace jet;
 using namespace viz;
@@ -47,6 +49,9 @@ GlfwWindow::GlfwWindow(const std::string& title, int width, int height) {
              << glGetString(GL_SHADING_LANGUAGE_VERSION);
 
     _renderer = std::make_shared<GLRenderer>();
+
+    setViewController(std::make_shared<PitchYawViewController>(
+        std::make_shared<PerspCamera>()));
 }
 
 void GlfwWindow::setViewController(const ViewControllerPtr& viewController) {
