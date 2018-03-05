@@ -31,7 +31,7 @@ class ImGuiForGlfwApp {
         GlfwApp::onGlfwMouseScrollEvent() += onBeginGlfwMouseScroll;
         GlfwApp::onGlfwCharEvent() += onBeginGlfwChar;
     }
-    static void configureWindow(GlfwWindowPtr window) {
+    static void configureWindow(GlfwWindow* window) {
         ImGui_ImplGlfwGL3_Init(window->glfwWindow(), false);
         window->requestRender(kImGuiRenderRequestFrames);
     }
