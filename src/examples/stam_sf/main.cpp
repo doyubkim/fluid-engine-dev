@@ -282,7 +282,7 @@ int main(int argc, const char** argv) {
 
     // Setup ImGui binding
     ImGuiForGlfwApp::configureApp();
-    ImGuiForGlfwApp::configureWindow(window);
+    ImGuiForGlfwApp::configureWindow(window.get());
     ImGui::SetupImGuiStyle(true, 0.75f);
     window->setIsUpdateEnabled(true);
 
