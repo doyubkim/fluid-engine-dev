@@ -81,6 +81,7 @@ class SimpleVolumeRenderable final : public Renderable {
     void updateVertexBuffer(Renderer* renderer);
 };
 
+//! Shared pointer type for SimpleVolumeRenderable.
 typedef std::shared_ptr<SimpleVolumeRenderable> SimpleVolumeRenderablePtr;
 
 }  // namespace viz
