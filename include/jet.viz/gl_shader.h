@@ -18,17 +18,17 @@ namespace viz {
 class GLShader final : public Shader {
  public:
     //!
-    //! Constructs a shader with render parameters.
+    //! Constructs a shader with user-given render parameters.
     //!
-    //! \param userRenderParams Render parameters.
+    //! \param userRenderParams User-given render parameters.
     //!
     GLShader(const RenderParameters& userRenderParams);
 
     //!
-    //! Constructs a shader with render parameters, vertex format, vertex
-    //! shader, and fragment shader.
+    //! Constructs a shader with user-given render parameters, vertex format,
+    //! vertex shader, and fragment shader.
     //!
-    //! \param userRenderParams Render parameters.
+    //! \param userRenderParams User-given render parameters.
     //! \param vertexFormat Vertex format.
     //! \param vertexShaderSource Vertex shader in string.
     //! \param fragmentShaderSource Fragment shader in string.
@@ -39,10 +39,10 @@ class GLShader final : public Shader {
              const std::string& fragmentShaderSource);
 
     //!
-    //! Constructs a shader with render parameters, vertex format, vertex
-    //! shader, geometry shader, and fragment shader.
+    //! Constructs a shader with user-given render parameters, vertex format,
+    //! vertex shader, geometry shader, and fragment shader.
     //!
-    //! \param userRenderParams Render parameters.
+    //! \param userRenderParams User-given render parameters.
     //! \param vertexFormat Vertex format.
     //! \param vertexShaderSource Vertex shader in string.
     //! \param geometryShader Geometry shader in string.
