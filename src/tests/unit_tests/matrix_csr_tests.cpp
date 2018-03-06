@@ -144,7 +144,6 @@ TEST(MatrixCsr, BasicSetters) {
 
     EXPECT_EQ(1.0, iterInitLst[0]);
     for (size_t i = 0; i < 8; ++i) {
-        std::cout << i << std::endl;
         EXPECT_EQ(iterSparse[i], iterInitLst[i]);
     }
 
