@@ -6,7 +6,7 @@
 
 #include "cuda_particle_system_data3_func.h"
 
-#include <jet/constants.h>
+#include <jet/cuda_sph_kernels3.h>
 
 #include <cuda_runtime.h>
 
@@ -14,29 +14,21 @@ namespace jet {
 
 namespace experimental {
 
-inline JET_CUDA_HOST_DEVICE float stdKernel(float d2, float h2, float h3) {
-    if (d2 >= h2) {
-        return 0.0f;
-    } else {
-        float x = 1.0f - d2 / h2;
-        return 315.0f / (64.0f * kPiF * h3) * x * x * x;
-    }
-}
-
-struct UpdateDensity {
-    float h2;
-    float h3;
-    float m;
-    float* d;
-
-    JET_CUDA_HOST_DEVICE UpdateDensity(float h, float m_, float* d_)
-        : h2(h * h), h3(h * h * h), m(m_), d(d_) {}
+class UpdateDensity {
+ public:
+    JET_CUDA_HOST_DEVICE UpdateDensity(float h, float m, float* d)
+        : _m(m), _d(d), _stdKernel(h) {}
 
     inline JET_CUDA_DEVICE void operator()(uint32_t i, float4 o, uint32_t,
                                            float4 p) {
         float dist = length(o - p);
-        d[i] += m * stdKernel(dist, h2, h3);
+        _d[i] += _m * _stdKernel(dist);
     }
+
+ private:
+    float _m;
+    float* _d;
+    CudaSphStdKernel3 _stdKernel;
 };
 
 class BuildNeighborListsAndUpdateDensitiesFunc {
@@ -46,11 +38,10 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
         float m, uint32_t* neighborLists, float* densities)
         : _neighborStarts(neighborStarts),
           _neighborEnds(neighborEnds),
-          _h2(h * h),
-          _h3(h * h * h),
           _mass(m),
           _neighborLists(neighborLists),
-          _densities(densities) {}
+          _densities(densities),
+          _stdKernel(h) {}
 
     template <typename Index>
     inline JET_CUDA_HOST_DEVICE void operator()(size_t i, Index j, Index cnt,
@@ -59,7 +50,7 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
             _densities[i] = 0.0f;
         }
 
-        _densities[i] += _mass * stdKernel(d2, _h2, _h3);
+        _densities[i] += _mass * _stdKernel(sqrt(d2));
 
         if (i != j) {
             _neighborLists[_neighborStarts[i] + cnt] = j;
@@ -69,11 +60,10 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
  private:
     const uint32_t* _neighborStarts;
     const uint32_t* _neighborEnds;
-    float _h2;
-    float _h3;
     float _mass;
     uint32_t* _neighborLists;
     float* _densities;
+    CudaSphStdKernel3 _stdKernel;
 };
 
 }  // namespace experimental

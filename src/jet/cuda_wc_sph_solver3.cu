@@ -7,6 +7,7 @@
 #include <pch.h>
 
 #include <jet/constants.h>
+#include <jet/cuda_sph_kernels3.h>
 #include <jet/cuda_utils.h>
 #include <jet/cuda_wc_sph_solver3.h>
 #include <jet/timer.h>
@@ -24,58 +25,6 @@ using thrust::make_tuple;
 using thrust::make_zip_iterator;
 
 namespace {
-
-struct CudaSphSpikyKernel3 {
-    float h;
-    float h2;
-    float h3;
-    float h4;
-    float h5;
-
-    inline JET_CUDA_HOST_DEVICE CudaSphSpikyKernel3(float h_)
-        : h(h_), h2(h * h), h3(h2 * h), h4(h2 * h2), h5(h3 * h2) {}
-
-    inline JET_CUDA_HOST_DEVICE float operator()(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return 15.0f / (kPiF * h3) * x * x * x;
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float firstDerivative(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return -45.0f / (kPiF * h4) * x * x;
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float4 gradient(float4 point) const {
-        float dist = length(point);
-        if (dist > 0.0f) {
-            return gradient(dist, point / dist);
-        } else {
-            return make_float4(0, 0, 0, 0);
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float4
-    gradient(float distance, float4 directionToCenter) const {
-        return -firstDerivative(distance) * directionToCenter;
-    }
-
-    inline JET_CUDA_HOST_DEVICE float secondDerivative(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return 90.0f / (kPiF * h5) * x;
-        }
-    }
-};
 
 class ComputePressureFunc {
  public:
