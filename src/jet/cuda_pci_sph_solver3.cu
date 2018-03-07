@@ -9,73 +9,12 @@
 #ifdef JET_USE_CUDA
 
 #include <jet/cuda_pci_sph_solver3.h>
-#include <jet/sph_kernels3.h>
+#include <jet/cuda_sph_kernels3.h>
 
 using namespace jet;
 using namespace experimental;
 
 namespace {
-
-inline JET_CUDA_HOST_DEVICE float stdKernel(float d2, float h2, float h3) {
-    if (d2 >= h2) {
-        return 0.0f;
-    } else {
-        float x = 1.0f - d2 / h2;
-        return 315.0f / (64.0f * kPiF * h3) * x * x * x;
-    }
-}
-
-struct CudaSphSpikyKernel3 {
-    float h;
-    float h2;
-    float h3;
-    float h4;
-    float h5;
-
-    inline JET_CUDA_HOST_DEVICE CudaSphSpikyKernel3(float h_)
-        : h(h_), h2(h * h), h3(h2 * h), h4(h2 * h2), h5(h3 * h2) {}
-
-    inline JET_CUDA_HOST_DEVICE float operator()(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return 15.0f / (kPiF * h3) * x * x * x;
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float firstDerivative(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return -45.0f / (kPiF * h4) * x * x;
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float4 gradient(float4 point) const {
-        float dist = length(point);
-        if (dist > 0.0f) {
-            return gradient(dist, point / dist);
-        } else {
-            return make_float4(0, 0, 0, 0);
-        }
-    }
-
-    inline JET_CUDA_HOST_DEVICE float4
-    gradient(float distance, float4 directionToCenter) const {
-        return -firstDerivative(distance) * directionToCenter;
-    }
-
-    inline JET_CUDA_HOST_DEVICE float secondDerivative(float distance) const {
-        if (distance >= h) {
-            return 0.0f;
-        } else {
-            float x = 1.0f - distance / h;
-            return 90.0f / (kPiF * h5) * x;
-        }
-    }
-};
 
 class InitializeBuffersAndComputeForces {
  public:
@@ -260,8 +199,6 @@ class ComputeDensityError {
                                float* densities, float* pressures,
                                float* densityErrors, float* densitiesPredicted)
         : _mass(m),
-          _h2(h * h),
-          _h3(h * h * h),
           _targetDensity(targetDensity),
           _delta(delta),
           _negativePressureScale(negativePressureScale),
@@ -272,14 +209,15 @@ class ComputeDensityError {
           _densities(densities),
           _pressures(pressures),
           _densitiesPredicted(densitiesPredicted),
-          _densityErrors(densityErrors) {}
+          _densityErrors(densityErrors),
+          _stdKernel(h) {}
 
     template <typename Index>
     inline JET_CUDA_DEVICE void operator()(Index i) {
         uint32_t ns = _neighborStarts[i];
         uint32_t ne = _neighborEnds[i];
         float4 x_i = _positions[i];
-        float kernelSum = stdKernel(0.f, _h2, _h3);
+        float kernelSum = _stdKernel(0.f);
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
             uint32_t j = _neighborLists[jj];
@@ -288,7 +226,7 @@ class ComputeDensityError {
             float dist = length(r);
 
             if (dist > 0.0f) {
-                kernelSum += stdKernel(dist * dist, _h2, _h3);
+                kernelSum += _stdKernel(dist);
             }
         }
 
@@ -308,8 +246,6 @@ class ComputeDensityError {
 
  private:
     float _mass;
-    float _h2;
-    float _h3;
     float _targetDensity;
     float _delta;
     float _negativePressureScale;
@@ -321,6 +257,7 @@ class ComputeDensityError {
     float* _pressures;
     float* _densitiesPredicted;
     float* _densityErrors;
+    CudaSphStdKernel3 _stdKernel;
 };
 
 class ComputePressureForces {
