@@ -17,6 +17,8 @@
 
 #ifdef JET_TASKING_TBB
 #include <tbb/parallel_for.h>
+#include <tbb/parallel_reduce.h>
+#include <tbb/parallel_sort.h>
 #include <tbb/task.h>
 #elif defined(JET_TASKING_CPP11THREADS)
 #include <thread>
@@ -254,6 +256,17 @@ void parallelRangeFor(IndexType start, IndexType end, const Function& func,
         return;
     }
 
+#ifdef JET_TASKING_TBB
+    if (policy == ExecutionPolicy::kParallel) {
+        tbb::parallel_for(tbb::blocked_range<IndexType>(start, end),
+                          [&func](const tbb::blocked_range<IndexType>& range) {
+                              func(range.begin(), range.end());
+                          });
+    } else {
+        func(start, end);
+    }
+
+#else
     // Estimate number of threads in the pool
     unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
@@ -287,6 +300,7 @@ void parallelRangeFor(IndexType start, IndexType end, const Function& func,
             f.wait();
         }
     }
+#endif
 }
 
 template <typename IndexType, typename Function>
@@ -351,6 +365,21 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
         return identity;
     }
 
+#ifdef JET_TASKING_TBB
+    if (policy == ExecutionPolicy::kParallel) {
+        return tbb::parallel_reduce(
+            tbb::blocked_range<IndexType>(start, end), identity,
+            [&func](const tbb::blocked_range<IndexType>& range,
+                    const Value& init) {
+                return func(range.begin(), range.end(), init);
+            },
+            reduce);
+    } else {
+        (void)reduce;
+        return func(start, end, identity);
+    }
+
+#else
     // Estimate number of threads in the pool
     unsigned int numThreadsHint = maxNumberOfThreads();
     const unsigned int numThreads =
@@ -402,6 +431,7 @@ Value parallelReduce(IndexType start, IndexType end, const Value& identity,
     }
 
     return finalResult;
+#endif
 }
 
 template <typename RandomIterator, typename CompareFunction>
@@ -411,6 +441,14 @@ void parallelSort(RandomIterator begin, RandomIterator end,
         return;
     }
 
+#ifdef JET_TASKING_TBB
+    if (policy == ExecutionPolicy::kParallel) {
+        tbb::parallel_sort(begin, end, compareFunction);
+    } else {
+        std::sort(begin, end, compareFunction);
+    }
+
+#else
     size_t size = static_cast<size_t>(end - begin);
 
     typedef
@@ -426,6 +464,7 @@ void parallelSort(RandomIterator begin, RandomIterator end,
 
     internal::parallelMergeSort(begin, size, temp.begin(), numThreads,
                                 compareFunction);
+#endif
 }
 
 template <typename RandomIterator>
