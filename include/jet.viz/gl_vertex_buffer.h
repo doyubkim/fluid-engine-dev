@@ -52,8 +52,10 @@ class GLVertexBuffer final : public VertexBuffer {
     //!
     void updateWithCuda(const float* vertices) override;
 
+    //! Maps vertex buffer to CUDA-accessible memory pointer.
     void* cudaMapResources() override;
 
+    //! Unmaps vertex buffer from CUDA-accessible memory pointer.
     void cudaUnmapResources() override;
 #endif  // JET_USE_CUDA
 

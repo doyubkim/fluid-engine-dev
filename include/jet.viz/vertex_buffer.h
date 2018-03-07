@@ -12,13 +12,18 @@
 #include <jet.viz/vertex.h>
 
 namespace jet {
+
 namespace viz {
 
 class Renderer;
 
+//! Abstract base class for vertex buffer types.
 class VertexBuffer {
  public:
+    //! Default constructor.
     VertexBuffer();
+
+    //! Default destructor.
     virtual ~VertexBuffer();
 
     //!
@@ -36,24 +41,33 @@ class VertexBuffer {
     //!
     virtual void updateWithCuda(const float* vertices);
 
+    //! Maps vertex buffer to CUDA-accessible memory pointer.
     virtual void* cudaMapResources();
 
+    //! Unmaps vertex buffer from CUDA-accessible memory pointer.
     virtual void cudaUnmapResources();
 #endif
 
+    //! Clears the contents.
     void clear();
 
+    //! Resizes the buffer.
     void resize(const ShaderPtr& shader, const float* vertices,
                 size_t numberOfVertices);
 
+    //! Binds this buffer to the given \p renderer.
     void bind(Renderer* renderer);
 
+    //! Unbinds this buffer from the given \p renderer.
     void unbind(Renderer* renderer);
 
+    //! Returns the number of vertices.
     size_t numberOfVertices() const;
 
+    //! Returns vertex format.
     VertexFormat vertexFormat() const;
 
+    //! Returns shader object that is associated with this buffer.
     const ShaderPtr& shader() const;
 
  protected:
@@ -75,6 +89,7 @@ class VertexBuffer {
 typedef std::shared_ptr<VertexBuffer> VertexBufferPtr;
 
 }  // namespace viz
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_VERTEX_BUFFER_H_
