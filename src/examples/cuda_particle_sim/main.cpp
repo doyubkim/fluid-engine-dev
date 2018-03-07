@@ -94,7 +94,7 @@ int main(int, const char**) {
 
     // Setup ImGui binding
     ImGuiForGlfwApp::configureApp();
-    ImGuiForGlfwApp::configureWindow(window);
+    ImGuiForGlfwApp::configureWindow(window.get());
     ImGui::SetupImGuiStyle(true, 0.75f);
 
     // Setup tests

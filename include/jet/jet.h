@@ -62,6 +62,7 @@
 #include <jet/cuda_particle_system_solver_base3.h>
 #include <jet/cuda_pci_sph_solver3.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
+#include <jet/cuda_sph_kernels3.h>
 #include <jet/cuda_sph_solver_base3.h>
 #include <jet/cuda_sph_system_data3.h>
 #include <jet/cuda_utils.h>
@@ -145,7 +146,6 @@
 #include <jet/intersection_query_engine3.h>
 #include <jet/iterative_level_set_solver2.h>
 #include <jet/iterative_level_set_solver3.h>
-#include <jet/jet.h>
 #include <jet/kdtree.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/level_set_liquid_solver3.h>

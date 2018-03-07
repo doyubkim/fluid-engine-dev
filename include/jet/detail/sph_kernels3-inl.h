@@ -16,8 +16,7 @@
 
 namespace jet {
 
-inline SphStdKernel3::SphStdKernel3()
-    : h(0), h2(0), h3(0), h5(0) {}
+inline SphStdKernel3::SphStdKernel3() : h(0), h2(0), h3(0), h5(0) {}
 
 inline SphStdKernel3::SphStdKernel3(double kernelRadius)
     : h(kernelRadius), h2(h * h), h3(h2 * h), h5(h2 * h3) {}
@@ -43,8 +42,7 @@ inline double SphStdKernel3::firstDerivative(double distance) const {
     }
 }
 
-inline Vector3D SphStdKernel3::gradient(
-    const Vector3D& point) const {
+inline Vector3D SphStdKernel3::gradient(const Vector3D& point) const {
     double dist = point.length();
     if (dist > 0.0) {
         return gradient(dist, point / dist);
@@ -54,8 +52,7 @@ inline Vector3D SphStdKernel3::gradient(
 }
 
 inline Vector3D SphStdKernel3::gradient(
-    double distance,
-    const Vector3D& directionToCenter) const {
+    double distance, const Vector3D& directionToCenter) const {
     return -firstDerivative(distance) * directionToCenter;
 }
 
@@ -68,8 +65,7 @@ inline double SphStdKernel3::secondDerivative(double distance) const {
     }
 }
 
-inline SphSpikyKernel3::SphSpikyKernel3()
-    : h(0), h2(0), h3(0), h4(0), h5(0) {}
+inline SphSpikyKernel3::SphSpikyKernel3() : h(0), h2(0), h3(0), h4(0), h5(0) {}
 
 inline SphSpikyKernel3::SphSpikyKernel3(double h_)
     : h(h_), h2(h * h), h3(h2 * h), h4(h2 * h2), h5(h3 * h2) {}
@@ -95,8 +91,7 @@ inline double SphSpikyKernel3::firstDerivative(double distance) const {
     }
 }
 
-inline Vector3D SphSpikyKernel3::gradient(
-    const Vector3D& point) const {
+inline Vector3D SphSpikyKernel3::gradient(const Vector3D& point) const {
     double dist = point.length();
     if (dist > 0.0) {
         return gradient(dist, point / dist);
@@ -106,8 +101,7 @@ inline Vector3D SphSpikyKernel3::gradient(
 }
 
 inline Vector3D SphSpikyKernel3::gradient(
-    double distance,
-    const Vector3D& directionToCenter) const {
+    double distance, const Vector3D& directionToCenter) const {
     return -firstDerivative(distance) * directionToCenter;
 }
 
