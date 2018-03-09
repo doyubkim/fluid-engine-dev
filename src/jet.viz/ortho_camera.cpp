@@ -26,7 +26,11 @@ OrthoCamera::OrthoCamera(const Vector3D& origin, const Vector3D& lookAt,
                          double farClipPlane, double left, double right,
                          double bottom, double top)
     : Camera(origin, lookAt, lookUp, nearClipPlane, farClipPlane,
-             Viewport(left, bottom, right - left, top - bottom)) {
+             Viewport(left, bottom, right - left, top - bottom)),
+      _left(left),
+      _right(right),
+      _bottom(bottom),
+      _top(top) {
     updateMatrix();
 }
 
