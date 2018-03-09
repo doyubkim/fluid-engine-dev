@@ -8,22 +8,31 @@
 
 Example::Example(const jet::Frame& frame) : _frame(frame) {}
 
-void Example::setup(jet::viz::GlfwWindow* window) { onSetup(window); }
+#ifdef JET_USE_GL
+void Example::setup(jet::viz::GlfwWindow* window) {
+    _frame.index = 0;
+    onSetup(window);
+}
 
 void Example::gui(jet::viz::GlfwWindow* window) { onGui(window); }
+#else
+void Example::setup() { onSetup(); }
+#endif
 
 void Example::advanceSim() {
     onAdvanceSim(_frame);
     ++_frame;
 }
 
-void Example::updateRenderables() {
-    onUpdateRenderables();
-}
+void Example::updateRenderables() { onUpdateRenderables(); }
 
+#ifdef JET_USE_GL
 void Example::onSetup(jet::viz::GlfwWindow* window) { (void)window; }
 
 void Example::onGui(jet::viz::GlfwWindow* window) { (void)window; }
+#else
+void Example::onSetup() {}
+#endif
 
 void Example::onAdvanceSim(const jet::Frame& frame) { (void)frame; }
 

@@ -151,6 +151,8 @@ void ExampleApp::addExample(const ExamplePtr& example) {
 }
 
 void ExampleApp::run() {
+    sTests[sCurrentTestIdx]->setup(sWindow.get());
+
     // Worker thread for sim
     bool done = false;
     std::thread worker([&]() {
