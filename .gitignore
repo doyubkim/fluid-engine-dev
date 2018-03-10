@@ -92,3 +92,6 @@ unit_tests_output
 
 # NuGet
 packages
+
+# Python
+ENV*
