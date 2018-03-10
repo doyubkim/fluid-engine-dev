@@ -15,8 +15,10 @@ using namespace jet;
 void addVector2F(pybind11::module& m) {
     py::class_<Vector2F>(m, "Vector2F")
         // CTOR
-        .def("__init__", [](Vector2F& instance, float x,
-                            float y) { new (&instance) Vector2F(x, y); },
+        .def("__init__",
+             [](Vector2F& instance, float x, float y) {
+                 new (&instance) Vector2F(x, y);
+             },
              R"pbdoc(
              Constructs Vector2F.
 
@@ -63,8 +65,10 @@ void addVector2F(pybind11::module& m) {
                  return instance.projected(objectToVector2F(other));
              })
         .def("tangential", &Vector2F::tangential)
-        .def("__getitem__", [](const Vector2F& instance,
-                               size_t i) -> float { return instance[i]; })
+        .def("__getitem__",
+             [](const Vector2F& instance, size_t i) -> float {
+                 return instance[i];
+             })
         .def("__setitem__",
              [](Vector2F& instance, size_t i, float val) { instance[i] = val; })
         .def("__add__",
@@ -115,6 +119,14 @@ void addVector2F(pybind11::module& m) {
                      return instance.rdiv(objectToVector2F(object));
                  }
              })
+        .def("__truediv__",
+             [](const Vector2F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.div(object.cast<float>());
+                 } else {
+                     return instance.div(objectToVector2F(object));
+                 }
+             })
         .def("__eq__", [](const Vector2F& instance, py::object obj) {
             Vector2F other = objectToVector2F(obj);
             return instance == other;
@@ -125,8 +137,10 @@ void addVector2F(pybind11::module& m) {
 void addVector2D(pybind11::module& m) {
     py::class_<Vector2D>(m, "Vector2D")
         // CTOR
-        .def("__init__", [](Vector2D& instance, double x,
-                            double y) { new (&instance) Vector2D(x, y); },
+        .def("__init__",
+             [](Vector2D& instance, double x, double y) {
+                 new (&instance) Vector2D(x, y);
+             },
              R"pbdoc(
              Constructs Vector2D.
 
@@ -173,8 +187,10 @@ void addVector2D(pybind11::module& m) {
                  return instance.projected(objectToVector2D(other));
              })
         .def("tangential", &Vector2D::tangential)
-        .def("__getitem__", [](const Vector2D& instance,
-                               size_t i) -> double { return instance[i]; })
+        .def("__getitem__",
+             [](const Vector2D& instance, size_t i) -> double {
+                 return instance[i];
+             })
         .def("__setitem__", [](Vector2D& instance, size_t i,
                                double val) { instance[i] = val; })
         .def("__add__",
@@ -225,6 +241,14 @@ void addVector2D(pybind11::module& m) {
                      return instance.rdiv(objectToVector2D(object));
                  }
              })
+        .def("__truediv__",
+             [](const Vector2D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.div(object.cast<double>());
+                 } else {
+                     return instance.div(objectToVector2D(object));
+                 }
+             })
         .def("__eq__", [](const Vector2D& instance, py::object obj) {
             Vector2D other = objectToVector2D(obj);
             return instance == other;
@@ -234,8 +258,10 @@ void addVector2D(pybind11::module& m) {
 void addVector3F(pybind11::module& m) {
     py::class_<Vector3F>(m, "Vector3F")
         // CTOR
-        .def("__init__", [](Vector3F& instance, float x, float y,
-                            float z) { new (&instance) Vector3F(x, y, z); },
+        .def("__init__",
+             [](Vector3F& instance, float x, float y, float z) {
+                 new (&instance) Vector3F(x, y, z);
+             },
              R"pbdoc(
              Constructs Vector3F.
 
@@ -283,8 +309,10 @@ void addVector3F(pybind11::module& m) {
                  return instance.projected(objectToVector3F(other));
              })
         .def("tangential", &Vector3F::tangential)
-        .def("__getitem__", [](const Vector3F& instance,
-                               size_t i) -> float { return instance[i]; })
+        .def("__getitem__",
+             [](const Vector3F& instance, size_t i) -> float {
+                 return instance[i];
+             })
         .def("__setitem__",
              [](Vector3F& instance, size_t i, float val) { instance[i] = val; })
         .def("__add__",
@@ -335,6 +363,14 @@ void addVector3F(pybind11::module& m) {
                      return instance.rdiv(objectToVector3F(object));
                  }
              })
+        .def("__truediv__",
+             [](const Vector3F& instance, py::object object) {
+                 if (py::isinstance<float>(object)) {
+                     return instance.div(object.cast<float>());
+                 } else {
+                     return instance.div(objectToVector3F(object));
+                 }
+             })
         .def("__eq__", [](const Vector3F& instance, py::object obj) {
             Vector3F other = objectToVector3F(obj);
             return instance == other;
@@ -345,8 +381,10 @@ void addVector3F(pybind11::module& m) {
 void addVector3D(pybind11::module& m) {
     py::class_<Vector3D>(m, "Vector3D")
         // CTOR
-        .def("__init__", [](Vector3D& instance, double x, double y,
-                            double z) { new (&instance) Vector3D(x, y, z); },
+        .def("__init__",
+             [](Vector3D& instance, double x, double y, double z) {
+                 new (&instance) Vector3D(x, y, z);
+             },
              R"pbdoc(
              Constructs Vector3D.
 
@@ -394,8 +432,10 @@ void addVector3D(pybind11::module& m) {
                  return instance.projected(objectToVector3D(other));
              })
         .def("tangential", &Vector3D::tangential)
-        .def("__getitem__", [](const Vector3D& instance,
-                               size_t i) -> double { return instance[i]; })
+        .def("__getitem__",
+             [](const Vector3D& instance, size_t i) -> double {
+                 return instance[i];
+             })
         .def("__setitem__", [](Vector3D& instance, size_t i,
                                double val) { instance[i] = val; })
         .def("__add__",
@@ -444,6 +484,14 @@ void addVector3D(pybind11::module& m) {
                      return instance.rdiv(object.cast<double>());
                  } else {
                      return instance.rdiv(objectToVector3D(object));
+                 }
+             })
+        .def("__truediv__",
+             [](const Vector3D& instance, py::object object) {
+                 if (py::isinstance<double>(object)) {
+                     return instance.div(object.cast<double>());
+                 } else {
+                     return instance.div(objectToVector3D(object));
                  }
              })
         .def("__eq__", [](const Vector3D& instance, py::object obj) {
