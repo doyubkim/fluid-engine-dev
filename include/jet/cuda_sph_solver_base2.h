@@ -6,24 +6,24 @@
 
 #ifdef JET_USE_CUDA
 
-#ifndef INCLUDE_JET_CUDA_SPH_SOLVER_BASE3_H_
-#define INCLUDE_JET_CUDA_SPH_SOLVER_BASE3_H_
+#ifndef INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
+#define INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 
-#include <jet/cuda_particle_system_solver_base3.h>
-#include <jet/cuda_sph_system_data3.h>
+#include <jet/cuda_particle_system_solver_base2.h>
+#include <jet/cuda_sph_system_data2.h>
 
 namespace jet {
 
 namespace experimental {
 
 //!
-class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
+class CudaSphSolverBase2 : public CudaParticleSystemSolverBase2 {
  public:
     //! Constructs a solver with empty particle set.
-    CudaSphSolverBase3();
+    CudaSphSolverBase2();
 
     //! Destructor.
-    virtual ~CudaSphSolverBase3();
+    virtual ~CudaSphSolverBase2();
 
     //!
     //! \brief Negative pressure scaling factor.
@@ -88,7 +88,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    CudaParticleSystemData3* particleSystemData() override;
+    CudaParticleSystemData2* particleSystemData() override;
 
     //!
     //! \brief Returns the particle system data.
@@ -96,7 +96,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    const CudaParticleSystemData3* particleSystemData() const override;
+    const CudaParticleSystemData2* particleSystemData() const override;
 
     //!
     //! \brief Returns the SPH system data.
@@ -104,7 +104,7 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the SPH system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    CudaSphSystemData3* sphSystemData();
+    CudaSphSystemData2* sphSystemData();
 
     //!
     //! \brief Returns the SPH system data.
@@ -112,16 +112,16 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     //! This function returns the SPH system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    const CudaSphSystemData3* sphSystemData() const;
+    const CudaSphSystemData2* sphSystemData() const;
 
  protected:
     //! Returns the number of sub-time-steps.
     unsigned int numberOfSubTimeSteps(
         double timeIntervalInSeconds) const override;
 
-    CudaArrayView1<float4> forces() const;
+    CudaArrayView1<float2> forces() const;
 
-    CudaArrayView1<float4> smoothedVelocities() const;
+    CudaArrayView1<float2> smoothedVelocities() const;
 
  private:
     // Basic SPH solver properties
@@ -134,16 +134,16 @@ class CudaSphSolverBase3 : public CudaParticleSystemSolverBase3 {
     float _timeStepLimitScale = 1.0f;
 
     // Data model
-    CudaSphSystemData3Ptr _sphSystemData;
+    CudaSphSystemData2Ptr _sphSystemData;
 };
 
-//! Shared pointer type for the CudaSphSolverBase3.
-typedef std::shared_ptr<CudaSphSolverBase3> CudaSphSolverBase3Ptr;
+//! Shared pointer type for the CudaSphSolverBase2.
+typedef std::shared_ptr<CudaSphSolverBase2> CudaSphSolverBase2Ptr;
 
 //!
 template <typename DerivedBuilder>
-class CudaSphSolverBuilderBase3
-    : public CudaParticleSystemSolverBuilderBase3<DerivedBuilder> {
+class CudaSphSolverBuilderBase2
+    : public CudaParticleSystemSolverBuilderBase2<DerivedBuilder> {
  public:
     //! Returns builder with target density.
     DerivedBuilder& withTargetDensity(float targetDensity);
@@ -171,40 +171,40 @@ class CudaSphSolverBuilderBase3
 };
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withTargetDensity(float targetDensity) {
+T& CudaSphSolverBuilderBase2<T>::withTargetDensity(float targetDensity) {
     _targetDensity = targetDensity;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withTargetSpacing(float targetSpacing) {
+T& CudaSphSolverBuilderBase2<T>::withTargetSpacing(float targetSpacing) {
     _targetSpacing = targetSpacing;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withRelativeKernelRadius(
+T& CudaSphSolverBuilderBase2<T>::withRelativeKernelRadius(
     float relativeKernelRadius) {
     _relativeKernelRadius = relativeKernelRadius;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withNegativePressureScale(
+T& CudaSphSolverBuilderBase2<T>::withNegativePressureScale(
     float negativePressureScale) {
     _negativePressureScale = negativePressureScale;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withViscosityCoefficient(
+T& CudaSphSolverBuilderBase2<T>::withViscosityCoefficient(
     float viscosityCoefficient) {
     _viscosityCoefficient = viscosityCoefficient;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaSphSolverBuilderBase3<T>::withPseudoViscosityCoefficient(
+T& CudaSphSolverBuilderBase2<T>::withPseudoViscosityCoefficient(
     float pseudoViscosityCoefficient) {
     _pseudoViscosityCoefficient = pseudoViscosityCoefficient;
     return static_cast<T&>(*this);
@@ -214,6 +214,6 @@ T& CudaSphSolverBuilderBase3<T>::withPseudoViscosityCoefficient(
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_CUDA_SPH_SOLVER_BASE3_H_
+#endif  // INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 
 #endif  // JET_USE_CUDA

@@ -8,8 +8,8 @@
 
 #ifdef JET_USE_CUDA
 
-#include <jet/cuda_pci_sph_solver3.h>
-#include <jet/cuda_sph_kernels3.h>
+#include <jet/cuda_pci_sph_solver2.h>
+#include <jet/cuda_sph_kernels2.h>
 
 using namespace jet;
 using namespace experimental;
@@ -19,11 +19,11 @@ namespace {
 class InitializeBuffersAndComputeForces {
  public:
     inline InitializeBuffersAndComputeForces(
-        float m, float h, float4 gravity, float viscosity,
+        float m, float h, float2 gravity, float viscosity,
         uint32_t* neighborStarts, uint32_t* neighborEnds,
-        uint32_t* neighborLists, float4* positions, float4* velocities,
-        float4* smoothedVelocities, float4* forces, float* densities,
-        float* pressures, float4* pressureForces, float* densityErrors,
+        uint32_t* neighborLists, float2* positions, float2* velocities,
+        float2* smoothedVelocities, float2* forces, float* densities,
+        float* pressures, float2* pressureForces, float* densityErrors,
         float* densitiesPredicted)
         : _mass(m),
           _massSquared(m * m),
@@ -47,32 +47,32 @@ class InitializeBuffersAndComputeForces {
     inline JET_CUDA_DEVICE void operator()(Index i) {
         // Initialize buffers
         _pressures[i] = 0.0f;
-        _pressureForces[i] = make_float4(0, 0, 0, 0);
+        _pressureForces[i] = make_float2(0, 0);
         _densityErrors[i] = 0.0f;
         _densitiesPredicted[i] = _densities[i];
 
         // Compute forces
         uint32_t ns = _neighborStarts[i];
         uint32_t ne = _neighborEnds[i];
-        float4 x_i = _positions[i];
-        float4 v_i = _velocities[i];
+        float2 x_i = _positions[i];
+        float2 v_i = _velocities[i];
         float d_i = _densities[i];
-        float4 f = _gravity;
+        float2 f = _gravity;
         float w_i = _mass / d_i;
         float weightSum = w_i * _spikyKernel(0.0f);
         ;
-        float4 smoothedVelocity = w_i * v_i;
+        float2 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
             uint32_t j = _neighborLists[jj];
 
-            float4 r = _positions[j] - x_i;
+            float2 r = _positions[j] - x_i;
             float dist = length(r);
 
             if (dist > 0.0f) {
-                float4 dir = r / dist;
+                float2 dir = r / dist;
 
-                float4 v_j = _velocities[j];
+                float2 v_j = _velocities[j];
                 float d_j = _densities[j];
 
                 // Viscosity force
@@ -95,19 +95,19 @@ class InitializeBuffersAndComputeForces {
  private:
     float _mass;
     float _massSquared;
-    float4 _gravity;
+    float2 _gravity;
     float _viscosity;
-    CudaSphSpikyKernel3 _spikyKernel;
+    CudaSphSpikyKernel2 _spikyKernel;
     uint32_t* _neighborStarts;
     uint32_t* _neighborEnds;
     uint32_t* _neighborLists;
-    float4* _positions;
-    float4* _velocities;
-    float4* _smoothedVelocities;
-    float4* _forces;
+    float2* _positions;
+    float2* _velocities;
+    float2* _smoothedVelocities;
+    float2* _forces;
     float* _densities;
     float* _pressures;
-    float4* _pressureForces;
+    float2* _pressureForces;
     float* _densitiesPredicted;
     float* _densityErrors;
 };
@@ -115,17 +115,15 @@ class InitializeBuffersAndComputeForces {
 #define LOWER_X 0.0f
 #define UPPER_X 1.0f
 #define LOWER_Y 0.0f
-#define UPPER_Y 1.0f
-#define LOWER_Z 0.0f
-#define UPPER_Z 1.0f
+#define UPPER_Y 2.0f
 #define BND_R 0.0f
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float smoothFactor, float4* positions,
-                    float4* velocities, float4* newPositions,
-                    float4* newVelocities, float4* smoothedVelocities,
-                    float4* forces, float4* pressureForces)
+    TimeIntegration(float dt, float smoothFactor, float2* positions,
+                    float2* velocities, float2* newPositions,
+                    float2* newVelocities, float2* smoothedVelocities,
+                    float2* forces, float2* pressureForces)
         : _dt(dt),
           _smoothFactor(smoothFactor),
           _positions(positions),
@@ -138,11 +136,11 @@ class TimeIntegration {
 
     template <typename Index>
     inline JET_CUDA_HOST_DEVICE void operator()(Index i) {
-        float4 x = _positions[i];
-        float4 v = _velocities[i];
-        float4 s = _smoothedVelocities[i];
-        float4 f = _forces[i];
-        float4 pf = _pressureForces[i];
+        float2 x = _positions[i];
+        float2 v = _velocities[i];
+        float2 s = _smoothedVelocities[i];
+        float2 f = _forces[i];
+        float2 pf = _pressureForces[i];
 
         v = (1.0f - _smoothFactor) * v + _smoothFactor * s;
         v += _dt * (f + pf);
@@ -165,14 +163,6 @@ class TimeIntegration {
             x.y = LOWER_Y;
             v.y *= BND_R;
         }
-        if (x.z > UPPER_Z) {
-            x.z = UPPER_Z;
-            v.z *= BND_R;
-        }
-        if (x.z < LOWER_Z) {
-            x.z = LOWER_Z;
-            v.z *= BND_R;
-        }
 
         _newPositions[i] = x;
         _newVelocities[i] = v;
@@ -181,13 +171,13 @@ class TimeIntegration {
  private:
     float _dt;
     float _smoothFactor;
-    float4* _positions;
-    float4* _velocities;
-    float4* _newPositions;
-    float4* _newVelocities;
-    float4* _smoothedVelocities;
-    float4* _forces;
-    float4* _pressureForces;
+    float2* _positions;
+    float2* _velocities;
+    float2* _newPositions;
+    float2* _newVelocities;
+    float2* _smoothedVelocities;
+    float2* _forces;
+    float2* _pressureForces;
 };
 
 class ComputeDensityError {
@@ -195,7 +185,7 @@ class ComputeDensityError {
     inline ComputeDensityError(float m, float h, float targetDensity,
                                float delta, float negativePressureScale,
                                uint32_t* neighborStarts, uint32_t* neighborEnds,
-                               uint32_t* neighborLists, float4* positions,
+                               uint32_t* neighborLists, float2* positions,
                                float* densities, float* pressures,
                                float* densityErrors, float* densitiesPredicted)
         : _mass(m),
@@ -216,13 +206,13 @@ class ComputeDensityError {
     inline JET_CUDA_DEVICE void operator()(Index i) {
         uint32_t ns = _neighborStarts[i];
         uint32_t ne = _neighborEnds[i];
-        float4 x_i = _positions[i];
+        float2 x_i = _positions[i];
         float kernelSum = _stdKernel(0.f);
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
             uint32_t j = _neighborLists[jj];
 
-            float4 r = _positions[j] - x_i;
+            float2 r = _positions[j] - x_i;
             float dist = length(r);
 
             if (dist > 0.0f) {
@@ -252,20 +242,20 @@ class ComputeDensityError {
     uint32_t* _neighborStarts;
     uint32_t* _neighborEnds;
     uint32_t* _neighborLists;
-    float4* _positions;
+    float2* _positions;
     float* _densities;
     float* _pressures;
     float* _densitiesPredicted;
     float* _densityErrors;
-    CudaSphStdKernel3 _stdKernel;
+    CudaSphStdKernel2 _stdKernel;
 };
 
 class ComputePressureForces {
  public:
     inline ComputePressureForces(float m, float h, uint32_t* neighborStarts,
                                  uint32_t* neighborEnds,
-                                 uint32_t* neighborLists, float4* positions,
-                                 float4* pressureForces, float* densities,
+                                 uint32_t* neighborLists, float2* positions,
+                                 float2* pressureForces, float* densities,
                                  float* pressures)
         : _mass(m),
           _massSquared(m * m),
@@ -283,20 +273,20 @@ class ComputePressureForces {
         uint32_t ns = _neighborStarts[i];
         uint32_t ne = _neighborEnds[i];
 
-        float4 x_i = _positions[i];
+        float2 x_i = _positions[i];
         float d_i = _densities[i];
         float p_i = _pressures[i];
 
-        float4 f = make_float4(0, 0, 0, 0);
+        float2 f = make_float2(0, 0);
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
             uint32_t j = _neighborLists[jj];
 
-            float4 r = _positions[j] - x_i;
+            float2 r = _positions[j] - x_i;
             float dist = length(r);
 
             if (dist > 0.0f) {
-                float4 dir = r / dist;
+                float2 dir = r / dist;
 
                 float d_j = _densities[j];
                 float p_j = _pressures[j];
@@ -313,19 +303,19 @@ class ComputePressureForces {
  private:
     float _mass;
     float _massSquared;
-    CudaSphSpikyKernel3 _spikyKernel;
+    CudaSphSpikyKernel2 _spikyKernel;
     uint32_t* _neighborStarts;
     uint32_t* _neighborEnds;
     uint32_t* _neighborLists;
-    float4* _positions;
-    float4* _pressureForces;
+    float2* _positions;
+    float2* _pressureForces;
     float* _densities;
     float* _pressures;
 };
 
 }  // namespace
 
-void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
+void CudaPciSphSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
     auto sph = sphSystemData();
 
     float dt = static_cast<float>(timeStepInSeconds);
@@ -365,9 +355,9 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
         thrust::counting_iterator<size_t>(n),
 
         InitializeBuffersAndComputeForces(
-            mass, h, toFloat4(gravity(), 0.0f), viscosityCoefficient(),
-            ns.data(), ne.data(), nl.data(), x.data(), v.data(), s.data(),
-            f.data(), d.data(), p.data(), pf.data(), ds.data(), de.data()));
+            mass, h, toFloat2(gravity()), viscosityCoefficient(), ns.data(),
+            ne.data(), nl.data(), x.data(), v.data(), s.data(), f.data(),
+            d.data(), p.data(), pf.data(), ds.data(), de.data()));
 
     // Prediction-correction
     // unsigned int maxNumIter = 0;

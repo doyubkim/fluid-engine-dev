@@ -32,12 +32,19 @@ class PointsRenderable2 final : public Renderable {
     void setPositions(ConstArrayView1<Vector2F> positions);
 
     //! Sets the positions and colors of the points.
+    void setPositionsAndColors(ConstArrayView1<Vector2F> positions,
+                               ConstArrayView1<Color> colors);
+
+    //! Sets the positions and colors of the points.
     void setPositionsAndColors(const Vector2F* positions, const Color* colors,
                                size_t numberOfVertices);
 
     //! Sets the positions and colors of the points.
-    void setPositionsAndColors(ConstArrayView1<Vector2F> positions,
-                               ConstArrayView1<Color> colors);
+    void setPositionsAndColors(const VertexPosition3Color4* vertices,
+                               size_t numberOfVertices);
+
+    //! Sets the positions and colors of the points.
+    void setPositionsAndColors(ConstArrayView1<VertexPosition3Color4> vertices);
 
     //! Returns vertex buffer object.
     VertexBuffer* vertexBuffer() const;

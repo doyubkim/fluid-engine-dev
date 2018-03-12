@@ -4,9 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "cuda_particle_system_data3_func.h"
+#include "cuda_particle_system_data2_func.h"
 
-#include <jet/cuda_particle_system_data3.h>
+#include <jet/cuda_particle_system_data2.h>
 #include <jet/cuda_utils.h>
 #include <jet/macros.h>
 
@@ -19,24 +19,24 @@ using namespace experimental;
 
 constexpr uint32_t kDefaultHashGridResolution = 64;
 
-CudaParticleSystemData3::CudaParticleSystemData3()
-    : CudaParticleSystemData3(0) {}
+CudaParticleSystemData2::CudaParticleSystemData2()
+    : CudaParticleSystemData2(0) {}
 
-CudaParticleSystemData3::CudaParticleSystemData3(size_t numberOfParticles) {
+CudaParticleSystemData2::CudaParticleSystemData2(size_t numberOfParticles) {
     _positionIdx = addVectorData();
     _velocityIdx = addVectorData();
 
     resize(numberOfParticles);
 }
 
-CudaParticleSystemData3::CudaParticleSystemData3(
-    const CudaParticleSystemData3& other) {
+CudaParticleSystemData2::CudaParticleSystemData2(
+    const CudaParticleSystemData2& other) {
     set(other);
 }
 
-CudaParticleSystemData3::~CudaParticleSystemData3() {}
+CudaParticleSystemData2::~CudaParticleSystemData2() {}
 
-void CudaParticleSystemData3::resize(size_t newNumberOfParticles) {
+void CudaParticleSystemData2::resize(size_t newNumberOfParticles) {
     _numberOfParticles = newNumberOfParticles;
 
     for (auto& attr : _intDataList) {
@@ -48,119 +48,119 @@ void CudaParticleSystemData3::resize(size_t newNumberOfParticles) {
     }
 
     for (auto& attr : _vectorDataList) {
-        attr.resize(newNumberOfParticles, make_float4(0, 0, 0, 0));
+        attr.resize(newNumberOfParticles, make_float2(0, 0));
     }
 }
 
-size_t CudaParticleSystemData3::numberOfParticles() const {
+size_t CudaParticleSystemData2::numberOfParticles() const {
     return _numberOfParticles;
 }
 
-size_t CudaParticleSystemData3::addIntData(int initialVal) {
+size_t CudaParticleSystemData2::addIntData(int initialVal) {
     size_t attrIdx = _intDataList.size();
     _intDataList.emplace_back(numberOfParticles(), initialVal);
     return attrIdx;
 }
 
-size_t CudaParticleSystemData3::addFloatData(float initialVal) {
+size_t CudaParticleSystemData2::addFloatData(float initialVal) {
     size_t attrIdx = _floatDataList.size();
     _floatDataList.emplace_back(numberOfParticles(), initialVal);
     return attrIdx;
 }
 
-size_t CudaParticleSystemData3::addVectorData(const Vector4F& initialVal) {
+size_t CudaParticleSystemData2::addVectorData(const Vector2F& initialVal) {
     size_t attrIdx = _vectorDataList.size();
-    _vectorDataList.emplace_back(numberOfParticles(), toFloat4(initialVal));
+    _vectorDataList.emplace_back(numberOfParticles(), toFloat2(initialVal));
     return attrIdx;
 }
 
-size_t CudaParticleSystemData3::numberOfIntData() const {
+size_t CudaParticleSystemData2::numberOfIntData() const {
     return _intDataList.size();
 }
 
-size_t CudaParticleSystemData3::numberOfFloatData() const {
+size_t CudaParticleSystemData2::numberOfFloatData() const {
     return _floatDataList.size();
 }
 
-size_t CudaParticleSystemData3::numberOfVectorData() const {
+size_t CudaParticleSystemData2::numberOfVectorData() const {
     return _vectorDataList.size();
 }
 
-CudaArrayView1<float4> CudaParticleSystemData3::positions() {
+CudaArrayView1<float2> CudaParticleSystemData2::positions() {
     return vectorDataAt(_positionIdx);
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::positions() const {
+const CudaArrayView1<float2> CudaParticleSystemData2::positions() const {
     return vectorDataAt(_positionIdx);
 }
 
-CudaArrayView1<float4> CudaParticleSystemData3::velocities() {
+CudaArrayView1<float2> CudaParticleSystemData2::velocities() {
     return vectorDataAt(_velocityIdx);
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::velocities() const {
+const CudaArrayView1<float2> CudaParticleSystemData2::velocities() const {
     return vectorDataAt(_velocityIdx);
 }
 
-CudaArrayView1<int> CudaParticleSystemData3::intDataAt(size_t idx) {
+CudaArrayView1<int> CudaParticleSystemData2::intDataAt(size_t idx) {
     return _intDataList[idx].view();
 }
 
-const CudaArrayView1<int> CudaParticleSystemData3::intDataAt(size_t idx) const {
+const CudaArrayView1<int> CudaParticleSystemData2::intDataAt(size_t idx) const {
     return _intDataList[idx].view();
 }
 
-CudaArrayView1<float> CudaParticleSystemData3::floatDataAt(size_t idx) {
+CudaArrayView1<float> CudaParticleSystemData2::floatDataAt(size_t idx) {
     return _floatDataList[idx].view();
 }
 
-const CudaArrayView1<float> CudaParticleSystemData3::floatDataAt(
+const CudaArrayView1<float> CudaParticleSystemData2::floatDataAt(
     size_t idx) const {
     return _floatDataList[idx].view();
 }
 
-CudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(size_t idx) {
+CudaArrayView1<float2> CudaParticleSystemData2::vectorDataAt(size_t idx) {
     return _vectorDataList[idx].view();
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(
+const CudaArrayView1<float2> CudaParticleSystemData2::vectorDataAt(
     size_t idx) const {
     return _vectorDataList[idx].view();
 }
 
-void CudaParticleSystemData3::addParticle(const Vector4F& newPosition,
-                                          const Vector4F& newVelocity) {
-    thrust::host_vector<float4> hostPos;
-    thrust::host_vector<float4> hostVel;
-    hostPos.push_back(toFloat4(newPosition));
-    hostVel.push_back(toFloat4(newVelocity));
-    CudaArray1<float4> devicePos{hostPos};
-    CudaArray1<float4> deviceVel{hostVel};
+void CudaParticleSystemData2::addParticle(const Vector2F& newPosition,
+                                          const Vector2F& newVelocity) {
+    thrust::host_vector<float2> hostPos;
+    thrust::host_vector<float2> hostVel;
+    hostPos.push_back(toFloat2(newPosition));
+    hostVel.push_back(toFloat2(newVelocity));
+    CudaArray1<float2> devicePos{hostPos};
+    CudaArray1<float2> deviceVel{hostVel};
 
     addParticles(devicePos, deviceVel);
 }
 
-void CudaParticleSystemData3::addParticles(
-    const ArrayView1<Vector4F>& newPositions,
-    const ArrayView1<Vector4F>& newVelocities) {
-    thrust::host_vector<float4> hostPos(newPositions.size());
-    thrust::host_vector<float4> hostVel(newVelocities.size());
+void CudaParticleSystemData2::addParticles(
+    const ArrayView1<Vector2F>& newPositions,
+    const ArrayView1<Vector2F>& newVelocities) {
+    thrust::host_vector<float2> hostPos(newPositions.size());
+    thrust::host_vector<float2> hostVel(newVelocities.size());
     for (size_t i = 0; i < newPositions.size(); ++i) {
-        hostPos[i] = toFloat4(newPositions[i]);
+        hostPos[i] = toFloat2(newPositions[i]);
     }
     for (size_t i = 0; i < newVelocities.size(); ++i) {
-        hostVel[i] = toFloat4(newVelocities[i]);
+        hostVel[i] = toFloat2(newVelocities[i]);
     }
 
-    CudaArray1<float4> devicePos{hostPos};
-    CudaArray1<float4> deviceVel{hostVel};
+    CudaArray1<float2> devicePos{hostPos};
+    CudaArray1<float2> deviceVel{hostVel};
 
     addParticles(devicePos, deviceVel);
 }
 
-void CudaParticleSystemData3::addParticles(
-    const CudaArrayView1<float4>& newPositions,
-    const CudaArrayView1<float4>& newVelocities) {
+void CudaParticleSystemData2::addParticles(
+    const CudaArrayView1<float2>& newPositions,
+    const CudaArrayView1<float2>& newVelocities) {
     JET_THROW_INVALID_ARG_IF(newVelocities.size() > 0 &&
                              newVelocities.size() != newPositions.size());
 
@@ -181,33 +181,33 @@ void CudaParticleSystemData3::addParticles(
     }
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborStarts() const {
+const CudaArrayView1<uint32_t> CudaParticleSystemData2::neighborStarts() const {
     return _neighborStarts.view();
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborEnds() const {
+const CudaArrayView1<uint32_t> CudaParticleSystemData2::neighborEnds() const {
     return _neighborEnds.view();
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborLists() const {
+const CudaArrayView1<uint32_t> CudaParticleSystemData2::neighborLists() const {
     return _neighborLists.view();
 }
 
-const CudaPointHashGridSearcher3* CudaParticleSystemData3::neighborSearcher()
+const CudaPointHashGridSearcher2* CudaParticleSystemData2::neighborSearcher()
     const {
     return _neighborSearcher.get();
 }
 
-void CudaParticleSystemData3::buildNeighborSearcher(float maxSearchRadius) {
+void CudaParticleSystemData2::buildNeighborSearcher(float maxSearchRadius) {
     if (_neighborSearcher == nullptr) {
-        _neighborSearcher = std::make_shared<CudaPointHashGridSearcher3>(
+        _neighborSearcher = std::make_shared<CudaPointHashGridSearcher2>(
             kDefaultHashGridResolution, kDefaultHashGridResolution,
-            kDefaultHashGridResolution, 2.0f * maxSearchRadius);
+            2.0f * maxSearchRadius);
     }
     _neighborSearcher->build(positions());
 }
 
-void CudaParticleSystemData3::buildNeighborLists(float maxSearchRadius) {
+void CudaParticleSystemData2::buildNeighborLists(float maxSearchRadius) {
     _neighborStarts.resize(_numberOfParticles);
     _neighborEnds.resize(_numberOfParticles);
 
@@ -242,7 +242,7 @@ void CudaParticleSystemData3::buildNeighborLists(float maxSearchRadius) {
             NoOpFunc()));
 }
 
-void CudaParticleSystemData3::set(const CudaParticleSystemData3& other) {
+void CudaParticleSystemData2::set(const CudaParticleSystemData2& other) {
     _numberOfParticles = other._numberOfParticles;
     _positionIdx = other._positionIdx;
     _velocityIdx = other._velocityIdx;
@@ -252,7 +252,7 @@ void CudaParticleSystemData3::set(const CudaParticleSystemData3& other) {
     _vectorDataList = other._vectorDataList;
 
     if (other._neighborSearcher != nullptr) {
-        _neighborSearcher = std::make_shared<CudaPointHashGridSearcher3>(
+        _neighborSearcher = std::make_shared<CudaPointHashGridSearcher2>(
             *other._neighborSearcher);
     }
     _neighborStarts = other._neighborStarts;
@@ -260,8 +260,8 @@ void CudaParticleSystemData3::set(const CudaParticleSystemData3& other) {
     _neighborLists = other._neighborLists;
 }
 
-CudaParticleSystemData3& CudaParticleSystemData3::operator=(
-    const CudaParticleSystemData3& other) {
+CudaParticleSystemData2& CudaParticleSystemData2::operator=(
+    const CudaParticleSystemData2& other) {
     set(other);
     return *this;
 }
