@@ -13,6 +13,8 @@
 #include <jet/sphere2.h>
 #include <jet/volume_particle_emitter2.h>
 
+#include <imgui/imgui.h>
+
 using namespace jet;
 using namespace viz;
 
@@ -20,6 +22,21 @@ PciSphSolver2Example::PciSphSolver2Example()
     : Example(Frame(0, 1.0 / 1000.0)) {}
 
 PciSphSolver2Example::~PciSphSolver2Example() {}
+
+std::string PciSphSolver2Example::name() const { return "2-D PCISPH Example"; }
+
+void PciSphSolver2Example::onRestartSim() {
+    setupSim();
+
+    // Reload parameters
+    _solver->setViscosityCoefficient(_viscosityCoefficient);
+    _solver->setPseudoViscosityCoefficient(_pseudoViscosityCoefficient);
+    _solver->setMaxDensityErrorRatio(_maxDensityErrorRatio);
+    _solver->setMaxNumberOfIterations(_maxNumberOfIterations);
+
+    advanceSim();
+    updateRenderables();
+}
 
 #ifdef JET_USE_GL
 void PciSphSolver2Example::onSetup(GlfwWindow* window) {
@@ -34,6 +51,12 @@ void PciSphSolver2Example::onSetup(GlfwWindow* window) {
     // Setup sim
     setupSim();
 
+    // Reset parameters
+    _viscosityCoefficient = _solver->viscosityCoefficient();
+    _pseudoViscosityCoefficient = _solver->pseudoViscosityCoefficient();
+    _maxDensityErrorRatio = _solver->maxDensityErrorRatio();
+    _maxNumberOfIterations = _solver->maxNumberOfIterations();
+
     // Setup renderable
     _areVerticesDirty = false;
     _renderable = std::make_shared<PointsRenderable2>(renderer);
@@ -45,7 +68,29 @@ void PciSphSolver2Example::onSetup(GlfwWindow* window) {
     updateRenderables();
 }
 
-void PciSphSolver2Example::onGui(GlfwWindow* window) { (void)window; }
+void PciSphSolver2Example::onGui(GlfwWindow* window) {
+    (void)window;
+
+    ImGui::Begin("Parameters");
+    {
+        auto viscosity = (float)_viscosityCoefficient;
+        auto pseudoViscosity = (float)_pseudoViscosityCoefficient;
+        auto maxDensityErrorRatio = (float)_maxDensityErrorRatio;
+        auto maxNumberOfIterations = (int)_maxNumberOfIterations;
+
+        ImGui::SliderFloat("Viscosity", &viscosity, 0.0f, 0.05f);
+        ImGui::SliderFloat("Pseudo-viscosity", &pseudoViscosity, 0.0f, 10.f);
+        ImGui::SliderFloat("Max. density error ratio", &maxDensityErrorRatio,
+                           0.0f, 1.f);
+        ImGui::SliderInt("Max. Iterations", &maxNumberOfIterations, 1, 10);
+
+        _viscosityCoefficient = viscosity;
+        _pseudoViscosityCoefficient = pseudoViscosity;
+        _maxDensityErrorRatio = maxDensityErrorRatio;
+        _maxNumberOfIterations = (unsigned int)maxNumberOfIterations;
+    }
+    ImGui::End();
+}
 #else
 void PciSphSolver2Example::onSetup() {
     // Setup sim
@@ -54,6 +99,11 @@ void PciSphSolver2Example::onSetup() {
 #endif
 
 void PciSphSolver2Example::onAdvanceSim(const Frame& frame) {
+    _solver->setViscosityCoefficient(_viscosityCoefficient);
+    _solver->setPseudoViscosityCoefficient(_pseudoViscosityCoefficient);
+    _solver->setMaxDensityErrorRatio(_maxDensityErrorRatio);
+    _solver->setMaxNumberOfIterations(_maxNumberOfIterations);
+
     _solver->update(frame);
 
     particlesToVertices();
