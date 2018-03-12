@@ -10,10 +10,14 @@
 #include <jet.viz/jet.viz.h>
 #include <jet/animation.h>
 
+#include <string>
+
 class Example {
  public:
     explicit Example(const jet::Frame& frame);
     virtual ~Example() = default;
+
+    virtual std::string name() const = 0;
 
 #ifdef JET_USE_GL
     void setup(jet::viz::GlfwWindow* window);
@@ -23,6 +27,9 @@ class Example {
     void setup();
 #endif
 
+    //! Rewinds to frame zero, but keeping control parameters the same.
+    void restartSim();
+
     //! Advances sim state from worker thread.
     void advanceSim();
 
@@ -30,6 +37,8 @@ class Example {
     void updateRenderables();
 
  protected:
+    virtual void onRestartSim();
+
 #ifdef JET_USE_GL
     virtual void onSetup(jet::viz::GlfwWindow* window);
 

@@ -24,6 +24,10 @@ CudaPciSphSolver2Example::CudaPciSphSolver2Example()
 
 CudaPciSphSolver2Example::~CudaPciSphSolver2Example() {}
 
+std::string CudaPciSphSolver2Example::name() const {
+    return "2-D CUDA PCISPH Example";
+}
+
 #ifdef JET_USE_GL
 void CudaPciSphSolver2Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller

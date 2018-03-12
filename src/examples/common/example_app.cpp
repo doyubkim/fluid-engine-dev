@@ -57,12 +57,16 @@ void nextTests() {
     }
 }
 
+void toggleUpdate(GlfwWindow* win) {
+    win->setIsUpdateEnabled(!win->isUpdateEnabled());
+    sSimEnabled = !sSimEnabled;
+}
+
 #ifdef JET_USE_GL
 bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
-        win->setIsUpdateEnabled(!win->isUpdateEnabled());
-        sSimEnabled = !sSimEnabled;
+        toggleUpdate(win);
         return true;
     } else if (keyEvent.key() == GLFW_KEY_SPACE) {
         nextTests();
@@ -77,12 +81,25 @@ bool onGui(GlfwWindow* window) {
 
     ImGui::Begin("Info");
     {
-        ImGui::Text(
-            "%s",
-            ("Current test set #: " + std::to_string(sCurrentTestIdx)).c_str());
+        ImGui::Text("%s",
+                    ("Testing " + sTests[sCurrentTestIdx]->name()).c_str());
 
-        if (ImGui::Button("Next test set")) {
+        if (ImGui::Button("Next test")) {
             nextTests();
+        }
+
+        if (ImGui::Button("Restart sim")) {
+            std::lock_guard<std::mutex> lock(sSimMutex);
+            sTests[sCurrentTestIdx]->restartSim();
+        }
+
+        std::string toggleSimText("Run sim");
+        if (sSimEnabled) {
+            toggleSimText = "Stop sim";
+        }
+
+        if (ImGui::Button(toggleSimText.c_str())) {
+            toggleUpdate(window);
         }
 
         ImGui::Text("Rendering average %.3f ms/frame (%.1f FPS)",

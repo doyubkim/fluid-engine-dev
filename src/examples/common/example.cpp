@@ -19,12 +19,19 @@ void Example::gui(jet::viz::GlfwWindow* window) { onGui(window); }
 void Example::setup() { onSetup(); }
 #endif
 
+void Example::restartSim() {
+    _frame.index = 0;
+    onRestartSim();
+}
+
 void Example::advanceSim() {
     onAdvanceSim(_frame);
     ++_frame;
 }
 
 void Example::updateRenderables() { onUpdateRenderables(); }
+
+void Example::onRestartSim() {}
 
 #ifdef JET_USE_GL
 void Example::onSetup(jet::viz::GlfwWindow* window) { (void)window; }
