@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "cuda_pci_sph_solver2_example.h"
 #include "pci_sph_solver2_example.h"
 
 #include <example_app.h>
@@ -17,6 +18,7 @@ int main(int, const char**) {
 
     ExampleApp::initialize("Particle Sim", 1280, 1280);
     ExampleApp::addExample<PciSphSolver2Example>();
+    ExampleApp::addExample<CudaPciSphSolver2Example>();
     ExampleApp::run();
     ExampleApp::finalize();
 

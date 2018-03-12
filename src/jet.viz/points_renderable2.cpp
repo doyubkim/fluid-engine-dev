@@ -74,6 +74,22 @@ void PointsRenderable2::setPositionsAndColors(
     setPositionsAndColors(positions.data(), colors.data(), positions.size());
 }
 
+void PointsRenderable2::setPositionsAndColors(
+    const VertexPosition3Color4* vertices, size_t numberOfVertices) {
+    if (_vertexBuffer == nullptr) {
+        _vertexBuffer = _renderer->createVertexBuffer(
+            _shader, (const float*)vertices, numberOfVertices);
+    } else {
+        _vertexBuffer->resize(_shader, (const float*)vertices,
+                              numberOfVertices);
+    }
+}
+
+void PointsRenderable2::setPositionsAndColors(
+    ConstArrayView1<VertexPosition3Color4> vertices) {
+    setPositionsAndColors(vertices.data(), vertices.size());
+}
+
 VertexBuffer* PointsRenderable2::vertexBuffer() const {
     return _vertexBuffer.get();
 }
