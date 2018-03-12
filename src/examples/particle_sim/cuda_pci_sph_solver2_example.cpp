@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef JET_USE_CUDA
+
 #include "cuda_pci_sph_solver2_example.h"
 
 #include <jet/box2.h>
@@ -97,3 +99,5 @@ void CudaPciSphSolver2Example::setupSim() {
     }
     particles->addParticles(pointsF);
 }
+
+#endif  // JET_USE_CUDA
