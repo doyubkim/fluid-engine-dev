@@ -4,7 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef JET_USE_CUDA
 #include "cuda_pci_sph_solver2_example.h"
+#endif  // JET_USE_CUDA
+
 #include "pci_sph_solver2_example.h"
 
 #include <example_app.h>
@@ -18,7 +21,9 @@ int main(int, const char**) {
 
     ExampleApp::initialize("Particle Sim", 1280, 1280);
     ExampleApp::addExample<PciSphSolver2Example>();
+#ifdef JET_USE_CUDA
     ExampleApp::addExample<CudaPciSphSolver2Example>();
+#endif  // JET_USE_CUDA
     ExampleApp::run();
     ExampleApp::finalize();
 
