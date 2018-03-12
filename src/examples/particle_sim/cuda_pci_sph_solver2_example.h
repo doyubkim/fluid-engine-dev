@@ -7,6 +7,8 @@
 #ifndef SRC_EXAMPLES_PARTICLE_SIM_CUDA_PCI_SPH_SOLVER2_EXAMPLE_H_
 #define SRC_EXAMPLES_PARTICLE_SIM_CUDA_PCI_SPH_SOLVER2_EXAMPLE_H_
 
+#ifdef JET_USE_CUDA
+
 #include <example.h>
 
 #include <jet.viz/points_renderable2.h>
@@ -47,5 +49,7 @@ class CudaPciSphSolver2Example final : public Example {
 
     void particlesToVertices();
 };
+
+#endif  // JET_USE_CUDA
 
 #endif  // SRC_EXAMPLES_PARTICLE_SIM_CUDA_PCI_SPH_SOLVER2_EXAMPLE_H_
