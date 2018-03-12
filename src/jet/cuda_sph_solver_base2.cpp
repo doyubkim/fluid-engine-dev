@@ -8,7 +8,7 @@
 
 #include <pch.h>
 
-#include <jet/cuda_sph_solver_base3.h>
+#include <jet/cuda_sph_solver_base2.h>
 
 using namespace jet;
 using namespace experimental;
@@ -16,74 +16,74 @@ using namespace experimental;
 static double kTimeStepLimitBySpeedFactor = 0.4;
 static double kTimeStepLimitByForceFactor = 0.25;
 
-CudaSphSolverBase3::CudaSphSolverBase3() {
-    _sphSystemData = std::make_shared<CudaSphSystemData3>();
+CudaSphSolverBase2::CudaSphSolverBase2() {
+    _sphSystemData = std::make_shared<CudaSphSystemData2>();
     _forcesIdx = _sphSystemData->addVectorData();
     _smoothedVelIdx = _sphSystemData->addVectorData();
 
     setIsUsingFixedSubTimeSteps(false);
 }
 
-CudaSphSolverBase3::~CudaSphSolverBase3() {}
+CudaSphSolverBase2::~CudaSphSolverBase2() {}
 
-float CudaSphSolverBase3::negativePressureScale() const {
+float CudaSphSolverBase2::negativePressureScale() const {
     return _negativePressureScale;
 }
 
-void CudaSphSolverBase3::setNegativePressureScale(
+void CudaSphSolverBase2::setNegativePressureScale(
     float newNegativePressureScale) {
     _negativePressureScale = newNegativePressureScale;
 }
 
-float CudaSphSolverBase3::viscosityCoefficient() const {
+float CudaSphSolverBase2::viscosityCoefficient() const {
     return _viscosityCoefficient;
 }
 
-void CudaSphSolverBase3::setViscosityCoefficient(
+void CudaSphSolverBase2::setViscosityCoefficient(
     float newViscosityCoefficient) {
     _viscosityCoefficient = newViscosityCoefficient;
 }
 
-float CudaSphSolverBase3::pseudoViscosityCoefficient() const {
+float CudaSphSolverBase2::pseudoViscosityCoefficient() const {
     return _pseudoViscosityCoefficient;
 }
 
-void CudaSphSolverBase3::setPseudoViscosityCoefficient(
+void CudaSphSolverBase2::setPseudoViscosityCoefficient(
     float newPseudoViscosityCoefficient) {
     _pseudoViscosityCoefficient = newPseudoViscosityCoefficient;
 }
 
-float CudaSphSolverBase3::speedOfSound() const { return _speedOfSound; }
+float CudaSphSolverBase2::speedOfSound() const { return _speedOfSound; }
 
-void CudaSphSolverBase3::setSpeedOfSound(float newSpeedOfSound) {
+void CudaSphSolverBase2::setSpeedOfSound(float newSpeedOfSound) {
     _speedOfSound = std::max(newSpeedOfSound, kEpsilonF);
 }
 
-float CudaSphSolverBase3::timeStepLimitScale() const {
+float CudaSphSolverBase2::timeStepLimitScale() const {
     return _timeStepLimitScale;
 }
 
-void CudaSphSolverBase3::setTimeStepLimitScale(float newScale) {
+void CudaSphSolverBase2::setTimeStepLimitScale(float newScale) {
     _timeStepLimitScale = std::max(newScale, 0.0f);
 }
 
-CudaParticleSystemData3* CudaSphSolverBase3::particleSystemData() {
+CudaParticleSystemData2* CudaSphSolverBase2::particleSystemData() {
     return _sphSystemData.get();
 }
 
-const CudaParticleSystemData3* CudaSphSolverBase3::particleSystemData() const {
+const CudaParticleSystemData2* CudaSphSolverBase2::particleSystemData() const {
     return _sphSystemData.get();
 }
 
-CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() {
+CudaSphSystemData2* CudaSphSolverBase2::sphSystemData() {
     return _sphSystemData.get();
 }
 
-const CudaSphSystemData3* CudaSphSolverBase3::sphSystemData() const {
+const CudaSphSystemData2* CudaSphSolverBase2::sphSystemData() const {
     return _sphSystemData.get();
 }
 
-unsigned int CudaSphSolverBase3::numberOfSubTimeSteps(
+unsigned int CudaSphSolverBase2::numberOfSubTimeSteps(
     double timeIntervalInSeconds) const {
     auto particles = sphSystemData();
     // size_t numberOfParticles = particles->numberOfParticles();
@@ -113,11 +113,11 @@ unsigned int CudaSphSolverBase3::numberOfSubTimeSteps(
         std::ceil(timeIntervalInSeconds / desiredTimeStep));
 }
 
-CudaArrayView1<float4> CudaSphSolverBase3::forces() const {
+CudaArrayView1<float2> CudaSphSolverBase2::forces() const {
     return _sphSystemData->vectorDataAt(_forcesIdx);
 }
 
-CudaArrayView1<float4> CudaSphSolverBase3::smoothedVelocities() const {
+CudaArrayView1<float2> CudaSphSolverBase2::smoothedVelocities() const {
     return _sphSystemData->vectorDataAt(_smoothedVelIdx);
 }
 

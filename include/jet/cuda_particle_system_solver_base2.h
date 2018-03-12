@@ -6,26 +6,26 @@
 
 #ifdef JET_USE_CUDA
 
-#ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE3_H_
-#define INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE3_H_
+#ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE2_H_
+#define INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE2_H_
 
 #include <jet/constants.h>
-#include <jet/cuda_particle_system_data3.h>
+#include <jet/cuda_particle_system_data2.h>
 #include <jet/physics_animation.h>
-#include <jet/vector3.h>
+#include <jet/vector2.h>
 
 namespace jet {
 
 namespace experimental {
 
 //!
-class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
+class CudaParticleSystemSolverBase2 : public PhysicsAnimation {
  public:
     //! Constructs an empty solver.
-    CudaParticleSystemSolverBase3();
+    CudaParticleSystemSolverBase2();
 
     //! Destructor.
-    virtual ~CudaParticleSystemSolverBase3();
+    virtual ~CudaParticleSystemSolverBase2();
 
     //! The amount of air-drag.
     float dragCoefficient() const;
@@ -59,10 +59,10 @@ class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
     void setRestitutionCoefficient(float newRestitutionCoefficient);
 
     //! Returns the gravity.
-    const Vector3F& gravity() const;
+    const Vector2F& gravity() const;
 
     //! Sets the gravity.
-    void setGravity(const Vector3F& newGravity);
+    void setGravity(const Vector2F& newGravity);
 
     //!
     //! \brief Returns the particle system data.
@@ -70,7 +70,7 @@ class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    virtual CudaParticleSystemData3* particleSystemData();
+    virtual CudaParticleSystemData2* particleSystemData();
 
     //!
     //! \brief Returns the particle system data.
@@ -78,7 +78,7 @@ class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
     //! This function returns the particle system data. The data is created when
     //! this solver is constructed and also owned by the solver.
     //!
-    virtual const CudaParticleSystemData3* particleSystemData() const;
+    virtual const CudaParticleSystemData2* particleSystemData() const;
 
  protected:
     //! Initializes the simulator.
@@ -91,46 +91,46 @@ class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
  private:
     float _dragCoefficient = 1e-4f;
     float _restitutionCoefficient = 0.0f;
-    Vector3F _gravity{0.0f, kGravityF, 0.0f};
-    CudaParticleSystemData3Ptr _particleSystemData;
+    Vector2F _gravity{0.0f, kGravityF, 0.0f};
+    CudaParticleSystemData2Ptr _particleSystemData;
 };
 
-//! Shared pointer type for the CudaParticleSystemSolverBase3.
-typedef std::shared_ptr<CudaParticleSystemSolverBase3>
-    CudaParticleSystemSolverBase3Ptr;
+//! Shared pointer type for the CudaParticleSystemSolverBase2.
+typedef std::shared_ptr<CudaParticleSystemSolverBase2>
+    CudaParticleSystemSolverBase2Ptr;
 
 //!
 template <typename DerivedBuilder>
-class CudaParticleSystemSolverBuilderBase3 {
+class CudaParticleSystemSolverBuilderBase2 {
  public:
     DerivedBuilder& withDragCoefficient(float coeff);
 
     DerivedBuilder& withRestitutionCoefficient(float coeff);
 
-    DerivedBuilder& withGravity(const Vector3F& gravity);
+    DerivedBuilder& withGravity(const Vector2F& gravity);
 
  protected:
     float _dragCoefficient = 1e-4f;
     float _restitutionCoefficient = 0.0f;
-    Vector3F _gravity{0.0f, kGravityF, 0.0f};
+    Vector2F _gravity{0.0f, kGravityF, 0.0f};
 };
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3<T>::withDragCoefficient(float coeff) {
+T& CudaParticleSystemSolverBuilderBase2<T>::withDragCoefficient(float coeff) {
     _dragCoefficient = coeff;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3<T>::withRestitutionCoefficient(
+T& CudaParticleSystemSolverBuilderBase2<T>::withRestitutionCoefficient(
     float coeff) {
     _restitutionCoefficient = coeff;
     return static_cast<T&>(*this);
 }
 
 template <typename T>
-T& CudaParticleSystemSolverBuilderBase3<T>::withGravity(
-    const Vector3F& gravity) {
+T& CudaParticleSystemSolverBuilderBase2<T>::withGravity(
+    const Vector2F& gravity) {
     _gravity = gravity;
     return static_cast<T&>(*this);
 }
@@ -139,6 +139,6 @@ T& CudaParticleSystemSolverBuilderBase3<T>::withGravity(
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE3_H_
+#endif  // INCLUDE_JET_CUDA_PARTICLE_SYSTEM_SOLVER_BASE2_H_
 
 #endif  // JET_USE_CUDA

@@ -17,36 +17,111 @@ namespace jet {
 
 namespace experimental {
 
+inline JET_CUDA_HOST_DEVICE float2 operator+(float2 a, float2 b) {
+    return make_float2(a.x + b.x, a.y + b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator+(float3 a, float3 b) {
+    return make_float3(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+
 inline JET_CUDA_HOST_DEVICE float4 operator+(float4 a, float4 b) {
     return make_float4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+}
+
+inline JET_CUDA_HOST_DEVICE float2 operator-(float2 a, float2 b) {
+    return make_float2(a.x - b.x, a.y - b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator-(float3 a, float3 b) {
+    return make_float3(a.x - b.x, a.y - b.y, a.z - b.z);
 }
 
 inline JET_CUDA_HOST_DEVICE float4 operator-(float4 a, float4 b) {
     return make_float4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
 
+inline JET_CUDA_HOST_DEVICE float2 operator*(float a, float2 b) {
+    return make_float2(a * b.x, a * b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator*(float a, float3 b) {
+    return make_float3(a * b.x, a * b.y, a * b.z);
+}
+
 inline JET_CUDA_HOST_DEVICE float4 operator*(float a, float4 b) {
     return make_float4(a * b.x, a * b.y, a * b.z, a * b.w);
+}
+
+inline JET_CUDA_HOST_DEVICE float2 operator*(float2 a, float b) {
+    return make_float2(a.x * b, a.y * b);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator*(float3 a, float b) {
+    return make_float3(a.x * b, a.y * b, a.z * b);
 }
 
 inline JET_CUDA_HOST_DEVICE float4 operator*(float4 a, float b) {
     return make_float4(a.x * b, a.y * b, a.z * b, a.w * b);
 }
 
+inline JET_CUDA_HOST_DEVICE float2 operator*(float2 a, float2 b) {
+    return make_float2(a.x * b.x, a.y * b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator*(float3 a, float3 b) {
+    return make_float3(a.x * b.x, a.y * b.y, a.z * b.z);
+}
+
 inline JET_CUDA_HOST_DEVICE float4 operator*(float4 a, float4 b) {
     return make_float4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+}
+
+inline JET_CUDA_HOST_DEVICE float2 operator/(float a, float2 b) {
+    return make_float2(a / b.x, a / b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator/(float a, float3 b) {
+    return make_float3(a / b.x, a / b.y, a / b.z);
 }
 
 inline JET_CUDA_HOST_DEVICE float4 operator/(float a, float4 b) {
     return make_float4(a / b.x, a / b.y, a / b.z, a / b.w);
 }
 
+inline JET_CUDA_HOST_DEVICE float2 operator/(float2 a, float b) {
+    return make_float2(a.x / b, a.y / b);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator/(float3 a, float b) {
+    return make_float3(a.x / b, a.y / b, a.z / b);
+}
+
 inline JET_CUDA_HOST_DEVICE float4 operator/(float4 a, float b) {
     return make_float4(a.x / b, a.y / b, a.z / b, a.w / b);
 }
 
+inline JET_CUDA_HOST_DEVICE float2 operator/(float2 a, float2 b) {
+    return make_float2(a.x / b.x, a.y / b.y);
+}
+
+inline JET_CUDA_HOST_DEVICE float3 operator/(float3 a, float3 b) {
+    return make_float3(a.x / b.x, a.y / b.y, a.z / b.z);
+}
+
 inline JET_CUDA_HOST_DEVICE float4 operator/(float4 a, float4 b) {
     return make_float4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+}
+
+inline JET_CUDA_HOST_DEVICE void operator+=(float2& a, float b) {
+    a.x += b;
+    a.y += b;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator+=(float3& a, float b) {
+    a.x += b;
+    a.y += b;
+    a.z += b;
 }
 
 inline JET_CUDA_HOST_DEVICE void operator+=(float4& a, float b) {
@@ -56,11 +131,33 @@ inline JET_CUDA_HOST_DEVICE void operator+=(float4& a, float b) {
     a.w += b;
 }
 
+inline JET_CUDA_HOST_DEVICE void operator+=(float2& a, float2 b) {
+    a.x += b.x;
+    a.y += b.y;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator+=(float3& a, float3 b) {
+    a.x += b.x;
+    a.y += b.y;
+    a.z += b.z;
+}
+
 inline JET_CUDA_HOST_DEVICE void operator+=(float4& a, float4 b) {
     a.x += b.x;
     a.y += b.y;
     a.z += b.z;
     a.w += b.w;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator-=(float2& a, float b) {
+    a.x -= b;
+    a.y -= b;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator-=(float3& a, float b) {
+    a.x -= b;
+    a.y -= b;
+    a.z -= b;
 }
 
 inline JET_CUDA_HOST_DEVICE void operator-=(float4& a, float b) {
@@ -70,11 +167,33 @@ inline JET_CUDA_HOST_DEVICE void operator-=(float4& a, float b) {
     a.w -= b;
 }
 
+inline JET_CUDA_HOST_DEVICE void operator-=(float2& a, float2 b) {
+    a.x -= b.x;
+    a.y -= b.y;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator-=(float3& a, float3 b) {
+    a.x -= b.x;
+    a.y -= b.y;
+    a.z -= b.z;
+}
+
 inline JET_CUDA_HOST_DEVICE void operator-=(float4& a, float4 b) {
     a.x -= b.x;
     a.y -= b.y;
     a.z -= b.z;
     a.w -= b.w;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator*=(float2& a, float b) {
+    a.x *= b;
+    a.y *= b;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator*=(float3& a, float b) {
+    a.x *= b;
+    a.y *= b;
+    a.z *= b;
 }
 
 inline JET_CUDA_HOST_DEVICE void operator*=(float4& a, float b) {
@@ -84,11 +203,33 @@ inline JET_CUDA_HOST_DEVICE void operator*=(float4& a, float b) {
     a.w *= b;
 }
 
+inline JET_CUDA_HOST_DEVICE void operator*=(float2& a, float2 b) {
+    a.x *= b.x;
+    a.y *= b.y;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator*=(float3& a, float4 b) {
+    a.x *= b.x;
+    a.y *= b.y;
+    a.z *= b.z;
+}
+
 inline JET_CUDA_HOST_DEVICE void operator*=(float4& a, float4 b) {
     a.x *= b.x;
     a.y *= b.y;
     a.z *= b.z;
     a.w *= b.w;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator/=(float2& a, float b) {
+    a.x /= b;
+    a.y /= b;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator/=(float3& a, float b) {
+    a.x /= b;
+    a.y /= b;
+    a.z /= b;
 }
 
 inline JET_CUDA_HOST_DEVICE void operator/=(float4& a, float b) {
@@ -98,11 +239,30 @@ inline JET_CUDA_HOST_DEVICE void operator/=(float4& a, float b) {
     a.w /= b;
 }
 
+inline JET_CUDA_HOST_DEVICE void operator/=(float2& a, float4 b) {
+    a.x /= b.x;
+    a.y /= b.y;
+}
+
+inline JET_CUDA_HOST_DEVICE void operator/=(float3& a, float4 b) {
+    a.x /= b.x;
+    a.y /= b.y;
+    a.z /= b.z;
+}
+
 inline JET_CUDA_HOST_DEVICE void operator/=(float4& a, float4 b) {
     a.x /= b.x;
     a.y /= b.y;
     a.z /= b.z;
     a.w /= b.w;
+}
+
+inline JET_CUDA_HOST_DEVICE bool operator==(float2 a, float2 b) {
+    return a.x == b.x && a.y == b.y;
+}
+
+inline JET_CUDA_HOST_DEVICE bool operator==(float3 a, float3 b) {
+    return a.x == b.x && a.y == b.y && a.z == b.z;
 }
 
 inline JET_CUDA_HOST_DEVICE bool operator==(float4 a, float4 b) {
@@ -142,6 +302,16 @@ inline JET_CUDA_HOST_DEVICE float length(float4 v) {
 // MARK: Converters
 
 template <typename VectorType>
+inline JET_CUDA_HOST_DEVICE float2 toFloat2(const VectorType& vec) {
+    return make_float2(vec.x, vec.y);
+}
+
+template <typename VectorType>
+inline JET_CUDA_HOST_DEVICE float3 toFloat3(const VectorType& vec) {
+    return make_float3(vec.x, vec.y, vec.z);
+}
+
+template <typename VectorType>
 inline JET_CUDA_HOST_DEVICE float4 toFloat4(const VectorType& vec, float w) {
     return make_float4(vec.x, vec.y, vec.z, w);
 }
@@ -152,9 +322,20 @@ inline JET_CUDA_HOST_DEVICE float4 toFloat4(const VectorType& vec) {
 }
 
 template <typename SizeType>
+inline JET_CUDA_HOST_DEVICE int2 toInt2(const SizeType& size) {
+    return make_int2(static_cast<int>(size.x), static_cast<int>(size.y));
+}
+
+template <typename SizeType>
 inline JET_CUDA_HOST_DEVICE int3 toInt3(const SizeType& size) {
     return make_int3(static_cast<int>(size.x), static_cast<int>(size.y),
                      static_cast<int>(size.z));
+}
+
+template <typename SizeType>
+inline JET_CUDA_HOST_DEVICE uint2 toUInt2(const SizeType& size) {
+    return make_uint2(static_cast<uint32_t>(size.x),
+                      static_cast<uint32_t>(size.y));
 }
 
 template <typename SizeType>
