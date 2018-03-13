@@ -40,6 +40,8 @@ void nextTests() {
     { sWindow->renderer()->clearRenderables(); }
 #endif
 
+    sSimEnabled = false;
+
     {
         std::lock_guard<std::mutex> lock(sSimMutex);
         ++sCurrentTestIdx;
