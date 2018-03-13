@@ -6,9 +6,11 @@
 
 #ifdef JET_USE_CUDA
 #include "cuda_pci_sph_solver2_example.h"
+#include "cuda_wc_sph_solver2_example.h"
 #endif  // JET_USE_CUDA
 
 #include "pci_sph_solver2_example.h"
+#include "wc_sph_solver2_example.h"
 
 #include <example_app.h>
 
@@ -20,8 +22,10 @@ int main(int, const char**) {
     Logging::mute();
 
     ExampleApp::initialize("Particle Sim", 1280, 1280);
+    ExampleApp::addExample<WcSphSolver2Example>();
     ExampleApp::addExample<PciSphSolver2Example>();
 #ifdef JET_USE_CUDA
+    ExampleApp::addExample<CudaWcSphSolver2Example>();
     ExampleApp::addExample<CudaPciSphSolver2Example>();
 #endif  // JET_USE_CUDA
     ExampleApp::run();

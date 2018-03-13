@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "pci_sph_solver2_example.h"
+#include "wc_sph_solver2_example.h"
 
 #include <jet/box2.h>
 #include <jet/implicit_surface_set2.h>
@@ -18,28 +18,25 @@
 using namespace jet;
 using namespace viz;
 
-PciSphSolver2Example::PciSphSolver2Example()
-    : Example(Frame(0, 1.0 / 1000.0)) {}
+WcSphSolver2Example::WcSphSolver2Example() : Example(Frame(0, 1.0 / 1000.0)) {}
 
-PciSphSolver2Example::~PciSphSolver2Example() {}
+WcSphSolver2Example::~WcSphSolver2Example() {}
 
-std::string PciSphSolver2Example::name() const { return "2-D PCISPH Example"; }
+std::string WcSphSolver2Example::name() const { return "2-D WCISPH Example"; }
 
-void PciSphSolver2Example::onRestartSim() {
+void WcSphSolver2Example::onRestartSim() {
     setupSim();
 
     // Reload parameters
     _solver->setViscosityCoefficient(_viscosityCoefficient);
     _solver->setPseudoViscosityCoefficient(_pseudoViscosityCoefficient);
-    _solver->setMaxDensityErrorRatio(_maxDensityErrorRatio);
-    _solver->setMaxNumberOfIterations(_maxNumberOfIterations);
 
     advanceSim();
     updateRenderables();
 }
 
 #ifdef JET_USE_GL
-void PciSphSolver2Example::onSetup(GlfwWindow* window) {
+void WcSphSolver2Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<OrthoViewController>(
         std::make_shared<OrthoCamera>(0, 1, 0, 2)));
@@ -54,8 +51,6 @@ void PciSphSolver2Example::onSetup(GlfwWindow* window) {
     // Reset parameters
     _viscosityCoefficient = _solver->viscosityCoefficient();
     _pseudoViscosityCoefficient = _solver->pseudoViscosityCoefficient();
-    _maxDensityErrorRatio = _solver->maxDensityErrorRatio();
-    _maxNumberOfIterations = _solver->maxNumberOfIterations();
 
     // Setup renderable
     _areVerticesDirty = false;
@@ -68,48 +63,39 @@ void PciSphSolver2Example::onSetup(GlfwWindow* window) {
     updateRenderables();
 }
 
-void PciSphSolver2Example::onGui(GlfwWindow* window) {
+void WcSphSolver2Example::onGui(GlfwWindow* window) {
     (void)window;
 
     ImGui::Begin("Parameters");
     {
         auto viscosity = (float)_viscosityCoefficient;
         auto pseudoViscosity = (float)_pseudoViscosityCoefficient;
-        auto maxDensityErrorRatio = (float)_maxDensityErrorRatio;
-        auto maxNumberOfIterations = (int)_maxNumberOfIterations;
 
         ImGui::SliderFloat("Viscosity", &viscosity, 0.0f, 0.05f);
         ImGui::SliderFloat("Pseudo-viscosity", &pseudoViscosity, 0.0f, 10.f);
-        ImGui::SliderFloat("Max. density error ratio", &maxDensityErrorRatio,
-                           0.0f, 1.f);
-        ImGui::SliderInt("Max. Iterations", &maxNumberOfIterations, 1, 10);
 
         _viscosityCoefficient = viscosity;
         _pseudoViscosityCoefficient = pseudoViscosity;
-        _maxDensityErrorRatio = maxDensityErrorRatio;
-        _maxNumberOfIterations = (unsigned int)maxNumberOfIterations;
     }
     ImGui::End();
 }
 #else
-void PciSphSolver2Example::onSetup() {
+void WcSphSolver2Example::onSetup() {
     // Setup sim
     setupSim();
 }
 #endif
 
-void PciSphSolver2Example::onAdvanceSim(const Frame& frame) {
+void WcSphSolver2Example::onAdvanceSim(const Frame& frame) {
     _solver->setViscosityCoefficient(_viscosityCoefficient);
     _solver->setPseudoViscosityCoefficient(_pseudoViscosityCoefficient);
-    _solver->setMaxDensityErrorRatio(_maxDensityErrorRatio);
-    _solver->setMaxNumberOfIterations(_maxNumberOfIterations);
 
     _solver->update(frame);
 
     particlesToVertices();
 }
 
-void PciSphSolver2Example::onUpdateRenderables() {
+void WcSphSolver2Example::onUpdateRenderables() {
     std::lock_guard<std::mutex> lock(_verticesMutex);
     if (_areVerticesDirty) {
         _renderable->setPositionsAndColors(_vertices.data(), _vertices.size());
@@ -117,11 +103,11 @@ void PciSphSolver2Example::onUpdateRenderables() {
     }
 }
 
-void PciSphSolver2Example::setupSim() {
+void WcSphSolver2Example::setupSim() {
     // Setup solver
-    _solver = PciSphSolver2::builder().makeShared();
-    _solver->setViscosityCoefficient(0.002);
-    _solver->setIsUsingFixedSubTimeSteps(true);
+    _solver = SphSolver2::builder().makeShared();
+    _solver->setViscosityCoefficient(0.02);
+    _solver->setIsUsingFixedSubTimeSteps(false);
 
     const double targetSpacing = 0.015;
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
@@ -151,7 +137,7 @@ void PciSphSolver2Example::setupSim() {
     _solver->setCollider(collider);
 }
 
-void PciSphSolver2Example::particlesToVertices() {
+void WcSphSolver2Example::particlesToVertices() {
     const auto pos = _solver->sphSystemData()->positions();
     const auto den = _solver->sphSystemData()->densities();
 

@@ -6,7 +6,7 @@
 
 #ifdef JET_USE_CUDA
 
-#include "cuda_pci_sph_solver2_example.h"
+#include "cuda_wc_sph_solver2_example.h"
 
 #include <jet/box2.h>
 #include <jet/implicit_surface_set2.h>
@@ -19,17 +19,17 @@
 using namespace jet;
 using namespace viz;
 
-CudaPciSphSolver2Example::CudaPciSphSolver2Example()
+CudaWcSphSolver2Example::CudaWcSphSolver2Example()
     : Example(Frame(0, 1.0 / 1000.0)) {}
 
-CudaPciSphSolver2Example::~CudaPciSphSolver2Example() {}
+CudaWcSphSolver2Example::~CudaWcSphSolver2Example() {}
 
-std::string CudaPciSphSolver2Example::name() const {
-    return "2-D CUDA PCISPH Example";
+std::string CudaWcSphSolver2Example::name() const {
+    return "2-D CUDA WCSPH Example";
 }
 
 #ifdef JET_USE_GL
-void CudaPciSphSolver2Example::onSetup(GlfwWindow* window) {
+void CudaWcSphSolver2Example::onSetup(GlfwWindow* window) {
     // Setup desired view controller
     window->setViewController(std::make_shared<OrthoViewController>(
         std::make_shared<OrthoCamera>(0, 1, 0, 2)));
@@ -54,21 +54,21 @@ void CudaPciSphSolver2Example::onSetup(GlfwWindow* window) {
     updateRenderables();
 }
 
-void CudaPciSphSolver2Example::onGui(GlfwWindow* window) { (void)window; }
+void CudaWcSphSolver2Example::onGui(GlfwWindow* window) { (void)window; }
 #else
-void CudaPciSphSolver2Example::onSetup() {
+void CudaWcSphSolver2Example::onSetup() {
     // Setup sim
     setupSim();
 }
 #endif
 
-void CudaPciSphSolver2Example::onAdvanceSim(const Frame& frame) {
+void CudaWcSphSolver2Example::onAdvanceSim(const Frame& frame) {
     _solver->update(frame);
 
     particlesToVertices();
 }
 
-void CudaPciSphSolver2Example::onUpdateRenderables() {
+void CudaWcSphSolver2Example::onUpdateRenderables() {
     std::lock_guard<std::mutex> lock(_verticesMutex);
     if (_areVerticesDirty) {
         _renderable->vertexBuffer()->updateWithCuda(
@@ -77,12 +77,11 @@ void CudaPciSphSolver2Example::onUpdateRenderables() {
     }
 }
 
-void CudaPciSphSolver2Example::setupSim() {
+void CudaWcSphSolver2Example::setupSim() {
     // Setup solver
-    _solver = experimental::CudaPciSphSolver2::builder().makeShared();
-    _solver->setViscosityCoefficient(0.002f);
-    _solver->setMaxNumberOfIterations(10);
-    _solver->setIsUsingFixedSubTimeSteps(true);
+    _solver = experimental::CudaWcSphSolver2::builder().makeShared();
+    _solver->setViscosityCoefficient(0.02f);
+    _solver->setIsUsingFixedSubTimeSteps(false);
 
     const float targetSpacing = 0.015f;
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
