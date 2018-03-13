@@ -4,28 +4,28 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
-#define SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
+#ifndef SRC_EXAMPLES_PARTICLE_SIM_WC_SPH_SOLVER2_EXAMPLE_H_
+#define SRC_EXAMPLES_PARTICLE_SIM_WC_SPH_SOLVER2_EXAMPLE_H_
 
 #include <example.h>
 
 #include <jet.viz/points_renderable2.h>
 #include <jet.viz/vertex.h>
-#include <jet/pci_sph_solver2.h>
+#include <jet/sph_solver2.h>
 
 #include <atomic>
 #include <mutex>
 
-class PciSphSolver2Example final : public Example {
+class WcSphSolver2Example final : public Example {
  public:
-    PciSphSolver2Example();
+    WcSphSolver2Example();
 
-    ~PciSphSolver2Example();
+    ~WcSphSolver2Example();
 
     std::string name() const override;
 
  private:
-    jet::PciSphSolver2Ptr _solver;
+    jet::SphSolver2Ptr _solver;
     jet::viz::PointsRenderable2Ptr _renderable;
     jet::Array1<jet::viz::VertexPosition3Color4> _vertices;
 
@@ -34,8 +34,6 @@ class PciSphSolver2Example final : public Example {
 
     std::atomic<double> _viscosityCoefficient;
     std::atomic<double> _pseudoViscosityCoefficient;
-    std::atomic<double> _maxDensityErrorRatio;
-    std::atomic<unsigned int> _maxNumberOfIterations;
 
     void onRestartSim() override;
 
@@ -56,4 +54,4 @@ class PciSphSolver2Example final : public Example {
     void particlesToVertices();
 };
 
-#endif  // SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
+#endif  // SRC_EXAMPLES_PARTICLE_SIM_WC_SPH_SOLVER2_EXAMPLE_H_

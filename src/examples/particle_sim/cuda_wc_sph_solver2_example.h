@@ -4,40 +4,36 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
-#define SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
+#ifndef SRC_EXAMPLES_PARTICLE_SIM_CUDA_WC_SPH_SOLVER2_EXAMPLE_H_
+#define SRC_EXAMPLES_PARTICLE_SIM_CUDA_WC_SPH_SOLVER2_EXAMPLE_H_
+
+#ifdef JET_USE_CUDA
 
 #include <example.h>
 
 #include <jet.viz/points_renderable2.h>
 #include <jet.viz/vertex.h>
-#include <jet/pci_sph_solver2.h>
+#include <jet/cuda_wc_sph_solver2.h>
 
-#include <atomic>
+#include <thrust/device_vector.h>
+
 #include <mutex>
 
-class PciSphSolver2Example final : public Example {
+class CudaWcSphSolver2Example final : public Example {
  public:
-    PciSphSolver2Example();
+    CudaWcSphSolver2Example();
 
-    ~PciSphSolver2Example();
+    ~CudaWcSphSolver2Example();
 
     std::string name() const override;
 
  private:
-    jet::PciSphSolver2Ptr _solver;
+    jet::experimental::CudaWcSphSolver2Ptr _solver;
     jet::viz::PointsRenderable2Ptr _renderable;
-    jet::Array1<jet::viz::VertexPosition3Color4> _vertices;
+    thrust::device_vector<jet::viz::VertexPosition3Color4> _vertices;
 
     bool _areVerticesDirty = false;
     std::mutex _verticesMutex;
-
-    std::atomic<double> _viscosityCoefficient;
-    std::atomic<double> _pseudoViscosityCoefficient;
-    std::atomic<double> _maxDensityErrorRatio;
-    std::atomic<unsigned int> _maxNumberOfIterations;
-
-    void onRestartSim() override;
 
 #ifdef JET_USE_GL
     void onSetup(jet::viz::GlfwWindow* window) override;
@@ -56,4 +52,6 @@ class PciSphSolver2Example final : public Example {
     void particlesToVertices();
 };
 
-#endif  // SRC_EXAMPLES_PARTICLE_SIM_PCI_SPH_SOLVER2_EXAMPLE_H_
+#endif  // JET_USE_CUDA
+
+#endif  // SRC_EXAMPLES_PARTICLE_SIM_CUDA_WC_SPH_SOLVER2_EXAMPLE_H_
