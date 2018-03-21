@@ -109,7 +109,7 @@ void WcSphSolver2Example::setupSim() {
     _solver->setViscosityCoefficient(0.02);
     _solver->setIsUsingFixedSubTimeSteps(false);
 
-    const double targetSpacing = 0.015;
+    const double targetSpacing = 0.03;
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
 
     SphSystemData2Ptr particles = _solver->sphSystemData();

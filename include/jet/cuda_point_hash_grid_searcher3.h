@@ -239,7 +239,7 @@ class CudaPointHashGridSearcher3 final {
  private:
     float _gridSpacing = 1.0f;
     uint3 _resolution = make_uint3(1, 1, 1);
-    CudaArrayView1<float4> _points;
+    CudaArray1<float4> _points;
     CudaArray1<uint32_t> _keys;
     CudaArray1<uint32_t> _startIndexTable;
     CudaArray1<uint32_t> _endIndexTable;

@@ -11,6 +11,8 @@
 #include <jet/cuda_pci_sph_solver3.h>
 #include <jet/cuda_sph_kernels3.h>
 
+#include <thrust/extrema.h>
+
 using namespace jet;
 using namespace experimental;
 
@@ -40,8 +42,8 @@ class InitializeBuffersAndComputeForces {
           _densities(densities),
           _pressures(pressures),
           _pressureForces(pressureForces),
-          _densitiesPredicted(densitiesPredicted),
-          _densityErrors(densityErrors) {}
+          _densityErrors(densityErrors),
+          _densitiesPredicted(densitiesPredicted) {}
 
     template <typename Index>
     inline JET_CUDA_DEVICE void operator()(Index i) {
@@ -58,9 +60,8 @@ class InitializeBuffersAndComputeForces {
         float4 v_i = _velocities[i];
         float d_i = _densities[i];
         float4 f = _gravity;
-        float w_i = _mass / d_i;
-        float weightSum = w_i * _spikyKernel(0.0f);
-        ;
+        float w_i = _mass / d_i * _spikyKernel(0.0f);
+        float weightSum = w_i;
         float4 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
@@ -122,11 +123,12 @@ class InitializeBuffersAndComputeForces {
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float smoothFactor, float4* positions,
+    TimeIntegration(float dt, float m, float smoothFactor, float4* positions,
                     float4* velocities, float4* newPositions,
                     float4* newVelocities, float4* smoothedVelocities,
                     float4* forces, float4* pressureForces)
         : _dt(dt),
+          _mass(m),
           _smoothFactor(smoothFactor),
           _positions(positions),
           _velocities(velocities),
@@ -145,7 +147,7 @@ class TimeIntegration {
         float4 pf = _pressureForces[i];
 
         v = (1.0f - _smoothFactor) * v + _smoothFactor * s;
-        v += _dt * (f + pf);
+        v += _dt * (f + pf) / _mass;
         x += _dt * v;
 
         // TODO: Replace with collider
@@ -180,6 +182,7 @@ class TimeIntegration {
 
  private:
     float _dt;
+    float _mass;
     float _smoothFactor;
     float4* _positions;
     float4* _velocities;
@@ -196,8 +199,8 @@ class ComputeDensityError {
                                float delta, float negativePressureScale,
                                uint32_t* neighborStarts, uint32_t* neighborEnds,
                                uint32_t* neighborLists, float4* positions,
-                               float* densities, float* pressures,
-                               float* densityErrors, float* densitiesPredicted)
+                               float* pressures, float* densityErrors,
+                               float* densitiesPredicted)
         : _mass(m),
           _targetDensity(targetDensity),
           _delta(delta),
@@ -206,10 +209,9 @@ class ComputeDensityError {
           _neighborEnds(neighborEnds),
           _neighborLists(neighborLists),
           _positions(positions),
-          _densities(densities),
           _pressures(pressures),
-          _densitiesPredicted(densitiesPredicted),
           _densityErrors(densityErrors),
+          _densitiesPredicted(densitiesPredicted),
           _stdKernel(h) {}
 
     template <typename Index>
@@ -253,7 +255,6 @@ class ComputeDensityError {
     uint32_t* _neighborEnds;
     uint32_t* _neighborLists;
     float4* _positions;
-    float* _densities;
     float* _pressures;
     float* _densitiesPredicted;
     float* _densityErrors;
@@ -328,17 +329,28 @@ class ComputePressureForces {
 void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto sph = sphSystemData();
 
-    float dt = static_cast<float>(timeStepInSeconds);
-    float mass = sph->mass();
-    float h = sph->kernelRadius();
-    size_t n = sph->numberOfParticles();
+    // Build neighbor searcher
+    sph->buildNeighborSearcher();
+    sph->buildNeighborListsAndUpdateDensities();
 
     auto d = sph->densities();
     auto p = sph->pressures();
+    const float targetDensity = sph->targetDensity();
+
+    size_t n = sph->numberOfParticles();
+    float mass = sph->mass();
+    float h = sph->kernelRadius();
+    auto ns = sph->neighborStarts();
+    auto ne = sph->neighborEnds();
+    auto nl = sph->neighborLists();
     auto x = sph->positions();
     auto v = sph->velocities();
     auto s = smoothedVelocities();
     auto f = forces();
+
+    float dt = static_cast<float>(timeStepInSeconds);
+    float factor = dt * pseudoViscosityCoefficient();
+    factor = clamp(factor, 0.0f, 1.0f);
 
     auto xs = tempPositions();
     auto vs = tempVelocities();
@@ -346,18 +358,7 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto ds = tempDensities();
     auto de = densityErrors();
 
-    float targetDensity = sph->targetDensity();
     float delta = computeDelta(dt);
-
-    float factor = dt * pseudoViscosityCoefficient();
-    factor = clamp(factor, 0.0f, 1.0f);
-
-    // Build neighbor searcher
-    sph->buildNeighborSearcher();
-    sph->buildNeighborListsAndUpdateDensities();
-    auto ns = sph->neighborStarts();
-    auto ne = sph->neighborEnds();
-    auto nl = sph->neighborLists();
 
     // Initialize buffers and compute non-pressure forces
     thrust::for_each(
@@ -367,7 +368,7 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
         InitializeBuffersAndComputeForces(
             mass, h, toFloat4(gravity(), 0.0f), viscosityCoefficient(),
             ns.data(), ne.data(), nl.data(), x.data(), v.data(), s.data(),
-            f.data(), d.data(), p.data(), pf.data(), ds.data(), de.data()));
+            f.data(), d.data(), p.data(), pf.data(), de.data(), ds.data()));
 
     // Prediction-correction
     // unsigned int maxNumIter = 0;
@@ -380,18 +381,17 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
             thrust::counting_iterator<size_t>(0),
             thrust::counting_iterator<size_t>(n),
 
-            TimeIntegration(dt, 0.0f, x.data(), v.data(), xs.data(), vs.data(),
-                            s.data(), f.data(), pf.data()));
+            TimeIntegration(dt, mass, 0.0f, x.data(), v.data(), xs.data(),
+                            vs.data(), s.data(), f.data(), pf.data()));
 
         // Compute pressure from density error
-        thrust::for_each(
-            thrust::counting_iterator<size_t>(0),
-            thrust::counting_iterator<size_t>(n),
+        thrust::for_each(thrust::counting_iterator<size_t>(0),
+                         thrust::counting_iterator<size_t>(n),
 
-            ComputeDensityError(mass, h, targetDensity, delta,
-                                negativePressureScale(), ns.data(), ne.data(),
-                                nl.data(), xs.data(), d.data(), p.data(),
-                                de.data(), ds.data()));
+                         ComputeDensityError(mass, h, targetDensity, delta,
+                                             negativePressureScale(), ns.data(),
+                                             ne.data(), nl.data(), xs.data(),
+                                             p.data(), de.data(), ds.data()));
 
         // Compute pressure gradient force
         thrust::for_each(
@@ -402,14 +402,26 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
                                   x.data(), pf.data(), ds.data(), p.data()));
 
         // Compute max density error
+        // float minDensityError = *thrust::min_element(de.begin(), de.end());
+        // float maxDensityError = *thrust::max_element(de.begin(), de.end());
+        // maxDensityError =
+        //     std::max(maxDensityError, std::fabsf(minDensityError));
+
+        // float densityErrorRatio = maxDensityError / targetDensity;
+        // maxNumIter = k + 1;
+
+        // if (std::fabs(densityErrorRatio) < _maxDensityErrorRatio) {
+        //     break;
+        // }
     }
 
     // Accumulate pressure force and time-integrate
-    thrust::for_each(thrust::counting_iterator<size_t>(0),
-                     thrust::counting_iterator<size_t>(n),
+    thrust::for_each(
+        thrust::counting_iterator<size_t>(0),
+        thrust::counting_iterator<size_t>(n),
 
-                     TimeIntegration(dt, factor, x.data(), v.data(), x.data(),
-                                     v.data(), s.data(), f.data(), pf.data()));
+        TimeIntegration(dt, mass, factor, x.data(), v.data(), x.data(),
+                        v.data(), s.data(), f.data(), pf.data()));
 }
 
 #endif  // JET_USE_CUDA

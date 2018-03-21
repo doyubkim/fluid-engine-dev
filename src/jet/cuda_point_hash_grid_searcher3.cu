@@ -81,13 +81,18 @@ CudaPointHashGridSearcher3::CudaPointHashGridSearcher3(
 }
 
 void CudaPointHashGridSearcher3::build(const CudaArrayView1<float4>& points) {
-    // Allocate memory chuncks
-    _points = points;
-    size_t numberOfPoints = _points.size();
+    // Allocate/reset memory chuncks
+    size_t numberOfPoints = points.size();
     if (numberOfPoints == 0) {
         return;
     }
 
+    _points = points;
+    thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(
+                     _startIndexTable.begin(), _endIndexTable.begin())),
+                 thrust::make_zip_iterator(thrust::make_tuple(
+                     _startIndexTable.end(), _endIndexTable.end())),
+                 thrust::make_tuple(0xffffffff, 0xffffffff));
     _keys.resize(numberOfPoints);
     _sortedIndices.resize(numberOfPoints);
 
@@ -103,7 +108,9 @@ void CudaPointHashGridSearcher3::build(const CudaArrayView1<float4>& points) {
         InitializeIndexPointAndKeys(_gridSpacing, _resolution));
 
     // Sort indices/points/key based on hash key
-    thrust::sort_by_key(_keys.begin(), _keys.end(), _sortedIndices.begin());
+    thrust::sort_by_key(_keys.begin(), _keys.end(),
+                        thrust::make_zip_iterator(thrust::make_tuple(
+                            _points.begin(), _sortedIndices.begin())));
 
     // Now _points and _keys are sorted by points' hash key values.
     // Let's fill in start/end index table with _keys.

@@ -83,7 +83,7 @@ void CudaWcSphSolver2Example::setupSim() {
     _solver->setViscosityCoefficient(0.02f);
     _solver->setIsUsingFixedSubTimeSteps(false);
 
-    const float targetSpacing = 0.015f;
+    const float targetSpacing = 0.03f;
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
 
     auto particles = _solver->sphSystemData();

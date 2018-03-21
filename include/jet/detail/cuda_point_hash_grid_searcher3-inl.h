@@ -130,16 +130,17 @@ CudaPointHashGridSearcher3::ForEachNearbyPointFunc<Callback>::operator()(
     for (int i = 0; i < 8; i++) {
         uint32_t nearbyKey = nearbyKeys[i];
         uint32_t start = _startIndexTable[nearbyKey];
-        uint32_t end = _endIndexTable[nearbyKey];
 
         // Empty bucket -- continue to next bucket
         if (start == 0xffffffff) {
             continue;
         }
 
+        uint32_t end = _endIndexTable[nearbyKey];
+
         for (uint32_t jj = start; jj < end; ++jj) {
             uint32_t j = _sortedIndices[jj];
-            float4 p = _points[j];
+            float4 p = _points[jj];
             float4 direction = p - origin;
             float distanceSquared = lengthSquared(direction);
             if (distanceSquared <= queryRadiusSquared) {
