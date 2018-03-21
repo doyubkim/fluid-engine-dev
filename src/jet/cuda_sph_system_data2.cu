@@ -124,6 +124,8 @@ void CudaSphSystemData2::buildNeighborListsAndUpdateDensities() {
     _neighborLists.resize(m, 0);
 
     // Build neighbor lists and update densities
+    auto d = densities();
+    thrust::fill(d.begin(), d.end(), 0.0f);
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(0) + numberOfParticles(),
@@ -131,7 +133,7 @@ void CudaSphSystemData2::buildNeighborListsAndUpdateDensities() {
             *_neighborSearcher, _kernelRadius, positions().data(),
             BuildNeighborListsAndUpdateDensitiesFunc(
                 _neighborStarts.data(), _neighborEnds.data(), _kernelRadius,
-                _mass, _neighborLists.data(), densities().data()),
+                _mass, _neighborLists.data(), d.data()),
             NoOpFunc()));
 }
 

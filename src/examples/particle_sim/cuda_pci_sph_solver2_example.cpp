@@ -81,7 +81,6 @@ void CudaPciSphSolver2Example::setupSim() {
     // Setup solver
     _solver = experimental::CudaPciSphSolver2::builder().makeShared();
     _solver->setViscosityCoefficient(0.002f);
-    _solver->setMaxNumberOfIterations(10);
     _solver->setIsUsingFixedSubTimeSteps(true);
 
     const float targetSpacing = 0.015f;

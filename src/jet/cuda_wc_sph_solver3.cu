@@ -98,8 +98,8 @@ class ComputeForces {
         float p_i = _pressures[i];
         float4 f = _gravity;
 
-        float w_i = _mass / d_i;
-        float weightSum = w_i * _spikyKernel(0.0f);
+        float w_i = _mass / d_i * _spikyKernel(0.0f);
+        float weightSum = w_i;
         float4 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
@@ -163,10 +163,11 @@ class ComputeForces {
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float smoothFactor, float4* positions,
+    TimeIntegration(float dt, float m, float smoothFactor, float4* positions,
                     float4* velocities, float4* smoothedVelocities,
                     float4* forces)
         : _dt(dt),
+          _mass(m),
           _smoothFactor(smoothFactor),
           _positions(positions),
           _velocities(velocities),
@@ -181,7 +182,7 @@ class TimeIntegration {
         float4 f = _forces[i];
 
         v = (1.0f - _smoothFactor) * v + _smoothFactor * s;
-        v += _dt * f;
+        v += _dt * f / _mass;
         x += _dt * v;
 
         // TODO: Replace with collider
@@ -216,6 +217,7 @@ class TimeIntegration {
 
  private:
     float _dt;
+    float _mass;
     float _smoothFactor;
     float4* _positions;
     float4* _velocities;
@@ -268,9 +270,9 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     float factor = dt * pseudoViscosityCoefficient();
     factor = clamp(factor, 0.0f, 1.0f);
 
-    thrust::for_each(
-        thrust::counting_iterator<size_t>(0),
-        thrust::counting_iterator<size_t>(n),
+    thrust::for_each(thrust::counting_iterator<size_t>(0),
+                     thrust::counting_iterator<size_t>(n),
 
-        TimeIntegration(dt, factor, x.data(), v.data(), s.data(), f.data()));
+                     TimeIntegration(dt, mass, factor, x.data(), v.data(),
+                                     s.data(), f.data()));
 }

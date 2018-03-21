@@ -46,10 +46,6 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
     template <typename Index>
     inline JET_CUDA_HOST_DEVICE void operator()(size_t i, Index j, Index cnt,
                                                 float d2) {
-        if (cnt == 0) {
-            _densities[i] = 0.0f;
-        }
-
         _densities[i] += _mass * _stdKernel(sqrt(d2));
 
         if (i != j) {

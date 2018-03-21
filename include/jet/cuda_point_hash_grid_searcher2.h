@@ -238,7 +238,7 @@ class CudaPointHashGridSearcher2 final {
  private:
     float _gridSpacing = 1.0f;
     uint2 _resolution = make_uint2(1, 1);
-    CudaArrayView1<float2> _points;
+    CudaArray1<float2> _points;
     CudaArray1<uint32_t> _keys;
     CudaArray1<uint32_t> _startIndexTable;
     CudaArray1<uint32_t> _endIndexTable;
