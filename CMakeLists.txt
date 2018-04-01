@@ -73,7 +73,7 @@ if (USE_GL)
         else()
             # From pkg-config glfw3 --static --libs
             set(GLFW_LIBRARY
-                glfw3
+                glfw
                 rt m dl Xrandr Xinerama Xcursor Xext Xrender Xfixes X11 pthread
                 xcb Xau Xdmcp)
         endif()
