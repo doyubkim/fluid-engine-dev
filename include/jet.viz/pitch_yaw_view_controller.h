@@ -15,9 +15,9 @@ namespace viz {
 class PitchYawViewController : public ViewController {
  public:
     //!
-    //! \brief Constructs spherical view controller.
+    //! \brief Constructs pitch-yaw view controller.
     //!
-    //! This constructor builds a spherical view controller with a camera and
+    //! This constructor builds a pitch-yaw view controller with a camera and
     //! view controller's rotation origin. Because we need the origin of the
     //! rotation to define this view controller, which automatically defines the
     //! view direction, the look-at vector from the camera will be overriden.
