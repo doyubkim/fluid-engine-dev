@@ -91,7 +91,7 @@ class CudaParticleSystemSolverBase2 : public PhysicsAnimation {
  private:
     float _dragCoefficient = 1e-4f;
     float _restitutionCoefficient = 0.0f;
-    Vector2F _gravity{0.0f, kGravityF, 0.0f};
+    Vector2F _gravity{0.0f, kGravityF};
     CudaParticleSystemData2Ptr _particleSystemData;
 };
 
