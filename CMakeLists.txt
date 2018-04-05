@@ -18,7 +18,9 @@ project(jet)
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
 cmake_policy(SET CMP0023 OLD) # TODO: blaming FindCUDA in default CMake for Ubuntu 14.04
-cmake_policy(SET CMP0063 OLD)
+if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
+    cmake_policy(SET CMP0063 NEW)
+endif()
 
 # Configure tasking system backend
 include(cmake/TaskingSystemOptions.cmake)
@@ -206,9 +208,6 @@ set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 
 # Project modules
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
-if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
-    cmake_policy(SET CMP0063 NEW)
-endif()
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/googlebenchmark)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
