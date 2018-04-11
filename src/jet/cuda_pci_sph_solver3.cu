@@ -113,23 +113,20 @@ class InitializeBuffersAndComputeForces {
     float* _densityErrors;
 };
 
-#define LOWER_X 0.0f
-#define UPPER_X 1.0f
-#define LOWER_Y 0.0f
-#define UPPER_Y 1.0f
-#define LOWER_Z 0.0f
-#define UPPER_Z 1.0f
 #define BND_R 0.0f
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float m, float smoothFactor, float4* positions,
-                    float4* velocities, float4* newPositions,
-                    float4* newVelocities, float4* smoothedVelocities,
-                    float4* forces, float4* pressureForces)
+    TimeIntegration(float dt, float m, float smoothFactor, float3 lower,
+                    float3 upper, float4* positions, float4* velocities,
+                    float4* newPositions, float4* newVelocities,
+                    float4* smoothedVelocities, float4* forces,
+                    float4* pressureForces)
         : _dt(dt),
           _mass(m),
           _smoothFactor(smoothFactor),
+          _lower(lower),
+          _upper(upper),
           _positions(positions),
           _velocities(velocities),
           _newPositions(newPositions),
@@ -150,29 +147,29 @@ class TimeIntegration {
         v += _dt * (f + pf) / _mass;
         x += _dt * v;
 
-        // TODO: Replace with collider
-        if (x.x > UPPER_X) {
-            x.x = UPPER_X;
+        // TODO: Add proper collider support
+        if (x.x > _upper.x) {
+            x.x = _upper.x;
             v.x *= BND_R;
         }
-        if (x.x < LOWER_X) {
-            x.x = LOWER_X;
+        if (x.x < _lower.x) {
+            x.x = _lower.x;
             v.x *= BND_R;
         }
-        if (x.y > UPPER_Y) {
-            x.y = UPPER_Y;
+        if (x.y > _upper.y) {
+            x.y = _upper.y;
             v.y *= BND_R;
         }
-        if (x.y < LOWER_Y) {
-            x.y = LOWER_Y;
+        if (x.y < _lower.y) {
+            x.y = _lower.y;
             v.y *= BND_R;
         }
-        if (x.z > UPPER_Z) {
-            x.z = UPPER_Z;
+        if (x.z > _upper.z) {
+            x.z = _upper.z;
             v.z *= BND_R;
         }
-        if (x.z < LOWER_Z) {
-            x.z = LOWER_Z;
+        if (x.z < _lower.z) {
+            x.z = _lower.z;
             v.z *= BND_R;
         }
 
@@ -184,6 +181,8 @@ class TimeIntegration {
     float _dt;
     float _mass;
     float _smoothFactor;
+    float3 _lower;
+    float3 _upper;
     float4* _positions;
     float4* _velocities;
     float4* _newPositions;
@@ -374,15 +373,17 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     // unsigned int maxNumIter = 0;
     // float maxDensityError;
     // float densityErrorRatio = 0.0f;
+    auto lower = toFloat3(container().lowerCorner);
+    auto upper = toFloat3(container().upperCorner);
 
     for (unsigned int k = 0; k < _maxNumberOfIterations; ++k) {
         // Predict velocity / position and resolve collisions
-        thrust::for_each(
-            thrust::counting_iterator<size_t>(0),
-            thrust::counting_iterator<size_t>(n),
+        thrust::for_each(thrust::counting_iterator<size_t>(0),
+                         thrust::counting_iterator<size_t>(n),
 
-            TimeIntegration(dt, mass, 0.0f, x.data(), v.data(), xs.data(),
-                            vs.data(), s.data(), f.data(), pf.data()));
+                         TimeIntegration(dt, mass, 0.0f, lower, upper, x.data(),
+                                         v.data(), xs.data(), vs.data(),
+                                         s.data(), f.data(), pf.data()));
 
         // Compute pressure from density error
         thrust::for_each(thrust::counting_iterator<size_t>(0),
@@ -420,8 +421,8 @@ void CudaPciSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(n),
 
-        TimeIntegration(dt, mass, factor, x.data(), v.data(), x.data(),
-                        v.data(), s.data(), f.data(), pf.data()));
+        TimeIntegration(dt, mass, factor, lower, upper, x.data(), v.data(),
+                        x.data(), v.data(), s.data(), f.data(), pf.data()));
 }
 
 #endif  // JET_USE_CUDA

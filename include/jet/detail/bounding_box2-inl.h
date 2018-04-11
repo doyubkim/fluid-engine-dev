@@ -204,6 +204,12 @@ bool BoundingBox<T, 2>::isEmpty() const {
     return (lowerCorner.x >= upperCorner.x || lowerCorner.y >= upperCorner.y);
 }
 
+template <typename T>
+template <typename U>
+BoundingBox<U, 2> BoundingBox<T, 2>::castTo() const {
+    return BoundingBox<U, 2>{lowerCorner.castTo<U>(), upperCorner.castTo<U>()};
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_BOUNDING_BOX2_INL_H_

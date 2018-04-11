@@ -67,6 +67,14 @@ void CudaSphSolverBase2::setTimeStepLimitScale(float newScale) {
     _timeStepLimitScale = std::max(newScale, 0.0f);
 }
 
+const BoundingBox2F& CudaSphSolverBase2::container() const {
+    return _container;
+}
+
+void CudaSphSolverBase2::setContainer(const BoundingBox2F& cont) {
+    _container = cont;
+}
+
 CudaParticleSystemData2* CudaSphSolverBase2::particleSystemData() {
     return _sphSystemData.get();
 }

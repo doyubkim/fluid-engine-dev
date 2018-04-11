@@ -84,7 +84,9 @@ void CudaWcSphSolver2Example::setupSim() {
     _solver->setIsUsingFixedSubTimeSteps(false);
 
     const float targetSpacing = 0.03f;
-    BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
+    BoundingBox2F domain(Vector2F(), Vector2F(1, 2));
+    domain.expand(-targetSpacing);
+    _solver->setContainer(domain);
 
     auto particles = _solver->sphSystemData();
     particles->setTargetDensity(1000.0f);

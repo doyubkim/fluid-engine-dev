@@ -153,22 +153,18 @@ class ComputeForces {
     float* _pressures;
 };
 
-#define LOWER_X 0.0f
-#define UPPER_X 1.0f
-#define LOWER_Y 0.0f
-#define UPPER_Y 1.0f
-#define LOWER_Z 0.0f
-#define UPPER_Z 1.0f
 #define BND_R 0.0f
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float m, float smoothFactor, float4* positions,
-                    float4* velocities, float4* smoothedVelocities,
-                    float4* forces)
+    TimeIntegration(float dt, float m, float smoothFactor, float3 lower,
+                    float3 upper, float4* positions, float4* velocities,
+                    float4* smoothedVelocities, float4* forces)
         : _dt(dt),
           _mass(m),
           _smoothFactor(smoothFactor),
+          _lower(lower),
+          _upper(upper),
           _positions(positions),
           _velocities(velocities),
           _smoothedVelocities(smoothedVelocities),
@@ -185,29 +181,29 @@ class TimeIntegration {
         v += _dt * f / _mass;
         x += _dt * v;
 
-        // TODO: Replace with collider
-        if (x.x > UPPER_X) {
-            x.x = UPPER_X;
+        // TODO: Add proper collider support
+        if (x.x > _upper.x) {
+            x.x = _upper.x;
             v.x *= BND_R;
         }
-        if (x.x < LOWER_X) {
-            x.x = LOWER_X;
+        if (x.x < _lower.x) {
+            x.x = _lower.x;
             v.x *= BND_R;
         }
-        if (x.y > UPPER_Y) {
-            x.y = UPPER_Y;
+        if (x.y > _upper.y) {
+            x.y = _upper.y;
             v.y *= BND_R;
         }
-        if (x.y < LOWER_Y) {
-            x.y = LOWER_Y;
+        if (x.y < _lower.y) {
+            x.y = _lower.y;
             v.y *= BND_R;
         }
-        if (x.z > UPPER_Z) {
-            x.z = UPPER_Z;
+        if (x.z > _upper.z) {
+            x.z = _upper.z;
             v.z *= BND_R;
         }
-        if (x.z < LOWER_Z) {
-            x.z = LOWER_Z;
+        if (x.z < _lower.z) {
+            x.z = _lower.z;
             v.z *= BND_R;
         }
 
@@ -219,6 +215,8 @@ class TimeIntegration {
     float _dt;
     float _mass;
     float _smoothFactor;
+    float3 _lower;
+    float3 _upper;
     float4* _positions;
     float4* _velocities;
     float4* _smoothedVelocities;
@@ -269,10 +267,12 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     float dt = static_cast<float>(timeStepInSeconds);
     float factor = dt * pseudoViscosityCoefficient();
     factor = clamp(factor, 0.0f, 1.0f);
+    auto lower = toFloat3(container().lowerCorner);
+    auto upper = toFloat3(container().upperCorner);
 
     thrust::for_each(thrust::counting_iterator<size_t>(0),
                      thrust::counting_iterator<size_t>(n),
 
-                     TimeIntegration(dt, mass, factor, x.data(), v.data(),
-                                     s.data(), f.data()));
+                     TimeIntegration(dt, mass, factor, lower, upper, x.data(),
+                                     v.data(), s.data(), f.data()));
 }

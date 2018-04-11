@@ -114,6 +114,10 @@ class BoundingBox<T, 3> {
 
     //! Returns true if the box is empty.
     bool isEmpty() const;
+
+    //! Returns box with different value type.
+    template <typename U>
+    BoundingBox<U, 3> castTo() const;
 };
 
 //! Type alias for 3-D BoundingBox.
