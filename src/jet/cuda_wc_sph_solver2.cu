@@ -153,20 +153,18 @@ class ComputeForces {
     float* _pressures;
 };
 
-#define LOWER_X 0.0f
-#define UPPER_X 1.0f
-#define LOWER_Y 0.0f
-#define UPPER_Y 1.0f
 #define BND_R 0.0f
 
 class TimeIntegration {
  public:
-    TimeIntegration(float dt, float m, float smoothFactor, float2* positions,
-                    float2* velocities, float2* smoothedVelocities,
-                    float2* forces)
+    TimeIntegration(float dt, float m, float smoothFactor, float2 lower,
+                    float2 upper, float2* positions, float2* velocities,
+                    float2* smoothedVelocities, float2* forces)
         : _dt(dt),
           _mass(m),
           _smoothFactor(smoothFactor),
+          _lower(lower),
+          _upper(upper),
           _positions(positions),
           _velocities(velocities),
           _smoothedVelocities(smoothedVelocities),
@@ -183,21 +181,21 @@ class TimeIntegration {
         v += _dt * f / _mass;
         x += _dt * v;
 
-        // TODO: Replace with collider
-        if (x.x > UPPER_X) {
-            x.x = UPPER_X;
+        // TODO: Add proper collider support
+        if (x.x > _upper.x) {
+            x.x = _upper.x;
             v.x *= BND_R;
         }
-        if (x.x < LOWER_X) {
-            x.x = LOWER_X;
+        if (x.x < _lower.x) {
+            x.x = _lower.x;
             v.x *= BND_R;
         }
-        if (x.y > UPPER_Y) {
-            x.y = UPPER_Y;
+        if (x.y > _upper.y) {
+            x.y = _upper.y;
             v.y *= BND_R;
         }
-        if (x.y < LOWER_Y) {
-            x.y = LOWER_Y;
+        if (x.y < _lower.y) {
+            x.y = _lower.y;
             v.y *= BND_R;
         }
 
@@ -209,6 +207,8 @@ class TimeIntegration {
     float _dt;
     float _mass;
     float _smoothFactor;
+    float2 _lower;
+    float2 _upper;
     float2* _positions;
     float2* _velocities;
     float2* _smoothedVelocities;
@@ -259,10 +259,12 @@ void CudaWcSphSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
     float dt = static_cast<float>(timeStepInSeconds);
     float factor = dt * pseudoViscosityCoefficient();
     factor = clamp(factor, 0.0f, 1.0f);
+    auto lower = toFloat2(container().lowerCorner);
+    auto upper = toFloat2(container().upperCorner);
 
     thrust::for_each(thrust::counting_iterator<size_t>(0),
                      thrust::counting_iterator<size_t>(n),
 
-                     TimeIntegration(dt, mass, factor, x.data(), v.data(),
-                                     s.data(), f.data()));
+                     TimeIntegration(dt, mass, factor, lower, upper, x.data(),
+                                     v.data(), s.data(), f.data()));
 }
