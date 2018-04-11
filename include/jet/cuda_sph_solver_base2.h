@@ -9,6 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 #define INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 
+#include <jet/bounding_box2.h>
 #include <jet/cuda_particle_system_solver_base2.h>
 #include <jet/cuda_sph_system_data2.h>
 
@@ -83,6 +84,17 @@ class CudaSphSolverBase2 : public CudaParticleSystemSolverBase2 {
     void setTimeStepLimitScale(float newScale);
 
     //!
+    //! \brief Returns the container of the simulation.
+    //!
+    //! This function returns the container which bounds the particles. The
+    //! default size of the container is [-1000, -1000] x [1000, 1000].
+    //!
+    const BoundingBox2F& container() const;
+
+    //! Sets the container of the simulation.
+    void setContainer(const BoundingBox2F& cont);
+
+    //!
     //! \brief Returns the particle system data.
     //!
     //! This function returns the particle system data. The data is created when
@@ -132,6 +144,8 @@ class CudaSphSolverBase2 : public CudaParticleSystemSolverBase2 {
     float _pseudoViscosityCoefficient = 10.0f;
     float _speedOfSound = 100.0f;
     float _timeStepLimitScale = 1.0f;
+    BoundingBox2F _container{Vector2F{-1000.0f, -1000.0f},
+                             Vector2F{1000.0f, 1000.0f}};
 
     // Data model
     CudaSphSystemData2Ptr _sphSystemData;
