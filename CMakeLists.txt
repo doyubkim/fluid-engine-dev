@@ -91,6 +91,11 @@ add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
 add_subdirectory(src/examples/playground)
 
+if (MSVC)
+    include_external_msproject(jet_clr "${CMAKE_CURRENT_SOURCE_DIR}/src/clr/jet_clr.vcxproj" jet)
+    include_external_msproject(clr_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/clr_tests/clr_tests.csproj" jet_clr)
+endif()
+
 add_subdirectory(external/pybind11)
 if (BUILD_FROM_PIP)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})
