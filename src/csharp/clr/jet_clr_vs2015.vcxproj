@@ -22,7 +22,7 @@
     <ProjectGuid>{B150B2D2-7230-4AD3-BD2C-41327A1A141C}</ProjectGuid>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>jet_clr</RootNamespace>
+    <RootNamespace>Jet.CLR</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>jet_clr</ProjectName>
   </PropertyGroup>

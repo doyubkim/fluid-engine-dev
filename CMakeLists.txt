@@ -91,11 +91,12 @@ add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
 add_subdirectory(src/examples/playground)
 
-if (MSVC)
-    include_external_msproject(jet_clr "${CMAKE_CURRENT_SOURCE_DIR}/src/csharp/clr/jet_clr.vcxproj" jet)
-    include_external_msproject(jet_winrt "${CMAKE_CURRENT_SOURCE_DIR}/src/csharp/winrt/jet_winrt.vcxproj" jet)
-    include_external_msproject(clr_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/clr_tests/clr_tests.csproj" jet_clr)
-    include_external_msproject(winrt_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/winrt_tests/winrt_tests.csproj" jet_winrt)
+# Visual Studio 2015
+if (MSVC_VERSION EQUAL 1900)
+    include_external_msproject(jet_clr "${CMAKE_CURRENT_SOURCE_DIR}/src/csharp/clr/jet_clr_vs2015.vcxproj" jet)
+    include_external_msproject(jet_winrt "${CMAKE_CURRENT_SOURCE_DIR}/src/csharp/winrt/jet_winrt_vs2015.vcxproj" jet)
+    include_external_msproject(clr_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/clr_tests/clr_tests_vs2015.csproj" jet_clr)
+    include_external_msproject(winrt_tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests/winrt_tests/winrt_tests_vs2015.csproj" jet_winrt)
 endif()
 
 add_subdirectory(external/pybind11)

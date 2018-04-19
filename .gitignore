@@ -95,3 +95,7 @@ packages
 
 # Python
 ENV*
+
+# Visual Studio
+Debug
+Release

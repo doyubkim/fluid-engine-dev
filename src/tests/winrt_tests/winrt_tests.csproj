@@ -127,7 +127,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\csharp\winrt\jet_winrt\jet_winrt.vcxproj">
+    <ProjectReference Include="..\..\csharp\winrt\jet_winrt_vs2015.vcxproj">
       <Project>{7ac33682-5c11-4d8c-bcd3-7c656356468f}</Project>
       <Name>jet_winrt</Name>
     </ProjectReference>
