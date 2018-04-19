@@ -1,14 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Jet.CLR;
 
 namespace jet_clr_tests
 {
     [TestClass]
-    public class UnitTest1
+    public class AnimationTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestConstructors()
         {
+            Animation anim = new Animation();
         }
     }
 }
