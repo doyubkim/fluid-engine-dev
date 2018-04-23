@@ -66,7 +66,7 @@ void VertexCenteredVectorGrid2::fill(const Vector2D& value,
     Size2 size = dataSize();
     auto acc = dataAccessor();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
-                [this, value, &acc](size_t i, size_t j) { acc(i, j) = value; },
+                [value, &acc](size_t i, size_t j) { acc(i, j) = value; },
                 policy);
 }
 
@@ -77,7 +77,7 @@ void VertexCenteredVectorGrid2::fill(
     auto acc = dataAccessor();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
-                [this, &func, &acc, &pos](size_t i, size_t j) {
+                [&func, &acc, &pos](size_t i, size_t j) {
                     acc(i, j) = func(pos(i, j));
                 },
                 policy);

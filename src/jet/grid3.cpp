@@ -51,7 +51,7 @@ void Grid3::forEachCellIndex(
         kZeroSize, _resolution.x,
         kZeroSize, _resolution.y,
         kZeroSize, _resolution.z,
-        [this, &func](size_t i, size_t j, size_t k) {
+        [&func](size_t i, size_t j, size_t k) {
             func(i, j, k);
         });
 }
@@ -62,7 +62,7 @@ void Grid3::parallelForEachCellIndex(
         kZeroSize, _resolution.x,
         kZeroSize, _resolution.y,
         kZeroSize, _resolution.z,
-        [this, &func](size_t i, size_t j, size_t k) {
+        [&func](size_t i, size_t j, size_t k) {
             func(i, j, k);
         });
 }
