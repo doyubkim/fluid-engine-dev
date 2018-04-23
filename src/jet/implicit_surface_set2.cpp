@@ -59,7 +59,11 @@ Vector2D ImplicitSurfaceSet2::closestPointLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestPoint(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestPoint(otherPoint);
+    } else {
+        return Vector2D{kMaxD, kMaxD};
+    }
 }
 
 double ImplicitSurfaceSet2::closestDistanceLocal(
@@ -85,7 +89,11 @@ Vector2D ImplicitSurfaceSet2::closestNormalLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestNormal(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestNormal(otherPoint);
+    } else {
+        return Vector2D{1.0, 0.0};
+    }
 }
 
 bool ImplicitSurfaceSet2::intersectsLocal(const Ray2D& ray) const {
