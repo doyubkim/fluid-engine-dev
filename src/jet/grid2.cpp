@@ -4,10 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <pch.h>
+
 #include <jet/grid2.h>
 #include <jet/parallel.h>
 #include <jet/serial.h>
-#include <pch.h>
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
