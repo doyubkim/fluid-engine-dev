@@ -45,7 +45,11 @@ Vector3D SurfaceSet3::closestPointLocal(const Vector3D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestPoint(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestPoint(otherPoint);
+    } else {
+        return Vector3D{kMaxD, kMaxD, kMaxD};
+    }
 }
 
 Vector3D SurfaceSet3::closestNormalLocal(const Vector3D& otherPoint) const {
@@ -57,7 +61,11 @@ Vector3D SurfaceSet3::closestNormalLocal(const Vector3D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestNormal(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestNormal(otherPoint);
+    } else {
+        return Vector3D{1.0, 0.0, 0.0};
+    }
 }
 
 double SurfaceSet3::closestDistanceLocal(const Vector3D& otherPoint) const {

@@ -45,7 +45,11 @@ Vector2D SurfaceSet2::closestPointLocal(const Vector2D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestPoint(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestPoint(otherPoint);
+    } else {
+        return Vector2D{kMaxD, kMaxD};
+    }
 }
 
 Vector2D SurfaceSet2::closestNormalLocal(const Vector2D& otherPoint) const {
@@ -57,7 +61,11 @@ Vector2D SurfaceSet2::closestNormalLocal(const Vector2D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestNormal(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestNormal(otherPoint);
+    } else {
+        return Vector2D{1.0, 0.0};
+    }
 }
 
 double SurfaceSet2::closestDistanceLocal(const Vector2D& otherPoint) const {

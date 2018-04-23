@@ -59,7 +59,11 @@ Vector3D ImplicitSurfaceSet3::closestPointLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestPoint(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestPoint(otherPoint);
+    } else {
+        return Vector3D{kMaxD, kMaxD, kMaxD};
+    }
 }
 
 double ImplicitSurfaceSet3::closestDistanceLocal(
@@ -85,7 +89,11 @@ Vector3D ImplicitSurfaceSet3::closestNormalLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return (*queryResult.item)->closestNormal(otherPoint);
+    if (queryResult.item != nullptr) {
+        return (*queryResult.item)->closestNormal(otherPoint);
+    } else {
+        return Vector3D{1.0, 0.0, 0.0};
+    }
 }
 
 bool ImplicitSurfaceSet3::intersectsLocal(const Ray3D& ray) const {
