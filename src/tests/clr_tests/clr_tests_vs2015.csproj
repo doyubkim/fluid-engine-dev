@@ -87,6 +87,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="animation_tests.cs" />
+    <Compile Include="frame_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
