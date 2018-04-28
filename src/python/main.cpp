@@ -94,7 +94,9 @@
 #include "volume_particle_emitter.h"
 #include "zhu_bridson_points_to_implicit.h"
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace py = pybind11;
 

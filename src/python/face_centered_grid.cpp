@@ -8,6 +8,8 @@
 #include "pybind11_utils.h"
 
 #include <pybind11/functional.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <jet/face_centered_grid2.h>
 #include <jet/face_centered_grid3.h>

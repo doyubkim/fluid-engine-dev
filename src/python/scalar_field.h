@@ -7,7 +7,9 @@
 #ifndef SRC_PYTHON_SCALAR_FIELD_H_
 #define SRC_PYTHON_SCALAR_FIELD_H_
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addScalarField2(pybind11::module& m);
 void addScalarField3(pybind11::module& m);

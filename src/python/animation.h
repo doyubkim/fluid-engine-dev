@@ -7,7 +7,9 @@
 #ifndef SRC_PYTHON_ANIMATION_H_
 #define SRC_PYTHON_ANIMATION_H_
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addFrame(pybind11::module& m);
 void addAnimation(pybind11::module& m);

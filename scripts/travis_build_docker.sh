@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ $# -eq 0 ]
   then
     docker build -t doyubkim/fluid-engine-dev .

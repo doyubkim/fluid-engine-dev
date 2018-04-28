@@ -9,27 +9,27 @@ matrix:
       compiler: gcc
       script:
         - sh scripts/travis_build.sh
-    # Test Docker based on Ubuntu 14.04 + gcc
+    # Test Docker based on Ubuntu 14.04 LTS + gcc
     - os: linux
       dist: trusty
       sudo: required
       services: docker
       script:
         - sh scripts/travis_build_docker.sh
-    # Test Docker based on Ubuntu 16.04 + gcc
+    # Test Docker based on Ubuntu 16.04 LTS + gcc
     - os: linux
       dist: trusty
       sudo: required
       services: docker
       script:
         - sh scripts/travis_build_docker.sh scripts/Dockerfile.xenial xenial
-    # Test Docker based on Ubuntu 17.10 + gcc
+    # Test Docker based on Ubuntu 18.04 LTS + gcc
     - os: linux
       dist: trusty
       sudo: required
       services: docker
       script:
-        - sh scripts/travis_build_docker.sh scripts/Dockerfile.artful artful
+        - sh scripts/travis_build_docker.sh scripts/Dockerfile.bionic bionic
     # Test OS X 10.11 + Xcode 7.3 + clang
     - os: osx
       osx_image: xcode7.3
