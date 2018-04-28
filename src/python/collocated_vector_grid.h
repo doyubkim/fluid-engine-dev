@@ -7,6 +7,7 @@
 #ifndef SRC_PYTHON_COLLOCATED_VECTOR_GRID_H_
 #define SRC_PYTHON_COLLOCATED_VECTOR_GRID_H_
 
+#include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
