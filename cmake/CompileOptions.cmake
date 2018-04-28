@@ -3,7 +3,7 @@
 # Platform and architecture setup
 #
 
-option(JET_WARNINGS_AS_ERRORS ON)
+option(JET_WARNINGS_AS_ERRORS "Treat all warnings as errors" ON)
 if(JET_WARNINGS_AS_ERRORS)
     if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         set(WARN_AS_ERROR_FLAGS "/WX")

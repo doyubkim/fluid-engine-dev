@@ -52,7 +52,7 @@ void restrict(const Array2<float>& finer, Array2<float>* coarser) {
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
-            std::array<size_t, 4> jIndices{0, 0, 0, 0};
+            std::array<size_t, 4> jIndices{{0, 0, 0, 0}};
 
             for (size_t j = jBegin; j < jEnd; ++j) {
                 if (kernelSize[1] == 3) {
@@ -66,7 +66,7 @@ void restrict(const Array2<float>& finer, Array2<float>* coarser) {
                     jIndices[3] = (j + 1 < n.y) ? 2 * j + 2 : 2 * j + 1;
                 }
 
-                std::array<size_t, 4> iIndices{0, 0, 0, 0};
+                std::array<size_t, 4> iIndices{{0, 0, 0, 0}};
                 for (size_t i = iBegin; i < iEnd; ++i) {
                     if (kernelSize[0] == 3) {
                         iIndices[0] = (i > 0) ? 2 * i - 1 : 2 * i;
