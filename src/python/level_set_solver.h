@@ -8,6 +8,7 @@
 #define SRC_PYTHON_LEVEL_SET_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addLevelSetSolver2(pybind11::module& m);
 void addLevelSetSolver3(pybind11::module& m);

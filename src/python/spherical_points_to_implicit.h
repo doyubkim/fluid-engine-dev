@@ -8,6 +8,7 @@
 #define SRC_PYTHON_SPHERICAL_POINTS_TO_IMPLICIT_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addSphericalPointsToImplicit2(pybind11::module& m);
 void addSphericalPointsToImplicit3(pybind11::module& m);

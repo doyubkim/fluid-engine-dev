@@ -8,6 +8,7 @@
 #define SRC_PYTHON_PARTICLE_EMITTER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addParticleEmitter2(pybind11::module& m);
 void addParticleEmitter3(pybind11::module& m);

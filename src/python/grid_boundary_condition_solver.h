@@ -8,6 +8,7 @@
 #define SRC_PYTHON_GRID_BOUNDARY_CONDITION_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addGridBoundaryConditionSolver2(pybind11::module& m);
 void addGridBoundaryConditionSolver3(pybind11::module& m);

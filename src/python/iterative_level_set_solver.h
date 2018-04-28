@@ -8,6 +8,7 @@
 #define SRC_PYTHON_ITERATIVE_LEVEL_SET_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addIterativeLevelSetSolver2(pybind11::module& m);
 void addIterativeLevelSetSolver3(pybind11::module& m);

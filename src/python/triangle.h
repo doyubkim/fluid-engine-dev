@@ -8,6 +8,7 @@
 #define SRC_PYTHON_TRIANGLE_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addTriangle3(pybind11::module& m);
 

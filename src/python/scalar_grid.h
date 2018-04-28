@@ -8,6 +8,7 @@
 #define SRC_PYTHON_SCALAR_GRID_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addScalarGrid2(pybind11::module& m);
 void addScalarGrid3(pybind11::module& m);

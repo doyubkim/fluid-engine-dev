@@ -8,6 +8,7 @@
 #define SRC_PYTHON_LOGGING_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addLogging(pybind11::module& m);
 

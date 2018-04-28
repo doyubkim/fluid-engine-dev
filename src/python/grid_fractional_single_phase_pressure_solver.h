@@ -8,6 +8,7 @@
 #define SRC_PYTHON_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addGridFractionalSinglePhasePressureSolver2(pybind11::module& m);
 void addGridFractionalSinglePhasePressureSolver3(pybind11::module& m);

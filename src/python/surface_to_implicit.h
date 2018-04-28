@@ -8,6 +8,7 @@
 #define SRC_PYTHON_SURFACE_TO_IMPLICIT_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addSurfaceToImplicit2(pybind11::module& m);
 void addSurfaceToImplicit3(pybind11::module& m);

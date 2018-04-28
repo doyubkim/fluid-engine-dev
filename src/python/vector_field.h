@@ -8,6 +8,7 @@
 #define SRC_PYTHON_VECTOR_FIELD_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addVectorField2(pybind11::module& m);
 void addVectorField3(pybind11::module& m);

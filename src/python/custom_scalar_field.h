@@ -8,6 +8,7 @@
 #define SRC_PYTHON_CUSTOM_SCALAR_FIELD_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addCustomScalarField2(pybind11::module& m);
 void addCustomScalarField3(pybind11::module& m);

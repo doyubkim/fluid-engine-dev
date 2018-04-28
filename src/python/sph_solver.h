@@ -8,6 +8,7 @@
 #define SRC_PYTHON_SPH_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addSphSolver2(pybind11::module& m);
 void addSphSolver3(pybind11::module& m);

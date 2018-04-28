@@ -8,6 +8,7 @@
 #define SRC_PYTHON_CELL_CENTERED_VECTOR_GRID_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addCellCenteredVectorGrid2(pybind11::module& m);
 void addCellCenteredVectorGrid3(pybind11::module& m);

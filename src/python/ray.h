@@ -8,6 +8,7 @@
 #define SRC_PYTHON_RAY_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addRay2F(pybind11::module& m);
 void addRay2D(pybind11::module& m);

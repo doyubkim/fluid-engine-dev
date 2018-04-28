@@ -8,6 +8,7 @@
 #define SRC_PYTHON_GRID_FLUID_SOLVER_H_
 
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 void addGridFluidSolver2(pybind11::module& m);
 void addGridFluidSolver3(pybind11::module& m);
