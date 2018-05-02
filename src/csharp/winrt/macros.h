@@ -6,41 +6,45 @@
 
 #pragma once
 
-#ifndef _MANAGED
-#error This is for managed code only (/clr)
+#include <memory>
+
+#ifdef min
+#undef min
 #endif
 
-#include <memory>
+#ifdef max
+#undef max
+#endif
 
 #pragma region Namespace Helpers
 
-#ifndef JET_CLR_SDK
-#define JET_CLR_SDK Jet::CLR
+#ifndef JET_WINRT_SDK
+#define JET_WINRT_SDK Jet::WinRT
 #endif
 
 #ifndef JET_NATIVE_SDK
 #define JET_NATIVE_SDK jet
 #endif
 
-#ifndef JET_NAMESPACE_CLR_SDK
-#define JET_NAMESPACE_CLR_SDK namespace Jet::CLR
+#ifndef JET_NAMESPACE_WINRT_SDK
+#define JET_NAMESPACE_WINRT_SDK namespace Jet::WinRT
 #endif
 
-#ifndef JET_BEGIN_NAMESPACE_CLR_SDK
-#define JET_BEGIN_NAMESPACE_CLR_SDK \
-    namespace Jet {                 \
-    namespace CLR
+#ifndef JET_BEGIN_NAMESPACE_WINRT_SDK
+#define JET_BEGIN_NAMESPACE_WINRT_SDK \
+    namespace Jet {                   \
+    namespace WinRT
 #endif
 
-#ifndef JET_END_NAMESPACE_CLR_SDK
-#define JET_END_NAMESPACE_CLR_SDK }
+#ifndef JET_END_NAMESPACE_WINRT_SDK
+#define JET_END_NAMESPACE_WINRT_SDK }
 #endif
 
 #pragma endregion
 
 #pragma region Default Convertors
 
-JET_BEGIN_NAMESPACE_CLR_SDK {
+JET_BEGIN_NAMESPACE_WINRT_SDK {
     // Simple native-to-CLI converter (simple passing)
     template <typename T>
     inline T convertFromNative(T value) {
@@ -53,7 +57,7 @@ JET_BEGIN_NAMESPACE_CLR_SDK {
         return value;
     }
 }
-JET_END_NAMESPACE_CLR_SDK
+JET_END_NAMESPACE_WINRT_SDK
 
 #pragma endregion
 
@@ -63,8 +67,6 @@ JET_END_NAMESPACE_CLR_SDK
     internal:                                                              \
     typedef NativeType ActualType;                                         \
     typedef std::shared_ptr<ActualType> ActualTypeSharedPtr;               \
-                                                                           \
- private:                                                                  \
     ActualType* getActualPtr() {                                           \
         return static_cast<ActualType*>(getNativePtr());                   \
     }                                                                      \
@@ -77,42 +79,25 @@ JET_END_NAMESPACE_CLR_SDK
     __JET_DEFINE_NATIVE_CORE(NativeType)
 
 // This is only used for top-most base classes or flat sealed classes.
-#define JET_DEFINE_NATIVE_CORE_FOR_BASE(NativeType)                           \
-    internal:                                                                 \
-    typedef NativeType BaseNativeType;                                        \
-    typedef std::shared_ptr<BaseNativeType> BaseNativeTypeSharedPtr;          \
-    BaseNativeType* getNativePtr() { return __nativePtr; }                    \
-    BaseNativeTypeSharedPtr& getNativeSharedPtr() {                           \
-        return *__nativeSharedPtr;                                            \
-    }                                                                         \
-                                                                              \
- private:                                                                     \
-    BaseNativeType* __nativePtr = nullptr;                                    \
-    BaseNativeTypeSharedPtr* __nativeSharedPtr = nullptr;                     \
-    internal:                                                                 \
-    void __initializeNativePointer(BaseNativeType* nativePtr) {               \
-        if (__nativeSharedPtr != nullptr) delete __nativeSharedPtr;           \
-        __nativePtr = nativePtr;                                              \
-        __nativeSharedPtr = new BaseNativeTypeSharedPtr(__nativePtr);         \
-    }                                                                         \
-    void __initializeNativePointerWithSharedPtr(                              \
-        const BaseNativeTypeSharedPtr& nativeSharedPtr) {                     \
-        if (__nativeSharedPtr != nullptr) {                                   \
-            delete __nativeSharedPtr;                                         \
-            __nativeSharedPtr = nullptr;                                      \
-        }                                                                     \
-        if (nativeSharedPtr != nullptr) {                                     \
-            __nativePtr = nativeSharedPtr.get();                              \
-            __nativeSharedPtr = new BaseNativeTypeSharedPtr(nativeSharedPtr); \
-        } else {                                                              \
-            __initializeNativePointer(nullptr);                               \
-        }                                                                     \
-    }                                                                         \
-    void __finalizeNativePointer() {                                          \
-        if (__nativeSharedPtr != nullptr) delete __nativeSharedPtr;           \
-        __nativeSharedPtr = nullptr;                                          \
-        __nativePtr = nullptr;                                                \
-    }                                                                         \
+#define JET_DEFINE_NATIVE_CORE_FOR_BASE(NativeType)                    \
+    internal:                                                          \
+    typedef NativeType BaseNativeType;                                 \
+    typedef std::shared_ptr<BaseNativeType> BaseNativeTypeSharedPtr;   \
+    BaseNativeType* getNativePtr() { return __nativeSharedPtr.get(); } \
+    BaseNativeTypeSharedPtr& getNativeSharedPtr() {                    \
+        return __nativeSharedPtr;                                      \
+    }                                                                  \
+    void __initializeNativePointer(BaseNativeType* nativePtr) {        \
+        __nativeSharedPtr.reset(nativePtr);                            \
+    }                                                                  \
+    void __initializeNativePointerWithSharedPtr(                       \
+        const BaseNativeTypeSharedPtr& nativeSharedPtr) {              \
+        __nativeSharedPtr = nativeSharedPtr;                           \
+    }                                                                  \
+    void __finalizeNativePointer() { __nativeSharedPtr.reset(); }      \
+                                                                       \
+ private:                                                              \
+    BaseNativeTypeSharedPtr __nativeSharedPtr;                         \
     __JET_DEFINE_NATIVE_CORE(NativeType);
 
 #pragma endregion
@@ -162,27 +147,23 @@ JET_END_NAMESPACE_CLR_SDK
 // Defines destructor for dervied class only
 #define JET_DEFAULT_DESTRUCTOR_FOR_DERIVED(Type) \
  public:                                         \
-    virtual ~Type() { this->!Type(); }           \
-    !Type() {}
+    virtual ~Type() {}
 
 // Defines destructor for base class or flat classes
 #define JET_DEFAULT_DESTRUCTOR_FOR_BASE(Type) \
  public:                                      \
-    virtual ~Type() { this->!Type(); }        \
-    !Type() { JET_FINALIZE_NATIVE_CORE_FOR_BASE }
+    virtual ~Type() { JET_FINALIZE_NATIVE_CORE_FOR_BASE }
 
 #pragma endregion
 
 #pragma region Member Variable Wrappers
 
-#define JET_MEMBER_VARIABLE_TO_PROPERTY(type, varName, propertyName)        \
-    property type propertyName {                                            \
-        type get() {                                                        \
-            return JET_CLR_SDK::convertFromNative(getActualPtr()->varName); \
-        }                                                                   \
-        void set(type value) {                                              \
-            getActualPtr()->varName = JET_CLR_SDK::convertToNative(value);  \
-        }                                                                   \
+#define JET_MEMBER_VARIABLE_TO_PROPERTY(type, varName, propertyName)      \
+    property type propertyName {                                          \
+        type get() { return convertFromNative(getActualPtr()->varName); } \
+        void set(type value) {                                            \
+            getActualPtr()->varName = convertToNative(value);             \
+        }                                                                 \
     }
 
 #pragma endregion
@@ -190,90 +171,101 @@ JET_END_NAMESPACE_CLR_SDK
 #pragma region Member Function Wrappers
 
 // With no args
-#define JET_MEMBER_FUNCTION_TO_PROPERTY(type, getterName, setterName,          \
-                                        propertyName)                          \
-    property type propertyName {                                               \
-        type get() {                                                           \
-            return ::JET_CLR_SDK::convertFromNative(                           \
-                getActualPtr()->getterName());                                 \
-        }                                                                      \
-        void set(type value) {                                                 \
-            getActualPtr()->setterName(::JET_CLR_SDK::convertToNative(value)); \
-        }                                                                      \
+#define JET_MEMBER_FUNCTION_TO_PROPERTY(type, getterName, setterName, \
+                                        propertyName)                 \
+    property type propertyName {                                      \
+        type get() {                                                  \
+            return ::JET_WINRT_SDK::convertFromNative(                \
+                getActualPtr()->getterName());                        \
+        }                                                             \
+        void set(type value) {                                        \
+            getActualPtr()->setterName(                               \
+                ::JET_WINRT_SDK::convertToNative(value));             \
+        }                                                             \
     }
 
 #define JET_MEMBER_FUNCTION_TO_VIRTUAL_PROPERTY(type, getterName, setterName, \
                                                 propertyName)                 \
     virtual property type propertyName {                                      \
         type get() {                                                          \
-            return ::JET_CLR_SDK::convertFromNative(                          \
+            return ::JET_WINRT_SDK::convertFromNative(                        \
                 getActualPtr()->getterName());                                \
         }                                                                     \
         void set(type value) {                                                \
-            getActualPtr()->setterName(JET_CLR_SDK::convertToNative(value));  \
+            return getActualPtr()->setterName(                                \
+                JET_WINRT_SDK::convertToNative(value));                       \
         }                                                                     \
     }
 
 #define JET_MEMBER_FUNCTION_TO_GET_PROPERTY(type, funcName, propertyName) \
     property type propertyName {                                          \
         type get() {                                                      \
-            return ::JET_CLR_SDK::convertFromNative(                      \
+            return ::JET_WINRT_SDK::convertFromNative(                    \
                 getActualPtr()->funcName());                              \
         }                                                                 \
     }
 
-#define JET_MEMBER_FUNCTION(type, funcName, newFuncName)                     \
-    type newFuncName() {                                                     \
-        return ::JET_CLR_SDK::convertFromNative(getActualPtr()->funcName()); \
+#define JET_MEMBER_FUNCTION(type, funcName, newFuncName)                       \
+    type newFuncName() {                                                       \
+        return ::JET_WINRT_SDK::convertFromNative(getActualPtr()->funcName()); \
     }
 
 #define JET_MEMBER_FUNCTION_NO_RETURN(funcName, newFuncName) \
     void newFuncName() { getActualPtr()->funcName(); }
 
 // With 1 arg
-#define JET_MEMBER_FUNCTION_TO_SET_PROPERTY(type, setterName, propertyName)    \
-    property type propertyName {                                               \
-        void set(type value) {                                                 \
-            getActualPtr()->setterName(::JET_CLR_SDK::convertToNative(value)); \
-        }                                                                      \
+#define JET_MEMBER_FUNCTION_TO_SET_PROPERTY(type, setterName, propertyName) \
+    property type propertyName {                                            \
+        void set(type value) {                                              \
+            return getActualPtr()->setterName(                              \
+                ::JET_WINRT_SDK::convertToNative(value));                   \
+        }                                                                   \
     }
 
-#define JET_MEMBER_FUNCTION_1(returnType, functionName, newFunctionName,      \
-                              arg0Type, arg0Name)                             \
-    returnType newFunctionName(arg0Type arg0Name) {                           \
-        return ::JET_CLR_SDK::convertFromNative(getActualPtr()->functionName( \
-            ::JET_CLR_SDK::convertToNative(arg0Name)));                       \
+#define JET_MEMBER_FUNCTION_1(returnType, functionName, newFunctionName, \
+                              arg0Type, arg0Name)                        \
+    returnType newFunctionName(arg0Type arg0Name) {                      \
+        return ::JET_WINRT_SDK::convertFromNative(                       \
+            getActualPtr()->functionName(                                \
+                ::JET_WINRT_SDK::convertToNative(arg0Name)));            \
     }
 
-#define JET_MEMBER_FUNCTION_DEFAULT_OVERLOAD_1(                                \
-    returnType, functionName, newFunctionName, arg0Type, arg0Name)             \
-    JET_MEMBER_FUNCTION_1(returnType, functionName, newFunctionName, arg0Type, \
-                          arg0Name)
+#define JET_MEMBER_FUNCTION_DEFAULT_OVERLOAD_1(                          \
+    returnType, functionName, newFunctionName, arg0Type, arg0Name)       \
+    [Windows::Foundation::Metadata::                                     \
+        DefaultOverloadAttribute] JET_MEMBER_FUNCTION_1(returnType,      \
+                                                        functionName,    \
+                                                        newFunctionName, \
+                                                        arg0Type, arg0Name)
 
-#define JET_MEMBER_FUNCTION_OVERRIDE_1(returnType, functionName,              \
-                                       newFunctionName, arg0Type, arg0Name)   \
-    returnType newFunctionName(arg0Type arg0Name) override {                  \
-        return ::JET_CLR_SDK::convertFromNative(getActualPtr()->functionName( \
-            ::JET_CLR_SDK::convertToNative(arg0Name)));                       \
+#define JET_MEMBER_FUNCTION_OVERRIDE_1(returnType, functionName,            \
+                                       newFunctionName, arg0Type, arg0Name) \
+    returnType newFunctionName(arg0Type arg0Name) override {                \
+        return ::JET_WINRT_SDK::convertFromNative(                          \
+            getActualPtr()->functionName(                                   \
+                ::JET_WINRT_SDK::convertToNative(arg0Name)));               \
     }
 
 #define JET_MEMBER_FUNCTION_NO_RETURN_1(functionName, newFunctionName, \
                                         arg0Type, arg0Name)            \
     void newFunctionName(arg0Type arg0Name) {                          \
         getActualPtr()->functionName(                                  \
-            ::JET_CLR_SDK::convertToNative(arg0Name));                 \
+            ::JET_WINRT_SDK::convertToNative(arg0Name));               \
     }
 
-#define JET_MEMBER_FUNCTION_DEFAULT_OVERLOAD_NO_RETURN_1(                    \
-    functionName, newFunctionName, arg0Type, arg0Name)                       \
-    JET_MEMBER_FUNCTION_NO_RETURN_1(functionName, newFunctionName, arg0Type, \
-                                    arg0Name)
+#define JET_MEMBER_FUNCTION_DEFAULT_OVERLOAD_NO_RETURN_1(                          \
+    functionName, newFunctionName, arg0Type, arg0Name)                             \
+    [Windows::Foundation::Metadata::                                               \
+        DefaultOverloadAttribute] JET_MEMBER_FUNCTION_NO_RETURN_1(functionName,    \
+                                                                  newFunctionName, \
+                                                                  arg0Type,        \
+                                                                  arg0Name)
 
 #define JET_MEMBER_FUNCTION_OVERRIDE_NO_RETURN_1(      \
     functionName, newFunctionName, arg0Type, arg0Name) \
     void newFunctionName(arg0Type arg0Name) override { \
         getActualPtr()->functionName(                  \
-            ::JET_CLR_SDK::convertToNative(arg0Name)); \
+            JET_WINRT_SDK::convertToNative(arg0Name)); \
     }
 
 #define JET_MEMBER_FUNCTION_RETURN_BY_REF_1(wrapperReturnType,               \
@@ -281,9 +273,9 @@ JET_END_NAMESPACE_CLR_SDK
                                             newFuncName, argType0, arg0Name) \
     wrapperReturnType newFuncName(argType0 arg0Name) {                       \
         nativeReturnType __result;                                           \
-        getActualPtr()->funcName(::JET_CLR_SDK::convertToNative(arg0Name),   \
+        getActualPtr()->funcName(JET_WINRT_SDK::convertToNative(arg0Name),   \
                                  __result);                                  \
-        return ::JET_CLR_SDK::convertFromNative(__result);                   \
+        return JET_WINRT_SDK::convertFromNative(__result);                   \
     }
 
 #define JET_MEMBER_FUNCTION_OVERRIDE_RETURN_BY_REF_1(                      \
@@ -291,26 +283,24 @@ JET_END_NAMESPACE_CLR_SDK
     arg0Name)                                                              \
     wrapperReturnType newFuncName(argType0 arg0Name) override {            \
         nativeReturnType __result;                                         \
-        getActualPtr()->funcName(::JET_CLR_SDK::convertToNative(arg0Name), \
+        getActualPtr()->funcName(JET_WINRT_SDK::convertToNative(arg0Name), \
                                  __result);                                \
-        return ::JET_CLR_SDK::convertFromNative(__result);                 \
+        return JET_WINRT_SDK::convertFromNative(__result);                 \
     }
 
-// With 2 args
-#define JET_MEMBER_FUNCTION_2(returnType, functionName, newFunctionName,      \
-                              arg0Type, arg0Name, arg1Type, arg1Name)         \
-    returnType newFunctionName(arg0Type arg0Name, arg1Type arg1Name) {        \
-        return ::JET_CLR_SDK::convertFromNative(getActualPtr()->functionName( \
-            ::JET_CLR_SDK::convertToNative(arg0Name),                         \
-            ::JET_CLR_SDK::convertToNative(arg1Name)));                       \
+// WIth 2 args
+#define JET_MEMBER_FUNCTION_2(returnType, functionName, newFunctionName,                                                                                                \
+                              arg0Type, arg0Name, arg1Type, arg1Name)                                                                                                   \
+    returnType newFunctionName(arg0Type arg0Name, arg1Type arg1Name) {                                                                                                  \
+        return ::JET_WINRT_SDK::convertFromNative(getActualPtr()->functionName(::JET_WINRT_SDK::convertToNative(arg0Name), ::JET_WINRT_SDK::convertToNative(arg1Name)); \
     }
 
 #define JET_VIRTUAL_MEMBER_FUNCTION_NO_RETURN_2(                           \
     functionName, newFunctionName, arg0Type, arg0Name, arg1Type, arg1Name) \
     virtual void newFunctionName(arg0Type arg0Name, arg1Type arg1Name) {   \
         getActualPtr()->functionName(                                      \
-            ::JET_CLR_SDK::convertToNative(arg0Name),                      \
-            ::JET_CLR_SDK::convertToNative(arg1Name));                     \
+            ::JET_WINRT_SDK::convertToNative(arg0Name),                    \
+            ::JET_WINRT_SDK::convertToNative(arg1Name));                   \
     }
 
 #pragma endregion
@@ -318,7 +308,7 @@ JET_END_NAMESPACE_CLR_SDK
 #pragma region Interop Interface
 
 #define JET_WRAPPER_INTERFACE_IMPLEMENTATION(FunctionName, NativeTypeName)   \
-    void FunctionName(JET_WRAPPER_INTPTR nativeSharedPtrAddr) {              \
+    void FunctionName(Platform::IntPtr nativeSharedPtrAddr) {                \
         std::shared_ptr<NativeTypeName>* result =                            \
             reinterpret_cast<std::shared_ptr<NativeTypeName>*>(              \
                 (void*)nativeSharedPtrAddr);                                 \
@@ -328,7 +318,7 @@ JET_END_NAMESPACE_CLR_SDK
 
 #define JET_GET_NATIVE_SHARED_PTR_FROM_WRAPPER(refPtr, wrapperGetFunction, \
                                                nativeSharedPtr)            \
-    { refPtr->wrapperGetFunction(JET_WRAPPER_INTPTR(&nativeSharedPtr)); }
+    { refPtr->wrapperGetFunction(Platform::IntPtr(&nativeSharedPtr)); }
 
 #define JET_GET_IMPL(GetFunction) \
     virtual JET_OBJECT ^ GetFunction() { return _impl; }
@@ -446,35 +436,36 @@ JET_END_NAMESPACE_CLR_SDK
 
 #pragma region Common Language Forwarding
 
-#define JET_WRAPPER_NEW gcnew
+#define JET_WRAPPER_NEW ref new
 
-#define JET_WRAPPER_INTPTR System::IntPtr
+#define JET_WRAPPER_INTPTR Platform::IntPtr
 
-#define JET_OBJECT System::Object
+#define JET_OBJECT Platform::Object
 
-#define JET_WRAPPER_INPUT_ARRAY System::Collections::Generic::List
+#define JET_WRAPPER_INPUT_ARRAY Windows::Foundation::Collections::IVector
 
-#define JET_WRAPPER_ACTUAL_ARRAY System::Collections::Generic::List
+#define JET_WRAPPER_ACTUAL_ARRAY Platform::Collections::Vector
 
-#define JET_WRAPPER_IENUMERABLE System::Collections::Generic::IEnumerable
+#define JET_WRAPPER_IENUMERABLE Windows::Foundation::Collections::IIterable
 
-#define JET_WRAPPER_ARRAY_ADD Add
+#define JET_WRAPPER_ARRAY_ADD Append
 
-#define JET_ARGUMENT_EXCEPTION System::ArgumentException
+#define JET_ARGUMENT_EXCEPTION Platform::InvalidArgumentException
 
-#define JET_WRAPPER_SDK JET_CLR_SDK
+#define JET_WRAPPER_SDK JET_WINRT_SDK
 
-#define JET_NAMESPACE_WRAPPER_SDK JET_NAMESPACE_CLR_SDK
+#define JET_NAMESPACE_WRAPPER_SDK JET_NAMESPACE_WINRT_SDK
 
-#define JET_BEGIN_NAMESPACE_WRAPPER_SDK JET_BEGIN_NAMESPACE_CLR_SDK
+#define JET_BEGIN_NAMESPACE_WRAPPER_SDK JET_BEGIN_NAMESPACE_WINRT_SDK
 
-#define JET_END_NAMESPACE_WRAPPER_SDK JET_END_NAMESPACE_CLR_SDK
+#define JET_END_NAMESPACE_WRAPPER_SDK JET_END_NAMESPACE_WINRT_SDK
 
 #pragma endregion
 
 #pragma region Exceptions
 
-#define JET_WRAPPER_THROW_INVALID_ARG(message) \
-    throw gcnew System::ArgumentException(gcnew System::String(message));
+#define JET_WRAPPER_THROW_INVALID_ARG(message)        \
+    throw ref new Platform::InvalidArgumentException( \
+        ref new Platform::String(L##message));
 
 #pragma endregion

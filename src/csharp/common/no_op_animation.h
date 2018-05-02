@@ -63,7 +63,7 @@ public:
     JET_GET_IMPL(GetAnimationImpl);
 
     // Impl function wrapper(s)
-    JET_MEMBER_FUNCTION_CALLING_IMPL_NO_RETURN_1(Update, Frame^, frame, _impl);
+    JET_MEMBER_FUNCTION_CALLING_IMPL_NO_RETURN_1(Update, Frame^, frame);
 
     JET_GET_PROPERTY_CALLING_IMPL(Frame^, LastFrame);
 

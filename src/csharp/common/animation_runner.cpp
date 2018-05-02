@@ -21,19 +21,16 @@ void AnimationRunner::run(AnimationPtr anim, double fps, int numFrames) {
 }  // namespace JET_NATIVE_SDK
 
 JET_BEGIN_NAMESPACE_WRAPPER_SDK {
+    AnimationRunner::AnimationRunner() {}
 
-AnimationRunner::AnimationRunner() {}
-
-void AnimationRunner::Run(IAnimation^ anim, double fps, int numFrames) {
-    AnimationImpl^ animImpl =
-        dynamic_cast<AnimationImpl ^>(anim->GetAnimationImpl());
-    if (animImpl != nullptr) {
-        getActualPtr()->run(animImpl->getNativeSharedPtr(), fps, numFrames);
+    void AnimationRunner::Run(IAnimation ^ anim, double fps, int numFrames) {
+        AnimationImpl ^ animImpl =
+            dynamic_cast<AnimationImpl ^>(anim->GetAnimationImpl());
+        if (animImpl != nullptr) {
+            getActualPtr()->run(animImpl->getNativeSharedPtr(), fps, numFrames);
+        } else {
+            JET_WRAPPER_THROW_INVALID_ARG("Can't find native code");
+        }
     }
-    else {
-        JET_WRAPPER_THROW_NOT_SUPPORTED("Can't find native code");
-    }
-}
-
 }
 JET_END_NAMESPACE_WRAPPER_SDK

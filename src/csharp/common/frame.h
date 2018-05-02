@@ -36,11 +36,11 @@ public:
     JET_MEMBER_FUNCTION_NO_RETURN(advance, Advance);
 
     JET_MEMBER_FUNCTION_NO_RETURN_1(advance, Advance, int, delta);
-
-    Frame^ operator++();
-
-    Frame^ operator++(int i);
 };
+
+Frame^ operator++(Frame^ frame);
+
+Frame^ operator++(Frame^ frame, int i);
 
 // Define convertFromNative and convertToNative so that it can be used for automated bindings.
 inline Frame^ convertFromNative(const jet::Frame& value) {

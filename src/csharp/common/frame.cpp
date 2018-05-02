@@ -25,13 +25,13 @@ Frame::Frame(Frame^ other) {
     JET_INITIALIZE_NATIVE_CORE_1(*other->getActualPtr());
 }
 
-Frame^ Frame::operator++() {
-    Advance();
-    return JET_WRAPPER_NEW Frame(this);
+Frame^ operator++(Frame^ frame) {
+    frame->Advance();
+    return JET_WRAPPER_NEW Frame(frame);
 }
 
-Frame^ Frame::operator++(int) {
-    Frame^ result = JET_WRAPPER_NEW Frame(this);
-    Advance();
+Frame^ operator++(Frame^ frame, int) {
+    Frame^ result = JET_WRAPPER_NEW Frame(frame);
+    frame->Advance();
     return result;
 }

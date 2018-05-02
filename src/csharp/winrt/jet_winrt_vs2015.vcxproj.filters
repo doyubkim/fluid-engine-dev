@@ -5,13 +5,53 @@
       <UniqueIdentifier>f6588ae9-84d9-469d-b9f0-8ed94df77598</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{04c573b5-6949-4a08-bb31-d0bde7ae359b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d7426615-f757-4ca4-bc26-7b0a4ec86e0f}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{091b708d-ba61-42f3-91a6-12e0cca74a0a}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="..\common\animation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\animation_runner.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\frame.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\no_op_animation.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="animation.h" />
+    <ClInclude Include="..\common\animation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\animation_runner.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\frame.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\no_op_animation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

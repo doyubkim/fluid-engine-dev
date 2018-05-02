@@ -22,7 +22,7 @@ class AnimationRunner {
 
 JET_BEGIN_NAMESPACE_WRAPPER_SDK {
     //! Simple utility class to test IAnimation from managed or WinRT codes
-public ref class AnimationRunner {
+public ref class AnimationRunner sealed {
     JET_DEFINE_NATIVE_CORE_FOR_BASE(JET_NATIVE_SDK::AnimationRunner);
 
     public:
