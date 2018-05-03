@@ -38,6 +38,15 @@ TEST(Array1, Constructors) {
             EXPECT_FLOAT_EQ((float)i + 1.f, arr1[i]);
         }
     }
+    {
+        Array1<float> arr({ 1.f,  2.f,  3.f,  4.f });
+        ArrayView1<float> arrView(arr.data(), arr.size());
+        Array1<float> arr1(arrView);
+        EXPECT_EQ(4u, arr1.size());
+        for (size_t i = 0; i < 4; ++i) {
+            EXPECT_FLOAT_EQ((float)i + 1.f, arr1[i]);
+        }
+    }
 }
 
 TEST(Array1, SetMethods) {
@@ -60,6 +69,15 @@ TEST(Array1, SetMethods) {
     EXPECT_EQ(5.f, arr2[1]);
     EXPECT_EQ(9.f, arr2[2]);
     EXPECT_EQ(-1.f, arr2[3]);
+
+    ArrayView1<float> arrView(arr2.data(), arr2.size());
+    Array1<float> arr3;
+    arr3.set(arrView);
+    EXPECT_EQ(4u, arr3.size());
+    EXPECT_EQ(2.f, arr3[0]);
+    EXPECT_EQ(5.f, arr3[1]);
+    EXPECT_EQ(9.f, arr3[2]);
+    EXPECT_EQ(-1.f, arr3[3]);
 }
 
 TEST(Array1, Clear) {

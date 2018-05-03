@@ -13,10 +13,15 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
+
+template <typename T, size_t N>
+class ArrayView;
+
+template <typename T, size_t N>
+class ConstArrayView;
 
 //!
 //! \brief 1-D array class.
@@ -41,6 +46,10 @@ class Array<T, 1> final {
     //! \param size Initial size of the array.
     //! \param initVal Initial value of each array element.
     explicit Array(size_t size, const T& initVal = T());
+
+    //! \brief Constructs 1-D array with array view.
+    //! \param view Source array view.
+    Array(const ArrayView<T, 1>& view);
 
     //!
     //! \brief Constructs 1-D array with given initializer list \p lst.
@@ -67,6 +76,9 @@ class Array<T, 1> final {
 
     //! Copies given array \p other to this array.
     void set(const Array& other);
+
+    //! Copies given array view to this array.
+    void set(const ArrayView<T, 1>& other);
 
     //! Copies given initializer list \p lst to this array.
     void set(const std::initializer_list<T>& lst);
@@ -105,10 +117,18 @@ class Array<T, 1> final {
     ConstIterator end() const;
 
     //! Returns the array accessor.
+    [[deprecated("Use view() instead")]]
     ArrayAccessor1<T> accessor();
 
     //! Returns the const array accessor.
+    [[deprecated("Use view() instead")]]
     ConstArrayAccessor1<T> constAccessor() const;
+
+    //! Returns the array view.
+    ArrayView<T, 1> view();
+
+    //! Returns the const array view.
+    ConstArrayView<T, 1> view() const;
 
     //! Swaps the content of the array with \p other array.
     void swap(Array& other);
