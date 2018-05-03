@@ -26,7 +26,10 @@
 #include <jet/array_samplers2.h>
 #include <jet/array_samplers3.h>
 #include <jet/array_utils.h>
+#include <jet/array_view.h>
 #include <jet/array_view1.h>
+#include <jet/array_view2.h>
+#include <jet/array_view3.h>
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/blas.h>
 #include <jet/bounding_box.h>
@@ -56,6 +59,8 @@
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/cubic_semi_lagrangian3.h>
 #include <jet/cuda_array1.h>
+#include <jet/cuda_array2.h>
+#include <jet/cuda_array3.h>
 #include <jet/cuda_array_view1.h>
 #include <jet/cuda_particle_system_data2.h>
 #include <jet/cuda_particle_system_data3.h>
@@ -73,6 +78,9 @@
 #include <jet/cuda_sph_solver_base3.h>
 #include <jet/cuda_sph_system_data2.h>
 #include <jet/cuda_sph_system_data3.h>
+#include <jet/cuda_texture1.h>
+#include <jet/cuda_texture2.h>
+#include <jet/cuda_texture3.h>
 #include <jet/cuda_utils.h>
 #include <jet/cuda_wc_sph_solver2.h>
 #include <jet/cuda_wc_sph_solver3.h>
