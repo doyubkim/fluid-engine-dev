@@ -7,11 +7,12 @@
 #ifndef INCLUDE_JET_DETAIL_ARRAY1_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY1_INL_H_
 
+#include <jet/array1.h>
+#include <jet/array_view1.h>
 #include <jet/constants.h>
 #include <jet/parallel.h>
 
 #include <algorithm>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -22,6 +23,11 @@ Array<T, 1>::Array() {}
 template <typename T>
 Array<T, 1>::Array(size_t size, const T& initVal) {
     resize(size, initVal);
+}
+
+template <typename T>
+Array<T, 1>::Array(const ArrayView<T, 1>& view) {
+    set(view);
 }
 
 template <typename T>
@@ -50,6 +56,16 @@ template <typename T>
 void Array<T, 1>::set(const Array& other) {
     _data.resize(other._data.size());
     std::copy(other._data.begin(), other._data.end(), _data.begin());
+}
+
+template <typename T>
+void Array<T, 1>::set(const ArrayView<T, 1>& view) {
+    size_t n = view.size();
+    Array<T, 1> temp(n);
+    for (size_t i = 0; i < n; ++i) {
+        temp[i] = view[i];
+    }
+    (*this) = std::move(temp);
 }
 
 template <typename T>
@@ -128,6 +144,16 @@ ArrayAccessor1<T> Array<T, 1>::accessor() {
 template <typename T>
 ConstArrayAccessor1<T> Array<T, 1>::constAccessor() const {
     return ConstArrayAccessor1<T>(size(), data());
+}
+
+template <typename T>
+ArrayView<T, 1> Array<T, 1>::view() {
+    return ArrayView<T, 1>(*this);
+}
+
+template <typename T>
+ConstArrayView<T, 1> Array<T, 1>::view() const {
+    return ConstArrayView<T, 1>(*this);
 }
 
 template <typename T>
