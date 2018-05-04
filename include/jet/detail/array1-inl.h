@@ -239,6 +239,16 @@ Array<T, 1>::operator ConstArrayAccessor1<T>() const {
     return constAccessor();
 }
 
+template <typename T>
+Array<T, 1>::operator ArrayView<T, 1>() {
+    return view();
+}
+
+template <typename T>
+Array<T, 1>::operator ConstArrayView<T, 1>() const {
+    return view();
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_ARRAY1_INL_H_
