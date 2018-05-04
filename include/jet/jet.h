@@ -62,6 +62,8 @@
 #include <jet/cuda_array2.h>
 #include <jet/cuda_array3.h>
 #include <jet/cuda_array_view1.h>
+#include <jet/cuda_array_view2.h>
+#include <jet/cuda_array_view3.h>
 #include <jet/cuda_particle_system_data2.h>
 #include <jet/cuda_particle_system_data3.h>
 #include <jet/cuda_particle_system_solver2.h>

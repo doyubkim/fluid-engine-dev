@@ -19,6 +19,12 @@
 
 namespace jet {
 
+template <typename T, size_t N>
+class ArrayView;
+
+template <typename T, size_t N>
+class ConstArrayView;
+
 //!
 //! \brief 2-D array class.
 //!
@@ -60,6 +66,10 @@ class Array<T, 2> final {
     //! \param initVal Initial value of each array element.
     Array(size_t width, size_t height, const T& initVal = T());
 
+    //! \brief Constructs 2-D array with array view.
+    //! \param view Source array view.
+    Array(const ArrayView<T, 2>& view);
+
     //!
     //! \brief Constructs 2-D array with given initializer list \p lst.
     //!
@@ -91,6 +101,9 @@ class Array<T, 2> final {
 
     //! Copies given array \p other to this array.
     void set(const Array& other);
+
+    //! Copies given array view to this array.
+    void set(const ArrayView<T, 2>& other);
 
     //!
     //! Copies given initializer list \p lst to this array.
@@ -180,10 +193,18 @@ class Array<T, 2> final {
     ConstIterator end() const;
 
     //! Returns the array accessor.
+    [[deprecated("Use view() instead")]]
     ArrayAccessor2<T> accessor();
 
     //! Returns the const array accessor.
+    [[deprecated("Use view() instead")]]
     ConstArrayAccessor2<T> constAccessor() const;
+
+    //! Returns the array view.
+    ArrayView<T, 2> view();
+
+    //! Returns the const array view.
+    ConstArrayView<T, 2> view() const;
 
     //! Swaps the content of the array with \p other array.
     void swap(Array& other);
@@ -357,6 +378,12 @@ class Array<T, 2> final {
 
     //! Casts to const array accessor.
     operator ConstArrayAccessor2<T>() const;
+
+    //! Casts to array view.
+    operator ArrayView<T, 2>();
+
+    //! Casts to const array view.
+    operator ConstArrayView<T, 2>() const;
 
  private:
     Size2 _size;
