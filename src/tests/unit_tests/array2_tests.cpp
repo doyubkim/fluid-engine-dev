@@ -71,6 +71,19 @@ TEST(Array2, Constructors) {
             EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
         }
     }
+    {
+        Array2<float> arr(
+            {{1.f,  2.f,  3.f,  4.f},
+             {5.f,  6.f,  7.f,  8.f},
+             {9.f, 10.f, 11.f, 12.f}});
+        ArrayView2<float> arrVew(arr.data(), arr.size());
+        Array2<float> arr2(arrVew);
+        EXPECT_EQ(4u, arr2.width());
+        EXPECT_EQ(3u, arr2.height());
+        for (size_t i = 0; i < 12; ++i) {
+            EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
+        }
+    }
 }
 
 TEST(Array2, Clear) {
@@ -229,4 +242,17 @@ TEST(Array2, ParallelForEachIndex) {
         size_t idx = i + (4 * j) + 1;
         EXPECT_FLOAT_EQ(static_cast<float>(idx), arr1(i, j));
     });
+}
+
+TEST(Array2, View) {
+    Array2<float> arr(
+        {{1.f,  2.f,  3.f,  4.f},
+         {5.f,  6.f,  7.f,  8.f},
+         {9.f, 10.f, 11.f, 12.f}});
+    ArrayView2<float> arr2 = arr.view();
+    EXPECT_EQ(4u, arr2.width());
+    EXPECT_EQ(3u, arr2.height());
+    for (size_t i = 0; i < 12; ++i) {
+        EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
+    }
 }

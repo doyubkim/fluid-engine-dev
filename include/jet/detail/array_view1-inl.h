@@ -42,11 +42,6 @@ ArrayView<T, 1>::ArrayView(ArrayView&& other) {
 }
 
 template <typename T>
-void ArrayView<T, 1>::set(const T& value) {
-    std::fill(_data, _data + _size, value);
-}
-
-template <typename T>
 void ArrayView<T, 1>::set(T* data, size_t size) {
     _data = data;
     _size = size;
@@ -121,12 +116,6 @@ const T& ArrayView<T, 1>::operator[](size_t i) const {
 }
 
 template <typename T>
-ArrayView1<T>& ArrayView<T, 1>::operator=(const T& value) {
-    set(value);
-    return *this;
-}
-
-template <typename T>
 ArrayView1<T>& ArrayView<T, 1>::operator=(const Array1<T>& array) {
     set(array);
     return *this;
@@ -186,11 +175,6 @@ ConstArrayView<T, 1>::ConstArrayView(const ConstArrayView& other) {
 template <typename T>
 ConstArrayView<T, 1>::ConstArrayView(ConstArrayView&& other) {
     *this = std::move(other);
-}
-
-template <typename T>
-void ConstArrayView<T, 1>::set(const T& value) {
-    std::fill(_data, _data + _size, value);
 }
 
 template <typename T>

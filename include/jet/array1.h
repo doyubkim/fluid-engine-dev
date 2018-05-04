@@ -242,6 +242,12 @@ class Array<T, 1> final {
     //! Casts to const array accessor.
     operator ConstArrayAccessor1<T>() const;
 
+    //! Casts to array view.
+    operator ArrayView<T, 1>();
+
+    //! Casts to const array view.
+    operator ConstArrayView<T, 1>() const;
+
  private:
     ContainerType _data;
 };

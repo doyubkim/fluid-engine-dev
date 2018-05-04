@@ -19,15 +19,13 @@ class ArrayView<T, 1> final {
 
     explicit ArrayView(T* data, size_t size);
 
-    ArrayView(const Array1<T>& array);
-
     ArrayView(const std::vector<T>& vec);
+
+    ArrayView(const Array1<T>& array);
 
     ArrayView(const ArrayView& other);
 
     ArrayView(ArrayView&& other);
-
-    void set(const T& value);
 
     void set(T* data, size_t size);
 
@@ -59,8 +57,6 @@ class ArrayView<T, 1> final {
     //! Returns the const reference to i-th element.
     const T& operator[](size_t i) const;
 
-    ArrayView& operator=(const T& value);
-
     ArrayView& operator=(const std::vector<T>& vec);
 
     ArrayView& operator=(const Array1<T>& array);
@@ -85,9 +81,9 @@ class ConstArrayView<T, 1> final {
 
     explicit ConstArrayView(const T* data, size_t size);
 
-    ConstArrayView(const Array1<T>& array);
-
     ConstArrayView(const std::vector<T>& vec);
+
+    ConstArrayView(const Array1<T>& array);
 
     ConstArrayView(const ArrayView<T, 1>& other);
 
@@ -122,13 +118,11 @@ class ConstArrayView<T, 1> final {
     const T* _data = nullptr;
     size_t _size = 0;
 
-    void set(const T& value);
-
     void set(const T* data, size_t size);
 
-    void set(const Array1<T>& array);
-
     void set(const std::vector<T>& vec);
+
+    void set(const Array1<T>& array);
 
     void set(const ArrayView<T, 1>& other);
 
