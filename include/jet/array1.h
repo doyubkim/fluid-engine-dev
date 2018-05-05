@@ -117,11 +117,9 @@ class Array<T, 1> final {
     ConstIterator end() const;
 
     //! Returns the array accessor.
-    [[deprecated("Use view() instead")]]
     ArrayAccessor1<T> accessor();
 
     //! Returns the const array accessor.
-    [[deprecated("Use view() instead")]]
     ConstArrayAccessor1<T> constAccessor() const;
 
     //! Returns the array view.

@@ -102,7 +102,7 @@ class ConstArrayView<T, 2> final {
 
     ConstArrayView(const Array2<T>& array);
 
-    ConstArrayView(const ArrayView<T, 1>& other);
+    ConstArrayView(const ArrayView<T, 1>& other, const Size2& size);
 
     ConstArrayView(const ArrayView<T, 2>& other);
 

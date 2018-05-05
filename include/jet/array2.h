@@ -14,7 +14,6 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -193,11 +192,9 @@ class Array<T, 2> final {
     ConstIterator end() const;
 
     //! Returns the array accessor.
-    [[deprecated("Use view() instead")]]
     ArrayAccessor2<T> accessor();
 
     //! Returns the const array accessor.
-    [[deprecated("Use view() instead")]]
     ConstArrayAccessor2<T> constAccessor() const;
 
     //! Returns the array view.

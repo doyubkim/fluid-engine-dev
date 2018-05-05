@@ -13,10 +13,15 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
+
+template <typename T, size_t N>
+class ArrayView;
+
+template <typename T, size_t N>
+class ConstArrayView;
 
 //!
 //! \brief 3-D array class.
@@ -63,6 +68,10 @@ class Array<T, 3> final {
     explicit Array(size_t width, size_t height, size_t depth,
                    const T& initVal = T());
 
+    //! \brief Constructs 3-D array with array view.
+    //! \param view Source array view.
+    Array(const ArrayView<T, 3>& view);
+
     //!
     //! \brief Constructs 3-D array with given initializer list \p lst.
     //!
@@ -98,6 +107,9 @@ class Array<T, 3> final {
 
     //! Copies given array \p other to this array.
     void set(const Array& other);
+
+    //! Copies given array view to this array.
+    void set(const ArrayView<T, 3>& other);
 
     //!
     //! Copies given initializer list \p lst to this array.
@@ -201,6 +213,12 @@ class Array<T, 3> final {
 
     //! Returns the const array accessor.
     ConstArrayAccessor3<T> constAccessor() const;
+
+    //! Returns the array view.
+    ArrayView<T, 3> view();
+
+    //! Returns the const array view.
+    ConstArrayView<T, 3> view() const;
 
     //! Swaps the content of the array with \p other array.
     void swap(Array& other);
@@ -383,6 +401,12 @@ class Array<T, 3> final {
 
     //! Casts to const array accessor.
     operator ConstArrayAccessor3<T>() const;
+
+    //! Casts to array view.
+    operator ArrayView<T, 3>();
+
+    //! Casts to const array view.
+    operator ConstArrayView<T, 3>() const;
 
  private:
     Size3 _size;
