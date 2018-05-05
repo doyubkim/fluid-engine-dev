@@ -7,11 +7,12 @@
 #ifndef INCLUDE_JET_DETAIL_ARRAY3_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY3_INL_H_
 
+#include <jet/array3.h>
+#include <jet/array_view3.h>
 #include <jet/macros.h>
 #include <jet/parallel.h>
 
 #include <algorithm>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -28,6 +29,22 @@ template <typename T>
 Array<T, 3>::Array(size_t width, size_t height, size_t depth,
                    const T& initVal) {
     resize(width, height, depth, initVal);
+}
+
+template <typename T>
+Array<T, 3>::Array(const ArrayView<T, 3>& view) {
+    set(view);
+}
+
+template <typename T>
+void Array<T, 3>::set(const ArrayView<T, 3>& view) {
+    Size3 sz = view.size();
+    Array<T, 3> temp(sz);
+    size_t n = sz.x * sz.y * sz.z;
+    for (size_t i = 0; i < n; ++i) {
+        temp[i] = view[i];
+    }
+    (*this) = std::move(temp);
 }
 
 template <typename T>
@@ -211,6 +228,16 @@ ConstArrayAccessor3<T> Array<T, 3>::constAccessor() const {
 }
 
 template <typename T>
+ArrayView<T, 3> Array<T, 3>::view() {
+    return ArrayView<T, 3>(*this);
+}
+
+template <typename T>
+ConstArrayView<T, 3> Array<T, 3>::view() const {
+    return ConstArrayView<T, 3>(*this);
+}
+
+template <typename T>
 void Array<T, 3>::swap(Array& other) {
     std::swap(other._data, _data);
     std::swap(other._size, _size);
@@ -310,6 +337,16 @@ Array<T, 3>::operator ArrayAccessor3<T>() {
 template <typename T>
 Array<T, 3>::operator ConstArrayAccessor3<T>() const {
     return constAccessor();
+}
+
+template <typename T>
+Array<T, 3>::operator ArrayView<T, 3>() {
+    return view();
+}
+
+template <typename T>
+Array<T, 3>::operator ConstArrayView<T, 3>() const {
+    return view();
 }
 
 }  // namespace jet
