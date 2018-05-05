@@ -160,7 +160,7 @@ const T& ArrayView<T, 2>::operator()(size_t i, size_t j) const {
 
 template <typename T>
 ArrayView<T, 2>& ArrayView<T, 2>::operator=(const Array2<T>& array) {
-    set(other);
+    set(array);
     return *this;
 }
 
@@ -207,7 +207,8 @@ ConstArrayView<T, 2>::ConstArrayView(const Array2<T>& array) {
 }
 
 template <typename T>
-ConstArrayView<T, 2>::ConstArrayView(const ArrayView<T, 1>& other) {
+ConstArrayView<T, 2>::ConstArrayView(const ArrayView<T, 1>& other,
+                                     const Size2& size) {
     set(other, size);
 }
 
@@ -325,17 +326,17 @@ void ConstArrayView<T, 2>::set(const ArrayView<T, 1>& other,
 
 template <typename T>
 void ConstArrayView<T, 2>::set(const ArrayView<T, 2>& other) {
-    set(other.data(), array.size());
+    set(other.data(), other.size());
 }
 
 template <typename T>
 void ConstArrayView<T, 2>::set(const ConstArrayView<T, 1>& other) {
-    set(other.data(), array.size());
+    set(other.data(), other.size());
 }
 
 template <typename T>
 void ConstArrayView<T, 2>::set(const ConstArrayView& other) {
-    set(other.data(), array.size());
+    set(other.data(), other.size());
 }
 
 }  // namespace jet

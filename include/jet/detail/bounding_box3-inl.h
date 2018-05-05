@@ -221,7 +221,8 @@ bool BoundingBox<T, 3>::isEmpty() const {
 template <typename T>
 template <typename U>
 BoundingBox<U, 3> BoundingBox<T, 3>::castTo() const {
-    return BoundingBox<U, 3>{lowerCorner.castTo<U>(), upperCorner.castTo<U>()};
+    return BoundingBox<U, 3>{lowerCorner.template castTo<U>(),
+                             upperCorner.template castTo<U>()};
 }
 
 }  // namespace jet
