@@ -14,7 +14,6 @@
 #include <thrust/extrema.h>
 
 using namespace jet;
-using namespace experimental;
 
 namespace {
 

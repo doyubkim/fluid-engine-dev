@@ -13,8 +13,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 //! \brief CUDA-based basic 3-D particle system solver.
 //!
@@ -95,8 +93,6 @@ class CudaParticleSystemSolver3::Builder final
     float _radius = 1e-3f;
     float _mass = 1e-3f;
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

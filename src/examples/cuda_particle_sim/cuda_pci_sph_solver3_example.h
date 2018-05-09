@@ -16,7 +16,7 @@ class CudaPciSphSolver3Example final : public ParticleSimExample {
     CudaPciSphSolver3Example(const jet::Frame& frame);
 
  private:
-    jet::experimental::CudaPciSphSolver3Ptr _solver;
+    jet::CudaPciSphSolver3Ptr _solver;
     jet::viz::PointsRenderable3Ptr _renderable;
 
     void onSetup(jet::viz::GlfwWindow* window) override;

@@ -28,7 +28,7 @@ class CudaPciSphSolver2Example final : public Example {
     std::string name() const override;
 
  private:
-    jet::experimental::CudaPciSphSolver2Ptr _solver;
+    jet::CudaPciSphSolver2Ptr _solver;
     jet::viz::PointsRenderable2Ptr _renderable;
     thrust::device_vector<jet::viz::VertexPosition3Color4> _vertices;
 

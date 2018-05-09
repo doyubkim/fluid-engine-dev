@@ -14,7 +14,6 @@
 #include <thrust/for_each.h>
 
 using namespace jet;
-using namespace experimental;
 
 CudaSphSystemData3::CudaSphSystemData3() : CudaSphSystemData3(0) {}
 

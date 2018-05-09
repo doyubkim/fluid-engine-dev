@@ -14,8 +14,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 JET_CUDA_HOST_DEVICE CudaPointHashGridSearcher2::HashUtils::HashUtils() {}
 
 JET_CUDA_HOST_DEVICE CudaPointHashGridSearcher2::HashUtils::HashUtils(
@@ -147,8 +145,6 @@ void CudaPointHashGridSearcher2::forEachNearbyPoint(
             _endIndexTable.data(), _sortedIndices.data(), _points.data(),
             origins.data(), callback));
 }
-
-}  // namespace experimental
 
 }  // namespace jet
 

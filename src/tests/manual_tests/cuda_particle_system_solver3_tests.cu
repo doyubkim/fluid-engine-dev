@@ -9,7 +9,6 @@
 #include <jet/cuda_particle_system_solver3.h>
 
 using namespace jet;
-using namespace experimental;
 
 JET_TESTS(CudaParticleSystemSolver3);
 

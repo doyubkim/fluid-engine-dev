@@ -10,7 +10,6 @@
 #include <gtest/gtest.h>
 
 using namespace jet;
-using namespace experimental;
 
 namespace {
 
@@ -22,7 +21,7 @@ thrust::host_vector<float> makeVector(std::initializer_list<float> lst) {
     return vec;
 }
 
-}
+}  // namespace
 
 TEST(CudaArray1, Constructors) {
     CudaArray1<float> arr0;
@@ -41,7 +40,7 @@ TEST(CudaArray1, Constructors) {
     for (size_t i = 0; i < arr10.size(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr10[i]);
     }
-    CudaArray1<float> arr11(arr9);
+    CudaArray1<float> arr11(arr9.view());
     EXPECT_EQ(3u, arr11.size());
     for (size_t i = 0; i < arr11.size(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr11[i]);
@@ -53,7 +52,7 @@ TEST(CudaArray1, Constructors) {
         EXPECT_FLOAT_EQ(1.5f, arr2[i]);
     }
 
-    CudaArray1<float> arr3({ 1.0f, 2.0f, 3.0f });
+    CudaArray1<float> arr3({1.0f, 2.0f, 3.0f});
     EXPECT_EQ(3u, arr3.size());
     for (size_t i = 0; i < arr3.size(); ++i) {
         float a = arr3[i];
@@ -61,7 +60,7 @@ TEST(CudaArray1, Constructors) {
         EXPECT_FLOAT_EQ(1.0f + i, arr3[i]);
     }
 
-    CudaArray1<float> arr8(std::vector<float>{ 1.0f, 2.0f, 3.0f });
+    CudaArray1<float> arr8(std::vector<float>{1.0f, 2.0f, 3.0f});
     EXPECT_EQ(3u, arr8.size());
     for (size_t i = 0; i < arr8.size(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr8[i]);
@@ -74,7 +73,7 @@ TEST(CudaArray1, Constructors) {
     }
 
     CudaArray1<float> arr5(
-        thrust::device_vector<float>(makeVector({ 1.0f, 2.0f, 3.0f })));
+        thrust::device_vector<float>(makeVector({1.0f, 2.0f, 3.0f})));
     EXPECT_EQ(3u, arr5.size());
     for (size_t i = 0; i < arr5.size(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr5[i]);
