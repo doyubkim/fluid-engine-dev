@@ -112,7 +112,7 @@ class CudaPointHashGridSearcher2 final {
     //!
     //! \param[in]  points The points to be added.
     //!
-    void build(const CudaArrayView1<float2>& points);
+    void build(const ConstCudaArrayView1<float2>& points);
 
     //!
     //! Invokes the callback function for each nearby point around the
@@ -123,8 +123,8 @@ class CudaPointHashGridSearcher2 final {
     //! \param[in]  callback The callback function.
     //!
     template <typename Callback>
-    void forEachNearbyPoint(const CudaArrayView1<float2>& origins, float radius,
-                            Callback callback) const;
+    void forEachNearbyPoint(const ConstCudaArrayView1<float2>& origins,
+                            float radius, Callback callback) const;
 
 #if 0
     //!
@@ -143,7 +143,7 @@ class CudaPointHashGridSearcher2 final {
 
     Size2 resolution() const;
 
-    const CudaArrayView1<float2> sortedPoints() const;
+    ConstCudaArrayView1<float2> sortedPoints() const;
 
     //!
     //! \brief Returns the hash key list.
@@ -153,7 +153,7 @@ class CudaPointHashGridSearcher2 final {
     //!
     //! \return The hash key list.
     //!
-    const CudaArrayView1<uint32_t> keys() const;
+    ConstCudaArrayView1<uint32_t> keys() const;
 
     //!
     //! \brief Returns the start index table.
@@ -178,7 +178,7 @@ class CudaPointHashGridSearcher2 final {
     //!
     //! \return The start index table.
     //!
-    const CudaArrayView1<uint32_t> startIndexTable() const;
+    ConstCudaArrayView1<uint32_t> startIndexTable() const;
 
     //!
     //! \brief Returns the end index table.
@@ -203,7 +203,7 @@ class CudaPointHashGridSearcher2 final {
     //!
     //! \return The end index table.
     //!
-    const CudaArrayView1<uint32_t> endIndexTable() const;
+    ConstCudaArrayView1<uint32_t> endIndexTable() const;
 
     //!
     //! \brief Returns the sorted indices of the points.
@@ -215,7 +215,7 @@ class CudaPointHashGridSearcher2 final {
     //!
     //! \return The sorted indices of the points.
     //!
-    const CudaArrayView1<uint32_t> sortedIndices() const;
+    ConstCudaArrayView1<uint32_t> sortedIndices() const;
 
     //! Assignment operator.
     CudaPointHashGridSearcher2& operator=(

@@ -32,19 +32,8 @@ Array<T, 3>::Array(size_t width, size_t height, size_t depth,
 }
 
 template <typename T>
-Array<T, 3>::Array(const ArrayView<T, 3>& view) {
+Array<T, 3>::Array(const ConstArrayView<T, 3>& view) {
     set(view);
-}
-
-template <typename T>
-void Array<T, 3>::set(const ArrayView<T, 3>& view) {
-    Size3 sz = view.size();
-    Array<T, 3> temp(sz);
-    size_t n = sz.x * sz.y * sz.z;
-    for (size_t i = 0; i < n; ++i) {
-        temp[i] = view[i];
-    }
-    (*this) = std::move(temp);
 }
 
 template <typename T>
@@ -75,6 +64,17 @@ void Array<T, 3>::set(const Array& other) {
     _data.resize(other._data.size());
     std::copy(other._data.begin(), other._data.end(), _data.begin());
     _size = other._size;
+}
+
+template <typename T>
+void Array<T, 3>::set(const ConstArrayView<T, 3>& view) {
+    Size3 sz = view.size();
+    Array<T, 3> temp(sz);
+    size_t n = sz.x * sz.y * sz.z;
+    for (size_t i = 0; i < n; ++i) {
+        temp[i] = view[i];
+    }
+    (*this) = std::move(temp);
 }
 
 template <typename T>
@@ -309,6 +309,12 @@ Array<T, 3>& Array<T, 3>::operator=(const T& value) {
 
 template <typename T>
 Array<T, 3>& Array<T, 3>::operator=(const Array& other) {
+    set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 3>& Array<T, 3>::operator=(const ConstArrayView<T, 3>& other) {
     set(other);
     return *this;
 }

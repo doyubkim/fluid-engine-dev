@@ -22,11 +22,11 @@ class InitializeBuffersAndComputeForces {
  public:
     inline InitializeBuffersAndComputeForces(
         float m, float h, float2 gravity, float viscosity,
-        uint32_t* neighborStarts, uint32_t* neighborEnds,
-        uint32_t* neighborLists, float2* positions, float2* velocities,
-        float2* smoothedVelocities, float2* forces, float* densities,
-        float* pressures, float2* pressureForces, float* densityErrors,
-        float* densitiesPredicted)
+        const uint32_t* neighborStarts, const uint32_t* neighborEnds,
+        const uint32_t* neighborLists, const float2* positions,
+        const float2* velocities, float2* smoothedVelocities, float2* forces,
+        const float* densities, float* pressures, float2* pressureForces,
+        float* densityErrors, float* densitiesPredicted)
         : _mass(m),
           _massSquared(m * m),
           _gravity(gravity),
@@ -99,14 +99,14 @@ class InitializeBuffersAndComputeForces {
     float2 _gravity;
     float _viscosity;
     CudaSphSpikyKernel2 _spikyKernel;
-    uint32_t* _neighborStarts;
-    uint32_t* _neighborEnds;
-    uint32_t* _neighborLists;
-    float2* _positions;
-    float2* _velocities;
+    const uint32_t* _neighborStarts;
+    const uint32_t* _neighborEnds;
+    const uint32_t* _neighborLists;
+    const float2* _positions;
+    const float2* _velocities;
     float2* _smoothedVelocities;
     float2* _forces;
-    float* _densities;
+    const float* _densities;
     float* _pressures;
     float2* _pressureForces;
     float* _densitiesPredicted;
@@ -188,10 +188,11 @@ class ComputeDensityError {
  public:
     inline ComputeDensityError(float m, float h, float targetDensity,
                                float delta, float negativePressureScale,
-                               uint32_t* neighborStarts, uint32_t* neighborEnds,
-                               uint32_t* neighborLists, float2* positions,
-                               float* pressures, float* densityErrors,
-                               float* densitiesPredicted)
+                               const uint32_t* neighborStarts,
+                               const uint32_t* neighborEnds,
+                               const uint32_t* neighborLists,
+                               const float2* positions, float* pressures,
+                               float* densityErrors, float* densitiesPredicted)
         : _mass(m),
           _targetDensity(targetDensity),
           _delta(delta),
@@ -242,10 +243,10 @@ class ComputeDensityError {
     float _targetDensity;
     float _delta;
     float _negativePressureScale;
-    uint32_t* _neighborStarts;
-    uint32_t* _neighborEnds;
-    uint32_t* _neighborLists;
-    float2* _positions;
+    const uint32_t* _neighborStarts;
+    const uint32_t* _neighborEnds;
+    const uint32_t* _neighborLists;
+    const float2* _positions;
     float* _pressures;
     float* _densitiesPredicted;
     float* _densityErrors;
@@ -254,11 +255,13 @@ class ComputeDensityError {
 
 class ComputePressureForces {
  public:
-    inline ComputePressureForces(float m, float h, uint32_t* neighborStarts,
-                                 uint32_t* neighborEnds,
-                                 uint32_t* neighborLists, float2* positions,
-                                 float2* pressureForces, float* densities,
-                                 float* pressures)
+    inline ComputePressureForces(float m, float h,
+                                 const uint32_t* neighborStarts,
+                                 const uint32_t* neighborEnds,
+                                 const uint32_t* neighborLists,
+                                 const float2* positions,
+                                 float2* pressureForces, const float* densities,
+                                 const float* pressures)
         : _mass(m),
           _massSquared(m * m),
           _spikyKernel(h),
@@ -306,13 +309,13 @@ class ComputePressureForces {
     float _mass;
     float _massSquared;
     CudaSphSpikyKernel2 _spikyKernel;
-    uint32_t* _neighborStarts;
-    uint32_t* _neighborEnds;
-    uint32_t* _neighborLists;
-    float2* _positions;
+    const uint32_t* _neighborStarts;
+    const uint32_t* _neighborEnds;
+    const uint32_t* _neighborLists;
+    const float2* _positions;
     float2* _pressureForces;
-    float* _densities;
-    float* _pressures;
+    const float* _densities;
+    const float* _pressures;
 };
 
 }  // namespace

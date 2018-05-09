@@ -10,6 +10,7 @@
 #define INCLUDE_JET_CUDA_ARRAY3_H_
 
 #include <jet/array_view3.h>
+#include <jet/cuda_array1.h>
 #include <jet/macros.h>
 
 #include <thrust/device_vector.h>
@@ -18,17 +19,16 @@
 
 namespace jet {
 
-namespace experimental {
+template <typename T, size_t N>
+class CudaArrayView;
+
+template <typename T, size_t N>
+class ConstCudaArrayView;
 
 template <typename T>
-class CudaArrayView3;
-
-template <typename T>
-class CudaArray3 final {
+class CudaArray<T, 3> final {
  public:
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

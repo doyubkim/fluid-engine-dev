@@ -75,31 +75,31 @@ class CudaParticleSystemData3 {
     CudaArrayView1<float4> positions();
 
     //!
-    const CudaArrayView1<float4> positions() const;
+    ConstCudaArrayView1<float4> positions() const;
 
     //!
     CudaArrayView1<float4> velocities();
 
     //!
-    const CudaArrayView1<float4> velocities() const;
+    ConstCudaArrayView1<float4> velocities() const;
 
     //!
     CudaArrayView1<int> intDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<int> intDataAt(size_t idx) const;
+    ConstCudaArrayView1<int> intDataAt(size_t idx) const;
 
     //!
     CudaArrayView1<float> floatDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<float> floatDataAt(size_t idx) const;
+    ConstCudaArrayView1<float> floatDataAt(size_t idx) const;
 
     //!
     CudaArrayView1<float4> vectorDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<float4> vectorDataAt(size_t idx) const;
+    ConstCudaArrayView1<float4> vectorDataAt(size_t idx) const;
 
     //!
     void addParticle(const Vector4F& newPosition,
@@ -107,22 +107,22 @@ class CudaParticleSystemData3 {
 
     //!
     void addParticles(
-        const ArrayView1<Vector4F>& newPositions,
-        const ArrayView1<Vector4F>& newVelocities = ArrayView1<Vector4F>{});
+        ConstArrayView1<Vector4F> newPositions,
+        ConstArrayView1<Vector4F> newVelocities = ConstArrayView1<Vector4F>{});
 
     //!
-    void addParticles(
-        const CudaArrayView1<float4>& newPositions,
-        const CudaArrayView1<float4>& newVelocities = CudaArrayView1<float4>{});
+    void addParticles(ConstCudaArrayView1<float4> newPositions,
+                      ConstCudaArrayView1<float4> newVelocities =
+                          ConstCudaArrayView1<float4>{});
 
     //!
-    const CudaArrayView1<uint32_t> neighborStarts() const;
+    ConstCudaArrayView1<uint32_t> neighborStarts() const;
 
     //!
-    const CudaArrayView1<uint32_t> neighborEnds() const;
+    ConstCudaArrayView1<uint32_t> neighborEnds() const;
 
     //!
-    const CudaArrayView1<uint32_t> neighborLists() const;
+    ConstCudaArrayView1<uint32_t> neighborLists() const;
 
     const CudaPointHashGridSearcher3* neighborSearcher() const;
 

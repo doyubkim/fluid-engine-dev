@@ -75,31 +75,31 @@ class CudaParticleSystemData2 {
     CudaArrayView1<float2> positions();
 
     //!
-    const CudaArrayView1<float2> positions() const;
+    ConstCudaArrayView1<float2> positions() const;
 
     //!
     CudaArrayView1<float2> velocities();
 
     //!
-    const CudaArrayView1<float2> velocities() const;
+    ConstCudaArrayView1<float2> velocities() const;
 
     //!
     CudaArrayView1<int> intDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<int> intDataAt(size_t idx) const;
+    ConstCudaArrayView1<int> intDataAt(size_t idx) const;
 
     //!
     CudaArrayView1<float> floatDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<float> floatDataAt(size_t idx) const;
+    ConstCudaArrayView1<float> floatDataAt(size_t idx) const;
 
     //!
     CudaArrayView1<float2> vectorDataAt(size_t idx);
 
     //!
-    const CudaArrayView1<float2> vectorDataAt(size_t idx) const;
+    ConstCudaArrayView1<float2> vectorDataAt(size_t idx) const;
 
     //!
     void addParticle(const Vector2F& newPosition,
@@ -107,22 +107,22 @@ class CudaParticleSystemData2 {
 
     //!
     void addParticles(
-        const ArrayView1<Vector2F>& newPositions,
-        const ArrayView1<Vector2F>& newVelocities = ArrayView1<Vector2F>{});
+        ConstArrayView1<Vector2F> newPositions,
+        ConstArrayView1<Vector2F> newVelocities = ArrayView1<Vector2F>{});
 
     //!
     void addParticles(
-        const CudaArrayView1<float2>& newPositions,
-        const CudaArrayView1<float2>& newVelocities = CudaArrayView1<float2>{});
+        ConstCudaArrayView1<float2> newPositions,
+        ConstCudaArrayView1<float2> newVelocities = CudaArrayView1<float2>{});
 
     //!
-    const CudaArrayView1<uint32_t> neighborStarts() const;
+    ConstCudaArrayView1<uint32_t> neighborStarts() const;
 
     //!
-    const CudaArrayView1<uint32_t> neighborEnds() const;
+    ConstCudaArrayView1<uint32_t> neighborEnds() const;
 
     //!
-    const CudaArrayView1<uint32_t> neighborLists() const;
+    ConstCudaArrayView1<uint32_t> neighborLists() const;
 
     const CudaPointHashGridSearcher2* neighborSearcher() const;
 

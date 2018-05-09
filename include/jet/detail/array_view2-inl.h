@@ -22,12 +22,12 @@ ArrayView<T, 2>::ArrayView(T* data, const Size2& size) {
 }
 
 template <typename T>
-ArrayView<T, 2>::ArrayView(const Array1<T>& array, const Size2& size) {
+ArrayView<T, 2>::ArrayView(const Array<T, 1>& array, const Size2& size) {
     set(array, size);
 }
 
 template <typename T>
-ArrayView<T, 2>::ArrayView(const Array2<T>& array) {
+ArrayView<T, 2>::ArrayView(const Array<T, 2>& array) {
     set(array);
 }
 
@@ -58,13 +58,13 @@ void ArrayView<T, 2>::set(T* data, const Size2& size) {
 }
 
 template <typename T>
-void ArrayView<T, 2>::set(const Array1<T>& array, const Size2& size) {
+void ArrayView<T, 2>::set(const Array<T, 1>& array, const Size2& size) {
     JET_ASSERT(array.size() == size.x * size.y);
     set(array.data(), size);
 }
 
 template <typename T>
-void ArrayView<T, 2>::set(const Array2<T>& array) {
+void ArrayView<T, 2>::set(const Array<T, 2>& array) {
     set(const_cast<T*>(array.data()), array.size());
 }
 
@@ -159,7 +159,7 @@ const T& ArrayView<T, 2>::operator()(size_t i, size_t j) const {
 }
 
 template <typename T>
-ArrayView<T, 2>& ArrayView<T, 2>::operator=(const Array2<T>& array) {
+ArrayView<T, 2>& ArrayView<T, 2>::operator=(const Array<T, 2>& array) {
     set(array);
     return *this;
 }
@@ -196,13 +196,13 @@ ConstArrayView<T, 2>::ConstArrayView(const std::vector<T>& vec,
 }
 
 template <typename T>
-ConstArrayView<T, 2>::ConstArrayView(const Array1<T>& array,
+ConstArrayView<T, 2>::ConstArrayView(const Array<T, 1>& array,
                                      const Size2& size) {
     set(array, size);
 }
 
 template <typename T>
-ConstArrayView<T, 2>::ConstArrayView(const Array2<T>& array) {
+ConstArrayView<T, 2>::ConstArrayView(const Array<T, 2>& array) {
     set(array);
 }
 
@@ -266,7 +266,8 @@ const T& ConstArrayView<T, 2>::operator()(size_t i, size_t j) const {
 }
 
 template <typename T>
-ConstArrayView<T, 2>& ConstArrayView<T, 2>::operator=(const Array2<T>& array) {
+ConstArrayView<T, 2>& ConstArrayView<T, 2>::operator=(
+    const Array<T, 2>& array) {
     set(array);
     return *this;
 }
@@ -307,13 +308,13 @@ void ConstArrayView<T, 2>::set(const std::vector<T>& vec, const Size2& size) {
 }
 
 template <typename T>
-void ConstArrayView<T, 2>::set(const Array1<T>& array, const Size2& size) {
+void ConstArrayView<T, 2>::set(const Array<T, 1>& array, const Size2& size) {
     JET_ASSERT(array.size() == size.x * size.y);
     set(array.data(), size);
 }
 
 template <typename T>
-void ConstArrayView<T, 2>::set(const Array2<T>& array) {
+void ConstArrayView<T, 2>::set(const Array<T, 2>& array) {
     set(array.data(), array.size());
 }
 
@@ -330,8 +331,10 @@ void ConstArrayView<T, 2>::set(const ArrayView<T, 2>& other) {
 }
 
 template <typename T>
-void ConstArrayView<T, 2>::set(const ConstArrayView<T, 1>& other) {
-    set(other.data(), other.size());
+void ConstArrayView<T, 2>::set(const ConstArrayView<T, 1>& other,
+                               const Size2& size) {
+    JET_ASSERT(other.size() == size.x * size.y);
+    set(other.data(), size);
 }
 
 template <typename T>

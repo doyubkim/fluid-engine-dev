@@ -15,9 +15,17 @@ namespace jet {
 template <typename T>
 class ArrayView<T, 1> final {
  public:
+    typedef T value_type;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef pointer iterator;
+    typedef const_pointer const_iterator;
+
     ArrayView();
 
-    explicit ArrayView(T* data, size_t size);
+    explicit ArrayView(pointer data, size_t size);
 
     ArrayView(const std::vector<T>& vec);
 
@@ -27,7 +35,7 @@ class ArrayView<T, 1> final {
 
     ArrayView(ArrayView&& other);
 
-    void set(T* data, size_t size);
+    void set(pointer data, size_t size);
 
     void set(const Array1<T>& array);
 
@@ -39,23 +47,23 @@ class ArrayView<T, 1> final {
 
     size_t size() const;
 
-    T* data();
+    pointer data();
 
-    const T* data() const;
+    const_pointer data() const;
 
-    T* begin();
+    iterator begin();
 
-    const T* begin() const;
+    const_iterator begin() const;
 
-    T* end();
+    iterator end();
 
-    const T* end() const;
+    const_iterator end() const;
 
     //! Returns the reference to i-th element.
-    T& operator[](size_t i);
+    reference operator[](size_t i);
 
     //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    const_reference operator[](size_t i) const;
 
     ArrayView& operator=(const std::vector<T>& vec);
 
@@ -66,7 +74,7 @@ class ArrayView<T, 1> final {
     ArrayView& operator=(ArrayView&& other);
 
  private:
-    T* _data = nullptr;
+    pointer _data = nullptr;
     size_t _size = 0;
 };
 
@@ -77,9 +85,16 @@ using ArrayView1 = ArrayView<T, 1>;
 template <typename T>
 class ConstArrayView<T, 1> final {
  public:
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef T* iterator;
+    typedef const_pointer const_iterator;
+
     ConstArrayView();
 
-    explicit ConstArrayView(const T* data, size_t size);
+    explicit ConstArrayView(const_pointer data, size_t size);
 
     ConstArrayView(const std::vector<T>& vec);
 
@@ -91,18 +106,16 @@ class ConstArrayView<T, 1> final {
 
     ConstArrayView(ConstArrayView&& other);
 
-    void swap(ConstArrayView& other);
-
     size_t size() const;
 
-    const T* data() const;
+    const_pointer data() const;
 
-    const T* begin() const;
+    const_iterator begin() const;
 
-    const T* end() const;
+    const_iterator end() const;
 
     //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    const_reference operator[](size_t i) const;
 
     ConstArrayView& operator=(const std::vector<T>& vec);
 
@@ -115,10 +128,10 @@ class ConstArrayView<T, 1> final {
     ConstArrayView& operator=(ConstArrayView&& other);
 
  private:
-    const T* _data = nullptr;
+    const_pointer _data = nullptr;
     size_t _size = 0;
 
-    void set(const T* data, size_t size);
+    void set(const_pointer data, size_t size);
 
     void set(const std::vector<T>& vec);
 
