@@ -39,7 +39,7 @@ struct Rng {
 
 class CudaParticleSystemSolver3 : public benchmark::Fixture {
  public:
-    jet::experimental::CudaParticleSystemSolver3 solver;
+    jet::CudaParticleSystemSolver3 solver;
     jet::Frame frame{0, 1.0 / 300.0};
 
     void SetUp(benchmark::State& state) override {
@@ -56,13 +56,13 @@ class CudaParticleSystemSolver3 : public benchmark::Fixture {
             thrust::make_zip_iterator(thrust::make_tuple(
                 thrust::make_counting_iterator(numParticles), pos.end())),
             Rng());
-        particles->addParticles(jet::experimental::CudaArrayView1<float4>(pos));
+        particles->addParticles(jet::CudaArrayView1<float4>(pos));
     }
 
     void SetUp(const benchmark::State&) override {}
 
     void TearDown(benchmark::State&) override {
-        solver = jet::experimental::CudaParticleSystemSolver3();
+        solver = jet::CudaParticleSystemSolver3();
     }
 
     void TearDown(const benchmark::State&) override {}

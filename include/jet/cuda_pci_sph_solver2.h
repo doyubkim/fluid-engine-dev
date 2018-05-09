@@ -13,8 +13,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 //! \brief CUDA-based 2-D PCISPH solver.
 //!
@@ -106,8 +104,6 @@ class CudaPciSphSolver2::Builder final
     //! Builds shared pointer of CudaPciSphSolver2 instance.
     CudaPciSphSolver2Ptr makeShared() const;
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

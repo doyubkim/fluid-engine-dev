@@ -27,7 +27,7 @@ endif()
 #
 
 set(DEFAULT_PROJECT_OPTIONS
-    CXX_STANDARD              11 # Not available before CMake 3.1; see below for manual command line argument addition
+    CXX_STANDARD              14 # Not available before CMake 3.1; see below for manual command line argument addition
     LINKER_LANGUAGE           "CXX"
     POSITION_INDEPENDENT_CODE ON
 )
@@ -98,7 +98,10 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         /GF           # -> enable string pooling
         >
 
-        # No manual c++11 enable for MSVC as all supported MSVC versions for cmake-init have C++11 implicitly enabled (MSVC >=2013)
+        # Required for CMake < 3.1; should be removed if minimum required CMake version is raised.
+        $<$<VERSION_LESS:${CMAKE_VERSION},3.1>:
+            /std:c++14
+        >
     )
 endif ()
 
@@ -110,7 +113,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang"
 
         # Required for CMake < 3.1; should be removed if minimum required CMake version is raised.
         $<$<VERSION_LESS:${CMAKE_VERSION},3.1>:
-            -std=c++11
+            -std=c++14
         >
     )
 endif ()

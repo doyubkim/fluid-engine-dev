@@ -11,7 +11,6 @@
 #include <jet/cuda_wc_sph_solver3.h>
 
 using namespace jet;
-using namespace experimental;
 
 CudaWcSphSolver3::CudaWcSphSolver3()
     : CudaWcSphSolver3(kWaterDensityF, 0.1f, 1.8f) {}

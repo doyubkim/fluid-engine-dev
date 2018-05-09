@@ -12,7 +12,6 @@
 #include <gtest/gtest.h>
 
 using namespace jet;
-using namespace experimental;
 
 namespace {
 
@@ -128,9 +127,9 @@ TEST(CudaParticleSystemData3, AddParticles) {
 
     particleSystem.addParticles(
         Array1<Vector4F>({Vector4F(1.0f, 2.0f, 3.0f, 4.0f),
-                          Vector4F(4.0f, 5.0f, 6.0f, 7.0f)}),
+                          Vector4F(4.0f, 5.0f, 6.0f, 7.0f)}).view(),
         Array1<Vector4F>({Vector4F(7.0f, 8.0f, 9.0f, 10.0f),
-                          Vector4F(8.0f, 7.0f, 6.0f, 5.0f)}));
+                          Vector4F(8.0f, 7.0f, 6.0f, 5.0f)}).view());
 
     EXPECT_EQ(14u, particleSystem.numberOfParticles());
     auto p = particleSystem.positions();
@@ -155,7 +154,7 @@ TEST(CudaParticleSystemData3, BuildNeighborSearcher) {
         Vector4F{0.9f, 0.7f, 0.6f, 0.0f}, Vector4F{0.4f, 0.5f, 0.1f, 0.0f},
         Vector4F{0.1f, 0.1f, 0.6f, 0.0f}, Vector4F{0.7f, 0.8f, 1.0f, 0.0f},
         Vector4F{0.6f, 0.9f, 0.4f, 0.0f}, Vector4F{0.7f, 0.7f, 0.0f, 0.0f}};
-    particleSystem.addParticles(positions);
+    particleSystem.addParticles(positions.view());
 
     float radius = 0.4f;
     particleSystem.buildNeighborSearcher(radius);
@@ -190,7 +189,7 @@ TEST(CudaParticleSystemData3, BuildNeighborLists) {
         Vector4F{0.9f, 0.7f, 0.6f, 0.0f}, Vector4F{0.4f, 0.5f, 0.1f, 0.0f},
         Vector4F{0.1f, 0.1f, 0.6f, 0.0f}, Vector4F{0.7f, 0.8f, 1.0f, 0.0f},
         Vector4F{0.6f, 0.9f, 0.4f, 0.0f}, Vector4F{0.7f, 0.7f, 0.0f, 0.0f}};
-    particleSystem.addParticles(positions);
+    particleSystem.addParticles(positions.view());
 
     float radius = 0.4f;
     particleSystem.buildNeighborSearcher(radius);

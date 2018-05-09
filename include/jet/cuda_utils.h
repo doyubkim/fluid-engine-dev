@@ -15,8 +15,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 inline JET_CUDA_HOST_DEVICE float2 operator+(float2 a, float2 b) {
     return make_float2(a.x + b.x, a.y + b.y);
 }
@@ -345,7 +343,6 @@ inline JET_CUDA_HOST_DEVICE uint3 toUInt3(const SizeType& size) {
                       static_cast<uint32_t>(size.z));
 }
 
-}  // namespace experimental
 }  // namespace jet
 
 #endif  // INCLUDE_JET_CUDA_UTILS_H_

@@ -18,8 +18,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 //! \brief Standard 3-D SPH kernel function object.
 //!
@@ -116,8 +114,6 @@ struct CudaSphSpikyKernel3 {
     //! Returns the second derivative at given distance.
     JET_CUDA_HOST_DEVICE float secondDerivative(float distance) const;
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

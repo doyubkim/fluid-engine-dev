@@ -19,7 +19,6 @@
 #include <algorithm>
 
 using namespace jet;
-using namespace experimental;
 using thrust::get;
 using thrust::make_tuple;
 using thrust::make_zip_iterator;

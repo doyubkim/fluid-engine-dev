@@ -55,7 +55,7 @@ void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
 
     // Setup solver
     const float targetSpacing = 1.0f / 50.0f;
-    _solver = jet::experimental::CudaWcSphSolver3::builder().makeShared();
+    _solver = jet::CudaWcSphSolver3::builder().makeShared();
     _solver->setDragCoefficient(0.0f);
     _solver->setRestitutionCoefficient(1.0f);
     _solver->setViscosityCoefficient(0.1f);
@@ -78,7 +78,7 @@ void CudaWcSphSolver3Example::onSetup(GlfwWindow* window) {
         auto rp = rawPoints[i].castTo<float>();
         hostData[i] = make_float4(rp.x, rp.y, rp.z, 0.0f);
     }
-    experimental::CudaArray1<float4> deviceData(hostData);
+    CudaArray1<float4> deviceData(hostData);
     particles->addParticles(deviceData);
     printf("%zu particles generated.\n", deviceData.size());
 

@@ -13,13 +13,7 @@
 
 #include <thrust/device_ptr.h>
 
-namespace jet {
-
-namespace experimental {
-
-}  // namespace experimental
-
-}  // namespace jet
+namespace jet {}  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_CUDA_ARRAY_VIEW2_INL_H_
 

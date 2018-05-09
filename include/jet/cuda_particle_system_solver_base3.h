@@ -16,8 +16,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 class CudaParticleSystemSolverBase3 : public PhysicsAnimation {
  public:
@@ -134,8 +132,6 @@ T& CudaParticleSystemSolverBuilderBase3<T>::withGravity(
     _gravity = gravity;
     return static_cast<T&>(*this);
 }
-
-}  // namespace experimental
 
 }  // namespace jet
 

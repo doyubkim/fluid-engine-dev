@@ -13,8 +13,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 //! \brief CUDA-based 2-D WCSPH solver.
 //!
@@ -85,8 +83,6 @@ class CudaWcSphSolver2::Builder final
     //! Builds shared pointer of CudaWcSphSolver2 instance.
     CudaWcSphSolver2Ptr makeShared() const;
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

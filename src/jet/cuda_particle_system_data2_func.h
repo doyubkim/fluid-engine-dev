@@ -10,8 +10,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 template <typename NeighborCallback, typename NeighborCounterCallback>
 class ForEachNeighborFunc {
  public:
@@ -123,7 +121,5 @@ class CountNearbyPointsFunc {
  private:
     uint32_t* _counts;
 };
-
-}  // namespace experimental
 
 }  // namespace jet

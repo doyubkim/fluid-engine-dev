@@ -13,7 +13,6 @@
 #include <jet/triangle_point_generator.h>
 
 using namespace jet;
-using namespace experimental;
 
 // Heuristically chosen
 const float kDefaultTimeStepLimitScale = 5.0f;

@@ -79,7 +79,7 @@ void CudaWcSphSolver2Example::onUpdateRenderables() {
 
 void CudaWcSphSolver2Example::setupSim() {
     // Setup solver
-    _solver = experimental::CudaWcSphSolver2::builder().makeShared();
+    _solver = CudaWcSphSolver2::builder().makeShared();
     _solver->setViscosityCoefficient(0.02f);
     _solver->setIsUsingFixedSubTimeSteps(false);
 
@@ -103,7 +103,7 @@ void CudaWcSphSolver2Example::setupSim() {
     for (size_t i = 0; i < pointsF.size(); ++i) {
         pointsF[i] = pointsD[i].castTo<float>();
     }
-    particles->addParticles(pointsF);
+    particles->addParticles(pointsF.view());
 }
 
 #endif  // JET_USE_CUDA

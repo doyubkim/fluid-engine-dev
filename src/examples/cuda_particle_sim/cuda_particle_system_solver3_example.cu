@@ -11,7 +11,6 @@
 #include <thrust/random.h>
 
 using namespace jet;
-using namespace experimental;
 using namespace viz;
 
 namespace {
@@ -71,8 +70,7 @@ void CudaParticleSystemSolver3Example::onSetup(GlfwWindow* window) {
     renderer->setBackgroundColor(Color{0, 0, 0, 1});
 
     // Setup solver
-    _solver =
-        jet::experimental::CudaParticleSystemSolver3::builder().makeShared();
+    _solver = jet::CudaParticleSystemSolver3::builder().makeShared();
     _solver->setDragCoefficient(0.0);
     _solver->setRestitutionCoefficient(1.0);
 
@@ -86,7 +84,7 @@ void CudaParticleSystemSolver3Example::onSetup(GlfwWindow* window) {
         thrust::make_zip_iterator(thrust::make_tuple(
             thrust::make_counting_iterator(numParticles), pos.end())),
         Rng());
-    particles->addParticles(jet::experimental::CudaArrayView1<float4>(pos));
+    particles->addParticles(jet::CudaArrayView1<float4>(pos));
 
     // Setup renderable
     thrust::device_vector<VertexPosition3Color4> vertices(numParticles);
@@ -107,7 +105,8 @@ void CudaParticleSystemSolver3Example::onUpdate(const Frame& frame) {
     auto pos = _solver->particleSystemData()->positions();
 
     thrust::device_ptr<VertexPosition3Color4> vertices(
-        (VertexPosition3Color4*)_renderable->vertexBuffer()->cudaMapResources());
+        (VertexPosition3Color4*)_renderable->vertexBuffer()
+            ->cudaMapResources());
     thrust::transform(pos.begin(), pos.end(), vertices, PosToVertex());
     _renderable->vertexBuffer()->cudaUnmapResources();
 }

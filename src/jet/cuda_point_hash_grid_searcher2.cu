@@ -10,7 +10,6 @@
 #include <thrust/sort.h>
 
 using namespace jet;
-using namespace experimental;
 
 namespace {
 

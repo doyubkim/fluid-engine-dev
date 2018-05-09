@@ -15,8 +15,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 class CudaSphSolverBase2 : public CudaParticleSystemSolverBase2 {
  public:
@@ -223,8 +221,6 @@ T& CudaSphSolverBuilderBase2<T>::withPseudoViscosityCoefficient(
     _pseudoViscosityCoefficient = pseudoViscosityCoefficient;
     return static_cast<T&>(*this);
 }
-
-}  // namespace experimental
 
 }  // namespace jet
 

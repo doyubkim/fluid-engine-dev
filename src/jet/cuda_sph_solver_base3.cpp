@@ -11,7 +11,6 @@
 #include <jet/cuda_sph_solver_base3.h>
 
 using namespace jet;
-using namespace experimental;
 
 static double kTimeStepLimitBySpeedFactor = 0.4;
 static double kTimeStepLimitByForceFactor = 0.25;
