@@ -160,7 +160,7 @@ CudaPointHashGridSearcher3::ForEachNearbyPointFunc<Callback>::operator()(
 
 template <typename Callback>
 void CudaPointHashGridSearcher3::forEachNearbyPoint(
-    const CudaArrayView1<float4>& origins, float radius,
+    const ConstCudaArrayView1<float4>& origins, float radius,
     Callback callback) const {
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),

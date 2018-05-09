@@ -75,7 +75,7 @@ CudaPointHashGridSearcher2::CudaPointHashGridSearcher2(
     set(other);
 }
 
-void CudaPointHashGridSearcher2::build(const CudaArrayView1<float2>& points) {
+void CudaPointHashGridSearcher2::build(const ConstCudaArrayView1<float2>& points) {
     // Allocate/reset memory chuncks
     size_t numberOfPoints = points.size();
     if (numberOfPoints == 0) {
@@ -133,25 +133,25 @@ Size2 CudaPointHashGridSearcher2::resolution() const {
                  static_cast<uint32_t>(_resolution.y)};
 }
 
-const CudaArrayView1<float2> CudaPointHashGridSearcher2::sortedPoints() const {
+ConstCudaArrayView1<float2> CudaPointHashGridSearcher2::sortedPoints() const {
     return _points;
 }
 
-const CudaArrayView1<uint32_t> CudaPointHashGridSearcher2::keys() const {
+ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::keys() const {
     return _keys.view();
 }
 
-const CudaArrayView1<uint32_t> CudaPointHashGridSearcher2::startIndexTable()
+ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::startIndexTable()
     const {
     return _startIndexTable.view();
 }
 
-const CudaArrayView1<uint32_t> CudaPointHashGridSearcher2::endIndexTable()
+ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::endIndexTable()
     const {
     return _endIndexTable.view();
 }
 
-const CudaArrayView1<uint32_t> CudaPointHashGridSearcher2::sortedIndices()
+ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::sortedIndices()
     const {
     return _sortedIndices.view();
 }

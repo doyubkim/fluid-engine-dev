@@ -49,7 +49,7 @@ class Array<T, 1> final {
 
     //! \brief Constructs 1-D array with array view.
     //! \param view Source array view.
-    Array(const ArrayView<T, 1>& view);
+    Array(const ConstArrayView<T, 1>& view);
 
     //!
     //! \brief Constructs 1-D array with given initializer list \p lst.
@@ -78,7 +78,7 @@ class Array<T, 1> final {
     void set(const Array& other);
 
     //! Copies given array view to this array.
-    void set(const ArrayView<T, 1>& other);
+    void set(const ConstArrayView<T, 1>& other);
 
     //! Copies given initializer list \p lst to this array.
     void set(const std::initializer_list<T>& lst);
@@ -227,6 +227,9 @@ class Array<T, 1> final {
 
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
+
+    //! Copies given array view \p other to this array.
+    Array& operator=(const ConstArrayView<T, 1>& other);
 
     //! Move assignment.
     Array& operator=(Array&& other);

@@ -14,66 +14,64 @@
 
 namespace jet {
 
-namespace experimental {
+template <typename T>
+CudaArray<T, 1>::CudaArray() {}
 
 template <typename T>
-CudaArray1<T>::CudaArray1() {}
-
-template <typename T>
-CudaArray1<T>::CudaArray1(size_t size, const T& initVal) {
+CudaArray<T, 1>::CudaArray(size_t size, const T& initVal) {
     resize(size, initVal);
 }
 
 template <typename T>
-CudaArray1<T>::CudaArray1(const ArrayView1<T>& view) {
+CudaArray<T, 1>::CudaArray(const ConstArrayView1<T>& view) {
     set(view);
 }
 
 template <typename T>
-CudaArray1<T>::CudaArray1(const CudaArrayView1<T>& view) {
+CudaArray<T, 1>::CudaArray(const ConstCudaArrayView<T, 1>& view) {
     set(view);
 }
 
 template <typename T>
-CudaArray1<T>::CudaArray1(const std::initializer_list<T>& lst) {
+CudaArray<T, 1>::CudaArray(const std::initializer_list<T>& lst) {
     set(lst);
 }
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>::CudaArray1(const std::vector<T, Alloc>& vec) {
+CudaArray<T, 1>::CudaArray(const std::vector<T, Alloc>& vec) {
     set(vec);
 }
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>::CudaArray1(const thrust::host_vector<T, Alloc>& vec) {
+CudaArray<T, 1>::CudaArray(const thrust::host_vector<T, Alloc>& vec) {
     set(vec);
 }
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>::CudaArray1(const thrust::device_vector<T, Alloc>& vec) {
+CudaArray<T, 1>::CudaArray(const thrust::device_vector<T, Alloc>& vec) {
     set(vec);
 }
 
 template <typename T>
-CudaArray1<T>::CudaArray1(const CudaArray1& other) {
+CudaArray<T, 1>::CudaArray(const CudaArray& other) {
     set(other);
 }
 
 template <typename T>
-CudaArray1<T>::CudaArray1(CudaArray1&& other) {
+CudaArray<T, 1>::CudaArray(CudaArray&& other) {
     (*this) = std::move(other);
 }
 
 template <typename T>
-void CudaArray1<T>::set(const T& value) {
+void CudaArray<T, 1>::set(const T& value) {
     thrust::fill(_data.begin(), _data.end(), value);
 }
 
 template <typename T>
-void CudaArray1<T>::set(const ArrayView1<T>& view) {
+void CudaArray<T, 1>::set(const ConstArrayView1<T>& view) {
     size_t n = view.size();
     thrust::host_vector<T> temp(n);
     for (size_t i = 0; i < n; ++i) {
@@ -83,13 +81,13 @@ void CudaArray1<T>::set(const ArrayView1<T>& view) {
 }
 
 template <typename T>
-void CudaArray1<T>::set(const CudaArrayView1<T>& view) {
+void CudaArray<T, 1>::set(const ConstCudaArrayView<T, 1>& view) {
     resize(view.size());
     thrust::copy(view.data(), view.data() + view.size(), _data.begin());
 }
 
 template <typename T>
-void CudaArray1<T>::set(const std::initializer_list<T>& lst) {
+void CudaArray<T, 1>::set(const std::initializer_list<T>& lst) {
     thrust::host_vector<T> temp;
     for (const auto& v : lst) {
         temp.push_back(v);
@@ -99,7 +97,7 @@ void CudaArray1<T>::set(const std::initializer_list<T>& lst) {
 
 template <typename T>
 template <typename Alloc>
-void CudaArray1<T>::set(const std::vector<T, Alloc>& vec) {
+void CudaArray<T, 1>::set(const std::vector<T, Alloc>& vec) {
     // Workaround for warning : calling a __host__ function... from a __host__
     // __device__ function ...
     size_t n = vec.size();
@@ -112,120 +110,121 @@ void CudaArray1<T>::set(const std::vector<T, Alloc>& vec) {
 
 template <typename T>
 template <typename Alloc>
-void CudaArray1<T>::set(const thrust::host_vector<T, Alloc>& vec) {
+void CudaArray<T, 1>::set(const thrust::host_vector<T, Alloc>& vec) {
     _data = vec;
 }
 
 template <typename T>
 template <typename Alloc>
-void CudaArray1<T>::set(const thrust::device_vector<T, Alloc>& vec) {
+void CudaArray<T, 1>::set(const thrust::device_vector<T, Alloc>& vec) {
     _data = vec;
 }
 
 template <typename T>
-void CudaArray1<T>::set(const CudaArray1& other) {
+void CudaArray<T, 1>::set(const CudaArray& other) {
     _data = other._data;
 }
 
 template <typename T>
-void CudaArray1<T>::clear() {
+void CudaArray<T, 1>::clear() {
     _data.clear();
 }
 
 template <typename T>
-void CudaArray1<T>::resize(size_t size, const T& initVal) {
+void CudaArray<T, 1>::resize(size_t size, const T& initVal) {
     _data.resize(size, initVal);
 }
 
 template <typename T>
-void CudaArray1<T>::swap(CudaArray1& other) {
+void CudaArray<T, 1>::swap(CudaArray& other) {
     _data.swap(other._data);
 }
 
 template <typename T>
-size_t CudaArray1<T>::size() const {
+size_t CudaArray<T, 1>::size() const {
     return _data.size();
 }
 
 template <typename T>
-T* CudaArray1<T>::data() {
+T* CudaArray<T, 1>::data() {
     return thrust::raw_pointer_cast(_data.data());
 }
 
 template <typename T>
-const T* CudaArray1<T>::data() const {
+const T* CudaArray<T, 1>::data() const {
     return thrust::raw_pointer_cast(_data.data());
 }
 
 template <typename T>
-typename CudaArray1<T>::Iterator CudaArray1<T>::begin() {
+typename CudaArray<T, 1>::iterator CudaArray<T, 1>::begin() {
     return _data.data();
 }
 
 template <typename T>
-typename CudaArray1<T>::Iterator CudaArray1<T>::begin() const {
+typename CudaArray<T, 1>::const_iterator CudaArray<T, 1>::begin() const {
     return _data.data();
 }
 
 template <typename T>
-typename CudaArray1<T>::Iterator CudaArray1<T>::end() {
+typename CudaArray<T, 1>::iterator CudaArray<T, 1>::end() {
     return _data.data() + _data.size();
 }
 
 template <typename T>
-typename CudaArray1<T>::Iterator CudaArray1<T>::end() const {
+typename CudaArray<T, 1>::const_iterator CudaArray<T, 1>::end() const {
     return _data.data() + _data.size();
 }
 
 template <typename T>
-CudaArrayView1<T> CudaArray1<T>::view() {
-    return CudaArrayView1<T>(*this);
+CudaArrayView<T, 1> CudaArray<T, 1>::view() {
+    return CudaArrayView<T, 1>(*this);
 }
 
 template <typename T>
-const CudaArrayView1<T> CudaArray1<T>::view() const {
-    return CudaArrayView1<T>(*this);
+ConstCudaArrayView<T, 1> CudaArray<T, 1>::view() const {
+    return CudaArrayView<T, 1>(*this);
 }
 
 template <typename T>
-typename CudaArray1<T>::ContainerType::reference CudaArray1<T>::operator[](
-    size_t i) {
+typename CudaArray<T, 1>::reference CudaArray<T, 1>::operator[](size_t i) {
     return _data[i];
 }
 
 template <typename T>
-const T& CudaArray1<T>::operator[](size_t i) const {
+typename CudaArray<T, 1>::value_type CudaArray<T, 1>::operator[](
+    size_t i) const {
     return _data[i];
 }
 
 template <typename T>
-CudaArray1<T>& CudaArray1<T>::operator=(const T& value) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(const T& value) {
     set(value);
     return *this;
 }
 
 template <typename T>
-CudaArray1<T>& CudaArray1<T>::operator=(const ArrayView1<T>& view) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(const ConstArrayView1<T>& view) {
     set(view);
     return *this;
 }
 
 template <typename T>
-CudaArray1<T>& CudaArray1<T>::operator=(const CudaArrayView1<T>& view) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(
+    const ConstCudaArrayView<T, 1>& view) {
     set(view);
     return *this;
 }
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>& CudaArray1<T>::operator=(const std::vector<T, Alloc>& vec) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(const std::vector<T, Alloc>& vec) {
     set(vec);
     return *this;
 }
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>& CudaArray1<T>::operator=(
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(
     const thrust::host_vector<T, Alloc>& vec) {
     set(vec);
     return *this;
@@ -233,26 +232,24 @@ CudaArray1<T>& CudaArray1<T>::operator=(
 
 template <typename T>
 template <typename Alloc>
-CudaArray1<T>& CudaArray1<T>::operator=(
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(
     const thrust::device_vector<T, Alloc>& vec) {
     set(vec);
     return *this;
 }
 
 template <typename T>
-CudaArray1<T>& CudaArray1<T>::operator=(const CudaArray1& other) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(const CudaArray& other) {
     set(other);
     return *this;
 }
 
 template <typename T>
-CudaArray1<T>& CudaArray1<T>::operator=(CudaArray1&& other) {
+CudaArray<T, 1>& CudaArray<T, 1>::operator=(CudaArray&& other) {
     swap(other);
     other.clear();
     return *this;
 }
-
-}  // namespace experimental
 
 }  // namespace jet
 

@@ -70,7 +70,7 @@ class Array<T, 3> final {
 
     //! \brief Constructs 3-D array with array view.
     //! \param view Source array view.
-    Array(const ArrayView<T, 3>& view);
+    Array(const ConstArrayView<T, 3>& view);
 
     //!
     //! \brief Constructs 3-D array with given initializer list \p lst.
@@ -109,7 +109,7 @@ class Array<T, 3> final {
     void set(const Array& other);
 
     //! Copies given array view to this array.
-    void set(const ArrayView<T, 3>& other);
+    void set(const ConstArrayView<T, 3>& other);
 
     //!
     //! Copies given initializer list \p lst to this array.
@@ -368,6 +368,9 @@ class Array<T, 3> final {
 
     //! Copies given array \p other to this array.
     Array& operator=(const Array& other);
+
+    //! Copies given array view \p other to this array.
+    Array& operator=(const ConstArrayView<T, 3>& other);
 
     //! Move assignment.
     Array& operator=(Array&& other);

@@ -90,7 +90,7 @@ CudaArrayView1<float4> CudaParticleSystemData3::positions() {
     return vectorDataAt(_positionIdx);
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::positions() const {
+ConstCudaArrayView1<float4> CudaParticleSystemData3::positions() const {
     return vectorDataAt(_positionIdx);
 }
 
@@ -98,7 +98,7 @@ CudaArrayView1<float4> CudaParticleSystemData3::velocities() {
     return vectorDataAt(_velocityIdx);
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::velocities() const {
+ConstCudaArrayView1<float4> CudaParticleSystemData3::velocities() const {
     return vectorDataAt(_velocityIdx);
 }
 
@@ -106,7 +106,7 @@ CudaArrayView1<int> CudaParticleSystemData3::intDataAt(size_t idx) {
     return _intDataList[idx].view();
 }
 
-const CudaArrayView1<int> CudaParticleSystemData3::intDataAt(size_t idx) const {
+ConstCudaArrayView1<int> CudaParticleSystemData3::intDataAt(size_t idx) const {
     return _intDataList[idx].view();
 }
 
@@ -114,7 +114,7 @@ CudaArrayView1<float> CudaParticleSystemData3::floatDataAt(size_t idx) {
     return _floatDataList[idx].view();
 }
 
-const CudaArrayView1<float> CudaParticleSystemData3::floatDataAt(
+ConstCudaArrayView1<float> CudaParticleSystemData3::floatDataAt(
     size_t idx) const {
     return _floatDataList[idx].view();
 }
@@ -123,7 +123,7 @@ CudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(size_t idx) {
     return _vectorDataList[idx].view();
 }
 
-const CudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(
+ConstCudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(
     size_t idx) const {
     return _vectorDataList[idx].view();
 }
@@ -141,8 +141,8 @@ void CudaParticleSystemData3::addParticle(const Vector4F& newPosition,
 }
 
 void CudaParticleSystemData3::addParticles(
-    const ArrayView1<Vector4F>& newPositions,
-    const ArrayView1<Vector4F>& newVelocities) {
+    ConstArrayView1<Vector4F> newPositions,
+    ConstArrayView1<Vector4F> newVelocities) {
     thrust::host_vector<float4> hostPos(newPositions.size());
     thrust::host_vector<float4> hostVel(newVelocities.size());
     for (size_t i = 0; i < newPositions.size(); ++i) {
@@ -159,8 +159,8 @@ void CudaParticleSystemData3::addParticles(
 }
 
 void CudaParticleSystemData3::addParticles(
-    const CudaArrayView1<float4>& newPositions,
-    const CudaArrayView1<float4>& newVelocities) {
+    ConstCudaArrayView1<float4> newPositions,
+    ConstCudaArrayView1<float4> newVelocities) {
     JET_THROW_INVALID_ARG_IF(newVelocities.size() > 0 &&
                              newVelocities.size() != newPositions.size());
 
@@ -181,15 +181,15 @@ void CudaParticleSystemData3::addParticles(
     }
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborStarts() const {
+ConstCudaArrayView1<uint32_t> CudaParticleSystemData3::neighborStarts() const {
     return _neighborStarts.view();
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborEnds() const {
+ConstCudaArrayView1<uint32_t> CudaParticleSystemData3::neighborEnds() const {
     return _neighborEnds.view();
 }
 
-const CudaArrayView1<uint32_t> CudaParticleSystemData3::neighborLists() const {
+ConstCudaArrayView1<uint32_t> CudaParticleSystemData3::neighborLists() const {
     return _neighborLists.view();
 }
 

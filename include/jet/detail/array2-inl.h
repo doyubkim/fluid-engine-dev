@@ -31,7 +31,7 @@ Array<T, 2>::Array(size_t width, size_t height, const T& initVal) {
 }
 
 template <typename T>
-Array<T, 2>::Array(const ArrayView<T, 2>& view) {
+Array<T, 2>::Array(const ConstArrayView<T, 2>& view) {
     set(view);
 }
 
@@ -65,7 +65,7 @@ void Array<T, 2>::set(const Array& other) {
 }
 
 template <typename T>
-void Array<T, 2>::set(const ArrayView<T, 2>& view) {
+void Array<T, 2>::set(const ConstArrayView<T, 2>& view) {
     Size2 sz = view.size();
     Array<T, 2> temp(sz);
     size_t n = sz.x * sz.y;
@@ -291,6 +291,12 @@ Array<T, 2>& Array<T, 2>::operator=(const T& value) {
 
 template <typename T>
 Array<T, 2>& Array<T, 2>::operator=(const Array& other) {
+    set(other);
+    return *this;
+}
+
+template <typename T>
+Array<T, 2>& Array<T, 2>::operator=(const ConstArrayView<T, 2>& other) {
     set(other);
     return *this;
 }

@@ -16,13 +16,21 @@ namespace jet {
 template <typename T>
 class ArrayView<T, 2> final {
  public:
+    typedef T value_type;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef pointer iterator;
+    typedef const_pointer const_iterator;
+
     ArrayView();
 
-    ArrayView(T* data, const Size2& size);
+    ArrayView(pointer data, const Size2& size);
 
-    ArrayView(const Array1<T>& array, const Size2& size);
+    ArrayView(const Array<T, 1>& array, const Size2& size);
 
-    ArrayView(const Array2<T>& array);
+    ArrayView(const Array<T, 2>& array);
 
     ArrayView(const std::vector<T>& vec, const Size2& size);
 
@@ -32,11 +40,11 @@ class ArrayView<T, 2> final {
 
     ArrayView(ArrayView&& other);
 
-    void set(T* data, const Size2& size);
+    void set(pointer data, const Size2& size);
 
-    void set(const Array1<T>& array, const Size2& size);
+    void set(const Array<T, 1>& array, const Size2& size);
 
-    void set(const Array2<T>& array);
+    void set(const Array<T, 2>& array);
 
     void set(const std::vector<T>& vec, const Size2& size);
 
@@ -52,36 +60,36 @@ class ArrayView<T, 2> final {
 
     size_t height() const;
 
-    T* data();
+    pointer data();
 
-    const T* data() const;
+    const_pointer data() const;
 
-    T* begin();
+    pointer begin();
 
-    const T* begin() const;
+    const_pointer begin() const;
 
-    T* end();
+    pointer end();
 
-    const T* end() const;
+    const_pointer end() const;
 
     //! Returns the reference to i-th element.
-    T& operator[](size_t i);
+    reference operator[](size_t i);
 
     //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    const_reference operator[](size_t i) const;
 
-    T& operator()(size_t i, size_t j);
+    reference operator()(size_t i, size_t j);
 
-    const T& operator()(size_t i, size_t j) const;
+    const_reference operator()(size_t i, size_t j) const;
 
-    ArrayView& operator=(const Array2<T>& array);
+    ArrayView& operator=(const Array<T, 2>& array);
 
     ArrayView& operator=(const ArrayView& other);
 
     ArrayView& operator=(ArrayView&& other);
 
  private:
-    T* _data = nullptr;
+    pointer _data = nullptr;
     Size2 _size{0, 0};
 };
 
@@ -92,15 +100,23 @@ using ArrayView2 = ArrayView<T, 2>;
 template <typename T>
 class ConstArrayView<T, 2> final {
  public:
+    typedef T value_type;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef pointer iterator;
+    typedef const_pointer const_iterator;
+
     ConstArrayView();
 
     ConstArrayView(const T* data, const Size2& size);
 
     ConstArrayView(const std::vector<T>& vec, const Size2& size);
 
-    ConstArrayView(const Array1<T>& array, const Size2& size);
+    ConstArrayView(const Array<T, 1>& array, const Size2& size);
 
-    ConstArrayView(const Array2<T>& array);
+    ConstArrayView(const Array<T, 2>& array);
 
     ConstArrayView(const ArrayView<T, 1>& other, const Size2& size);
 
@@ -118,18 +134,18 @@ class ConstArrayView<T, 2> final {
 
     size_t height() const;
 
-    const T* data() const;
+    const_pointer data() const;
 
-    const T* begin() const;
+    const_iterator begin() const;
 
-    const T* end() const;
+    const_iterator end() const;
 
     //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    const_reference operator[](size_t i) const;
 
-    const T& operator()(size_t i, size_t j) const;
+    const_reference operator()(size_t i, size_t j) const;
 
-    ConstArrayView& operator=(const Array2<T>& array);
+    ConstArrayView& operator=(const Array<T, 2>& array);
 
     ConstArrayView& operator=(const ArrayView<T, 2>& other);
 
@@ -138,22 +154,22 @@ class ConstArrayView<T, 2> final {
     ConstArrayView& operator=(ConstArrayView&& other);
 
  private:
-    const T* _data = nullptr;
+    const_pointer _data = nullptr;
     Size2 _size{0, 0};
 
     void set(const T* data, const Size2& size);
 
     void set(const std::vector<T>& vec, const Size2& size);
 
-    void set(const Array1<T>& array, const Size2& size);
+    void set(const Array<T, 1>& array, const Size2& size);
 
-    void set(const Array2<T>& array);
+    void set(const Array<T, 2>& array);
 
     void set(const ArrayView<T, 1>& other, const Size2& size);
 
     void set(const ArrayView<T, 2>& other);
 
-    void set(const ConstArrayView<T, 1>& other);
+    void set(const ConstArrayView<T, 1>& other, const Size2& size);
 
     void set(const ConstArrayView& other);
 };

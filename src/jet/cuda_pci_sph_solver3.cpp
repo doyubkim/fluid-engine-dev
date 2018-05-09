@@ -57,23 +57,23 @@ void CudaPciSphSolver3::setMaxNumberOfIterations(unsigned int n) {
     _maxNumberOfIterations = n;
 }
 
-CudaArrayView1<float4> CudaPciSphSolver3::tempPositions() const {
+CudaArrayView1<float4> CudaPciSphSolver3::tempPositions() {
     return sphSystemData()->vectorDataAt(_tempPositionsIdx);
 }
 
-CudaArrayView1<float4> CudaPciSphSolver3::tempVelocities() const {
+CudaArrayView1<float4> CudaPciSphSolver3::tempVelocities() {
     return sphSystemData()->vectorDataAt(_tempVelocitiesIdx);
 }
 
-CudaArrayView1<float> CudaPciSphSolver3::tempDensities() const {
+CudaArrayView1<float> CudaPciSphSolver3::tempDensities() {
     return sphSystemData()->floatDataAt(_tempDensitiesIdx);
 }
 
-CudaArrayView1<float4> CudaPciSphSolver3::pressureForces() const {
+CudaArrayView1<float4> CudaPciSphSolver3::pressureForces() {
     return sphSystemData()->vectorDataAt(_pressureForcesIdx);
 }
 
-CudaArrayView1<float> CudaPciSphSolver3::densityErrors() const {
+CudaArrayView1<float> CudaPciSphSolver3::densityErrors() {
     return sphSystemData()->floatDataAt(_densityErrorsIdx);
 }
 

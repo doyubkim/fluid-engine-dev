@@ -207,12 +207,6 @@ void ConstArrayView<T, 1>::set(const ConstArrayView& other) {
 }
 
 template <typename T>
-void ConstArrayView<T, 1>::swap(ConstArrayView& other) {
-    std::swap(_data, other._data);
-    std::swap(_size, other._size);
-}
-
-template <typename T>
 size_t ConstArrayView<T, 1>::size() const {
     return _size;
 }

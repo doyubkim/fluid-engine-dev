@@ -28,11 +28,11 @@ class CudaSphSystemData3 : public CudaParticleSystemData3 {
 
     CudaArrayView1<float> densities();
 
-    const CudaArrayView1<float> densities() const;
+    ConstCudaArrayView1<float> densities() const;
 
     CudaArrayView1<float> pressures();
 
-    const CudaArrayView1<float> pressures() const;
+    ConstCudaArrayView1<float> pressures() const;
 
     void updateDensities();
 
