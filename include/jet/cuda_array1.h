@@ -10,6 +10,7 @@
 #define INCLUDE_JET_CUDA_ARRAY1_H_
 
 #include <jet/array_view1.h>
+#include <jet/cuda_array.h>
 #include <jet/macros.h>
 
 #include <thrust/device_vector.h>
@@ -18,45 +19,52 @@
 
 namespace jet {
 
-namespace experimental {
+template <typename T, size_t N>
+class CudaArrayView;
+
+template <typename T, size_t N>
+class ConstCudaArrayView;
 
 template <typename T>
-class CudaArrayView1;
-
-template <typename T>
-class CudaArray1 final {
+class CudaArray<T, 1> final {
  public:
+    typedef T value_type;
     typedef thrust::device_vector<T> ContainerType;
-    typedef thrust::device_ptr<T> Iterator;
+    typedef typename ContainerType::reference reference;
+    typedef const T& const_reference;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef thrust::device_ptr<T> iterator;
+    typedef iterator const_iterator;
 
-    CudaArray1();
+    CudaArray();
 
-    CudaArray1(size_t size, const T& initVal = T());
+    CudaArray(size_t size, const T& initVal = T());
 
-    CudaArray1(const ArrayView1<T>& view);
+    CudaArray(const ConstArrayView<T, 1>& view);
 
-    CudaArray1(const CudaArrayView1<T>& view);
+    CudaArray(const ConstCudaArrayView<T, 1>& view);
 
-    CudaArray1(const std::initializer_list<T>& lst);
+    CudaArray(const std::initializer_list<T>& lst);
 
     template <typename Alloc>
-    CudaArray1(const thrust::host_vector<T, Alloc>& vec);
+    CudaArray(const thrust::host_vector<T, Alloc>& vec);
 
     template <typename Alloc>
-    CudaArray1(const std::vector<T, Alloc>& vec);
+    CudaArray(const std::vector<T, Alloc>& vec);
 
     template <typename Alloc>
-    CudaArray1(const thrust::device_vector<T, Alloc>& vec);
+    CudaArray(const thrust::device_vector<T, Alloc>& vec);
 
-    CudaArray1(const CudaArray1& other);
+    CudaArray(const CudaArray& other);
 
-    CudaArray1(CudaArray1&& other);
+    CudaArray(CudaArray&& other);
 
     void set(const T& value);
 
-    void set(const ArrayView1<T>& view);
+    void set(const ConstArrayView<T, 1>& view);
 
-    void set(const CudaArrayView1<T>& view);
+    void set(const ConstCudaArrayView<T, 1>& view);
 
     void set(const std::initializer_list<T>& lst);
 
@@ -69,65 +77,67 @@ class CudaArray1 final {
     template <typename Alloc>
     void set(const thrust::device_vector<T, Alloc>& vec);
 
-    void set(const CudaArray1& other);
+    void set(const CudaArray& other);
 
     void clear();
 
     void resize(size_t size, const T& initVal = T());
 
-    void swap(CudaArray1& other);
+    void swap(CudaArray& other);
 
     size_t size() const;
 
-    T* data();
+    pointer data();
 
-    const T* data() const;
+    const_pointer data() const;
 
-    Iterator begin();
+    iterator begin();
 
-    Iterator begin() const;
+    const_iterator begin() const;
 
-    Iterator end();
+    iterator end();
 
-    Iterator end() const;
+    const_iterator end() const;
 
-    CudaArrayView1<T> view();
+    CudaArrayView<T, 1> view();
 
-    const CudaArrayView1<T> view() const;
+    ConstCudaArrayView<T, 1> view() const;
 
     //! Returns the reference to i-th element.
-    typename CudaArray1<T>::ContainerType::reference operator[](size_t i);
+    reference operator[](size_t i);
 
-    //! Returns the const reference to i-th element.
-    const T& operator[](size_t i) const;
+    //! Returns the value of the i-th element.
+    T operator[](size_t i) const;
 
-    CudaArray1& operator=(const T& value);
+    CudaArray& operator=(const T& value);
 
-    CudaArray1& operator=(const ArrayView1<T>& view);
+    CudaArray& operator=(const ConstArrayView<T, 1>& view);
 
-    CudaArray1& operator=(const CudaArrayView1<T>& view);
+    CudaArray& operator=(const ConstCudaArrayView<T, 1>& view);
 
-    CudaArray1& operator=(const std::initializer_list<T>& lst);
-
-    template <typename Alloc>
-    JET_CUDA_HOST CudaArray1& operator=(const std::vector<T, Alloc>& vec);
+    CudaArray& operator=(const std::initializer_list<T>& lst);
 
     template <typename Alloc>
-    JET_CUDA_HOST CudaArray1& operator=(
+    JET_CUDA_HOST CudaArray& operator=(const std::vector<T, Alloc>& vec);
+
+    template <typename Alloc>
+    JET_CUDA_HOST CudaArray& operator=(
         const thrust::host_vector<T, Alloc>& vec);
 
     template <typename Alloc>
-    CudaArray1& operator=(const thrust::device_vector<T, Alloc>& vec);
+    CudaArray& operator=(const thrust::device_vector<T, Alloc>& vec);
 
-    CudaArray1& operator=(const CudaArray1& other);
+    CudaArray& operator=(const CudaArray& other);
 
-    CudaArray1& operator=(CudaArray1&& other);
+    CudaArray& operator=(CudaArray&& other);
 
  private:
     ContainerType _data;
 };
 
-}  // namespace experimental
+//! Type alias for 1-D CUDA array.
+template <typename T>
+using CudaArray1 = CudaArray<T, 1>;
 
 }  // namespace jet
 

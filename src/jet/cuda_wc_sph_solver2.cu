@@ -68,10 +68,12 @@ class ComputePressureFunc {
 class ComputeForces {
  public:
     inline ComputeForces(float m, float h, float2 gravity, float viscosity,
-                         uint32_t* neighborStarts, uint32_t* neighborEnds,
-                         uint32_t* neighborLists, float2* positions,
-                         float2* velocities, float2* smoothedVelocities,
-                         float2* forces, float* densities, float* pressures)
+                         const uint32_t* neighborStarts,
+                         const uint32_t* neighborEnds,
+                         const uint32_t* neighborLists, const float2* positions,
+                         const float2* velocities, float2* smoothedVelocities,
+                         float2* forces, const float* densities,
+                         const float* pressures)
         : _mass(m),
           _massSquared(m * m),
           _gravity(gravity),
@@ -142,15 +144,15 @@ class ComputeForces {
     float2 _gravity;
     float _viscosity;
     CudaSphSpikyKernel2 _spikyKernel;
-    uint32_t* _neighborStarts;
-    uint32_t* _neighborEnds;
-    uint32_t* _neighborLists;
-    float2* _positions;
-    float2* _velocities;
+    const uint32_t* _neighborStarts;
+    const uint32_t* _neighborEnds;
+    const uint32_t* _neighborLists;
+    const float2* _positions;
+    const float2* _velocities;
     float2* _smoothedVelocities;
     float2* _forces;
-    float* _densities;
-    float* _pressures;
+    const float* _densities;
+    const float* _pressures;
 };
 
 #define BND_R 0.0f

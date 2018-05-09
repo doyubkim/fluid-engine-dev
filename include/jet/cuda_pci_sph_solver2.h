@@ -67,15 +67,15 @@ class CudaPciSphSolver2 : public CudaSphSolverBase2 {
     //! Called to advane a single time-step.
     void onAdvanceTimeStep(double timeStepInSeconds) override;
 
-    CudaArrayView1<float2> tempPositions() const;
+    CudaArrayView1<float2> tempPositions();
 
-    CudaArrayView1<float2> tempVelocities() const;
+    CudaArrayView1<float2> tempVelocities();
 
-    CudaArrayView1<float> tempDensities() const;
+    CudaArrayView1<float> tempDensities();
 
-    CudaArrayView1<float2> pressureForces() const;
+    CudaArrayView1<float2> pressureForces();
 
-    CudaArrayView1<float> densityErrors() const;
+    CudaArrayView1<float> densityErrors();
 
  private:
     float _maxDensityErrorRatio = 0.01f;

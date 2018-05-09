@@ -6,20 +6,26 @@
 
 #include "example_app.h"
 
+#ifdef JET_USE_GL
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw_gl3.h>
+#endif
 
 #include <atomic>
 #include <cmath>
 #include <mutex>
 
+#ifdef JET_USE_GL
 #include <imgui/ImGuiUtils.h>
-
 #include <jet.viz/glfw_imgui_utils-ext.h>
 #include <jet.viz/jet.viz.h>
+#endif
+
 #include <jet/jet.h>
 
+#ifdef JET_USE_GL
 #include <GLFW/glfw3.h>
+#endif
 
 using namespace jet;
 using namespace viz;
@@ -59,12 +65,12 @@ void nextTests() {
     }
 }
 
+#ifdef JET_USE_GL
 void toggleUpdate(GlfwWindow* win) {
     win->setIsUpdateEnabled(!win->isUpdateEnabled());
     sSimEnabled = !sSimEnabled;
 }
 
-#ifdef JET_USE_GL
 bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
@@ -126,12 +132,14 @@ bool onGui(GlfwWindow* window) {
 
 }  // namespace
 
+#ifdef JET_USE_GL
 bool onUpdateRenderables(GlfwWindow*) {
     if (sTests.size() > 0) {
         sTests[sCurrentTestIdx]->updateRenderables();
     }
     return true;
 }
+#endif
 
 void ExampleApp::initialize(const std::string& appName, int windowWidth,
                             int windowHeight) {
@@ -170,7 +178,11 @@ void ExampleApp::addExample(const ExamplePtr& example) {
 }
 
 void ExampleApp::run() {
+#ifdef JET_USE_GL
     sTests[sCurrentTestIdx]->setup(sWindow.get());
+#else
+    sTests[sCurrentTestIdx]->setup();
+#endif
 
     // Worker thread for sim
     bool done = false;
@@ -189,7 +201,9 @@ void ExampleApp::run() {
         }
     });
 
+#ifdef JET_USE_GL
     GlfwApp::run();
+#endif
     done = true;
     worker.join();
 }

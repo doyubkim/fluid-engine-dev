@@ -32,7 +32,7 @@ CudaSphSystemData3::CudaSphSystemData3(const CudaSphSystemData3& other) {
 
 CudaSphSystemData3::~CudaSphSystemData3() {}
 
-const CudaArrayView1<float> CudaSphSystemData3::densities() const {
+ConstCudaArrayView1<float> CudaSphSystemData3::densities() const {
     return floatDataAt(_densityIdx);
 }
 
@@ -40,7 +40,7 @@ CudaArrayView1<float> CudaSphSystemData3::densities() {
     return floatDataAt(_densityIdx);
 }
 
-const CudaArrayView1<float> CudaSphSystemData3::pressures() const {
+ConstCudaArrayView1<float> CudaSphSystemData3::pressures() const {
     return floatDataAt(_pressureIdx);
 }
 
