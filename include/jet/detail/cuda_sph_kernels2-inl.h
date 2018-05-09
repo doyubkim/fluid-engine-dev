@@ -20,8 +20,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 inline CudaSphStdKernel2::CudaSphStdKernel2() : h(0), h2(0), h3(0), h4(0) {}
 
 inline CudaSphStdKernel2::CudaSphStdKernel2(float h_)
@@ -125,8 +123,6 @@ inline float CudaSphSpikyKernel2::secondDerivative(float distance) const {
         return 60.0f / (kPiF * h4) * x;
     }
 }
-
-}  // namespace experimental
 
 }  // namespace jet
 

@@ -11,7 +11,6 @@
 #include <jet/cuda_particle_system_solver_base2.h>
 
 using namespace jet;
-using namespace experimental;
 
 CudaParticleSystemSolverBase2::CudaParticleSystemSolverBase2() {
     _particleSystemData = std::make_shared<CudaParticleSystemData2>();

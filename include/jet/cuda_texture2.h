@@ -10,13 +10,9 @@
 
 namespace jet {
 
-namespace experimental {
-
 class CudaTexture2 {
  public:
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

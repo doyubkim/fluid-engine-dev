@@ -14,8 +14,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 class CudaSphSystemData2 : public CudaParticleSystemData2 {
  public:
     CudaSphSystemData2();
@@ -124,8 +122,6 @@ class CudaSphSystemData2 : public CudaParticleSystemData2 {
 
 //! Shared pointer for the CudaSphSystemData2 type.
 typedef std::shared_ptr<CudaSphSystemData2> CudaSphSystemData2Ptr;
-
-}  // namespace experimental
 
 }  // namespace jet
 

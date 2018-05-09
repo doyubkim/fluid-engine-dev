@@ -15,7 +15,6 @@
 #include <thrust/transform.h>
 
 using namespace jet;
-using namespace experimental;
 
 constexpr uint32_t kDefaultHashGridResolution = 64;
 

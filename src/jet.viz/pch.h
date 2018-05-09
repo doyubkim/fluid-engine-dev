@@ -9,7 +9,7 @@
 #include <jet/macros.h>
 
 // OpenGL stuffs
-#ifdef USE_GL
+#ifdef JET_USE_GL
 #define NOMINMAX
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>

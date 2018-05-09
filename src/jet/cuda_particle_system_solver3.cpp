@@ -11,7 +11,6 @@
 #include <jet/cuda_particle_system_solver3.h>
 
 using namespace jet;
-using namespace experimental;
 
 CudaParticleSystemSolver3::CudaParticleSystemSolver3()
     : CudaParticleSystemSolver3(1e-3f, 1e-3f) {}

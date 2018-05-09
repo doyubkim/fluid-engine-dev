@@ -14,10 +14,6 @@
 
 namespace jet {
 
-namespace experimental {
-
-}  // namespace experimental
-
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_CUDA_ARRAY3_INL_H_

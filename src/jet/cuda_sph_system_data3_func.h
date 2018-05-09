@@ -12,8 +12,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 class UpdateDensity {
  public:
     JET_CUDA_HOST_DEVICE UpdateDensity(float h, float m, float* d)
@@ -61,7 +59,5 @@ class BuildNeighborListsAndUpdateDensitiesFunc {
     float* _densities;
     CudaSphStdKernel3 _stdKernel;
 };
-
-}  // namespace experimental
 
 }  // namespace jet

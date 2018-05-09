@@ -18,8 +18,6 @@
 
 namespace jet {
 
-namespace experimental {
-
 //!
 //! \brief Parallel version of hash grid-based 2-D point searcher.
 //!
@@ -271,8 +269,6 @@ class CudaPointHashGridSearcher2::Builder final {
     Size2 _resolution{64, 64};
     float _gridSpacing = 1.0f;
 };
-
-}  // namespace experimental
 
 }  // namespace jet
 

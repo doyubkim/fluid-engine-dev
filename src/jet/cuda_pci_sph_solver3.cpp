@@ -13,7 +13,6 @@
 #include <jet/sph_kernels3.h>
 
 using namespace jet;
-using namespace experimental;
 
 // Heuristically chosen
 const float kDefaultTimeStepLimitScale = 5.0f;
