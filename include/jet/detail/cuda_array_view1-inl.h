@@ -66,6 +66,12 @@ void CudaArrayView<T, 1>::set(const CudaArrayView& other) {
 }
 
 template <typename T>
+void CudaArrayView<T, 1>::swap(CudaArrayView& other) {
+    std::swap(_data, other._data);
+    std::swap(_size, other._size);
+}
+
+template <typename T>
 size_t CudaArrayView<T, 1>::size() const {
     return _size;
 }

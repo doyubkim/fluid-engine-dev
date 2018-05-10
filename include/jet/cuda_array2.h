@@ -10,6 +10,7 @@
 #define INCLUDE_JET_CUDA_ARRAY2_H_
 
 #include <jet/array_view2.h>
+#include <jet/cuda_array.h>
 #include <jet/macros.h>
 #include <jet/size2.h>
 
@@ -42,9 +43,9 @@ class CudaArray<T, 2> final {
 
     CudaArray(size_t width, size_t height, const T& initVal = T());
 
-    CudaArray(const ArrayView<T, 2>& view);
+    CudaArray(const ConstArrayView<T, 2>& view);
 
-    CudaArray(const CudaArrayView<T, 2>& view);
+    CudaArray(const ConstCudaArrayView<T, 2>& view);
 
     CudaArray(const std::initializer_list<std::initializer_list<T>>& lst);
 
@@ -54,9 +55,9 @@ class CudaArray<T, 2> final {
 
     void set(const T& value);
 
-    void set(const ArrayView<T, 2>& view);
+    void set(const ConstArrayView<T, 2>& view);
 
-    void set(const CudaArrayView<T, 2>& view);
+    void set(const ConstCudaArrayView<T, 2>& view);
 
     void set(const std::initializer_list<std::initializer_list<T>>& lst);
 
@@ -74,9 +75,9 @@ class CudaArray<T, 2> final {
 
     size_t height() const;
 
-    T* data();
+    pointer data();
 
-    const T* data() const;
+    const_pointer data() const;
 
     iterator begin();
 
@@ -93,8 +94,11 @@ class CudaArray<T, 2> final {
     //! Returns the reference to i-th element.
     reference operator[](size_t i);
 
-    //! Returns the value of the i-th element.
-    T operator[](size_t i) const;
+    value_type operator[](size_t i) const;
+
+    reference operator()(size_t i, size_t j);
+
+    value_type operator()(size_t i, size_t j) const;
 
     CudaArray& operator=(const T& value);
 
@@ -102,7 +106,8 @@ class CudaArray<T, 2> final {
 
     CudaArray& operator=(const CudaArrayView<T, 2>& view);
 
-    CudaArray& operator=(const std::initializer_list<T>& lst);
+    CudaArray& operator=(
+        const std::initializer_list<std::initializer_list<T>>& lst);
 
     CudaArray& operator=(const CudaArray& other);
 
