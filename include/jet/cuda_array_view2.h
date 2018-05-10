@@ -30,15 +30,7 @@ class CudaArrayView<T, 2> final {
 
     CudaArrayView(pointer data, const Size2& size);
 
-    CudaArrayView(const thrust::host_vector<T>& vec, const Size2& size);
-
-    CudaArrayView(const thrust::device_vector<T>& vec, const Size2& size);
-
-    CudaArrayView(const CudaArray<T, 1>& array, const Size2& size);
-
     CudaArrayView(const CudaArray<T, 2>& array);
-
-    CudaArrayView(const CudaArrayView<T, 1>& other, const Size2& size);
 
     CudaArrayView(const CudaArrayView& other);
 
@@ -46,15 +38,7 @@ class CudaArrayView<T, 2> final {
 
     void set(pointer data, const Size2& size);
 
-    void set(const thrust::host_vector<T>& vec, const Size2& size);
-
-    void set(const thrust::device_vector<T>& vec, const Size2& size);
-
-    void set(const CudaArray<T, 1>& array, const Size2& size);
-
     void set(const CudaArray<T, 2>& array);
-
-    void set(const CudaArrayView<T, 1>& other, const Size2& size);
 
     void set(const CudaArrayView& other);
 
@@ -96,7 +80,7 @@ class CudaArrayView<T, 2> final {
 
  private:
     thrust::device_ptr<T> _data;
-    size_t _size = 0;
+    Size2 _size;
 };
 
 //! Type alias for 2-D CUDA array view.
@@ -118,20 +102,9 @@ class ConstCudaArrayView<T, 2> final {
 
     ConstCudaArrayView(const_pointer data, const Size2& size);
 
-    ConstCudaArrayView(const thrust::host_vector<T>& vec, const Size2& size);
-
-    ConstCudaArrayView(const thrust::device_vector<T>& vec, const Size2& size);
-
-    ConstCudaArrayView(const CudaArray<T, 1>& array, const Size2& size);
-
     ConstCudaArrayView(const CudaArray<T, 2>& array);
 
-    ConstCudaArrayView(const CudaArrayView<T, 1>& other, const Size2& size);
-
     ConstCudaArrayView(const CudaArrayView<T, 2>& other);
-
-    ConstCudaArrayView(const ConstCudaArrayView<T, 1>& other,
-                       const Size2& size);
 
     ConstCudaArrayView(const ConstCudaArrayView& other);
 
@@ -152,6 +125,8 @@ class ConstCudaArrayView<T, 2> final {
     //! Returns the value of the i-th element.
     value_type operator[](size_t i) const;
 
+    value_type operator()(size_t i, size_t j) const;
+
     ConstCudaArrayView& operator=(const CudaArray<T, 2>& array);
 
     ConstCudaArrayView& operator=(const CudaArrayView<T, 2>& other);
@@ -162,23 +137,13 @@ class ConstCudaArrayView<T, 2> final {
 
  private:
     thrust::device_ptr<T> _data;
-    size_t _size = 0;
+    Size2 _size;
 
     void set(const_pointer data, const Size2& size);
 
-    void set(const thrust::host_vector<T>& vec, const Size2& size);
-
-    void set(const thrust::device_vector<T>& vec, const Size2& size);
-
-    void set(const CudaArray<T, 1>& array, const Size2& size);
-
     void set(const CudaArray<T, 2>& array);
 
-    void set(const CudaArrayView<T, 1>& other, const Size2& size);
-
     void set(const CudaArrayView<T, 2>& other);
-
-    void set(const ConstCudaArrayView<T, 1>& other, const Size2& size);
 
     void set(const ConstCudaArrayView& other);
 };

@@ -72,27 +72,20 @@ void CudaArray<T, 1>::set(const T& value) {
 
 template <typename T>
 void CudaArray<T, 1>::set(const ConstArrayView1<T>& view) {
-    size_t n = view.size();
-    thrust::host_vector<T> temp(n);
-    for (size_t i = 0; i < n; ++i) {
-        temp[i] = view[i];
-    }
-    set(temp);
+    _data.resize(view.size());
+    thrust::copy(view.begin(), view.end(), _data.begin());
 }
 
 template <typename T>
 void CudaArray<T, 1>::set(const ConstCudaArrayView<T, 1>& view) {
-    resize(view.size());
-    thrust::copy(view.data(), view.data() + view.size(), _data.begin());
+    _data.resize(view.size());
+    thrust::copy(view.begin(), view.end(), _data.begin());
 }
 
 template <typename T>
 void CudaArray<T, 1>::set(const std::initializer_list<T>& lst) {
-    thrust::host_vector<T> temp;
-    for (const auto& v : lst) {
-        temp.push_back(v);
-    }
-    _data = temp;
+    Array1<T> temp(lst);
+    set(temp.view());
 }
 
 template <typename T>
