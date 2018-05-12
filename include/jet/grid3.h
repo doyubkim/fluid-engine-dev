@@ -60,7 +60,7 @@ class Grid3 : public Serializable {
     //! \brief Invokes the given function \p func for each grid cell.
     //!
     //! This function invokes the given function object \p func for each grid
-    //! cell in serial manner. The input parameters are i and j indices of a
+    //! cell in serial manner. The input parameters are i, j, and k indices of a
     //! grid cell. The order of execution is i-first, j-next, k-last.
     //!
     void forEachCellIndex(
@@ -70,8 +70,8 @@ class Grid3 : public Serializable {
     //! \brief Invokes the given function \p func for each grid cell parallelly.
     //!
     //! This function invokes the given function object \p func for each grid
-    //! cell in parallel manner. The input parameters are i and j indices of a
-    //! grid cell. The order of execution can be arbitrary since it's
+    //! cell in parallel manner. The input parameters are i, j, and k indices of
+    //! a grid cell. The order of execution can be arbitrary since it's
     //! multi-threaded.
     //!
     void parallelForEachCellIndex(
