@@ -7,3 +7,6 @@
 [submodule "external/googlebenchmark"]
 	path = external/googlebenchmark
 	url = https://github.com/google/benchmark.git
+[submodule "external/Clara"]
+	path = external/Clara
+	url = https://github.com/catchorg/Clara
