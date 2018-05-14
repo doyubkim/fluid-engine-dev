@@ -7,31 +7,23 @@
 #include <jet/jet.h>
 #include <pystring/pystring.h>
 
-#include <getopt.h>
+#include <../clara_utils.h>
+#include <Clara/include/clara.hpp>
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
 using namespace jet;
 
-void printUsage() {
-    printf(
-        "Usage: particles2xml "
-        "-i input_pos -o output_xml \n"
-        "   -i, --input: input particle position filename\n"
-        "   -o, --output: output obj filename\n"
-        "   -h, --help: print this message\n");
-}
-
 void printInfo(size_t numberOfParticles) {
     printf("Number of particles: %zu\n", numberOfParticles);
 }
 
-void particlesToXml(
-    const Array1<Vector3D>& positions,
-    const std::string& xmlFilename) {
+void particlesToXml(const Array1<Vector3D>& positions,
+                    const std::string& xmlFilename) {
     printInfo(positions.size());
 
     std::ofstream file(xmlFilename.c_str());
@@ -46,13 +38,9 @@ void particlesToXml(
             file << "<transform name=\"toWorld\">";
 
             char buffer[64];
-            snprintf(
-                buffer,
-                sizeof(buffer),
-                "<translate x=\"%f\" y=\"%f\" z=\"%f\"/>",
-                pos.x,
-                pos.y,
-                pos.z);
+            snprintf(buffer, sizeof(buffer),
+                     "<translate x=\"%f\" y=\"%f\" z=\"%f\"/>", pos.x, pos.y,
+                     pos.z);
             file << buffer;
 
             file << "</transform>";
@@ -69,39 +57,31 @@ void particlesToXml(
 }
 
 int main(int argc, char* argv[]) {
+    bool showHelp = false;
     std::string inputFilename;
     std::string outputFilename;
 
-    // Parse options
-    static struct option longOptions[] = {
-        {"input",       required_argument,  0,  'i' },
-        {"output",      required_argument,  0,  'o' },
-        {"help",        optional_argument,  0,  'h' },
-        {0,             0,                  0,   0  }
-    };
+    // Parsing
+    auto parser =
+        clara::Help(showHelp) |
+        clara::Opt(inputFilename, "inputFilename")["-i"]["--input"](
+            "input particle position file name") |
+        clara::Opt(outputFilename,
+                   "outputFilename")["-o"]["--output"]("output xml file name");
 
-    int opt = 0;
-    int long_index = 0;
-    while ((opt = getopt_long(
-        argc, argv, "i:o:h", longOptions, &long_index)) != -1) {
-        switch (opt) {
-            case 'i':
-                inputFilename = optarg;
-                break;
-            case 'o':
-                outputFilename = optarg;
-                break;
-            case 'h':
-                printUsage();
-                exit(EXIT_SUCCESS);
-            default:
-                printUsage();
-                exit(EXIT_FAILURE);
-        }
+    auto result = parser.parse(clara::Args(argc, argv));
+    if (!result) {
+        std::cerr << "Error in command line: " << result.errorMessage() << '\n';
+        exit(EXIT_FAILURE);
+    }
+
+    if (showHelp) {
+        std::cout << toString(parser) << '\n';
+        exit(EXIT_SUCCESS);
     }
 
     if (inputFilename.empty() || outputFilename.empty()) {
-        printUsage();
+        std::cout << toString(parser) << '\n';
         exit(EXIT_FAILURE);
     }
 
@@ -120,9 +100,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Run marching cube and save it to the disk
-    particlesToXml(
-        positions,
-        outputFilename);
+    particlesToXml(positions, outputFilename);
 
     return EXIT_SUCCESS;
 }
