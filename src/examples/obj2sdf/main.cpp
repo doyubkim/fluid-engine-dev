@@ -6,25 +6,16 @@
 
 #include <jet/jet.h>
 
-#include <getopt.h>
+#include <../clara_utils.h>
+#include <Clara/include/clara.hpp>
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
 using namespace jet;
-
-void printUsage() {
-    printf(
-        "Usage: obj2sdf "
-        "-i input_obj -o output_sdf -r resolution -m margin_scale\n"
-        "   -i, --input: input obj filename\n"
-        "   -o, --output: output sdf filename\n"
-        "   -r, --resx: grid resolution in x-axis (default: 100)\n"
-        "   -m, --margin: margin scale around the sdf (default: 0.2)\n"
-        "   -h, --help: print this message\n");
-}
 
 void saveTriangleMeshData(
     const TriangleMesh3& data,
@@ -37,54 +28,42 @@ void saveTriangleMeshData(
 }
 
 int main(int argc, char* argv[]) {
+    bool showHelp = false;
     std::string inputFilename;
     std::string outputFilename;
     size_t resolutionX = 100;
     double marginScale = 0.2;
 
-    // Parse options
-    static struct option longOptions[] = {
-        {"input",   required_argument,  0,  'i' },
-        {"output",  required_argument,  0,  'o' },
-        {"resx",    optional_argument,  0,  'r' },
-        {"margin",  optional_argument,  0,  'm' },
-        {"help",    optional_argument,  0,  'h' },
-        {0,         0,                  0,   0  }
-    };
+    // Parsing
+    auto parser =
+        clara::Help(showHelp) |
+        clara::Opt(inputFilename,
+                   "inputFilename")["-i"]["--input"]("input obj file name") |
+        clara::Opt(outputFilename,
+                   "outputFilename")["-o"]["--output"]("output sdf file name") |
+        clara::Opt(resolutionX, "resolutionX")["-r"]["--resx"](
+            "grid resolution in x-axis (default is 100)") |
+        clara::Opt(marginScale, "marginScale")["-m"]["--margin"](
+            "margin scale around the sdf (default is 0.2)");
 
-    int opt = 0;
-    int long_index = 0;
-    while ((opt = getopt_long(
-        argc, argv, "i:o:r:m:h", longOptions, &long_index)) != -1) {
-        switch (opt) {
-            case 'i':
-                inputFilename = optarg;
-                break;
-            case 'o':
-                outputFilename = optarg;
-                break;
-            case 'r':
-                resolutionX = static_cast<size_t>(atoi(optarg));
-                break;
-            case 'm':
-                marginScale = std::max(atof(optarg), 0.0);
-                break;
-            case 'h':
-                printUsage();
-                exit(EXIT_SUCCESS);
-            default:
-                printUsage();
-                exit(EXIT_FAILURE);
-        }
+    auto result = parser.parse(clara::Args(argc, argv));
+    if (!result) {
+        std::cerr << "Error in command line: " << result.errorMessage() << '\n';
+        exit(EXIT_FAILURE);
+    }
+
+    if (showHelp) {
+        std::cout << toString(parser) << '\n';
+        exit(EXIT_SUCCESS);
     }
 
     if (inputFilename.empty()) {
-        printUsage();
+        std::cout << toString(parser) << '\n';
         exit(EXIT_FAILURE);
     }
 
     if (outputFilename.empty()) {
-        printUsage();
+        std::cout << toString(parser) << '\n';
         exit(EXIT_FAILURE);
     }
 
