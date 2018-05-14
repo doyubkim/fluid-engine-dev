@@ -1,7 +1,7 @@
 #ifndef SRC_EXAMPLES_EXAMPLE_UTILS_CLARA_UTILS_H_
 #define SRC_EXAMPLES_EXAMPLE_UTILS_CLARA_UTILS_H_
 
-#include <Clara/include/clara.hpp>
+#include <clara.hpp>
 
 #include <string>
 
