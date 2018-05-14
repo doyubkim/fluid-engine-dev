@@ -220,7 +220,6 @@ void triangleMeshToSdf(
 
     // We begin by initializing distances near the mesh, and figuring out
     // intersection counts
-    Vector3D ijkmin, ijkmax;
 
     auto gridPos = sdf->dataPosition();
 
