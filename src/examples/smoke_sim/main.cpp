@@ -13,8 +13,8 @@
 #include <sys/stat.h>
 #endif
 
-#include <../clara_utils.h>
-#include <Clara/include/clara.hpp>
+#include <example_utils/clara_utils.h>
+#include <clara.hpp>
 
 #include <algorithm>
 #include <fstream>
