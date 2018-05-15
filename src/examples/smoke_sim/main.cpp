@@ -13,10 +13,12 @@
 #include <sys/stat.h>
 #endif
 
-#include <getopt.h>
+#include <example_utils/clara_utils.h>
+#include <clara.hpp>
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -151,23 +153,6 @@ void saveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
 
         file.close();
     }
-}
-
-void printUsage() {
-    printf(
-        "Usage: " APP_NAME
-        " [options]\n"
-        "   -r, --resx: grid resolution in x-axis (default is 50)\n"
-        "   -f, --frames: total number of frames (default is 100)\n"
-        "   -p, --fps: frames per second (default is 60.0)\n"
-        "   -l, --log: log filename (default is " APP_NAME
-        ".log)\n"
-        "   -o, --output: output directory name "
-        "(default is " APP_NAME
-        "_output)\n"
-        "   -e, --example: example number (between 1 and 5, default is 1)\n"
-        "   -m, --format: particle output format (tga or vol. default is tga)\n"
-        "   -h, --help: print this message\n");
 }
 
 void printInfo(const GridSmokeSolver3Ptr& solver) {
@@ -424,6 +409,7 @@ void runExample5(const std::string& rootDir, size_t resolutionX,
 }
 
 int main(int argc, char* argv[]) {
+    bool showHelp = false;
     size_t resolutionX = 50;
     int numberOfFrames = 100;
     double fps = 60.0;
@@ -432,55 +418,33 @@ int main(int argc, char* argv[]) {
     std::string outputDir = APP_NAME "_output";
     std::string format = "tga";
 
-    // Parse options
-    static struct option longOptions[] = {
-        {"resx", optional_argument, 0, 'r'},
-        {"frames", optional_argument, 0, 'f'},
-        {"fps", optional_argument, 0, 'p'},
-        {"example", optional_argument, 0, 'e'},
-        {"log", optional_argument, 0, 'l'},
-        {"outputDir", optional_argument, 0, 'o'},
-        {"format", optional_argument, 0, 'm'},
-        {"help", optional_argument, 0, 'h'},
-        {0, 0, 0, 0}};
+    // Parsing
+    auto parser =
+        clara::Help(showHelp) |
+        clara::Opt(resolutionX, "resolutionX")["-r"]["--resx"](
+            "grid resolution in x-axis (default is 50)") |
+        clara::Opt(numberOfFrames, "numberOfFrames")["-f"]["--frames"](
+            "total number of frames (default is 100)") |
+        clara::Opt(
+            fps, "fps")["-p"]["--fps"]("frames per second (default is 60.0)") |
+        clara::Opt(exampleNum, "exampleNum")["-e"]["--example"](
+            "example number (between 1 and 5, default is 1)") |
+        clara::Opt(logFilename, "logFilename")["-l"]["--log"](
+            "log file name (default is " APP_NAME ".log)") |
+        clara::Opt(outputDir, "outputDir")["-o"]["--output"](
+            "output directory name (default is " APP_NAME "_output)") |
+        clara::Opt(format, "format")["-m"]["--format"](
+            "particle output format (xyz or pos. default is xyz)");
 
-    int opt = 0;
-    int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "r:f:p:e:l:o:m:h", longOptions,
-                              &long_index)) != -1) {
-        switch (opt) {
-            case 'r':
-                resolutionX = static_cast<size_t>(atoi(optarg));
-                break;
-            case 'f':
-                numberOfFrames = atoi(optarg);
-                break;
-            case 'p':
-                fps = atof(optarg);
-                break;
-            case 'e':
-                exampleNum = atoi(optarg);
-                break;
-            case 'l':
-                logFilename = optarg;
-                break;
-            case 'o':
-                outputDir = optarg;
-                break;
-            case 'm':
-                format = optarg;
-                if (format != "vol" && format != "tga") {
-                    printUsage();
-                    exit(EXIT_FAILURE);
-                }
-                break;
-            case 'h':
-                printUsage();
-                exit(EXIT_SUCCESS);
-            default:
-                printUsage();
-                exit(EXIT_FAILURE);
-        }
+    auto result = parser.parse(clara::Args(argc, argv));
+    if (!result) {
+        std::cerr << "Error in command line: " << result.errorMessage() << '\n';
+        exit(EXIT_FAILURE);
+    }
+
+    if (showHelp) {
+        std::cout << toString(parser) << '\n';
+        exit(EXIT_SUCCESS);
     }
 
 #ifdef JET_WINDOWS
@@ -511,7 +475,7 @@ int main(int argc, char* argv[]) {
             runExample5(outputDir, resolutionX, numberOfFrames, format, fps);
             break;
         default:
-            printUsage();
+            std::cout << toString(parser) << '\n';
             exit(EXIT_FAILURE);
     }
 

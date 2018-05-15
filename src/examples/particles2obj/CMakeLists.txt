@@ -42,8 +42,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
         jet
-        pystring
-        winix)
+        pystring)
 else()
     target_link_libraries(${target}
         PRIVATE

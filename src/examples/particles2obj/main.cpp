@@ -7,10 +7,12 @@
 #include <jet/jet.h>
 #include <pystring/pystring.h>
 
-#include <getopt.h>
+#include <example_utils/clara_utils.h>
+#include <clara.hpp>
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -26,28 +28,6 @@ double sZhuBridsonCutOffThreshold = 0.25;
 double sAnisoCutOffDensity = 0.5;
 double sAnisoPositionSmoothingFactor = 0.5;
 size_t sAnisoMinNumNeighbors = 25;
-
-void printUsage() {
-    printf(
-        "Usage: particles2obj "
-        "-i input_pos -o output_obj "
-        "-r resx,resy,resz "
-        "-g dx,dy,dz "
-        "-n ox,oy,oz "
-        "-k kernel_radius\n"
-        "   -i, --input: input particle position filename\n"
-        "   -o, --output: output obj filename\n"
-        "   -r, --resolution: grid resolution in CSV format "
-        "(default: 100,100,100)\n"
-        "   -g, --gridspacing: grid spacing in CSV format "
-        "(default: 0.01,0.01,0.01)\n"
-        "   -n, --origin: domain origin in CSV format (default: 0,0,0)\n"
-        "   -m, --method: spherical, sph, zhu_bridson, and anisotropic "
-        "followed by optional method-dependant parameters (default: "
-        "anisotropic)\n"
-        "   -k, --kernel: interpolation kernel radius (default: 0.2)\n"
-        "   -h, --help: print this message\n");
-}
 
 void printInfo(const Size3& resolution, const BoundingBox3D& domain,
                const Vector3D& gridSpacing, size_t numberOfParticles,
@@ -110,6 +90,7 @@ void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
 }
 
 int main(int argc, char* argv[]) {
+    bool showHelp = false;
     std::string inputFilename;
     std::string outputFilename;
     Size3 resolution(100, 100, 100);
@@ -118,117 +99,123 @@ int main(int argc, char* argv[]) {
     std::string method = "anisotropic";
     double kernelRadius = 0.2;
 
-    // Parse options
-    static struct option longOptions[] = {
-        {"input", required_argument, 0, 'i'},
-        {"output", required_argument, 0, 'o'},
-        {"resolution", optional_argument, 0, 'r'},
-        {"gridspacing", optional_argument, 0, 'g'},
-        {"origin", optional_argument, 0, 'n'},
-        {"kernel", optional_argument, 0, 'k'},
-        {"method", optional_argument, 0, 'm'},
-        {"help", optional_argument, 0, 'h'},
-        {0, 0, 0, 0}};
+    std::string strResolution;
+    std::string strGridSpacing;
+    std::string strOrigin;
+    std::string strMethod;
 
-    int opt = 0;
-    int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "i:o:r:g:n:k:m:h", longOptions,
-                              &long_index)) != -1) {
-        switch (opt) {
-            case 'i':
-                inputFilename = optarg;
-                break;
-            case 'o':
-                outputFilename = optarg;
-                break;
-            case 'r': {
-                std::vector<std::string> tokens;
-                pystring::split(optarg, tokens, ",");
+    // Parsing
+    auto parser =
+        clara::Help(showHelp) |
+        clara::Opt(inputFilename,
+                   "inputFilename")["-i"]["--input"]("input obj file name") |
+        clara::Opt(outputFilename,
+                   "outputFilename")["-o"]["--output"]("output obj file name") |
+        clara::Opt(strResolution, "resolution")["-r"]["--resolution"](
+            "grid resolution in CSV format (default is 100,100,100)") |
+        clara::Opt(strGridSpacing, "gridSpacing")["-g"]["--grid_spacing"](
+            "grid spacing in CSV format (default is 0.01,0.01,0.01)") |
+        clara::Opt(strOrigin, "origin")["-n"]["--origin"](
+            "domain origin in CSV format (default is 0,0,0)") |
+        clara::Opt(method, "method")["-m"]["--method"](
+            "spherical, sph, zhu_bridson, and anisotropic "
+            "followed by optional method-dependent parameters (default is "
+            "anisotropic)") |
+        clara::Opt(kernelRadius, "kernelRadius")["-k"]["--kernel"](
+            "interpolation kernel radius (default is 0.2)");
 
-                if (tokens.size() == 1) {
-                    resolution.x = resolution.y = resolution.z =
-                        static_cast<size_t>(atoi(optarg));
+    auto result = parser.parse(clara::Args(argc, argv));
+    if (!result) {
+        std::cerr << "Error in command line: " << result.errorMessage() << '\n';
+        exit(EXIT_FAILURE);
+    }
 
-                } else if (tokens.size() == 3) {
-                    resolution.x = static_cast<size_t>(atoi(tokens[0].c_str()));
-                    resolution.y = static_cast<size_t>(atoi(tokens[1].c_str()));
-                    resolution.z = static_cast<size_t>(atoi(tokens[2].c_str()));
-                }
-                break;
-            }
-            case 'g': {
-                std::vector<std::string> tokens;
-                pystring::split(optarg, tokens, ",");
-                if (tokens.size() == 1) {
-                    gridSpacing.x = gridSpacing.y = gridSpacing.z =
-                        atof(optarg);
-                } else if (tokens.size() == 3) {
-                    gridSpacing.x = atof(tokens[0].c_str());
-                    gridSpacing.y = atof(tokens[1].c_str());
-                    gridSpacing.z = atof(tokens[2].c_str());
-                }
-                break;
-            }
-            case 'n': {
-                std::vector<std::string> tokens;
-                pystring::split(optarg, tokens, ",");
-                if (tokens.size() == 1) {
-                    origin.x = origin.y = origin.z = atof(optarg);
-                } else if (tokens.size() == 3) {
-                    origin.x = atof(tokens[0].c_str());
-                    origin.y = atof(tokens[1].c_str());
-                    origin.z = atof(tokens[2].c_str());
-                }
-                break;
-            }
-            case 'k': {
-                kernelRadius = atof(optarg);
-                break;
-            }
-            case 'm': {
-                std::vector<std::string> tokens;
-                pystring::split(optarg, tokens, ",");
+    if (showHelp) {
+        std::cout << toString(parser) << '\n';
+        exit(EXIT_SUCCESS);
+    }
 
-                method = tokens[0];
+    // Resolution
+    if (!strResolution.empty()) {
+        std::vector<std::string> tokens;
+        pystring::split(strResolution, tokens, ",");
 
-                if (method == kSpherical) {
-                    // No other options accepted
-                } else if (method == kSph) {
-                    if (tokens.size() > 1) {
-                        sSphCutOffDensity = atof(tokens[1].c_str());
-                    }
-                } else if (method == kZhuBridson) {
-                    if (tokens.size() > 1) {
-                        sZhuBridsonCutOffThreshold = atof(tokens[1].c_str());
-                    }
-                } else if (method == kAnisotropic) {
-                    if (tokens.size() > 1) {
-                        sAnisoCutOffDensity = atof(tokens[1].c_str());
-                    }
-                    if (tokens.size() > 2) {
-                        sAnisoPositionSmoothingFactor = atof(tokens[2].c_str());
-                    }
-                    if (tokens.size() > 3) {
-                        sAnisoMinNumNeighbors = (size_t)atoi(tokens[3].c_str());
-                    }
-                } else {
-                    fprintf(stderr, "Unknown method %s.\n", method.c_str());
-                    printUsage();
-                    exit(EXIT_SUCCESS);
-                }
-                break;
+        if (tokens.size() == 1) {
+            resolution.x = resolution.y = resolution.z =
+                static_cast<size_t>(atoi(strResolution.c_str()));
+        } else if (tokens.size() == 3) {
+            resolution.x = static_cast<size_t>(atoi(tokens[0].c_str()));
+            resolution.y = static_cast<size_t>(atoi(tokens[1].c_str()));
+            resolution.z = static_cast<size_t>(atoi(tokens[2].c_str()));
+        }
+    }
+
+    // Grid spacing
+    if (!strGridSpacing.empty()) {
+        std::vector<std::string> tokens;
+        pystring::split(strGridSpacing, tokens, ",");
+
+        if (tokens.size() == 1) {
+            gridSpacing.x = gridSpacing.y = gridSpacing.z =
+                atof(strGridSpacing.c_str());
+        } else if (tokens.size() == 3) {
+            gridSpacing.x = atof(tokens[0].c_str());
+            gridSpacing.y = atof(tokens[1].c_str());
+            gridSpacing.z = atof(tokens[2].c_str());
+        }
+    }
+
+    // Origin
+    if (!strOrigin.empty()) {
+        std::vector<std::string> tokens;
+        pystring::split(strOrigin, tokens, ",");
+
+        if (tokens.size() == 1) {
+            origin.x = origin.y = origin.z = atof(strOrigin.c_str());
+        } else if (tokens.size() == 3) {
+            origin.x = atof(tokens[0].c_str());
+            origin.y = atof(tokens[1].c_str());
+            origin.z = atof(tokens[2].c_str());
+        }
+    }
+
+    // Method
+    if (!strMethod.empty()) {
+        std::vector<std::string> tokens;
+        pystring::split(strMethod, tokens, ",");
+
+        method = tokens[0];
+
+        if (method == kSpherical) {
+            // No other options accepted
+        } else if (method == kSph) {
+            if (tokens.size() > 1) {
+                sSphCutOffDensity = atof(tokens[1].c_str());
             }
-            case 'h':
-                printUsage();
-                exit(EXIT_SUCCESS);
-            default:
-                printUsage();
-                exit(EXIT_FAILURE);
+        } else if (method == kZhuBridson) {
+            if (tokens.size() > 1) {
+                sZhuBridsonCutOffThreshold = atof(tokens[1].c_str());
+            }
+        } else if (method == kAnisotropic) {
+            if (tokens.size() > 1) {
+                sAnisoCutOffDensity = atof(tokens[1].c_str());
+            }
+            if (tokens.size() > 2) {
+                sAnisoPositionSmoothingFactor = atof(tokens[2].c_str());
+            }
+            if (tokens.size() > 3) {
+                sAnisoMinNumNeighbors =
+                    static_cast<size_t>(atoi(tokens[3].c_str()));
+            }
+        } else {
+            fprintf(stderr, "Unknown method %s.\n", method.c_str());
+            std::cout << toString(parser) << '\n';
+            exit(EXIT_FAILURE);
         }
     }
 
     if (inputFilename.empty() || outputFilename.empty()) {
-        printUsage();
+        std::cout << toString(parser) << '\n';
         exit(EXIT_FAILURE);
     }
 

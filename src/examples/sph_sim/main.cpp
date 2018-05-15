@@ -13,10 +13,12 @@
 #include <sys/stat.h>
 #endif
 
-#include <getopt.h>
+#include <example_utils/clara_utils.h>
+#include <clara.hpp>
 
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -58,23 +60,6 @@ void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
         }
         file.close();
     }
-}
-
-void printUsage() {
-    printf(
-        "Usage: " APP_NAME
-        " [options]\n"
-        "   -s, --spacing: target particle spacing (default is 0.02)\n"
-        "   -f, --frames: total number of frames (default is 100)\n"
-        "   -p, --fps: frames per second (default is 60.0)\n"
-        "   -l, --log: log filename (default is " APP_NAME
-        ".log)\n"
-        "   -o, --output: output directory name "
-        "(default is " APP_NAME
-        "_output)\n"
-        "   -m, --format: particle output format (xyz or pos. default is xyz)\n"
-        "   -e, --example: example number (between 1 and 3, default is 1)\n"
-        "   -h, --help: print this message\n");
 }
 
 void printInfo(const SphSolver3Ptr& solver) {
@@ -296,6 +281,7 @@ void runExample3(const std::string& rootDir, double targetSpacing,
 }
 
 int main(int argc, char* argv[]) {
+    bool showHelp = false;
     double targetSpacing = 0.02;
     int numberOfFrames = 100;
     double fps = 60.0;
@@ -304,55 +290,33 @@ int main(int argc, char* argv[]) {
     std::string outputDir = APP_NAME "_output";
     std::string format = "xyz";
 
-    // Parse options
-    static struct option longOptions[] = {
-        {"spacing", optional_argument, 0, 's'},
-        {"frames", optional_argument, 0, 'f'},
-        {"fps", optional_argument, 0, 'p'},
-        {"example", optional_argument, 0, 'e'},
-        {"log", optional_argument, 0, 'l'},
-        {"outputDir", optional_argument, 0, 'o'},
-        {"format", optional_argument, 0, 'm'},
-        {"help", optional_argument, 0, 'h'},
-        {0, 0, 0, 0}};
+    // Parsing
+    auto parser =
+        clara::Help(showHelp) |
+        clara::Opt(targetSpacing, "targetSpacing")["-s"]["--spacing"](
+            "target particle spacing (default is 0.02)") |
+        clara::Opt(numberOfFrames, "numberOfFrames")["-f"]["--frames"](
+            "total number of frames (default is 100)") |
+        clara::Opt(
+            fps, "fps")["-p"]["--fps"]("frames per second (default is 60.0)") |
+        clara::Opt(exampleNum, "exampleNum")["-e"]["--example"](
+            "example number (between 1 and 3, default is 1)") |
+        clara::Opt(logFilename, "logFilename")["-l"]["--log"](
+            "log file name (default is " APP_NAME ".log)") |
+        clara::Opt(outputDir, "outputDir")["-o"]["--output"](
+            "output directory name (default is " APP_NAME "_output)") |
+        clara::Opt(format, "format")["-m"]["--format"](
+            "particle output format (xyz or pos. default is xyz)");
 
-    int opt = 0;
-    int long_index = 0;
-    while ((opt = getopt_long(argc, argv, "s:f:p:e:l:o:m:h", longOptions,
-                              &long_index)) != -1) {
-        switch (opt) {
-            case 's':
-                targetSpacing = atof(optarg);
-                break;
-            case 'f':
-                numberOfFrames = atoi(optarg);
-                break;
-            case 'p':
-                fps = atof(optarg);
-                break;
-            case 'e':
-                exampleNum = atoi(optarg);
-                break;
-            case 'l':
-                logFilename = optarg;
-                break;
-            case 'o':
-                outputDir = optarg;
-                break;
-            case 'm':
-                format = optarg;
-                if (format != "pos" && format != "xyz") {
-                    printUsage();
-                    exit(EXIT_FAILURE);
-                }
-                break;
-            case 'h':
-                printUsage();
-                exit(EXIT_SUCCESS);
-            default:
-                printUsage();
-                exit(EXIT_FAILURE);
-        }
+    auto result = parser.parse(clara::Args(argc, argv));
+    if (!result) {
+        std::cerr << "Error in command line: " << result.errorMessage() << '\n';
+        exit(EXIT_FAILURE);
+    }
+
+    if (showHelp) {
+        std::cout << toString(parser) << '\n';
+        exit(EXIT_SUCCESS);
     }
 
 #ifdef JET_WINDOWS
@@ -377,7 +341,7 @@ int main(int argc, char* argv[]) {
             runExample3(outputDir, targetSpacing, numberOfFrames, format, fps);
             break;
         default:
-            printUsage();
+            std::cout << toString(parser) << '\n';
             exit(EXIT_FAILURE);
     }
 
