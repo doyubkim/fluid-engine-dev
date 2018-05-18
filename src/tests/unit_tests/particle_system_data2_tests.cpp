@@ -5,7 +5,9 @@
 // property of any third parties.
 
 #include <jet/particle_system_data2.h>
+
 #include <gtest/gtest.h>
+
 #include <vector>
 
 using namespace jet;
@@ -119,16 +121,14 @@ TEST(ParticleSystemData2, AddParticlesException) {
 
     try {
         particleSystem.addParticles(
-            Array1<Vector2D>(
-                {Vector2D(1.0, 2.0), Vector2D(4.0, 5.0)}).accessor(),
-            Array1<Vector2D>(
-                {Vector2D(7.0, 8.0)}).accessor(),
-            Array1<Vector2D>(
-                {Vector2D(5.0, 4.0), Vector2D(2.0, 1.0)}).accessor());
+            Array1<Vector2D>({Vector2D(1.0, 2.0), Vector2D(4.0, 5.0)})
+                .accessor(),
+            Array1<Vector2D>({Vector2D(7.0, 8.0)}).accessor(),
+            Array1<Vector2D>({Vector2D(5.0, 4.0), Vector2D(2.0, 1.0)})
+                .accessor());
 
         EXPECT_FALSE(true) << "Invalid argument shoudl throw exception.";
-    }
-    catch (std::invalid_argument) {
+    } catch (std::invalid_argument&) {
         // Do nothing -- expected exception
     }
 
@@ -136,16 +136,14 @@ TEST(ParticleSystemData2, AddParticlesException) {
 
     try {
         particleSystem.addParticles(
-            Array1<Vector2D>(
-                {Vector2D(1.0, 2.0), Vector2D(4.0, 5.0)}).accessor(),
-            Array1<Vector2D>(
-                {Vector2D(7.0, 8.0), Vector2D(2.0, 1.0)}).accessor(),
-            Array1<Vector2D>(
-                {Vector2D(5.0, 4.0)}).accessor());
+            Array1<Vector2D>({Vector2D(1.0, 2.0), Vector2D(4.0, 5.0)})
+                .accessor(),
+            Array1<Vector2D>({Vector2D(7.0, 8.0), Vector2D(2.0, 1.0)})
+                .accessor(),
+            Array1<Vector2D>({Vector2D(5.0, 4.0)}).accessor());
 
         EXPECT_FALSE(true) << "Invalid argument shoudl throw exception.";
-    }
-    catch (std::invalid_argument) {
+    } catch (std::invalid_argument&) {
         // Do nothing -- expected exception
     }
 
@@ -155,27 +153,10 @@ TEST(ParticleSystemData2, AddParticlesException) {
 TEST(ParticleSystemData2, BuildNeighborSearcher) {
     ParticleSystemData2 particleSystem;
     ParticleSystemData2::VectorData positions = {
-        {0.5, 0.7},
-        {0.1, 0.5},
-        {0.3, 0.1},
-        {0.2, 0.6},
-        {0.9, 0.7},
-        {0.2, 0.5},
-        {0.5, 0.8},
-        {0.2, 0.3},
-        {0.9, 0.1},
-        {0.6, 0.8},
-        {0.1, 0.7},
-        {0.4, 0.5},
-        {0.5, 0.9},
-        {0.7, 0.9},
-        {0.2, 0.8},
-        {0.5, 0.5},
-        {0.4, 0.1},
-        {0.2, 0.4},
-        {0.1, 0.6},
-        {0.9, 0.8}
-    };
+        {0.5, 0.7}, {0.1, 0.5}, {0.3, 0.1}, {0.2, 0.6}, {0.9, 0.7},
+        {0.2, 0.5}, {0.5, 0.8}, {0.2, 0.3}, {0.9, 0.1}, {0.6, 0.8},
+        {0.1, 0.7}, {0.4, 0.5}, {0.5, 0.9}, {0.7, 0.9}, {0.2, 0.8},
+        {0.5, 0.5}, {0.4, 0.1}, {0.2, 0.4}, {0.1, 0.6}, {0.9, 0.8}};
     particleSystem.addParticles(positions);
 
     const double radius = 0.4;
@@ -185,16 +166,13 @@ TEST(ParticleSystemData2, BuildNeighborSearcher) {
     const Vector2D searchOrigin = {0.1, 0.2};
     std::vector<size_t> found;
     neighborSearcher->forEachNearbyPoint(
-        searchOrigin,
-        radius,
-        [&](size_t i, const Vector2D&) {
-            found.push_back(i);
-        });
+        searchOrigin, radius,
+        [&](size_t i, const Vector2D&) { found.push_back(i); });
 
     for (size_t ii = 0; ii < positions.size(); ++ii) {
         if (searchOrigin.distanceTo(positions[ii]) <= radius) {
-            EXPECT_TRUE(
-                found.end() != std::find(found.begin(), found.end(), ii));
+            EXPECT_TRUE(found.end() !=
+                        std::find(found.begin(), found.end(), ii));
         }
     }
 }
@@ -202,27 +180,10 @@ TEST(ParticleSystemData2, BuildNeighborSearcher) {
 TEST(ParticleSystemData2, BuildNeighborLists) {
     ParticleSystemData2 particleSystem;
     ParticleSystemData2::VectorData positions = {
-        {0.3, 0.5},
-        {0.6, 0.8},
-        {0.1, 0.8},
-        {0.7, 0.9},
-        {0.3, 0.2},
-        {0.8, 0.3},
-        {0.8, 0.5},
-        {0.4, 0.9},
-        {0.8, 0.6},
-        {0.2, 0.9},
-        {0.1, 0.2},
-        {0.6, 0.9},
-        {0.2, 0.2},
-        {0.5, 0.6},
-        {0.8, 0.4},
-        {0.4, 0.2},
-        {0.2, 0.3},
-        {0.8, 0.6},
-        {0.2, 0.8},
-        {1.0, 0.5}
-    };
+        {0.3, 0.5}, {0.6, 0.8}, {0.1, 0.8}, {0.7, 0.9}, {0.3, 0.2},
+        {0.8, 0.3}, {0.8, 0.5}, {0.4, 0.9}, {0.8, 0.6}, {0.2, 0.9},
+        {0.1, 0.2}, {0.6, 0.9}, {0.2, 0.2}, {0.5, 0.6}, {0.8, 0.4},
+        {0.4, 0.2}, {0.2, 0.3}, {0.8, 0.6}, {0.2, 0.8}, {1.0, 0.5}};
     particleSystem.addParticles(positions);
 
     const double radius = 0.4;
@@ -236,9 +197,8 @@ TEST(ParticleSystemData2, BuildNeighborLists) {
         const auto& neighbors = neighborLists[i];
         for (size_t ii = 0; ii < positions.size(); ++ii) {
             if (ii != i && positions[ii].distanceTo(positions[i]) <= radius) {
-                EXPECT_TRUE(
-                    neighbors.end()
-                    != std::find(neighbors.begin(), neighbors.end(), ii));
+                EXPECT_TRUE(neighbors.end() !=
+                            std::find(neighbors.begin(), neighbors.end(), ii));
             }
         }
     }
@@ -248,27 +208,10 @@ TEST(ParticleSystemData2, Serialization) {
     ParticleSystemData2 particleSystem;
 
     ParticleSystemData2::VectorData positions = {
-        {0.3, 0.5},
-        {0.6, 0.8},
-        {0.1, 0.8},
-        {0.7, 0.9},
-        {0.3, 0.2},
-        {0.8, 0.3},
-        {0.8, 0.5},
-        {0.4, 0.9},
-        {0.8, 0.6},
-        {0.2, 0.9},
-        {0.1, 0.2},
-        {0.6, 0.9},
-        {0.2, 0.2},
-        {0.5, 0.6},
-        {0.8, 0.4},
-        {0.4, 0.2},
-        {0.2, 0.3},
-        {0.8, 0.6},
-        {0.2, 0.8},
-        {1.0, 0.5}
-    };
+        {0.3, 0.5}, {0.6, 0.8}, {0.1, 0.8}, {0.7, 0.9}, {0.3, 0.2},
+        {0.8, 0.3}, {0.8, 0.5}, {0.4, 0.9}, {0.8, 0.6}, {0.2, 0.9},
+        {0.1, 0.2}, {0.6, 0.9}, {0.2, 0.2}, {0.5, 0.6}, {0.8, 0.4},
+        {0.4, 0.2}, {0.2, 0.3}, {0.8, 0.6}, {0.2, 0.8}, {1.0, 0.5}};
     particleSystem.addParticles(positions);
 
     size_t a0 = particleSystem.addScalarData(2.0);
