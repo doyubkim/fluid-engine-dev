@@ -8,6 +8,7 @@
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM_SOLVER2_H_
 
 #include <jet/fdm_linear_system2.h>
+
 #include <memory>
 
 namespace jet {
@@ -15,6 +16,10 @@ namespace jet {
 //! Abstract base class for 2-D finite difference-type linear system solver.
 class FdmLinearSystemSolver2 {
  public:
+    FdmLinearSystemSolver2() = default;
+
+    virtual ~FdmLinearSystemSolver2() = default;
+
     //! Solves the given linear system.
     virtual bool solve(FdmLinearSystem2* system) = 0;
 
