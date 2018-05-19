@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#ifdef JET_USE_CUDA
+
 #ifndef INCLUDE_JET_CUDA_ARRAY_VIEW_H_
 #define INCLUDE_JET_CUDA_ARRAY_VIEW_H_
 
@@ -50,3 +52,5 @@ class ConstCudaArrayView final {
 }  // namespace jet
 
 #endif  // INCLUDE_JET_CUDA_ARRAY_VIEW_H_
+
+#endif  // JET_USE_CUDA

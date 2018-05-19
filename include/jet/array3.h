@@ -206,7 +206,7 @@ class Array<T, 3> final {
     ConstIterator end() const;
 
     //! Returns the const raw pointer to the array data.
-    const T* const data() const;
+    const T* data() const;
 
     //! Returns the array accessor.
     ArrayAccessor3<T> accessor();
