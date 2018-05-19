@@ -82,9 +82,7 @@
 #include <jet/cuda_sph_solver_base3.h>
 #include <jet/cuda_sph_system_data2.h>
 #include <jet/cuda_sph_system_data3.h>
-#include <jet/cuda_texture1.h>
-#include <jet/cuda_texture2.h>
-#include <jet/cuda_texture3.h>
+#include <jet/cuda_texture.h>
 #include <jet/cuda_utils.h>
 #include <jet/cuda_wc_sph_solver2.h>
 #include <jet/cuda_wc_sph_solver3.h>
