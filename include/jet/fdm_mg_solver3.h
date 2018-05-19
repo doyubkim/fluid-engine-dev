@@ -16,6 +16,10 @@ namespace jet {
 //! \brief 3-D finite difference-type linear system solver using Multigrid.
 class FdmMgSolver3 : public FdmLinearSystemSolver3 {
  public:
+    FdmMgSolver3() = default;
+
+    virtual ~FdmMgSolver3() = default;
+
     //! Constructs the solver with given parameters.
     FdmMgSolver3(size_t maxNumberOfLevels,
                  unsigned int numberOfRestrictionIter = 5,

@@ -13,6 +13,11 @@ set(target pyjet)
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
+# Disable deprecated-register warning for Python2.7 headers
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
+endif ()
+
 # Add Pybind11 module
 pybind11_add_module(${target} ${sources})
 

@@ -9,7 +9,8 @@ ADD . /app
 WORKDIR /app/build
 RUN cmake .. && \
     make -j`nproc` && \
-    make install
+    make install && \
+    bin/unit_tests
 
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 RUN pip install -r ../requirements.txt && \
