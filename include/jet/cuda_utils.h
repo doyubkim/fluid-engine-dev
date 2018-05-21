@@ -17,7 +17,9 @@ namespace jet {
 
 inline JET_CUDA_HOST void checkResult(cudaError_t err) {
     if (err != cudaSuccess) {
-        throw std::runtime_error(cudaGetErrorString(err));
+        std::string msg("CUDA error: ");
+        msg += cudaGetErrorString(err);
+        throw std::runtime_error(msg.c_str());
     }
 }
 

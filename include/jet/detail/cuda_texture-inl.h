@@ -24,7 +24,7 @@ CudaTexture<T, N, Derived>::CudaTexture(const CudaArrayView<T, N>& view) {
 
 template <typename T, size_t N, typename Derived>
 CudaTexture<T, N, Derived>::CudaTexture(const CudaTexture& other) {
-    set(other);
+    set(static_cast<const Derived&>(other));
 }
 
 template <typename T, size_t N, typename Derived>
@@ -58,7 +58,7 @@ void CudaTexture<T, N, Derived>::set(const CudaArrayView<T, N>& view) {
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const CudaTexture& other) {
+void CudaTexture<T, N, Derived>::set(const Derived& other) {
     static_cast<Derived*>(this)->_set(other);
 }
 
@@ -72,15 +72,6 @@ CudaTexture<T, N, Derived>& CudaTexture<T, N, Derived>::operator=(
     const CudaTexture& other) {
     set(other);
     return *this;
-}
-
-template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>& CudaTexture<T, N, Derived>::operator=(
-    CudaTexture&& other) {
-    clear();
-    std::swap(_size, other._size);
-    std::swap(_array, other._array);
-    std::swap(_tex, other._tex);
 }
 
 template <typename T, size_t N, typename Derived>
@@ -122,11 +113,22 @@ template <typename T>
 CudaTexture1<T>::CudaTexture1(const CudaTexture1& other) : Base(other) {}
 
 template <typename T>
-CudaTexture1<T>::CudaTexture1(CudaTexture1&& other) : Base(other) {}
+CudaTexture1<T>::CudaTexture1(CudaTexture1&& other) : Base() {
+    *this = std::move(other);
+}
 
 template <typename T>
 size_t CudaTexture1<T>::size() const {
     return _size[0];
+}
+
+template <typename T>
+CudaTexture1<T>& CudaTexture1<T>::operator=(CudaTexture1&& other) {
+    clear();
+    std::swap(_size, other._size);
+    std::swap(_array, other._array);
+    std::swap(_tex, other._tex);
+    return *this;
 }
 
 template <typename T>
@@ -189,7 +191,9 @@ template <typename T>
 CudaTexture2<T>::CudaTexture2(const CudaTexture2& other) : Base(other) {}
 
 template <typename T>
-CudaTexture2<T>::CudaTexture2(CudaTexture2&& other) : Base(other) {}
+CudaTexture2<T>::CudaTexture2(CudaTexture2&& other) : Base() {
+    *this = std::move(other);
+}
 
 template <typename T>
 Size2 CudaTexture2<T>::size() const {
@@ -208,6 +212,15 @@ size_t CudaTexture2<T>::height() const {
 }
 
 template <typename T>
+CudaTexture2<T>& CudaTexture2<T>::operator=(CudaTexture2&& other) {
+    clear();
+    std::swap(_size, other._size);
+    std::swap(_array, other._array);
+    std::swap(_tex, other._tex);
+    return *this;
+}
+
+template <typename T>
 void CudaTexture2<T>::_set(const CudaArrayView<T, 2>& view) {
     clear();
 
@@ -216,7 +229,8 @@ void CudaTexture2<T>::_set(const CudaArrayView<T, 2>& view) {
         return;
     }
 
-    _size = view.size();
+    // TODO: Size2 should be specialization (or alias) of Size<N=2>
+    _size = Size<2>{view.width(), view.height()};
 
     // Allocate CUDA array in device memory
     cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<T>();
@@ -249,8 +263,9 @@ void CudaTexture2<T>::_set(const CudaTexture2& other) {
         cudaMallocArray(&_array, &channelDesc, other.width(), other.height()));
 
     // Copy to device memory to CUDA array
-    checkResult(cudaMemcpyToArray(_array, 0, 0, other._array, sizeof(T) * len,
-                                  cudaMemcpyDeviceToDevice));
+    checkResult(cudaMemcpyArrayToArray(_array, 0, 0, other._array, 0, 0,
+                                       sizeof(T) * len,
+                                       cudaMemcpyDeviceToDevice));
 
     // Create texture
     _tex = createTexture(_array, cudaFilterModeLinear, false);
@@ -268,7 +283,9 @@ template <typename T>
 CudaTexture3<T>::CudaTexture3(const CudaTexture3& other) : Base(other) {}
 
 template <typename T>
-CudaTexture3<T>::CudaTexture3(CudaTexture3&& other) : Base(other) {}
+CudaTexture3<T>::CudaTexture3(CudaTexture3&& other) : Base() {
+    *this = std::move(other);
+}
 
 template <typename T>
 Size3 CudaTexture3<T>::size() const {
@@ -292,6 +309,15 @@ size_t CudaTexture3<T>::depth() const {
 }
 
 template <typename T>
+CudaTexture3<T>& CudaTexture3<T>::operator=(CudaTexture3&& other) {
+    clear();
+    std::swap(_size, other._size);
+    std::swap(_array, other._array);
+    std::swap(_tex, other._tex);
+    return *this;
+}
+
+template <typename T>
 void CudaTexture3<T>::_set(const CudaArrayView<T, 3>& view) {
     clear();
 
@@ -300,16 +326,24 @@ void CudaTexture3<T>::_set(const CudaArrayView<T, 3>& view) {
         return;
     }
 
-    _size = view.size();
+    // TODO: Size3 should be specialization (or alias) of Size<N=3>
+    _size = Size<3>{view.width(), view.height(), view.depth()};
 
     // Allocate CUDA array in device memory
     cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<T>();
+    // Note that the first param is not in bytes in this non-linear memory case.
     cudaExtent ext = make_cudaExtent(view.width(), view.height(), view.depth());
     checkResult(cudaMalloc3DArray(&_array, &channelDesc, ext));
 
     // Copy to device memory to CUDA array
-    checkResult(cudaMemcpyToArray(_array, 0, 0, view.data(), sizeof(T) * len,
-                                  cudaMemcpyDeviceToDevice));
+    cudaMemcpy3DParms copyParams = {0};
+    copyParams.srcPtr =
+        make_cudaPitchedPtr((void*)view.data(), view.width() * sizeof(T),
+                            view.width(), view.height());
+    copyParams.dstArray = _array;
+    copyParams.extent = ext;
+    copyParams.kind = cudaMemcpyDeviceToDevice;
+    checkResult(cudaMemcpy3D(&copyParams));
 
     // Create texture
     _tex = createTexture(_array, cudaFilterModeLinear, false);
@@ -329,13 +363,18 @@ void CudaTexture3<T>::_set(const CudaTexture3& other) {
 
     // Allocate CUDA array in device memory
     cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc<T>();
+    // Note that the first param is not in bytes in this non-linear memory case.
     cudaExtent ext =
         make_cudaExtent(other.width(), other.height(), other.depth());
     checkResult(cudaMalloc3DArray(&_array, &channelDesc, ext));
 
     // Copy to device memory to CUDA array
-    checkResult(cudaMemcpyToArray(_array, 0, 0, other._array, 0, 0,
-                                  sizeof(T) * len, cudaMemcpyDeviceToDevice));
+    cudaMemcpy3DParms copyParams = {0};
+    copyParams.srcArray = other._array;
+    copyParams.dstArray = _array;
+    copyParams.extent = ext;
+    copyParams.kind = cudaMemcpyDeviceToDevice;
+    checkResult(cudaMemcpy3D(&copyParams));
 
     // Create texture
     _tex = createTexture(_array, cudaFilterModeLinear, false);

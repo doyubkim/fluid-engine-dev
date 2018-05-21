@@ -29,13 +29,9 @@ class CudaTexture {
 
     void set(const CudaArrayView<T, N>& view);
 
-    void set(const CudaTexture& other);
+    void set(const Derived& other);
 
     cudaTextureObject_t textureObject() const;
-
-    CudaTexture& operator=(const CudaTexture& other);
-
-    CudaTexture& operator=(CudaTexture&& other);
 
  protected:
     Size<N> _size;
@@ -50,6 +46,10 @@ class CudaTexture {
 
     CudaTexture(CudaTexture&& other);
 
+    CudaTexture& operator=(const CudaTexture& other);
+
+    CudaTexture& operator=(CudaTexture&& other) = delete;
+
     static cudaTextureObject_t createTexture(
         cudaArray_t array,
         cudaTextureFilterMode filterMode = cudaFilterModeLinear,
@@ -61,6 +61,7 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
  public:
     typedef CudaTexture<T, 1, CudaTexture1<T>> Base;
     using Base::textureObject;
+    using Base::operator=;
 
     CudaTexture1();
 
@@ -71,6 +72,8 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
     CudaTexture1(CudaTexture1&& other);
 
     size_t size() const;
+
+    CudaTexture1& operator=(CudaTexture1&& other);
 
  private:
     friend class Base;
@@ -85,6 +88,7 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
  public:
     typedef CudaTexture<T, 2, CudaTexture2<T>> Base;
     using Base::textureObject;
+    using Base::operator=;
 
     CudaTexture2();
 
@@ -100,6 +104,8 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     size_t height() const;
 
+    CudaTexture2& operator=(CudaTexture2&& other);
+
  private:
     friend class Base;
 
@@ -113,6 +119,7 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
  public:
     typedef CudaTexture<T, 3, CudaTexture3<T>> Base;
     using Base::textureObject;
+    using Base::operator=;
 
     CudaTexture3();
 
@@ -129,6 +136,8 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
     size_t height() const;
 
     size_t depth() const;
+
+    CudaTexture3& operator=(CudaTexture3&& other);
 
  private:
     friend class Base;

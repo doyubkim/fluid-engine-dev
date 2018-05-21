@@ -28,6 +28,7 @@ class ConstCudaArrayView;
 
 template <typename T>
 class CudaArray<T, 2> final {
+public:
     typedef T value_type;
     typedef thrust::device_vector<T> ContainerType;
     typedef typename ContainerType::reference reference;
@@ -39,9 +40,9 @@ class CudaArray<T, 2> final {
 
     CudaArray();
 
-    CudaArray(const Size2& size, const T& initVal = T());
+    explicit CudaArray(const Size2& size, const T& initVal = T());
 
-    CudaArray(size_t width, size_t height, const T& initVal = T());
+    explicit CudaArray(size_t width, size_t height, const T& initVal = T());
 
     CudaArray(const ConstArrayView<T, 2>& view);
 
