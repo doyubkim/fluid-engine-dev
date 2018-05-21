@@ -142,7 +142,7 @@ class ConstArrayView<T, 3> final {
 
  private:
     const T* _data = nullptr;
-    Size3 _size{0, 0};
+    Size3 _size{0, 0, 0};
 
     void set(const T* data, const Size3& size);
 
