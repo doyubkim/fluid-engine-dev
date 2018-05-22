@@ -4,10 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "mem_perf_tests.h"
+#include <gtest/gtest.h>
 #include <jet/grid_fluid_solver3.h>
 #include <jet/timer.h>
-#include <gtest/gtest.h>
+#include "mem_perf_tests.h"
 
 using namespace jet;
 
@@ -16,18 +16,14 @@ TEST(GridFluidSolver3, Memory) {
 
     const size_t mem0 = getCurrentRSS();
 
-    auto solver = GridFluidSolver3::builder()
-        .withResolution({n, n, n})
-        .makeShared();
+    auto solver =
+        GridFluidSolver3::builder().withResolution({n, n, n}).makeShared();
 
     const size_t mem1 = getCurrentRSS();
 
     const auto msg1 = makeReadableByteSize(mem1 - mem0);
 
-    JET_PRINT_INFO(
-        "Start mem. usage: %f %s.\n",
-        msg1.first,
-        msg1.second.c_str());
+    printMemReport(msg1.first, msg1.second);
 
     solver->update(Frame(1, 0.01));
 
@@ -35,8 +31,5 @@ TEST(GridFluidSolver3, Memory) {
 
     const auto msg2 = makeReadableByteSize(mem2 - mem0);
 
-    JET_PRINT_INFO(
-        "Single update mem. usage: %f %s.\n",
-        msg2.first,
-        msg2.second.c_str());
+    printMemReport(msg2.first, msg2.second);
 }
