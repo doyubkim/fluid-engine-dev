@@ -27,19 +27,19 @@ def main():
 
     converter = SphericalPointsToImplicit2(kernel_radius * cutoff)
     converter.convert(points.tolist(), grid)
-    plt.contour(grid.dataAccessor(), levels=[0.0], colors=("g"))
+    plt.contour(grid.dataAccessor, levels=[0.0], colors=("g"))
 
     converter = SphPointsToImplicit2(kernel_radius, cutoff)
     converter.convert(points.tolist(), grid)
-    plt.contour(grid.dataAccessor(), levels=[0.0], colors=("b"))
+    plt.contour(grid.dataAccessor, levels=[0.0], colors=("b"))
 
     converter = ZhuBridsonPointsToImplicit2(2.0 * kernel_radius, 0.5 * cutoff)
     converter.convert(points.tolist(), grid)
-    plt.contour(grid.dataAccessor(), levels=[0.0], colors=("purple"))
+    plt.contour(grid.dataAccessor, levels=[0.0], colors=("purple"))
 
     converter = AnisotropicPointsToImplicit2(kernel_radius, cutoff, 0.0, 8)
     converter.convert(points.tolist(), grid)
-    plt.contour(grid.dataAccessor(), levels=[0.0], colors=("r"))
+    plt.contour(grid.dataAccessor, levels=[0.0], colors=("r"))
 
     plt.scatter(points[:, 0] * 512, points[:, 1] * 512, c="black")
     plt.show()

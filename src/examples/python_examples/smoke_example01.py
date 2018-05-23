@@ -37,7 +37,7 @@ def main():
 
     # Visualization
     fig = plt.figure()
-    den = np.array(solver.smokeDensity.dataAccessor(), copy=False)
+    den = np.array(solver.smokeDensity.dataAccessor, copy=False)
     im = plt.imshow(den, vmin=0, vmax=1, cmap=plt.cm.gray,
                     interpolation='nearest', animated=True, origin='lower')
 
@@ -47,7 +47,7 @@ def main():
     def updatefig(*args):
         solver.update(frame)
         frame.advance()
-        den = np.array(solver.smokeDensity.dataAccessor(), copy=False)
+        den = np.array(solver.smokeDensity.dataAccessor, copy=False)
         im.set_data(den)
         return im,
 

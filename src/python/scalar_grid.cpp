@@ -144,16 +144,19 @@ void addScalarGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("dataAccessor", &ScalarGrid2::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
+        .def_property_readonly("dataAccessor", &ScalarGrid2::dataAccessor,
+                               R"pbdoc(The data array accessor.)pbdoc")
+        .def_property_readonly(
             "dataPosition", &ScalarGrid2::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+            R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid2& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid2& instance, py::object obj) {
-                 if (py::isinstance<double>(obj)) {
-                     instance.fill(obj.cast<double>());
-                 } else if (py::isinstance<py::function>(obj)) {
+                 if (py::isinstance<py::function>(obj)) {
                      auto func = obj.cast<py::function>();
                      instance.fill(
                          [func](const Vector2D& pt) -> double {
@@ -162,11 +165,11 @@ void addScalarGrid2(py::module& m) {
                          ExecutionPolicy::kSerial);
                  } else {
                      throw std::invalid_argument(
-                         "Input type must be Vector2D or function object -> "
+                         "Input type must be double or function object -> "
                          "double");
                  }
              },
-             R"pbdoc(Fills the grid with given value or function.)pbdoc")
+             R"pbdoc(Fills the grid with given function.)pbdoc")
         .def("forEachDataPointIndex",
              [](ScalarGrid2& instance, py::function func) {
                  instance.forEachDataPointIndex(func);
@@ -335,16 +338,19 @@ void addScalarGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("dataAccessor", &ScalarGrid3::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
+        .def_property_readonly("dataAccessor", &ScalarGrid3::dataAccessor,
+                               R"pbdoc(The data array accessor.)pbdoc")
+        .def_property_readonly(
             "dataPosition", &ScalarGrid3::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+            R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid3& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid3& instance, py::object obj) {
-                 if (py::isinstance<double>(obj)) {
-                     instance.fill(obj.cast<double>());
-                 } else if (py::isinstance<py::function>(obj)) {
+                 if (py::isinstance<py::function>(obj)) {
                      auto func = obj.cast<py::function>();
                      instance.fill(
                          [func](const Vector3D& pt) -> double {
@@ -353,11 +359,11 @@ void addScalarGrid3(py::module& m) {
                          ExecutionPolicy::kSerial);
                  } else {
                      throw std::invalid_argument(
-                         "Input type must be Vector3D or function object -> "
+                         "Input type must be double or function object -> "
                          "double");
                  }
              },
-             R"pbdoc(Fills the grid with given value or function.)pbdoc")
+             R"pbdoc(Fills the grid with given function.)pbdoc")
         .def("forEachDataPointIndex",
              [](ScalarGrid3& instance, py::function func) {
                  instance.forEachDataPointIndex(func);

@@ -60,8 +60,9 @@ void addFaceCenteredGrid2(py::module& m) {
              - other : Other grid to copy from.
              )pbdoc",
              py::arg("other"))
-        .def("u", [](const FaceCenteredGrid2& instance, size_t i,
-                     size_t j) -> double { return instance.u(i, j); },
+        .def("u",
+             [](const FaceCenteredGrid2& instance, size_t i,
+                size_t j) -> double { return instance.u(i, j); },
              R"pbdoc(
              Returns u-value at given data point.
 
@@ -71,8 +72,9 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("v", [](const FaceCenteredGrid2& instance, size_t i,
-                     size_t j) -> double { return instance.v(i, j); },
+        .def("v",
+             [](const FaceCenteredGrid2& instance, size_t i,
+                size_t j) -> double { return instance.v(i, j); },
              R"pbdoc(
              Returns v-value at given data point.
 
@@ -82,8 +84,10 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("setU", [](FaceCenteredGrid2& instance, size_t i, size_t j,
-                        double val) { instance.u(i, j) = val; },
+        .def("setU",
+             [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
+                 instance.u(i, j) = val;
+             },
              R"pbdoc(
              Sets u-value at given data point.
 
@@ -94,8 +98,10 @@ void addFaceCenteredGrid2(py::module& m) {
              - val : Value to set.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("val"))
-        .def("setV", [](FaceCenteredGrid2& instance, size_t i, size_t j,
-                        double val) { instance.v(i, j) = val; },
+        .def("setV",
+             [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
+                 instance.v(i, j) = val;
+             },
              R"pbdoc(
              Sets v-value at given data point.
 
@@ -137,17 +143,17 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("uAccessor", &FaceCenteredGrid2::uAccessor,
-             R"pbdoc(Returns u data accessor.)pbdoc")
-        .def("vAccessor", &FaceCenteredGrid2::vAccessor,
-             R"pbdoc(Returns v data accessor.)pbdoc")
-        .def("uPosition", &FaceCenteredGrid2::uPosition,
-             R"pbdoc(
-            Returns function object that maps u data point to its actual position.
+        .def_property_readonly("uAccessor", &FaceCenteredGrid2::uAccessor,
+                               R"pbdoc(U data accessor.)pbdoc")
+        .def_property_readonly("vAccessor", &FaceCenteredGrid2::vAccessor,
+                               R"pbdoc(V data accessor.)pbdoc")
+        .def_property_readonly("uPosition", &FaceCenteredGrid2::uPosition,
+                               R"pbdoc(
+            The function object that maps u data point to its actual position.
             )pbdoc")
-        .def("vPosition", &FaceCenteredGrid2::vPosition,
-             R"pbdoc(
-            Returns function object that maps v data point to its actual position.
+        .def_property_readonly("vPosition", &FaceCenteredGrid2::vPosition,
+                               R"pbdoc(
+            The function object that maps v data point to its actual position.
             )pbdoc")
         .def("uSize", &FaceCenteredGrid2::uSize,
              R"pbdoc(Returns data size of the u component.)pbdoc")
@@ -280,8 +286,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - other : Other grid to copy from.
              )pbdoc",
              py::arg("other"))
-        .def("u", [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                     size_t k) -> double { return instance.u(i, j, k); },
+        .def("u",
+             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
+                size_t k) -> double { return instance.u(i, j, k); },
              R"pbdoc(
              Returns u-value at given data point.
 
@@ -292,8 +299,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("v", [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                     size_t k) -> double { return instance.v(i, j, k); },
+        .def("v",
+             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
+                size_t k) -> double { return instance.v(i, j, k); },
              R"pbdoc(
              Returns v-value at given data point.
 
@@ -304,8 +312,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("w", [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                     size_t k) -> double { return instance.w(i, j, k); },
+        .def("w",
+             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
+                size_t k) -> double { return instance.w(i, j, k); },
              R"pbdoc(
              Returns v-value at given data point.
 
@@ -316,8 +325,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("setU", [](FaceCenteredGrid3& instance, size_t i, size_t j,
-                        size_t k, double val) { instance.u(i, j, k) = val; },
+        .def("setU",
+             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
+                double val) { instance.u(i, j, k) = val; },
              R"pbdoc(
              Sets u-value at given data point.
 
@@ -329,8 +339,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - val : Value to set.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"), py::arg("val"))
-        .def("setV", [](FaceCenteredGrid3& instance, size_t i, size_t j,
-                        size_t k, double val) { instance.v(i, j, k) = val; },
+        .def("setV",
+             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
+                double val) { instance.v(i, j, k) = val; },
              R"pbdoc(
              Sets v-value at given data point.
 
@@ -342,8 +353,9 @@ void addFaceCenteredGrid3(py::module& m) {
              - val : Value to set.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"), py::arg("val"))
-        .def("setW", [](FaceCenteredGrid3& instance, size_t i, size_t j,
-                        size_t k, double val) { instance.w(i, j, k) = val; },
+        .def("setW",
+             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
+                double val) { instance.w(i, j, k) = val; },
              R"pbdoc(
              Sets w-value at given data point.
 
@@ -389,23 +401,23 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("uAccessor", &FaceCenteredGrid3::uAccessor,
-             R"pbdoc(Returns u data accessor.)pbdoc")
-        .def("vAccessor", &FaceCenteredGrid3::vAccessor,
-             R"pbdoc(Returns v data accessor.)pbdoc")
-        .def("wAccessor", &FaceCenteredGrid3::wAccessor,
-             R"pbdoc(Returns w data accessor.)pbdoc")
-        .def("uPosition", &FaceCenteredGrid3::uPosition,
-             R"pbdoc(
-            Returns function object that maps u data point to its actual position.
+        .def_property_readonly("uAccessor", &FaceCenteredGrid3::uAccessor,
+                               R"pbdoc(U data accessor.)pbdoc")
+        .def_property_readonly("vAccessor", &FaceCenteredGrid3::vAccessor,
+                               R"pbdoc(V data accessor.)pbdoc")
+        .def_property_readonly("wAccessor", &FaceCenteredGrid3::wAccessor,
+                               R"pbdoc(W data accessor.)pbdoc")
+        .def_property_readonly("uPosition", &FaceCenteredGrid3::uPosition,
+                               R"pbdoc(
+            The function object that maps u data point to its actual position.
             )pbdoc")
-        .def("vPosition", &FaceCenteredGrid3::vPosition,
-             R"pbdoc(
-            Returns function object that maps v data point to its actual position.
+        .def_property_readonly("vPosition", &FaceCenteredGrid3::vPosition,
+                               R"pbdoc(
+            The function object that maps v data point to its actual position.
             )pbdoc")
-        .def("wPosition", &FaceCenteredGrid3::wPosition,
-             R"pbdoc(
-            Returns function object that maps w data point to its actual position.
+        .def_property_readonly("wPosition", &FaceCenteredGrid3::wPosition,
+                               R"pbdoc(
+            The function object that maps w data point to its actual position.
             )pbdoc")
         .def("uSize", &FaceCenteredGrid3::uSize,
              R"pbdoc(Returns data size of the u component.)pbdoc")

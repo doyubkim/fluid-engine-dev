@@ -10,7 +10,6 @@ import pyjet
 import unittest
 from animation_tests import *
 from bounding_box_tests import *
-from cell_centered_scalar_grid_tests import *
 from face_centered_grid_tests import *
 from flip_solver_tests import *
 from particle_system_data_tests import *
