@@ -4,10 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <gtest/gtest.h>
+#include "mem_perf_tests.h"
+
 #include <jet/grid_fluid_solver3.h>
 #include <jet/timer.h>
-#include "mem_perf_tests.h"
+
+#include <gtest/gtest.h>
 
 using namespace jet;
 
