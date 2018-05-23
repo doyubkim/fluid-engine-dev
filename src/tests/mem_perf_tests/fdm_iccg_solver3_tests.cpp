@@ -5,8 +5,10 @@
 // property of any third parties.
 
 #include "mem_perf_tests.h"
+
 #include <jet/fdm_iccg_solver3.h>
 #include <jet/timer.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -28,5 +30,5 @@ TEST(FdmIccgSolver3, Memory) {
 
     const auto msg = makeReadableByteSize(mem1 - mem0);
 
-    JET_PRINT_INFO("Mem usage: %f %s.\n", msg.first, msg.second.c_str());
+    printMemReport(msg.first, msg.second);
 }
