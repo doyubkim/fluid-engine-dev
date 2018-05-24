@@ -244,6 +244,21 @@ const Size3& ConstArrayView<T, 3>::size() const {
 }
 
 template <typename T>
+size_t ConstArrayView<T, 3>::width() const {
+    return _size.x;
+}
+
+template <typename T>
+size_t ConstArrayView<T, 3>::height() const {
+    return _size.y;
+}
+
+template <typename T>
+size_t ConstArrayView<T, 3>::depth() const {
+    return _size.z;
+}
+
+template <typename T>
 const T* ConstArrayView<T, 3>::data() const {
     return _data;
 }

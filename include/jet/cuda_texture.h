@@ -27,7 +27,9 @@ class CudaTexture {
 
     void clear();
 
-    void set(const CudaArrayView<T, N>& view);
+    void set(const ConstArrayView<T, N>& view);
+
+    void set(const ConstCudaArrayView<T, N>& view);
 
     void set(const Derived& other);
 
@@ -40,7 +42,9 @@ class CudaTexture {
 
     CudaTexture();
 
-    CudaTexture(const CudaArrayView<T, N>& view);
+    CudaTexture(const ConstArrayView<T, N>& view);
+
+    CudaTexture(const ConstCudaArrayView<T, N>& view);
 
     CudaTexture(const CudaTexture& other);
 
@@ -65,7 +69,9 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     CudaTexture1();
 
-    CudaTexture1(const CudaArrayView<T, 1>& view);
+    CudaTexture1(const ConstArrayView<T, 1>& view);
+
+    CudaTexture1(const ConstCudaArrayView<T, 1>& view);
 
     CudaTexture1(const CudaTexture1& other);
 
@@ -78,7 +84,10 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
  private:
     friend class Base;
 
-    void _set(const CudaArrayView<T, 1>& view);
+    void resize(const Size<1>& size);
+
+    template <typename View>
+    void _set(const View& view, cudaMemcpyKind memcpyKind);
 
     void _set(const CudaTexture1& other);
 };
@@ -92,7 +101,9 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     CudaTexture2();
 
-    CudaTexture2(const CudaArrayView<T, 2>& view);
+    CudaTexture2(const ConstArrayView<T, 2>& view);
+
+    CudaTexture2(const ConstCudaArrayView<T, 2>& view);
 
     CudaTexture2(const CudaTexture2& other);
 
@@ -109,7 +120,10 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
  private:
     friend class Base;
 
-    void _set(const CudaArrayView<T, 2>& view);
+    void resize(const Size<2>& size);
+
+    template <typename View>
+    void _set(const View& view, cudaMemcpyKind memcpyKind);
 
     void _set(const CudaTexture2& other);
 };
@@ -123,7 +137,9 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     CudaTexture3();
 
-    CudaTexture3(const CudaArrayView<T, 3>& view);
+    CudaTexture3(const ConstArrayView<T, 3>& view);
+
+    CudaTexture3(const ConstCudaArrayView<T, 3>& view);
 
     CudaTexture3(const CudaTexture3& other);
 
@@ -142,7 +158,10 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
  private:
     friend class Base;
 
-    void _set(const CudaArrayView<T, 3>& view);
+    void resize(const Size<3>& size);
+
+    template <typename View>
+    void _set(const View& view, cudaMemcpyKind memcpyKind);
 
     void _set(const CudaTexture3& other);
 };

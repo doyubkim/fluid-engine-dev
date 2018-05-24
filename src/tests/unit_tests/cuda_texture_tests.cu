@@ -89,6 +89,21 @@ TEST(CudaTexture1, Constructors) {
         EXPECT_FLOAT_EQ(cudaArr1[i], cudaArr1_2[i]);
     }
 
+    Array1<float> arr1 = {4.0f, 3.0f, 2.0f, 1.0f};
+    ConstArrayView1<float> arrView1(arr1);
+    // TODO: Array1 should have CTOR for ConstArrayView1
+    CudaTexture1<float> cudaTex1_1(arrView1);
+    EXPECT_EQ(4u, cudaTex1_1.size());
+    ASSERT_NE(0, cudaTex1_1.textureObject());
+
+    thrust::for_each(thrust::counting_iterator<size_t>(0),
+                     thrust::counting_iterator<size_t>(cudaArr1.size()),
+                     CopyTextureToArray<float>(cudaTex1_1.textureObject(),
+                                               cudaArr1_2.data()));
+    for (size_t i = 0; i < arr1.size(); ++i) {
+        EXPECT_FLOAT_EQ(arr1[i], cudaArr1_2[i]);
+    }
+
     // Copy ctor
     CudaTexture1<float> cudaTex2(cudaTex1);
     EXPECT_EQ(4u, cudaTex2.size());
@@ -143,6 +158,24 @@ TEST(CudaTexture2, Constructors) {
     for (size_t j = 0; j < cudaArr1.height(); ++j) {
         for (size_t i = 0; i < cudaArr1.width(); ++i) {
             EXPECT_FLOAT_EQ(cudaArr1(i, j), cudaArr1_2(i, j));
+        }
+    }
+
+    Array2<float> arr1 = {{5.0f, 6.0f, 7.0f, 8.0f}, {1.0f, 2.0f, 3.0f, 4.0f}};
+    ConstArrayView2<float> arrView1(arr1);
+    CudaTexture2<float> cudaTex1_1(arrView1);
+    EXPECT_EQ(4u, cudaTex1_1.width());
+    EXPECT_EQ(2u, cudaTex1_1.height());
+    ASSERT_NE(0, cudaTex1_1.textureObject());
+
+    thrust::for_each(
+        thrust::counting_iterator<size_t>(0),
+        thrust::counting_iterator<size_t>(arr1.height()),
+        CopyTextureToArray2<float>(cudaTex1_1.textureObject(),
+                                   cudaArr1_2.data(), cudaArr1_2.width()));
+    for (size_t j = 0; j < arr1.height(); ++j) {
+        for (size_t i = 0; i < arr1.width(); ++i) {
+            EXPECT_FLOAT_EQ(arr1(i, j), cudaArr1_2(i, j));
         }
     }
 
@@ -216,6 +249,31 @@ TEST(CudaTexture3, Constructors) {
         for (size_t j = 0; j < cudaArr1.height(); ++j) {
             for (size_t i = 0; i < cudaArr1.width(); ++i) {
                 EXPECT_FLOAT_EQ(cudaArr1(i, j, k), cudaArr1_2(i, j, k));
+            }
+        }
+    }
+
+    Array3<float> arr1 = {
+        {{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
+        {{13.f, 14.f, 15.f, 16.f},
+         {17.f, 18.f, 19.f, 20.f},
+         {21.f, 22.f, 23.f, 24.f}}};
+    ConstArrayView3<float> arrView1(arr1);
+    CudaTexture3<float> cudaTex1_1(arrView1);
+    EXPECT_EQ(4u, cudaTex1_1.width());
+    EXPECT_EQ(3u, cudaTex1_1.height());
+    EXPECT_EQ(2u, cudaTex1_1.depth());
+    ASSERT_NE(0, cudaTex1_1.textureObject());
+
+    thrust::for_each(thrust::counting_iterator<size_t>(0),
+                     thrust::counting_iterator<size_t>(arr1.depth()),
+                     CopyTextureToArray3<float>(
+                         cudaTex1_1.textureObject(), cudaArr1_2.data(),
+                         cudaArr1_2.width(), cudaArr1_2.height()));
+    for (size_t k = 0; k < arr1.depth(); ++k) {
+        for (size_t j = 0; j < arr1.height(); ++j) {
+            for (size_t i = 0; i < arr1.width(); ++i) {
+                EXPECT_FLOAT_EQ(arr1(i, j, k), cudaArr1_2(i, j, k));
             }
         }
     }
