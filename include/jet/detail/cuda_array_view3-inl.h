@@ -276,7 +276,7 @@ ConstCudaArrayView<T, 3>& ConstCudaArrayView<T, 3>::operator=(
 
 template <typename T>
 void ConstCudaArrayView<T, 3>::set(const_pointer data, const Size3& size) {
-    _data = thrust::device_pointer_cast<T>(data);
+    _data = thrust::device_pointer_cast<T>(const_cast<T*>(data));
     _size = size;
 }
 
