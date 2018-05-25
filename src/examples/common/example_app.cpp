@@ -41,12 +41,27 @@ std::mutex sSimMutex;
 GlfwWindowPtr sWindow;
 #endif
 
-void nextTests() {
 #ifdef JET_USE_GL
-    { sWindow->renderer()->clearRenderables(); }
+void toggleUpdate(GlfwWindow* win, bool onoff) {
+    win->setIsUpdateEnabled(onoff);
+    sSimEnabled = onoff;
+}
+
+void toggleUpdate(GlfwWindow* win) { toggleUpdate(win, !sSimEnabled); }
+#else
+void toggleUpdate(bool onoff) { sSimEnabled = onoff; }
+
+void toggleUpdate() { toggleUpdate(!sSimEnabled); }
 #endif
 
-    sSimEnabled = false;
+#ifdef JET_USE_GL
+void nextTests(GlfwWindow* win) {
+    sWindow->renderer()->clearRenderables();
+    toggleUpdate(win, false);
+#else
+void nextTests() {
+    toggleUpdate(false);
+#endif
 
     {
         std::lock_guard<std::mutex> lock(sSimMutex);
@@ -63,21 +78,16 @@ void nextTests() {
         sTests[sCurrentTestIdx]->setup();
 #endif
     }
-}
+}  // namespace
 
 #ifdef JET_USE_GL
-void toggleUpdate(GlfwWindow* win) {
-    win->setIsUpdateEnabled(!win->isUpdateEnabled());
-    sSimEnabled = !sSimEnabled;
-}
-
 bool onKeyDown(GlfwWindow* win, const KeyEvent& keyEvent) {
     // "Enter" key for toggling animation
     if (keyEvent.key() == GLFW_KEY_ENTER) {
         toggleUpdate(win);
         return true;
     } else if (keyEvent.key() == GLFW_KEY_SPACE) {
-        nextTests();
+        nextTests(win);
         return true;
     }
 
@@ -93,7 +103,7 @@ bool onGui(GlfwWindow* window) {
                     ("Testing " + sTests[sCurrentTestIdx]->name()).c_str());
 
         if (ImGui::Button("Next test")) {
-            nextTests();
+            nextTests(window);
         }
 
         if (ImGui::Button("Restart sim")) {
