@@ -144,11 +144,10 @@ void addScalarGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def_property_readonly("dataAccessor", &ScalarGrid2::dataAccessor,
-                               R"pbdoc(The data array accessor.)pbdoc")
-        .def_property_readonly(
-            "dataPosition", &ScalarGrid2::dataPosition,
-            R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("dataAccessor", &ScalarGrid2::dataAccessor,
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &ScalarGrid2::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def("fill",
              [](ScalarGrid2& instance, double value) {
                  instance.fill(value, ExecutionPolicy::kSerial);
@@ -338,11 +337,10 @@ void addScalarGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def_property_readonly("dataAccessor", &ScalarGrid3::dataAccessor,
-                               R"pbdoc(The data array accessor.)pbdoc")
-        .def_property_readonly(
-            "dataPosition", &ScalarGrid3::dataPosition,
-            R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("dataAccessor", &ScalarGrid3::dataAccessor,
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &ScalarGrid3::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def("fill",
              [](ScalarGrid3& instance, double value) {
                  instance.fill(value, ExecutionPolicy::kSerial);

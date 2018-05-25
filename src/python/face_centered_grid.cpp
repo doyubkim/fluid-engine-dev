@@ -143,16 +143,16 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def_property_readonly("uAccessor", &FaceCenteredGrid2::uAccessor,
-                               R"pbdoc(U data accessor.)pbdoc")
-        .def_property_readonly("vAccessor", &FaceCenteredGrid2::vAccessor,
-                               R"pbdoc(V data accessor.)pbdoc")
-        .def_property_readonly("uPosition", &FaceCenteredGrid2::uPosition,
-                               R"pbdoc(
+        .def("uAccessor", &FaceCenteredGrid2::uAccessor,
+             R"pbdoc(U data accessor.)pbdoc")
+        .def("vAccessor", &FaceCenteredGrid2::vAccessor,
+             R"pbdoc(V data accessor.)pbdoc")
+        .def("uPosition", &FaceCenteredGrid2::uPosition,
+             R"pbdoc(
             The function object that maps u data point to its actual position.
             )pbdoc")
-        .def_property_readonly("vPosition", &FaceCenteredGrid2::vPosition,
-                               R"pbdoc(
+        .def("vPosition", &FaceCenteredGrid2::vPosition,
+             R"pbdoc(
             The function object that maps v data point to its actual position.
             )pbdoc")
         .def("uSize", &FaceCenteredGrid2::uSize,
@@ -401,22 +401,22 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def_property_readonly("uAccessor", &FaceCenteredGrid3::uAccessor,
-                               R"pbdoc(U data accessor.)pbdoc")
-        .def_property_readonly("vAccessor", &FaceCenteredGrid3::vAccessor,
-                               R"pbdoc(V data accessor.)pbdoc")
-        .def_property_readonly("wAccessor", &FaceCenteredGrid3::wAccessor,
-                               R"pbdoc(W data accessor.)pbdoc")
-        .def_property_readonly("uPosition", &FaceCenteredGrid3::uPosition,
-                               R"pbdoc(
+        .def("uAccessor", &FaceCenteredGrid3::uAccessor,
+             R"pbdoc(U data accessor.)pbdoc")
+        .def("vAccessor", &FaceCenteredGrid3::vAccessor,
+             R"pbdoc(V data accessor.)pbdoc")
+        .def("wAccessor", &FaceCenteredGrid3::wAccessor,
+             R"pbdoc(W data accessor.)pbdoc")
+        .def("uPosition", &FaceCenteredGrid3::uPosition,
+             R"pbdoc(
             The function object that maps u data point to its actual position.
             )pbdoc")
-        .def_property_readonly("vPosition", &FaceCenteredGrid3::vPosition,
-                               R"pbdoc(
+        .def("vPosition", &FaceCenteredGrid3::vPosition,
+             R"pbdoc(
             The function object that maps v data point to its actual position.
             )pbdoc")
-        .def_property_readonly("wPosition", &FaceCenteredGrid3::wPosition,
-                               R"pbdoc(
+        .def("wPosition", &FaceCenteredGrid3::wPosition,
+             R"pbdoc(
             The function object that maps w data point to its actual position.
             )pbdoc")
         .def("uSize", &FaceCenteredGrid3::uSize,
