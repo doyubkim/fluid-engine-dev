@@ -12,7 +12,7 @@
 #include <jet/array_view3.h>
 #include <jet/cuda_array.h>
 #include <jet/macros.h>
-#include <jet/size3.h>
+#include <jet/tuple.h>
 
 #include <thrust/device_vector.h>
 

@@ -17,6 +17,11 @@
 namespace jet {
 
 //!
+//! \brief Abstract base class for CUDA-based 2-D particle solvers.
+//!
+//! This class defines commonly used particle-related interface for CUDA-based
+//! particle solvers.
+//!
 class CudaParticleSystemSolverBase2 : public PhysicsAnimation {
  public:
     //! Constructs an empty solver.

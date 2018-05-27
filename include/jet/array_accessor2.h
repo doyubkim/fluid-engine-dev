@@ -9,7 +9,7 @@
 
 #include <jet/array_accessor.h>
 #include <jet/point2.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 #include <utility>  // just make cpplint happy..
 
 namespace jet {

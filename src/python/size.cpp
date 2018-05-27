@@ -7,8 +7,7 @@
 #include "size.h"
 #include "pybind11_utils.h"
 
-#include <jet/size2.h>
-#include <jet/size3.h>
+#include <jet/tuple.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -16,8 +15,10 @@ using namespace jet;
 void addSize2(pybind11::module& m) {
     py::class_<Size2>(m, "Size2")
         // CTOR
-        .def("__init__", [](Size2& instance, size_t x,
-                            size_t y) { new (&instance) Size2(x, y); },
+        .def("__init__",
+             [](Size2& instance, size_t x, size_t y) {
+                 new (&instance) Size2(x, y);
+             },
              R"pbdoc(
              Constructs Size2
 
@@ -35,8 +36,10 @@ void addSize2(pybind11::module& m) {
 void addSize3(pybind11::module& m) {
     py::class_<Size3>(m, "Size3")
         // CTOR
-        .def("__init__", [](Size3& instance, size_t x, size_t y,
-                            size_t z) { new (&instance) Size3(x, y, z); },
+        .def("__init__",
+             [](Size3& instance, size_t x, size_t y, size_t z) {
+                 new (&instance) Size3(x, y, z);
+             },
              R"pbdoc(
              Constructs Size3
 

@@ -28,7 +28,32 @@ template <typename T>
 struct RDivides {
     constexpr T operator()(const T& a, const T& b) const;
 };
-}
+
+//! Add-and-assign operator (+=).
+template <typename T>
+struct IAdd {
+    constexpr void operator()(T& a, const T& b) const;
+};
+
+//! Subtract-and-assign operator (-=).
+template <typename T>
+struct ISub {
+    constexpr void operator()(T& a, const T& b) const;
+};
+
+//! Multiply-and-assign operator (*=).
+template <typename T>
+struct IMul {
+    constexpr void operator()(T& a, const T& b) const;
+};
+
+//! Divide-and-assign operator (/=).
+template <typename T>
+struct IDiv {
+    constexpr void operator()(T& a, const T& b) const;
+};
+
+}  // namespace jet
 
 #include "detail/functors-inl.h"
 
