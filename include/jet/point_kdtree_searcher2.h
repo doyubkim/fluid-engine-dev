@@ -10,7 +10,7 @@
 #include <jet/kdtree.h>
 #include <jet/point2.h>
 #include <jet/point_neighbor_searcher2.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 
 #include <vector>
 

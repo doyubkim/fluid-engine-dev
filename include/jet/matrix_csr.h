@@ -8,7 +8,7 @@
 #define INCLUDE_JET_MATRIX_CSR_H_
 
 #include <jet/matrix_expression.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 #include <jet/vector_n.h>
 
 #include <tuple>

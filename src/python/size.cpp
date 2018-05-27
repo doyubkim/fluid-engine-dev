@@ -7,8 +7,7 @@
 #include "size.h"
 #include "pybind11_utils.h"
 
-#include <jet/size2.h>
-#include <jet/size3.h>
+#include <jet/tuple.h>
 
 namespace py = pybind11;
 using namespace jet;

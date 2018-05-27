@@ -9,7 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_accessor2.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 
 #include <fstream>
 #include <functional>

@@ -25,6 +25,26 @@ template <typename T>
 constexpr T RDivides<T>::operator()(const T& a, const T& b) const {
     return b / a;
 }
+
+template <typename T>
+constexpr void IAdd<T>::operator()(T& a, const T& b) const {
+    a += b;
 }
+
+template <typename T>
+constexpr void ISub<T>::operator()(T& a, const T& b) const {
+    a -= b;
+}
+
+template <typename T>
+constexpr void IMul<T>::operator()(T& a, const T& b) const {
+    a *= b;
+}
+
+template <typename T>
+constexpr void IDiv<T>::operator()(T& a, const T& b) const {
+    a /= b;
+}
+}  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_FUNCTORS_INL_H_

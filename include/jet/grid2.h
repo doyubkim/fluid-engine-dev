@@ -9,7 +9,7 @@
 
 #include <jet/bounding_box2.h>
 #include <jet/serialization.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 
 #include <functional>
 #include <memory>

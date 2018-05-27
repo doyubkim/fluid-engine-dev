@@ -10,8 +10,7 @@
 #include <jet/point2.h>
 #include <jet/point3.h>
 #include <jet/quaternion.h>
-#include <jet/size2.h>
-#include <jet/size3.h>
+#include <jet/tuple.h>
 #include <jet/vector2.h>
 #include <jet/vector3.h>
 #include <jet/vector4.h>
