@@ -12,7 +12,7 @@
 #include <jet/array_view2.h>
 #include <jet/cuda_array.h>
 #include <jet/macros.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 
 #include <thrust/device_vector.h>
 
@@ -28,7 +28,7 @@ class ConstCudaArrayView;
 
 template <typename T>
 class CudaArray<T, 2> final {
-public:
+ public:
     typedef T value_type;
     typedef thrust::device_vector<T> ContainerType;
     typedef typename ContainerType::reference reference;

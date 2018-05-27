@@ -7,9 +7,9 @@
 #ifndef INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
 #define INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
 
-#include <jet/point_neighbor_searcher2.h>
 #include <jet/point2.h>
-#include <jet/size2.h>
+#include <jet/point_neighbor_searcher2.h>
+#include <jet/tuple.h>
 #include <vector>
 
 class PointParallelHashGridSearcher2Tests;
@@ -39,8 +39,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher2(
-        const Size2& resolution, double gridSpacing);
+    PointParallelHashGridSearcher2(const Size2& resolution, double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -53,10 +52,8 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  resolutionY The resolution y.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher2(
-        size_t resolutionX,
-        size_t resolutionY,
-        double gridSpacing);
+    PointParallelHashGridSearcher2(size_t resolutionX, size_t resolutionY,
+                                   double gridSpacing);
 
     //! Copy constructor.
     PointParallelHashGridSearcher2(const PointParallelHashGridSearcher2& other);
@@ -79,8 +76,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  callback The callback function.
     //!
     void forEachNearbyPoint(
-        const Vector2D& origin,
-        double radius,
+        const Vector2D& origin, double radius,
         const ForEachNearbyPointFunc& callback) const override;
 
     //!
@@ -92,8 +88,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool hasNearbyPoint(
-        const Vector2D& origin, double radius) const override;
+    bool hasNearbyPoint(const Vector2D& origin, double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.

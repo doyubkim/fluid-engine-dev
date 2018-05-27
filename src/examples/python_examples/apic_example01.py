@@ -49,6 +49,11 @@ def main():
     scat = ax.scatter(pos[:, 0], pos[:, 1])
 
     # Animation
+    def init():
+        pos = np.array(solver.particleSystemData.positions, copy=False)
+        scat.set_offsets(np.vstack((pos[:, 0], pos[:, 1])).transpose())
+        return scat,
+
     def updatefig(*args):
         solver.update(frame)
         frame.advance()
@@ -56,8 +61,8 @@ def main():
         scat.set_offsets(np.vstack((pos[:, 0], pos[:, 1])).transpose())
         return scat,
 
-    anim = animation.FuncAnimation(fig, updatefig, frames=ANIM_NUM_FRAMES,
-                                   interval=1, blit=True)
+    anim = animation.FuncAnimation(fig, updatefig, init_func=init,
+                                   frames=ANIM_NUM_FRAMES, interval=1, blit=True)
     plt.show()
 
 

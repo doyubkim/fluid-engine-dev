@@ -7,9 +7,9 @@
 #ifndef INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 #define INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 
-#include <jet/point_neighbor_searcher3.h>
 #include <jet/point3.h>
-#include <jet/size3.h>
+#include <jet/point_neighbor_searcher3.h>
+#include <jet/tuple.h>
 
 #include <vector>
 
@@ -52,11 +52,8 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //! \param[in]  resolutionY The resolution z.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointHashGridSearcher3(
-        size_t resolutionX,
-        size_t resolutionY,
-        size_t resolutionZ,
-        double gridSpacing);
+    PointHashGridSearcher3(size_t resolutionX, size_t resolutionY,
+                           size_t resolutionZ, double gridSpacing);
 
     //! Copy constructor.
     PointHashGridSearcher3(const PointHashGridSearcher3& other);
@@ -73,8 +70,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //! \param[in]  callback The callback function.
     //!
     void forEachNearbyPoint(
-        const Vector3D& origin,
-        double radius,
+        const Vector3D& origin, double radius,
         const ForEachNearbyPointFunc& callback) const override;
 
     //!
@@ -86,8 +82,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool hasNearbyPoint(
-        const Vector3D& origin, double radius) const override;
+    bool hasNearbyPoint(const Vector3D& origin, double radius) const override;
 
     //!
     //! \brief      Adds a single point to the hash grid.

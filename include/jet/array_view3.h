@@ -9,7 +9,7 @@
 
 #include <jet/array3.h>
 #include <jet/array_view1.h>
-#include <jet/size3.h>
+#include <jet/tuple.h>
 
 namespace jet {
 template <typename T>

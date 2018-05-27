@@ -9,7 +9,7 @@
 
 #include <jet/array2.h>
 #include <jet/array_view1.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 
 namespace jet {
 

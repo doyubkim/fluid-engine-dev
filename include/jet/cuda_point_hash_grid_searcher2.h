@@ -11,7 +11,7 @@
 
 #include <jet/cuda_array_view1.h>
 #include <jet/point2.h>
-#include <jet/size2.h>
+#include <jet/tuple.h>
 #include <jet/vector2.h>
 
 #include <cuda_runtime.h>

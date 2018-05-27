@@ -198,6 +198,7 @@
 #include <jet/particle_system_data3.h>
 #include <jet/particle_system_solver2.h>
 #include <jet/particle_system_solver3.h>
+#include <jet/pbf_solver2.h>
 #include <jet/pci_sph_solver2.h>
 #include <jet/pci_sph_solver3.h>
 #include <jet/pde.h>
@@ -241,9 +242,6 @@
 #include <jet/semi_lagrangian3.h>
 #include <jet/serial.h>
 #include <jet/serialization.h>
-#include <jet/size.h>
-#include <jet/size2.h>
-#include <jet/size3.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_kernels3.h>
 #include <jet/sph_points_to_implicit2.h>
@@ -270,6 +268,8 @@
 #include <jet/triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>
 #include <jet/triangle_point_generator.h>
+#include <jet/tuple.h>
+#include <jet/tuple_utils.h>
 #include <jet/type_helpers.h>
 #include <jet/upwind_level_set_solver2.h>
 #include <jet/upwind_level_set_solver3.h>

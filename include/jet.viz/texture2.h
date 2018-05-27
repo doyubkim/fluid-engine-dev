@@ -9,9 +9,9 @@
 
 #include <jet.viz/color.h>
 #include <jet.viz/texture.h>
-#include <jet/macros.h>
-#include <jet/size2.h>
 #include <jet/array_accessor2.h>
+#include <jet/macros.h>
+#include <jet/tuple.h>
 
 #include <cstdint>
 #include <memory>
