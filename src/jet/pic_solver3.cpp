@@ -8,31 +8,27 @@
 // https://cs.uwaterloo.ca/~c2batty/code/variationalplusgfm.zip
 //
 
-#include <pch.h>
 #include <jet/array_utils.h>
 #include <jet/level_set_utils.h>
 #include <jet/pic_solver3.h>
 #include <jet/timer.h>
+#include <pch.h>
 #include <algorithm>
 
 using namespace jet;
 
-PicSolver3::PicSolver3() : PicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
-}
+PicSolver3::PicSolver3() : PicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-PicSolver3::PicSolver3(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin)
-: GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
+PicSolver3::PicSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+                       const Vector3D& gridOrigin)
+    : GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
     _signedDistanceFieldId = grids->addScalarData(
         std::make_shared<CellCenteredScalarGrid3::Builder>(), kMaxD);
     _particles = std::make_shared<ParticleSystemData3>();
 }
 
-PicSolver3::~PicSolver3() {
-}
+PicSolver3::~PicSolver3() {}
 
 ScalarGrid3Ptr PicSolver3::signedDistanceField() const {
     return gridSystemData()->scalarDataAt(_signedDistanceFieldId);
@@ -56,8 +52,8 @@ void PicSolver3::onInitialize() {
 
     Timer timer;
     updateParticleEmitter(0.0);
-    JET_INFO << "Update particle emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update particle emitter took " << timer.durationInSeconds()
+             << " seconds";
 }
 
 void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
@@ -68,8 +64,8 @@ void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
 
     Timer timer;
     updateParticleEmitter(timeIntervalInSeconds);
-    JET_INFO << "Update particle emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update particle emitter took " << timer.durationInSeconds()
+             << " seconds";
 
     JET_INFO << "Number of PIC-type particles: "
              << _particles->numberOfParticles();
@@ -81,13 +77,13 @@ void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
 
     timer.reset();
     buildSignedDistanceField();
-    JET_INFO << "buildSignedDistanceField took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "buildSignedDistanceField took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     extrapolateVelocityToAir();
-    JET_INFO << "extrapolateVelocityToAir took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "extrapolateVelocityToAir took " << timer.durationInSeconds()
+             << " seconds";
 
     applyBoundaryCondition();
 }
@@ -95,8 +91,8 @@ void PicSolver3::onBeginAdvanceTimeStep(double timeIntervalInSeconds) {
 void PicSolver3::computeAdvection(double timeIntervalInSeconds) {
     Timer timer;
     extrapolateVelocityToAir();
-    JET_INFO << "extrapolateVelocityToAir took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "extrapolateVelocityToAir took " << timer.durationInSeconds()
+             << " seconds";
 
     applyBoundaryCondition();
 
@@ -107,13 +103,11 @@ void PicSolver3::computeAdvection(double timeIntervalInSeconds) {
 
     timer.reset();
     moveParticles(timeIntervalInSeconds);
-    JET_INFO << "moveParticles took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "moveParticles took " << timer.durationInSeconds()
+             << " seconds";
 }
 
-ScalarField3Ptr PicSolver3::fluidSdf() const {
-    return signedDistanceField();
-}
+ScalarField3Ptr PicSolver3::fluidSdf() const { return signedDistanceField(); }
 
 void PicSolver3::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
@@ -138,19 +132,13 @@ void PicSolver3::transferFromParticlesToGrids() {
     _vMarkers.set(0);
     _wMarkers.set(0);
     LinearArraySampler3<double, double> uSampler(
-        flow->uConstAccessor(),
-        flow->gridSpacing(),
-        flow->uOrigin());
+        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler3<double, double> vSampler(
-        flow->vConstAccessor(),
-        flow->gridSpacing(),
-        flow->vOrigin());
+        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
     LinearArraySampler3<double, double> wSampler(
-        flow->wConstAccessor(),
-        flow->gridSpacing(),
-        flow->wOrigin());
+        flow->wConstAccessor(), flow->gridSpacing(), flow->wOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Point3UI, 8> indices;
+        std::array<Size3, 8> indices;
         std::array<double, 8> weights;
 
         uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
@@ -198,9 +186,8 @@ void PicSolver3::transferFromGridsToParticles() {
     auto velocities = _particles->velocities();
     size_t numberOfParticles = _particles->numberOfParticles();
 
-    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
-        velocities[i] = flow->sample(positions[i]);
-    });
+    parallelFor(kZeroSize, numberOfParticles,
+                [&](size_t i) { velocities[i] = flow->sample(positions[i]); });
 }
 
 void PicSolver3::moveParticles(double timeIntervalInSeconds) {
@@ -217,8 +204,8 @@ void PicSolver3::moveParticles(double timeIntervalInSeconds) {
         Vector3D vel = velocities[i];
 
         // Adaptive time-stepping
-        unsigned int numSubSteps
-            = static_cast<unsigned int>(std::max(maxCfl(), 1.0));
+        unsigned int numSubSteps =
+            static_cast<unsigned int>(std::max(maxCfl(), 1.0));
         double dt = timeIntervalInSeconds / numSubSteps;
         for (unsigned int t = 0; t < numSubSteps; ++t) {
             Vector3D vel0 = flow->sample(pt0);
@@ -231,33 +218,33 @@ void PicSolver3::moveParticles(double timeIntervalInSeconds) {
             pt0 = pt1;
         }
 
-        if ((domainBoundaryFlag & kDirectionLeft)
-            && pt1.x <= boundingBox.lowerCorner.x) {
+        if ((domainBoundaryFlag & kDirectionLeft) &&
+            pt1.x <= boundingBox.lowerCorner.x) {
             pt1.x = boundingBox.lowerCorner.x;
             vel.x = 0.0;
         }
-        if ((domainBoundaryFlag & kDirectionRight)
-            && pt1.x >= boundingBox.upperCorner.x) {
+        if ((domainBoundaryFlag & kDirectionRight) &&
+            pt1.x >= boundingBox.upperCorner.x) {
             pt1.x = boundingBox.upperCorner.x;
             vel.x = 0.0;
         }
-        if ((domainBoundaryFlag & kDirectionDown)
-            && pt1.y <= boundingBox.lowerCorner.y) {
+        if ((domainBoundaryFlag & kDirectionDown) &&
+            pt1.y <= boundingBox.lowerCorner.y) {
             pt1.y = boundingBox.lowerCorner.y;
             vel.y = 0.0;
         }
-        if ((domainBoundaryFlag & kDirectionUp)
-            && pt1.y >= boundingBox.upperCorner.y) {
+        if ((domainBoundaryFlag & kDirectionUp) &&
+            pt1.y >= boundingBox.upperCorner.y) {
             pt1.y = boundingBox.upperCorner.y;
             vel.y = 0.0;
         }
-        if ((domainBoundaryFlag & kDirectionBack)
-            && pt1.z <= boundingBox.lowerCorner.z) {
+        if ((domainBoundaryFlag & kDirectionBack) &&
+            pt1.z <= boundingBox.lowerCorner.z) {
             pt1.z = boundingBox.lowerCorner.z;
             vel.z = 0.0;
         }
-        if ((domainBoundaryFlag & kDirectionFront)
-            && pt1.z >= boundingBox.upperCorner.z) {
+        if ((domainBoundaryFlag & kDirectionFront) &&
+            pt1.z >= boundingBox.upperCorner.z) {
             pt1.z = boundingBox.upperCorner.z;
             vel.z = 0.0;
         }
@@ -268,16 +255,9 @@ void PicSolver3::moveParticles(double timeIntervalInSeconds) {
 
     Collider3Ptr col = collider();
     if (col != nullptr) {
-        parallelFor(
-            kZeroSize,
-            numberOfParticles,
-            [&](size_t i) {
-                col->resolveCollision(
-                    0.0,
-                    0.0,
-                    &positions[i],
-                    &velocities[i]);
-            });
+        parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+            col->resolveCollision(0.0, 0.0, &positions[i], &velocities[i]);
+        });
     }
 }
 
@@ -296,18 +276,18 @@ void PicSolver3::extrapolateVelocityToAir() {
 void PicSolver3::buildSignedDistanceField() {
     auto sdf = signedDistanceField();
     auto sdfPos = sdf->dataPosition();
-    double maxH = max3(
-        sdf->gridSpacing().x, sdf->gridSpacing().y, sdf->gridSpacing().z);
+    double maxH =
+        max3(sdf->gridSpacing().x, sdf->gridSpacing().y, sdf->gridSpacing().z);
     double radius = 1.2 * maxH / std::sqrt(2.0);
     double sdfBandRadius = 2.0 * radius;
 
     _particles->buildNeighborSearcher(2 * radius);
     auto searcher = _particles->neighborSearcher();
-    sdf->parallelForEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
+    sdf->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         Vector3D pt = sdfPos(i, j, k);
         double minDist = sdfBandRadius;
         searcher->forEachNearbyPoint(
-            pt, sdfBandRadius, [&] (size_t, const Vector3D& x) {
+            pt, sdfBandRadius, [&](size_t, const Vector3D& x) {
                 minDist = std::min(minDist, pt.distanceTo(x));
             });
         (*sdf)(i, j, k) = minDist - radius;
@@ -322,10 +302,7 @@ void PicSolver3::updateParticleEmitter(double timeIntervalInSeconds) {
     }
 }
 
-PicSolver3::Builder PicSolver3::builder() {
-    return Builder();
-}
-
+PicSolver3::Builder PicSolver3::builder() { return Builder(); }
 
 PicSolver3 PicSolver3::Builder::build() const {
     return PicSolver3(_resolution, getGridSpacing(), _gridOrigin);
@@ -333,11 +310,6 @@ PicSolver3 PicSolver3::Builder::build() const {
 
 PicSolver3Ptr PicSolver3::Builder::makeShared() const {
     return std::shared_ptr<PicSolver3>(
-        new PicSolver3(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin),
-        [] (PicSolver3* obj) {
-            delete obj;
-        });
+        new PicSolver3(_resolution, getGridSpacing(), _gridOrigin),
+        [](PicSolver3* obj) { delete obj; });
 }

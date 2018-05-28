@@ -4,24 +4,18 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
 #include <jet/apic_solver3.h>
+#include <pch.h>
 
 using namespace jet;
 
-ApicSolver3::ApicSolver3()
-: ApicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {
-}
+ApicSolver3::ApicSolver3() : ApicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-ApicSolver3::ApicSolver3(
-    const Size3& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin)
-: PicSolver3(resolution, gridSpacing, gridOrigin) {
-}
+ApicSolver3::ApicSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+                         const Vector3D& gridOrigin)
+    : PicSolver3(resolution, gridSpacing, gridOrigin) {}
 
-ApicSolver3::~ApicSolver3() {
-}
+ApicSolver3::~ApicSolver3() {}
 
 void ApicSolver3::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
@@ -57,31 +51,21 @@ void ApicSolver3::transferFromParticlesToGrids() {
     _vMarkers.set(0);
     _wMarkers.set(0);
     LinearArraySampler3<double, double> uSampler(
-        flow->uConstAccessor(),
-        flow->gridSpacing(),
-        flow->uOrigin());
+        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler3<double, double> vSampler(
-        flow->vConstAccessor(),
-        flow->gridSpacing(),
-        flow->vOrigin());
+        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
     LinearArraySampler3<double, double> wSampler(
-        flow->wConstAccessor(),
-        flow->gridSpacing(),
-        flow->wOrigin());
+        flow->wConstAccessor(), flow->gridSpacing(), flow->wOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Point3UI, 8> indices;
+        std::array<Size3, 8> indices;
         std::array<double, 8> weights;
 
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(
-            uPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
-        uPosClamped.z = clamp(
-            uPosClamped.z,
-            bbox.lowerCorner.z + hh.z,
-            bbox.upperCorner.z - hh.z);
+        uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
+        uPosClamped.z = clamp(uPosClamped.z, bbox.lowerCorner.z + hh.z,
+                              bbox.upperCorner.z - hh.z);
         uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
@@ -92,14 +76,10 @@ void ApicSolver3::transferFromParticlesToGrids() {
         }
 
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(
-            vPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
-        vPosClamped.z = clamp(
-            vPosClamped.z,
-            bbox.lowerCorner.z + hh.z,
-            bbox.upperCorner.z - hh.z);
+        vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
+        vPosClamped.z = clamp(vPosClamped.z, bbox.lowerCorner.z + hh.z,
+                              bbox.upperCorner.z - hh.z);
         vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
@@ -110,14 +90,10 @@ void ApicSolver3::transferFromParticlesToGrids() {
         }
 
         auto wPosClamped = positions[i];
-        wPosClamped.x = clamp(
-            wPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
-        wPosClamped.y = clamp(
-            wPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
+        wPosClamped.x = clamp(wPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
+        wPosClamped.y = clamp(wPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
         wSampler.getCoordinatesAndWeights(wPosClamped, &indices, &weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
@@ -165,73 +141,58 @@ void ApicSolver3::transferFromGridsToParticles() {
     auto u = flow->uAccessor();
     auto v = flow->vAccessor();
     auto w = flow->wAccessor();
-    LinearArraySampler3<double, double> uSampler(
-        u, flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler3<double, double> vSampler(
-        v, flow->gridSpacing(), flow->vOrigin());
-    LinearArraySampler3<double, double> wSampler(
-        w, flow->gridSpacing(), flow->wOrigin());
+    LinearArraySampler3<double, double> uSampler(u, flow->gridSpacing(),
+                                                 flow->uOrigin());
+    LinearArraySampler3<double, double> vSampler(v, flow->gridSpacing(),
+                                                 flow->vOrigin());
+    LinearArraySampler3<double, double> wSampler(w, flow->gridSpacing(),
+                                                 flow->wOrigin());
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
 
-        std::array<Point3UI, 8> indices;
+        std::array<Size3, 8> indices;
         std::array<Vector3D, 8> gradWeights;
 
         // x
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(
-            uPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
-        uPosClamped.z = clamp(
-            uPosClamped.z,
-            bbox.lowerCorner.z + hh.z,
-            bbox.upperCorner.z - hh.z);
-        uSampler.getCoordinatesAndGradientWeights(
-            uPosClamped, &indices, &gradWeights);
+        uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
+        uPosClamped.z = clamp(uPosClamped.z, bbox.lowerCorner.z + hh.z,
+                              bbox.upperCorner.z - hh.z);
+        uSampler.getCoordinatesAndGradientWeights(uPosClamped, &indices,
+                                                  &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
 
         // y
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(
-            vPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
-        vPosClamped.z = clamp(
-            vPosClamped.z,
-            bbox.lowerCorner.z + hh.z,
-            bbox.upperCorner.z - hh.z);
-        vSampler.getCoordinatesAndGradientWeights(
-            vPosClamped, &indices, &gradWeights);
+        vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
+        vPosClamped.z = clamp(vPosClamped.z, bbox.lowerCorner.z + hh.z,
+                              bbox.upperCorner.z - hh.z);
+        vSampler.getCoordinatesAndGradientWeights(vPosClamped, &indices,
+                                                  &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }
 
         // z
         auto wPosClamped = positions[i];
-        wPosClamped.x = clamp(
-            wPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
-        wPosClamped.y = clamp(
-            wPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
-        wSampler.getCoordinatesAndGradientWeights(
-            wPosClamped, &indices, &gradWeights);
+        wPosClamped.x = clamp(wPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
+        wPosClamped.y = clamp(wPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
+        wSampler.getCoordinatesAndGradientWeights(wPosClamped, &indices,
+                                                  &gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cZ[i] += gradWeights[j] * w(indices[j]);
         }
     });
 }
 
-ApicSolver3::Builder ApicSolver3::builder() {
-    return Builder();
-}
-
+ApicSolver3::Builder ApicSolver3::builder() { return Builder(); }
 
 ApicSolver3 ApicSolver3::Builder::build() const {
     return ApicSolver3(_resolution, getGridSpacing(), _gridOrigin);
@@ -239,11 +200,6 @@ ApicSolver3 ApicSolver3::Builder::build() const {
 
 ApicSolver3Ptr ApicSolver3::Builder::makeShared() const {
     return std::shared_ptr<ApicSolver3>(
-        new ApicSolver3(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin),
-        [] (ApicSolver3* obj) {
-            delete obj;
-        });
+        new ApicSolver3(_resolution, getGridSpacing(), _gridOrigin),
+        [](ApicSolver3* obj) { delete obj; });
 }

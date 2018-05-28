@@ -7,7 +7,6 @@
 #ifndef INCLUDE_JET_POINT_HASH_GRID_SEARCHER2_H_
 #define INCLUDE_JET_POINT_HASH_GRID_SEARCHER2_H_
 
-#include <jet/point2.h>
 #include <jet/point_neighbor_searcher2.h>
 #include <jet/tuple.h>
 
@@ -111,7 +110,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t getHashKeyFromBucketIndex(const Point2I& bucketIndex) const;
+    size_t getHashKeyFromBucketIndex(const SSize2& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -120,7 +119,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The bucket index.
     //!
-    Point2I getBucketIndex(const Vector2D& position) const;
+    SSize2 getBucketIndex(const Vector2D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -147,7 +146,7 @@ class PointHashGridSearcher2 final : public PointNeighborSearcher2 {
 
  private:
     double _gridSpacing = 1.0;
-    Point2I _resolution = Point2I(1, 1);
+    SSize2 _resolution = SSize2(1, 1);
     std::vector<Vector2D> _points;
     std::vector<std::vector<size_t>> _buckets;
 

@@ -27,10 +27,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <pch.h>
-#include <jet/array_utils.h>
 #include <jet/array3.h>
+#include <jet/array_utils.h>
 #include <jet/triangle_mesh_to_sdf.h>
+#include <pch.h>
 #include <algorithm>
 #include <vector>
 
@@ -38,17 +38,10 @@ using namespace jet;
 
 namespace jet {
 
-static void checkNeighbor(
-    const TriangleMesh3& mesh,
-    const Vector3D& gx,
-    ssize_t i0,
-    ssize_t j0,
-    ssize_t k0,
-    ssize_t i1,
-    ssize_t j1,
-    ssize_t k1,
-    ScalarGrid3* sdf,
-    Array3<size_t>* closestTri) {
+static void checkNeighbor(const TriangleMesh3& mesh, const Vector3D& gx,
+                          ssize_t i0, ssize_t j0, ssize_t k0, ssize_t i1,
+                          ssize_t j1, ssize_t k1, ScalarGrid3* sdf,
+                          Array3<size_t>* closestTri) {
     if ((*closestTri)(i1, j1, k1) != kMaxSize) {
         size_t t = (*closestTri)(i1, j1, k1);
         Triangle3 tri = mesh.triangle(t);
@@ -62,13 +55,8 @@ static void checkNeighbor(
     }
 }
 
-static void sweep(
-    const TriangleMesh3& mesh,
-    int di,
-    int dj,
-    int dk,
-    ScalarGrid3* sdf,
-    Array3<size_t>* closestTri) {
+static void sweep(const TriangleMesh3& mesh, int di, int dj, int dk,
+                  ScalarGrid3* sdf, Array3<size_t>* closestTri) {
     Size3 size = sdf->dataSize();
     Vector3D h = sdf->gridSpacing();
     Vector3D origin = sdf->dataOrigin();
@@ -107,24 +95,21 @@ static void sweep(
     for (ssize_t k = k0; k != k1; k += dk) {
         for (ssize_t j = j0; j != j1; j += dj) {
             for (ssize_t i = i0; i != i1; i += di) {
-                Vector3D gx({ i, j, k });
+                Vector3D gx({i, j, k});
                 gx *= h;
                 gx += origin;
 
-                checkNeighbor(
-                    mesh, gx, i, j, k, i - di, j, k, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i, j - dj, k, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i - di, j - dj, k, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i, j, k - dk, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i - di, j, k - dk, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i, j - dj, k - dk, sdf, closestTri);
-                checkNeighbor(
-                    mesh, gx, i, j, k, i - di, j - dj, k - dk, sdf, closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i - di, j, k, sdf, closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i, j - dj, k, sdf, closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i - di, j - dj, k, sdf,
+                              closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i, j, k - dk, sdf, closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i - di, j, k - dk, sdf,
+                              closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i, j - dj, k - dk, sdf,
+                              closestTri);
+                checkNeighbor(mesh, gx, i, j, k, i - di, j - dj, k - dk, sdf,
+                              closestTri);
             }
         }
     }
@@ -133,12 +118,8 @@ static void sweep(
 // calculate twice signed area of triangle (0,0)-(x1,y1)-(x2,y2)
 // return an SOS-determined sign (-1, +1, or 0 only if it's a truly degenerate
 // triangle)
-static int orientation(
-    double x1,
-    double y1,
-    double x2,
-    double y2,
-    double* twiceSignedArea) {
+static int orientation(double x1, double y1, double x2, double y2,
+                       double* twiceSignedArea) {
     (*twiceSignedArea) = y1 * x2 - x1 * y2;
 
     if ((*twiceSignedArea) > 0) {
@@ -161,10 +142,9 @@ static int orientation(
 
 // robust test of (x0,y0) in the triangle (x1,y1)-(x2,y2)-(x3,y3)
 // if true is returned, the barycentric coordinates are set in a,b,c.
-static bool pointInTriangle2D(
-    double x0, double y0,
-    double x1, double y1, double x2, double y2, double x3, double y3,
-    double* a, double* b, double* c) {
+static bool pointInTriangle2D(double x0, double y0, double x1, double y1,
+                              double x2, double y2, double x3, double y3,
+                              double* a, double* b, double* c) {
     x1 -= x0;
     x2 -= x0;
     x3 -= x0;
@@ -199,10 +179,8 @@ static bool pointInTriangle2D(
     return true;
 }
 
-void triangleMeshToSdf(
-    const TriangleMesh3& mesh,
-    ScalarGrid3* sdf,
-    const unsigned int exactBand) {
+void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
+                       const unsigned int exactBand) {
     Size3 size = sdf->dataSize();
     if (size.x * size.y * size.z == 0) {
         return;
@@ -229,7 +207,7 @@ void triangleMeshToSdf(
     ssize_t maxSizeY = static_cast<ssize_t>(size.y);
     ssize_t maxSizeZ = static_cast<ssize_t>(size.z);
     for (size_t t = 0; t < nTri; ++t) {
-        Point3UI indices = mesh.pointIndex(t);
+        Size3 indices = mesh.pointIndex(t);
 
         Triangle3 tri = mesh.triangle(t);
 
@@ -286,8 +264,8 @@ void triangleMeshToSdf(
                 double a, b, c;
                 double jD = static_cast<double>(j);
                 double kD = static_cast<double>(k);
-                if (pointInTriangle2D(
-                    jD, kD, f1.y, f1.z, f2.y, f2.z, f3.y, f3.z, &a, &b, &c)) {
+                if (pointInTriangle2D(jD, kD, f1.y, f1.z, f2.y, f2.z, f3.y,
+                                      f3.z, &a, &b, &c)) {
                     // intersection i coordinate
                     double fi = a * f1.x + b * f2.x + c * f3.x;
 

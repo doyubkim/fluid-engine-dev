@@ -8,7 +8,6 @@
 #define INCLUDE_JET_ARRAY_ACCESSOR3_H_
 
 #include <jet/array_accessor.h>
-#include <jet/point3.h>
 #include <jet/tuple.h>
 #include <utility>  // just make cpplint happy..
 
@@ -64,10 +63,10 @@ class ArrayAccessor<T, 3> final {
     const T& at(size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y, pt.z).
-    T& at(const Point3UI& pt);
+    T& at(const Size3& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& at(const Point3UI& pt) const;
+    const T& at(const Size3& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     T& at(size_t i, size_t j, size_t k);
@@ -219,7 +218,7 @@ class ArrayAccessor<T, 3> final {
     void parallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 3-D coordinate (pt.x, pt.y, pt.z).
-    size_t index(const Point3UI& pt) const;
+    size_t index(const Size3& pt) const;
 
     //! Returns the linear index of the given =3-D coordinate (i, j, k).
     size_t index(size_t i, size_t j, size_t k) const;
@@ -231,10 +230,10 @@ class ArrayAccessor<T, 3> final {
     const T& operator[](size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y, pt.z).
-    T& operator()(const Point3UI& pt);
+    T& operator()(const Size3& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& operator()(const Point3UI& pt) const;
+    const T& operator()(const Size3& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     T& operator()(size_t i, size_t j, size_t k);
@@ -297,7 +296,7 @@ class ConstArrayAccessor<T, 3> {
     const T& at(size_t i) const;
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& at(const Point3UI& pt) const;
+    const T& at(const Size3& pt) const;
 
     //! Returns the const reference to the element at (i, j, k).
     const T& at(size_t i, size_t j, size_t k) const;
@@ -411,7 +410,7 @@ class ConstArrayAccessor<T, 3> {
     void parallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 3-D coordinate (pt.x, pt.y, pt.z).
-    size_t index(const Point3UI& pt) const;
+    size_t index(const Size3& pt) const;
 
     //! Returns the linear index of the given =3-D coordinate (i, j, k).
     size_t index(size_t i, size_t j, size_t k) const;
@@ -420,7 +419,7 @@ class ConstArrayAccessor<T, 3> {
     const T& operator[](size_t i) const;
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& operator()(const Point3UI& pt) const;
+    const T& operator()(const Size3& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     const T& operator()(size_t i, size_t j, size_t k) const;

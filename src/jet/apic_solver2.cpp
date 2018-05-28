@@ -4,23 +4,18 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
 #include <jet/apic_solver2.h>
+#include <pch.h>
 
 using namespace jet;
 
-ApicSolver2::ApicSolver2() : ApicSolver2({1, 1}, {1, 1}, {0, 0}) {
-}
+ApicSolver2::ApicSolver2() : ApicSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-ApicSolver2::ApicSolver2(
-    const Size2& resolution,
-    const Vector2D& gridSpacing,
-    const Vector2D& gridOrigin)
-: PicSolver2(resolution, gridSpacing, gridOrigin) {
-}
+ApicSolver2::ApicSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+                         const Vector2D& gridOrigin)
+    : PicSolver2(resolution, gridSpacing, gridOrigin) {}
 
-ApicSolver2::~ApicSolver2() {
-}
+ApicSolver2::~ApicSolver2() {}
 
 void ApicSolver2::transferFromParticlesToGrids() {
     auto flow = gridSystemData()->velocity();
@@ -50,23 +45,17 @@ void ApicSolver2::transferFromParticlesToGrids() {
     _uMarkers.set(0);
     _vMarkers.set(0);
     LinearArraySampler2<double, double> uSampler(
-        flow->uConstAccessor(),
-        flow->gridSpacing(),
-        flow->uOrigin());
+        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler2<double, double> vSampler(
-        flow->vConstAccessor(),
-        flow->gridSpacing(),
-        flow->vOrigin());
+        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Point2UI, 4> indices;
+        std::array<Size2, 4> indices;
         std::array<double, 4> weights;
 
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(
-            uPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
+        uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
         uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = uPos(indices[j].x, indices[j].y);
@@ -77,10 +66,8 @@ void ApicSolver2::transferFromParticlesToGrids() {
         }
 
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(
-            vPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
+        vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
         vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = vPos(indices[j].x, indices[j].y);
@@ -120,47 +107,40 @@ void ApicSolver2::transferFromGridsToParticles() {
 
     auto u = flow->uAccessor();
     auto v = flow->vAccessor();
-    LinearArraySampler2<double, double> uSampler(
-        u, flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler2<double, double> vSampler(
-        v, flow->gridSpacing(), flow->vOrigin());
+    LinearArraySampler2<double, double> uSampler(u, flow->gridSpacing(),
+                                                 flow->uOrigin());
+    LinearArraySampler2<double, double> vSampler(v, flow->gridSpacing(),
+                                                 flow->vOrigin());
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
 
-        std::array<Point2UI, 4> indices;
+        std::array<Size2, 4> indices;
         std::array<Vector2D, 4> gradWeights;
 
         // x
         auto uPosClamped = positions[i];
-        uPosClamped.y = clamp(
-            uPosClamped.y,
-            bbox.lowerCorner.y + hh.y,
-            bbox.upperCorner.y - hh.y);
-        uSampler.getCoordinatesAndGradientWeights(
-            uPosClamped, &indices, &gradWeights);
+        uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
+                              bbox.upperCorner.y - hh.y);
+        uSampler.getCoordinatesAndGradientWeights(uPosClamped, &indices,
+                                                  &gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
 
         // y
         auto vPosClamped = positions[i];
-        vPosClamped.x = clamp(
-            vPosClamped.x,
-            bbox.lowerCorner.x + hh.x,
-            bbox.upperCorner.x - hh.x);
-        vSampler.getCoordinatesAndGradientWeights(
-            vPosClamped, &indices, &gradWeights);
+        vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
+                              bbox.upperCorner.x - hh.x);
+        vSampler.getCoordinatesAndGradientWeights(vPosClamped, &indices,
+                                                  &gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }
     });
 }
 
-ApicSolver2::Builder ApicSolver2::builder() {
-    return Builder();
-}
-
+ApicSolver2::Builder ApicSolver2::builder() { return Builder(); }
 
 ApicSolver2 ApicSolver2::Builder::build() const {
     return ApicSolver2(_resolution, getGridSpacing(), _gridOrigin);
@@ -168,11 +148,6 @@ ApicSolver2 ApicSolver2::Builder::build() const {
 
 ApicSolver2Ptr ApicSolver2::Builder::makeShared() const {
     return std::shared_ptr<ApicSolver2>(
-        new ApicSolver2(
-            _resolution,
-            getGridSpacing(),
-            _gridOrigin),
-        [] (ApicSolver2* obj) {
-            delete obj;
-        });
+        new ApicSolver2(_resolution, getGridSpacing(), _gridOrigin),
+        [](ApicSolver2* obj) { delete obj; });
 }
