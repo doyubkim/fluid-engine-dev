@@ -251,13 +251,13 @@ double FaceCenteredGrid2::divergence(const Vector2D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1,
                    &j, &fy);
 
-    std::array<Point2UI, 4> indices;
+    std::array<Size2, 4> indices;
     std::array<double, 4> weights;
 
-    indices[0] = Point2UI(i, j);
-    indices[1] = Point2UI(i + 1, j);
-    indices[2] = Point2UI(i, j + 1);
-    indices[3] = Point2UI(i + 1, j + 1);
+    indices[0] = Size2(i, j);
+    indices[1] = Size2(i + 1, j);
+    indices[2] = Size2(i, j + 1);
+    indices[3] = Size2(i + 1, j + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy);
     weights[1] = fx * (1.0 - fy);
@@ -286,13 +286,13 @@ double FaceCenteredGrid2::curl(const Vector2D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1,
                    &j, &fy);
 
-    std::array<Point2UI, 4> indices;
+    std::array<Size2, 4> indices;
     std::array<double, 4> weights;
 
-    indices[0] = Point2UI(i, j);
-    indices[1] = Point2UI(i + 1, j);
-    indices[2] = Point2UI(i, j + 1);
-    indices[3] = Point2UI(i + 1, j + 1);
+    indices[0] = Size2(i, j);
+    indices[1] = Size2(i + 1, j);
+    indices[2] = Size2(i, j + 1);
+    indices[3] = Size2(i + 1, j + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy);
     weights[1] = fx * (1.0 - fy);

@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #ifdef _MSC_VER
-#pragma warning(disable: 4244)
+#pragma warning(disable : 4244)
 #endif
 
 #include <pch.h>
@@ -81,7 +81,7 @@ std::function<double(const Vector2D&)> ScalarGrid2::sampler() const {
 }
 
 Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
-    std::array<Point2UI, 4> indices;
+    std::array<Size2, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -95,7 +95,7 @@ Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
 }
 
 double ScalarGrid2::laplacian(const Vector2D& x) const {
-    std::array<Point2UI, 4> indices;
+    std::array<Size2, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 

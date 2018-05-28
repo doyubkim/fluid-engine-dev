@@ -146,12 +146,12 @@ const T& Array<T, 3>::at(size_t i) const {
 }
 
 template <typename T>
-T& Array<T, 3>::at(const Point3UI& pt) {
+T& Array<T, 3>::at(const Size3& pt) {
     return at(pt.x, pt.y, pt.z);
 }
 
 template <typename T>
-const T& Array<T, 3>::at(const Point3UI& pt) const {
+const T& Array<T, 3>::at(const Size3& pt) const {
     return at(pt.x, pt.y, pt.z);
 }
 
@@ -290,13 +290,13 @@ const T& Array<T, 3>::operator()(size_t i, size_t j, size_t k) const {
 }
 
 template <typename T>
-T& Array<T, 3>::operator()(const Point3UI& pt) {
+T& Array<T, 3>::operator()(const Size3& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }
 
 template <typename T>
-const T& Array<T, 3>::operator()(const Point3UI& pt) const {
+const T& Array<T, 3>::operator()(const Size3& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y && pt.z < _size.z);
     return _data[pt.x + _size.x * (pt.y + _size.y * pt.z)];
 }

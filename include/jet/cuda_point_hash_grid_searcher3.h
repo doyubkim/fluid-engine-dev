@@ -10,7 +10,6 @@
 #ifdef JET_USE_CUDA
 
 #include <jet/cuda_array_view1.h>
-#include <jet/point3.h>
 #include <jet/tuple.h>
 #include <jet/vector3.h>
 

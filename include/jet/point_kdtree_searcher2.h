@@ -8,7 +8,6 @@
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER2_H
 
 #include <jet/kdtree.h>
-#include <jet/point2.h>
 #include <jet/point_neighbor_searcher2.h>
 #include <jet/tuple.h>
 
