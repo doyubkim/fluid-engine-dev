@@ -60,12 +60,12 @@ const T& ArrayAccessor<T, 2>::at(size_t i) const {
 }
 
 template <typename T>
-T& ArrayAccessor<T, 2>::at(const Point2UI& pt) {
+T& ArrayAccessor<T, 2>::at(const Size2& pt) {
     return at(pt.x, pt.y);
 }
 
 template <typename T>
-const T& ArrayAccessor<T, 2>::at(const Point2UI& pt) const {
+const T& ArrayAccessor<T, 2>::at(const Size2& pt) const {
     return at(pt.x, pt.y);
 }
 
@@ -166,7 +166,7 @@ void ArrayAccessor<T, 2>::parallelForEachIndex(Callback func) const {
 }
 
 template <typename T>
-size_t ArrayAccessor<T, 2>::index(const Point2UI& pt) const {
+size_t ArrayAccessor<T, 2>::index(const Size2& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return pt.x + _size.x * pt.y;
 }
@@ -188,13 +188,13 @@ const T& ArrayAccessor<T, 2>::operator[](size_t i) const {
 }
 
 template <typename T>
-T& ArrayAccessor<T, 2>::operator()(const Point2UI& pt) {
+T& ArrayAccessor<T, 2>::operator()(const Size2& pt) {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
 
 template <typename T>
-const T& ArrayAccessor<T, 2>::operator()(const Point2UI& pt) const {
+const T& ArrayAccessor<T, 2>::operator()(const Size2& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }
@@ -259,7 +259,7 @@ const T& ConstArrayAccessor<T, 2>::at(size_t i) const {
 }
 
 template <typename T>
-const T& ConstArrayAccessor<T, 2>::at(const Point2UI& pt) const {
+const T& ConstArrayAccessor<T, 2>::at(const Size2& pt) const {
     return at(pt.x, pt.y);
 }
 
@@ -326,7 +326,7 @@ void ConstArrayAccessor<T, 2>::parallelForEachIndex(Callback func) const {
 }
 
 template <typename T>
-size_t ConstArrayAccessor<T, 2>::index(const Point2UI& pt) const {
+size_t ConstArrayAccessor<T, 2>::index(const Size2& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return pt.x + _size.x * pt.y;
 }
@@ -343,7 +343,7 @@ const T& ConstArrayAccessor<T, 2>::operator[](size_t i) const {
 }
 
 template <typename T>
-const T& ConstArrayAccessor<T, 2>::operator()(const Point2UI& pt) const {
+const T& ConstArrayAccessor<T, 2>::operator()(const Size2& pt) const {
     JET_ASSERT(pt.x < _size.x && pt.y < _size.y);
     return _data[pt.x + _size.x * pt.y];
 }

@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS3_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS3_H_
 
-#include <jet/array_samplers.h>
 #include <jet/array_accessor3.h>
+#include <jet/array_samplers.h>
 #include <jet/vector3.h>
 #include <functional>
 
@@ -37,10 +37,9 @@ class NearestArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(
-        const ConstArrayAccessor3<T>& accessor,
-        const Vector3<R>& gridSpacing,
-        const Vector3<R>& gridOrigin);
+    explicit NearestArraySampler(const ConstArrayAccessor3<T>& accessor,
+                                 const Vector3<R>& gridSpacing,
+                                 const Vector3<R>& gridOrigin);
 
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
@@ -49,7 +48,7 @@ class NearestArraySampler<T, R, 3> final {
     T operator()(const Vector3<R>& pt) const;
 
     //! Returns the nearest array index for point \p x.
-    void getCoordinate(const Vector3<R>& pt, Point3UI* index) const;
+    void getCoordinate(const Vector3<R>& pt, Size3* index) const;
 
     //! Returns a funtion object that wraps this instance.
     std::function<T(const Vector3<R>&)> functor() const;
@@ -61,9 +60,8 @@ class NearestArraySampler<T, R, 3> final {
 };
 
 //! Type alias for 3-D nearest array sampler.
-template <typename T, typename R> using NearestArraySampler3
-    = NearestArraySampler<T, R, 3>;
-
+template <typename T, typename R>
+using NearestArraySampler3 = NearestArraySampler<T, R, 3>;
 
 //!
 //! \brief 2-D linear array sampler class.
@@ -88,10 +86,9 @@ class LinearArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(
-        const ConstArrayAccessor3<T>& accessor,
-        const Vector3<R>& gridSpacing,
-        const Vector3<R>& gridOrigin);
+    explicit LinearArraySampler(const ConstArrayAccessor3<T>& accessor,
+                                const Vector3<R>& gridSpacing,
+                                const Vector3<R>& gridOrigin);
 
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
@@ -100,16 +97,14 @@ class LinearArraySampler<T, R, 3> final {
     T operator()(const Vector3<R>& pt) const;
 
     //! Returns the indices of points and their sampling weight for given point.
-    void getCoordinatesAndWeights(
-        const Vector3<R>& pt,
-        std::array<Point3UI, 8>* indices,
-        std::array<R, 8>* weights) const;
+    void getCoordinatesAndWeights(const Vector3<R>& pt,
+                                  std::array<Size3, 8>* indices,
+                                  std::array<R, 8>* weights) const;
 
     //! Returns the indices of points and their gradient of sampling weight for
     //! given point.
     void getCoordinatesAndGradientWeights(
-        const Vector3<R>& pt,
-        std::array<Point3UI, 8>* indices,
+        const Vector3<R>& pt, std::array<Size3, 8>* indices,
         std::array<Vector3<R>, 8>* weights) const;
 
     //! Returns a funtion object that wraps this instance.
@@ -123,9 +118,8 @@ class LinearArraySampler<T, R, 3> final {
 };
 
 //! Type alias for 3-D linear array sampler.
-template <typename T, typename R> using LinearArraySampler3
-    = LinearArraySampler<T, R, 3>;
-
+template <typename T, typename R>
+using LinearArraySampler3 = LinearArraySampler<T, R, 3>;
 
 //!
 //! \brief 3-D cubic array sampler class.
@@ -150,10 +144,9 @@ class CubicArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(
-        const ConstArrayAccessor3<T>& accessor,
-        const Vector3<R>& gridSpacing,
-        const Vector3<R>& gridOrigin);
+    explicit CubicArraySampler(const ConstArrayAccessor3<T>& accessor,
+                               const Vector3<R>& gridSpacing,
+                               const Vector3<R>& gridOrigin);
 
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
@@ -171,8 +164,8 @@ class CubicArraySampler<T, R, 3> final {
 };
 
 //! Type alias for 3-D cubic array sampler.
-template <typename T, typename R> using CubicArraySampler3
-    = CubicArraySampler<T, R, 3>;
+template <typename T, typename R>
+using CubicArraySampler3 = CubicArraySampler<T, R, 3>;
 
 }  // namespace jet
 

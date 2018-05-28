@@ -17,8 +17,7 @@ namespace jet {
 
 template <typename T, typename R>
 NearestArraySampler3<T, R>::NearestArraySampler(
-    const ConstArrayAccessor3<T>& accessor,
-    const Vector3<R>& gridSpacing,
+    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _origin = gridOrigin;
@@ -59,8 +58,8 @@ T NearestArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
 }
 
 template <typename T, typename R>
-void NearestArraySampler3<T, R>::getCoordinate(
-    const Vector3<R>& x, Point3UI* index) const {
+void NearestArraySampler3<T, R>::getCoordinate(const Vector3<R>& x,
+                                               Size3* index) const {
     ssize_t i, j, k;
     R fx, fy, fz;
 
@@ -87,14 +86,13 @@ std::function<T(const Vector3<R>&)>
 
 NearestArraySampler3<T, R>::functor() const {
     NearestArraySampler sampler(*this);
-    return std::bind(
-        &NearestArraySampler::operator(), sampler, std::placeholders::_1);
+    return std::bind(&NearestArraySampler::operator(), sampler,
+                     std::placeholders::_1);
 }
 
 template <typename T, typename R>
 LinearArraySampler3<T, R>::LinearArraySampler(
-    const ConstArrayAccessor3<T>& accessor,
-    const Vector3<R>& gridSpacing,
+    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _invGridSpacing = static_cast<R>(1) / _gridSpacing;
@@ -102,10 +100,8 @@ LinearArraySampler3<T, R>::LinearArraySampler(
     _accessor = accessor;
 }
 
-
 template <typename T, typename R>
-LinearArraySampler3<T, R>::LinearArraySampler(
-    const LinearArraySampler& other) {
+LinearArraySampler3<T, R>::LinearArraySampler(const LinearArraySampler& other) {
     _gridSpacing = other._gridSpacing;
     _invGridSpacing = other._invGridSpacing;
     _origin = other._origin;
@@ -135,29 +131,20 @@ T LinearArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
     ssize_t kp1 = std::min(k + 1, kSize - 1);
 
     return trilerp(
-        _accessor(i, j, k),
-        _accessor(ip1, j, k),
-        _accessor(i, jp1, k),
-        _accessor(ip1, jp1, k),
-        _accessor(i, j, kp1),
-        _accessor(ip1, j, kp1),
-        _accessor(i, jp1, kp1),
-        _accessor(ip1, jp1, kp1),
-        fx,
-        fy,
-        fz);
+        _accessor(i, j, k), _accessor(ip1, j, k), _accessor(i, jp1, k),
+        _accessor(ip1, jp1, k), _accessor(i, j, kp1), _accessor(ip1, j, kp1),
+        _accessor(i, jp1, kp1), _accessor(ip1, jp1, kp1), fx, fy, fz);
 }
 
 template <typename T, typename R>
 void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
-    const Vector3<R>& x,
-    std::array<Point3UI, 8>* indices,
+    const Vector3<R>& x, std::array<Size3, 8>* indices,
     std::array<R, 8>* weights) const {
     ssize_t i, j, k;
     R fx, fy, fz;
 
-    JET_ASSERT(
-        _gridSpacing.x > 0.0 && _gridSpacing.y > 0.0 && _gridSpacing.z > 0.0);
+    JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0 &&
+               _gridSpacing.z > 0.0);
 
     const Vector3<R> normalizedX = (x - _origin) * _invGridSpacing;
 
@@ -173,14 +160,14 @@ void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
     const ssize_t jp1 = std::min(j + 1, jSize - 1);
     const ssize_t kp1 = std::min(k + 1, kSize - 1);
 
-    (*indices)[0] = Point3UI(i, j, k);
-    (*indices)[1] = Point3UI(ip1, j, k);
-    (*indices)[2] = Point3UI(i, jp1, k);
-    (*indices)[3] = Point3UI(ip1, jp1, k);
-    (*indices)[4] = Point3UI(i, j, kp1);
-    (*indices)[5] = Point3UI(ip1, j, kp1);
-    (*indices)[6] = Point3UI(i, jp1, kp1);
-    (*indices)[7] = Point3UI(ip1, jp1, kp1);
+    (*indices)[0] = Size3(i, j, k);
+    (*indices)[1] = Size3(ip1, j, k);
+    (*indices)[2] = Size3(i, jp1, k);
+    (*indices)[3] = Size3(ip1, jp1, k);
+    (*indices)[4] = Size3(i, j, kp1);
+    (*indices)[5] = Size3(ip1, j, kp1);
+    (*indices)[6] = Size3(i, jp1, kp1);
+    (*indices)[7] = Size3(ip1, jp1, kp1);
 
     (*weights)[0] = (1 - fx) * (1 - fy) * (1 - fz);
     (*weights)[1] = fx * (1 - fy) * (1 - fz);
@@ -194,14 +181,13 @@ void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
 
 template <typename T, typename R>
 void LinearArraySampler3<T, R>::getCoordinatesAndGradientWeights(
-    const Vector3<R>& x,
-    std::array<Point3UI, 8>* indices,
+    const Vector3<R>& x, std::array<Size3, 8>* indices,
     std::array<Vector3<R>, 8>* weights) const {
     ssize_t i, j, k;
     R fx, fy, fz;
 
-    JET_ASSERT(
-        _gridSpacing.x > 0.0 && _gridSpacing.y > 0.0 && _gridSpacing.z > 0.0);
+    JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0 &&
+               _gridSpacing.z > 0.0);
 
     Vector3<R> normalizedX = (x - _origin) / _gridSpacing;
 
@@ -217,71 +203,59 @@ void LinearArraySampler3<T, R>::getCoordinatesAndGradientWeights(
     ssize_t jp1 = std::min(j + 1, jSize - 1);
     ssize_t kp1 = std::min(k + 1, kSize - 1);
 
-    (*indices)[0] = Point3UI(i, j, k);
-    (*indices)[1] = Point3UI(ip1, j, k);
-    (*indices)[2] = Point3UI(i, jp1, k);
-    (*indices)[3] = Point3UI(ip1, jp1, k);
-    (*indices)[4] = Point3UI(i, j, kp1);
-    (*indices)[5] = Point3UI(ip1, j, kp1);
-    (*indices)[6] = Point3UI(i, jp1, kp1);
-    (*indices)[7] = Point3UI(ip1, jp1, kp1);
+    (*indices)[0] = Size3(i, j, k);
+    (*indices)[1] = Size3(ip1, j, k);
+    (*indices)[2] = Size3(i, jp1, k);
+    (*indices)[3] = Size3(ip1, jp1, k);
+    (*indices)[4] = Size3(i, j, kp1);
+    (*indices)[5] = Size3(ip1, j, kp1);
+    (*indices)[6] = Size3(i, jp1, kp1);
+    (*indices)[7] = Size3(ip1, jp1, kp1);
 
-    (*weights)[0] = Vector3<R>(
-        -_invGridSpacing.x * (1 - fy) * (1 - fz),
-        -_invGridSpacing.y * (1 - fx) * (1 - fz),
-        -_invGridSpacing.z * (1 - fx) * (1 - fy));
-    (*weights)[1] = Vector3<R>(
-        _invGridSpacing.x * (1 - fy) * (1 - fz),
-        fx * (-_invGridSpacing.y) * (1 - fz),
-        fx * (1 - fy) * (-_invGridSpacing.z));
-    (*weights)[2] = Vector3<R>(
-        (-_invGridSpacing.x) * fy * (1 - fz),
-        (1 - fx) * _invGridSpacing.y * (1 - fz),
-        (1 - fx) * fy * (-_invGridSpacing.z));
-    (*weights)[3] = Vector3<R>(
-        _invGridSpacing.x * fy * (1 - fz),
-        fx * _invGridSpacing.y * (1 - fz),
-        fx * fy * (-_invGridSpacing.z));
-    (*weights)[4] = Vector3<R>(
-        (-_invGridSpacing.x) * (1 - fy) * fz,
-        (1 - fx) * (-_invGridSpacing.y) * fz,
-        (1 - fx) * (1 - fy) * _invGridSpacing.z);
-    (*weights)[5] = Vector3<R>(
-        _invGridSpacing.x * (1 - fy) * fz,
-        fx * (-_invGridSpacing.y) * fz,
-        fx * (1 - fy) * _invGridSpacing.z);
-    (*weights)[6] = Vector3<R>(
-        (-_invGridSpacing.x) * fy * fz,
-        (1 - fx) * _invGridSpacing.y * fz,
-        (1 - fx) * fy * _invGridSpacing.z);
-    (*weights)[7] = Vector3<R>(
-        _invGridSpacing.x * fy * fz,
-        fx * _invGridSpacing.y * fz,
-        fx * fy * _invGridSpacing.z);
+    (*weights)[0] = Vector3<R>(-_invGridSpacing.x * (1 - fy) * (1 - fz),
+                               -_invGridSpacing.y * (1 - fx) * (1 - fz),
+                               -_invGridSpacing.z * (1 - fx) * (1 - fy));
+    (*weights)[1] = Vector3<R>(_invGridSpacing.x * (1 - fy) * (1 - fz),
+                               fx * (-_invGridSpacing.y) * (1 - fz),
+                               fx * (1 - fy) * (-_invGridSpacing.z));
+    (*weights)[2] = Vector3<R>((-_invGridSpacing.x) * fy * (1 - fz),
+                               (1 - fx) * _invGridSpacing.y * (1 - fz),
+                               (1 - fx) * fy * (-_invGridSpacing.z));
+    (*weights)[3] = Vector3<R>(_invGridSpacing.x * fy * (1 - fz),
+                               fx * _invGridSpacing.y * (1 - fz),
+                               fx * fy * (-_invGridSpacing.z));
+    (*weights)[4] = Vector3<R>((-_invGridSpacing.x) * (1 - fy) * fz,
+                               (1 - fx) * (-_invGridSpacing.y) * fz,
+                               (1 - fx) * (1 - fy) * _invGridSpacing.z);
+    (*weights)[5] = Vector3<R>(_invGridSpacing.x * (1 - fy) * fz,
+                               fx * (-_invGridSpacing.y) * fz,
+                               fx * (1 - fy) * _invGridSpacing.z);
+    (*weights)[6] = Vector3<R>((-_invGridSpacing.x) * fy * fz,
+                               (1 - fx) * _invGridSpacing.y * fz,
+                               (1 - fx) * fy * _invGridSpacing.z);
+    (*weights)[7] =
+        Vector3<R>(_invGridSpacing.x * fy * fz, fx * _invGridSpacing.y * fz,
+                   fx * fy * _invGridSpacing.z);
 }
 
 template <typename T, typename R>
 std::function<T(const Vector3<R>&)> LinearArraySampler3<T, R>::functor() const {
     LinearArraySampler sampler(*this);
-    return std::bind(
-        &LinearArraySampler::operator(), sampler, std::placeholders::_1);
+    return std::bind(&LinearArraySampler::operator(), sampler,
+                     std::placeholders::_1);
 }
-
 
 template <typename T, typename R>
 CubicArraySampler3<T, R>::CubicArraySampler(
-    const ConstArrayAccessor3<T>& accessor,
-    const Vector3<R>& gridSpacing,
+    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _origin = gridOrigin;
     _accessor = accessor;
 }
 
-
 template <typename T, typename R>
-CubicArraySampler3<T, R>::CubicArraySampler(
-    const CubicArraySampler& other) {
+CubicArraySampler3<T, R>::CubicArraySampler(const CubicArraySampler& other) {
     _gridSpacing = other._gridSpacing;
     _origin = other._origin;
     _accessor = other._accessor;
@@ -304,24 +278,12 @@ T CubicArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
     getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);
     getBarycentric(normalizedX.z, 0, kSize - 1, &k, &fz);
 
-    ssize_t is[4] = {
-        std::max(i - 1, kZeroSSize),
-        i,
-        std::min(i + 1, iSize - 1),
-        std::min(i + 2, iSize - 1)
-    };
-    ssize_t js[4] = {
-        std::max(j - 1, kZeroSSize),
-        j,
-        std::min(j + 1, jSize - 1),
-        std::min(j + 2, jSize - 1)
-    };
-    ssize_t ks[4] = {
-        std::max(k - 1, kZeroSSize),
-        k,
-        std::min(k + 1, kSize - 1),
-        std::min(k + 2, kSize - 1)
-    };
+    ssize_t is[4] = {std::max(i - 1, kZeroSSize), i, std::min(i + 1, iSize - 1),
+                     std::min(i + 2, iSize - 1)};
+    ssize_t js[4] = {std::max(j - 1, kZeroSSize), j, std::min(j + 1, jSize - 1),
+                     std::min(j + 2, jSize - 1)};
+    ssize_t ks[4] = {std::max(k - 1, kZeroSSize), k, std::min(k + 1, kSize - 1),
+                     std::min(k + 2, kSize - 1)};
 
     T kValues[4];
 
@@ -329,27 +291,26 @@ T CubicArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
         T jValues[4];
 
         for (int jj = 0; jj < 4; ++jj) {
-            jValues[jj] = monotonicCatmullRom(
-                _accessor(is[0], js[jj], ks[kk]),
-                _accessor(is[1], js[jj], ks[kk]),
-                _accessor(is[2], js[jj], ks[kk]),
-                _accessor(is[3], js[jj], ks[kk]),
-                fx);
+            jValues[jj] =
+                monotonicCatmullRom(_accessor(is[0], js[jj], ks[kk]),
+                                    _accessor(is[1], js[jj], ks[kk]),
+                                    _accessor(is[2], js[jj], ks[kk]),
+                                    _accessor(is[3], js[jj], ks[kk]), fx);
         }
 
-        kValues[kk] = monotonicCatmullRom(
-            jValues[0], jValues[1], jValues[2], jValues[3], fy);
+        kValues[kk] = monotonicCatmullRom(jValues[0], jValues[1], jValues[2],
+                                          jValues[3], fy);
     }
 
-    return monotonicCatmullRom(
-        kValues[0], kValues[1], kValues[2], kValues[3], fz);
+    return monotonicCatmullRom(kValues[0], kValues[1], kValues[2], kValues[3],
+                               fz);
 }
 
 template <typename T, typename R>
 std::function<T(const Vector3<R>&)> CubicArraySampler3<T, R>::functor() const {
     CubicArraySampler sampler(*this);
-    return std::bind(
-        &CubicArraySampler::operator(), sampler, std::placeholders::_1);
+    return std::bind(&CubicArraySampler::operator(), sampler,
+                     std::placeholders::_1);
 }
 
 }  // namespace jet

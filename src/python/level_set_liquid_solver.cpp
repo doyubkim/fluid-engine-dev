@@ -30,9 +30,9 @@ void addLevelSetLiquidSolver2(py::module& m) {
         .def("__init__",
              [](LevelSetLiquidSolver2& instance, py::args args,
                 py::kwargs kwargs) {
-                 Size2 resolution{1, 1, 1};
-                 Vector2D gridSpacing{1, 1, 1};
-                 Vector2D gridOrigin{0, 0, 0};
+                 Size2 resolution{1, 1};
+                 Vector2D gridSpacing{1, 1};
+                 Vector2D gridOrigin{0, 0};
 
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);

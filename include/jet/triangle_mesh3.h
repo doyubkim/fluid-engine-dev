@@ -9,7 +9,6 @@
 
 #include <jet/array1.h>
 #include <jet/bvh3.h>
-#include <jet/point3.h>
 #include <jet/quaternion.h>
 #include <jet/surface3.h>
 #include <jet/triangle3.h>
@@ -31,7 +30,7 @@ class TriangleMesh3 final : public Surface3 {
 
     typedef Array1<Vector2D> Vector2DArray;
     typedef Array1<Vector3D> Vector3DArray;
-    typedef Array1<Point3UI> IndexArray;
+    typedef Array1<Size3> IndexArray;
 
     typedef Vector3DArray PointArray;
     typedef Vector3DArray NormalArray;
@@ -88,22 +87,22 @@ class TriangleMesh3 final : public Surface3 {
     Vector2D& uv(size_t i);
 
     //! Returns constant reference to the point indices of i-th triangle.
-    const Point3UI& pointIndex(size_t i) const;
+    const Size3& pointIndex(size_t i) const;
 
     //! Returns reference to the point indices of i-th triangle.
-    Point3UI& pointIndex(size_t i);
+    Size3& pointIndex(size_t i);
 
     //! Returns constant reference to the normal indices of i-th triangle.
-    const Point3UI& normalIndex(size_t i) const;
+    const Size3& normalIndex(size_t i) const;
 
     //! Returns reference to the normal indices of i-th triangle.
-    Point3UI& normalIndex(size_t i);
+    Size3& normalIndex(size_t i);
 
     //! Returns constant reference to the UV indices of i-th triangle.
-    const Point3UI& uvIndex(size_t i) const;
+    const Size3& uvIndex(size_t i) const;
 
     //! Returns reference to the UV indices of i-th triangle.
-    Point3UI& uvIndex(size_t i);
+    Size3& uvIndex(size_t i);
 
     //! Returns i-th triangle.
     Triangle3 triangle(size_t i) const;
@@ -136,20 +135,20 @@ class TriangleMesh3 final : public Surface3 {
     void addUv(const Vector2D& t);
 
     //! Adds a triangle with points.
-    void addPointTriangle(const Point3UI& newPointIndices);
+    void addPointTriangle(const Size3& newPointIndices);
 
     //! Adds a triangle with point and normal.
-    void addPointNormalTriangle(const Point3UI& newPointIndices,
-                                const Point3UI& newNormalIndices);
+    void addPointNormalTriangle(const Size3& newPointIndices,
+                                const Size3& newNormalIndices);
 
     //! Adds a triangle with point, normal, and UV.
-    void addPointUvNormalTriangle(const Point3UI& newPointIndices,
-                                  const Point3UI& newUvIndices,
-                                  const Point3UI& newNormalIndices);
+    void addPointUvNormalTriangle(const Size3& newPointIndices,
+                                  const Size3& newUvIndices,
+                                  const Size3& newNormalIndices);
 
     //! Adds a triangle with point and UV.
-    void addPointUvTriangle(const Point3UI& newPointIndices,
-                            const Point3UI& newUvIndices);
+    void addPointUvTriangle(const Size3& newPointIndices,
+                            const Size3& newUvIndices);
 
     //! Add a triangle.
     void addTriangle(const Triangle3& tri);

@@ -8,7 +8,6 @@
 #define INCLUDE_JET_ARRAY_ACCESSOR2_H_
 
 #include <jet/array_accessor.h>
-#include <jet/point2.h>
 #include <jet/tuple.h>
 #include <utility>  // just make cpplint happy..
 
@@ -63,10 +62,10 @@ class ArrayAccessor<T, 2> final {
     const T& at(size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y).
-    T& at(const Point2UI& pt);
+    T& at(const Size2& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y).
-    const T& at(const Point2UI& pt) const;
+    const T& at(const Size2& pt) const;
 
     //! Returns the reference to the element at (i, j).
     T& at(size_t i, size_t j);
@@ -211,7 +210,7 @@ class ArrayAccessor<T, 2> final {
     void parallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 2-D coordinate (pt.x, pt.y).
-    size_t index(const Point2UI& pt) const;
+    size_t index(const Size2& pt) const;
 
     //! Returns the linear index of the given 2-D coordinate (i, j).
     size_t index(size_t i, size_t j) const;
@@ -223,10 +222,10 @@ class ArrayAccessor<T, 2> final {
     const T& operator[](size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y).
-    T& operator()(const Point2UI& pt);
+    T& operator()(const Size2& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y).
-    const T& operator()(const Point2UI& pt) const;
+    const T& operator()(const Size2& pt) const;
 
     //! Returns the reference to the element at (i, j).
     T& operator()(size_t i, size_t j);
@@ -287,7 +286,7 @@ class ConstArrayAccessor<T, 2> {
     const T& at(size_t i) const;
 
     //! Returns the const reference to the element at (pt.x, pt.y).
-    const T& at(const Point2UI& pt) const;
+    const T& at(const Size2& pt) const;
 
     //! Returns the const reference to the element at (i, j).
     const T& at(size_t i, size_t j) const;
@@ -394,7 +393,7 @@ class ConstArrayAccessor<T, 2> {
     void parallelForEachIndex(Callback func) const;
 
     //! Returns the linear index of the given 2-D coordinate (pt.x, pt.y).
-    size_t index(const Point2UI& pt) const;
+    size_t index(const Size2& pt) const;
 
     //! Returns the linear index of the given 2-D coordinate (i, j).
     size_t index(size_t i, size_t j) const;
@@ -403,7 +402,7 @@ class ConstArrayAccessor<T, 2> {
     const T& operator[](size_t i) const;
 
     //! Returns the const reference to the element at (pt.x, pt.y).
-    const T& operator()(const Point2UI& pt) const;
+    const T& operator()(const Size2& pt) const;
 
     //! Returns the const reference to the element at (i, j).
     const T& operator()(size_t i, size_t j) const;

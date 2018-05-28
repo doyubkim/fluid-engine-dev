@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS2_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS2_H_
 
-#include <jet/array_samplers.h>
 #include <jet/array_accessor2.h>
+#include <jet/array_samplers.h>
 #include <jet/vector2.h>
 #include <functional>
 
@@ -37,10 +37,9 @@ class NearestArraySampler<T, R, 2> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(
-        const ConstArrayAccessor2<T>& accessor,
-        const Vector2<R>& gridSpacing,
-        const Vector2<R>& gridOrigin);
+    explicit NearestArraySampler(const ConstArrayAccessor2<T>& accessor,
+                                 const Vector2<R>& gridSpacing,
+                                 const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
@@ -49,7 +48,7 @@ class NearestArraySampler<T, R, 2> final {
     T operator()(const Vector2<R>& pt) const;
 
     //! Returns the nearest array index for point \p x.
-    void getCoordinate(const Vector2<R>& pt, Point2UI* index) const;
+    void getCoordinate(const Vector2<R>& pt, Size2* index) const;
 
     //! Returns a funtion object that wraps this instance.
     std::function<T(const Vector2<R>&)> functor() const;
@@ -61,9 +60,8 @@ class NearestArraySampler<T, R, 2> final {
 };
 
 //! Type alias for 2-D nearest array sampler.
-template <typename T, typename R> using NearestArraySampler2
-    = NearestArraySampler<T, R, 2>;
-
+template <typename T, typename R>
+using NearestArraySampler2 = NearestArraySampler<T, R, 2>;
 
 //!
 //! \brief 2-D linear array sampler class.
@@ -88,10 +86,9 @@ class LinearArraySampler<T, R, 2> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(
-        const ConstArrayAccessor2<T>& accessor,
-        const Vector2<R>& gridSpacing,
-        const Vector2<R>& gridOrigin);
+    explicit LinearArraySampler(const ConstArrayAccessor2<T>& accessor,
+                                const Vector2<R>& gridSpacing,
+                                const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
@@ -100,16 +97,14 @@ class LinearArraySampler<T, R, 2> final {
     T operator()(const Vector2<R>& pt) const;
 
     //! Returns the indices of points and their sampling weight for given point.
-    void getCoordinatesAndWeights(
-        const Vector2<R>& pt,
-        std::array<Point2UI, 4>* indices,
-        std::array<R, 4>* weights) const;
+    void getCoordinatesAndWeights(const Vector2<R>& pt,
+                                  std::array<Size2, 4>* indices,
+                                  std::array<R, 4>* weights) const;
 
     //! Returns the indices of points and their gradient of sampling weight for
     //! given point.
     void getCoordinatesAndGradientWeights(
-        const Vector2<R>& pt,
-        std::array<Point2UI, 4>* indices,
+        const Vector2<R>& pt, std::array<Size2, 4>* indices,
         std::array<Vector2<R>, 4>* weights) const;
 
     //! Returns a funtion object that wraps this instance.
@@ -123,9 +118,8 @@ class LinearArraySampler<T, R, 2> final {
 };
 
 //! Type alias for 2-D linear array sampler.
-template <typename T, typename R> using LinearArraySampler2
-    = LinearArraySampler<T, R, 2>;
-
+template <typename T, typename R>
+using LinearArraySampler2 = LinearArraySampler<T, R, 2>;
 
 //!
 //! \brief 2-D cubic array sampler class.
@@ -150,10 +144,9 @@ class CubicArraySampler<T, R, 2> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(
-        const ConstArrayAccessor2<T>& accessor,
-        const Vector2<R>& gridSpacing,
-        const Vector2<R>& gridOrigin);
+    explicit CubicArraySampler(const ConstArrayAccessor2<T>& accessor,
+                               const Vector2<R>& gridSpacing,
+                               const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     CubicArraySampler(const CubicArraySampler& other);
@@ -171,8 +164,8 @@ class CubicArraySampler<T, R, 2> final {
 };
 
 //! Type alias for 2-D cubic array sampler.
-template <typename T, typename R> using CubicArraySampler2
-    = CubicArraySampler<T, R, 2>;
+template <typename T, typename R>
+using CubicArraySampler2 = CubicArraySampler<T, R, 2>;
 
 }  // namespace jet
 

@@ -207,9 +207,6 @@
 #include <jet/pic_solver3.h>
 #include <jet/plane2.h>
 #include <jet/plane3.h>
-#include <jet/point.h>
-#include <jet/point2.h>
-#include <jet/point3.h>
 #include <jet/point_generator2.h>
 #include <jet/point_generator3.h>
 #include <jet/point_hash_grid_searcher2.h>

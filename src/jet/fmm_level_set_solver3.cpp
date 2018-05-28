@@ -273,13 +273,13 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
             }
         });
 
-        auto compare = [&](const Point3UI& a, const Point3UI& b) {
+        auto compare = [&](const Size3& a, const Size3& b) {
             return output(a.x, a.y, a.z) > output(b.x, b.y, b.z);
         };
 
         // Enqueue initial candidates
-        std::priority_queue<Point3UI, std::vector<Point3UI>, decltype(compare)>
-            trial(compare);
+        std::priority_queue<Size3, std::vector<Size3>, decltype(compare)> trial(
+            compare);
         markers.forEachIndex([&](size_t i, size_t j, size_t k) {
             if (markers(i, j, k) != kKnown &&
                 ((i > 0 && markers(i - 1, j, k) == kKnown) ||
@@ -288,14 +288,14 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                  (j + 1 < size.y && markers(i, j + 1, k) == kKnown) ||
                  (k > 0 && markers(i, j, k - 1) == kKnown) ||
                  (k + 1 < size.z && markers(i, j, k + 1) == kKnown))) {
-                trial.push(Point3UI(i, j, k));
+                trial.push(Size3(i, j, k));
                 markers(i, j, k) = kTrial;
             }
         });
 
         // Propagate
         while (!trial.empty()) {
-            Point3UI idx = trial.top();
+            Size3 idx = trial.top();
             trial.pop();
 
             size_t i = idx.x;
@@ -316,7 +316,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i - 1, j, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i - 1, j, k);
-                    trial.push(Point3UI(i - 1, j, k));
+                    trial.push(Size3(i - 1, j, k));
                 }
             }
 
@@ -326,7 +326,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i + 1, j, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i + 1, j, k);
-                    trial.push(Point3UI(i + 1, j, k));
+                    trial.push(Size3(i + 1, j, k));
                 }
             }
 
@@ -336,7 +336,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j - 1, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j - 1, k);
-                    trial.push(Point3UI(i, j - 1, k));
+                    trial.push(Size3(i, j - 1, k));
                 }
             }
 
@@ -346,7 +346,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j + 1, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j + 1, k);
-                    trial.push(Point3UI(i, j + 1, k));
+                    trial.push(Size3(i, j + 1, k));
                 }
             }
 
@@ -356,7 +356,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j, k - 1) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k - 1);
-                    trial.push(Point3UI(i, j, k - 1));
+                    trial.push(Size3(i, j, k - 1));
                 }
             }
 
@@ -366,7 +366,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j, k + 1) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k + 1);
-                    trial.push(Point3UI(i, j, k + 1));
+                    trial.push(Size3(i, j, k + 1));
                 }
             }
         }
@@ -486,50 +486,50 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
         output(i, j, k) = input(i, j, k);
     });
 
-    auto compare = [&](const Point3UI& a, const Point3UI& b) {
+    auto compare = [&](const Size3& a, const Size3& b) {
         return sdf(a.x, a.y, a.z) > sdf(b.x, b.y, b.z);
     };
 
     // Enqueue initial candidates
-    std::priority_queue<Point3UI, std::vector<Point3UI>, decltype(compare)>
-        trial(compare);
+    std::priority_queue<Size3, std::vector<Size3>, decltype(compare)> trial(
+        compare);
     markers.forEachIndex([&](size_t i, size_t j, size_t k) {
         if (markers(i, j, k) == kKnown) {
             return;
         }
 
         if (i > 0 && markers(i - 1, j, k) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (i + 1 < size.x && markers(i + 1, j, k) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (j > 0 && markers(i, j - 1, k) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (j + 1 < size.y && markers(i, j + 1, k) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (k > 0 && markers(i, j, k - 1) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (k + 1 < size.z && markers(i, j, k + 1) == kKnown) {
-            trial.push(Point3UI(i, j, k));
+            trial.push(Size3(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
@@ -537,7 +537,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
 
     // Propagate
     while (!trial.empty()) {
-        Point3UI idx = trial.top();
+        Size3 idx = trial.top();
         trial.pop();
 
         size_t i = idx.x;
@@ -566,7 +566,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i - 1, j, k) == kUnknown) {
                 markers(i - 1, j, k) = kTrial;
-                trial.push(Point3UI(i - 1, j, k));
+                trial.push(Size3(i - 1, j, k));
             }
         }
 
@@ -583,7 +583,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i + 1, j, k) == kUnknown) {
                 markers(i + 1, j, k) = kTrial;
-                trial.push(Point3UI(i + 1, j, k));
+                trial.push(Size3(i + 1, j, k));
             }
         }
 
@@ -600,7 +600,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j - 1, k) == kUnknown) {
                 markers(i, j - 1, k) = kTrial;
-                trial.push(Point3UI(i, j - 1, k));
+                trial.push(Size3(i, j - 1, k));
             }
         }
 
@@ -617,7 +617,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j + 1, k) == kUnknown) {
                 markers(i, j + 1, k) = kTrial;
-                trial.push(Point3UI(i, j + 1, k));
+                trial.push(Size3(i, j + 1, k));
             }
         }
 
@@ -634,7 +634,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j, k - 1) == kUnknown) {
                 markers(i, j, k - 1) = kTrial;
-                trial.push(Point3UI(i, j, k - 1));
+                trial.push(Size3(i, j, k - 1));
             }
         }
 
@@ -651,7 +651,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j, k + 1) == kUnknown) {
                 markers(i, j, k + 1) = kTrial;
-                trial.push(Point3UI(i, j, k + 1));
+                trial.push(Size3(i, j, k + 1));
             }
         }
 

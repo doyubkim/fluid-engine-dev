@@ -352,17 +352,17 @@ double FaceCenteredGrid3::divergence(const Vector3D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
     getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
-    std::array<Point3UI, 8> indices;
+    std::array<Size3, 8> indices;
     std::array<double, 8> weights;
 
-    indices[0] = Point3UI(i, j, k);
-    indices[1] = Point3UI(i + 1, j, k);
-    indices[2] = Point3UI(i, j + 1, k);
-    indices[3] = Point3UI(i + 1, j + 1, k);
-    indices[4] = Point3UI(i, j, k + 1);
-    indices[5] = Point3UI(i + 1, j, k + 1);
-    indices[6] = Point3UI(i, j + 1, k + 1);
-    indices[7] = Point3UI(i + 1, j + 1, k + 1);
+    indices[0] = Size3(i, j, k);
+    indices[1] = Size3(i + 1, j, k);
+    indices[2] = Size3(i, j + 1, k);
+    indices[3] = Size3(i + 1, j + 1, k);
+    indices[4] = Size3(i, j, k + 1);
+    indices[5] = Size3(i + 1, j, k + 1);
+    indices[6] = Size3(i, j + 1, k + 1);
+    indices[7] = Size3(i + 1, j + 1, k + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy) * (1.0 - fz);
     weights[1] = fx * (1.0 - fy) * (1.0 - fz);
@@ -395,17 +395,17 @@ Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
     getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
-    std::array<Point3UI, 8> indices;
+    std::array<Size3, 8> indices;
     std::array<double, 8> weights;
 
-    indices[0] = Point3UI(i, j, k);
-    indices[1] = Point3UI(i + 1, j, k);
-    indices[2] = Point3UI(i, j + 1, k);
-    indices[3] = Point3UI(i + 1, j + 1, k);
-    indices[4] = Point3UI(i, j, k + 1);
-    indices[5] = Point3UI(i + 1, j, k + 1);
-    indices[6] = Point3UI(i, j + 1, k + 1);
-    indices[7] = Point3UI(i + 1, j + 1, k + 1);
+    indices[0] = Size3(i, j, k);
+    indices[1] = Size3(i + 1, j, k);
+    indices[2] = Size3(i, j + 1, k);
+    indices[3] = Size3(i + 1, j + 1, k);
+    indices[4] = Size3(i, j, k + 1);
+    indices[5] = Size3(i + 1, j, k + 1);
+    indices[6] = Size3(i, j + 1, k + 1);
+    indices[7] = Size3(i + 1, j + 1, k + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy) * (1.0 - fz);
     weights[1] = fx * (1.0 - fy) * (1.0 - fz);

@@ -167,10 +167,10 @@ class Array<T, 3> final {
     const T& at(size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y, pt.z).
-    T& at(const Point3UI& pt);
+    T& at(const Size3& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& at(const Point3UI& pt) const;
+    const T& at(const Size3& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     T& at(size_t i, size_t j, size_t k);
@@ -352,10 +352,10 @@ class Array<T, 3> final {
     const T& operator[](size_t i) const;
 
     //! Returns the reference to the element at (pt.x, pt.y, pt.z).
-    T& operator()(const Point3UI& pt);
+    T& operator()(const Size3& pt);
 
     //! Returns the const reference to the element at (pt.x, pt.y, pt.z).
-    const T& operator()(const Point3UI& pt) const;
+    const T& operator()(const Size3& pt) const;
 
     //! Returns the reference to the element at (i, j, k).
     T& operator()(size_t i, size_t j, size_t k);

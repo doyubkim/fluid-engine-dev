@@ -62,7 +62,6 @@
 #include "physics_animation.h"
 #include "pic_solver.h"
 #include "plane.h"
-#include "point.h"
 #include "point_particle_emitter.h"
 #include "points_to_implicit.h"
 #include "quaternion.h"
@@ -127,8 +126,6 @@ PYBIND11_PLUGIN(pyjet) {
     addFrame(m);
     addQuaternionD(m);
     addQuaternionF(m);
-    addPoint2UI(m);
-    addPoint3UI(m);
     addSize2(m);
     addSize3(m);
     addTransform2(m);
