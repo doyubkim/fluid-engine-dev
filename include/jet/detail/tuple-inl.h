@@ -11,70 +11,70 @@
 
 namespace jet {
 
-template <typename T, size_t N>
-T& Tuple<T, N>::operator[](size_t i) {
+template <typename T, size_t N, typename D>
+T& TupleBase<T, N, D>::operator[](size_t i) {
     JET_ASSERT(i < N);
     return _elements[i];
 }
 
-template <typename T, size_t N>
-const T& Tuple<T, N>::operator[](size_t i) const {
+template <typename T, size_t N, typename D>
+const T& TupleBase<T, N, D>::operator[](size_t i) const {
     JET_ASSERT(i < N);
     return _elements[i];
 }
 
 //
 
-template <typename T>
-T& Tuple<T, 1>::operator[](size_t i) {
+template <typename T, typename D>
+T& TupleBase<T, 1, D>::operator[](size_t i) {
     JET_ASSERT(i < 1);
     return (&x)[i];
 }
 
-template <typename T>
-const T& Tuple<T, 1>::operator[](size_t i) const {
+template <typename T, typename D>
+const T& TupleBase<T, 1, D>::operator[](size_t i) const {
     JET_ASSERT(i < 1);
     return (&x)[i];
 }
 
 //
 
-template <typename T>
-T& Tuple<T, 2>::operator[](size_t i) {
+template <typename T, typename D>
+T& TupleBase<T, 2, D>::operator[](size_t i) {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }
 
-template <typename T>
-const T& Tuple<T, 2>::operator[](size_t i) const {
+template <typename T, typename D>
+const T& TupleBase<T, 2, D>::operator[](size_t i) const {
     JET_ASSERT(i < 2);
     return (&x)[i];
 }
 
 //
 
-template <typename T>
-T& Tuple<T, 3>::operator[](size_t i) {
+template <typename T, typename D>
+T& TupleBase<T, 3, D>::operator[](size_t i) {
     JET_ASSERT(i < 3);
     return (&x)[i];
 }
 
-template <typename T>
-const T& Tuple<T, 3>::operator[](size_t i) const {
+template <typename T, typename D>
+const T& TupleBase<T, 3, D>::operator[](size_t i) const {
     JET_ASSERT(i < 3);
     return (&x)[i];
 }
 
 //
 
-template <typename T>
-T& Tuple<T, 4>::operator[](size_t i) {
+template <typename T, typename D>
+T& TupleBase<T, 4, D>::operator[](size_t i) {
     JET_ASSERT(i < 4);
     return (&x)[i];
 }
 
-template <typename T>
-const T& Tuple<T, 4>::operator[](size_t i) const {
+template <typename T, typename D>
+const T& TupleBase<T, 4, D>::operator[](size_t i) const {
     JET_ASSERT(i < 4);
     return (&x)[i];
 }

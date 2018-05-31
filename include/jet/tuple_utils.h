@@ -11,340 +11,89 @@
 
 namespace jet {
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a);
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const T& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const T& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator+=(Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator+=(Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator+=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator+=(TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const T& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const T& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator-=(Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator-=(Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator-=(TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const T& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const T& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator*=(Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator*=(Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator*=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator*=(TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const T& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const T& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator/=(Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-Tuple<T, N> operator/=(Tuple<T, N>& a, const T& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator/=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
 
-template <typename T, size_t N>
-bool operator==(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr auto operator/=(TupleBase<T, N, D>& a, const T& b);
 
-template <typename T, size_t N>
-bool operator!=(const Tuple<T, N>& a, const Tuple<T, N>& b);
+template <typename T, size_t N, typename D>
+constexpr bool operator==(const TupleBase<T, N, D>& a,
+                          const TupleBase<T, N, D>& b);
 
+template <typename T, size_t N, typename D>
+constexpr bool operator!=(const TupleBase<T, N, D>& a,
+                          const TupleBase<T, N, D>& b);
 
-//
+template <typename T, size_t N, typename D, typename BinaryOperation>
+constexpr T accumulate(const TupleBase<T, N, D>& a, T init, BinaryOperation op);
 
-template <typename T>
-Tuple<T, 1> operator+(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
+template <typename T, size_t N, typename D>
+constexpr T accumulate(const TupleBase<T, N, D>& a, T init);
 
-template <typename T>
-Tuple<T, 1> operator+=(Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator+=(Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator-(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator-(const T& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator-(const Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator-=(Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator-=(Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator*(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator*(const T& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator*(const Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator*=(Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator*=(Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator/(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator/(const T& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator/(const Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-Tuple<T, 1> operator/=(Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-Tuple<T, 1> operator/=(Tuple<T, 1>& a, const T& b);
-
-template <typename T>
-bool operator==(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-template <typename T>
-bool operator!=(const Tuple<T, 1>& a, const Tuple<T, 1>& b);
-
-//
-
-template <typename T>
-Tuple<T, 2> operator+(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator+(const T& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator+(const Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator+=(Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator+=(Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator-(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator-(const T& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator-(const Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator-=(Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator-=(Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator*(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator*(const T& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator*(const Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator*=(Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator*=(Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator/(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator/(const T& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator/(const Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-Tuple<T, 2> operator/=(Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-Tuple<T, 2> operator/=(Tuple<T, 2>& a, const T& b);
-
-template <typename T>
-bool operator==(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-template <typename T>
-bool operator!=(const Tuple<T, 2>& a, const Tuple<T, 2>& b);
-
-//
-
-template <typename T>
-Tuple<T, 3> operator+(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator+(const T& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator+(const Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator+=(Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator+=(Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator-(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator-(const T& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator-(const Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator-=(Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator-=(Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator*(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator*(const T& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator*(const Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator*=(Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator*=(Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator/(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator/(const T& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator/(const Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-Tuple<T, 3> operator/=(Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-Tuple<T, 3> operator/=(Tuple<T, 3>& a, const T& b);
-
-template <typename T>
-bool operator==(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-template <typename T>
-bool operator!=(const Tuple<T, 3>& a, const Tuple<T, 3>& b);
-
-//
-
-template <typename T>
-Tuple<T, 4> operator+(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator+(const T& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator+(const Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator+=(Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator+=(Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator-(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator-(const T& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator-(const Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator-=(Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator-=(Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator*(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator*(const T& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator*(const Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator*=(Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator*=(Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator/(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator/(const T& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator/(const Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-Tuple<T, 4> operator/=(Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-Tuple<T, 4> operator/=(Tuple<T, 4>& a, const T& b);
-
-template <typename T>
-bool operator==(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-template <typename T>
-bool operator!=(const Tuple<T, 4>& a, const Tuple<T, 4>& b);
-
-//
+template <typename T, size_t N, typename D>
+constexpr T product(const TupleBase<T, N, D>& a, T init);
 
 }  // namespace jet
 

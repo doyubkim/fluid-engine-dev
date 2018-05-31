@@ -21,13 +21,6 @@ void expectEqual(const std::array<T, N>& expected, const Tuple<T, N>& actual) {
 
 }  // namespace
 
-namespace jet {
-template <>
-Tuple<short, 2> operator+(const Tuple<short, 2>& a, const short& b) {
-    return Tuple<short, 2>{a.x + b, a.y + b};
-}
-}
-
 TEST(Tuple, Constructors) {
     FloatN<5> t0;
     expectEqual({{0.0f, 0.0f, 0.0f, 0.0f, 0.0f}}, t0);
@@ -58,6 +51,23 @@ TEST(Tuple, Constructors) {
 
     Long4 t9{4, 3, 2, 1};
     expectEqual({{4, 3, 2, 1}}, t9);
+}
+
+TEST(Tuple, GetterSetter) {
+    Long4 l4t{4, 3, 2, 1};
+    EXPECT_EQ(4, l4t[0]);
+    EXPECT_EQ(3, l4t[1]);
+    EXPECT_EQ(2, l4t[2]);
+    EXPECT_EQ(1, l4t[3]);
+
+    l4t[0] = 5;
+    l4t[1] = 6;
+    l4t[2] = 7;
+    l4t[3] = 8;
+    EXPECT_EQ(5, l4t.x);
+    EXPECT_EQ(6, l4t.y);
+    EXPECT_EQ(7, l4t.z);
+    EXPECT_EQ(8, l4t.w);
 }
 
 TEST(Tuple, Add) {
@@ -122,4 +132,23 @@ TEST(Tuple, Subtract) {
     expectEqual({{-5, -5, -5, -5}}, i - j);
     expectEqual({{-6, -7, -8, -9}}, -1LL - j);
     expectEqual({{-3, -2, -1, 0}}, i - 3LL);
+}
+
+TEST(Tuple, Compare) {
+    Long4 a{0, 1, 2, 3};
+    Long4 b{5, 6, 7, 8};
+    Long4 c{5, 6, 7, 8};
+
+    EXPECT_NE(a, b);
+    EXPECT_EQ(b, c);
+}
+
+TEST(Tuple, ReduceOp) {
+    IntN<5> a{5, 6, 7, 8, 9};
+
+    int sum = accumulate(a, 0);
+    EXPECT_EQ(35, sum);
+
+    int mul = product(a, 1);
+    EXPECT_EQ(15120, mul);
 }
