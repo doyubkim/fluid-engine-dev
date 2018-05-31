@@ -14,16 +14,17 @@
 
 namespace jet {
 
-template <typename T, size_t N>
-class Tuple {
+template <typename T, size_t N, typename DerivedTuple>
+class TupleBase {
  public:
-    static_assert(N > 0,
-                  "Size of static-sized Tuple should be greater than zero.");
+    using Derived = DerivedTuple;
 
-    constexpr Tuple() : _elements{} {}
+    static_assert(N > 0, "Size should be greater than zero.");
+
+    constexpr TupleBase() : _elements{} {}
 
     template <typename... Args>
-    constexpr Tuple(const Args&... args) : _elements{{args...}} {}
+    constexpr TupleBase(const Args&... args) : _elements{{args...}} {}
 
     T& operator[](size_t i);
 
@@ -31,6 +32,17 @@ class Tuple {
 
  private:
     std::array<T, N> _elements;
+};
+
+template <typename T, size_t N>
+class Tuple : public TupleBase<T, N, Tuple<T, N>> {
+    using Base = TupleBase<T, N, Tuple<T, N>>;
+
+ public:
+    constexpr Tuple() : Base() {}
+
+    template <typename... Args>
+    constexpr Tuple(const Args&... args) : Base(args...) {}
 };
 
 template <size_t N>
@@ -71,18 +83,32 @@ using SizeN = Tuple<size_t, N>;
 
 //
 
-template <typename T>
-class Tuple<T, 1> {
+template <typename T, typename DerivedTuple>
+class TupleBase<T, 1, DerivedTuple> {
  public:
+    using Derived = DerivedTuple;
+
     T x;
 
-    constexpr Tuple() : x(T{}) {}
+    constexpr TupleBase() : x(T{}) {}
 
-    constexpr Tuple(const T& x_) : x(x_) {}
+    constexpr TupleBase(const T& x_) : x(x_) {}
 
     T& operator[](size_t i);
 
     const T& operator[](size_t i) const;
+
+    operator T() const;
+};
+
+template <typename T>
+class Tuple<T, 1> : public TupleBase<T, 1, Tuple<T, 1>> {
+    using Base = TupleBase<T, 1, Tuple<T, 1>>;
+
+ public:
+    constexpr Tuple() : Base() {}
+
+    constexpr Tuple(const T& x_) : Base(x_) {}
 };
 
 template <typename T>
@@ -103,19 +129,31 @@ using Size1 = Tuple1<size_t>;
 
 //
 
-template <typename T>
-class Tuple<T, 2> {
+template <typename T, typename DerivedTuple>
+class TupleBase<T, 2, DerivedTuple> {
  public:
+    using Derived = DerivedTuple;
+
     T x;
     T y;
 
-    constexpr Tuple() : x(T{}), y(T{}) {}
+    constexpr TupleBase() : x(T{}), y(T{}) {}
 
-    constexpr Tuple(const T& x_, const T& y_) : x(x_), y(y_) {}
+    constexpr TupleBase(const T& x_, const T& y_) : x(x_), y(y_) {}
 
     T& operator[](size_t i);
 
     const T& operator[](size_t i) const;
+};
+
+template <typename T>
+class Tuple<T, 2> : public TupleBase<T, 2, Tuple<T, 2>> {
+    using Base = TupleBase<T, 2, Tuple<T, 2>>;
+
+ public:
+    constexpr Tuple() : Base() {}
+
+    constexpr Tuple(const T& x_, const T& y_) : Base(x_, y_) {}
 };
 
 template <typename T>
@@ -136,21 +174,33 @@ using Size2 = Tuple2<size_t>;
 
 //
 
-template <typename T>
-class Tuple<T, 3> {
+template <typename T, typename DerivedTuple>
+class TupleBase<T, 3, DerivedTuple> {
  public:
+    using Derived = DerivedTuple;
+
     T x;
     T y;
     T z;
 
-    constexpr Tuple() : x(T{}), y(T{}), z(T{}) {}
+    constexpr TupleBase() : x(T{}), y(T{}), z(T{}) {}
 
-    constexpr Tuple(const T& x_, const T& y_, const T& z_)
+    constexpr TupleBase(const T& x_, const T& y_, const T& z_)
         : x(x_), y(y_), z(z_) {}
 
     T& operator[](size_t i);
 
     const T& operator[](size_t i) const;
+};
+
+template <typename T>
+class Tuple<T, 3> : public TupleBase<T, 3, Tuple<T, 3>> {
+    using Base = TupleBase<T, 3, Tuple<T, 3>>;
+
+ public:
+    constexpr Tuple() : Base() {}
+
+    constexpr Tuple(const T& x_, const T& y_, const T& z_) : Base(x_, y_, z_) {}
 };
 
 template <typename T>
@@ -171,22 +221,35 @@ using Size3 = Tuple3<size_t>;
 
 //
 
-template <typename T>
-class Tuple<T, 4> {
+template <typename T, typename DerivedTuple>
+class TupleBase<T, 4, DerivedTuple> {
  public:
+    using Derived = DerivedTuple;
+
     T x;
     T y;
     T z;
     T w;
 
-    constexpr Tuple() : x(T{}), y(T{}), z(T{}), w(T{}) {}
+    constexpr TupleBase() : x(T{}), y(T{}), z(T{}), w(T{}) {}
 
-    constexpr Tuple(const T& x_, const T& y_, const T& z_, const T& w_)
+    constexpr TupleBase(const T& x_, const T& y_, const T& z_, const T& w_)
         : x(x_), y(y_), z(z_), w(w_) {}
 
     T& operator[](size_t i);
 
     const T& operator[](size_t i) const;
+};
+
+template <typename T>
+class Tuple<T, 4> : public TupleBase<T, 4, Tuple<T, 4>> {
+    using Base = TupleBase<T, 4, Tuple<T, 4>>;
+
+ public:
+    constexpr Tuple() : Base() {}
+
+    constexpr Tuple(const T& x_, const T& y_, const T& z_, const T& w_)
+        : Base(x_, y_, z_, w_) {}
 };
 
 template <typename T>
