@@ -16,648 +16,231 @@ namespace jet {
 
 namespace internal {
 
-template <typename T, size_t N, typename Op, size_t... I>
-Tuple<T, N> binaryOp(const Tuple<T, N>& a, const Tuple<T, N>& b, const Op& op,
-                     std::index_sequence<I...>) {
-    return Tuple<T, N>{op(a[I], b[I])...};
+template <typename T, size_t N, typename D, typename ReduceOperation, size_t I>
+struct Reduce {
+    constexpr static auto call(const TupleBase<T, N, D>& a, T init,
+                               ReduceOperation op) {
+        return op(Reduce<T, N, D, ReduceOperation, I - 1>::call(a, init, op),
+                  a[I]);
+    }
+};
+
+template <typename T, size_t N, typename D, typename ReduceOperation>
+struct Reduce<T, N, D, ReduceOperation, 0> {
+    constexpr static auto call(const TupleBase<T, N, D>& a, T init,
+                               ReduceOperation op) {
+        return op(a[0], init);
+    }
+};
+
+// We can use std::logical_and<>, but explicitly putting && helps compiler to
+// early terminate the loop (at least for gcc 8.1 as I checked the assembly).
+// With C++17, fold expression could be used instead.
+template <typename T, size_t N, typename D, typename BinaryOperation, size_t I>
+struct FoldWithAnd {
+    constexpr static bool call(const TupleBase<T, N, D>& a,
+                               const TupleBase<T, N, D>& b,
+                               BinaryOperation op) {
+        return FoldWithAnd<T, N, D, BinaryOperation, I - 1>::call(a, b, op) &&
+               op(a[I], b[I]);
+    }
+};
+
+template <typename T, size_t N, typename D, typename BinaryOperation>
+struct FoldWithAnd<T, N, D, BinaryOperation, 0> {
+    constexpr static bool call(const TupleBase<T, N, D>& a,
+                               const TupleBase<T, N, D>& b,
+                               BinaryOperation op) {
+        return op(a[0], b[0]);
+    }
+};
+
+template <typename T, size_t N, typename D, typename Op, size_t... I>
+constexpr auto unaryOp(const TupleBase<T, N, D>& a, Op op,
+                       std::index_sequence<I...>) {
+    return D{op(a[I])...};
 }
 
-template <typename T, size_t N, typename Op,
+template <typename T, size_t N, typename D, typename Op,
           typename Indices = std::make_index_sequence<N>>
-Tuple<T, N> binaryOp(const Tuple<T, N>& a, const Tuple<T, N>& b, const Op& op) {
-    return internal::binaryOp(a, b, op, Indices{});
+constexpr auto unaryOp(const TupleBase<T, N, D>& a, Op op) {
+    return unaryOp(a, op, Indices{});
 }
 
-template <typename T, size_t N, typename Op, size_t... I>
-Tuple<T, N> binaryOp(const T& a, const Tuple<T, N>& b, const Op& op,
-                     std::index_sequence<I...>) {
-    return Tuple<T, N>{op(a, b[I])...};
+template <typename T, size_t N, typename D, typename Op, size_t... I>
+constexpr auto binaryOp(const TupleBase<T, N, D>& a,
+                        const TupleBase<T, N, D>& b, Op op,
+                        std::index_sequence<I...>) {
+    return D{op(a[I], b[I])...};
 }
 
-template <typename T, size_t N, typename Op,
+template <typename T, size_t N, typename D, typename Op,
           typename Indices = std::make_index_sequence<N>>
-Tuple<T, N> binaryOp(const T& a, const Tuple<T, N>& b, const Op& op) {
-    return internal::binaryOp(a, b, op, Indices{});
+auto binaryOp(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b, Op op) {
+    return binaryOp(a, b, op, Indices{});
 }
 
-template <typename T, size_t N, typename Op, size_t... I>
-Tuple<T, N> binaryOp(const Tuple<T, N>& a, const T& b, const Op& op,
-                     std::index_sequence<I...>) {
-    return Tuple<T, N>{op(a[I], b)...};
+template <typename T, size_t N, typename D, typename Op, size_t... I>
+auto binaryOp(const T& a, const TupleBase<T, N, D>& b, Op op,
+              std::index_sequence<I...>) {
+    return D{op(a, b[I])...};
 }
 
-template <typename T, size_t N, typename Op,
+template <typename T, size_t N, typename D, typename Op,
           typename Indices = std::make_index_sequence<N>>
-Tuple<T, N> binaryOp(const Tuple<T, N>& a, const T& b, const Op& op) {
-    return internal::binaryOp(a, b, op, Indices{});
+auto binaryOp(const T& a, const TupleBase<T, N, D>& b, Op op) {
+    return binaryOp(a, b, op, Indices{});
+}
+
+template <typename T, size_t N, typename D, typename Op, size_t... I>
+constexpr auto binaryOp(const TupleBase<T, N, D>& a, const T& b, Op op,
+                        std::index_sequence<I...>) {
+    return D{op(a[I], b)...};
+}
+
+template <typename T, size_t N, typename D, typename Op,
+          typename Indices = std::make_index_sequence<N>>
+constexpr auto binaryOp(const TupleBase<T, N, D>& a, const T& b, Op op) {
+    return binaryOp(a, b, op, Indices{});
 }
 
 }  // namespace internal
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a) {
+    return internal::unaryOp(a, std::negate<T>{});
+}
+
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::plus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const T& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const T& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::plus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator+(const Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator+(const TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, std::plus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator+=(Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator+=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, IAdd<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator+=(Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator+=(TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, IAdd<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::minus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const T& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const T& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::minus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator-(const Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-(const TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, std::minus<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator-=(Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, ISub<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator-=(Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator-=(TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, ISub<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::multiplies<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const T& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const T& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::multiplies<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator*(const Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator*(const TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, std::multiplies<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator*=(Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator*=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, IMul<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator*=(Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator*=(TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, IMul<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const TupleBase<T, N, D>& a,
+                         const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::divides<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const T& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const T& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, std::divides<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator/(const Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator/(const TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, std::divides<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator/=(Tuple<T, N>& a, const Tuple<T, N>& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator/=(TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
     return internal::binaryOp(a, b, IDiv<T>{});
 }
 
-template <typename T, size_t N>
-Tuple<T, N> operator/=(Tuple<T, N>& a, const T& b) {
+template <typename T, size_t N, typename D>
+constexpr auto operator/=(TupleBase<T, N, D>& a, const T& b) {
     return internal::binaryOp(a, b, IDiv<T>{});
 }
 
-template <typename T, size_t N>
-bool operator==(const Tuple<T, N>& a, const Tuple<T, N>& b) {
-    return internal::binaryOp(a, b, std::equal_to<T>{});
+template <typename T, size_t N, typename D>
+constexpr bool operator==(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
+    return internal::FoldWithAnd<T, N, D, std::equal_to<T>, N - 1>::call(
+        a, b, std::equal_to<T>());
 }
 
-template <typename T, size_t N>
-bool operator!=(const Tuple<T, N>& a, const Tuple<T, N>& b) {
-    return internal::binaryOp(a, b, std::not_equal_to<T>{});
-}
-
-//
-
-template <typename T>
-Tuple<T, 1> operator+(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a.x + b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator+(const T& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a + b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator+(const Tuple<T, 1>& a, const T& b) {
-    return Tuple<T, 1>{a.x + b};
-}
-
-template <typename T>
-Tuple<T, 1> operator+=(Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    a.x += b.x;
-}
-
-template <typename T>
-Tuple<T, 1> operator+=(Tuple<T, 1>& a, const T& b) {
-    a.x += b;
-}
-
-template <typename T>
-Tuple<T, 1> operator-(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a.x - b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator-(const T& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a - b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator-(const Tuple<T, 1>& a, const T& b) {
-    return Tuple<T, 1>{a.x - b};
-}
-
-template <typename T>
-Tuple<T, 1> operator-=(Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    a.x -= b.x;
-}
-
-template <typename T>
-Tuple<T, 1> operator-=(Tuple<T, 1>& a, const T& b) {
-    a.x -= b;
-}
-
-template <typename T>
-Tuple<T, 1> operator*(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a.x * b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator*(const T& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a * b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator*(const Tuple<T, 1>& a, const T& b) {
-    return Tuple<T, 1>{a.x * b};
-}
-
-template <typename T>
-Tuple<T, 1> operator*=(Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    a.x *= b.x;
-}
-
-template <typename T>
-Tuple<T, 1> operator*=(Tuple<T, 1>& a, const T& b) {
-    a.x *= b;
-}
-
-template <typename T>
-Tuple<T, 1> operator/(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a.x / b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator/(const T& a, const Tuple<T, 1>& b) {
-    return Tuple<T, 1>{a / b.x};
-}
-
-template <typename T>
-Tuple<T, 1> operator/(const Tuple<T, 1>& a, const T& b) {
-    return Tuple<T, 1>{a.x / b};
-}
-
-template <typename T>
-Tuple<T, 1> operator/=(Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    a.x /= b.x;
-}
-
-template <typename T>
-Tuple<T, 1> operator/=(Tuple<T, 1>& a, const T& b) {
-    a.x /= b;
-}
-
-template <typename T>
-bool operator==(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
-    return a.x == b.x;
-}
-
-template <typename T>
-bool operator!=(const Tuple<T, 1>& a, const Tuple<T, 1>& b) {
+template <typename T, size_t N, typename D>
+constexpr bool operator!=(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b) {
     return !(a == b);
 }
 
-//
-
-template <typename T>
-Tuple<T, 2> operator+(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a.x + b.x, a.y + b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator+(const T& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a + b.x, a + b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator+(const Tuple<T, 2>& a, const T& b) {
-    return Tuple<T, 2>{a.x + b, a.y + b};
-}
-
-template <typename T>
-Tuple<T, 2> operator+=(Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    a.x += b.x;
-    a.y += b.y;
-}
-
-template <typename T>
-Tuple<T, 2> operator+=(Tuple<T, 2>& a, T& b) {
-    a.x += b;
-    a.y += b;
-}
-
-template <typename T>
-Tuple<T, 2> operator-(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a.x - b.x, a.y - b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator-(const T& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a - b.x, a - b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator-(const Tuple<T, 2>& a, const T& b) {
-    return Tuple<T, 2>{a.x - b, a.y - b};
-}
-
-template <typename T>
-Tuple<T, 2> operator-=(Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    a.x -= b.x;
-    a.y -= b.y;
-}
-
-template <typename T>
-Tuple<T, 2> operator-=(Tuple<T, 2>& a, T& b) {
-    a.x -= b;
-    a.y -= b;
-}
-
-template <typename T>
-Tuple<T, 2> operator*(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a.x * b.x, a.y * b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator*(const T& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a * b.x, a * b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator*(const Tuple<T, 2>& a, const T& b) {
-    return Tuple<T, 2>{a.x * b, a.y * b};
-}
-
-template <typename T>
-Tuple<T, 2> operator*=(Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    a.x *= b.x;
-    a.y *= b.y;
-}
-
-template <typename T>
-Tuple<T, 2> operator*=(Tuple<T, 2>& a, T& b) {
-    a.x *= b;
-    a.y *= b;
-}
-
-template <typename T>
-Tuple<T, 2> operator/(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a.x / b.x, a.y / b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator/(const T& a, const Tuple<T, 2>& b) {
-    return Tuple<T, 2>{a / b.x, a / b.y};
-}
-
-template <typename T>
-Tuple<T, 2> operator/(const Tuple<T, 2>& a, const T& b) {
-    return Tuple<T, 2>{a.x / b, a.y / b};
-}
-
-template <typename T>
-Tuple<T, 2> operator/=(Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    a.x /= b.x;
-    a.y /= b.y;
-}
-
-template <typename T>
-Tuple<T, 2> operator/=(Tuple<T, 2>& a, T& b) {
-    a.x /= b;
-    a.y /= b;
-}
-
-template <typename T>
-bool operator==(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return a.x == b.x && a.y == b.y;
-}
-
-template <typename T>
-bool operator!=(const Tuple<T, 2>& a, const Tuple<T, 2>& b) {
-    return !(a == b);
-}
-
-//
-
-template <typename T>
-Tuple<T, 3> operator+(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a.x + b.x, a.y + b.y, a.z + b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator+(const T& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a + b.x, a + b.y, a + b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator+(const Tuple<T, 3>& a, const T& b) {
-    return Tuple<T, 3>{a.x + b, a.y + b, a.z + b};
-}
-
-template <typename T>
-Tuple<T, 3> operator+=(Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    a.x += b.x;
-    a.y += b.y;
-    a.z += b.z;
-}
-
-template <typename T>
-Tuple<T, 3> operator+=(Tuple<T, 3>& a, const T& b) {
-    a.x += b;
-    a.y += b;
-    a.z += b;
-}
-
-template <typename T>
-Tuple<T, 3> operator-(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a.x - b.x, a.y - b.y, a.z - b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator-(const T& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a - b.x, a - b.y, a - b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator-(const Tuple<T, 3>& a, const T& b) {
-    return Tuple<T, 3>{a.x - b, a.y - b, a.z - b};
-}
-
-template <typename T>
-Tuple<T, 3> operator-=(Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    a.x -= b.x;
-    a.y -= b.y;
-    a.z -= b.z;
-}
-
-template <typename T>
-Tuple<T, 3> operator-=(Tuple<T, 3>& a, const T& b) {
-    a.x -= b;
-    a.y -= b;
-    a.z -= b;
-}
-
-template <typename T>
-Tuple<T, 3> operator*(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a.x * b.x, a.y * b.y, a.z * b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator*(const T& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a * b.x, a * b.y, a * b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator*(const Tuple<T, 3>& a, const T& b) {
-    return Tuple<T, 3>{a.x * b, a.y * b, a.z * b};
-}
-
-template <typename T>
-Tuple<T, 3> operator*=(Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    a.x *= b.x;
-    a.y *= b.y;
-    a.z *= b.z;
-}
-
-template <typename T>
-Tuple<T, 3> operator*=(Tuple<T, 3>& a, const T& b) {
-    a.x *= b;
-    a.y *= b;
-    a.z *= b;
-}
-
-template <typename T>
-Tuple<T, 3> operator/(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a.x / b.x, a.y / b.y, a.z / b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator/(const T& a, const Tuple<T, 3>& b) {
-    return Tuple<T, 3>{a / b.x, a / b.y, a / b.z};
-}
-
-template <typename T>
-Tuple<T, 3> operator/(const Tuple<T, 3>& a, const T& b) {
-    return Tuple<T, 3>{a.x / b, a.y / b, a.z / b};
-}
-
-template <typename T>
-Tuple<T, 3> operator/=(Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    a.x /= b.x;
-    a.y /= b.y;
-    a.z /= b.z;
-}
-
-template <typename T>
-Tuple<T, 3> operator/=(Tuple<T, 3>& a, const T& b) {
-    a.x /= b;
-    a.y /= b;
-    a.z /= b;
-}
-
-template <typename T>
-bool operator==(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-
-template <typename T>
-bool operator!=(const Tuple<T, 3>& a, const Tuple<T, 3>& b) {
-    return !(a == b);
-}
-
-//
-
-template <typename T>
-Tuple<T, 4> operator+(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator+(const T& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a + b.x, a + b.y, a + b.z, a + b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator+(const Tuple<T, 4>& a, const T& b) {
-    return Tuple<T, 4>{a.x + b, a.y + b, a.z + b, a.w + b};
-}
-
-template <typename T>
-Tuple<T, 4> operator+=(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    a.x += b.x;
-    a.y += b.y;
-    a.z += b.z;
-    a.w += b.w;
-}
-
-template <typename T>
-Tuple<T, 4> operator+=(const Tuple<T, 4>& a, const T& b) {
-    a.x += b;
-    a.y += b;
-    a.z += b;
-    a.w += b;
-}
-
-template <typename T>
-Tuple<T, 4> operator-(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator-(const T& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a - b.x, a - b.y, a - b.z, a - b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator-(const Tuple<T, 4>& a, const T& b) {
-    return Tuple<T, 4>{a.x - b, a.y - b, a.z - b, a.w - b};
-}
-
-template <typename T>
-Tuple<T, 4> operator-=(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    a.x -= b.x;
-    a.y -= b.y;
-    a.z -= b.z;
-    a.w -= b.w;
-}
-
-template <typename T>
-Tuple<T, 4> operator-=(const Tuple<T, 4>& a, const T& b) {
-    a.x -= b;
-    a.y -= b;
-    a.z -= b;
-    a.w -= b;
-}
-
-template <typename T>
-Tuple<T, 4> operator*(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator*(const T& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a * b.x, a * b.y, a * b.z, a * b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator*(const Tuple<T, 4>& a, const T& b) {
-    return Tuple<T, 4>{a.x * b, a.y * b, a.z * b, a.w * b};
-}
-
-template <typename T>
-Tuple<T, 4> operator*=(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    a.x *= b.x;
-    a.y *= b.y;
-    a.z *= b.z;
-    a.w *= b.w;
-}
-
-template <typename T>
-Tuple<T, 4> operator*=(const Tuple<T, 4>& a, const T& b) {
-    a.x *= b;
-    a.y *= b;
-    a.z *= b;
-    a.w *= b;
-}
-
-template <typename T>
-Tuple<T, 4> operator/(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator/(const T& a, const Tuple<T, 4>& b) {
-    return Tuple<T, 4>{a / b.x, a / b.y, a / b.z, a / b.w};
-}
-
-template <typename T>
-Tuple<T, 4> operator/(const Tuple<T, 4>& a, const T& b) {
-    return Tuple<T, 4>{a.x / b, a.y / b, a.z / b, a.w / b};
-}
-
-template <typename T>
-Tuple<T, 4> operator/=(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    a.x /= b.x;
-    a.y /= b.y;
-    a.z /= b.z;
-    a.w /= b.w;
-}
-
-template <typename T>
-Tuple<T, 4> operator/=(const Tuple<T, 4>& a, const T& b) {
-    a.x /= b;
-    a.y /= b;
-    a.z /= b;
-    a.w /= b;
+template <typename T, size_t N, typename D, typename BinaryOperation>
+constexpr T accumulate(const TupleBase<T, N, D>& a, T init,
+                       BinaryOperation op) {
+    return internal::Reduce<T, N, D, BinaryOperation, N - 1>::call(a, init, op);
 }
 
-template <typename T>
-bool operator==(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
+template <typename T, size_t N, typename D>
+constexpr T accumulate(const TupleBase<T, N, D>& a, T init) {
+    return internal::Reduce<T, N, D, std::plus<T>, N - 1>::call(a, init,
+                                                                std::plus<T>());
 }
 
-template <typename T>
-bool operator!=(const Tuple<T, 4>& a, const Tuple<T, 4>& b) {
-    return !(a == b);
+template <typename T, size_t N, typename D>
+constexpr T product(const TupleBase<T, N, D>& a, T init) {
+    return accumulate(a, init, std::multiplies<T>());
 }
 
 }  // namespace jet
