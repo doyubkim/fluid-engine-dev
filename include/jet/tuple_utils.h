@@ -11,6 +11,8 @@
 
 namespace jet {
 
+// MARK: Basic Operators
+
 template <typename T, size_t N, typename D>
 constexpr auto operator-(const TupleBase<T, N, D>& a);
 
@@ -86,14 +88,36 @@ template <typename T, size_t N, typename D>
 constexpr bool operator!=(const TupleBase<T, N, D>& a,
                           const TupleBase<T, N, D>& b);
 
+// MARK: Simple Utilities
+
+template <typename T, size_t N, typename D>
+void fill(TupleBase<T, N, D>& a, const T& val);
+
 template <typename T, size_t N, typename D, typename BinaryOperation>
-constexpr T accumulate(const TupleBase<T, N, D>& a, T init, BinaryOperation op);
+constexpr T accumulate(const TupleBase<T, N, D>& a, const T& init,
+                       BinaryOperation op);
 
 template <typename T, size_t N, typename D>
-constexpr T accumulate(const TupleBase<T, N, D>& a, T init);
+constexpr T accumulate(const TupleBase<T, N, D>& a, const T& init);
 
 template <typename T, size_t N, typename D>
-constexpr T product(const TupleBase<T, N, D>& a, T init);
+constexpr T product(const TupleBase<T, N, D>& a, const T& init);
+
+template <typename T, size_t N, typename D>
+constexpr auto min(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
+
+template <typename T, size_t N, typename D>
+constexpr auto max(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& b);
+
+template <typename T, size_t N, typename D>
+constexpr auto clamp(const TupleBase<T, N, D>& a, const TupleBase<T, N, D>& low,
+                     const TupleBase<T, N, D>& high);
+
+template <typename T, size_t N, typename D>
+constexpr auto ceil(const TupleBase<T, N, D>& a);
+
+template <typename T, size_t N, typename D>
+constexpr auto floor(const TupleBase<T, N, D>& a);
 
 }  // namespace jet
 

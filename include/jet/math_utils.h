@@ -25,7 +25,8 @@ namespace jet {
 //! \return     True if similar.
 //!
 template <typename T>
-inline bool similar(T x, T y, T eps = std::numeric_limits<T>::epsilon());
+typename std::enable_if<std::is_arithmetic<T>::value, bool>::type  //
+similar(T x, T y, T eps = std::numeric_limits<T>::epsilon());
 
 //!
 //! \brief      Returns the sign of the value.
@@ -37,7 +38,8 @@ inline bool similar(T x, T y, T eps = std::numeric_limits<T>::epsilon());
 //! \return     The sign.
 //!
 template <typename T>
-inline T sign(T x);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+sign(T x);
 
 //!
 //! \brief      Returns the minimum value among three inputs.
@@ -51,7 +53,8 @@ inline T sign(T x);
 //! \return     The minimum value.
 //!
 template <typename T>
-inline T min3(T x, T y, T z);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+min3(T x, T y, T z);
 
 //!
 //! \brief      Returns the maximum value among three inputs.
@@ -65,15 +68,18 @@ inline T min3(T x, T y, T z);
 //! \return     The maximum value.
 //!
 template <typename T>
-inline T max3(T x, T y, T z);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+max3(T x, T y, T z);
 
 //! Returns minimum among n-elements.
 template <typename T>
-inline T minn(const T* x, size_t n);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+minn(const T* x, size_t n);
 
 //! Returns maximum among n-elements.
 template <typename T>
-inline T maxn(const T* x, size_t n);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+maxn(const T* x, size_t n);
 
 //!
 //! \brief      Returns the absolute minimum value among the two inputs.
@@ -86,7 +92,8 @@ inline T maxn(const T* x, size_t n);
 //! \return     The absolute minimum.
 //!
 template <typename T>
-inline T absmin(T x, T y);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+absmin(T x, T y);
 
 //!
 //! \brief      Returns the absolute maximum value among the two inputs.
@@ -99,27 +106,34 @@ inline T absmin(T x, T y);
 //! \return     The absolute maximum.
 //!
 template <typename T>
-inline T absmax(T x, T y);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+absmax(T x, T y);
 
 //! Returns absolute minimum among n-elements.
 template <typename T>
-inline T absminn(const T* x, size_t n);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+absminn(const T* x, size_t n);
 
 //! Returns absolute maximum among n-elements.
 template <typename T>
-inline T absmaxn(const T* x, size_t n);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+absmaxn(const T* x, size_t n);
 
 template <typename T>
-inline size_t argmin2(T x, T y);
+typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+argmin2(T x, T y);
 
 template <typename T>
-inline size_t argmax2(T x, T y);
+typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+argmax2(T x, T y);
 
 template <typename T>
-inline size_t argmin3(T x, T y, T z);
+typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+argmin3(T x, T y, T z);
 
 template <typename T>
-inline size_t argmax3(T x, T y, T z);
+typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+argmax3(T x, T y, T z);
 
 //!
 //! \brief      Returns the square of \p x.
@@ -131,7 +145,8 @@ inline size_t argmax3(T x, T y, T z);
 //! \return     The squared value.
 //!
 template <typename T>
-inline T square(T x);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+square(T x);
 
 //!
 //! \brief      Returns the cubic of \p x.
@@ -143,7 +158,8 @@ inline T square(T x);
 //! \return     The cubic of \p x.
 //!
 template <typename T>
-inline T cubic(T x);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+cubic(T x);
 
 //!
 //! \brief      Returns the clamped value.
@@ -157,7 +173,8 @@ inline T cubic(T x);
 //! \return     The clamped value.
 //!
 template <typename T>
-inline T clamp(T val, T low, T high);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+clamp(T val, T low, T high);
 
 //!
 //! \brief      Converts degrees to radians.
@@ -169,7 +186,8 @@ inline T clamp(T val, T low, T high);
 //! \return     Angle in radians.
 //!
 template <typename T>
-inline T degreesToRadians(T angleInDegrees);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+degreesToRadians(T angleInDegrees);
 
 //!
 //! \brief      Converts radians to degrees.
@@ -181,7 +199,8 @@ inline T degreesToRadians(T angleInDegrees);
 //! \return     Angle in degrees.
 //!
 template <typename T>
-inline T radiansToDegrees(T angleInRadians);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+radiansToDegrees(T angleInRadians);
 
 //!
 //! \brief      Gets the barycentric coordinate.
@@ -194,8 +213,9 @@ inline T radiansToDegrees(T angleInRadians);
 //!
 //! \tparam     T     Value type.
 //!
-template <class T>
-inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t);
+template <typename T>
+typename std::enable_if<std::is_arithmetic<T>::value>::type  //
+getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t);
 
 //!
 //! \brief      Computes linear interpolation.
@@ -210,27 +230,30 @@ inline void getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* t);
 //! \return     The interpolated value.
 //!
 template <typename S, typename T>
-inline S lerp(const S& f0, const S& f1, T t);
+typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+lerp(const S& f0, const S& f1, T t);
 
 //! \brief      Computes bilinear interpolation.
 template <typename S, typename T>
-inline S bilerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx,
-                T ty);
+typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+bilerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx, T ty);
 
 //! \brief      Computes trilinear interpolation.
 template <typename S, typename T>
-inline S trilerp(const S& f000, const S& f100, const S& f010, const S& f110,
-                 const S& f001, const S& f101, const S& f011, const S& f111,
-                 T tx, T ty, T tz);
+typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+trilerp(const S& f000, const S& f100, const S& f010, const S& f110,
+        const S& f001, const S& f101, const S& f011, const S& f111, T tx, T ty,
+        T tz);
 
 //! \brief      Computes Catmull-Rom interpolation.
 template <typename S, typename T>
-inline S catmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T t);
+typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+catmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T t);
 
 //! \brief      Computes monotonic Catmull-Rom interpolation.
 template <typename T>
-inline T monotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3,
-                             T t);
+typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+monotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3, T t);
 
 }  // namespace jet
 

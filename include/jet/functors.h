@@ -17,6 +17,18 @@ struct TypeCast {
     constexpr U operator()(const T& a) const;
 };
 
+//! Performs std::ceil.
+template <typename T>
+struct Ceil {
+    constexpr T operator()(const T& a) const;
+};
+
+//! Performs std::floor.
+template <typename T>
+struct Floor {
+    constexpr T operator()(const T& a) const;
+};
+
 //! Reverse minus operator.
 template <typename T>
 struct RMinus {
@@ -51,6 +63,24 @@ struct IMul {
 template <typename T>
 struct IDiv {
     constexpr void operator()(T& a, const T& b) const;
+};
+
+//! Takes minimum value.
+template <typename T>
+struct Min {
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Takes maximum value.
+template <typename T>
+struct Max {
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Clamps the input value with low/high.
+template <typename T>
+struct Clamp {
+    constexpr T operator()(const T& a, const T& low, const T& high) const;
 };
 
 }  // namespace jet
