@@ -8,12 +8,23 @@
 #define INCLUDE_JET_DETAIL_FUNCTORS_INL_H_
 
 #include <jet/functors.h>
+#include <jet/math_utils.h>
 
 namespace jet {
 
 template <typename T, typename U>
 constexpr U TypeCast<T, U>::operator()(const T& a) const {
     return static_cast<U>(a);
+}
+
+template <typename T>
+constexpr T Ceil<T>::operator()(const T& a) const {
+    return std::ceil(a);
+}
+
+template <typename T>
+constexpr T Floor<T>::operator()(const T& a) const {
+    return std::floor(a);
 }
 
 template <typename T>
@@ -45,6 +56,23 @@ template <typename T>
 constexpr void IDiv<T>::operator()(T& a, const T& b) const {
     a /= b;
 }
+
+template <typename T>
+constexpr T Min<T>::operator()(const T& a, const T& b) const {
+    return std::min(a, b);
+}
+
+template <typename T>
+constexpr T Max<T>::operator()(const T& a, const T& b) const {
+    return std::max(a, b);
+}
+
+template <typename T>
+constexpr T Clamp<T>::operator()(const T& a, const T& low,
+                                 const T& high) const {
+    return clamp(a, low, high);
+}
+
 }  // namespace jet
 
 #endif  // INCLUDE_JET_DETAIL_FUNCTORS_INL_H_

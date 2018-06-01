@@ -143,7 +143,7 @@ TEST(Tuple, Compare) {
     EXPECT_EQ(b, c);
 }
 
-TEST(Tuple, ReduceOp) {
+TEST(Tuple, Utilities) {
     IntN<5> a{5, 6, 7, 8, 9};
 
     int sum = accumulate(a, 0);
@@ -151,4 +151,25 @@ TEST(Tuple, ReduceOp) {
 
     int mul = product(a, 1);
     EXPECT_EQ(15120, mul);
+
+    IntN<5> b{6, 3, 9, 1, 4};
+    auto c = min(a, b);
+    EXPECT_EQ(IntN<5>(5, 3, 7, 1, 4), c);
+
+    auto d = max(a, b);
+    EXPECT_EQ(IntN<5>(6, 6, 9, 8, 9), d);
+
+    Float3 f3{2.f, 4.f, 1.f}, low{3.f, -1.f, 0.f}, high{5.f, 2.f, 3.f};
+    auto clampedF3 = clamp<float, 3, Float3>(f3, low, high);
+    EXPECT_EQ(Float3(3.f, 2.f, 1.f), clampedF3);
+
+    Float4 e{2.5f, 4.1f, 1.9f, 2.0f};
+    auto f = ceil(e);
+    EXPECT_EQ(Float4(3.0f, 5.0f, 2.0f, 2.0f), f);
+
+    auto g = floor(e);
+    EXPECT_EQ(Float4(2.0f, 4.0f, 1.0f, 2.0f), g);
+
+    fill(a, 4);
+    EXPECT_EQ(IntN<5>(4, 4, 4, 4, 4), a);
 }
