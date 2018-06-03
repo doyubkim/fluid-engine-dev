@@ -88,6 +88,7 @@ if (USE_GL)
 
     # Add dear ImGui
     set(IMGUI_LIBRARIES imgui)
+endif()
 
 # Includes
 include_directories(/usr/local/include)
@@ -138,15 +139,7 @@ if (USE_CUDA)
     find_package(CUDA)
 
     if (CUDA_FOUND)
-        list(APPEND CUDA_NVCC_FLAGS
-             -Wno-deprecated-gpu-targets
-                -arch=sm_30
-                -gencode=arch=compute_30,code=sm_30
-                -gencode=arch=compute_50,code=sm_50
-                -gencode=arch=compute_52,code=sm_52
-                -gencode=arch=compute_60,code=sm_60
-                -gencode=arch=compute_61,code=sm_61
-                -gencode=arch=compute_61,code=compute_61)
+        list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
         add_definitions(-DJET_USE_CUDA)
         include_directories(${CUDA_INCLUDE_DIRS})
 
@@ -160,7 +153,7 @@ if (USE_CUDA)
                 /wd4505
             )
         else()
-            list(APPEND CUDA_NVCC_FLAGS --std=c++11)
+            list(APPEND CUDA_NVCC_FLAGS --std=c++14)
         endif()
     else()
         set(USE_CUDA OFF)
