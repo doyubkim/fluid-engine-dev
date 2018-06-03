@@ -38,22 +38,22 @@ constexpr T RDivides<T>::operator()(const T& a, const T& b) const {
 }
 
 template <typename T>
-constexpr void IAdd<T>::operator()(T& a, const T& b) const {
+void IAdd<T>::operator()(T& a, const T& b) const {
     a += b;
 }
 
 template <typename T>
-constexpr void ISub<T>::operator()(T& a, const T& b) const {
+void ISub<T>::operator()(T& a, const T& b) const {
     a -= b;
 }
 
 template <typename T>
-constexpr void IMul<T>::operator()(T& a, const T& b) const {
+void IMul<T>::operator()(T& a, const T& b) const {
     a *= b;
 }
 
 template <typename T>
-constexpr void IDiv<T>::operator()(T& a, const T& b) const {
+void IDiv<T>::operator()(T& a, const T& b) const {
     a /= b;
 }
 
