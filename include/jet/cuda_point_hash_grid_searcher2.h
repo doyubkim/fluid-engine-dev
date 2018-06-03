@@ -47,8 +47,9 @@ class CudaPointHashGridSearcher2 final {
         getHashKeyFromPosition(float2 position) const;
 
      private:
-        float _gridSpacing;
         uint2 _resolution;
+        float _gridSpacing;
+        uint1 _dummy;
     };
 
     template <typename Callback>
@@ -234,6 +235,7 @@ class CudaPointHashGridSearcher2 final {
 
  private:
     float _gridSpacing = 1.0f;
+    uint1 _dummy;
     uint2 _resolution = make_uint2(1, 1);
     CudaArray1<float2> _points;
     CudaArray1<uint32_t> _keys;

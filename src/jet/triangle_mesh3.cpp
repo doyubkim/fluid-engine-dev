@@ -4,15 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-// TODO: Remove once libobj is replaced with other library (#172)
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#elif defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnarrowing"
-#endif
-
 #include <pch.h>
 
 #include <jet/parallel.h>
@@ -649,9 +640,3 @@ TriangleMesh3Ptr TriangleMesh3::Builder::makeShared() const {
                           _isNormalFlipped),
         [](TriangleMesh3* obj) { delete obj; });
 }
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#endif
