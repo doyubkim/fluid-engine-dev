@@ -279,7 +279,7 @@ void PointHashGridSearcher3::deserialize(const std::vector<uint8_t>& buffer) {
 
     // Copy simple data
     auto res = fbsToJet(*fbsSearcher->resolution());
-    _resolution = {res.x, res.y, res.z};
+    _resolution = {(ssize_t)res.x, (ssize_t)res.y, (ssize_t)res.z};
     _gridSpacing = fbsSearcher->gridSpacing();
 
     // Copy points
