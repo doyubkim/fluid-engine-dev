@@ -54,7 +54,7 @@ void CudaTexture<T, N, Derived>::clear() {
         _tex = 0;
     }
 
-    _size = Size<N>{};
+    _size = SizeN<N>{};
 }
 
 template <typename T, size_t N, typename Derived>
@@ -146,7 +146,7 @@ CudaTexture1<T>& CudaTexture1<T>::operator=(CudaTexture1&& other) {
 }
 
 template <typename T>
-void CudaTexture1<T>::resize(const Size<1>& size) {
+void CudaTexture1<T>::resize(const Size1& size) {
     if (size[0] == 0) {
         clear();
         return;
@@ -166,7 +166,7 @@ void CudaTexture1<T>::resize(const Size<1>& size) {
 template <typename T>
 template <typename View>
 void CudaTexture1<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
-    resize(Size<1>(view.size()));
+    resize(Size1(view.size()));
 
     if (view.size() == 0) {
         return;
@@ -243,7 +243,7 @@ CudaTexture2<T>& CudaTexture2<T>::operator=(CudaTexture2&& other) {
 }
 
 template <typename T>
-void CudaTexture2<T>::resize(const Size<2>& size) {
+void CudaTexture2<T>::resize(const Size2& size) {
     if (size[0] * size[1] == 0) {
         clear();
         return;
@@ -264,7 +264,7 @@ template <typename T>
 template <typename View>
 void CudaTexture2<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
-    resize(Size<2>{view.width(), view.height()});
+    resize(Size2{view.width(), view.height()});
 
     if (view.width() * view.height() == 0) {
         return;
@@ -353,7 +353,7 @@ CudaTexture3<T>& CudaTexture3<T>::operator=(CudaTexture3&& other) {
 }
 
 template <typename T>
-void CudaTexture3<T>::resize(const Size<3>& size) {
+void CudaTexture3<T>::resize(const Size3& size) {
     if (size[0] * size[1] * size[2] == 0) {
         clear();
         return;
@@ -377,7 +377,7 @@ template <typename T>
 template <typename View>
 void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    Size<3> size{view.width(), view.height(), view.depth()};
+    Size3 size{view.width(), view.height(), view.depth()};
     resize(size);
 
     if (view.width() * view.height() * view.depth() == 0) {
@@ -401,7 +401,7 @@ void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
 template <typename T>
 void CudaTexture3<T>::_set(const CudaTexture3& other) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    Size<3> size{other.width(), other.height(), other.depth()};
+    Size3 size{other.width(), other.height(), other.depth()};
     resize(size);
 
     if (other.width() * other.height() * other.depth() == 0) {

@@ -36,7 +36,7 @@ class CudaTexture {
     cudaTextureObject_t textureObject() const;
 
  protected:
-    Size<N> _size;
+    SizeN<N> _size;
     cudaArray_t _array = nullptr;
     cudaTextureObject_t _tex = 0;
 
@@ -84,7 +84,7 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
  private:
     friend class Base;
 
-    void resize(const Size<1>& size);
+    void resize(const Size1& size);
 
     template <typename View>
     void _set(const View& view, cudaMemcpyKind memcpyKind);
@@ -120,7 +120,7 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
  private:
     friend class Base;
 
-    void resize(const Size<2>& size);
+    void resize(const Size2& size);
 
     template <typename View>
     void _set(const View& view, cudaMemcpyKind memcpyKind);
@@ -158,7 +158,7 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
  private:
     friend class Base;
 
-    void resize(const Size<3>& size);
+    void resize(const Size3& size);
 
     template <typename View>
     void _set(const View& view, cudaMemcpyKind memcpyKind);

@@ -4,15 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-// TODO: Remove once libobj is replaced with other library (#172)
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-#elif defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnarrowing"
-#endif
-
 #include <pch.h>
 
 #include <jet/parallel.h>
@@ -509,39 +500,43 @@ bool TriangleMesh3::readObj(std::istream* strm) {
     parser.face_callbacks(
         // triangular_face_geometric_vertices_callback_type
         [this](obj::index_type v0, obj::index_type v1, obj::index_type v2) {
-            addPointTriangle({v0 - 1, v1 - 1, v2 - 1});
+            addPointTriangle({size_t(v0 - 1), size_t(v1 - 1), size_t(v2 - 1)});
         },
         // triangular_face_geometric_vertices_texture_vertices_callback_type
         [this](const obj::index_2_tuple_type& v0_vt0,
                const obj::index_2_tuple_type& v1_vt1,
                const obj::index_2_tuple_type& v2_vt2) {
-            addPointUvTriangle(
-                {std::get<0>(v0_vt0) - 1, std::get<0>(v1_vt1) - 1,
-                 std::get<0>(v2_vt2) - 1},
-                {std::get<1>(v0_vt0) - 1, std::get<1>(v1_vt1) - 1,
-                 std::get<1>(v2_vt2) - 1});
+            addPointUvTriangle({size_t(std::get<0>(v0_vt0) - 1),
+                                size_t(std::get<0>(v1_vt1) - 1),
+                                size_t(std::get<0>(v2_vt2) - 1)},
+                               {size_t(std::get<1>(v0_vt0) - 1),
+                                size_t(std::get<1>(v1_vt1) - 1),
+                                size_t(std::get<1>(v2_vt2) - 1)});
         },
         // triangular_face_geometric_vertices_vertex_normals_callback_type
         [this](const obj::index_2_tuple_type& v0_vn0,
                const obj::index_2_tuple_type& v1_vn1,
                const obj::index_2_tuple_type& v2_vn2) {
-            addPointNormalTriangle(
-                {std::get<0>(v0_vn0) - 1, std::get<0>(v1_vn1) - 1,
-                 std::get<0>(v2_vn2) - 1},
-                {std::get<1>(v0_vn0) - 1, std::get<1>(v1_vn1) - 1,
-                 std::get<1>(v2_vn2) - 1});
+            addPointNormalTriangle({size_t(std::get<0>(v0_vn0) - 1),
+                                    size_t(std::get<0>(v1_vn1) - 1),
+                                    size_t(std::get<0>(v2_vn2) - 1)},
+                                   {size_t(std::get<1>(v0_vn0) - 1),
+                                    size_t(std::get<1>(v1_vn1) - 1),
+                                    size_t(std::get<1>(v2_vn2) - 1)});
         },
         // triangular_face_geometric_vertices_texture_vertices_vertex_normals...
         [this](const obj::index_3_tuple_type& v0_vt0_vn0,
                const obj::index_3_tuple_type& v1_vt1_vn1,
                const obj::index_3_tuple_type& v2_vt2_vn2) {
-            addPointUvNormalTriangle(
-                {std::get<0>(v0_vt0_vn0) - 1, std::get<0>(v1_vt1_vn1) - 1,
-                 std::get<0>(v2_vt2_vn2) - 1},
-                {std::get<1>(v0_vt0_vn0) - 1, std::get<1>(v1_vt1_vn1) - 1,
-                 std::get<1>(v2_vt2_vn2) - 1},
-                {std::get<2>(v0_vt0_vn0) - 1, std::get<2>(v1_vt1_vn1) - 1,
-                 std::get<2>(v2_vt2_vn2) - 1});
+            addPointUvNormalTriangle({size_t(std::get<0>(v0_vt0_vn0) - 1),
+                                      size_t(std::get<0>(v1_vt1_vn1) - 1),
+                                      size_t(std::get<0>(v2_vt2_vn2) - 1)},
+                                     {size_t(std::get<1>(v0_vt0_vn0) - 1),
+                                      size_t(std::get<1>(v1_vt1_vn1) - 1),
+                                      size_t(std::get<1>(v2_vt2_vn2) - 1)},
+                                     {size_t(std::get<2>(v0_vt0_vn0) - 1),
+                                      size_t(std::get<2>(v1_vt1_vn1) - 1),
+                                      size_t(std::get<2>(v2_vt2_vn2) - 1)});
         },
         // quadrilateral_face_geometric_vertices_callback_type
         [](obj::index_type, obj::index_type, obj::index_type, obj::index_type) {
@@ -678,9 +673,3 @@ TriangleMesh3Ptr TriangleMesh3::Builder::makeShared() const {
                           _isNormalFlipped),
         [](TriangleMesh3* obj) { delete obj; });
 }
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#endif
