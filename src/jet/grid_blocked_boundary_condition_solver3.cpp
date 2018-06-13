@@ -28,14 +28,14 @@ void GridBlockedBoundaryConditionSolver3::constrainVelocity(
 
     // No-flux: project the velocity at the marker interface
     Size3 size = velocity->resolution();
-    auto u = velocity->uAccessor();
-    auto v = velocity->vAccessor();
-    auto w = velocity->wAccessor();
+    auto u = velocity->uView();
+    auto v = velocity->vView();
+    auto w = velocity->wView();
     auto uPos = velocity->uPosition();
     auto vPos = velocity->vPosition();
     auto wPos = velocity->wPosition();
 
-    _marker.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(_marker.size(), [&](size_t i, size_t j, size_t k) {
         if (_marker(i, j, k) == kCollider) {
             if (i > 0 && _marker(i - 1, j, k) == kFluid) {
                 Vector3D colliderVel = collider()->velocityAt(uPos(i, j, k));
@@ -83,7 +83,7 @@ void GridBlockedBoundaryConditionSolver3::onColliderUpdated(
         = std::dynamic_pointer_cast<CellCenteredScalarGrid3>(colliderSdf());
 
     _marker.resize(gridSize);
-    _marker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(_marker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf((*sdf)(i, j, k))) {
             _marker(i, j, k) = kCollider;
         } else {

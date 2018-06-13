@@ -10,7 +10,7 @@
 namespace jet {
 
 Vector2D gradient2(
-    const ConstArrayAccessor2<double>& data,
+    const ConstArrayView2<double>& data,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
@@ -27,7 +27,7 @@ Vector2D gradient2(
 }
 
 std::array<Vector2D, 2> gradient2(
-    const ConstArrayAccessor2<Vector2D>& data,
+    const ConstArrayView2<Vector2D>& data,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
@@ -47,7 +47,7 @@ std::array<Vector2D, 2> gradient2(
 }
 
 Vector3D gradient3(
-    const ConstArrayAccessor3<double>& data,
+    const ConstArrayView3<double>& data,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,
@@ -67,7 +67,7 @@ Vector3D gradient3(
 }
 
 std::array<Vector3D, 3> gradient3(
-    const ConstArrayAccessor3<Vector3D>& data,
+    const ConstArrayView3<Vector3D>& data,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,
@@ -94,7 +94,7 @@ std::array<Vector3D, 3> gradient3(
 }
 
 double laplacian2(
-    const ConstArrayAccessor2<double>& data,
+    const ConstArrayView2<double>& data,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
@@ -127,7 +127,7 @@ double laplacian2(
 }
 
 Vector2D laplacian2(
-    const ConstArrayAccessor2<Vector2D>& data,
+    const ConstArrayView2<Vector2D>& data,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
@@ -160,7 +160,7 @@ Vector2D laplacian2(
 }
 
 double laplacian3(
-    const ConstArrayAccessor3<double>& data,
+    const ConstArrayView3<double>& data,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,
@@ -204,7 +204,7 @@ double laplacian3(
 }
 
 Vector3D laplacian3(
-    const ConstArrayAccessor3<Vector3D>& data,
+    const ConstArrayView3<Vector3D>& data,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,

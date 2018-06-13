@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_MATRIX_MXN_H_
 #define INCLUDE_JET_MATRIX_MXN_H_
 
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/matrix_expression.h>
 #include <jet/vector_n.h>
 

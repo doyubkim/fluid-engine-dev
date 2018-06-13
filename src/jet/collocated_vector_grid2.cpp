@@ -4,19 +4,19 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/collocated_vector_grid2.h>
-#include <jet/parallel.h>
-#include <jet/serial.h>
 #include <pch.h>
 
+#include <jet/array_utils.h>
+#include <jet/collocated_vector_grid2.h>
+#include <jet/parallel.h>
+
 #include <algorithm>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 using namespace jet;
 
 CollocatedVectorGrid2::CollocatedVectorGrid2()
-    : _linearSampler(_data.constAccessor(), Vector2D(1, 1), Vector2D()) {}
+    : _linearSampler(_data, Vector2D(1, 1), Vector2D()) {}
 
 CollocatedVectorGrid2::~CollocatedVectorGrid2() {}
 
@@ -100,13 +100,12 @@ std::function<Vector2D(const Vector2D&)> CollocatedVectorGrid2::sampler()
     return _sampler;
 }
 
-VectorGrid2::VectorDataAccessor CollocatedVectorGrid2::dataAccessor() {
-    return _data.accessor();
+VectorGrid2::VectorDataView CollocatedVectorGrid2::dataView() {
+    return VectorGrid2::VectorDataView{_data};
 }
 
-VectorGrid2::ConstVectorDataAccessor CollocatedVectorGrid2::constDataAccessor()
-    const {
-    return _data.constAccessor();
+VectorGrid2::ConstVectorDataView CollocatedVectorGrid2::dataView() const {
+    return VectorGrid2::ConstVectorDataView{_data};
 }
 
 VectorGrid2::DataPositionFunc CollocatedVectorGrid2::dataPosition() const {
@@ -118,12 +117,12 @@ VectorGrid2::DataPositionFunc CollocatedVectorGrid2::dataPosition() const {
 
 void CollocatedVectorGrid2::forEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    _data.forEachIndex(func);
+    forEachIndex(_data.size(), func);
 }
 
 void CollocatedVectorGrid2::parallelForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    _data.parallelForEachIndex(func);
+    parallelForEachIndex(_data.size(), func);
 }
 
 void CollocatedVectorGrid2::swapCollocatedVectorGrid(
@@ -157,7 +156,7 @@ void CollocatedVectorGrid2::onResize(const Size2& resolution,
 
 void CollocatedVectorGrid2::resetSampler() {
     _linearSampler = LinearArraySampler2<Vector2D, double>(
-        _data.constAccessor(), gridSpacing(), dataOrigin());
+        _data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 
@@ -165,7 +164,8 @@ void CollocatedVectorGrid2::getData(std::vector<double>* data) const {
     size_t size = 2 * dataSize().x * dataSize().y;
     data->resize(size);
     size_t cnt = 0;
-    _data.forEach([&](const Vector2D& value) {
+    forEachIndex(_data.size(), [&](size_t i, size_t j) {
+        const Vector2D& value = _data(i, j);
         (*data)[cnt++] = value.x;
         (*data)[cnt++] = value.y;
     });
@@ -175,7 +175,7 @@ void CollocatedVectorGrid2::setData(const std::vector<double>& data) {
     JET_ASSERT(2 * dataSize().x * dataSize().y == data.size());
 
     size_t cnt = 0;
-    _data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(_data.size(), [&](size_t i, size_t j) {
         _data(i, j).x = data[cnt++];
         _data(i, j).y = data[cnt++];
     });

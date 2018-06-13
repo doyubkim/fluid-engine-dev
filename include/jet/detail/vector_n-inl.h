@@ -72,7 +72,8 @@ void VectorN<T>::set(const VectorExpression<T, E>& other) {
 
     // Parallel evaluation of the expression
     const E& expression = other();
-    parallelForEachIndex([&](size_t i) { _elements[i] = expression[i]; });
+    parallelForEachIndex(other.size(),
+                         [&](size_t i) { _elements[i] = expression[i]; });
 }
 
 template <typename T>
@@ -131,13 +132,13 @@ typename VectorN<T>::ContainerType::const_iterator VectorN<T>::end() const {
 }
 
 template <typename T>
-ArrayAccessor1<T> VectorN<T>::accessor() {
-    return ArrayAccessor1<T>(size(), data());
+ArrayView1<T> VectorN<T>::view() {
+    return ArrayView1<T>(data(), size());
 }
 
 template <typename T>
-ConstArrayAccessor1<T> VectorN<T>::constAccessor() const {
-    return ConstArrayAccessor1<T>(size(), data());
+ConstArrayView1<T> VectorN<T>::view() const {
+    return ConstArrayView1<T>(data(), size());
 }
 
 template <typename T>
@@ -435,30 +436,6 @@ template <typename T>
 template <typename E>
 void VectorN<T>::idiv(const E& v) {
     set(div(v));
-}
-
-template <typename T>
-template <typename Callback>
-void VectorN<T>::forEach(Callback func) const {
-    constAccessor().forEach(func);
-}
-
-template <typename T>
-template <typename Callback>
-void VectorN<T>::forEachIndex(Callback func) const {
-    constAccessor().forEachIndex(func);
-}
-
-template <typename T>
-template <typename Callback>
-void VectorN<T>::parallelForEach(Callback func) {
-    accessor().parallelForEach(func);
-}
-
-template <typename T>
-template <typename Callback>
-void VectorN<T>::parallelForEachIndex(Callback func) const {
-    constAccessor().parallelForEachIndex(func);
 }
 
 template <typename T>

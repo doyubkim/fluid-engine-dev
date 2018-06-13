@@ -20,7 +20,7 @@ TEST(FdmUtils, ScalarToGradient2) {
     });
 
     Vector2D grad = gradient2(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3);
+        grid.dataView(), grid.gridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-5.0, grad.x);
     EXPECT_DOUBLE_EQ(4.0, grad.y);
 }
@@ -32,7 +32,7 @@ TEST(FdmUtils, VectorToGradient2) {
     });
 
     auto grad = gradient2(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3);
+        grid.dataView(), grid.gridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-5.0, grad[0].x);
     EXPECT_DOUBLE_EQ(4.0, grad[0].y);
     EXPECT_DOUBLE_EQ(2.0, grad[1].x);
@@ -46,7 +46,7 @@ TEST(FdmUtils, ScalarToGradient3) {
     });
 
     Vector3D grad = gradient3(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3, 4);
+        grid.dataView(), grid.gridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-5.0, grad.x);
     EXPECT_DOUBLE_EQ(4.0, grad.y);
     EXPECT_DOUBLE_EQ(2.0, grad.z);
@@ -62,7 +62,7 @@ TEST(FdmUtils, VectorToGradient3) {
     });
 
     auto grad = gradient3(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3, 4);
+        grid.dataView(), grid.gridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-5.0, grad[0].x);
     EXPECT_DOUBLE_EQ(4.0, grad[0].y);
     EXPECT_DOUBLE_EQ(2.0, grad[0].z);
@@ -81,7 +81,7 @@ TEST(FdmUtils, ScalarToLaplacian2) {
     });
 
     double lapl = laplacian2(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3);
+        grid.dataView(), grid.gridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-2.0, lapl);
 }
 
@@ -94,7 +94,7 @@ TEST(FdmUtils, VectorToLaplacian2) {
     });
 
     auto lapl = laplacian2(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3);
+        grid.dataView(), grid.gridSpacing(), 5, 3);
     EXPECT_DOUBLE_EQ(-2.0, lapl.x);
     EXPECT_DOUBLE_EQ(-10.0, lapl.y);
 }
@@ -106,7 +106,7 @@ TEST(FdmUtils, ScalarToLaplacian3) {
     });
 
     double lapl = laplacian3(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3, 4);
+        grid.dataView(), grid.gridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(-8.0, lapl);
 }
 
@@ -120,7 +120,7 @@ TEST(FdmUtils, VectorToLaplacian3) {
     });
 
     auto lapl = laplacian3(
-        grid.constDataAccessor(), grid.gridSpacing(), 5, 3, 4);
+        grid.dataView(), grid.gridSpacing(), 5, 3, 4);
     EXPECT_DOUBLE_EQ(2.0, lapl.x);
     EXPECT_DOUBLE_EQ(-10.0, lapl.y);
     EXPECT_DOUBLE_EQ(8.0, lapl.z);

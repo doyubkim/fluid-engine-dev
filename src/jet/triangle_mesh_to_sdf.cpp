@@ -27,7 +27,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/array_utils.h>
 #include <jet/triangle_mesh_to_sdf.h>
 #include <pch.h>

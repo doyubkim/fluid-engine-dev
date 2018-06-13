@@ -315,8 +315,8 @@ ScalarField2Ptr GridFluidSolver2::fluidSdf() const {
 void GridFluidSolver2::computeGravity(double timeIntervalInSeconds) {
     if (_gravity.lengthSquared() > kEpsilonD) {
         auto vel = _grids->velocity();
-        auto u = vel->uAccessor();
-        auto v = vel->vAccessor();
+        auto u = vel->uView();
+        auto v = vel->vView();
 
         if (std::abs(_gravity.x) > kEpsilonD) {
             vel->forEachUIndex([&](size_t i, size_t j) {
@@ -346,7 +346,7 @@ void GridFluidSolver2::applyBoundaryCondition() {
 void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
     Array2<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
-    marker.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(marker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
         } else {
@@ -355,14 +355,14 @@ void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(grid->constDataAccessor(), marker, depth,
-                        grid->dataAccessor());
+    extrapolateToRegion(grid->dataView(), marker, depth,
+                                grid->dataView());
 }
 
 void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
     Array2<char> marker(grid->dataSize());
     auto pos = grid->dataPosition();
-    marker.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(marker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
         } else {
@@ -371,20 +371,20 @@ void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(grid->constDataAccessor(), marker, depth,
-                        grid->dataAccessor());
+    extrapolateToRegion<Vector2D>(grid->dataView(), marker, depth,
+                                  grid->dataView());
 }
 
 void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
-    auto u = grid->uAccessor();
-    auto v = grid->vAccessor();
+    auto u = grid->uView();
+    auto v = grid->vView();
     auto uPos = grid->uPosition();
     auto vPos = grid->vPosition();
 
     Array2<char> uMarker(u.size());
     Array2<char> vMarker(v.size());
 
-    uMarker.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(uMarker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(uPos(i, j)))) {
             uMarker(i, j) = 0;
         } else {
@@ -392,7 +392,7 @@ void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
         }
     });
 
-    vMarker.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(vMarker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(vPos(i, j)))) {
             vMarker(i, j) = 0;
         } else {
@@ -401,8 +401,8 @@ void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(grid->uConstAccessor(), uMarker, depth, u);
-    extrapolateToRegion(grid->vConstAccessor(), vMarker, depth, v);
+    extrapolateToRegion(grid->uView(), uMarker, depth, u);
+    extrapolateToRegion(grid->vView(), vMarker, depth, v);
 }
 
 ScalarField2Ptr GridFluidSolver2::colliderSdf() const {

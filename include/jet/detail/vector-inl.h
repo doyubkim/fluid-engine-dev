@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_DETAIL_VECTOR_INL_H_
 #define INCLUDE_JET_DETAIL_VECTOR_INL_H_
 
+#include <jet/array_utils.h>
 #include <jet/macros.h>
 #include <jet/math_utils.h>
 #include <jet/vector.h>
@@ -67,7 +68,7 @@ void Vector<T, N>::set(const VectorExpression<T, E>& other) {
 
     // Parallel evaluation of the expression
     const E& expression = other();
-    forEachIndex([&](size_t i) { _elements[i] = expression[i]; });
+    forEachIndex(size(), [&](size_t i) { _elements[i] = expression[i]; });
 }
 
 template <typename T, size_t N>
@@ -121,13 +122,13 @@ typename Vector<T, N>::ConstIterator Vector<T, N>::end() const {
 }
 
 template <typename T, size_t N>
-ArrayAccessor1<T> Vector<T, N>::accessor() {
-    return ArrayAccessor1<T>(size(), data());
+ArrayView1<T> Vector<T, N>::view() {
+    return ArrayView1<T>(data(), size());
 }
 
 template <typename T, size_t N>
-ConstArrayAccessor1<T> Vector<T, N>::constAccessor() const {
-    return ConstArrayAccessor1<T>(size(), data());
+ConstArrayView1<T> Vector<T, N>::view() const {
+    return ConstArrayView1<T>(data(), size());
 }
 
 template <typename T, size_t N>
@@ -399,18 +400,6 @@ template <typename T, size_t N>
 template <typename E>
 void Vector<T, N>::idiv(const E& v) {
     set(div(v));
-}
-
-template <typename T, size_t N>
-template <typename Callback>
-void Vector<T, N>::forEach(Callback func) const {
-    constAccessor().forEach(func);
-}
-
-template <typename T, size_t N>
-template <typename Callback>
-void Vector<T, N>::forEachIndex(Callback func) const {
-    constAccessor().forEachIndex(func);
 }
 
 template <typename T, size_t N>

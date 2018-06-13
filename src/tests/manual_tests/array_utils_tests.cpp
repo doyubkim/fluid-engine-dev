@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/array_utils.h>
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/vector2.h>
 
 using namespace jet;
@@ -15,8 +15,8 @@ using namespace jet;
 JET_TESTS(ArrayUtils);
 
 JET_BEGIN_TEST_F(ArrayUtils, ExtralateToRegion2) {
-    Array2<double> data(128, 192, 0.0);
-    Array2<char> valid(128, 192, 0);
+    Array2<double> data({128, 192}, 0.0);
+    Array2<char> valid({128, 192}, 0);
 
     for (int j = 0; j < 192; ++j) {
         for (int i = 0; i < 128; ++i) {
@@ -33,13 +33,13 @@ JET_BEGIN_TEST_F(ArrayUtils, ExtralateToRegion2) {
         }
     }
 
-    saveData(data.constAccessor(), "data0.npy");
-    saveData(valid.constAccessor(), "valid0.npy");
+    saveData<double>(data.view(), "data0.npy");
+    saveData<char>(valid.view(), "valid0.npy");
 
     extrapolateToRegion(
-        data.constAccessor(), valid.constAccessor(), 10, data.accessor());
+        data.view(), valid.view(), 10, data.view());
 
-    saveData(data.constAccessor(), "data10.npy");
-    saveData(valid.constAccessor(), "valid10.npy");
+    saveData<double>(data.view(), "data10.npy");
+    saveData<char>(valid.view(), "valid10.npy");
 }
 JET_END_TEST_F

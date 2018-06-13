@@ -26,7 +26,7 @@ PointKdTreeSearcher2::PointKdTreeSearcher2(const PointKdTreeSearcher2& other) {
     set(other);
 }
 
-void PointKdTreeSearcher2::build(const ConstArrayAccessor1<Vector2D>& points) {
+void PointKdTreeSearcher2::build(const ConstArrayView1<Vector2D>& points) {
     _tree.build(points);
 }
 

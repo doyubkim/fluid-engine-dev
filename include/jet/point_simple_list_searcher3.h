@@ -39,7 +39,7 @@ class PointSimpleListSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \param[in]  points The points to search.
     //!
-    void build(const ConstArrayAccessor1<Vector3D>& points) override;
+    void build(const ConstArrayView1<Vector3D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

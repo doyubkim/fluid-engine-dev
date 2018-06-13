@@ -62,7 +62,7 @@ CellCenteredVectorGrid2& CellCenteredVectorGrid2::operator=(
 void CellCenteredVectorGrid2::fill(const Vector2D& value,
                                    ExecutionPolicy policy) {
     Size2 size = dataSize();
-    auto acc = dataAccessor();
+    auto acc = dataView();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
                 [value, &acc](size_t i, size_t j) { acc(i, j) = value; },
                 policy);
@@ -72,7 +72,7 @@ void CellCenteredVectorGrid2::fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy) {
     Size2 size = dataSize();
-    auto acc = dataAccessor();
+    auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
                 [&func, &acc, &pos](size_t i, size_t j) {

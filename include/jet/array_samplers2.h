@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS2_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS2_H_
 
-#include <jet/array_accessor2.h>
+#include <jet/array_view.h>
 #include <jet/array_samplers.h>
 #include <jet/vector2.h>
 #include <functional>
@@ -37,7 +37,7 @@ class NearestArraySampler<T, R, 2> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(const ConstArrayAccessor2<T>& accessor,
+    explicit NearestArraySampler(const ConstArrayView2<T>& accessor,
                                  const Vector2<R>& gridSpacing,
                                  const Vector2<R>& gridOrigin);
 
@@ -56,7 +56,7 @@ class NearestArraySampler<T, R, 2> final {
  private:
     Vector2<R> _gridSpacing;
     Vector2<R> _origin;
-    ConstArrayAccessor2<T> _accessor;
+    ConstArrayView2<T> _accessor;
 };
 
 //! Type alias for 2-D nearest array sampler.
@@ -82,13 +82,13 @@ class LinearArraySampler<T, R, 2> final {
     //! \brief      Constructs a sampler using array accessor, spacing between
     //!     the elements, and the position of the first array element.
     //!
-    //! \param[in]  accessor    The array accessor.
+    //! \param[in]  view        The array view.
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(const ConstArrayAccessor2<T>& accessor,
-                                const Vector2<R>& gridSpacing,
-                                const Vector2<R>& gridOrigin);
+    LinearArraySampler(const ConstArrayView2<T>& view,
+                       const Vector2<R>& gridSpacing,
+                       const Vector2<R>& gridOrigin);
 
     //! Copy constructor.
     LinearArraySampler(const LinearArraySampler& other);
@@ -114,7 +114,7 @@ class LinearArraySampler<T, R, 2> final {
     Vector2<R> _gridSpacing;
     Vector2<R> _invGridSpacing;
     Vector2<R> _origin;
-    ConstArrayAccessor2<T> _accessor;
+    ConstArrayView2<T> _accessor;
 };
 
 //! Type alias for 2-D linear array sampler.
@@ -144,7 +144,7 @@ class CubicArraySampler<T, R, 2> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(const ConstArrayAccessor2<T>& accessor,
+    explicit CubicArraySampler(const ConstArrayView2<T>& accessor,
                                const Vector2<R>& gridSpacing,
                                const Vector2<R>& gridOrigin);
 
@@ -160,7 +160,7 @@ class CubicArraySampler<T, R, 2> final {
  private:
     Vector2<R> _gridSpacing;
     Vector2<R> _origin;
-    ConstArrayAccessor2<T> _accessor;
+    ConstArrayView2<T> _accessor;
 };
 
 //! Type alias for 2-D cubic array sampler.

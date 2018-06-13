@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher2_generated.h>
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_hash_grid_searcher2.h>
 
 #include <algorithm>
@@ -39,20 +39,20 @@ PointHashGridSearcher2::PointHashGridSearcher2(
 }
 
 void PointHashGridSearcher2::build(
-    const ConstArrayAccessor1<Vector2D>& points) {
+    const ConstArrayView1<Vector2D>& points) {
     _buckets.clear();
     _points.clear();
 
     // Allocate memory chuncks
     _buckets.resize(_resolution.x * _resolution.y);
-    _points.resize(points.size());
+    _points.resize(points.length());
 
-    if (points.size() == 0) {
+    if (points.length() == 0) {
         return;
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         _points[i] = points[i];
         size_t key = getHashKeyFromPosition(points[i]);
         _buckets[key].push_back(i);

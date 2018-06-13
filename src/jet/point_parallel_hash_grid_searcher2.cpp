@@ -41,7 +41,7 @@ PointParallelHashGridSearcher2::PointParallelHashGridSearcher2(
 }
 
 void PointParallelHashGridSearcher2::build(
-    const ConstArrayAccessor1<Vector2D>& points) {
+    const ConstArrayView1<Vector2D>& points) {
     _points.clear();
     _keys.clear();
     _startIndexTable.clear();
@@ -49,7 +49,7 @@ void PointParallelHashGridSearcher2::build(
     _sortedIndices.clear();
 
     // Allocate memory chuncks
-    size_t numberOfPoints = points.size();
+    size_t numberOfPoints = points.length();
     std::vector<size_t> tempKeys(numberOfPoints);
     _startIndexTable.resize(_resolution.x * _resolution.y);
     _endIndexTable.resize(_resolution.x * _resolution.y);

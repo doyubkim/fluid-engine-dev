@@ -7,9 +7,10 @@
 #ifndef INCLUDE_JET_COLLOCATED_VECTOR_GRID2_H_
 #define INCLUDE_JET_COLLOCATED_VECTOR_GRID2_H_
 
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/array_samplers2.h>
 #include <jet/vector_grid2.h>
+
 #include <vector>
 
 namespace jet {
@@ -46,11 +47,11 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     //! Returns curl at data point location.
     double curlAtDataPoint(size_t i, size_t j) const;
 
-    //! Returns the read-write data array accessor.
-    VectorDataAccessor dataAccessor();
+    //! Returns the read-write data array view.
+    VectorDataView dataView();
 
-    //! Returns the read-only data array accessor.
-    ConstVectorDataAccessor constDataAccessor() const;
+    //! Returns the read-only data array view.
+    ConstVectorDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
@@ -114,11 +115,8 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     LinearArraySampler2<Vector2D, double> _linearSampler;
     std::function<Vector2D(const Vector2D&)> _sampler;
 
-    void onResize(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& origin,
-        const Vector2D& initialValue) final;
+    void onResize(const Size2& resolution, const Vector2D& gridSpacing,
+                  const Vector2D& origin, const Vector2D& initialValue) final;
 
     void resetSampler();
 };

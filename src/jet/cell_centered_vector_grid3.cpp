@@ -64,7 +64,7 @@ CellCenteredVectorGrid3& CellCenteredVectorGrid3::operator=(
 void CellCenteredVectorGrid3::fill(const Vector3D& value,
                                    ExecutionPolicy policy) {
     Size3 size = dataSize();
-    auto acc = dataAccessor();
+    auto acc = dataView();
     parallelFor(
         kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
         [value, &acc](size_t i, size_t j, size_t k) { acc(i, j, k) = value; },
@@ -75,7 +75,7 @@ void CellCenteredVectorGrid3::fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy) {
     Size3 size = dataSize();
-    auto acc = dataAccessor();
+    auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
                 [&func, &acc, &pos](size_t i, size_t j, size_t k) {

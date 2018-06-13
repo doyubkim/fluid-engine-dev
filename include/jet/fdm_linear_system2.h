@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 
-#include <jet/array1.h>
-#include <jet/array2.h>
+#include <jet/array.h>
+#include <jet/array.h>
 #include <jet/matrix_csr.h>
 #include <jet/vector_n.h>
 

@@ -132,9 +132,9 @@ PYBIND11_PLUGIN(pyjet) {
     addTransform3(m);
 
     // Containers/helpers
-    addArrayAccessor1(m);
-    addArrayAccessor2(m);
-    addArrayAccessor3(m);
+    addArrayView1(m);
+    addArrayView2(m);
+    addArrayView3(m);
 
     // Trivial APIs
     addLogging(m);

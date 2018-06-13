@@ -117,11 +117,11 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
         const Vector2D& c);
 
     void buildVectors(
-        const ConstArrayAccessor2<double>& f,
+        const ConstArrayView2<double>& f,
         const Vector2D& c);
 
     void buildVectors(
-        const ConstArrayAccessor2<Vector2D>& f,
+        const ConstArrayView2<Vector2D>& f,
         const Vector2D& c,
         size_t component);
 };

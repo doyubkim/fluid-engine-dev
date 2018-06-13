@@ -38,16 +38,16 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocitySmall) {
     Array2<double> dataV(10, 10);
     Array2<double> dataM(10, 10);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(dataM.constAccessor(), "marker_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -87,16 +87,16 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity) {
     Array2<double> dataV(64, 32);
     Array2<double> dataM(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(dataM.constAccessor(), "marker_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -138,16 +138,16 @@ JET_BEGIN_TEST_F(
     Array2<double> dataV(64, 32);
     Array2<double> dataM(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(dataM.constAccessor(), "marker_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -190,13 +190,13 @@ JET_BEGIN_TEST_F(
     Array2<double> dataU(64, 32);
     Array2<double> dataV(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = velocity.valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F

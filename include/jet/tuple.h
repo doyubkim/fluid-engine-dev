@@ -97,8 +97,6 @@ class TupleBase<T, 1, DerivedTuple> {
     T& operator[](size_t i);
 
     const T& operator[](size_t i) const;
-
-    operator T() const;
 };
 
 template <typename T>
@@ -108,7 +106,7 @@ class Tuple<T, 1> : public TupleBase<T, 1, Tuple<T, 1>> {
  public:
     constexpr Tuple() : Base() {}
 
-    constexpr Tuple(const T& x_) : Base(x_) {}
+    explicit constexpr Tuple(const T& x_) : Base(x_) {}
 };
 
 template <typename T>

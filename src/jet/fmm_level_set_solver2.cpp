@@ -21,7 +21,7 @@ static const char kTrial = 2;
 
 // Find geometric solution near the boundary
 inline double solveQuadNearBoundary(const Array2<char>& markers,
-                                    ArrayAccessor2<double> output,
+                                    ArrayView2<double> output,
                                     const Vector2D& gridSpacing,
                                     const Vector2D& invGridSpacingSqr,
                                     double sign, size_t i, size_t j) {
@@ -87,8 +87,7 @@ inline double solveQuadNearBoundary(const Array2<char>& markers,
     return sign * solution;
 }
 
-inline double solveQuad(const Array2<char>& markers,
-                        ArrayAccessor2<double> output,
+inline double solveQuad(const Array2<char>& markers, ArrayView2<double> output,
                         const Vector2D& gridSpacing,
                         const Vector2D& invGridSpacingSqr, size_t i, size_t j) {
     Size2 size = output.size();
@@ -177,13 +176,14 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
     Vector2D invGridSpacingSqr = invGridSpacing * invGridSpacing;
     Array2<char> markers(size);
 
-    auto output = outputSdf->dataAccessor();
+    auto output = outputSdf->dataView();
 
-    markers.parallelForEachIndex(
-        [&](size_t i, size_t j) { output(i, j) = inputSdf(i, j); });
+    parallelForEachIndex(markers.size(), [&](size_t i, size_t j) {
+        output(i, j) = inputSdf(i, j);
+    });
 
     // Solve geometrically near the boundary
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         if (!isInsideSdf(output(i, j)) &&
             ((i > 0 && isInsideSdf(output(i - 1, j))) ||
              (i + 1 < size.x && isInsideSdf(output(i + 1, j))) ||
@@ -203,7 +203,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
 
     for (int sign = 0; sign < 2; ++sign) {
         // Build markers
-        markers.parallelForEachIndex([&](size_t i, size_t j) {
+        parallelForEachIndex(markers.size(), [&](size_t i, size_t j) {
             if (isInsideSdf(output(i, j))) {
                 markers(i, j) = kKnown;
             } else {
@@ -218,7 +218,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
         // Enqueue initial candidates
         std::priority_queue<Size2, std::vector<Size2>, decltype(compare)> trial(
             compare);
-        markers.forEachIndex([&](size_t i, size_t j) {
+        forEachIndex(markers.size(), [&](size_t i, size_t j) {
             if (markers(i, j) != kKnown &&
                 ((i > 0 && markers(i - 1, j) == kKnown) ||
                  (i + 1 < size.x && markers(i + 1, j) == kKnown) ||
@@ -283,8 +283,9 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
         }
 
         // Flip the sign
-        markers.parallelForEachIndex(
-            [&](size_t i, size_t j) { output(i, j) = -output(i, j); });
+        parallelForEachIndex(markers.size(), [&](size_t i, size_t j) {
+            output(i, j) = -output(i, j);
+        });
     }
 }
 
@@ -295,11 +296,12 @@ void FmmLevelSetSolver2::extrapolate(const ScalarGrid2& input,
 
     Array2<double> sdfGrid(input.dataSize());
     auto pos = input.dataPosition();
-    sdfGrid.parallelForEachIndex(
-        [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.sample(pos(i, j)); });
+    parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
+        sdfGrid(i, j) = sdf.sample(pos(i, j));
+    });
 
-    extrapolate(input.constDataAccessor(), sdfGrid.constAccessor(),
-                input.gridSpacing(), maxDistance, output->dataAccessor());
+    extrapolate(input.dataView(), sdfGrid, input.gridSpacing(), maxDistance,
+                output->dataView());
 }
 
 void FmmLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
@@ -310,8 +312,9 @@ void FmmLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
 
     Array2<double> sdfGrid(input.dataSize());
     auto pos = input.dataPosition();
-    sdfGrid.parallelForEachIndex(
-        [&](size_t i, size_t j) { sdfGrid(i, j) = sdf.sample(pos(i, j)); });
+    parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
+        sdfGrid(i, j) = sdf.sample(pos(i, j));
+    });
 
     const Vector2D gridSpacing = input.gridSpacing();
 
@@ -325,9 +328,9 @@ void FmmLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
         v(i, j) = input(i, j).y;
     });
 
-    extrapolate(u, sdfGrid.constAccessor(), gridSpacing, maxDistance, u0);
+    extrapolate(u, sdfGrid, gridSpacing, maxDistance, u0);
 
-    extrapolate(v, sdfGrid.constAccessor(), gridSpacing, maxDistance, v0);
+    extrapolate(v, sdfGrid, gridSpacing, maxDistance, v0);
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
         (*output)(i, j).x = u(i, j);
@@ -343,34 +346,34 @@ void FmmLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
 
     const Vector2D gridSpacing = input.gridSpacing();
 
-    auto u = input.uConstAccessor();
+    auto u = input.uView();
     auto uPos = input.uPosition();
     Array2<double> sdfAtU(u.size());
     input.parallelForEachUIndex(
         [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.sample(uPos(i, j)); });
 
-    extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uAccessor());
+    extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
-    auto v = input.vConstAccessor();
+    auto v = input.vView();
     auto vPos = input.vPosition();
     Array2<double> sdfAtV(v.size());
     input.parallelForEachVIndex(
         [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.sample(vPos(i, j)); });
 
-    extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vAccessor());
+    extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 }
 
-void FmmLevelSetSolver2::extrapolate(const ConstArrayAccessor2<double>& input,
-                                     const ConstArrayAccessor2<double>& sdf,
+void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
+                                     const ConstArrayView2<double>& sdf,
                                      const Vector2D& gridSpacing,
                                      double maxDistance,
-                                     ArrayAccessor2<double> output) {
+                                     ArrayView2<double> output) {
     Size2 size = input.size();
     Vector2D invGridSpacing = 1.0 / gridSpacing;
 
     // Build markers
     Array2<char> markers(size, kUnknown);
-    markers.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(markers.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(sdf(i, j))) {
             markers(i, j) = kKnown;
         }
@@ -384,7 +387,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayAccessor2<double>& input,
     // Enqueue initial candidates
     std::priority_queue<Size2, std::vector<Size2>, decltype(compare)> trial(
         compare);
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         if (markers(i, j) == kKnown) {
             return;
         }

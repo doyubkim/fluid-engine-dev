@@ -4,8 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/apic_solver2.h>
 #include <pch.h>
+
+#include <jet/apic_solver2.h>
+#include <jet/array_utils.h>
 
 using namespace jet;
 
@@ -34,20 +36,20 @@ void ApicSolver2::transferFromParticlesToGrids() {
     flow->fill(Vector2D());
 
     // Weighted-average velocity
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
     const auto uPos = flow->uPosition();
     const auto vPos = flow->vPosition();
     Array2<double> uWeight(u.size());
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
-    _uMarkers.set(0);
-    _vMarkers.set(0);
+    fill(_uMarkers.view(), char(0));
+    fill(_vMarkers.view(), char(0));
     LinearArraySampler2<double, double> uSampler(
-        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
+        flow->uView(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler2<double, double> vSampler(
-        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
+        flow->vView(), flow->gridSpacing(), flow->vOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Size2, 4> indices;
@@ -78,12 +80,12 @@ void ApicSolver2::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(uWeight.size(), [&](size_t i, size_t j) {
         if (uWeight(i, j) > 0.0) {
             u(i, j) /= uWeight(i, j);
         }
     });
-    vWeight.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(vWeight.size(), [&](size_t i, size_t j) {
         if (vWeight(i, j) > 0.0) {
             v(i, j) /= vWeight(i, j);
         }
@@ -102,11 +104,11 @@ void ApicSolver2::transferFromGridsToParticles() {
     // Allocate buffers
     _cX.resize(numberOfParticles);
     _cY.resize(numberOfParticles);
-    _cX.set(Vector2D());
-    _cY.set(Vector2D());
+    fill(_cX.view(), Vector2D{});
+    fill(_cY.view(), Vector2D{});
 
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
     LinearArraySampler2<double, double> uSampler(u, flow->gridSpacing(),
                                                  flow->uOrigin());
     LinearArraySampler2<double, double> vSampler(v, flow->gridSpacing(),

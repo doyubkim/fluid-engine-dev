@@ -16,7 +16,6 @@
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid2.h>
-#include <jet/serial.h>
 
 #include <flatbuffers/flatbuffers.h>
 
@@ -28,8 +27,8 @@
 using namespace jet;
 
 ScalarGrid2::ScalarGrid2()
-    : _linearSampler(LinearArraySampler2<double, double>(
-          _data.constAccessor(), Vector2D(1, 1), Vector2D())) {}
+    : _linearSampler(LinearArraySampler2<double, double>(_data, Vector2D(1, 1),
+                                                         Vector2D())) {}
 
 ScalarGrid2::~ScalarGrid2() {}
 
@@ -67,11 +66,11 @@ const double& ScalarGrid2::operator()(size_t i, size_t j) const {
 double& ScalarGrid2::operator()(size_t i, size_t j) { return _data(i, j); }
 
 Vector2D ScalarGrid2::gradientAtDataPoint(size_t i, size_t j) const {
-    return gradient2(_data.constAccessor(), gridSpacing(), i, j);
+    return gradient2(_data, gridSpacing(), i, j);
 }
 
 double ScalarGrid2::laplacianAtDataPoint(size_t i, size_t j) const {
-    return laplacian2(_data.constAccessor(), gridSpacing(), i, j);
+    return laplacian2(_data, gridSpacing(), i, j);
 }
 
 double ScalarGrid2::sample(const Vector2D& x) const { return _sampler(x); }
@@ -108,12 +107,12 @@ double ScalarGrid2::laplacian(const Vector2D& x) const {
     return result;
 }
 
-ScalarGrid2::ScalarDataAccessor ScalarGrid2::dataAccessor() {
-    return _data.accessor();
+ScalarGrid2::ScalarDataView ScalarGrid2::dataView() {
+    return ScalarDataView(_data);
 }
 
-ScalarGrid2::ConstScalarDataAccessor ScalarGrid2::constDataAccessor() const {
-    return _data.constAccessor();
+ScalarGrid2::ConstScalarDataView ScalarGrid2::dataView() const {
+    return ConstScalarDataView(_data);
 }
 
 ScalarGrid2::DataPositionFunc ScalarGrid2::dataPosition() const {
@@ -141,12 +140,12 @@ void ScalarGrid2::fill(const std::function<double(const Vector2D&)>& func,
 
 void ScalarGrid2::forEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    _data.forEachIndex(func);
+    forEachIndex(_data.size(), func);
 }
 
 void ScalarGrid2::parallelForEachDataPointIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    _data.parallelForEachIndex(func);
+    parallelForEachIndex(_data.size(), func);
 }
 
 void ScalarGrid2::serialize(std::vector<uint8_t>* buffer) const {
@@ -201,8 +200,8 @@ void ScalarGrid2::setScalarGrid(const ScalarGrid2& other) {
 }
 
 void ScalarGrid2::resetSampler() {
-    _linearSampler = LinearArraySampler2<double, double>(
-        _data.constAccessor(), gridSpacing(), dataOrigin());
+    _linearSampler =
+        LinearArraySampler2<double, double>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

@@ -145,9 +145,9 @@ void GridSmokeSolver3::computeBuoyancyForce(double timeIntervalInSeconds) {
         tAmb /= static_cast<double>(
             temp->resolution().x * temp->resolution().y * temp->resolution().z);
 
-        auto u = vel->uAccessor();
-        auto v = vel->vAccessor();
-        auto w = vel->wAccessor();
+        auto u = vel->uView();
+        auto v = vel->vView();
+        auto w = vel->wView();
         auto uPos = vel->uPosition();
         auto vPos = vel->vPosition();
         auto wPos = vel->wPosition();

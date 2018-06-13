@@ -89,7 +89,7 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
 
  protected:
     //! Computes the derivatives for given grid point.
-    virtual void getDerivatives(ConstArrayAccessor3<double> grid,
+    virtual void getDerivatives(ConstArrayView3<double> grid,
                                 const Vector3D& gridSpacing, size_t i, size_t j,
                                 size_t k, std::array<double, 2>* dx,
                                 std::array<double, 2>* dy,
@@ -98,19 +98,19 @@ class IterativeLevelSetSolver3 : public LevelSetSolver3 {
  private:
     double _maxCfl = 0.5;
 
-    void extrapolate(const ConstArrayAccessor3<double>& input,
-                     const ConstArrayAccessor3<double>& sdf,
+    void extrapolate(const ConstArrayView3<double>& input,
+                     const ConstArrayView3<double>& sdf,
                      const Vector3D& gridSpacing, double maxDistance,
-                     ArrayAccessor3<double> output);
+                     ArrayView3<double> output);
 
     static unsigned int distanceToNumberOfIterations(double distance,
                                                      double dtau);
 
-    static double sign(const ConstArrayAccessor3<double>& sdf,
+    static double sign(const ConstArrayView3<double>& sdf,
                        const Vector3D& gridSpacing, size_t i, size_t j,
                        size_t k);
 
-    double pseudoTimeStep(ConstArrayAccessor3<double> sdf,
+    double pseudoTimeStep(ConstArrayView3<double> sdf,
                           const Vector3D& gridSpacing);
 };
 

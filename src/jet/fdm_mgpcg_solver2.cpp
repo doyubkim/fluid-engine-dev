@@ -58,11 +58,11 @@ bool FdmMgpcgSolver2::solve(FdmMgLinearSystem2* system) {
     _q.resize(size);
     _s.resize(size);
 
-    system->x.levels.front().set(0.0);
-    _r.set(0.0);
-    _d.set(0.0);
-    _q.set(0.0);
-    _s.set(0.0);
+    fill(system->x.levels.front().view(), 0.0);
+    fill(_r.view(), 0.0);
+    fill(_d.view(), 0.0);
+    fill(_q.view(), 0.0);
+    fill(_s.view(), 0.0);
 
     _precond.build(system, params());
 

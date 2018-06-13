@@ -8,12 +8,10 @@
 
 #include <jet/grid2.h>
 #include <jet/parallel.h>
-#include <jet/serial.h>
 
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
@@ -39,8 +37,7 @@ Grid2::DataPositionFunc Grid2::cellCenterPosition() const {
 
 void Grid2::forEachCellIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    serialFor(kZeroSize, _resolution.x, kZeroSize, _resolution.y,
-              [&func](size_t i, size_t j) { func(i, j); });
+    forEachIndex(_resolution, [&func](size_t i, size_t j) { func(i, j); });
 }
 
 void Grid2::parallelForEachCellIndex(

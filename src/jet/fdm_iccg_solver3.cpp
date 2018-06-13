@@ -13,12 +13,12 @@ using namespace jet;
 
 void FdmIccgSolver3::Preconditioner::build(const FdmMatrix3& matrix) {
     Size3 size = matrix.size();
-    A = matrix.constAccessor();
+    A = matrix.view();
 
     d.resize(size, 0.0);
     y.resize(size, 0.0);
 
-    matrix.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(size, [&](size_t i, size_t j, size_t k) {
         double denom =
             matrix(i, j, k).center -
             ((i > 0) ? square(matrix(i - 1, j, k).right) * d(i - 1, j, k)
@@ -41,7 +41,7 @@ void FdmIccgSolver3::Preconditioner::solve(const FdmVector3& b, FdmVector3* x) {
     ssize_t sy = static_cast<ssize_t>(size.y);
     ssize_t sz = static_cast<ssize_t>(size.z);
 
-    b.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(size, [&](size_t i, size_t j, size_t k) {
         y(i, j, k) = (b(i, j, k) -
                       ((i > 0) ? A(i - 1, j, k).right * y(i - 1, j, k) : 0.0) -
                       ((j > 0) ? A(i, j - 1, k).up * y(i, j - 1, k) : 0.0) -
@@ -78,7 +78,7 @@ void FdmIccgSolver3::PreconditionerCompressed::build(const MatrixCsrD& matrix) {
     const auto ci = A->columnIndicesBegin();
     const auto nnz = A->nonZeroBegin();
 
-    d.forEachIndex([&](size_t i) {
+    forEachIndex(size, [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -109,7 +109,7 @@ void FdmIccgSolver3::PreconditionerCompressed::solve(const VectorND& b,
     const auto ci = A->columnIndicesBegin();
     const auto nnz = A->nonZeroBegin();
 
-    b.forEachIndex([&](size_t i) {
+    forEachIndex(b.size(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -167,11 +167,11 @@ bool FdmIccgSolver3::solve(FdmLinearSystem3* system) {
     _q.resize(size);
     _s.resize(size);
 
-    system->x.set(0.0);
-    _r.set(0.0);
-    _d.set(0.0);
-    _q.set(0.0);
-    _s.set(0.0);
+    fill(system->x.view(), 0.0);
+    fill(_r.view(), 0.0);
+    fill(_d.view(), 0.0);
+    fill(_q.view(), 0.0);
+    fill(_s.view(), 0.0);
 
     _precond.build(matrix);
 

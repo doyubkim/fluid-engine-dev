@@ -49,7 +49,7 @@ inline bool queryVertexId(const MarchingCubeVertexMap& vertexMap,
     }
 }
 
-inline Vector3D grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
+inline Vector3D grad(const ConstArrayView3<double>& grid, ssize_t i,
                      ssize_t j, ssize_t k, const Vector3D& invGridSize) {
     Vector3D ret;
     ssize_t ip = i + 1;
@@ -335,7 +335,7 @@ static void singleCube(const std::array<double, 8>& data,
     }
 }
 
-void marchingCubes(const ConstArrayAccessor3<double>& grid,
+void marchingCubes(const ConstArrayView3<double>& grid,
                    const Vector3D& gridSize, const Vector3D& origin,
                    TriangleMesh3* mesh, double isoValue, int bndFlag) {
     MarchingCubeVertexMap vertexMap;

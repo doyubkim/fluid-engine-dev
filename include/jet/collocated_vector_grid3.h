@@ -7,9 +7,10 @@
 #ifndef INCLUDE_JET_COLLOCATED_VECTOR_GRID3_H_
 #define INCLUDE_JET_COLLOCATED_VECTOR_GRID3_H_
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/array_samplers3.h>
 #include <jet/vector_grid3.h>
+
 #include <vector>
 
 namespace jet {
@@ -46,11 +47,11 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     //! Returns curl at data point location.
     Vector3D curlAtDataPoint(size_t i, size_t j, size_t k) const;
 
-    //! Returns the read-write data array accessor.
-    VectorDataAccessor dataAccessor();
+    //! Returns the read-write data array view.
+    VectorDataView dataView();
 
-    //! Returns the read-only data array accessor.
-    ConstVectorDataAccessor constDataAccessor() const;
+    //! Returns the read-only data array view.
+    ConstVectorDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
@@ -114,11 +115,8 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     LinearArraySampler3<Vector3D, double> _linearSampler;
     std::function<Vector3D(const Vector3D&)> _sampler;
 
-    void onResize(
-        const Size3& resolution,
-        const Vector3D& gridSpacing,
-        const Vector3D& origin,
-        const Vector3D& initialValue) final;
+    void onResize(const Size3& resolution, const Vector3D& gridSpacing,
+                  const Vector3D& origin, const Vector3D& initialValue) final;
 
     void resetSampler();
 };

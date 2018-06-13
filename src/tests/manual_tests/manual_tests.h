@@ -7,9 +7,9 @@
 #ifndef SRC_TESTS_MANUAL_TESTS_MANUAL_TESTS_H_
 #define SRC_TESTS_MANUAL_TESTS_MANUAL_TESTS_H_
 
-#include <jet/array_accessor1.h>
-#include <jet/array_accessor2.h>
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
+#include <jet/array_view.h>
+#include <jet/array_view.h>
 #include <jet/triangle_mesh3.h>
 
 #include <cnpy/cnpy.h>
@@ -68,17 +68,17 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor1<T>& data, \
+            const ConstArrayView1<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[1] = { \
-                static_cast<unsigned int>(data.size()) \
+                static_cast<unsigned int>(data.length()) \
             }; \
             cnpy::npy_save(filename, data.data(), dim, 1, "w"); \
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor1<T>& data, \
+            const ConstArrayView1<T>& data, \
             size_t size, const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[1] = { \
@@ -88,7 +88,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor2<T>& data, \
+            const ConstArrayView2<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[2] = { \
@@ -99,7 +99,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor2<T>& data, \
+            const ConstArrayView2<T>& data, \
             unsigned int frameNum) { \
             char filename[256]; \
             snprintf( \
@@ -107,11 +107,11 @@ inline void createDirectory(const std::string& dirname) {
                 sizeof(filename), \
                 "data.#grid2,%04d.npy", \
                 frameNum); \
-            saveData(data, filename); \
+            saveData<T>(data, filename); \
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor3<T>& data, \
+            const ConstArrayView3<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[3] = { \
@@ -123,7 +123,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayAccessor3<T>& data, \
+            const ConstArrayView3<T>& data, \
             unsigned int frameNum) { \
             char filename[256]; \
             snprintf( \
@@ -131,7 +131,7 @@ inline void createDirectory(const std::string& dirname) {
                 sizeof(filename), \
                 "data.#grid3,%04d.npy", \
                 frameNum); \
-            saveData(data, filename); \
+            saveData<T>(data, filename); \
         } \
         template <typename ParticleSystem> \
         void saveParticleDataXy( \
@@ -151,13 +151,13 @@ inline void createDirectory(const std::string& dirname) {
                 sizeof(filename), \
                 "data.#point2,%04d,x.npy", \
                 frameNum); \
-            saveData(x.constAccessor(), filename); \
+            saveData<double>(x.view(), filename); \
             snprintf( \
                 filename, \
                 sizeof(filename), \
                 "data.#point2,%04d,y.npy", \
                 frameNum); \
-            saveData(y.constAccessor(), filename); \
+            saveData<double>(y.view(), filename); \
         } \
         void saveTriangleMeshData( \
             const TriangleMesh3& data, \

@@ -16,20 +16,18 @@
 #include <jet/fdm_utils.h>
 #include <jet/parallel.h>
 #include <jet/scalar_grid3.h>
-#include <jet/serial.h>
 
 #include <flatbuffers/flatbuffers.h>
 
 #include <algorithm>
 #include <string>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 using namespace jet;
 
 ScalarGrid3::ScalarGrid3()
     : _linearSampler(LinearArraySampler3<double, double>(
-          _data.constAccessor(), Vector3D(1, 1, 1), Vector3D())) {}
+          _data, Vector3D(1, 1, 1), Vector3D())) {}
 
 ScalarGrid3::~ScalarGrid3() {}
 
@@ -73,11 +71,11 @@ double& ScalarGrid3::operator()(size_t i, size_t j, size_t k) {
 }
 
 Vector3D ScalarGrid3::gradientAtDataPoint(size_t i, size_t j, size_t k) const {
-    return gradient3(_data.constAccessor(), gridSpacing(), i, j, k);
+    return gradient3(_data, gridSpacing(), i, j, k);
 }
 
 double ScalarGrid3::laplacianAtDataPoint(size_t i, size_t j, size_t k) const {
-    return laplacian3(_data.constAccessor(), gridSpacing(), i, j, k);
+    return laplacian3(_data, gridSpacing(), i, j, k);
 }
 
 double ScalarGrid3::sample(const Vector3D& x) const { return _sampler(x); }
@@ -116,12 +114,12 @@ double ScalarGrid3::laplacian(const Vector3D& x) const {
     return result;
 }
 
-ScalarGrid3::ScalarDataAccessor ScalarGrid3::dataAccessor() {
-    return _data.accessor();
+ScalarGrid3::ScalarDataView ScalarGrid3::dataView() {
+    return ScalarDataView(_data);
 }
 
-ScalarGrid3::ConstScalarDataAccessor ScalarGrid3::constDataAccessor() const {
-    return _data.constAccessor();
+ScalarGrid3::ConstScalarDataView ScalarGrid3::dataView() const {
+    return ConstScalarDataView(_data);
 }
 
 ScalarGrid3::DataPositionFunc ScalarGrid3::dataPosition() const {
@@ -152,12 +150,12 @@ void ScalarGrid3::fill(const std::function<double(const Vector3D&)>& func,
 
 void ScalarGrid3::forEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const {
-    _data.forEachIndex(func);
+    forEachIndex(_data.size(), func);
 }
 
 void ScalarGrid3::parallelForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const {
-    _data.parallelForEachIndex(func);
+    parallelForEachIndex(_data.size(), func);
 }
 
 void ScalarGrid3::serialize(std::vector<uint8_t>* buffer) const {
@@ -212,8 +210,8 @@ void ScalarGrid3::setScalarGrid(const ScalarGrid3& other) {
 }
 
 void ScalarGrid3::resetSampler() {
-    _linearSampler = LinearArraySampler3<double, double>(
-        _data.constAccessor(), gridSpacing(), dataOrigin());
+    _linearSampler =
+        LinearArraySampler3<double, double>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

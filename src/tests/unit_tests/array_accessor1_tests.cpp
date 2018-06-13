@@ -4,27 +4,29 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array_accessor1.h>
-#include <jet/array1.h>
+#include <jet/array.h>
+#include <jet/array_view.h>
+#include <jet/parallel.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
 
-TEST(ArrayAccessor1, Constructors) {
+TEST(ArrayView1, Constructors) {
     double data[5];
     for (int i = 0; i < 5; ++i) {
         data[i] = static_cast<double>(i);
     }
 
-    ArrayAccessor1<double> acc(5, data);
+    ArrayView1<double> acc(data, 5);
 
-    EXPECT_EQ(5u, acc.size());
+    EXPECT_EQ(5u, acc.length());
     EXPECT_EQ(data, acc.data());
 }
 
-TEST(ArrayAccessor1, Iterators) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.accessor();
+TEST(ArrayView1, Iterators) {
+    Array1<float> arr1 = {6.f, 4.f, 1.f, -5.f};
+    auto acc = arr1.view();
 
     size_t i = 0;
     for (float& elem : acc) {
@@ -39,78 +41,47 @@ TEST(ArrayAccessor1, Iterators) {
     }
 }
 
-TEST(ArrayAccessor1, ForEach) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.accessor();
-
-    size_t i = 0;
-    acc.forEach([&](float val) {
-        EXPECT_FLOAT_EQ(arr1[i], val);
-        ++i;
-    });
-}
-
-TEST(ArrayAccessor1, ForEachIndex) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.accessor();
+TEST(ArrayView1, ForEachIndex) {
+    Array1<float> arr1 = {6.f, 4.f, 1.f, -5.f};
+    auto acc = arr1.view();
 
     size_t cnt = 0;
-    acc.forEachIndex([&](size_t i) {
+    forEachIndex(acc.size(), [&](size_t i) {
         EXPECT_EQ(cnt, i);
         ++cnt;
     });
 }
 
-TEST(ArrayAccessor1, ParallelForEach) {
+TEST(ArrayView1, ParallelForEachIndex) {
     Array1<float> arr1(200);
-    auto acc = arr1.accessor();
+    auto acc = arr1.view();
 
-    acc.forEachIndex([&](size_t i) {
-        arr1[i] = static_cast<float>(200.f - i);
-    });
+    forEachIndex(acc.size(),
+                 [&](size_t i) { arr1[i] = static_cast<float>(200.f - i); });
 
-    acc.parallelForEach([](float& val) {
-        val *= 2.f;
-    });
-
-    acc.forEachIndex([&](size_t i) {
-        float ans = 2.f * static_cast<float>(200.f - i);
-        EXPECT_FLOAT_EQ(ans, arr1[i]);
-    });
-}
-
-TEST(ArrayAccessor1, ParallelForEachIndex) {
-    Array1<float> arr1(200);
-    auto acc = arr1.accessor();
-
-    acc.forEachIndex([&](size_t i) {
-        arr1[i] = static_cast<float>(200.f - i);
-    });
-
-    acc.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(acc.size(), [&](size_t i) {
         float ans = static_cast<float>(200.f - i);
         EXPECT_EQ(ans, arr1[i]);
     });
 }
 
-
-TEST(ConstArrayAccessor1, Constructors) {
+TEST(ConstArrayView1, Constructors) {
     double data[5];
     for (int i = 0; i < 5; ++i) {
         data[i] = static_cast<double>(i);
     }
 
-    // Construct with ArrayAccessor1
-    ArrayAccessor1<double> acc(5, data);
-    ConstArrayAccessor1<double> cacc(acc);
+    // Construct with ArrayView1
+    ArrayView1<double> acc(data, 5);
+    ConstArrayView1<double> cacc(acc);
 
-    EXPECT_EQ(5u, cacc.size());
+    EXPECT_EQ(5u, cacc.length());
     EXPECT_EQ(data, cacc.data());
 }
 
-TEST(ConstArrayAccessor1, Iterators) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.constAccessor();
+TEST(ConstArrayView1, Iterators) {
+    Array1<float> arr1 = {6.f, 4.f, 1.f, -5.f};
+    auto acc = arr1.view();
 
     size_t i = 0;
     for (const float& elem : acc) {
@@ -119,37 +90,25 @@ TEST(ConstArrayAccessor1, Iterators) {
     }
 }
 
-TEST(ConstArrayAccessor1, ForEach) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.constAccessor();
-
-    size_t i = 0;
-    acc.forEach([&](float val) {
-        EXPECT_FLOAT_EQ(arr1[i], val);
-        ++i;
-    });
-}
-
-TEST(ConstArrayAccessor1, ForEachIndex) {
-    Array1<float> arr1 = {6.f,  4.f,  1.f,  -5.f};
-    auto acc = arr1.constAccessor();
+TEST(ConstArrayView1, ForEachIndex) {
+    Array1<float> arr1 = {6.f, 4.f, 1.f, -5.f};
+    auto acc = arr1.view();
 
     size_t cnt = 0;
-    acc.forEachIndex([&](size_t i) {
+    forEachIndex(acc.size(), [&](size_t i) {
         EXPECT_EQ(cnt, i);
         ++cnt;
     });
 }
 
-TEST(ConstArrayAccessor1, ParallelForEachIndex) {
+TEST(ConstArrayView1, ParallelForEachIndex) {
     Array1<float> arr1(200);
-    auto acc = arr1.constAccessor();
+    auto acc = arr1.view();
 
-    acc.forEachIndex([&](size_t i) {
-        arr1[i] = static_cast<float>(200.f - i);
-    });
+    forEachIndex(acc.size(), 
+        [&](size_t i) { arr1[i] = static_cast<float>(200.f - i); });
 
-    acc.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(acc.size(), [&](size_t i) {
         float ans = static_cast<float>(200.f - i);
         EXPECT_EQ(ans, arr1[i]);
     });

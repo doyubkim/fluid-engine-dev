@@ -24,9 +24,9 @@ JET_BEGIN_TEST_F(CudaParticleSystemSolver3, PerfectBounce) {
     Array1<float> y(1000);
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData(x.constAccessor(), 0, filename);
+    saveData<double>(x.view(), 0, filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData(y.constAccessor(), 0, filename);
+    saveData<double>(y.view(), 0, filename);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -38,10 +38,10 @@ JET_BEGIN_TEST_F(CudaParticleSystemSolver3, PerfectBounce) {
         y[frame.index] = pos.y;
         snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy",
                  frame.index);
-        saveData(x.constAccessor(), frame.index, filename);
+        saveData<double>(x.view(), frame.index, filename);
         snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy",
                  frame.index);
-        saveData(y.constAccessor(), frame.index, filename);
+        saveData<double>(y.view(), frame.index, filename);
     }
 }
 JET_END_TEST_F

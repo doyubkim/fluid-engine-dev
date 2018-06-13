@@ -35,10 +35,8 @@ class SphSolver3 : public ParticleSystemSolver3 {
 
     //! Constructs a solver with target density, spacing, and relative kernel
     //! radius.
-    SphSolver3(
-        double targetDensity,
-        double targetSpacing,
-        double relativeKernelRadius);
+    SphSolver3(double targetDensity, double targetSpacing,
+               double relativeKernelRadius);
 
     virtual ~SphSolver3();
 
@@ -146,11 +144,10 @@ class SphSolver3 : public ParticleSystemSolver3 {
     void computePressure();
 
     //! Accumulates the pressure force to the given \p pressureForces array.
-    void accumulatePressureForce(
-        const ConstArrayAccessor1<Vector3D>& positions,
-        const ConstArrayAccessor1<double>& densities,
-        const ConstArrayAccessor1<double>& pressures,
-        ArrayAccessor1<Vector3D> pressureForces);
+    void accumulatePressureForce(const ConstArrayView1<Vector3D>& positions,
+                                 const ConstArrayView1<double>& densities,
+                                 const ConstArrayView1<double>& pressures,
+                                 ArrayView1<Vector3D> pressureForces);
 
     //! Accumulates the viscosity force to the forces array in the particle
     //! system.
@@ -186,7 +183,6 @@ class SphSolver3 : public ParticleSystemSolver3 {
 
 //! Shared pointer type for the SphSolver3.
 typedef std::shared_ptr<SphSolver3> SphSolver3Ptr;
-
 
 //!
 //! \brief Base class for SPH-based fluid solver builder.

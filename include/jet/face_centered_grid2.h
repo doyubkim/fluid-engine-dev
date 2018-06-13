@@ -7,11 +7,12 @@
 #ifndef INCLUDE_JET_FACE_CENTERED_GRID2_H_
 #define INCLUDE_JET_FACE_CENTERED_GRID2_H_
 
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/array_samplers2.h>
+#include <jet/parallel.h>
 #include <jet/vector_grid2.h>
+
 #include <memory>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -29,11 +30,11 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
 
     class Builder;
 
-    //! Read-write scalar data accessor type.
-    typedef ArrayAccessor2<double> ScalarDataAccessor;
+    //! Read-write scalar data view type.
+    typedef ArrayView2<double> ScalarDataView;
 
-    //! Read-only scalar data accessor type.
-    typedef ConstArrayAccessor2<double> ConstScalarDataAccessor;
+    //! Read-only scalar data view type.
+    typedef ConstArrayView2<double> ConstScalarDataView;
 
     //! Constructs empty grid.
     FaceCenteredGrid2();
@@ -89,16 +90,16 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     double curlAtCellCenter(size_t i, size_t j) const;
 
     //! Returns u data accessor.
-    ScalarDataAccessor uAccessor();
+    ScalarDataView uView();
 
     //! Returns read-only u data accessor.
-    ConstScalarDataAccessor uConstAccessor() const;
+    ConstScalarDataView uView() const;
 
     //! Returns v data accessor.
-    ScalarDataAccessor vAccessor();
+    ScalarDataView vView();
 
     //! Returns read-only v data accessor.
-    ConstScalarDataAccessor vConstAccessor() const;
+    ConstScalarDataView vView() const;
 
     //! Returns function object that maps u data point to its actual position.
     DataPositionFunc uPosition() const;

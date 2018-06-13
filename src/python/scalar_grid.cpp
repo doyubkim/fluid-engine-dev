@@ -125,7 +125,7 @@ void addScalarGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("dataAccessor", &ScalarGrid2::dataAccessor,
+        .def("dataView", (ArrayView2<double>(ScalarGrid2::*)()) &ScalarGrid2::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &ScalarGrid2::dataPosition,
@@ -297,7 +297,7 @@ void addScalarGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("dataAccessor", &ScalarGrid3::dataAccessor,
+        .def("dataView", (ArrayView3<double>(ScalarGrid3::*)()) &ScalarGrid3::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &ScalarGrid3::dataPosition,

@@ -25,7 +25,7 @@ void relax(const typename BlasType::MatrixType& a,
 
     size_t n = a.rows();
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
-        x->forEachIndex([&](size_t i) {
+        forEachIndex(x->size(), [&](size_t i) {
             double sum = 0.0;
             for (size_t j = 0; j < n; ++j) {
                 if (i != j) {
@@ -40,7 +40,7 @@ void relax(const typename BlasType::MatrixType& a,
 void rest(const typename BlasType::VectorType& finer,
           typename BlasType::VectorType* coarser) {
     size_t n = coarser->size();
-    coarser->parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(coarser->size(), [&](size_t i) {
         // --*--|--*--|--*--|--*--
         //  1/8   3/8   3/8   1/8
         //           to
@@ -55,7 +55,7 @@ void rest(const typename BlasType::VectorType& finer,
 void corr(const typename BlasType::VectorType& coarser,
           typename BlasType::VectorType* finer) {
     size_t n = coarser.size();
-    coarser.forEachIndex([&](size_t i) {
+    forEachIndex(coarser.size(), [&](size_t i) {
         // -----|-----*-----|-----
         //           to
         //  1/4   3/4   3/4   1/4

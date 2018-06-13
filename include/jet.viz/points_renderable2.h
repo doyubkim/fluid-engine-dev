@@ -11,7 +11,7 @@
 #include <jet.viz/renderable.h>
 #include <jet.viz/shader.h>
 #include <jet.viz/vertex_buffer.h>
-#include <jet/array_view1.h>
+#include <jet/array_view.h>
 
 namespace jet {
 namespace viz {

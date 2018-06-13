@@ -9,6 +9,7 @@
 
 #include <jet/macros.h>
 #include <jet/math_utils.h>
+
 #include <algorithm>
 #include <limits>
 
@@ -16,7 +17,7 @@ namespace jet {
 
 template <typename T, typename R>
 NearestArraySampler1<T, R>::NearestArraySampler(
-    const ConstArrayAccessor1<T>& accessor,
+    const ConstArrayView1<T>& accessor,
     R gridSpacing,
     R gridOrigin) {
     _gridSpacing = gridSpacing;
@@ -40,7 +41,7 @@ T NearestArraySampler1<T, R>::operator()(R x) const {
     assert(_gridSpacing > std::numeric_limits<R>::epsilon());
     R normalizedX = (x - _origin) / _gridSpacing;
 
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size());
+    ssize_t iSize = static_cast<ssize_t>(_accessor.length());
 
     getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
@@ -56,7 +57,7 @@ void NearestArraySampler1<T, R>::getCoordinate(R x, size_t* i) const {
     JET_ASSERT(_gridSpacing > std::numeric_limits<R>::epsilon());
     R normalizedX = (x - _origin) / _gridSpacing;
 
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size());
+    ssize_t iSize = static_cast<ssize_t>(_accessor.length());
 
     ssize_t _i;
     getBarycentric(normalizedX, 0, iSize - 1, &_i, &fx);
@@ -73,7 +74,7 @@ std::function<T(R)> NearestArraySampler1<T, R>::functor() const {
 
 template <typename T, typename R>
 LinearArraySampler1<T, R>::LinearArraySampler(
-    const ConstArrayAccessor1<T>& accessor,
+    const ConstArrayView1<T>& accessor,
     R gridSpacing,
     R gridOrigin) {
     _gridSpacing = gridSpacing;
@@ -97,7 +98,7 @@ T LinearArraySampler1<T, R>::operator()(R x) const {
     assert(_gridSpacing > std::numeric_limits<R>::epsilon());
     R normalizedX = (x - _origin) / _gridSpacing;
 
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size());
+    ssize_t iSize = static_cast<ssize_t>(_accessor.length());
 
     getBarycentric(normalizedX, 0, iSize - 1, &i, &fx);
 
@@ -140,7 +141,7 @@ std::function<T(R)> LinearArraySampler1<T, R>::functor() const {
 
 template <typename T, typename R>
 CubicArraySampler1<T, R>::CubicArraySampler(
-    const ConstArrayAccessor1<T>& accessor,
+    const ConstArrayView1<T>& accessor,
     R gridSpacing,
     R gridOrigin) {
     _gridSpacing = gridSpacing;
@@ -159,7 +160,7 @@ CubicArraySampler1<T, R>::CubicArraySampler(
 template <typename T, typename R>
 T CubicArraySampler1<T, R>::operator()(R x) const {
     ssize_t i;
-    ssize_t iSize = static_cast<ssize_t>(_accessor.size());
+    ssize_t iSize = static_cast<ssize_t>(_accessor.length());
     R fx;
 
     JET_ASSERT(_gridSpacing > std::numeric_limits<R>::epsilon());

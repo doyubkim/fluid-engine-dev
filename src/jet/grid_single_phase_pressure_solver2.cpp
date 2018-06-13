@@ -29,7 +29,7 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
     Vector2D invH = 1.0 / input.gridSpacing();
     Vector2D invHSqr = invH * invH;
 
-    A->parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(A->size(), [&](size_t i, size_t j) {
         auto& row = (*A)(i, j);
 
         // initialize
@@ -73,14 +73,14 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
     Vector2D invH = 1.0 / input.gridSpacing();
     Vector2D invHSqr = invH * invH;
 
-    const auto markerAcc = markers.constAccessor();
+    ConstArrayView2<char> markerAcc(markers);
 
     A->clear();
     b->clear();
 
     size_t numRows = 0;
     Array2<size_t> coordToIndex(size);
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
 
         if (markerAcc[cIdx] == kFluid) {
@@ -88,7 +88,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
 
         if (markerAcc[cIdx] == kFluid) {
@@ -226,7 +226,7 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     FdmMgUtils2::resizeArrayWithFinest(size, maxLevels, &_markers);
 
     // Build top-level markers
-    _markers[0].parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_markers[0].size(), [&](size_t i, size_t j) {
         Vector2D pt = pos(i, j);
         if (isInsideSdf(boundarySdf.sample(pt))) {
             _markers[0](i, j) = kBoundary;
@@ -284,11 +284,11 @@ void GridSinglePhasePressureSolver2::buildMarkers(
 }
 
 void GridSinglePhasePressureSolver2::decompressSolution() {
-    const auto acc = _markers[0].constAccessor();
+    ConstArrayView2<char> acc(_markers[0]);
     _system.x.resize(acc.size());
 
     size_t row = 0;
-    _markers[0].forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(_markers[0].size(), [&](size_t i, size_t j) {
         if (acc(i, j) == kFluid) {
             _system.x(i, j) = _compSystem.x[row];
             ++row;
@@ -356,16 +356,16 @@ void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
 void GridSinglePhasePressureSolver2::applyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output) {
     Size2 size = input.resolution();
-    auto u = input.uConstAccessor();
-    auto v = input.vConstAccessor();
-    auto u0 = output->uAccessor();
-    auto v0 = output->vAccessor();
+    auto u = input.uView();
+    auto v = input.vView();
+    auto u0 = output->uView();
+    auto v0 = output->vView();
 
     const auto& x = pressure();
 
     Vector2D invH = 1.0 / input.gridSpacing();
 
-    x.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(x.size(), [&](size_t i, size_t j) {
         if (_markers[0](i, j) == kFluid) {
             if (i + 1 < size.x && _markers[0](i + 1, j) != kBoundary) {
                 u0(i + 1, j) = u(i + 1, j) + invH.x * (x(i + 1, j) - x(i, j));

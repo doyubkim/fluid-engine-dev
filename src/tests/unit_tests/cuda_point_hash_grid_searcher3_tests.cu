@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/cuda_array1.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
@@ -49,7 +49,7 @@ TEST(CudaPointHashGridSearcher3, Build) {
                                Vector3D(-1, 3, 0)};
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     // GPU
     CudaArray1<float4> pointsD(3);

@@ -9,10 +9,10 @@
 
 #include <jet/collider3.h>
 #include <jet/constants.h>
-#include <jet/vector_field3.h>
 #include <jet/particle_emitter3.h>
 #include <jet/particle_system_data3.h>
 #include <jet/physics_animation.h>
+#include <jet/vector_field3.h>
 
 namespace jet {
 
@@ -36,9 +36,7 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
     ParticleSystemSolver3();
 
     //! Constructs a solver with particle parameters.
-    ParticleSystemSolver3(
-        double radius,
-        double mass);
+    ParticleSystemSolver3(double radius, double mass);
 
     //! Destructor.
     virtual ~ParticleSystemSolver3();
@@ -135,9 +133,8 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
 
     //! Resolves any collisions occured by the particles where the particle
     //! state is given by the position and velocity arrays.
-    void resolveCollision(
-        ArrayAccessor1<Vector3D> newPositions,
-        ArrayAccessor1<Vector3D> newVelocities);
+    void resolveCollision(ArrayView1<Vector3D> newPositions,
+                          ArrayView1<Vector3D> newVelocities);
 
     //! Assign a new particle system data.
     void setParticleSystemData(const ParticleSystemData3Ptr& newParticles);
@@ -169,7 +166,6 @@ class ParticleSystemSolver3 : public PhysicsAnimation {
 
 //! Shared pointer type for the ParticleSystemSolver3.
 typedef std::shared_ptr<ParticleSystemSolver3> ParticleSystemSolver3Ptr;
-
 
 //!
 //! \brief Base class for particle-based solver builder.

@@ -6,7 +6,7 @@
 
 #include <manual_tests.h>
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/box2.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/cell_centered_vector_grid2.h>
@@ -38,22 +38,22 @@ JET_BEGIN_TEST_F(SemiLagrangian2, Boundary) {
     });
 
     Array3<double> data(3, src.resolution().x, src.resolution().y);
-    data.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(data.size(), [&](size_t i, size_t j, size_t k) {
         if (i < 2) {
             data(i, j, k) = src(j, k)[i];
         }
     });
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
     SemiLagrangian2 solver;
     solver.advect(src, flow, 0.1, &dst, boundarySdf);
 
-    data.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(data.size(), [&](size_t i, size_t j, size_t k) {
         if (i < 2) {
             data(i, j, k) = dst(j, k)[i];
         }
     });
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data, "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -74,7 +74,7 @@ JET_BEGIN_TEST_F(SemiLagrangian2, Zalesak) {
         return Vector2D(kPiD / 3.14 * (0.5 - pt.y), kPiD / 3.14 * (pt.x - 0.5));
     });
 
-    saveData(sdf.constDataAccessor(), "orig_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "orig_#grid2,iso.npy");
 
     SemiLagrangian2 solver;
 
@@ -83,7 +83,7 @@ JET_BEGIN_TEST_F(SemiLagrangian2, Zalesak) {
         sdf.swap(&sdf2);
     }
 
-    saveData(sdf.constDataAccessor(), "rev0628_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "rev0628_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -106,7 +106,7 @@ JET_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak) {
         return Vector2D(kPiD / 3.14 * (0.5 - pt.y), kPiD / 3.14 * (pt.x - 0.5));
     });
 
-    saveData(sdf.constDataAccessor(), "orig_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "orig_#grid2,iso.npy");
 
     CubicSemiLagrangian2 solver;
 
@@ -115,6 +115,6 @@ JET_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak) {
         sdf.swap(&sdf2);
     }
 
-    saveData(sdf.constDataAccessor(), "rev0628_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "rev0628_#grid2,iso.npy");
 }
 JET_END_TEST_F

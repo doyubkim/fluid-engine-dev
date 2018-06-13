@@ -4,13 +4,15 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array2.h>
-#include <jet/array3.h>
+#include <jet/array.h>
+#include <jet/array.h>
+#include <jet/parallel.h>
 
 #include <gtest/gtest.h>
 
 #include <numeric>
 #include <random>
+#include <thread>
 
 using namespace jet;
 

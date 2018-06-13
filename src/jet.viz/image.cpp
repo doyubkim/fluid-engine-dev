@@ -18,7 +18,7 @@ ByteImage::ByteImage() {}
 
 ByteImage::ByteImage(size_t width, size_t height,
                      const ByteColor& initialValue) {
-    _data.resize(width, height, initialValue);
+    _data.resize({width, height}, initialValue);
 }
 
 ByteImage::ByteImage(const std::string& filename) {
@@ -29,7 +29,7 @@ ByteImage::ByteImage(const std::string& filename) {
     const auto swidth = static_cast<size_t>(width);
     const auto sheight = static_cast<size_t>(height);
 
-    _data.resize(swidth, sheight);
+    _data.resize({swidth, sheight});
 
     size_t c = 0;
     ByteColor color;
@@ -50,7 +50,7 @@ void ByteImage::clear() {}
 
 void ByteImage::resize(size_t width, size_t height,
                        const ByteColor& initialValue) {
-    _data.resize(width, height, initialValue);
+    _data.resize({width, height}, initialValue);
 }
 
 Size2 ByteImage::size() const { return _data.size(); }

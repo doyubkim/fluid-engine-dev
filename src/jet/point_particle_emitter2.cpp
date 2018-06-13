@@ -86,7 +86,7 @@ void PointParticleEmitter2::onUpdate(
 
         particles->addParticles(newPositions, newVelocities);
 
-        _numberOfEmittedParticles += newPositions.size();
+        _numberOfEmittedParticles += newPositions.length();
     }
 }
 

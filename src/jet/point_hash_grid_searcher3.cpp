@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher3_generated.h>
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_hash_grid_searcher3.h>
 
 #include <algorithm>
@@ -42,20 +42,20 @@ PointHashGridSearcher3::PointHashGridSearcher3(
 }
 
 void PointHashGridSearcher3::build(
-    const ConstArrayAccessor1<Vector3D>& points) {
+    const ConstArrayView1<Vector3D>& points) {
     _buckets.clear();
     _points.clear();
 
     // Allocate memory chuncks
     _buckets.resize(_resolution.x * _resolution.y * _resolution.z);
-    _points.resize(points.size());
+    _points.resize(points.length());
 
-    if (points.size() == 0) {
+    if (points.length() == 0) {
         return;
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         _points[i] = points[i];
         size_t key = getHashKeyFromPosition(points[i]);
         _buckets[key].push_back(i);

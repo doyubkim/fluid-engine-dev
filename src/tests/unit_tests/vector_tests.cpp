@@ -127,15 +127,15 @@ TEST(Vector, BasicGetters) {
     auto d = vecA.end() - vecA.begin();
     EXPECT_EQ(4, d);
 
-    const auto acc = vecA.constAccessor();
-    EXPECT_EQ(4u, acc.size());
+    const auto acc = vecA.view();
+    EXPECT_EQ(4u, acc.length());
     EXPECT_EQ(+6.0, acc[0]);
     EXPECT_EQ(+2.5, acc[1]);
     EXPECT_EQ(-9.0, acc[2]);
     EXPECT_EQ(+8.0, acc[3]);
 
     vecA = {+3.0, -1.0, +2.0, 5.0};
-    auto acc2 = vecA.accessor();
+    auto acc2 = vecA.view();
     acc2[0] = 6.0;
     acc2[1] = 2.5;
     acc2[2] = -9.0;

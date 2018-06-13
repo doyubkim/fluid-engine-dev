@@ -35,9 +35,9 @@ void ApicSolver3::transferFromParticlesToGrids() {
     flow->fill(Vector3D());
 
     // Weighted-average velocity
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
-    auto w = flow->wAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
+    auto w = flow->wView();
     const auto uPos = flow->uPosition();
     const auto vPos = flow->vPosition();
     const auto wPos = flow->wPosition();
@@ -47,15 +47,15 @@ void ApicSolver3::transferFromParticlesToGrids() {
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
     _wMarkers.resize(w.size());
-    _uMarkers.set(0);
-    _vMarkers.set(0);
-    _wMarkers.set(0);
+    fill(_uMarkers.view(), char(0));
+    fill(_vMarkers.view(), char(0));
+    fill(_wMarkers.view(), char(0));
     LinearArraySampler3<double, double> uSampler(
-        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
+        flow->uView(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler3<double, double> vSampler(
-        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
+        flow->vView(), flow->gridSpacing(), flow->vOrigin());
     LinearArraySampler3<double, double> wSampler(
-        flow->wConstAccessor(), flow->gridSpacing(), flow->wOrigin());
+        flow->wView(), flow->gridSpacing(), flow->wOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Size3, 8> indices;
@@ -104,17 +104,17 @@ void ApicSolver3::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(uWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (uWeight(i, j, k) > 0.0) {
             u(i, j, k) /= uWeight(i, j, k);
         }
     });
-    vWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(vWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (vWeight(i, j, k) > 0.0) {
             v(i, j, k) /= vWeight(i, j, k);
         }
     });
-    wWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(wWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (wWeight(i, j, k) > 0.0) {
             w(i, j, k) /= wWeight(i, j, k);
         }
@@ -134,13 +134,13 @@ void ApicSolver3::transferFromGridsToParticles() {
     _cX.resize(numberOfParticles);
     _cY.resize(numberOfParticles);
     _cZ.resize(numberOfParticles);
-    _cX.set(Vector3D());
-    _cY.set(Vector3D());
-    _cZ.set(Vector3D());
+    fill(_cX.view(), Vector3D{});
+    fill(_cY.view(), Vector3D{});
+    fill(_cZ.view(), Vector3D{});
 
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
-    auto w = flow->wAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
+    auto w = flow->wView();
     LinearArraySampler3<double, double> uSampler(u, flow->gridSpacing(),
                                                  flow->uOrigin());
     LinearArraySampler3<double, double> vSampler(v, flow->gridSpacing(),

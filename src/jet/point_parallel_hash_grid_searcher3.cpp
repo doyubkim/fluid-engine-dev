@@ -46,7 +46,7 @@ PointParallelHashGridSearcher3::PointParallelHashGridSearcher3(
 }
 
 void PointParallelHashGridSearcher3::build(
-    const ConstArrayAccessor1<Vector3D>& points) {
+    const ConstArrayView1<Vector3D>& points) {
     _points.clear();
     _keys.clear();
     _startIndexTable.clear();
@@ -54,7 +54,7 @@ void PointParallelHashGridSearcher3::build(
     _sortedIndices.clear();
 
     // Allocate memory chuncks
-    size_t numberOfPoints = points.size();
+    size_t numberOfPoints = points.length();
     std::vector<size_t> tempKeys(numberOfPoints);
     _startIndexTable.resize(_resolution.x * _resolution.y * _resolution.z);
     _endIndexTable.resize(_resolution.x * _resolution.y * _resolution.z);

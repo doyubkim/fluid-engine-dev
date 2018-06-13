@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_TRIANGLE_MESH3_H_
 #define INCLUDE_JET_TRIANGLE_MESH3_H_
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/bvh3.h>
 #include <jet/quaternion.h>
 #include <jet/surface3.h>

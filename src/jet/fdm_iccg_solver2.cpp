@@ -13,12 +13,12 @@ using namespace jet;
 
 void FdmIccgSolver2::Preconditioner::build(const FdmMatrix2& matrix) {
     Size2 size = matrix.size();
-    A = matrix.constAccessor();
+    A = matrix.view();
 
     d.resize(size, 0.0);
     y.resize(size, 0.0);
 
-    matrix.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(size, [&](size_t i, size_t j) {
         double denom =
             matrix(i, j).center -
             ((i > 0) ? square(matrix(i - 1, j).right) * d(i - 1, j) : 0.0) -
@@ -37,7 +37,7 @@ void FdmIccgSolver2::Preconditioner::solve(const FdmVector2& b, FdmVector2* x) {
     ssize_t sx = static_cast<ssize_t>(size.x);
     ssize_t sy = static_cast<ssize_t>(size.y);
 
-    b.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(size, [&](size_t i, size_t j) {
         y(i, j) = (b(i, j) - ((i > 0) ? A(i - 1, j).right * y(i - 1, j) : 0.0) -
                    ((j > 0) ? A(i, j - 1).up * y(i, j - 1) : 0.0)) *
                   d(i, j);
@@ -67,7 +67,7 @@ void FdmIccgSolver2::PreconditionerCompressed::build(const MatrixCsrD& matrix) {
     const auto ci = A->columnIndicesBegin();
     const auto nnz = A->nonZeroBegin();
 
-    d.forEachIndex([&](size_t i) {
+    forEachIndex(size, [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -98,7 +98,7 @@ void FdmIccgSolver2::PreconditionerCompressed::solve(const VectorND& b,
     const auto ci = A->columnIndicesBegin();
     const auto nnz = A->nonZeroBegin();
 
-    b.forEachIndex([&](size_t i) {
+    forEachIndex(b.size(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -156,11 +156,11 @@ bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
     _q.resize(size);
     _s.resize(size);
 
-    system->x.set(0.0);
-    _r.set(0.0);
-    _d.set(0.0);
-    _q.set(0.0);
-    _s.set(0.0);
+    fill(system->x.view(), 0.0);
+    fill(_r.view(), 0.0);
+    fill(_d.view(), 0.0);
+    fill(_q.view(), 0.0);
+    fill(_s.view(), 0.0);
 
     _precond.build(matrix);
 

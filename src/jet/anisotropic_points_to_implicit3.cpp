@@ -56,7 +56,7 @@ AnisotropicPointsToImplicit3::AnisotropicPointsToImplicit3(
       _isOutputSdf(isOutputSdf) {}
 
 void AnisotropicPointsToImplicit3::convert(
-    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
+    const ConstArrayView1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;
@@ -93,10 +93,10 @@ void AnisotropicPointsToImplicit3::convert(
     meanParticles.setKernelRadius(r);
 
     // Compute G and xMean
-    std::vector<Matrix3x3D> gs(points.size());
-    Array1<Vector3D> xMeans(points.size());
+    std::vector<Matrix3x3D> gs(points.length());
+    Array1<Vector3D> xMeans(points.length());
 
-    parallelFor(kZeroSize, points.size(), [&](size_t i) {
+    parallelFor(kZeroSize, points.length(), [&](size_t i) {
         const auto& x = points[i];
 
         // Compute xMean

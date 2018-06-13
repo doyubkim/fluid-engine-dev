@@ -48,7 +48,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -56,10 +56,10 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(div.view(), "div_#grid2.npy");
+    saveData<double>(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -95,7 +95,7 @@ JET_BEGIN_TEST_F(
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -103,10 +103,10 @@ JET_BEGIN_TEST_F(
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(div.view(), "div_#grid2.npy");
+    saveData<double>(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -144,7 +144,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -152,9 +152,9 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData<double>(div.view(), "div_#grid2.npy");
+    saveData<double>(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F

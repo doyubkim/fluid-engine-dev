@@ -4,13 +4,15 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <gtest/gtest.h>
-#include <jet/array1.h>
-#include <jet/array3.h>
+#include <jet/array.h>
+#include <jet/array_utils.h>
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box3.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
+
+#include <gtest/gtest.h>
+
 #include <vector>
 
 using namespace jet;
@@ -20,7 +22,7 @@ TEST(PointHashGridSearcher3, ForEachNearbyPoint) {
                                Vector3D(-1, 3, 0)};
 
     PointHashGridSearcher3 searcher(4, 4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     int cnt = 0;
     searcher.forEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
@@ -42,7 +44,7 @@ TEST(PointHashGridSearcher3, ForEachNearbyPointEmpty) {
     Array1<Vector3D> points;
 
     PointHashGridSearcher3 searcher(4, 4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector3D&) {});
@@ -61,7 +63,7 @@ TEST(PointParallelHashGridSearcher3, Build) {
 
     Array3<size_t> grid(4, 4, 4);
 
-    grid.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(grid.size(), [&](size_t i, size_t j, size_t k) {
         size_t key = pointSearcher.getHashKeyFromBucketIndex(
             SSize3(static_cast<ssize_t>(i), static_cast<ssize_t>(j),
                    static_cast<ssize_t>(k)));
@@ -72,7 +74,7 @@ TEST(PointParallelHashGridSearcher3, Build) {
     PointParallelHashGridSearcher3 parallelSearcher(4, 4, 4, 0.18);
     parallelSearcher.build(points);
 
-    grid.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(grid.size(), [&](size_t i, size_t j, size_t k) {
         size_t key = parallelSearcher.getHashKeyFromBucketIndex(
             SSize3(static_cast<ssize_t>(i), static_cast<ssize_t>(j),
                    static_cast<ssize_t>(k)));
@@ -88,7 +90,7 @@ TEST(PointHashGridSearcher3, CopyConstructor) {
                                Vector3D(-1, 3, 0)};
 
     PointHashGridSearcher3 searcher(4, 4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     PointHashGridSearcher3 searcher2(searcher);
     int cnt = 0;
@@ -112,7 +114,7 @@ TEST(PointHashGridSearcher3, Serialize) {
                                Vector3D(-1, 3, 0)};
 
     PointHashGridSearcher3 searcher(4, 4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     std::vector<uint8_t> buffer;
     searcher.serialize(&buffer);

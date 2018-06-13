@@ -41,7 +41,7 @@ std::mutex sSimMutex;
 
 // MARK: Rendering
 void densityToImage() {
-    const auto den = sSolver->smokeDensity()->dataAccessor();
+    const auto den = sSolver->smokeDensity()->dataView();
     sImage.resize(sN, sN);
     for (size_t i = 0; i < sN; i++) {
         for (size_t j = 0; j < sN; j++) {

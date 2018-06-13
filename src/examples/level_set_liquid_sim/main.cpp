@@ -42,7 +42,7 @@ void triangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
                         int frameCnt) {
     TriangleMesh3 mesh;
     int flag = kDirectionAll & ~kDirectionDown;
-    marchingCubes(sdf->constDataAccessor(), sdf->gridSpacing(),
+    marchingCubes(sdf->dataView(), sdf->gridSpacing(),
                   sdf->dataOrigin(), &mesh, 0.0, flag);
     saveTriangleMesh(mesh, rootDir, frameCnt);
 }

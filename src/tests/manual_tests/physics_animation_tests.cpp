@@ -6,7 +6,7 @@
 
 #include "manual_tests.h"
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/constant_vector_field3.h>
 #include <jet/physics_animation.h>
 #include <jet/vector3.h>
@@ -184,9 +184,9 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData(x.constAccessor(), filename);
+    saveData<double>(x.view(), filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData(y.constAccessor(), filename);
+    saveData<double>(y.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.advance())
     {
@@ -194,9 +194,9 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
         anim.exportStates(x, y);
 
         snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy", frame.index);
-        saveData(x.constAccessor(), filename);
+        saveData<double>(x.view(), filename);
         snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy", frame.index);
-        saveData(y.constAccessor(), filename);
+        saveData<double>(y.view(), filename);
     }
 }
 JET_END_TEST_F

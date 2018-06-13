@@ -16,7 +16,7 @@ EnoLevelSetSolver3::EnoLevelSetSolver3() {
 }
 
 void EnoLevelSetSolver3::getDerivatives(
-    ConstArrayAccessor3<double> grid,
+    ConstArrayView3<double> grid,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,

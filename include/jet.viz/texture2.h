@@ -9,7 +9,7 @@
 
 #include <jet.viz/color.h>
 #include <jet.viz/texture.h>
-#include <jet/array_accessor2.h>
+#include <jet/array_view.h>
 #include <jet/macros.h>
 #include <jet/tuple.h>
 
@@ -40,10 +40,10 @@ class Texture2 {
     void clear();
 
     //! Sets the texture with given 32-bit color data and size.
-    void setTexture(const ConstArrayAccessor2<Color>& data);
+    void setTexture(const ConstArrayView2<Color>& data);
 
     //! Sets the texture with given 8-bit color data and size.
-    void setTexture(const ConstArrayAccessor2<ByteColor>& data);
+    void setTexture(const ConstArrayView2<ByteColor>& data);
 
     //! Binds the texture to given renderer with slot ID.
     void bind(Renderer* renderer, unsigned int slotId);
@@ -62,10 +62,10 @@ class Texture2 {
     virtual void onClear() = 0;
 
     //! Called when setTexture(...) is invoked.
-    virtual void onSetTexture(const ConstArrayAccessor2<Color>& data) = 0;
+    virtual void onSetTexture(const ConstArrayView2<Color>& data) = 0;
 
     //! Called when setTexture(...) is invoked.
-    virtual void onSetTexture(const ConstArrayAccessor2<ByteColor>& data) = 0;
+    virtual void onSetTexture(const ConstArrayView2<ByteColor>& data) = 0;
 
     //! Called when bind(...) is invoked.
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;

@@ -7,9 +7,9 @@
 #include "array_accessor.h"
 #include "pybind11_utils.h"
 
-#include <jet/array_accessor1.h>
-#include <jet/array_accessor2.h>
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
+#include <jet/array_view.h>
+#include <jet/array_view.h>
 #include <jet/vector2.h>
 #include <jet/vector3.h>
 #include <jet/vector4.h>
@@ -18,29 +18,29 @@ namespace py = pybind11;
 using namespace jet;
 
 template <typename T>
-void addArrayAccessor1Scalar(py::module m, const char* name) {
-    py::class_<ArrayAccessor1<T>>(m, name, py::buffer_protocol())
-        .def_buffer([](ArrayAccessor1<T>& m) -> py::buffer_info {
+void addArrayView1Scalar(py::module m, const char* name) {
+    py::class_<ArrayView1<T>>(m, name, py::buffer_protocol())
+        .def_buffer([](ArrayView1<T>& m) -> py::buffer_info {
             return py::buffer_info(m.data(), sizeof(T),
                                    py::format_descriptor<T>::format(), 1,
-                                   {m.size()}, {sizeof(T)});
+                                   {m.length()}, {sizeof(T)});
         });
 };
 
 template <typename T, size_t N>
-void addArrayAccessor1Vector(py::module m, const char* name) {
-    py::class_<ArrayAccessor1<Vector<T, N>>>(m, name, py::buffer_protocol())
-        .def_buffer([](ArrayAccessor1<Vector<T, N>>& m) -> py::buffer_info {
+void addArrayView1Vector(py::module m, const char* name) {
+    py::class_<ArrayView1<Vector<T, N>>>(m, name, py::buffer_protocol())
+        .def_buffer([](ArrayView1<Vector<T, N>>& m) -> py::buffer_info {
             return py::buffer_info(m.data(), sizeof(T),
                                    py::format_descriptor<T>::format(), 2,
-                                   {m.size(), N}, {sizeof(T) * N, sizeof(T)});
+                                   {m.length(), N}, {sizeof(T) * N, sizeof(T)});
         });
 };
 
 template <typename T>
-void addArrayAccessor2Scalar(py::module m, const char* name) {
-    py::class_<ArrayAccessor2<T>>(m, name, py::buffer_protocol())
-            .def_buffer([](ArrayAccessor2<T>& m) -> py::buffer_info {
+void addArrayView2Scalar(py::module m, const char* name) {
+    py::class_<ArrayView2<T>>(m, name, py::buffer_protocol())
+            .def_buffer([](ArrayView2<T>& m) -> py::buffer_info {
                 return py::buffer_info(m.data(), sizeof(T),
                                        py::format_descriptor<T>::format(), 2,
                                        {m.height(), m.width()}, {sizeof(T) * m.width(), sizeof(T)});
@@ -48,9 +48,9 @@ void addArrayAccessor2Scalar(py::module m, const char* name) {
 };
 
 template <typename T>
-void addArrayAccessor3Scalar(py::module m, const char* name) {
-    py::class_<ArrayAccessor3<T>>(m, name, py::buffer_protocol())
-            .def_buffer([](ArrayAccessor3<T>& m) -> py::buffer_info {
+void addArrayView3Scalar(py::module m, const char* name) {
+    py::class_<ArrayView3<T>>(m, name, py::buffer_protocol())
+            .def_buffer([](ArrayView3<T>& m) -> py::buffer_info {
                 return py::buffer_info(m.data(), sizeof(T),
                                        py::format_descriptor<T>::format(), 3,
                                        {m.depth(), m.height(), m.width()},
@@ -59,23 +59,23 @@ void addArrayAccessor3Scalar(py::module m, const char* name) {
             });
 };
 
-void addArrayAccessor1(py::module& m) {
-    addArrayAccessor1Scalar<double>(m, "ArrayAccessor1D");
-    addArrayAccessor1Vector<double, 2>(m, "ArrayAccessor1Vector2D");
-    addArrayAccessor1Vector<double, 3>(m, "ArrayAccessor1Vector3D");
-    addArrayAccessor1Vector<double, 4>(m, "ArrayAccessor1Vector4D");
-    addArrayAccessor1Scalar<float>(m, "ArrayAccessor1F");
-    addArrayAccessor1Vector<float, 2>(m, "ArrayAccessor1Vector2F");
-    addArrayAccessor1Vector<float, 3>(m, "ArrayAccessor1Vector3F");
-    addArrayAccessor1Vector<float, 4>(m, "ArrayAccessor1Vector4F");
+void addArrayView1(py::module& m) {
+    addArrayView1Scalar<double>(m, "ArrayView1D");
+    addArrayView1Vector<double, 2>(m, "ArrayView1Vector2D");
+    addArrayView1Vector<double, 3>(m, "ArrayView1Vector3D");
+    addArrayView1Vector<double, 4>(m, "ArrayView1Vector4D");
+    addArrayView1Scalar<float>(m, "ArrayView1F");
+    addArrayView1Vector<float, 2>(m, "ArrayView1Vector2F");
+    addArrayView1Vector<float, 3>(m, "ArrayView1Vector3F");
+    addArrayView1Vector<float, 4>(m, "ArrayView1Vector4F");
 }
 
-void addArrayAccessor2(py::module& m) {
-    addArrayAccessor2Scalar<double>(m, "ArrayAccessor2D");
-    addArrayAccessor2Scalar<float>(m, "ArrayAccessor2F");
+void addArrayView2(py::module& m) {
+    addArrayView2Scalar<double>(m, "ArrayView2D");
+    addArrayView2Scalar<float>(m, "ArrayView2F");
 }
 
-void addArrayAccessor3(py::module& m) {
-    addArrayAccessor3Scalar<double>(m, "ArrayAccessor3D");
-    addArrayAccessor3Scalar<float>(m, "ArrayAccessor3F");
+void addArrayView3(py::module& m) {
+    addArrayView3Scalar<double>(m, "ArrayView3D");
+    addArrayView3Scalar<float>(m, "ArrayView3F");
 }

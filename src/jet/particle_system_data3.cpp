@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #ifdef _MSC_VER
-#pragma warning(disable: 4244)
+#pragma warning(disable : 4244)
 #endif
 
 #include <pch.h>
@@ -26,9 +26,7 @@ using namespace jet;
 
 static const size_t kDefaultHashGridResolution = 64;
 
-ParticleSystemData3::ParticleSystemData3()
-: ParticleSystemData3(0) {
-}
+ParticleSystemData3::ParticleSystemData3() : ParticleSystemData3(0) {}
 
 ParticleSystemData3::ParticleSystemData3(size_t numberOfParticles) {
     _positionIdx = addVectorData();
@@ -37,10 +35,8 @@ ParticleSystemData3::ParticleSystemData3(size_t numberOfParticles) {
 
     // Use PointParallelHashGridSearcher3 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        kDefaultHashGridResolution,
-        kDefaultHashGridResolution,
-        kDefaultHashGridResolution,
-        2.0 * _radius);
+        kDefaultHashGridResolution, kDefaultHashGridResolution,
+        kDefaultHashGridResolution, 2.0 * _radius);
 
     resize(numberOfParticles);
 }
@@ -49,8 +45,7 @@ ParticleSystemData3::ParticleSystemData3(const ParticleSystemData3& other) {
     set(other);
 }
 
-ParticleSystemData3::~ParticleSystemData3() {
-}
+ParticleSystemData3::~ParticleSystemData3() {}
 
 void ParticleSystemData3::resize(size_t newNumberOfParticles) {
     _numberOfParticles = newNumberOfParticles;
@@ -80,90 +75,79 @@ size_t ParticleSystemData3::addVectorData(const Vector3D& initialVal) {
     return attrIdx;
 }
 
-double ParticleSystemData3::radius() const {
-    return _radius;
-}
+double ParticleSystemData3::radius() const { return _radius; }
 
 void ParticleSystemData3::setRadius(double newRadius) {
     _radius = std::max(newRadius, 0.0);
 }
 
-double ParticleSystemData3::mass() const {
-    return _mass;
-}
+double ParticleSystemData3::mass() const { return _mass; }
 
 void ParticleSystemData3::setMass(double newMass) {
     _mass = std::max(newMass, 0.0);
 }
 
-ConstArrayAccessor1<Vector3D> ParticleSystemData3::positions() const {
+ConstArrayView1<Vector3D> ParticleSystemData3::positions() const {
     return vectorDataAt(_positionIdx);
 }
 
-ArrayAccessor1<Vector3D> ParticleSystemData3::positions() {
+ArrayView1<Vector3D> ParticleSystemData3::positions() {
     return vectorDataAt(_positionIdx);
 }
 
-ConstArrayAccessor1<Vector3D> ParticleSystemData3::velocities() const {
+ConstArrayView1<Vector3D> ParticleSystemData3::velocities() const {
     return vectorDataAt(_velocityIdx);
 }
 
-ArrayAccessor1<Vector3D> ParticleSystemData3::velocities() {
+ArrayView1<Vector3D> ParticleSystemData3::velocities() {
     return vectorDataAt(_velocityIdx);
 }
 
-ConstArrayAccessor1<Vector3D> ParticleSystemData3::forces() const {
+ConstArrayView1<Vector3D> ParticleSystemData3::forces() const {
     return vectorDataAt(_forceIdx);
 }
 
-ArrayAccessor1<Vector3D> ParticleSystemData3::forces() {
+ArrayView1<Vector3D> ParticleSystemData3::forces() {
     return vectorDataAt(_forceIdx);
 }
 
-ConstArrayAccessor1<double> ParticleSystemData3::scalarDataAt(
-    size_t idx) const {
-    return _scalarDataList[idx].constAccessor();
+ConstArrayView1<double> ParticleSystemData3::scalarDataAt(size_t idx) const {
+    return ConstArrayView1<double>(_scalarDataList[idx]);
 }
 
-ArrayAccessor1<double> ParticleSystemData3::scalarDataAt(size_t idx) {
-    return _scalarDataList[idx].accessor();
+ArrayView1<double> ParticleSystemData3::scalarDataAt(size_t idx) {
+    return ArrayView1<double>(_scalarDataList[idx]);
 }
 
-ConstArrayAccessor1<Vector3D> ParticleSystemData3::vectorDataAt(
-    size_t idx) const {
-    return _vectorDataList[idx].constAccessor();
+ConstArrayView1<Vector3D> ParticleSystemData3::vectorDataAt(size_t idx) const {
+    return ConstArrayView1<Vector3D>(_vectorDataList[idx]);
 }
 
-ArrayAccessor1<Vector3D> ParticleSystemData3::vectorDataAt(size_t idx) {
-    return _vectorDataList[idx].accessor();
+ArrayView1<Vector3D> ParticleSystemData3::vectorDataAt(size_t idx) {
+    return ArrayView1<Vector3D>(_vectorDataList[idx]);
 }
 
-void ParticleSystemData3::addParticle(
-    const Vector3D& newPosition,
-    const Vector3D& newVelocity,
-    const Vector3D& newForce) {
+void ParticleSystemData3::addParticle(const Vector3D& newPosition,
+                                      const Vector3D& newVelocity,
+                                      const Vector3D& newForce) {
     Array1<Vector3D> newPositions = {newPosition};
     Array1<Vector3D> newVelocities = {newVelocity};
     Array1<Vector3D> newForces = {newForce};
 
-    addParticles(
-        newPositions.constAccessor(),
-        newVelocities.constAccessor(),
-        newForces.constAccessor());
+    addParticles(newPositions, newVelocities, newForces);
 }
 
 void ParticleSystemData3::addParticles(
-    const ConstArrayAccessor1<Vector3D>& newPositions,
-    const ConstArrayAccessor1<Vector3D>& newVelocities,
-    const ConstArrayAccessor1<Vector3D>& newForces) {
-    JET_THROW_INVALID_ARG_IF(
-        newVelocities.size() > 0
-        && newVelocities.size() != newPositions.size());
-    JET_THROW_INVALID_ARG_IF(
-        newForces.size() > 0 && newForces.size() != newPositions.size());
+    const ConstArrayView1<Vector3D>& newPositions,
+    const ConstArrayView1<Vector3D>& newVelocities,
+    const ConstArrayView1<Vector3D>& newForces) {
+    JET_THROW_INVALID_ARG_IF(newVelocities.length() > 0 &&
+                             newVelocities.length() != newPositions.length());
+    JET_THROW_INVALID_ARG_IF(newForces.length() > 0 &&
+                             newForces.length() != newPositions.length());
 
     size_t oldNumberOfParticles = numberOfParticles();
-    size_t newNumberOfParticles = oldNumberOfParticles + newPositions.size();
+    size_t newNumberOfParticles = oldNumberOfParticles + newPositions.length();
 
     resize(newNumberOfParticles);
 
@@ -171,23 +155,20 @@ void ParticleSystemData3::addParticles(
     auto vel = velocities();
     auto frc = forces();
 
-    parallelFor(kZeroSize, newPositions.size(),
-        [&](size_t i) {
-            pos[i + oldNumberOfParticles] = newPositions[i];
-        });
+    parallelFor(kZeroSize, newPositions.length(), [&](size_t i) {
+        pos[i + oldNumberOfParticles] = newPositions[i];
+    });
 
-    if (newVelocities.size() > 0) {
-        parallelFor(kZeroSize, newPositions.size(),
-            [&](size_t i) {
-                vel[i + oldNumberOfParticles] = newVelocities[i];
-            });
+    if (newVelocities.length() > 0) {
+        parallelFor(kZeroSize, newPositions.length(), [&](size_t i) {
+            vel[i + oldNumberOfParticles] = newVelocities[i];
+        });
     }
 
-    if (newForces.size() > 0) {
-        parallelFor(kZeroSize, newPositions.size(),
-            [&](size_t i) {
-                frc[i + oldNumberOfParticles] = newForces[i];
-            });
+    if (newForces.length() > 0) {
+        parallelFor(kZeroSize, newPositions.length(), [&](size_t i) {
+            frc[i + oldNumberOfParticles] = newForces[i];
+        });
     }
 }
 
@@ -200,8 +181,8 @@ void ParticleSystemData3::setNeighborSearcher(
     _neighborSearcher = newNeighborSearcher;
 }
 
-const std::vector<std::vector<size_t>>&
-ParticleSystemData3::neighborLists() const {
+const std::vector<std::vector<size_t>>& ParticleSystemData3::neighborLists()
+    const {
     return _neighborLists;
 }
 
@@ -210,15 +191,12 @@ void ParticleSystemData3::buildNeighborSearcher(double maxSearchRadius) {
 
     // Use PointParallelHashGridSearcher3 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        kDefaultHashGridResolution,
-        kDefaultHashGridResolution,
-        kDefaultHashGridResolution,
-        2.0 * maxSearchRadius);
+        kDefaultHashGridResolution, kDefaultHashGridResolution,
+        kDefaultHashGridResolution, 2.0 * maxSearchRadius);
 
     _neighborSearcher->build(positions());
 
-    JET_INFO << "Building neighbor searcher took: "
-             << timer.durationInSeconds()
+    JET_INFO << "Building neighbor searcher took: " << timer.durationInSeconds()
              << " seconds";
 }
 
@@ -233,17 +211,14 @@ void ParticleSystemData3::buildNeighborLists(double maxSearchRadius) {
         _neighborLists[i].clear();
 
         _neighborSearcher->forEachNearbyPoint(
-            origin,
-            maxSearchRadius,
-            [&](size_t j, const Vector3D&) {
+            origin, maxSearchRadius, [&](size_t j, const Vector3D&) {
                 if (i != j) {
                     _neighborLists[i].push_back(j);
                 }
             });
     }
 
-    JET_INFO << "Building neighbor list took: "
-             << timer.durationInSeconds()
+    JET_INFO << "Building neighbor list took: " << timer.durationInSeconds()
              << " seconds";
 }
 
@@ -255,7 +230,7 @@ void ParticleSystemData3::serialize(std::vector<uint8_t>* buffer) const {
 
     builder.Finish(fbsParticleSystemData);
 
-    uint8_t *buf = builder.GetBufferPointer();
+    uint8_t* buf = builder.GetBufferPointer();
     size_t size = builder.GetSize();
 
     buffer->resize(size);
@@ -301,8 +276,8 @@ void ParticleSystemData3::serializeParticleSystemData(
     std::vector<flatbuffers::Offset<fbs::ScalarParticleData3>> scalarDataList;
     for (const auto& scalarData : _scalarDataList) {
         auto fbsScalarData = fbs::CreateScalarParticleData3(
-                *builder,
-                builder->CreateVector(scalarData.data(), scalarData.size()));
+            *builder,
+            builder->CreateVector(scalarData.data(), scalarData.length()));
         scalarDataList.push_back(fbsScalarData);
     }
     auto fbsScalarDataList = builder->CreateVector(scalarDataList);
@@ -315,31 +290,28 @@ void ParticleSystemData3::serializeParticleSystemData(
         }
 
         auto fbsVectorData = fbs::CreateVectorParticleData3(
-                *builder,
-                builder->CreateVectorOfStructs(
-                    newVectorData.data(), newVectorData.size()));
+            *builder, builder->CreateVectorOfStructs(newVectorData.data(),
+                                                     newVectorData.size()));
         vectorDataList.push_back(fbsVectorData);
     }
     auto fbsVectorDataList = builder->CreateVector(vectorDataList);
 
     // Copy neighbor searcher
-    auto neighborSearcherType
-        = builder->CreateString(_neighborSearcher->typeName());
+    auto neighborSearcherType =
+        builder->CreateString(_neighborSearcher->typeName());
     std::vector<uint8_t> neighborSearcherSerialized;
     _neighborSearcher->serialize(&neighborSearcherSerialized);
     auto fbsNeighborSearcher = fbs::CreatePointNeighborSearcherSerialized3(
-        *builder,
-        neighborSearcherType,
-        builder->CreateVector(
-            neighborSearcherSerialized.data(),
-            neighborSearcherSerialized.size()));
+        *builder, neighborSearcherType,
+        builder->CreateVector(neighborSearcherSerialized.data(),
+                              neighborSearcherSerialized.size()));
 
     // Copy neighbor lists
     std::vector<flatbuffers::Offset<fbs::ParticleNeighborList3>> neighborLists;
     for (const auto& neighbors : _neighborLists) {
         std::vector<uint64_t> neighbors64(neighbors.begin(), neighbors.end());
-        flatbuffers::Offset<fbs::ParticleNeighborList3> fbsNeighborList
-            = fbs::CreateParticleNeighborList3(
+        flatbuffers::Offset<fbs::ParticleNeighborList3> fbsNeighborList =
+            fbs::CreateParticleNeighborList3(
                 *builder,
                 builder->CreateVector(neighbors64.data(), neighbors64.size()));
         neighborLists.push_back(fbsNeighborList);
@@ -349,15 +321,8 @@ void ParticleSystemData3::serializeParticleSystemData(
 
     // Copy the searcher
     *fbsParticleSystemData = fbs::CreateParticleSystemData3(
-        *builder,
-        _radius,
-        _mass,
-        _positionIdx,
-        _velocityIdx,
-        _forceIdx,
-        fbsScalarDataList,
-        fbsVectorDataList,
-        fbsNeighborSearcher,
+        *builder, _radius, _mass, _positionIdx, _velocityIdx, _forceIdx,
+        fbsScalarDataList, fbsVectorDataList, fbsNeighborSearcher,
         fbsNeighborLists);
 }
 
@@ -398,13 +363,12 @@ void ParticleSystemData3::deserializeParticleSystemData(
         }
     }
 
-    _numberOfParticles = _vectorDataList[0].size();
+    _numberOfParticles = _vectorDataList[0].length();
 
     // Copy neighbor searcher
     auto fbsNeighborSearcher = fbsParticleSystemData->neighborSearcher();
-    _neighborSearcher
-        = Factory::buildPointNeighborSearcher3(
-            fbsNeighborSearcher->type()->c_str());
+    _neighborSearcher = Factory::buildPointNeighborSearcher3(
+        fbsNeighborSearcher->type()->c_str());
     std::vector<uint8_t> neighborSearcherSerialized(
         fbsNeighborSearcher->data()->begin(),
         fbsNeighborSearcher->data()->end());
@@ -416,12 +380,9 @@ void ParticleSystemData3::deserializeParticleSystemData(
     for (uint32_t i = 0; i < fbsNeighborLists->size(); ++i) {
         auto fbsNeighborList = fbsNeighborLists->Get(i);
         _neighborLists[i].resize(fbsNeighborList->data()->size());
-        std::transform(
-            fbsNeighborList->data()->begin(),
-            fbsNeighborList->data()->end(),
-            _neighborLists[i].begin(),
-            [](uint64_t val) {
-            return static_cast<size_t>(val);
-        });
+        std::transform(fbsNeighborList->data()->begin(),
+                       fbsNeighborList->data()->end(),
+                       _neighborLists[i].begin(),
+                       [](uint64_t val) { return static_cast<size_t>(val); });
     }
 }

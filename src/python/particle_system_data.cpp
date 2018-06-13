@@ -163,9 +163,9 @@ void addParticleSystemData2(py::module& m) {
                      }
                  }
 
-                 instance.addParticles(positions.constAccessor(),
-                                       velocities.constAccessor(),
-                                       forces.constAccessor());
+                 instance.addParticles(positions.view(),
+                                       velocities.view(),
+                                       forces.view());
              },
              R"pbdoc(
              Adds particles to the data structure.
@@ -358,9 +358,9 @@ void addParticleSystemData3(py::module& m) {
                      }
                  }
 
-                 instance.addParticles(positions.constAccessor(),
-                                       velocities.constAccessor(),
-                                       forces.constAccessor());
+                 instance.addParticles(positions.view(),
+                                       velocities.view(),
+                                       forces.view());
              },
              R"pbdoc(
              Adds particles to the data structure.

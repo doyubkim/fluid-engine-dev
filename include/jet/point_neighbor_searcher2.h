@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_POINT_NEIGHBOR_SEARCHER2_H_
 #define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER2_H_
 
-#include <jet/array_accessor1.h>
+#include <jet/array_view.h>
 #include <jet/serialization.h>
 #include <jet/vector2.h>
 #include <functional>
@@ -42,7 +42,7 @@ class PointNeighborSearcher2 : public Serializable {
     virtual std::string typeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
-    virtual void build(const ConstArrayAccessor1<Vector2D>& points) = 0;
+    virtual void build(const ConstArrayView1<Vector2D>& points) = 0;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

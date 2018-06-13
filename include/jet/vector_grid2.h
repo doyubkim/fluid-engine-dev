@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VECTOR_GRID2_H_
 #define INCLUDE_JET_VECTOR_GRID2_H_
 
-#include <jet/array_accessor2.h>
+#include <jet/array_view.h>
 #include <jet/grid2.h>
 #include <jet/parallel.h>
 #include <jet/vector_field2.h>
@@ -20,11 +20,11 @@ namespace jet {
 //! Abstract base class for 2-D vector grid structure.
 class VectorGrid2 : public VectorField2, public Grid2 {
  public:
-    //! Read-write array accessor type.
-    typedef ArrayAccessor2<Vector2D> VectorDataAccessor;
+    //! Read-write array view type.
+    typedef ArrayView2<Vector2D> VectorDataView;
 
-    //! Read-only array accessor type.
-    typedef ConstArrayAccessor2<Vector2D> ConstVectorDataAccessor;
+    //! Read-only array view type.
+    typedef ConstArrayView2<Vector2D> ConstVectorDataView;
 
     //! Constructs an empty grid.
     VectorGrid2();

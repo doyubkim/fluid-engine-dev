@@ -116,18 +116,18 @@ void PicSolver2::transferFromParticlesToGrids() {
     flow->fill(Vector2D());
 
     // Weighted-average velocity
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
     Array2<double> uWeight(u.size());
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
-    _uMarkers.set(0);
-    _vMarkers.set(0);
+    fill(_uMarkers.view(), (char)0);
+    fill(_vMarkers.view(), (char)0);
     LinearArraySampler2<double, double> uSampler(
-        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
+        flow->uView(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler2<double, double> vSampler(
-        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
+        flow->vView(), flow->gridSpacing(), flow->vOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Size2, 4> indices;
         std::array<double, 4> weights;
@@ -147,12 +147,12 @@ void PicSolver2::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(uWeight.size(), [&](size_t i, size_t j) {
         if (uWeight(i, j) > 0.0) {
             u(i, j) /= uWeight(i, j);
         }
     });
-    vWeight.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(vWeight.size(), [&](size_t i, size_t j) {
         if (vWeight(i, j) > 0.0) {
             v(i, j) /= vWeight(i, j);
         }
@@ -232,12 +232,12 @@ void PicSolver2::moveParticles(double timeIntervalInSeconds) {
 
 void PicSolver2::extrapolateVelocityToAir() {
     auto vel = gridSystemData()->velocity();
-    auto u = vel->uAccessor();
-    auto v = vel->vAccessor();
+    auto u = vel->uView();
+    auto v = vel->vView();
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(maxCfl()));
-    extrapolateToRegion(vel->uConstAccessor(), _uMarkers, depth, u);
-    extrapolateToRegion(vel->vConstAccessor(), _vMarkers, depth, v);
+    extrapolateToRegion(vel->uView(), _uMarkers, depth, u);
+    extrapolateToRegion(vel->vView(), _vMarkers, depth, v);
 }
 
 void PicSolver2::buildSignedDistanceField() {

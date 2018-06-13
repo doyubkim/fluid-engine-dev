@@ -16,7 +16,7 @@ class FdmLinearSystemSolverTestHelper3 {
         system->x.resize(size);
         system->b.resize(size);
 
-        system->A.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(system->A.size(), [&](size_t i, size_t j, size_t k) {
             if (i > 0) {
                 system->A(i, j, k).center += 1.0;
             }
@@ -51,9 +51,9 @@ class FdmLinearSystemSolverTestHelper3 {
     static void buildTestCompressedLinearSystem(
         FdmCompressedLinearSystem3* system, const Size3& size) {
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.constAccessor();
+        const auto acc = coordToIndex.view();
 
-        coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(coordToIndex.size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
 
             coordToIndex[cIdx] = system->b.size();

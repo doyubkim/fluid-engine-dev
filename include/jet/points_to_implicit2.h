@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_POINTS_TO_IMPLICIT2_H_
 #define INCLUDE_JET_POINTS_TO_IMPLICIT2_H_
 
-#include <jet/array_accessor1.h>
+#include <jet/array_view.h>
 #include <jet/scalar_grid2.h>
 #include <jet/vector2.h>
 
@@ -25,7 +25,7 @@ class PointsToImplicit2 {
     virtual ~PointsToImplicit2();
 
     //! Converts the given points to implicit surface scalar field.
-    virtual void convert(const ConstArrayAccessor1<Vector2D>& points,
+    virtual void convert(const ConstArrayView1<Vector2D>& points,
                          ScalarGrid2* output) const = 0;
 };
 

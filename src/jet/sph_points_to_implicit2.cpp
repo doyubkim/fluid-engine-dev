@@ -19,7 +19,7 @@ SphPointsToImplicit2::SphPointsToImplicit2(double kernelRadius,
       _cutOffDensity(cutOffDensity),
       _isOutputSdf(isOutputSdf) {}
 
-void SphPointsToImplicit2::convert(const ConstArrayAccessor1<Vector2D>& points,
+void SphPointsToImplicit2::convert(const ConstArrayView1<Vector2D>& points,
                                    ScalarGrid2* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";

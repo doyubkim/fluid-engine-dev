@@ -4,9 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
-#include <jet/array2.h>
-#include <jet/array3.h>
+#include <jet/array.h>
+#include <jet/array.h>
+#include <jet/array.h>
 #include <jet/array_samplers1.h>
 #include <jet/array_samplers2.h>
 #include <jet/array_samplers3.h>
@@ -19,7 +19,7 @@ TEST(NearestArraySampler1, Sample) {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 1.0, gridOrigin = 0.0;
         NearestArraySampler1<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(0.45);
         EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
@@ -34,7 +34,7 @@ TEST(NearestArraySampler1, Sample) {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 0.5, gridOrigin = -1.0;
         NearestArraySampler1<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(0.45);
         EXPECT_LT(std::fabs(s0 - 4.0), 1e-9);
@@ -49,7 +49,7 @@ TEST(LinearArraySampler1, Sample) {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 1.0, gridOrigin = 0.0;
         LinearArraySampler1<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(0.5);
         EXPECT_LT(std::fabs(s0 - 1.5), 1e-9);
@@ -64,7 +64,7 @@ TEST(LinearArraySampler1, Sample) {
         Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
         double gridSpacing = 0.5, gridOrigin = -1.0;
         LinearArraySampler1<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(0.2);
         EXPECT_LT(std::fabs(s0 - 3.4), 1e-9);
@@ -78,7 +78,7 @@ TEST(CubicArraySampler1, Sample) {
     Array1<double> grid({ 1.0, 2.0, 3.0, 4.0 });
     double gridSpacing = 1.0, gridOrigin = 0.0;
     CubicArraySampler1<double, double> sampler(
-        grid.constAccessor(), gridSpacing, gridOrigin);
+        grid.view(), gridSpacing, gridOrigin);
 
     double s0 = sampler(1.25);
     EXPECT_LT(2.0, s0);
@@ -95,7 +95,7 @@ TEST(NearestArraySampler2, Sample) {
              { 5.0, 6.0, 7.0, 8.0 }});
         Vector2D gridSpacing(1.0, 1.0), gridOrigin;
         NearestArraySampler2<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.45));
         EXPECT_LT(std::fabs(s0 - 1.0), 1e-9);
@@ -115,7 +115,7 @@ TEST(NearestArraySampler2, Sample) {
              { 5.0, 6.0, 7.0, 8.0 }});
         Vector2D gridSpacing(0.5, 0.25), gridOrigin(-1.0, -0.5);
         NearestArraySampler2<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(Vector2D(0.45, 0.4));
         EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
@@ -135,7 +135,7 @@ TEST(LinearArraySampler2, Sample) {
              { 5.0, 6.0, 7.0, 8.0 } });
         Vector2D gridSpacing(1.0, 1.0), gridOrigin;
         LinearArraySampler2<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
         EXPECT_LT(std::fabs(s0 - 2.0), 1e-9);
@@ -152,7 +152,7 @@ TEST(LinearArraySampler2, Sample) {
              { 5.0, 6.0, 7.0, 8.0 }});
         Vector2D gridSpacing(0.5, 0.25), gridOrigin(-1.0, -0.5);
         LinearArraySampler2<double, double> sampler(
-            grid.constAccessor(), gridSpacing, gridOrigin);
+            grid.view(), gridSpacing, gridOrigin);
 
         double s0 = sampler(Vector2D(0.5, 0.5));
         EXPECT_LT(std::fabs(s0 - 8.0), 1e-9);
@@ -171,7 +171,7 @@ TEST(CubicArraySampler2, Sample) {
          { 5.0, 6.0, 7.0, 8.0 }});
     Vector2D gridSpacing(1.0, 1.0), gridOrigin;
     CubicArraySampler2<double, double> sampler(
-        grid.constAccessor(), gridSpacing, gridOrigin);
+        grid.view(), gridSpacing, gridOrigin);
 
     double s0 = sampler(Vector2D(1.5, 2.8));
     EXPECT_LT(4.0, s0);
@@ -190,7 +190,7 @@ TEST(CubicArraySampler3, Sample) {
 
     Vector3D gridSpacing(1.0, 1.0, 1.0), gridOrigin;
     CubicArraySampler3<double, double> sampler(
-        grid.constAccessor(), gridSpacing, gridOrigin);
+        grid.view(), gridSpacing, gridOrigin);
 
     double s0 = sampler(Vector3D(1.5, 1.8, 1.2));
     EXPECT_LT(3.0, s0);

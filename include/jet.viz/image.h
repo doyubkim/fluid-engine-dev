@@ -8,7 +8,7 @@
 #define INCLUDE_JET_VIZ_IMAGE_H_
 
 #include <jet.viz/color.h>
-#include <jet/array2.h>
+#include <jet/array.h>
 
 #include <memory>
 

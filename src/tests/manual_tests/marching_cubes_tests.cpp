@@ -6,7 +6,7 @@
 
 #include <manual_tests.h>
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/marching_cubes.h>
 #include <jet/vertex_centered_scalar_grid3.h>
 
@@ -48,7 +48,7 @@ JET_BEGIN_TEST_F(MarchingCubes, FourCubes) {
     });
 
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh,
@@ -68,7 +68,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     });
 
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh,
@@ -84,7 +84,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     triMesh.clear();
 
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh,
@@ -100,7 +100,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     triMesh.clear();
 
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh,

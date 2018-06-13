@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VERTEX_CENTERED_SCALAR_GRID3_H_
 #define INCLUDE_JET_VERTEX_CENTERED_SCALAR_GRID3_H_
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/scalar_grid3.h>
 #include <utility>  // just make cpplint happy..
 

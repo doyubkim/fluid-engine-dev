@@ -28,7 +28,7 @@ class MatrixMxN : public ::benchmark::Fixture {
         x.resize(n);
         y.resize(n);
         mat.forEachIndex([&](size_t i, size_t j) { mat(i, j) = d(rng); });
-        x.forEachIndex([&](size_t i) {
+        jet::forEachIndex(x.size(), [&](size_t i) {
             x[i] = d(rng);
             y[i] = d(rng);
         });

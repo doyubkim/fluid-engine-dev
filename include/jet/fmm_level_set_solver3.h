@@ -86,11 +86,11 @@ class FmmLevelSetSolver3 final : public LevelSetSolver3 {
 
  private:
     void extrapolate(
-        const ConstArrayAccessor3<double>& input,
-        const ConstArrayAccessor3<double>& sdf,
+        const ConstArrayView3<double>& input,
+        const ConstArrayView3<double>& sdf,
         const Vector3D& gridSpacing,
         double maxDistance,
-        ArrayAccessor3<double> output);
+        ArrayView3<double> output);
 };
 
 //! Shared pointer type for the FmmLevelSetSolver3.

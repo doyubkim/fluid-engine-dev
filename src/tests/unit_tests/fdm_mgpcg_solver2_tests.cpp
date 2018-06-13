@@ -21,9 +21,9 @@ TEST(FdmMgpcgSolver2, Solve) {
         FdmMatrix2& A = system.A[l];
         FdmVector2& b = system.b[l];
 
-        system.x[l].set(0);
+        fill(system.x[l].view(), 0.0);
 
-        A.forEachIndex([&](size_t i, size_t j) {
+        forEachIndex(A.size(), [&](size_t i, size_t j) {
             if (i > 0) {
                 A(i, j).center += invdx * invdx;
             }

@@ -54,20 +54,20 @@ JET_BEGIN_TEST_F(LevelSetSolver2, Reinitialize) {
     dataV.fill([&] (const Vector2D& pt) {
         return flowFunc(pt).y;
     });
-    saveData(dataU.constDataAccessor(), "flow_#grid2,x.npy");
-    saveData(dataV.constDataAccessor(), "flow_#grid2,y.npy");
+    saveData<double>(dataU.dataView(), "flow_#grid2,x.npy");
+    saveData<double>(dataV.dataView(), "flow_#grid2,y.npy");
 
     CubicSemiLagrangian2 advSolver;
     EnoLevelSetSolver2 lsSolver;
 
-    saveData(data0.constDataAccessor(), "data0_#grid2,iso.npy");
+    saveData<double>(data0.dataView(), "data0_#grid2,iso.npy");
 
     for (int i = 0; i < 50; ++i) {
         advSolver.advect(data0, flow, 0.02, &data1);
         lsSolver.reinitialize(data1, 5.0 * gridSpacing.x, &data0);
     }
 
-    saveData(data0.constDataAccessor(), "data_#grid2,iso.npy");
+    saveData<double>(data0.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -101,7 +101,7 @@ JET_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize) {
         data0.swap(&data1);
     }
 
-    saveData(data0.constDataAccessor(), "data_#grid2,iso.npy");
+    saveData<double>(data0.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -116,43 +116,43 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall) {
     sdf.fill([](const Vector2D& x) {
         return 1.0;
     });
-    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
     });
-    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "sdf0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(20, 20)).length() - 8.0;
         return 2.0 * r;
     });
-    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "scaled0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(20, 20)).length() - 8.0;
         return (r < 0.0) ? -0.5 : 0.5;
     });
-    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "unit_step0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -164,43 +164,43 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize) {
     sdf.fill([](const Vector2D& x) {
         return 1.0;
     });
-    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(80, 80)).length() - 32.0;
     });
-    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "sdf0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(80, 80)).length() - 32.0;
         return 2.0 * r;
     });
-    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "scaled0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(80, 80)).length() - 32.0;
         return (r < 0.0) ? -0.5 : 0.5;
     });
-    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "unit_step0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -229,9 +229,9 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate) {
 
     solver.extrapolate(input, sdf, maxDistance, &output);
 
-    saveData(sdf.constDataAccessor(), "sdf_#grid2,iso.npy");
-    saveData(input.constDataAccessor(), "input_#grid2.npy");
-    saveData(output.constDataAccessor(), "output_#grid2.npy");
+    saveData<double>(sdf.dataView(), "sdf_#grid2,iso.npy");
+    saveData<double>(input.dataView(), "input_#grid2.npy");
+    saveData<double>(output.dataView(), "output_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -257,8 +257,8 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ReinitializeSmall) {
         }
     }
 
-    saveData(sdf2.constAccessor(), "sdf_#grid2,iso.npy");
-    saveData(temp2.constAccessor(), "temp_#grid2,iso.npy");
+    saveData<double>(sdf2.view(), "sdf_#grid2,iso.npy");
+    saveData<double>(temp2.view(), "temp_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -289,8 +289,8 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ExtrapolateSmall) {
         }
     }
 
-    saveData(field2.constAccessor(), "field_#grid2.npy");
-    saveData(temp2.constAccessor(), "temp_#grid2.npy");
+    saveData<double>(field2.view(), "field_#grid2.npy");
+    saveData<double>(temp2.view(), "temp_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -305,43 +305,43 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, ReinitializeSmall) {
     sdf.fill([](const Vector2D& x) {
         return 1.0;
     });
-    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
     });
-    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "sdf0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(20, 20)).length() - 8.0;
         return 2.0 * r;
     });
-    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "scaled0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(20, 20)).length() - 8.0;
         return (r < 0.0) ? -0.5 : 0.5;
     });
-    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "unit_step0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
 
-    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -353,43 +353,43 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, Reinitialize) {
     sdf.fill([](const Vector2D& x) {
         return 1.0;
     });
-    saveData(sdf.constDataAccessor(), "constant0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "constant1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "constant1_#grid2,iso.npy");
 
     // Starting from SDF field
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(80, 80)).length() - 32.0;
     });
-    saveData(sdf.constDataAccessor(), "sdf0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "sdf0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "sdf1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "sdf1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(80, 80)).length() - 32.0;
         return 2.0 * r;
     });
-    saveData(sdf.constDataAccessor(), "scaled0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "scaled0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "scaled1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "scaled1_#grid2,iso.npy");
 
     // Starting from scaled SDF field
     sdf.fill([](const Vector2D& x) {
         double r = (x - Vector2D(80, 80)).length() - 32.0;
         return (r < 0.0) ? -0.5 : 0.5;
     });
-    saveData(sdf.constDataAccessor(), "unit_step0_#grid2,iso.npy");
+    saveData<double>(sdf.dataView(), "unit_step0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
 
-    saveData(temp.constDataAccessor(), "unit_step1_#grid2,iso.npy");
+    saveData<double>(temp.dataView(), "unit_step1_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -418,9 +418,9 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, Extrapolate) {
 
     solver.extrapolate(input, sdf, maxDistance, &output);
 
-    saveData(sdf.constDataAccessor(), "sdf_#grid2,iso.npy");
-    saveData(input.constDataAccessor(), "input_#grid2.npy");
-    saveData(output.constDataAccessor(), "output_#grid2.npy");
+    saveData<double>(sdf.dataView(), "sdf_#grid2,iso.npy");
+    saveData<double>(input.dataView(), "input_#grid2.npy");
+    saveData<double>(output.dataView(), "output_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -446,8 +446,8 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver3, ReinitializeSmall) {
         }
     }
 
-    saveData(sdf2.constAccessor(), "sdf_#grid2,iso.npy");
-    saveData(temp2.constAccessor(), "temp_#grid2,iso.npy");
+    saveData<double>(sdf2.view(), "sdf_#grid2,iso.npy");
+    saveData<double>(temp2.view(), "temp_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -478,7 +478,7 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver3, ExtrapolateSmall) {
         }
     }
 
-    saveData(field2.constAccessor(), "field_#grid2.npy");
-    saveData(temp2.constAccessor(), "temp_#grid2.npy");
+    saveData<double>(field2.view(), "field_#grid2.npy");
+    saveData<double>(temp2.view(), "temp_#grid2.npy");
 }
 JET_END_TEST_F

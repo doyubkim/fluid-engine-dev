@@ -31,7 +31,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Interpolate) {
 
     SphSystemData2 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector2D>(points.size(), points.data()));
+        ConstArrayView1<Vector2D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -49,7 +49,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Interpolate) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -65,7 +65,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
 
     SphSystemData2 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector2D>(points.size(), points.data()));
+        ConstArrayView1<Vector2D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -76,11 +76,11 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         data[i] = d(rng);
     }
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         Vector2D g = sphSystem.gradientAt(i, data);
         gradX[i] = g.x;
         gradY[i] = g.y;
@@ -97,7 +97,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -107,8 +107,8 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
         grid2(i, j) = sphSystem.interpolate(p, gradY);
     });
 
-    saveData(grid.constDataAccessor(), "gradient_#grid2,x.npy");
-    saveData(grid2.constDataAccessor(), "gradient_#grid2,y.npy");
+    saveData<double>(grid.dataView(), "gradient_#grid2,x.npy");
+    saveData<double>(grid2.dataView(), "gradient_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -124,7 +124,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
 
     SphSystemData2 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector2D>(points.size(), points.data()));
+        ConstArrayView1<Vector2D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -134,11 +134,11 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         data[i] = d(rng);
     }
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         laplacian[i] = sphSystem.laplacianAt(i, data);
     }
 
@@ -152,7 +152,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -161,7 +161,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, laplacian);
     });
 
-    saveData(grid.constDataAccessor(), "laplacian_#grid2.npy");
+    saveData<double>(grid.dataView(), "laplacian_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -180,7 +180,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Interpolate) {
 
     SphSystemData3 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector3D>(points.size(), points.data()));
+        ConstArrayView1<Vector3D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -198,7 +198,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Interpolate) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -214,7 +214,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
 
     SphSystemData3 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector3D>(points.size(), points.data()));
+        ConstArrayView1<Vector3D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -225,11 +225,11 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         data[i] = d(rng);
     }
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         Vector3D g = sphSystem.gradientAt(i, data);
         gradX[i] = g.x;
         gradY[i] = g.y;
@@ -250,7 +250,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
             grid(i, j) = sphSystem.interpolate(p, data);
         });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -260,8 +260,8 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
         grid2(i, j) = sphSystem.interpolate(p, gradY);
     });
 
-    saveData(grid.constDataAccessor(), "gradient_#grid2,x.npy");
-    saveData(grid2.constDataAccessor(), "gradient_#grid2,y.npy");
+    saveData<double>(grid.dataView(), "gradient_#grid2,x.npy");
+    saveData<double>(grid2.dataView(), "gradient_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -277,7 +277,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
 
     SphSystemData3 sphSystem;
     sphSystem.addParticles(
-        ConstArrayAccessor1<Vector3D>(points.size(), points.data()));
+        ConstArrayView1<Vector3D>(points.data(), points.size()));
     sphSystem.setTargetSpacing(spacing);
     sphSystem.buildNeighborSearcher();
     sphSystem.buildNeighborLists();
@@ -287,11 +287,11 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
     std::mt19937 rng(0);
     std::uniform_real_distribution<> d(0.0, 1.0);
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         data[i] = d(rng);
     }
 
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (size_t i = 0; i < data.length(); ++i) {
         laplacian[i] = sphSystem.laplacianAt(i, data);
     }
 
@@ -305,7 +305,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
+    saveData<double>(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -314,6 +314,6 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, laplacian);
     });
 
-    saveData(grid.constDataAccessor(), "laplacian_#grid2.npy");
+    saveData<double>(grid.dataView(), "laplacian_#grid2.npy");
 }
 JET_END_TEST_F

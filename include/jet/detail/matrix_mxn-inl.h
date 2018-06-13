@@ -8,6 +8,7 @@
 #define INCLUDE_JET_DETAIL_MATRIX_MXN_INL_H_
 
 #include <jet/macros.h>
+#include <jet/array_utils.h>
 #include <jet/math_utils.h>
 #include <jet/matrix_mxn.h>
 #include <jet/parallel.h>
@@ -54,12 +55,12 @@ MatrixMxN<T>::MatrixMxN(size_t m, size_t n, const T* arr) {
 template <typename T>
 void MatrixMxN<T>::resize(size_t m, size_t n, const T& s) {
     // Note that m and n are flipped.
-    _elements.resize(n, m, s);
+    _elements.resize({n, m}, s);
 }
 
 template <typename T>
 void MatrixMxN<T>::set(const T& s) {
-    _elements.set(s);
+    fill(_elements.view(), s);
 }
 
 template <typename T>

@@ -6,8 +6,8 @@
 
 #include <manual_tests.h>
 
+#include <jet/array.h>
 #include <jet/array_utils.h>
-#include <jet/array2.h>
 #include <jet/scalar_field2.h>
 #include <jet/scalar_field3.h>
 #include <jet/vector_field2.h>
@@ -22,17 +22,15 @@ class MyCustomScalarField3 final : public ScalarField3 {
     }
 
     Vector3D gradient(const Vector3D& x) const override {
-        return Vector3D(
-            std::cos(x.x) * std::sin(x.y) * std::sin(x.z),
-            std::sin(x.x) * std::cos(x.y) * std::sin(x.z),
-            std::sin(x.x) * std::sin(x.y) * std::cos(x.z));
+        return Vector3D(std::cos(x.x) * std::sin(x.y) * std::sin(x.z),
+                        std::sin(x.x) * std::cos(x.y) * std::sin(x.z),
+                        std::sin(x.x) * std::sin(x.y) * std::cos(x.z));
     }
 
     double laplacian(const Vector3D& x) const override {
-        return
-            -std::sin(x.x) * std::sin(x.y) * std::sin(x.z)
-            -std::sin(x.x) * std::sin(x.y) * std::sin(x.z)
-            -std::sin(x.x) * std::sin(x.y) * std::sin(x.z);
+        return -std::sin(x.x) * std::sin(x.y) * std::sin(x.z) -
+               std::sin(x.x) * std::sin(x.y) * std::sin(x.z) -
+               std::sin(x.x) * std::sin(x.y) * std::sin(x.z);
     }
 };
 
@@ -49,7 +47,7 @@ JET_BEGIN_TEST_F(ScalarField3, Sample) {
         }
     }
 
-    saveData(data.constAccessor(), "data_#grid2.npy");
+    saveData<double>(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -67,8 +65,8 @@ JET_BEGIN_TEST_F(ScalarField3, Gradient) {
         }
     }
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -83,30 +81,27 @@ JET_BEGIN_TEST_F(ScalarField3, Laplacian) {
         }
     }
 
-    saveData(data.constAccessor(), "data_#grid2.npy");
+    saveData<double>(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
 class MyCustomVectorField3 final : public VectorField3 {
  public:
     Vector3D sample(const Vector3D& x) const override {
-        return Vector3D(
-            std::sin(x.x) * std::sin(x.y),
-            std::sin(x.y) * std::sin(x.z),
-            std::sin(x.z) * std::sin(x.x));
+        return Vector3D(std::sin(x.x) * std::sin(x.y),
+                        std::sin(x.y) * std::sin(x.z),
+                        std::sin(x.z) * std::sin(x.x));
     }
 
     double divergence(const Vector3D& x) const override {
-        return std::cos(x.x) * std::sin(x.y)
-             + std::cos(x.y) * std::sin(x.z)
-             + std::cos(x.z) * std::sin(x.x);
+        return std::cos(x.x) * std::sin(x.y) + std::cos(x.y) * std::sin(x.z) +
+               std::cos(x.z) * std::sin(x.x);
     }
 
     Vector3D curl(const Vector3D& x) const override {
-        return Vector3D(
-            -std::sin(x.y) * std::cos(x.z),
-            -std::sin(x.z) * std::cos(x.x),
-            -std::sin(x.x) * std::cos(x.y));
+        return Vector3D(-std::sin(x.y) * std::cos(x.z),
+                        -std::sin(x.z) * std::cos(x.x),
+                        -std::sin(x.x) * std::cos(x.y));
     }
 };
 
@@ -132,8 +127,8 @@ JET_BEGIN_TEST_F(VectorField3, Sample) {
         }
     }
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -148,7 +143,7 @@ JET_BEGIN_TEST_F(VectorField3, Divergence) {
         }
     }
 
-    saveData(data.constAccessor(), "data_#grid2.npy");
+    saveData<double>(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -165,8 +160,8 @@ JET_BEGIN_TEST_F(VectorField3, Curl) {
         }
     }
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -183,7 +178,7 @@ JET_BEGIN_TEST_F(VectorField3, Sample2) {
         }
     }
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
+    saveData<double>(dataU.view(), "data_#grid2,x.npy");
+    saveData<double>(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F

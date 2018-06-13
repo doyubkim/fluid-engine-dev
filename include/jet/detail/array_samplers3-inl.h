@@ -17,7 +17,7 @@ namespace jet {
 
 template <typename T, typename R>
 NearestArraySampler3<T, R>::NearestArraySampler(
-    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
+    const ConstArrayView3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _origin = gridOrigin;
@@ -92,7 +92,7 @@ NearestArraySampler3<T, R>::functor() const {
 
 template <typename T, typename R>
 LinearArraySampler3<T, R>::LinearArraySampler(
-    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
+    const ConstArrayView3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _invGridSpacing = static_cast<R>(1) / _gridSpacing;
@@ -247,7 +247,7 @@ std::function<T(const Vector3<R>&)> LinearArraySampler3<T, R>::functor() const {
 
 template <typename T, typename R>
 CubicArraySampler3<T, R>::CubicArraySampler(
-    const ConstArrayAccessor3<T>& accessor, const Vector3<R>& gridSpacing,
+    const ConstArrayView3<T>& accessor, const Vector3<R>& gridSpacing,
     const Vector3<R>& gridOrigin) {
     _gridSpacing = gridSpacing;
     _origin = gridOrigin;

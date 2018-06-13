@@ -106,7 +106,7 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
     const Vector2D invHSqr = invH * invH;
 
     // Build linear system
-    A->parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(A->size(), [&](size_t i, size_t j) {
         auto& row = (*A)(i, j);
 
         // initialize
@@ -215,14 +215,14 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
     const Vector2D invH = 1.0 / input.gridSpacing();
     const Vector2D invHSqr = invH * invH;
 
-    const auto fluidSdfAcc = fluidSdf.constAccessor();
+    ConstArrayView2<float> fluidSdfAcc(fluidSdf);
 
     A->clear();
     b->clear();
 
     size_t numRows = 0;
     Array2<size_t> coordToIndex(size);
-    fluidSdf.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(fluidSdf.size(), [&](size_t i, size_t j) {
         const size_t cIdx = fluidSdfAcc.index(i, j);
         const double centerPhi = fluidSdf[cIdx];
 
@@ -231,7 +231,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    fluidSdf.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(fluidSdf.size(), [&](size_t i, size_t j) {
         const size_t cIdx = fluidSdfAcc.index(i, j);
 
         const double centerPhi = fluidSdf(i, j);
@@ -436,11 +436,11 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
     _boundaryVel = boundaryVelocity.sampler();
     Vector2D h = input.gridSpacing();
 
-    _fluidSdf[0].parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_fluidSdf[0].size(), [&](size_t i, size_t j) {
         _fluidSdf[0](i, j) = static_cast<float>(fluidSdf.sample(cellPos(i, j)));
     });
 
-    _uWeights[0].parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_uWeights[0].size(), [&](size_t i, size_t j) {
         Vector2D pt = uPos(i, j);
         double phi0 = boundarySdf.sample(pt - Vector2D(0.5 * h.x, 0.0));
         double phi1 = boundarySdf.sample(pt + Vector2D(0.5 * h.x, 0.0));
@@ -456,7 +456,7 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
         _uWeights[0](i, j) = static_cast<float>(weight);
     });
 
-    _vWeights[0].parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_vWeights[0].size(), [&](size_t i, size_t j) {
         Vector2D pt = vPos(i, j);
         double phi0 = boundarySdf.sample(pt - Vector2D(0.0, 0.5 * h.y));
         double phi1 = boundarySdf.sample(pt + Vector2D(0.0, 0.5 * h.y));
@@ -489,11 +489,11 @@ void GridFractionalSinglePhasePressureSolver2::buildWeights(
 }
 
 void GridFractionalSinglePhasePressureSolver2::decompressSolution() {
-    const auto acc = _fluidSdf[0].constAccessor();
+    ConstArrayView2<float> acc(_fluidSdf[0]);
     _system.x.resize(acc.size());
 
     size_t row = 0;
-    _fluidSdf[0].forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(_fluidSdf[0].size(), [&](size_t i, size_t j) {
         if (isInsideSdf(acc(i, j))) {
             _system.x(i, j) = _compSystem.x[row];
             ++row;
@@ -565,16 +565,16 @@ void GridFractionalSinglePhasePressureSolver2::buildSystem(
 void GridFractionalSinglePhasePressureSolver2::applyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output) {
     Size2 size = input.resolution();
-    auto u = input.uConstAccessor();
-    auto v = input.vConstAccessor();
-    auto u0 = output->uAccessor();
-    auto v0 = output->vAccessor();
+    auto u = input.uView();
+    auto v = input.vView();
+    auto u0 = output->uView();
+    auto v0 = output->vView();
 
     const auto& x = pressure();
 
     Vector2D invH = 1.0 / input.gridSpacing();
 
-    x.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(x.size(), [&](size_t i, size_t j) {
         double centerPhi = _fluidSdf[0](i, j);
 
         if (i + 1 < size.x && _uWeights[0](i + 1, j) > 0.0 &&

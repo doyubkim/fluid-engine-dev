@@ -91,12 +91,12 @@ void SimpleVolumeRenderable::render(Renderer* renderer) {
     }
 }
 
-void SimpleVolumeRenderable::setVolume(const ConstArrayAccessor3<Color>& data) {
+void SimpleVolumeRenderable::setVolume(const ConstArrayView3<Color>& data) {
     if (_texture != nullptr && data.size() == _texture->size()) {
         _texture->update(data.data());
     } else {
         _texture = _renderer->createTexture3(
-            ConstArrayAccessor3<Color>(data.size(), data.data()));
+            ConstArrayView3<Color>(data.data(), data.size()));
     }
 }
 

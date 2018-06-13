@@ -46,8 +46,8 @@ void printInfo(const Size3& resolution, const BoundingBox3D& domain,
 void triangulateAndSave(const ScalarGrid3& sdf,
                         const std::string& objFilename) {
     TriangleMesh3 mesh;
-    marchingCubes(sdf.constDataAccessor(), sdf.gridSpacing(), sdf.dataOrigin(),
-                  &mesh, 0.0, kDirectionAll);
+    marchingCubes(sdf.dataView(), sdf.gridSpacing(), sdf.dataOrigin(), &mesh,
+                  0.0, kDirectionAll);
 
     std::ofstream file(objFilename.c_str());
     if (file) {
@@ -81,7 +81,7 @@ void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    printInfo(resolution, sdf.boundingBox(), gridSpacing, positions.size(),
+    printInfo(resolution, sdf.boundingBox(), gridSpacing, positions.length(),
               method);
 
     converter->convert(positions, &sdf);

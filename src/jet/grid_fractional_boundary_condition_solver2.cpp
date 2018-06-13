@@ -4,39 +4,33 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
-#include <physics_helpers.h>
 #include <jet/array_utils.h>
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit2.h>
+#include <pch.h>
+#include <physics_helpers.h>
 #include <algorithm>
 
 using namespace jet;
 
-GridFractionalBoundaryConditionSolver2
-::GridFractionalBoundaryConditionSolver2() {
-}
+GridFractionalBoundaryConditionSolver2 ::
+    GridFractionalBoundaryConditionSolver2() {}
 
 GridFractionalBoundaryConditionSolver2::
-~GridFractionalBoundaryConditionSolver2() {
-}
+    ~GridFractionalBoundaryConditionSolver2() {}
 
 void GridFractionalBoundaryConditionSolver2::constrainVelocity(
-    FaceCenteredGrid2* velocity,
-    unsigned int extrapolationDepth) {
+    FaceCenteredGrid2* velocity, unsigned int extrapolationDepth) {
     Size2 size = velocity->resolution();
     if (_colliderSdf == nullptr || _colliderSdf->resolution() != size) {
-        updateCollider(
-            collider(),
-            size,
-            velocity->gridSpacing(),
-            velocity->origin());
+        updateCollider(collider(), size, velocity->gridSpacing(),
+                       velocity->origin());
     }
 
-    auto u = velocity->uAccessor();
-    auto v = velocity->vAccessor();
+    auto u = velocity->uView();
+    auto v = velocity->vView();
     auto uPos = velocity->uPosition();
     auto vPos = velocity->vPosition();
 
@@ -81,10 +75,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     });
 
     // Free-slip: Extrapolate fluid velocity into the collider
-    extrapolateToRegion(
-        velocity->uConstAccessor(), uMarker, extrapolationDepth, u);
-    extrapolateToRegion(
-        velocity->vConstAccessor(), vMarker, extrapolationDepth, v);
+    extrapolateToRegion(velocity->uView(), uMarker, extrapolationDepth, u);
+    extrapolateToRegion(velocity->vView(), vMarker, extrapolationDepth, v);
 
     // No-flux: project the extrapolated velocity to the collider's surface
     // normal
@@ -133,12 +125,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     });
 
     // Transfer results
-    u.parallelForEachIndex([&](size_t i, size_t j) {
-        u(i, j) = uTemp(i, j);
-    });
-    v.parallelForEachIndex([&](size_t i, size_t j) {
-        v(i, j) = vTemp(i, j);
-    });
+    parallelForEachIndex(u.size(), [&](size_t i, size_t j) { u(i, j) = uTemp(i, j); });
+    parallelForEachIndex(v.size(), [&](size_t i, size_t j) { v(i, j) = vTemp(i, j); });
 
     // No-flux: Project velocity on the domain boundary if closed
     if (closedDomainBoundaryFlag() & kDirectionLeft) {
@@ -163,19 +151,17 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     }
 }
 
-ScalarField2Ptr
-GridFractionalBoundaryConditionSolver2::colliderSdf() const {
+ScalarField2Ptr GridFractionalBoundaryConditionSolver2::colliderSdf() const {
     return _colliderSdf;
 }
 
-VectorField2Ptr
-GridFractionalBoundaryConditionSolver2::colliderVelocityField() const {
+VectorField2Ptr GridFractionalBoundaryConditionSolver2::colliderVelocityField()
+    const {
     return _colliderVel;
 }
 
 void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
-    const Size2& gridSize,
-    const Vector2D& gridSpacing,
+    const Size2& gridSize, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin) {
     if (_colliderSdf == nullptr) {
         _colliderSdf = std::make_shared<CellCenteredScalarGrid2>();
@@ -184,8 +170,8 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
 
     if (collider() != nullptr) {
         Surface2Ptr surface = collider()->surface();
-        ImplicitSurface2Ptr implicitSurface
-            = std::dynamic_pointer_cast<ImplicitSurface2>(surface);
+        ImplicitSurface2Ptr implicitSurface =
+            std::dynamic_pointer_cast<ImplicitSurface2>(surface);
         if (implicitSurface == nullptr) {
             implicitSurface = std::make_shared<SurfaceToImplicit2>(surface);
         }
@@ -195,19 +181,18 @@ void GridFractionalBoundaryConditionSolver2::onColliderUpdated(
         });
 
         _colliderVel = CustomVectorField2::builder()
-            .withFunction([&] (const Vector2D& x) {
-                return collider()->velocityAt(x);
-            })
-            .withDerivativeResolution(gridSpacing.x)
-            .makeShared();
+                           .withFunction([&](const Vector2D& x) {
+                               return collider()->velocityAt(x);
+                           })
+                           .withDerivativeResolution(gridSpacing.x)
+                           .makeShared();
     } else {
         _colliderSdf->fill(kMaxD);
 
-        _colliderVel = CustomVectorField2::builder()
-            .withFunction([] (const Vector2D&) {
-                return Vector2D();
-            })
-            .withDerivativeResolution(gridSpacing.x)
-            .makeShared();
+        _colliderVel =
+            CustomVectorField2::builder()
+                .withFunction([](const Vector2D&) { return Vector2D(); })
+                .withDerivativeResolution(gridSpacing.x)
+                .makeShared();
     }
 }

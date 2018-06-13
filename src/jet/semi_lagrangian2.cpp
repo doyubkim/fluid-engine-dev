@@ -25,7 +25,7 @@ void SemiLagrangian2::advect(
     ScalarGrid2* output,
     const ScalarField2& boundarySdf) {
     auto outputDataPos = output->dataPosition();
-    auto outputDataAcc = output->dataAccessor();
+    auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
     auto inputDataPos = input.dataPosition();
 
@@ -51,7 +51,7 @@ void SemiLagrangian2::advect(
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
 
     auto outputDataPos = output->dataPosition();
-    auto outputDataAcc = output->dataAccessor();
+    auto outputDataAcc = output->dataView();
     auto inputDataPos = input.dataPosition();
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
@@ -74,7 +74,7 @@ void SemiLagrangian2::advect(
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
 
     auto uTargetDataPos = output->uPosition();
-    auto uTargetDataAcc = output->uAccessor();
+    auto uTargetDataAcc = output->uView();
     auto uSourceDataPos = input.uPosition();
 
     output->parallelForEachUIndex([&](size_t i, size_t j) {
@@ -86,7 +86,7 @@ void SemiLagrangian2::advect(
     });
 
     auto vTargetDataPos = output->vPosition();
-    auto vTargetDataAcc = output->vAccessor();
+    auto vTargetDataAcc = output->vView();
     auto vSourceDataPos = input.vPosition();
 
     output->parallelForEachVIndex([&](size_t i, size_t j) {

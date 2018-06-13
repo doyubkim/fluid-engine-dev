@@ -6,6 +6,7 @@
 
 #include <pch.h>
 
+#include <jet/array_utils.h>
 #include <jet/fdm_linear_system3.h>
 #include <jet/math_utils.h>
 #include <jet/parallel.h>
@@ -34,14 +35,16 @@ void FdmCompressedLinearSystem3::clear() {
 
 //
 
-void FdmBlas3::set(double s, FdmVector3* result) { result->set(s); }
+void FdmBlas3::set(double s, FdmVector3* result) {
+    fill(result->view(), s);
+}
 
 void FdmBlas3::set(const FdmVector3& v, FdmVector3* result) { result->set(v); }
 
 void FdmBlas3::set(double s, FdmMatrix3* result) {
     FdmMatrixRow3 row;
     row.center = row.right = row.up = row.front = s;
-    result->set(row);
+    fill(result->view(), row);
 }
 
 void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->set(m); }
@@ -71,7 +74,7 @@ void FdmBlas3::axpy(double a, const FdmVector3& x, const FdmVector3& y,
     JET_THROW_INVALID_ARG_IF(size != y.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    x.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) = a * x(i, j, k) + y(i, j, k);
     });
 }
@@ -83,7 +86,7 @@ void FdmBlas3::mvm(const FdmMatrix3& m, const FdmVector3& v,
     JET_THROW_INVALID_ARG_IF(size != v.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    m.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             m(i, j, k).center * v(i, j, k) +
             ((i > 0) ? m(i - 1, j, k).right * v(i - 1, j, k) : 0.0) +
@@ -103,7 +106,7 @@ void FdmBlas3::residual(const FdmMatrix3& a, const FdmVector3& x,
     JET_THROW_INVALID_ARG_IF(size != b.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    a.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             b(i, j, k) - a(i, j, k).center * x(i, j, k) -
             ((i > 0) ? a(i - 1, j, k).right * x(i - 1, j, k) : 0.0) -
@@ -162,7 +165,7 @@ void FdmCompressedBlas3::mvm(const MatrixCsrD& m, const VectorND& v,
     const auto ci = m.columnIndicesBegin();
     const auto nnz = m.nonZeroBegin();
 
-    v.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(v.size(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -183,7 +186,7 @@ void FdmCompressedBlas3::residual(const MatrixCsrD& a, const VectorND& x,
     const auto ci = a.columnIndicesBegin();
     const auto nnz = a.nonZeroBegin();
 
-    x.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(x.size(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

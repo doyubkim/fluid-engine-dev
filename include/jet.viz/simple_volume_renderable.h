@@ -13,7 +13,7 @@
 #include <jet.viz/shader.h>
 #include <jet.viz/texture3.h>
 #include <jet.viz/vertex_buffer.h>
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
 #include <jet/tuple.h>
 
 namespace jet {
@@ -37,7 +37,7 @@ class SimpleVolumeRenderable final : public Renderable {
     virtual ~SimpleVolumeRenderable();
 
     //! Sets the volume data to be rendered.
-    void setVolume(const ConstArrayAccessor3<Color>& data);
+    void setVolume(const ConstArrayView3<Color>& data);
 
     //! Returns the brightness multiplier of the volume rendering.
     float brightness() const;

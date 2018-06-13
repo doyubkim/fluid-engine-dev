@@ -72,7 +72,7 @@ JET_BEGIN_TEST_F(ApicSolver2, Rotation) {
         auto x = solver->particleSystemData()->positions();
         auto v = solver->particleSystemData()->velocities();
         r.resize(x.size());
-        for (size_t i = 0; i < x.size(); ++i) {
+        for (size_t i = 0; i < x.length(); ++i) {
             r[i] = (x[i] - Vector2D(0.5, 0.5)).length();
         }
 
@@ -81,13 +81,13 @@ JET_BEGIN_TEST_F(ApicSolver2, Rotation) {
         if (frame.index == 0) {
             x = solver->particleSystemData()->positions();
             v = solver->particleSystemData()->velocities();
-            for (size_t i = 0; i < x.size(); ++i) {
+            for (size_t i = 0; i < x.length(); ++i) {
                 Vector2D rp = x[i] - Vector2D(0.5, 0.5);
                 v[i].x = rp.y;
                 v[i].y = -rp.x;
             }
         } else {
-            for (size_t i = 0; i < x.size(); ++i) {
+            for (size_t i = 0; i < x.length(); ++i) {
                 Vector2D rp = x[i] - Vector2D(0.5, 0.5);
                 if (rp.lengthSquared() > 0.0) {
                     double scale = r[i] / rp.length();

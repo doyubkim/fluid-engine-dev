@@ -34,7 +34,7 @@ class PointKdTreeSearcher3 final : public PointNeighborSearcher3 {
     PointKdTreeSearcher3(const PointKdTreeSearcher3& other);
 
     //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayAccessor1<Vector3D>& points) override;
+    void build(const ConstArrayView1<Vector3D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

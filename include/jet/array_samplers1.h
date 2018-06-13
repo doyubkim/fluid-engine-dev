@@ -8,7 +8,7 @@
 #define INCLUDE_JET_ARRAY_SAMPLERS1_H_
 
 #include <jet/array_samplers.h>
-#include <jet/array_accessor1.h>
+#include <jet/array_view.h>
 #include <functional>
 
 namespace jet {
@@ -37,7 +37,7 @@ class NearestArraySampler<T, R, 1> final {
     //! \param[in]  gridOrigin  The grid origin.
     //!
     explicit NearestArraySampler(
-        const ConstArrayAccessor1<T>& accessor,
+        const ConstArrayView1<T>& accessor,
         R gridSpacing,
         R gridOrigin);
 
@@ -56,7 +56,7 @@ class NearestArraySampler<T, R, 1> final {
  private:
     R _gridSpacing;
     R _origin;
-    ConstArrayAccessor1<T> _accessor;
+    ConstArrayView1<T> _accessor;
 };
 
 //! Type alias for 1-D nearest array sampler.
@@ -88,7 +88,7 @@ class LinearArraySampler<T, R, 1> final {
     //! \param[in]  gridOrigin  The grid origin.
     //!
     explicit LinearArraySampler(
-        const ConstArrayAccessor1<T>& accessor,
+        const ConstArrayView1<T>& accessor,
         R gridSpacing,
         R gridOrigin);
 
@@ -108,7 +108,7 @@ class LinearArraySampler<T, R, 1> final {
  private:
     R _gridSpacing;
     R _origin;
-    ConstArrayAccessor1<T> _accessor;
+    ConstArrayView1<T> _accessor;
 };
 
 //! Type alias for 1-D linear array sampler.
@@ -140,7 +140,7 @@ class CubicArraySampler<T, R, 1> final {
     //! \param[in]  gridOrigin  The grid origin.
     //!
     explicit CubicArraySampler(
-        const ConstArrayAccessor1<T>& accessor,
+        const ConstArrayView1<T>& accessor,
         R gridSpacing,
         R gridOrigin);
 
@@ -156,7 +156,7 @@ class CubicArraySampler<T, R, 1> final {
  private:
     R _gridSpacing;
     R _origin;
-    ConstArrayAccessor1<T> _accessor;
+    ConstArrayView1<T> _accessor;
 };
 
 //! Type alias for 1-D cubic array sampler.

@@ -5,8 +5,8 @@
 // property of any third parties.
 
 #include <gtest/gtest.h>
-#include <jet/array1.h>
-#include <jet/array2.h>
+#include <jet/array.h>
+#include <jet/array.h>
 #include <jet/bounding_box2.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
@@ -18,7 +18,7 @@ TEST(PointHashGridSearcher2, ForEachNearbyPoint) {
     Array1<Vector2D> points = {Vector2D(1, 3), Vector2D(2, 5), Vector2D(-1, 3)};
 
     PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [&points](size_t i, const Vector2D& pt) {
@@ -36,7 +36,7 @@ TEST(PointHashGridSearcher2, ForEachNearbyPointEmpty) {
     Array1<Vector2D> points;
 
     PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector2D&) {});

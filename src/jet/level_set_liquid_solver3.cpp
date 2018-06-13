@@ -138,9 +138,9 @@ void LevelSetLiquidSolver3::extrapolateVelocityToAir(double currentCfl) {
     auto sdf = signedDistanceField();
     auto vel = gridSystemData()->velocity();
 
-    auto u = vel->uAccessor();
-    auto v = vel->vAccessor();
-    auto w = vel->wAccessor();
+    auto u = vel->uView();
+    auto v = vel->vView();
+    auto w = vel->wView();
     auto uPos = vel->uPosition();
     auto vPos = vel->vPosition();
     auto wPos = vel->wPosition();
@@ -149,7 +149,7 @@ void LevelSetLiquidSolver3::extrapolateVelocityToAir(double currentCfl) {
     Array3<char> vMarker(v.size());
     Array3<char> wMarker(w.size());
 
-    uMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(uMarker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(sdf->sample(uPos(i, j, k)))) {
             uMarker(i, j, k) = 1;
         } else {
@@ -158,7 +158,7 @@ void LevelSetLiquidSolver3::extrapolateVelocityToAir(double currentCfl) {
         }
     });
 
-    vMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(vMarker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(sdf->sample(vPos(i, j, k)))) {
             vMarker(i, j, k) = 1;
         } else {
@@ -167,7 +167,7 @@ void LevelSetLiquidSolver3::extrapolateVelocityToAir(double currentCfl) {
         }
     });
 
-    wMarker.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(wMarker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(sdf->sample(wPos(i, j, k)))) {
             wMarker(i, j, k) = 1;
         } else {

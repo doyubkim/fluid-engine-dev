@@ -22,7 +22,7 @@ ZhuBridsonPointsToImplicit2::ZhuBridsonPointsToImplicit2(double kernelRadius,
       _isOutputSdf(isOutputSdf) {}
 
 void ZhuBridsonPointsToImplicit2::convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
+    const ConstArrayView1<Vector2D>& points, ScalarGrid2* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;

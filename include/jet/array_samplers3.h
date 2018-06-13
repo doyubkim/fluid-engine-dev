@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS3_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS3_H_
 
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
 #include <jet/array_samplers.h>
 #include <jet/vector3.h>
 #include <functional>
@@ -37,7 +37,7 @@ class NearestArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(const ConstArrayAccessor3<T>& accessor,
+    explicit NearestArraySampler(const ConstArrayView3<T>& accessor,
                                  const Vector3<R>& gridSpacing,
                                  const Vector3<R>& gridOrigin);
 
@@ -56,7 +56,7 @@ class NearestArraySampler<T, R, 3> final {
  private:
     Vector3<R> _gridSpacing;
     Vector3<R> _origin;
-    ConstArrayAccessor3<T> _accessor;
+    ConstArrayView3<T> _accessor;
 };
 
 //! Type alias for 3-D nearest array sampler.
@@ -86,7 +86,7 @@ class LinearArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(const ConstArrayAccessor3<T>& accessor,
+    explicit LinearArraySampler(const ConstArrayView3<T>& accessor,
                                 const Vector3<R>& gridSpacing,
                                 const Vector3<R>& gridOrigin);
 
@@ -114,7 +114,7 @@ class LinearArraySampler<T, R, 3> final {
     Vector3<R> _gridSpacing;
     Vector3<R> _invGridSpacing;
     Vector3<R> _origin;
-    ConstArrayAccessor3<T> _accessor;
+    ConstArrayView3<T> _accessor;
 };
 
 //! Type alias for 3-D linear array sampler.
@@ -144,7 +144,7 @@ class CubicArraySampler<T, R, 3> final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(const ConstArrayAccessor3<T>& accessor,
+    explicit CubicArraySampler(const ConstArrayView3<T>& accessor,
                                const Vector3<R>& gridSpacing,
                                const Vector3<R>& gridOrigin);
 
@@ -160,7 +160,7 @@ class CubicArraySampler<T, R, 3> final {
  private:
     Vector3<R> _gridSpacing;
     Vector3<R> _origin;
-    ConstArrayAccessor3<T> _accessor;
+    ConstArrayView3<T> _accessor;
 };
 
 //! Type alias for 3-D cubic array sampler.

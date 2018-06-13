@@ -6,7 +6,7 @@
 
 #include <manual_tests.h>
 
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/marching_cubes.h>
 #include <jet/triangle_mesh_to_sdf.h>
 #include <jet/vertex_centered_scalar_grid3.h>
@@ -63,11 +63,11 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
         }
     }
 
-    saveData(temp.constAccessor(), "sdf_#grid2.npy");
+    saveData<double>(temp.view(), "sdf_#grid2.npy");
 
     TriangleMesh3 triMesh2;
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh2,
@@ -101,7 +101,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Bunny) {
 
     TriangleMesh3 triMesh2;
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh2,
@@ -135,7 +135,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Dragon) {
 
     TriangleMesh3 triMesh2;
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh2,

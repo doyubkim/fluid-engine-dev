@@ -17,7 +17,7 @@ UpwindLevelSetSolver2::UpwindLevelSetSolver2() {
 }
 
 void UpwindLevelSetSolver2::getDerivatives(
-    ConstArrayAccessor2<double> grid,
+    ConstArrayView2<double> grid,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j,

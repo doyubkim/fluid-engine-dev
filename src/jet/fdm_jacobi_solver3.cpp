@@ -98,7 +98,7 @@ void FdmJacobiSolver3::relax(const FdmMatrix3& A, const FdmVector3& b,
     FdmVector3& x = *x_;
     FdmVector3& xTemp = *xTemp_;
 
-    A.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         double r =
             ((i > 0) ? A(i - 1, j, k).right * x(i - 1, j, k) : 0.0) +
             ((i + 1 < size.x) ? A(i, j, k).right * x(i + 1, j, k) : 0.0) +
@@ -120,7 +120,7 @@ void FdmJacobiSolver3::relax(const MatrixCsrD& A, const VectorND& b,
     VectorND& x = *x_;
     VectorND& xTemp = *xTemp_;
 
-    b.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(b.size(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

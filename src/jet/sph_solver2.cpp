@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
-#include <physics_helpers.h>
 #include <jet/parallel.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_solver2.h>
 #include <jet/timer.h>
+#include <pch.h>
+#include <physics_helpers.h>
 
 #include <algorithm>
 
@@ -23,10 +23,8 @@ SphSolver2::SphSolver2() {
     setIsUsingFixedSubTimeSteps(false);
 }
 
-SphSolver2::SphSolver2(
-    double targetDensity,
-    double targetSpacing,
-    double relativeKernelRadius) {
+SphSolver2::SphSolver2(double targetDensity, double targetSpacing,
+                       double relativeKernelRadius) {
     auto sphParticles = std::make_shared<SphSystemData2>();
     setParticleSystemData(sphParticles);
     sphParticles->setTargetDensity(targetDensity);
@@ -35,12 +33,9 @@ SphSolver2::SphSolver2(
     setIsUsingFixedSubTimeSteps(false);
 }
 
-SphSolver2::~SphSolver2() {
-}
+SphSolver2::~SphSolver2() {}
 
-double SphSolver2::eosExponent() const {
-    return _eosExponent;
-}
+double SphSolver2::eosExponent() const { return _eosExponent; }
 
 void SphSolver2::setEosExponent(double newEosExponent) {
     _eosExponent = std::max(newEosExponent, 1.0);
@@ -50,8 +45,7 @@ double SphSolver2::negativePressureScale() const {
     return _negativePressureScale;
 }
 
-void SphSolver2::setNegativePressureScale(
-    double newNegativePressureScale) {
+void SphSolver2::setNegativePressureScale(double newNegativePressureScale) {
     _negativePressureScale = clamp(newNegativePressureScale, 0.0, 1.0);
 }
 
@@ -69,21 +63,16 @@ double SphSolver2::pseudoViscosityCoefficient() const {
 
 void SphSolver2::setPseudoViscosityCoefficient(
     double newPseudoViscosityCoefficient) {
-    _pseudoViscosityCoefficient
-        = std::max(newPseudoViscosityCoefficient, 0.0);
+    _pseudoViscosityCoefficient = std::max(newPseudoViscosityCoefficient, 0.0);
 }
 
-double SphSolver2::speedOfSound() const {
-    return _speedOfSound;
-}
+double SphSolver2::speedOfSound() const { return _speedOfSound; }
 
 void SphSolver2::setSpeedOfSound(double newSpeedOfSound) {
     _speedOfSound = std::max(newSpeedOfSound, kEpsilonD);
 }
 
-double SphSolver2::timeStepLimitScale() const {
-    return _timeStepLimitScale;
-}
+double SphSolver2::timeStepLimitScale() const { return _timeStepLimitScale; }
 
 void SphSolver2::setTimeStepLimitScale(double newScale) {
     _timeStepLimitScale = std::max(newScale, 0.0);
@@ -108,15 +97,15 @@ unsigned int SphSolver2::numberOfSubTimeSteps(
         maxForceMagnitude = std::max(maxForceMagnitude, f[i].length());
     }
 
-    double timeStepLimitBySpeed
-        = kTimeStepLimitBySpeedFactor * kernelRadius / _speedOfSound;
-    double timeStepLimitByForce
-        = kTimeStepLimitByForceFactor
-        * std::sqrt(kernelRadius * mass / maxForceMagnitude);
+    double timeStepLimitBySpeed =
+        kTimeStepLimitBySpeedFactor * kernelRadius / _speedOfSound;
+    double timeStepLimitByForce =
+        kTimeStepLimitByForceFactor *
+        std::sqrt(kernelRadius * mass / maxForceMagnitude);
 
-    double desiredTimeStep
-        = _timeStepLimitScale
-        * std::min(timeStepLimitBySpeed, timeStepLimitByForce);
+    double desiredTimeStep =
+        _timeStepLimitScale *
+        std::min(timeStepLimitBySpeed, timeStepLimitByForce);
 
     return static_cast<unsigned int>(
         std::ceil(timeIntervalInSeconds / desiredTimeStep));
@@ -138,8 +127,7 @@ void SphSolver2::onBeginAdvanceTimeStep(double timeStepInSeconds) {
     particles->updateDensities();
 
     JET_INFO << "Building neighbor lists and updating densities took "
-             << timer.durationInSeconds()
-             << " seconds";
+             << timer.durationInSeconds() << " seconds";
 }
 
 void SphSolver2::onEndAdvanceTimeStep(double timeStepInSeconds) {
@@ -186,52 +174,42 @@ void SphSolver2::computePressure() {
     // See Equation 9 from
     // http://cg.informatik.uni-freiburg.de/publications/2007_SCA_SPH.pdf
     const double targetDensity = particles->targetDensity();
-    const double eosScale
-        = targetDensity * square(_speedOfSound) / _eosExponent;
+    const double eosScale =
+        targetDensity * square(_speedOfSound) / _eosExponent;
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            p[i] = computePressureFromEos(
-                d[i],
-                targetDensity,
-                eosScale,
-                eosExponent(),
-                negativePressureScale());
-        });
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        p[i] = computePressureFromEos(d[i], targetDensity, eosScale,
+                                      eosExponent(), negativePressureScale());
+    });
 }
 
 void SphSolver2::accumulatePressureForce(
-    const ConstArrayAccessor1<Vector2D>& positions,
-    const ConstArrayAccessor1<double>& densities,
-    const ConstArrayAccessor1<double>& pressures,
-    ArrayAccessor1<Vector2D> pressureForces) {
+    const ConstArrayView1<Vector2D>& positions,
+    const ConstArrayView1<double>& densities,
+    const ConstArrayView1<double>& pressures,
+    ArrayView1<Vector2D> pressureForces) {
     auto particles = sphSystemData();
     size_t numberOfParticles = particles->numberOfParticles();
 
     const double massSquared = square(particles->mass());
     const SphSpikyKernel2 kernel(particles->kernelRadius());
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            const auto& neighbors = particles->neighborLists()[i];
-            for (size_t j : neighbors) {
-                double dist = positions[i].distanceTo(positions[j]);
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        const auto& neighbors = particles->neighborLists()[i];
+        for (size_t j : neighbors) {
+            double dist = positions[i].distanceTo(positions[j]);
 
-                if (dist > 0.0) {
-                    Vector2D dir = (positions[j] - positions[i]) / dist;
-                    pressureForces[i] -= massSquared
-                        * (pressures[i] / (densities[i] * densities[i])
-                            + pressures[j] / (densities[j] * densities[j]))
-                        * kernel.gradient(dist, dir);
-                }
+            if (dist > 0.0) {
+                Vector2D dir = (positions[j] - positions[i]) / dist;
+                pressureForces[i] -=
+                    massSquared *
+                    (pressures[i] / (densities[i] * densities[i]) +
+                     pressures[j] / (densities[j] * densities[j])) *
+                    kernel.gradient(dist, dir);
             }
-        });
+        }
+    });
 }
-
 
 void SphSolver2::accumulateViscosityForce() {
     auto particles = sphSystemData();
@@ -244,19 +222,15 @@ void SphSolver2::accumulateViscosityForce() {
     const double massSquared = square(particles->mass());
     const SphSpikyKernel2 kernel(particles->kernelRadius());
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            const auto& neighbors = particles->neighborLists()[i];
-            for (size_t j : neighbors) {
-                double dist = x[i].distanceTo(x[j]);
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        const auto& neighbors = particles->neighborLists()[i];
+        for (size_t j : neighbors) {
+            double dist = x[i].distanceTo(x[j]);
 
-                f[i] += viscosityCoefficient() * massSquared
-                    * (v[j] - v[i]) / d[j]
-                    * kernel.secondDerivative(dist);
-            }
-        });
+            f[i] += viscosityCoefficient() * massSquared * (v[j] - v[i]) /
+                    d[j] * kernel.secondDerivative(dist);
+        }
+    });
 }
 
 void SphSolver2::computePseudoViscosity(double timeStepInSeconds) {
@@ -271,62 +245,45 @@ void SphSolver2::computePseudoViscosity(double timeStepInSeconds) {
 
     Array1<Vector2D> smoothedVelocities(numberOfParticles);
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            double weightSum = 0.0;
-            Vector2D smoothedVelocity;
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        double weightSum = 0.0;
+        Vector2D smoothedVelocity;
 
-            const auto& neighbors = particles->neighborLists()[i];
-            for (size_t j : neighbors) {
-                double dist = x[i].distanceTo(x[j]);
-                double wj = mass / d[j] * kernel(dist);
-                weightSum += wj;
-                smoothedVelocity += wj * v[j];
-            }
+        const auto& neighbors = particles->neighborLists()[i];
+        for (size_t j : neighbors) {
+            double dist = x[i].distanceTo(x[j]);
+            double wj = mass / d[j] * kernel(dist);
+            weightSum += wj;
+            smoothedVelocity += wj * v[j];
+        }
 
-            double wi = mass / d[i];
-            weightSum += wi;
-            smoothedVelocity += wi * v[i];
+        double wi = mass / d[i];
+        weightSum += wi;
+        smoothedVelocity += wi * v[i];
 
-            if (weightSum > 0.0) {
-                smoothedVelocity /= weightSum;
-            }
+        if (weightSum > 0.0) {
+            smoothedVelocity /= weightSum;
+        }
 
-            smoothedVelocities[i] = smoothedVelocity;
-        });
+        smoothedVelocities[i] = smoothedVelocity;
+    });
 
     double factor = timeStepInSeconds * _pseudoViscosityCoefficient;
     factor = clamp(factor, 0.0, 1.0);
 
-    parallelFor(
-        kZeroSize,
-        numberOfParticles,
-        [&](size_t i) {
-            v[i] = lerp(
-                v[i], smoothedVelocities[i], factor);
-        });
+    parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+        v[i] = lerp(v[i], smoothedVelocities[i], factor);
+    });
 }
 
-SphSolver2::Builder SphSolver2::builder() {
-    return Builder();
-}
+SphSolver2::Builder SphSolver2::builder() { return Builder(); }
 
 SphSolver2 SphSolver2::Builder::build() const {
-    return SphSolver2(
-        _targetDensity,
-        _targetSpacing,
-        _relativeKernelRadius);
+    return SphSolver2(_targetDensity, _targetSpacing, _relativeKernelRadius);
 }
 
 SphSolver2Ptr SphSolver2::Builder::makeShared() const {
     return std::shared_ptr<SphSolver2>(
-        new SphSolver2(
-            _targetDensity,
-            _targetSpacing,
-            _relativeKernelRadius),
-        [] (SphSolver2* obj) {
-            delete obj;
-    });
+        new SphSolver2(_targetDensity, _targetSpacing, _relativeKernelRadius),
+        [](SphSolver2* obj) { delete obj; });
 }

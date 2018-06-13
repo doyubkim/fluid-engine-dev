@@ -98,7 +98,7 @@ void WcSphSolver2Example::onAdvanceSim(const Frame& frame) {
 void WcSphSolver2Example::onUpdateRenderables() {
     std::lock_guard<std::mutex> lock(_verticesMutex);
     if (_areVerticesDirty) {
-        _renderable->setPositionsAndColors(_vertices.data(), _vertices.size());
+        _renderable->setPositionsAndColors(_vertices.data(), _vertices.length());
         _areVerticesDirty = false;
     }
 }
@@ -144,7 +144,7 @@ void WcSphSolver2Example::particlesToVertices() {
     {
         std::lock_guard<std::mutex> lock(_verticesMutex);
         _vertices.resize(pos.size());
-        for (size_t i = 0; i < pos.size(); ++i) {
+        for (size_t i = 0; i < pos.length(); ++i) {
             auto p = pos[i].castTo<float>();
             float d = (float)den[i];
 

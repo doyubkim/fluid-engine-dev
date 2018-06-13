@@ -46,8 +46,8 @@ template <typename T, size_t K>
 KdTree<T, K>::KdTree() {}
 
 template <typename T, size_t K>
-void KdTree<T, K>::build(const ConstArrayAccessor1<Point>& points) {
-    _points.resize(points.size());
+void KdTree<T, K>::build(const ConstArrayView1<Point>& points) {
+    _points.resize(points.length());
     std::copy(points.begin(), points.end(), _points.begin());
 
     if (_points.empty()) {

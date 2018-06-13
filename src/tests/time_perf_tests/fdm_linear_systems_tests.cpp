@@ -28,14 +28,14 @@ class FdmBlas2 : public ::benchmark::Fixture {
     void SetUp(const ::benchmark::State& state) {
         const auto dim = static_cast<size_t>(state.range(0));
 
-        m.resize(dim, dim);
-        a.resize(dim, dim);
-        b.resize(dim, dim);
+        m.resize({dim, dim});
+        a.resize({dim, dim});
+        b.resize({dim, dim});
 
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.forEachIndex([&](size_t i, size_t j) {
+        forEachIndex(m.size(), [&](size_t i, size_t j) {
             m(i, j).center = d(rng);
             m(i, j).right = d(rng);
             m(i, j).up = d(rng);
@@ -53,14 +53,14 @@ class FdmBlas3 : public ::benchmark::Fixture {
     void SetUp(const ::benchmark::State& state) {
         const auto dim = static_cast<size_t>(state.range(0));
 
-        m.resize(dim, dim, dim);
-        a.resize(dim, dim, dim);
-        b.resize(dim, dim, dim);
+        m.resize({dim, dim, dim});
+        a.resize({dim, dim, dim});
+        b.resize({dim, dim, dim});
 
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(m.size(), [&](size_t i, size_t j, size_t k) {
             m(i, j, k).center = d(rng);
             m(i, j, k).right = d(rng);
             m(i, j, k).up = d(rng);
@@ -85,9 +85,9 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
         system->clear();
 
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.constAccessor();
+        const auto acc = coordToIndex.view();
 
-        coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(coordToIndex.size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
             const size_t lIdx = acc.index(i - 1, j, k);
             const size_t rIdx = acc.index(i + 1, j, k);

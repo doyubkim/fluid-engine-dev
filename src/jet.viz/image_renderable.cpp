@@ -57,7 +57,7 @@ void ImageRenderable::setImage(const ByteImage& image) {
         _texture->update(image.data());
     } else {
         _texture = _renderer->createTexture2(
-            ConstArrayAccessor2<ByteColor>(image.size(), image.data()));
+            ConstArrayView2<ByteColor>(image.data(), image.size()));
     }
 }
 

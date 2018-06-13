@@ -51,17 +51,17 @@ class SphSystemData2 : public ParticleSystemData2 {
     //!
     void setMass(double newMass) override;
 
-    //! Returns the density array accessor (immutable).
-    ConstArrayAccessor1<double> densities() const;
+    //! Returns the density array view (immutable).
+    ConstArrayView1<double> densities() const;
 
-    //! Returns the density array accessor (mutable).
-    ArrayAccessor1<double> densities();
+    //! Returns the density array view (mutable).
+    ArrayView1<double> densities();
 
-    //! Returns the pressure array accessor (immutable).
-    ConstArrayAccessor1<double> pressures() const;
+    //! Returns the pressure array view (immutable).
+    ConstArrayView1<double> pressures() const;
 
-    //! Returns the pressure array accessor (mutable).
-    ArrayAccessor1<double> pressures();
+    //! Returns the pressure array view (mutable).
+    ArrayView1<double> pressures();
 
     //!
     //! \brief Updates the density array with the latest particle positions.
@@ -137,7 +137,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! (SphSystemData2::buildNeighborSearcher) before calling this function.
     //!
     double interpolate(const Vector2D& origin,
-                       const ConstArrayAccessor1<double>& values) const;
+                       const ConstArrayView1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -151,7 +151,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! (SphSystemData2::buildNeighborSearcher) before calling this function.
     //!
     Vector2D interpolate(const Vector2D& origin,
-                         const ConstArrayAccessor1<Vector2D>& values) const;
+                         const ConstArrayView1<Vector2D>& values) const;
 
     //!
     //! Returns the gradient of the given values at i-th particle.
@@ -160,7 +160,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
     Vector2D gradientAt(size_t i,
-                        const ConstArrayAccessor1<double>& values) const;
+                        const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -169,7 +169,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
     double laplacianAt(size_t i,
-                       const ConstArrayAccessor1<double>& values) const;
+                       const ConstArrayView1<double>& values) const;
 
     //!
     //! Returns the laplacian of the given values at i-th particle.
@@ -178,7 +178,7 @@ class SphSystemData2 : public ParticleSystemData2 {
     //! (SphSystemData2::buildNeighborLists) before calling this function.
     //!
     Vector2D laplacianAt(size_t i,
-                         const ConstArrayAccessor1<Vector2D>& values) const;
+                         const ConstArrayView1<Vector2D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void buildNeighborSearcher();

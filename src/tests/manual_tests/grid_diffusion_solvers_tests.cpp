@@ -6,7 +6,7 @@
 
 #include <manual_tests.h>
 
-#include <jet/array2.h>
+#include <jet/array.h>
 #include <jet/grid_backward_euler_diffusion_solver2.h>
 #include <jet/grid_backward_euler_diffusion_solver3.h>
 #include <jet/cell_centered_scalar_grid2.h>
@@ -32,7 +32,7 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
@@ -44,13 +44,13 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -66,7 +66,7 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
@@ -82,13 +82,13 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable) {
         &dst);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -107,7 +107,7 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j);
     });
 
@@ -128,13 +128,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve) {
         }));
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -153,7 +153,7 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
@@ -165,13 +165,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -187,7 +187,7 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
@@ -203,13 +203,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable) {
         &dst);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -234,7 +234,7 @@ JET_BEGIN_TEST_F(
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
@@ -247,13 +247,13 @@ JET_BEGIN_TEST_F(
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst, boundarySdf);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -276,7 +276,7 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, SolveWithBoundaryNeumann) {
         return (x.distanceTo(src.boundingBox().midPoint()) < 0.2) ? 1.0 : 0.0;
     });
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
@@ -289,12 +289,12 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, SolveWithBoundaryNeumann) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst, boundarySdf);
     dst.swap(&src);
 
-    saveData(data.constAccessor(), "src_#grid2.npy");
+    saveData<double>(data.view(), "src_#grid2.npy");
 
-    data.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
-    saveData(data.constAccessor(), "dst_#grid2.npy");
+    saveData<double>(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F

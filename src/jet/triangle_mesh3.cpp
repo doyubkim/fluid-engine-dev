@@ -229,17 +229,17 @@ Triangle3 TriangleMesh3::triangle(size_t i) const {
     return tri;
 }
 
-size_t TriangleMesh3::numberOfPoints() const { return _points.size(); }
+size_t TriangleMesh3::numberOfPoints() const { return _points.length(); }
 
-size_t TriangleMesh3::numberOfNormals() const { return _normals.size(); }
+size_t TriangleMesh3::numberOfNormals() const { return _normals.length(); }
 
-size_t TriangleMesh3::numberOfUvs() const { return _uvs.size(); }
+size_t TriangleMesh3::numberOfUvs() const { return _uvs.length(); }
 
-size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.size(); }
+size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.length(); }
 
-bool TriangleMesh3::hasNormals() const { return _normals.size() > 0; }
+bool TriangleMesh3::hasNormals() const { return _normals.length() > 0; }
 
-bool TriangleMesh3::hasUvs() const { return _uvs.size() > 0; }
+bool TriangleMesh3::hasUvs() const { return _uvs.length() > 0; }
 
 void TriangleMesh3::addPoint(const Vector3D& pt) { _points.append(pt); }
 
@@ -256,7 +256,7 @@ void TriangleMesh3::addPointNormalTriangle(const Size3& newPointIndices,
                                            const Size3& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+    JET_ASSERT(_pointIndices.length() == _normalIndices.length());
 
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
@@ -269,8 +269,8 @@ void TriangleMesh3::addPointUvNormalTriangle(const Size3& newPointIndices,
                                              const Size3& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
-    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+    JET_ASSERT(_pointIndices.length() == _normalIndices.length());
+    JET_ASSERT(_pointIndices.length() == _uvIndices.length());
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
@@ -282,7 +282,7 @@ void TriangleMesh3::addPointUvTriangle(const Size3& newPointIndices,
                                        const Size3& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _uvs.size());
+    JET_ASSERT(_pointIndices.length() == _uvs.length());
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
 
@@ -290,9 +290,9 @@ void TriangleMesh3::addPointUvTriangle(const Size3& newPointIndices,
 }
 
 void TriangleMesh3::addTriangle(const Triangle3& tri) {
-    size_t vStart = _points.size();
-    size_t nStart = _normals.size();
-    size_t tStart = _uvs.size();
+    size_t vStart = _points.length();
+    size_t nStart = _normals.length();
+    size_t tStart = _uvs.length();
     Size3 newPointIndices;
     Size3 newNormalIndices;
     Size3 newUvIndices;
@@ -312,7 +312,7 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
 }
 
 void TriangleMesh3::setFaceNormal() {
-    _normals.resize(_points.size());
+    _normals.resize(_points.length());
     _normalIndices.set(_pointIndices);
 
     for (size_t i = 0; i < numberOfTriangles(); ++i) {
@@ -329,10 +329,10 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
     _normals.clear();
     _normalIndices.clear();
 
-    Array1<double> angleWeights(_points.size());
-    Vector3DArray pseudoNormals(_points.size());
+    Array1<double> angleWeights(_points.length());
+    Vector3DArray pseudoNormals(_points.length());
 
-    for (size_t i = 0; i < _points.size(); ++i) {
+    for (size_t i = 0; i < _points.length(); ++i) {
         angleWeights[i] = 0;
         pseudoNormals[i] = Vector3D();
     }
@@ -386,7 +386,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         pseudoNormals[idx[2]] += angle * normal;
     }
 
-    for (size_t i = 0; i < _points.size(); ++i) {
+    for (size_t i = 0; i < _points.length(); ++i) {
         if (angleWeights[i] > 0) {
             pseudoNormals[i] /= angleWeights[i];
         }

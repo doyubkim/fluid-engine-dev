@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_MARCHING_CUBES_H_
 #define INCLUDE_JET_MARCHING_CUBES_H_
 
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
 #include <jet/constants.h>
 #include <jet/triangle_mesh3.h>
 
@@ -29,7 +29,7 @@ namespace jet {
 //! \param[in]  bndFlag  The boundary direction flag.
 //!
 void marchingCubes(
-    const ConstArrayAccessor3<double>& grid,
+    const ConstArrayView3<double>& grid,
     const Vector3D& gridSize,
     const Vector3D& origin,
     TriangleMesh3* mesh,

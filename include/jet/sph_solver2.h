@@ -37,10 +37,8 @@ class SphSolver2 : public ParticleSystemSolver2 {
 
     //! Constructs a solver with target density, spacing, and relative kernel
     //! radius.
-    SphSolver2(
-        double targetDensity,
-        double targetSpacing,
-        double relativeKernelRadius);
+    SphSolver2(double targetDensity, double targetSpacing,
+               double relativeKernelRadius);
 
     //! Returns the exponent part of the equation-of-state.
     double eosExponent() const;
@@ -146,11 +144,10 @@ class SphSolver2 : public ParticleSystemSolver2 {
     void computePressure();
 
     //! Accumulates the pressure force to the given \p pressureForces array.
-    void accumulatePressureForce(
-        const ConstArrayAccessor1<Vector2D>& positions,
-        const ConstArrayAccessor1<double>& densities,
-        const ConstArrayAccessor1<double>& pressures,
-        ArrayAccessor1<Vector2D> pressureForces);
+    void accumulatePressureForce(const ConstArrayView1<Vector2D>& positions,
+                                 const ConstArrayView1<double>& densities,
+                                 const ConstArrayView1<double>& pressures,
+                                 ArrayView1<Vector2D> pressureForces);
 
     //! Accumulates the viscosity force to the forces array in the particle
     //! system.
@@ -186,7 +183,6 @@ class SphSolver2 : public ParticleSystemSolver2 {
 
 //! Shared pointer type for the SphSolver2.
 typedef std::shared_ptr<SphSolver2> SphSolver2Ptr;
-
 
 //!
 //! \brief Base class for SPH-based fluid solver builder.

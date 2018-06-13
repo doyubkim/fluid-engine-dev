@@ -24,9 +24,9 @@ PointSimpleListSearcher3::PointSimpleListSearcher3(
 }
 
 void PointSimpleListSearcher3::build(
-    const ConstArrayAccessor1<Vector3D>& points) {
-    _points.resize(points.size());
-    std::copy(points.data(), points.data() + points.size(), _points.begin());
+    const ConstArrayView1<Vector3D>& points) {
+    _points.resize(points.length());
+    std::copy(points.data(), points.data() + points.length(), _points.begin());
 }
 
 void PointSimpleListSearcher3::forEachNearbyPoint(

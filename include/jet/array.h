@@ -7,28 +7,200 @@
 #ifndef INCLUDE_JET_ARRAY_H_
 #define INCLUDE_JET_ARRAY_H_
 
+#include <jet/nested_initializer_list.h>
 #include <jet/tuple.h>
+
+#include <algorithm>
+#include <functional>
+#include <vector>
 
 namespace jet {
 
-//!
-//! \brief Generic N-dimensional array class interface.
-//!
-//! This class provides generic template class for N-dimensional array where N
-//! must be either 1, 2 or 3. This particular class exists to provide generic
-//! interface for 1, 2 or 3 dimensional arrays using template specialization
-//! only, but it cannot create any instance by itself.
-//!
-//! \tparam T - Real number type.
-//! \tparam N - Dimension.
-//!
-template <typename T, size_t N>
-class Array final {
+// MARK: ArrayBase
+
+template <typename T, size_t N, typename DerivedArray>
+class ArrayBase {
  public:
-    static_assert(N < 1 || N > 3,
-                  "Not implemented - N should be either 1, 2 or 3.");
+    using Derived = DerivedArray;
+    using Iterator = T*;
+    using ConstIterator = const T*;
+
+    virtual ~ArrayBase() = default;
+
+    size_t index(size_t i) const;
+
+    template <typename... Args>
+    size_t index(size_t i, Args... args) const;
+
+    template <size_t... I>
+    size_t index(const SizeN<N>& idx) const;
+
+    T* data();
+
+    const T* data() const;
+
+    const SizeN<N>& size() const;
+
+    template <size_t M = N>
+    typename std::enable_if<(M > 0), size_t>::type  //
+    width() const;
+
+    template <size_t M = N>
+    typename std::enable_if<(M > 1), size_t>::type  //
+    height() const;
+
+    template <size_t M = N>
+    typename std::enable_if<(M > 2), size_t>::type  //
+    depth() const;
+
+    size_t length() const;
+
+    Iterator begin();
+
+    ConstIterator begin() const;
+
+    Iterator end();
+
+    ConstIterator end() const;
+
+    T& at(size_t i);
+
+    const T& at(size_t i) const;
+
+    template <typename... Args>
+    T& at(size_t i, Args... args);
+
+    template <typename... Args>
+    const T& at(size_t i, Args... args) const;
+
+    T& at(const SizeN<N>& idx);
+
+    const T& at(const SizeN<N>& idx) const;
+
+    T& operator[](size_t i);
+
+    const T& operator[](size_t i) const;
+
+    template <typename... Args>
+    T& operator()(size_t i, Args... args);
+
+    template <typename... Args>
+    const T& operator()(size_t i, Args... args) const;
+
+    T& operator()(const SizeN<N>& idx);
+
+    const T& operator()(const SizeN<N>& idx) const;
+
+ protected:
+    T* _ptr = nullptr;
+    SizeN<N> _size;
+
+    ArrayBase();
+
+    ArrayBase(const ArrayBase& other);
+
+    ArrayBase(ArrayBase&& other);
+
+    template <typename... Args>
+    void setPtrAndSize(T* ptr, size_t ni, Args... args);
+
+    void setPtrAndSize(T* data, SizeN<N> size);
+
+    void clear();
+
+    void swap(ArrayBase& other);
+
+    ArrayBase& operator=(const ArrayBase& other);
+
+    ArrayBase& operator=(ArrayBase&& other);
+
+ private:
+    template <typename... Args>
+    size_t _index(size_t d, size_t i, Args... args) const;
+
+    size_t _index(size_t, size_t i) const;
+
+    template <size_t... I>
+    size_t _index(const SizeN<N>& idx, std::index_sequence<I...>) const;
 };
 
+// MARK: Array
+
+template <typename T, size_t N>
+class ArrayView;
+
+template <typename T, size_t N>
+class Array final : public ArrayBase<T, N, Array<T, N>> {
+    typedef ArrayBase<T, N, Array<T, N>> Base;
+    using Base::_size;
+    using Base::setPtrAndSize;
+    using Base::swap;
+    using Base::clear;
+
+ public:
+    // CTOR
+    Array();
+
+    Array(const SizeN<N>& size_, const T& initVal = T{});
+
+    template <typename... Args>
+    Array(size_t nx, Args... args);
+
+    Array(NestedInitializerListsT<T, N> lst);
+
+    Array(const Array& other);
+
+    Array(Array&& other);
+
+    // set
+    void set(const Array& other);
+
+    // resize
+    void resize(SizeN<N> size_, const T& initVal = T{});
+
+    template <typename... Args>
+    void resize(size_t nx, Args... args);
+
+    template <size_t M = N>
+    typename std::enable_if<(M == 1), void>::type  //
+    append(const T& val);
+
+    template <size_t M = N>
+    typename std::enable_if<(M == 1), void>::type  //
+    append(const Array& extra);
+
+    void clear();
+
+    void swap(Array& other);
+
+    // Views
+    ArrayView<T, N> view();
+
+    ArrayView<const T, N> view() const;
+
+    // Assignment Operators
+    Array& operator=(const Array& other);
+
+    Array& operator=(Array&& other);
+
+ private:
+    std::vector<T> _data;
+};
+
+template <class T>
+using Array1 = Array<T, 1>;
+
+template <class T>
+using Array2 = Array<T, 2>;
+
+template <class T>
+using Array3 = Array<T, 3>;
+
+template <class T>
+using Array4 = Array<T, 4>;
+
 }  // namespace jet
+
+#include <jet/detail/array-inl.h>
 
 #endif  // INCLUDE_JET_ARRAY_H_

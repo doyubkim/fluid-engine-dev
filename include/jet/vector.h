@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VECTOR_H_
 #define INCLUDE_JET_VECTOR_H_
 
-#include <jet/array_accessor1.h>
+#include <jet/array_view.h>
 #include <jet/constants.h>
 #include <jet/type_helpers.h>
 #include <jet/vector_expression.h>
@@ -102,11 +102,11 @@ class Vector final : public VectorExpression<T, Vector<T, N>> {
     //! Returns the end const iterator of the vector.
     ConstIterator end() const;
 
-    //! Returns the array accessor.
-    ArrayAccessor1<T> accessor();
+    //! Returns the array view.
+    ArrayView1<T> view();
 
-    //! Returns the const array accessor.
-    ConstArrayAccessor1<T> constAccessor() const;
+    //! Returns the const array view.
+    ConstArrayView1<T> view() const;
 
     //! Returns const reference to the \p i -th element of the vector.
     T at(size_t i) const;
@@ -249,42 +249,6 @@ class Vector final : public VectorExpression<T, Vector<T, N>> {
     void idiv(const E& v);
 
     // MARK: Operators
-
-    //!
-    //! \brief Iterates the vector and invoke given \p func for each element.
-    //!
-    //! This function iterates the vector elements and invoke the callback
-    //! function \p func. The callback function takes array's element as its
-    //! input. The order of execution will be 0 to N-1 where N is the size of
-    //! the vector. Below is the sample usage:
-    //!
-    //! \code{.cpp}
-    //! Vector<float, 2> vec(10, 4.f);
-    //! vec.forEach([](float elem) {
-    //!     printf("%d\n", elem);
-    //! });
-    //! \endcode
-    //!
-    template <typename Callback>
-    void forEach(Callback func) const;
-
-    //!
-    //! \brief Iterates the vector and invoke given \p func for each index.
-    //!
-    //! This function iterates the vector elements and invoke the callback
-    //! function \p func. The callback function takes one parameter which is the
-    //! index of the vector. The order of execution will be 0 to N-1 where N is
-    //! the size of the array. Below is the sample usage:
-    //!
-    //! \code{.cpp}
-    //! Vector<float, 2> vec(10, 4.f);
-    //! vec.forEachIndex([&](size_t i) {
-    //!     vec[i] = 4.f * i + 1.5f;
-    //! });
-    //! \endcode
-    //!
-    template <typename Callback>
-    void forEachIndex(Callback func) const;
 
     //! Returns the const reference to the \p i -th element.
     const T& operator[](size_t i) const;

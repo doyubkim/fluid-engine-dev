@@ -64,7 +64,7 @@ class KdTree final {
     KdTree();
 
     //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayAccessor1<Point>& points);
+    void build(const ConstArrayView1<Point>& points);
 
     //!
     //! Invokes the callback function for each nearby point around the origin

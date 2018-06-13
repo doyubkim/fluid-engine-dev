@@ -14,22 +14,12 @@
 #include <jet/apic_solver2.h>
 #include <jet/apic_solver3.h>
 #include <jet/array.h>
-#include <jet/array1.h>
-#include <jet/array2.h>
-#include <jet/array3.h>
-#include <jet/array_accessor.h>
-#include <jet/array_accessor1.h>
-#include <jet/array_accessor2.h>
-#include <jet/array_accessor3.h>
 #include <jet/array_samplers.h>
 #include <jet/array_samplers1.h>
 #include <jet/array_samplers2.h>
 #include <jet/array_samplers3.h>
 #include <jet/array_utils.h>
 #include <jet/array_view.h>
-#include <jet/array_view1.h>
-#include <jet/array_view2.h>
-#include <jet/array_view3.h>
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/blas.h>
 #include <jet/bounding_box.h>
@@ -163,6 +153,7 @@
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/intersection_query_engine2.h>
 #include <jet/intersection_query_engine3.h>
+#include <jet/iteration_utils.h>
 #include <jet/iterative_level_set_solver2.h>
 #include <jet/iterative_level_set_solver3.h>
 #include <jet/jet.h>
@@ -188,6 +179,7 @@
 #include <jet/mg.h>
 #include <jet/nearest_neighbor_query_engine2.h>
 #include <jet/nearest_neighbor_query_engine3.h>
+#include <jet/nested_initializer_list.h>
 #include <jet/octree.h>
 #include <jet/parallel.h>
 #include <jet/particle_emitter2.h>
@@ -237,7 +229,6 @@
 #include <jet/scalar_grid3.h>
 #include <jet/semi_lagrangian2.h>
 #include <jet/semi_lagrangian3.h>
-#include <jet/serial.h>
 #include <jet/serialization.h>
 #include <jet/sph_kernels2.h>
 #include <jet/sph_kernels3.h>

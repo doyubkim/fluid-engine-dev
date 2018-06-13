@@ -4,8 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array3.h>
+#include <jet/array.h>
+#include <jet/parallel.h>
+
 #include <gtest/gtest.h>
+
 #include <sstream>
 
 using namespace jet;
@@ -54,13 +57,12 @@ TEST(Array3, Constructors) {
         }
     }
     {
-        Array3<float> arr(
-            {{{ 1.f,  2.f,  3.f,  4.f},
-              { 5.f,  6.f,  7.f,  8.f},
-              { 9.f, 10.f, 11.f, 12.f}},
-             {{13.f, 14.f, 15.f, 16.f},
-              {17.f, 18.f, 19.f, 20.f},
-              {21.f, 22.f, 23.f, 24.f}}});
+        Array3<float> arr({{{1.f, 2.f, 3.f, 4.f},
+                            {5.f, 6.f, 7.f, 8.f},
+                            {9.f, 10.f, 11.f, 12.f}},
+                           {{13.f, 14.f, 15.f, 16.f},
+                            {17.f, 18.f, 19.f, 20.f},
+                            {21.f, 22.f, 23.f, 24.f}}});
 
         EXPECT_EQ(4u, arr.width());
         EXPECT_EQ(3u, arr.height());
@@ -70,13 +72,12 @@ TEST(Array3, Constructors) {
         }
     }
     {
-        Array3<float> arr(
-            {{{ 1.f,  2.f,  3.f,  4.f},
-              { 5.f,  6.f,  7.f,  8.f},
-              { 9.f, 10.f, 11.f, 12.f}},
-             {{13.f, 14.f, 15.f, 16.f},
-              {17.f, 18.f, 19.f, 20.f},
-              {21.f, 22.f, 23.f, 24.f}}});
+        Array3<float> arr({{{1.f, 2.f, 3.f, 4.f},
+                            {5.f, 6.f, 7.f, 8.f},
+                            {9.f, 10.f, 11.f, 12.f}},
+                           {{13.f, 14.f, 15.f, 16.f},
+                            {17.f, 18.f, 19.f, 20.f},
+                            {21.f, 22.f, 23.f, 24.f}}});
         Array3<float> arr2(arr);
 
         EXPECT_EQ(4u, arr2.width());
@@ -87,30 +88,25 @@ TEST(Array3, Constructors) {
         }
     }
     {
-        Array3<float> arr(
-            {{{ 1.f,  2.f,  3.f,  4.f},
-              { 5.f,  6.f,  7.f,  8.f},
-              { 9.f, 10.f, 11.f, 12.f}},
-             {{13.f, 14.f, 15.f, 16.f},
-              {17.f, 18.f, 19.f, 20.f},
-              {21.f, 22.f, 23.f, 24.f}}});
+        Array3<float> arr({{{1.f, 2.f, 3.f, 4.f},
+                            {5.f, 6.f, 7.f, 8.f},
+                            {9.f, 10.f, 11.f, 12.f}},
+                           {{13.f, 14.f, 15.f, 16.f},
+                            {17.f, 18.f, 19.f, 20.f},
+                            {21.f, 22.f, 23.f, 24.f}}});
         ArrayView3<float> arrVew(arr.data(), arr.size());
-        Array3<float> arr2(arrVew);
-
-        EXPECT_EQ(4u, arr2.width());
-        EXPECT_EQ(3u, arr2.height());
-        EXPECT_EQ(2u, arr2.depth());
+        EXPECT_EQ(4u, arrVew.width());
+        EXPECT_EQ(3u, arrVew.height());
+        EXPECT_EQ(2u, arrVew.depth());
         for (size_t i = 0; i < 24; ++i) {
-            EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
+            EXPECT_FLOAT_EQ((float)i + 1.f, arrVew[i]);
         }
     }
 }
 
 TEST(Array3, Clear) {
     Array3<float> arr(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});
@@ -178,9 +174,7 @@ TEST(Array3, ResizeMethod) {
 
 TEST(Array3, Iterators) {
     Array3<float> arr1(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});
@@ -200,15 +194,13 @@ TEST(Array3, Iterators) {
 
 TEST(Array3, ForEach) {
     Array3<float> arr1(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});
 
     size_t i = 0;
-    arr1.forEach([&](float val) {
+    std::for_each(arr1.begin(), arr1.end(), [&](float val) {
         EXPECT_FLOAT_EQ(arr1[i], val);
         ++i;
     });
@@ -216,49 +208,25 @@ TEST(Array3, ForEach) {
 
 TEST(Array3, ForEachIndex) {
     Array3<float> arr1(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});
 
-    arr1.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(arr1.size(), [&](size_t i, size_t j, size_t k) {
         size_t idx = i + (4 * (j + 3 * k)) + 1;
         EXPECT_FLOAT_EQ(static_cast<float>(idx), arr1(i, j, k));
     });
 }
 
-TEST(Array3, ParallelForEach) {
-    Array3<float> arr1(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
-         {{13.f, 14.f, 15.f, 16.f},
-          {17.f, 18.f, 19.f, 20.f},
-          {21.f, 22.f, 23.f, 24.f}}});
-
-    arr1.parallelForEach([&](float& val) {
-        val *= 2.f;
-    });
-
-    arr1.forEachIndex([&](size_t i, size_t j, size_t k) {
-        size_t idx = i + (4 * (j + 3 * k)) + 1;
-        float ans = 2.f * static_cast<float>(idx);
-        EXPECT_FLOAT_EQ(ans, arr1(i, j, k));
-    });
-}
-
 TEST(Array3, ParallelForEachIndex) {
     Array3<float> arr1(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});
 
-    arr1.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(arr1.size(), [&](size_t i, size_t j, size_t k) {
         size_t idx = i + (4 * (j + 3 * k)) + 1;
         EXPECT_FLOAT_EQ(static_cast<float>(idx), arr1(i, j, k));
     });
@@ -266,9 +234,7 @@ TEST(Array3, ParallelForEachIndex) {
 
 TEST(Array3, View) {
     Array3<float> arr(
-        {{{ 1.f,  2.f,  3.f,  4.f},
-          { 5.f,  6.f,  7.f,  8.f},
-          { 9.f, 10.f, 11.f, 12.f}},
+        {{{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
          {{13.f, 14.f, 15.f, 16.f},
           {17.f, 18.f, 19.f, 20.f},
           {21.f, 22.f, 23.f, 24.f}}});

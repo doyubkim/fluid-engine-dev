@@ -40,7 +40,7 @@ class FdmIccgSolver3 final : public FdmLinearSystemSolver3 {
 
  private:
     struct Preconditioner final {
-        ConstArrayAccessor3<FdmMatrixRow3> A;
+        ConstArrayView3<FdmMatrixRow3> A;
         FdmVector3 d;
         FdmVector3 y;
 

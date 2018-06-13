@@ -71,7 +71,7 @@ void saveVolumeAsVol(const ScalarGrid3Ptr& density, const std::string& rootDir,
         file.write(header, sizeof(header));
 
         Array3<float> data(density->dataSize());
-        data.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        parallelForEachIndex(data.size(), [&](size_t i, size_t j, size_t k) {
             float d = static_cast<float>((*density)(i, j, k));
 
             // Blur the edge for less-noisy rendering
@@ -134,7 +134,7 @@ void saveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
         file.write(header.data(), header.size());
 
         Array2<double> hdrImg(dataSize.x, dataSize.y);
-        hdrImg.parallelForEachIndex([&](size_t i, size_t j) {
+        parallelForEachIndex(hdrImg.size(), [&](size_t i, size_t j) {
             double sum = 0.0;
             for (size_t k = 0; k < dataSize.z; ++k) {
                 sum += (*density)(i, j, k);
