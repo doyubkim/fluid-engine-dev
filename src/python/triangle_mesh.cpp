@@ -232,41 +232,24 @@ void addTriangleMesh3(pybind11::module& m) {
                  instance.addPointTriangle(objectToPoint3UI(obj));
              },
              R"pbdoc(
-             Adds a triangle with points.
+             Adds a triangle with point.
              )pbdoc",
              py::arg("newPointIndices"))
-        .def("addPointNormalTriangle",
-             [](TriangleMesh3& instance, py::object obj1, py::object obj2) {
-                 instance.addPointNormalTriangle(objectToPoint3UI(obj1),
-                                                 objectToPoint3UI(obj2));
+        .def("addNormalTriangle",
+             [](TriangleMesh3& instance, py::object obj) {
+                 instance.addNormalTriangle(objectToPoint3UI(obj));
              },
              R"pbdoc(
-             Adds a triangle with point and normal.
+             Adds a triangle with normal.
              )pbdoc",
-             py::arg("newPointIndices"),
              py::arg("newNormalIndices"))
-        .def("addPointUvNormalTriangle",
-             [](TriangleMesh3& instance, py::object obj1, py::object obj2,
-                py::object obj3) {
-                 instance.addPointUvNormalTriangle(objectToPoint3UI(obj1),
-                                                   objectToPoint3UI(obj2),
-                                                   objectToPoint3UI(obj3));
+        .def("addUvTriangle",
+             [](TriangleMesh3& instance, py::object obj) {
+                 instance.addUvTriangle(objectToPoint3UI(obj));
              },
              R"pbdoc(
-             Adds a triangle with point, normal, and UV.
+             Adds a triangle with UV.
              )pbdoc",
-             py::arg("newPointIndices"),
-             py::arg("newUvIndices"),
-             py::arg("newNormalIndices"))
-        .def("addPointUvTriangle",
-             [](TriangleMesh3& instance, py::object obj1, py::object obj2) {
-                 instance.addPointUvTriangle(objectToPoint3UI(obj1),
-                                             objectToPoint3UI(obj2));
-             },
-             R"pbdoc(
-             Adds a triangle with point and UV.
-             )pbdoc",
-             py::arg("newPointIndices"),
              py::arg("newUvIndices"))
         .def("addTriangle", &TriangleMesh3::addTriangle,
              R"pbdoc(
