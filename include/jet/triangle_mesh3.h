@@ -148,14 +148,14 @@ class TriangleMesh3 final : public Surface3 {
     void addPointNormalTriangle(const Point3UI& newPointIndices,
                                 const Point3UI& newNormalIndices);
 
-    //! Adds a triangle with point and UV.
-    void addPointUvTriangle(const Point3UI& newPointIndices,
-                            const Point3UI& newUvIndices);
-
     //! Adds a triangle with point, normal, and UV.
     void addPointUvNormalTriangle(const Point3UI& newPointIndices,
                                   const Point3UI& newUvIndices,
                                   const Point3UI& newNormalIndices);
+
+    //! Adds a triangle with point and UV.
+    void addPointUvTriangle(const Point3UI& newPointIndices,
+                            const Point3UI& newUvIndices);
 
     //! Add a triangle.
     void addTriangle(const Triangle3& tri);
