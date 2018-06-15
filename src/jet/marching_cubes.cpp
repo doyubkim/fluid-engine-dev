@@ -250,9 +250,7 @@ static void singleSquare(
             }
         }
 
-        mesh->addPointTriangle(face);
-        mesh->addNormalTriangle(face);
-        mesh->addUvTriangle(face);
+        mesh->addPointUvNormalTriangle(face, face, face);
     }
 }
 
@@ -357,9 +355,7 @@ static void singleCube(
                 vertexMap->insert(std::make_pair(vKey, face[j]));
             }
         }
-        mesh->addPointTriangle(face);
-        mesh->addNormalTriangle(face);
-        mesh->addUvTriangle(face);
+        mesh->addPointUvNormalTriangle(face, face, face);
     }
 }
 

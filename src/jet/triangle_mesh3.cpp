@@ -253,8 +253,8 @@ void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
 }
 
 void TriangleMesh3::addNormalTriangle(const Point3UI& newNormalIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
 
     _normalIndices.append(newNormalIndices);
@@ -263,11 +263,50 @@ void TriangleMesh3::addNormalTriangle(const Point3UI& newNormalIndices) {
 }
 
 void TriangleMesh3::addUvTriangle(const Point3UI& newUvIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _uvIndices.size());
 
     _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
+}
+
+void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
+                                           const Point3UI& newNormalIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+
+    _pointIndices.append(newPointIndices);
+    _normalIndices.append(newNormalIndices);
+
+    invalidateBvh();
+}
+
+void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
+                                       const Point3UI& newUvIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+
+    _pointIndices.append(newPointIndices);
+    _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
+}
+
+void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
+                                             const Point3UI& newUvIndices,
+                                             const Point3UI& newNormalIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+
+    _pointIndices.append(newPointIndices);
+    _uvIndices.append(newUvIndices);
+    _normalIndices.append(newNormalIndices);
 
     invalidateBvh();
 }
@@ -461,7 +500,7 @@ bool TriangleMesh3::readObj(std::istream* strm) {
 
     // `err` may contain warning message.
     if (!err.empty()) {
-        std::cerr << err << '\n';
+        JET_ERROR << err;
         return false;
     }
 
