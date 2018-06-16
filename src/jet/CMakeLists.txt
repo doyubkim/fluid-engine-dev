@@ -27,8 +27,7 @@ file(GLOB headers
     ${header_dir}/detail/*.h)
 
 file(GLOB sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/obj/*.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 # Custom-build event
 set(jet_header_gen_py ${root_dir}/scripts/header_gen.py)

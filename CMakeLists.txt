@@ -27,6 +27,7 @@ include_directories(external)
 include_directories(external/pybind11/include)
 include_directories(external/googletest/googletest/include)
 include_directories(external/Clara/include)
+include_directories(external/tinyobj)
 include_directories(src/examples)
 
 # Configure tasking system backend

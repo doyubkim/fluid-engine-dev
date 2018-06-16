@@ -10,3 +10,6 @@
 [submodule "external/Clara"]
 	path = external/Clara
 	url = https://github.com/catchorg/Clara
+[submodule "external/tinyobj"]
+	path = external/tinyobj
+	url = https://github.com/syoyo/tinyobjloader
