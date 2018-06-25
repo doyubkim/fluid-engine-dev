@@ -54,7 +54,7 @@ void CudaTexture<T, N, Derived>::clear() {
         _tex = 0;
     }
 
-    _size = SizeN<N>{};
+    _size = Vector<size_t, N>{};
 }
 
 template <typename T, size_t N, typename Derived>
@@ -146,7 +146,7 @@ CudaTexture1<T>& CudaTexture1<T>::operator=(CudaTexture1&& other) {
 }
 
 template <typename T>
-void CudaTexture1<T>::resize(const Size1& size) {
+void CudaTexture1<T>::resize(const Vector1UZ& size) {
     if (size[0] == 0) {
         clear();
         return;
@@ -166,7 +166,7 @@ void CudaTexture1<T>::resize(const Size1& size) {
 template <typename T>
 template <typename View>
 void CudaTexture1<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
-    resize(Size1(view.size()));
+    resize(Vector1UZ(view.size()));
 
     if (view.size() == 0) {
         return;
@@ -218,9 +218,9 @@ CudaTexture2<T>::CudaTexture2(CudaTexture2&& other) : Base() {
 }
 
 template <typename T>
-Size2 CudaTexture2<T>::size() const {
+Vector2UZ CudaTexture2<T>::size() const {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
-    return Size2(width(), height());
+    return Vector2UZ(width(), height());
 }
 
 template <typename T>
@@ -243,7 +243,7 @@ CudaTexture2<T>& CudaTexture2<T>::operator=(CudaTexture2&& other) {
 }
 
 template <typename T>
-void CudaTexture2<T>::resize(const Size2& size) {
+void CudaTexture2<T>::resize(const Vector2UZ& size) {
     if (size[0] * size[1] == 0) {
         clear();
         return;
@@ -264,7 +264,7 @@ template <typename T>
 template <typename View>
 void CudaTexture2<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
-    resize(Size2{view.width(), view.height()});
+    resize(Vector2UZ{view.width(), view.height()});
 
     if (view.width() * view.height() == 0) {
         return;
@@ -323,9 +323,9 @@ CudaTexture3<T>::CudaTexture3(CudaTexture3&& other) : Base() {
 }
 
 template <typename T>
-Size3 CudaTexture3<T>::size() const {
+Vector3UZ CudaTexture3<T>::size() const {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    return Size3(width(), height(), depth());
+    return Vector3UZ(width(), height(), depth());
 }
 
 template <typename T>
@@ -353,7 +353,7 @@ CudaTexture3<T>& CudaTexture3<T>::operator=(CudaTexture3&& other) {
 }
 
 template <typename T>
-void CudaTexture3<T>::resize(const Size3& size) {
+void CudaTexture3<T>::resize(const Vector3UZ& size) {
     if (size[0] * size[1] * size[2] == 0) {
         clear();
         return;
@@ -377,7 +377,7 @@ template <typename T>
 template <typename View>
 void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    Size3 size{view.width(), view.height(), view.depth()};
+    Vector3UZ size{view.width(), view.height(), view.depth()};
     resize(size);
 
     if (view.width() * view.height() * view.depth() == 0) {
@@ -401,7 +401,7 @@ void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
 template <typename T>
 void CudaTexture3<T>::_set(const CudaTexture3& other) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    Size3 size{other.width(), other.height(), other.depth()};
+    Vector3UZ size{other.width(), other.height(), other.depth()};
     resize(size);
 
     if (other.width() * other.height() * other.depth() == 0) {

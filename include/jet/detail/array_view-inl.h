@@ -17,7 +17,7 @@ template <typename T, size_t N>
 ArrayView<T, N>::ArrayView() : Base() {}
 
 template <typename T, size_t N>
-ArrayView<T, N>::ArrayView(T* ptr, const SizeN<N>& size_) : ArrayView() {
+ArrayView<T, N>::ArrayView(T* ptr, const Vector<size_t, N>& size_) : ArrayView() {
     Base::setPtrAndSize(ptr, size_);
 }
 
@@ -25,7 +25,7 @@ template <typename T, size_t N>
 template <size_t M>
 ArrayView<T, N>::ArrayView(typename std::enable_if<(M == 1), T>::type* ptr,
                            size_t size_)
-    : ArrayView(ptr, SizeN<N>{size_}) {}
+    : ArrayView(ptr, Vector<size_t, N>{size_}) {}
 
 template <typename T, size_t N>
 ArrayView<T, N>::ArrayView(Array<T, N>& other) : ArrayView() {
@@ -61,7 +61,7 @@ ArrayView<T, N>& ArrayView<T, N>::operator=(const ArrayView& other) {
 template <typename T, size_t N>
 ArrayView<T, N>& ArrayView<T, N>::operator=(ArrayView&& other) noexcept {
     Base::setPtrAndSize(other.data(), other.size());
-    other.setPtrAndSize(nullptr, SizeN<N>{});
+    other.setPtrAndSize(nullptr, Vector<size_t, N>{});
     return *this;
 }
 
@@ -71,7 +71,7 @@ template <typename T, size_t N>
 ArrayView<const T, N>::ArrayView() : Base() {}
 
 template <typename T, size_t N>
-ArrayView<const T, N>::ArrayView(const T* ptr, const SizeN<N>& size_)
+ArrayView<const T, N>::ArrayView(const T* ptr, const Vector<size_t, N>& size_)
     : ArrayView() {
     Base::setPtrAndSize(ptr, size_);
 }
@@ -80,7 +80,7 @@ template <typename T, size_t N>
 template <size_t M>
 ArrayView<const T, N>::ArrayView(
     const typename std::enable_if<(M == 1), T>::type* ptr, size_t size_)
-    : ArrayView(ptr, SizeN<N>{size_}) {}
+    : ArrayView(ptr, Vector<size_t, N>{size_}) {}
 
 template <typename T, size_t N>
 ArrayView<const T, N>::ArrayView(const Array<T, N>& other) : ArrayView() {
@@ -135,7 +135,7 @@ template <typename T, size_t N>
 ArrayView<const T, N>& ArrayView<const T, N>::operator=(
     ArrayView<const T, N>&& other) noexcept {
     Base::setPtrAndSize(other.data(), other.size());
-    other.setPtrAndSize(nullptr, SizeN<N>{});
+    other.setPtrAndSize(nullptr, Vector<size_t, N>{});
     return *this;
 }
 

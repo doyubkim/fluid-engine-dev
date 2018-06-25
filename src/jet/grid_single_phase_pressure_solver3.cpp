@@ -25,7 +25,7 @@ namespace {
 void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
                        const Array3<char>& markers,
                        const FaceCenteredGrid3& input) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     Vector3D invH = 1.0 / input.gridSpacing();
     Vector3D invHSqr = invH * invH;
 
@@ -81,7 +81,7 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const Array3<char>& markers,
                        const FaceCenteredGrid3& input) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     Vector3D invH = 1.0 / input.gridSpacing();
     Vector3D invHSqr = invH * invH;
 
@@ -246,7 +246,7 @@ const FdmVector3& GridSinglePhasePressureSolver3::pressure() const {
 }
 
 void GridSinglePhasePressureSolver3::buildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     // Build levels
@@ -272,7 +272,7 @@ void GridSinglePhasePressureSolver3::buildMarkers(
     for (size_t l = 1; l < _markers.size(); ++l) {
         const auto& finer = _markers[l - 1];
         auto& coarser = _markers[l];
-        const Size3 n = coarser.size();
+        const Vector3UZ n = coarser.size();
 
         parallelRangeFor(
             kZeroSize, n.x, kZeroSize, n.y, kZeroSize, n.z,
@@ -342,7 +342,7 @@ void GridSinglePhasePressureSolver3::decompressSolution() {
 
 void GridSinglePhasePressureSolver3::buildSystem(const FaceCenteredGrid3& input,
                                                  bool useCompressed) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
@@ -400,7 +400,7 @@ void GridSinglePhasePressureSolver3::buildSystem(const FaceCenteredGrid3& input,
 
 void GridSinglePhasePressureSolver3::applyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     auto u = input.uView();
     auto v = input.vView();
     auto w = input.wView();

@@ -25,7 +25,7 @@ CellCenteredVectorGrid3::CellCenteredVectorGrid3(
            initialValueV, initialValueW);
 }
 
-CellCenteredVectorGrid3::CellCenteredVectorGrid3(const Size3& resolution,
+CellCenteredVectorGrid3::CellCenteredVectorGrid3(const Vector3UZ& resolution,
                                                  const Vector3D& gridSpacing,
                                                  const Vector3D& origin,
                                                  const Vector3D& initialValue) {
@@ -37,7 +37,7 @@ CellCenteredVectorGrid3::CellCenteredVectorGrid3(
     set(other);
 }
 
-Size3 CellCenteredVectorGrid3::dataSize() const { return resolution(); }
+Vector3UZ CellCenteredVectorGrid3::dataSize() const { return resolution(); }
 
 Vector3D CellCenteredVectorGrid3::dataOrigin() const {
     return origin() + 0.5 * gridSpacing();
@@ -63,7 +63,7 @@ CellCenteredVectorGrid3& CellCenteredVectorGrid3::operator=(
 
 void CellCenteredVectorGrid3::fill(const Vector3D& value,
                                    ExecutionPolicy policy) {
-    Size3 size = dataSize();
+    Vector3UZ size = dataSize();
     auto acc = dataView();
     parallelFor(
         kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
@@ -74,7 +74,7 @@ void CellCenteredVectorGrid3::fill(const Vector3D& value,
 void CellCenteredVectorGrid3::fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy) {
-    Size3 size = dataSize();
+    Vector3UZ size = dataSize();
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
@@ -93,7 +93,7 @@ CellCenteredVectorGrid3::Builder CellCenteredVectorGrid3::builder() {
 }
 
 CellCenteredVectorGrid3::Builder&
-CellCenteredVectorGrid3::Builder::withResolution(const Size3& resolution) {
+CellCenteredVectorGrid3::Builder::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -160,7 +160,7 @@ CellCenteredVectorGrid3 CellCenteredVectorGrid3::Builder::build() const {
 }
 
 VectorGrid3Ptr CellCenteredVectorGrid3::Builder::build(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin, const Vector3D& initialVal) const {
     return std::shared_ptr<CellCenteredVectorGrid3>(
         new CellCenteredVectorGrid3(resolution, gridSpacing, gridOrigin,

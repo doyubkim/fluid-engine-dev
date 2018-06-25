@@ -4,15 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-//#include <jet/matrix4x4.h>
-#include <jet/_static_matrix.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
 using namespace jet;
-
-using Matrix4x4F = StaticMatrix<float, 4, 4>;
-using Matrix4x4D = StaticMatrix<double, 4, 4>;
 
 TEST(Matrix4x4, Constructors) {
     Matrix4x4D mat;
@@ -104,18 +100,18 @@ TEST(Matrix4x4, SetMethods) {
         }
     }
 
-    mat.setRow(0, Double4(1, 2, 3, 4));
-    mat.setRow(1, Double4(5, 6, 7, 8));
-    mat.setRow(2, Double4(9, 10, 11, 12));
-    mat.setRow(3, Double4(13, 14, 15, 16));
+    mat.setRow(0, Vector4D(1, 2, 3, 4));
+    mat.setRow(1, Vector4D(5, 6, 7, 8));
+    mat.setRow(2, Vector4D(9, 10, 11, 12));
+    mat.setRow(3, Vector4D(13, 14, 15, 16));
     for (int i = 0; i < 16; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.setColumn(0, Double4(1, 5, 9, 13));
-    mat.setColumn(1, Double4(2, 6, 10, 14));
-    mat.setColumn(2, Double4(3, 7, 11, 15));
-    mat.setColumn(3, Double4(4, 8, 12, 16));
+    mat.setColumn(0, Vector4D(1, 5, 9, 13));
+    mat.setColumn(1, Vector4D(2, 6, 10, 14));
+    mat.setColumn(2, Vector4D(3, 7, 11, 15));
+    mat.setColumn(3, Vector4D(4, 8, 12, 16));
     for (int i = 0; i < 16; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
@@ -337,7 +333,7 @@ TEST(Matrix4x4, Helpers) {
         mat.isSimilar(Matrix4x4D(3.0, 0.0, 0.0, 0.0, 0.0, -4.0, 0.0, 0.0, 0.0,
                                  0.0, 2.4, 0.0, 0.0, 0.0, 0.0, 1.0)));
 
-    mat = Matrix4x4D::makeScaleMatrix(Double4(-2.0, 5.0, 3.5, 1.0));
+    mat = Matrix4x4D::makeScaleMatrix(Vector4D(-2.0, 5.0, 3.5, 1.0));
     EXPECT_TRUE(
         mat.isSimilar(Matrix4x4D(-2.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0,
                                  0.0, 3.5, 0.0, 0.0, 0.0, 0.0, 1.0)));

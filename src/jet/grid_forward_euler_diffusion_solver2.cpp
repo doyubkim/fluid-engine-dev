@@ -19,7 +19,7 @@ template <typename T>
 inline T laplacian(const ConstArrayView2<T>& data, const Array2<char>& marker,
                    const Vector2D& gridSpacing, size_t i, size_t j) {
     const T center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -132,7 +132,7 @@ void GridForwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 }
 
 void GridForwardEulerDiffusionSolver2::buildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySdf, const ScalarField2& fluidSdf) {
     _markers.resize(size);
 

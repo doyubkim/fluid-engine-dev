@@ -42,7 +42,7 @@ class Grid2 : public Serializable {
     virtual std::string typeName() const = 0;
 
     //! Returns the grid resolution.
-    const Size2& resolution() const;
+    const Vector2UZ& resolution() const;
 
     //! Returns the grid origin.
     const Vector2D& origin() const;
@@ -86,7 +86,7 @@ class Grid2 : public Serializable {
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
-    void setSizeParameters(const Size2& resolution, const Vector2D& gridSpacing,
+    void setSizeParameters(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                            const Vector2D& origin);
 
     //! Swaps the size parameters with given grid \p other.
@@ -102,7 +102,7 @@ class Grid2 : public Serializable {
     virtual void setData(const std::vector<double>& data) = 0;
 
  private:
-    Size2 _resolution;
+    Vector2UZ _resolution;
     Vector2D _gridSpacing = Vector2D(1, 1);
     Vector2D _origin;
     BoundingBox2D _boundingBox = BoundingBox2D(Vector2D(), Vector2D());

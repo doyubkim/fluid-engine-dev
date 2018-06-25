@@ -45,7 +45,7 @@ class GridBlockedBoundaryConditionSolver3 final
  protected:
     //! Invoked when a new collider is set.
     void onColliderUpdated(
-        const Size3& gridSize,
+        const Vector3UZ& gridSize,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin) override;
 

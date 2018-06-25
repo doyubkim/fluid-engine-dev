@@ -29,7 +29,7 @@ Vector2D& CollocatedVectorGrid2::operator()(size_t i, size_t j) {
 }
 
 double CollocatedVectorGrid2::divergenceAtDataPoint(size_t i, size_t j) const {
-    const Size2 ds = _data.size();
+    const Vector2UZ ds = _data.size();
     const Vector2D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y);
@@ -43,7 +43,7 @@ double CollocatedVectorGrid2::divergenceAtDataPoint(size_t i, size_t j) const {
 }
 
 double CollocatedVectorGrid2::curlAtDataPoint(size_t i, size_t j) const {
-    const Size2 ds = _data.size();
+    const Vector2UZ ds = _data.size();
     const Vector2D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y);
@@ -67,7 +67,7 @@ Vector2D CollocatedVectorGrid2::sample(const Vector2D& x) const {
 }
 
 double CollocatedVectorGrid2::divergence(const Vector2D& x) const {
-    std::array<Size2, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -82,7 +82,7 @@ double CollocatedVectorGrid2::divergence(const Vector2D& x) const {
 }
 
 double CollocatedVectorGrid2::curl(const Vector2D& x) const {
-    std::array<Size2, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -142,7 +142,7 @@ void CollocatedVectorGrid2::setCollocatedVectorGrid(
     resetSampler();
 }
 
-void CollocatedVectorGrid2::onResize(const Size2& resolution,
+void CollocatedVectorGrid2::onResize(const Vector2UZ& resolution,
                                      const Vector2D& gridSpacing,
                                      const Vector2D& origin,
                                      const Vector2D& initialValue) {

@@ -19,7 +19,7 @@ void addScalarGrid2(py::module& m) {
         R"pbdoc(Abstract base class for 2-D scalar grid structure.)pbdoc")
         .def("resize",
              [](ScalarGrid2& instance, py::args args, py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -186,7 +186,7 @@ void addScalarGrid3(py::module& m) {
         R"pbdoc(Abstract base class for 3-D scalar grid structure.)pbdoc")
         .def("resize",
              [](ScalarGrid3& instance, py::args args, py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,

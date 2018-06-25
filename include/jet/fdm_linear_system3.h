@@ -50,7 +50,7 @@ struct FdmLinearSystem3 {
     void clear();
 
     //! Resizes the arrays with given grid size.
-    void resize(const Size3& size);
+    void resize(const Vector3UZ& size);
 };
 
 //! Compressed linear system (Ax=b) for 3-D finite differencing.

@@ -101,7 +101,7 @@ class GridSinglePhasePressureSolver3 : public GridPressureSolver3 {
     std::vector<Array3<char>> _markers;
 
     void buildMarkers(
-        const Size3& size,
+        const Vector3UZ& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
         const ScalarField3& boundarySdf, const ScalarField3& fluidSdf);
 

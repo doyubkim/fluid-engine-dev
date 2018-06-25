@@ -107,13 +107,13 @@ class GridBackwardEulerDiffusionSolver2 final : public GridDiffusionSolver2 {
     Array2<char> _markers;
 
     void buildMarkers(
-        const Size2& size,
+        const Vector2UZ& size,
         const std::function<Vector2D(size_t, size_t)>& pos,
         const ScalarField2& boundarySdf,
         const ScalarField2& fluidSdf);
 
     void buildMatrix(
-        const Size2& size,
+        const Vector2UZ& size,
         const Vector2D& c);
 
     void buildVectors(

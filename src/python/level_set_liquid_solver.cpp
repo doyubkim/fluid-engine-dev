@@ -30,7 +30,7 @@ void addLevelSetLiquidSolver2(py::module& m) {
         .def("__init__",
              [](LevelSetLiquidSolver2& instance, py::args args,
                 py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
 
@@ -104,7 +104,7 @@ void addLevelSetLiquidSolver3(py::module& m) {
         .def("__init__",
              [](LevelSetLiquidSolver3& instance, py::args args,
                 py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
 

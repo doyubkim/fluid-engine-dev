@@ -62,7 +62,7 @@ SimpleVolumeRenderable::~SimpleVolumeRenderable() {}
 
 void SimpleVolumeRenderable::render(Renderer* renderer) {
     if (_shader != nullptr && _texture != nullptr &&
-        _texture->size() != Size3()) {
+        _texture->size() != Vector3UZ()) {
         const Vector3D& currentLookAt =
             renderer->camera()->basicCameraState().lookAt;
         const Vector3D& currentOrigin =

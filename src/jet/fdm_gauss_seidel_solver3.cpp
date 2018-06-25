@@ -102,7 +102,7 @@ bool FdmGaussSeidelSolver3::useRedBlackOrdering() const {
 
 void FdmGaussSeidelSolver3::relax(const FdmMatrix3& A, const FdmVector3& b,
                                   double sorFactor, FdmVector3* x_) {
-    Size3 size = A.size();
+    Vector3UZ size = A.size();
     FdmVector3& x = *x_;
 
     forEachIndex(size, [&](size_t i, size_t j, size_t k) {
@@ -150,7 +150,7 @@ void FdmGaussSeidelSolver3::relax(const MatrixCsrD& A, const VectorND& b,
 void FdmGaussSeidelSolver3::relaxRedBlack(const FdmMatrix3& A,
                                           const FdmVector3& b, double sorFactor,
                                           FdmVector3* x_) {
-    Size3 size = A.size();
+    Vector3UZ size = A.size();
     FdmVector3& x = *x_;
 
     // Red update

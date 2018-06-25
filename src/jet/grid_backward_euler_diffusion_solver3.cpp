@@ -163,7 +163,7 @@ void GridBackwardEulerDiffusionSolver3::setLinearSystemSolver(
 }
 
 void GridBackwardEulerDiffusionSolver3::buildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     _markers.resize(size);
@@ -179,7 +179,7 @@ void GridBackwardEulerDiffusionSolver3::buildMarkers(
     });
 }
 
-void GridBackwardEulerDiffusionSolver3::buildMatrix(const Size3& size,
+void GridBackwardEulerDiffusionSolver3::buildMatrix(const Vector3UZ& size,
                                                     const Vector3D& c) {
     _system.A.resize(size);
 
@@ -247,7 +247,7 @@ void GridBackwardEulerDiffusionSolver3::buildMatrix(const Size3& size,
 
 void GridBackwardEulerDiffusionSolver3::buildVectors(
     const ConstArrayView3<double>& f, const Vector3D& c) {
-    Size3 size = f.size();
+    Vector3UZ size = f.size();
 
     _system.x.resize(size, 0.0);
     _system.b.resize(size, 0.0);
@@ -287,7 +287,7 @@ void GridBackwardEulerDiffusionSolver3::buildVectors(
 void GridBackwardEulerDiffusionSolver3::buildVectors(
     const ConstArrayView3<Vector3D>& f, const Vector3D& c,
     size_t component) {
-    Size3 size = f.size();
+    Vector3UZ size = f.size();
 
     _system.x.resize(size, 0.0);
     _system.b.resize(size, 0.0);

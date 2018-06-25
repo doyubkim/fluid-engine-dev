@@ -16,13 +16,13 @@ Texture2::Texture2() {}
 Texture2::~Texture2() {}
 
 void Texture2::clear() {
-    _size = Size2();
+    _size = Vector2UZ();
 
     onClear();
 }
 
 void Texture2::setTexture(const ConstArrayView2<Color>& data) {
-    if (data.size() == Size2()) {
+    if (data.size() == Vector2UZ()) {
         clear();
     } else if (data.size() == _size) {
         update(data.data());
@@ -36,7 +36,7 @@ void Texture2::setTexture(const ConstArrayView2<Color>& data) {
 }
 
 void Texture2::setTexture(const ConstArrayView2<ByteColor>& data) {
-    if (data.size() == Size2()) {
+    if (data.size() == Vector2UZ()) {
         clear();
     } else if (data.size() == _size) {
         update(data.data());
@@ -53,7 +53,7 @@ void Texture2::bind(Renderer* renderer, unsigned int slotId) {
     onBind(renderer, slotId);
 }
 
-const Size2& Texture2::size() const { return _size; }
+const Vector2UZ& Texture2::size() const { return _size; }
 
 const TextureSamplingMode& Texture2::samplingMode() const {
     return _samplingMode;

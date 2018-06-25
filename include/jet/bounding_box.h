@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_BOUNDING_BOX_H_
 #define INCLUDE_JET_BOUNDING_BOX_H_
 
-#include <jet/vector.h>
+#include <jet/matrix.h>
 
 namespace jet {
 
@@ -20,8 +20,8 @@ namespace jet {
 template <typename T, size_t N>
 class BoundingBox {
  public:
-    static_assert(
-        N > 0, "Size of static-sized box should be greater than zero.");
+    static_assert(N > 0,
+                  "Size of static-sized box should be greater than zero.");
 
     typedef Vector<T, N> VectorType;
 
@@ -40,7 +40,6 @@ class BoundingBox {
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
-
     //! Returns true of this box and other box overlaps.
     bool overlaps(const BoundingBox& other) const;
 
@@ -55,7 +54,6 @@ class BoundingBox {
 
     //! Returns squared diagonal length of this box.
     T diagonalLengthSquared() const;
-
 
     //! Resets this box to initial state (min=infinite, max=-infinite).
     void reset();

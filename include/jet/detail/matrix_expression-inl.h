@@ -4,333 +4,387 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_DETAIL_JET_MATRIX_EXPRESSION_INL_H_
-#define INCLUDE_DETAIL_JET_MATRIX_EXPRESSION_INL_H_
+#ifndef INCLUDE_JET_DETAIL_MATRIX_EXPRESSION_INL_H_
+#define INCLUDE_JET_DETAIL_MATRIX_EXPRESSION_INL_H_
 
 #include <jet/matrix_expression.h>
 
 namespace jet {
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: MatrixExpression
 
-template <typename T>
-MatrixConstant<T>::MatrixConstant(size_t m, size_t n, const T& c)
-    : _m(m), _n(n), _c(c) {}
+template <typename T, typename D>
+constexpr size_t MatrixExpression<T, D>::rows() const {
+    return static_cast<const D&>(*this).rows();
+}
+
+template <typename T, typename D>
+constexpr size_t MatrixExpression<T, D>::cols() const {
+    return static_cast<const D&>(*this).cols();
+}
+
+template <typename T, typename D>
+T MatrixExpression<T, D>::eval(size_t i, size_t j) const {
+    return (*this)()(i, j);
+}
+
+template <typename T, typename D>
+D& MatrixExpression<T, D>::operator()() {
+    return static_cast<D&>(*this);
+}
+
+template <typename T, typename D>
+const D& MatrixExpression<T, D>::operator()() const {
+    return static_cast<const D&>(*this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixConstant
 
 template <typename T>
-Size2 MatrixConstant<T>::size() const {
-    return Size2(rows(), cols());
+constexpr T MatrixConstant<T>::rows() const {
+    return _rows;
 }
 
 template <typename T>
-size_t MatrixConstant<T>::rows() const {
-    return _m;
+constexpr T MatrixConstant<T>::cols() const {
+    return _cols;
 }
 
 template <typename T>
-size_t MatrixConstant<T>::cols() const {
-    return _n;
+constexpr T MatrixConstant<T>::operator()(size_t, size_t) const {
+    return _val;
 }
 
-template <typename T>
-T MatrixConstant<T>::operator()(size_t, size_t) const {
-    return _c;
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixDiagonal
+
+template <typename T, typename M1>
+constexpr size_t MatrixDiagonal<T, M1>::rows() const {
+    return _m1.rows();
 }
 
-//
-
-template <typename T>
-MatrixIdentity<T>::MatrixIdentity(size_t m) : _m(m) {}
-
-template <typename T>
-Size2 MatrixIdentity<T>::size() const {
-    return Size2(_m, _m);
+template <typename T, typename M1>
+constexpr size_t MatrixDiagonal<T, M1>::cols() const {
+    return _m1.cols();
 }
 
-template <typename T>
-size_t MatrixIdentity<T>::rows() const {
-    return _m;
+template <typename T, typename M1>
+T MatrixDiagonal<T, M1>::operator()(size_t i, size_t j) const {
+    if (i == j) {
+        return _m1(i, j);
+    } else {
+        return T{};
+    }
 }
 
-template <typename T>
-size_t MatrixIdentity<T>::cols() const {
-    return _m;
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixOffDiagonal
+
+template <typename T, typename M1>
+constexpr size_t MatrixOffDiagonal<T, M1>::rows() const {
+    return _m1.rows();
 }
 
-template <typename T>
-T MatrixIdentity<T>::operator()(size_t i, size_t j) const {
-    return (i == j) ? 1 : 0;
+template <typename T, typename M1>
+constexpr size_t MatrixOffDiagonal<T, M1>::cols() const {
+    return _m1.cols();
 }
 
+template <typename T, typename M1>
+T MatrixOffDiagonal<T, M1>::operator()(size_t i, size_t j) const {
+    if (i != j) {
+        return _m1(i, j);
+    } else {
+        return T{};
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixTri
+
+template <typename T, typename M1>
+constexpr size_t MatrixTri<T, M1>::rows() const {
+    return _m1.rows();
+}
+
+template <typename T, typename M1>
+constexpr size_t MatrixTri<T, M1>::cols() const {
+    return _m1.cols();
+}
+
+template <typename T, typename M1>
+T MatrixTri<T, M1>::operator()(size_t i, size_t j) const {
+    if (_isUpper) {
+        if (_isStrict) {
+            return (j > i) ? _m1(i, j) : 0;
+        } else {
+            return (j >= i) ? _m1(i, j) : 0;
+        }
+    } else {
+        if (_isStrict) {
+            return (j < i) ? _m1(i, j) : 0;
+        } else {
+            return (j <= i) ? _m1(i, j) : 0;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixTranspose
+
+template <typename T, typename M1>
+constexpr size_t MatrixTranspose<T, M1>::rows() const {
+    return _m1.cols();
+}
+
+template <typename T, typename M1>
+constexpr size_t MatrixTranspose<T, M1>::cols() const {
+    return _m1.rows();
+}
+
+template <typename T, typename M1>
+constexpr T MatrixTranspose<T, M1>::operator()(size_t i, size_t j) const {
+    return _m1(j, i);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: MatrixUnaryOp
 
-template <typename T, typename E, typename Op>
-MatrixUnaryOp<T, E, Op>::MatrixUnaryOp(const E& u) : _u(u) {}
-
-template <typename T, typename E, typename Op>
-Size2 MatrixUnaryOp<T, E, Op>::size() const {
-    return _u.size();
+template <typename T, typename M1, typename UOp>
+constexpr size_t MatrixUnaryOp<T, M1, UOp>::rows() const {
+    return _m1.rows();
 }
 
-template <typename T, typename E, typename Op>
-size_t MatrixUnaryOp<T, E, Op>::rows() const {
-    return _u.rows();
+template <typename T, typename M1, typename UOp>
+constexpr size_t MatrixUnaryOp<T, M1, UOp>::cols() const {
+    return _m1.cols();
 }
 
-template <typename T, typename E, typename Op>
-size_t MatrixUnaryOp<T, E, Op>::cols() const {
-    return _u.cols();
+template <typename T, typename M1, typename UOp>
+constexpr T MatrixUnaryOp<T, M1, UOp>::operator()(size_t i, size_t j) const {
+    return _op(_m1(i, j));
 }
 
-template <typename T, typename E, typename Op>
-T MatrixUnaryOp<T, E, Op>::operator()(size_t i, size_t j) const {
-    return _op(_u(i, j));
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, typename M1>
+constexpr auto ceil(const MatrixExpression<T, M1>& a) {
+    return MatrixCeil<T, const M1&>{a()};
 }
 
-//
-
-template <typename T, typename E>
-MatrixDiagonal<T, E>::MatrixDiagonal(const E& u, bool isDiag)
-    : _u(u), _isDiag(isDiag) {}
-
-template <typename T, typename E>
-Size2 MatrixDiagonal<T, E>::size() const {
-    return _u.size();
+template <typename T, typename M1>
+constexpr auto floor(const MatrixExpression<T, M1>& a) {
+    return MatrixFloor<T, const M1&>{a()};
 }
 
-template <typename T, typename E>
-size_t MatrixDiagonal<T, E>::rows() const {
-    return _u.rows();
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr auto operator-(const MatrixExpression<T, M1>& m) {
+    return MatrixNegate<T, const M1&>{m()};
 }
 
-template <typename T, typename E>
-size_t MatrixDiagonal<T, E>::cols() const {
-    return _u.cols();
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixElemWiseBinaryOp
+
+template <typename T, typename E1, typename E2, typename BOp>
+constexpr size_t MatrixElemWiseBinaryOp<T, E1, E2, BOp>::rows() const {
+    return _m1.rows();
 }
 
-template <typename T, typename E>
-T MatrixDiagonal<T, E>::operator()(size_t i, size_t j) const {
-    if (_isDiag) {
-        return (i == j) ? _u(i, j) : 0;
-    } else {
-        return (i != j) ? _u(i, j) : 0;
-    }
+template <typename T, typename E1, typename E2, typename BOp>
+constexpr size_t MatrixElemWiseBinaryOp<T, E1, E2, BOp>::cols() const {
+    return _m1.cols();
 }
 
-//
-
-template <typename T, typename E>
-MatrixTriangular<T, E>::MatrixTriangular(const E& u, bool isUpper,
-                                         bool isStrict)
-    : _u(u), _isUpper(isUpper), _isStrict(isStrict) {}
-
-template <typename T, typename E>
-Size2 MatrixTriangular<T, E>::size() const {
-    return _u.size();
+template <typename T, typename E1, typename E2, typename BOp>
+constexpr T MatrixElemWiseBinaryOp<T, E1, E2, BOp>::operator()(size_t i,
+                                                               size_t j) const {
+    return _op(_m1(i, j), _m2(i, j));
 }
 
-template <typename T, typename E>
-size_t MatrixTriangular<T, E>::rows() const {
-    return _u.rows();
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, typename M1, typename M2>
+constexpr auto operator+(const MatrixExpression<T, M1>& a,
+                         const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseAdd<T, const M1&, const M2&>{a(), b()};
 }
 
-template <typename T, typename E>
-size_t MatrixTriangular<T, E>::cols() const {
-    return _u.cols();
+template <typename T, typename M1, typename M2>
+constexpr auto operator-(const MatrixExpression<T, M1>& a,
+                         const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseSub<T, const M1&, const M2&>{a(), b()};
 }
 
-template <typename T, typename E>
-T MatrixTriangular<T, E>::operator()(size_t i, size_t j) const {
-    if (i < j) {
-        return (_isUpper) ? _u(i, j) : 0;
-    } else if (i > j) {
-        return (!_isUpper) ? _u(i, j) : 0;
-    } else {
-        return (!_isStrict) ? _u(i, j) : 0;
-    }
+template <typename T, typename M1, typename M2>
+constexpr auto elemMul(const MatrixExpression<T, M1>& a,
+                       const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseMul<T, const M1&, const M2&>{a(), b()};
 }
 
-// MARK: MatrixBinaryOp
-
-template <typename T, typename E1, typename E2, typename Op>
-MatrixBinaryOp<T, E1, E2, Op>::MatrixBinaryOp(const E1& u, const E2& v)
-    : _u(u), _v(v) {
-    JET_ASSERT(u.size() == v.size());
+template <typename T, typename M1, typename M2>
+constexpr auto elemDiv(const MatrixExpression<T, M1>& a,
+                       const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseDiv<T, const M1&, const M2&>{a(), b()};
 }
 
-template <typename T, typename E1, typename E2, typename Op>
-Size2 MatrixBinaryOp<T, E1, E2, Op>::size() const {
-    return _v.size();
+template <typename T, typename M1, typename M2>
+constexpr auto min(const MatrixExpression<T, M1>& a,
+                   const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseMin<T, const M1&, const M2&>{a(), b()};
 }
 
-template <typename T, typename E1, typename E2, typename Op>
-size_t MatrixBinaryOp<T, E1, E2, Op>::rows() const {
-    return _v.rows();
+template <typename T, typename M1, typename M2>
+constexpr auto max(const MatrixExpression<T, M1>& a,
+                   const MatrixExpression<T, M2>& b) {
+    return MatrixElemWiseMax<T, const M1&, const M2&>{a(), b()};
 }
 
-template <typename T, typename E1, typename E2, typename Op>
-size_t MatrixBinaryOp<T, E1, E2, Op>::cols() const {
-    return _v.cols();
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixScalarElemWiseBinaryOp
+
+template <typename T, typename M1, typename BOp>
+constexpr size_t MatrixScalarElemWiseBinaryOp<T, M1, BOp>::rows() const {
+    return _m1.rows();
 }
 
-template <typename T, typename E1, typename E2, typename Op>
-T MatrixBinaryOp<T, E1, E2, Op>::operator()(size_t i, size_t j) const {
-    return _op(_u(i, j), _v(i, j));
+template <typename T, typename M1, typename BOp>
+constexpr size_t MatrixScalarElemWiseBinaryOp<T, M1, BOp>::cols() const {
+    return _m1.cols();
 }
 
-// MARK: MatrixScalarBinaryOp
-
-template <typename T, typename E, typename Op>
-MatrixScalarBinaryOp<T, E, Op>::MatrixScalarBinaryOp(const E& u, const T& v)
-    : _u(u), _v(v) {}
-
-template <typename T, typename E, typename Op>
-Size2 MatrixScalarBinaryOp<T, E, Op>::size() const {
-    return _u.size();
+template <typename T, typename M1, typename BOp>
+constexpr T MatrixScalarElemWiseBinaryOp<T, M1, BOp>::operator()(
+    size_t i, size_t j) const {
+    return _op(_m1(i, j), _s2);
 }
 
-template <typename T, typename E, typename Op>
-size_t MatrixScalarBinaryOp<T, E, Op>::rows() const {
-    return _u.rows();
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, typename M1>
+constexpr auto operator+(const MatrixExpression<T, M1>& a, const T& b) {
+    return MatrixScalarElemWiseAdd<T, const M1&>{a(), b};
 }
 
-template <typename T, typename E, typename Op>
-size_t MatrixScalarBinaryOp<T, E, Op>::cols() const {
-    return _u.cols();
+template <typename T, typename M1>
+constexpr auto operator-(const MatrixExpression<T, M1>& a, const T& b) {
+    return MatrixScalarElemWiseSub<T, const M1&>{a(), b};
 }
 
-template <typename T, typename E, typename Op>
-T MatrixScalarBinaryOp<T, E, Op>::operator()(size_t i, size_t j) const {
-    return _op(_u(i, j), _v);
+template <typename T, typename M1>
+constexpr auto operator*(const MatrixExpression<T, M1>& a, const T& b) {
+    return MatrixScalarElemWiseMul<T, const M1&>{a(), b};
 }
 
-//
-
-template <typename T, typename ME, typename VE>
-MatrixVectorMul<T, ME, VE>::MatrixVectorMul(const ME& m, const VE& v)
-    : _m(m), _v(v) {
-    JET_ASSERT(_m.cols() == _v.size());
+template <typename T, typename M1>
+constexpr auto operator/(const MatrixExpression<T, M1>& a, const T& b) {
+    return MatrixScalarElemWiseDiv<T, const M1&>{a(), b};
 }
 
-template <typename T, typename ME, typename VE>
-size_t MatrixVectorMul<T, ME, VE>::size() const {
-    return _v.size();
+////////////////////////////////////////////////////////////////////////////////
+// MARK: ScalarMatrixElemWiseBinaryOp
+
+template <typename T, typename M2, typename BOp>
+constexpr size_t ScalarMatrixElemWiseBinaryOp<T, M2, BOp>::rows() const {
+    return _m2.rows();
 }
 
-template <typename T, typename ME, typename VE>
-T MatrixVectorMul<T, ME, VE>::operator[](size_t i) const {
-    T sum = 0;
-    const size_t n = _m.cols();
-    for (size_t j = 0; j < n; ++j) {
-        sum += _m(i, j) * _v[j];
-    }
-    return sum;
+template <typename T, typename M2, typename BOp>
+constexpr size_t ScalarMatrixElemWiseBinaryOp<T, M2, BOp>::cols() const {
+    return _m2.cols();
 }
 
+template <typename T, typename M2, typename BOp>
+constexpr T ScalarMatrixElemWiseBinaryOp<T, M2, BOp>::operator()(
+    size_t i, size_t j) const {
+    return _op(_s1, _m2(i, j));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, typename M2>
+constexpr auto operator+(const T& a, const MatrixExpression<T, M2>& b) {
+    return ScalarMatrixElemWiseAdd<T, const M2&>{a, b()};
+}
+
+template <typename T, typename M2>
+constexpr auto operator-(const T& a, const MatrixExpression<T, M2>& b) {
+    return ScalarMatrixElemWiseSub<T, const M2&>{a, b()};
+}
+
+template <typename T, typename M2>
+constexpr auto operator*(const T& a, const MatrixExpression<T, M2>& b) {
+    return ScalarMatrixElemWiseMul<T, const M2&>{a, b()};
+}
+
+template <typename T, typename M2>
+constexpr auto operator/(const T& a, const MatrixExpression<T, M2>& b) {
+    return ScalarMatrixElemWiseDiv<T, const M2&>{a, b()};
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: MatrixTernaryOp
+
+template <typename T, typename M1, typename M2, typename M3, typename TOp>
+constexpr size_t MatrixTernaryOp<T, M1, M2, M3, TOp>::rows() const {
+    return _m1.rows();
+}
+
+template <typename T, typename M1, typename M2, typename M3, typename TOp>
+constexpr size_t MatrixTernaryOp<T, M1, M2, M3, TOp>::cols() const {
+    return _m1.cols();
+}
+
+template <typename T, typename M1, typename M2, typename M3, typename TOp>
+constexpr T MatrixTernaryOp<T, M1, M2, M3, TOp>::operator()(size_t i,
+                                                            size_t j) const {
+    return _op(_m1(i, j), _m2(i, j), _m3(i, j));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+template <typename T, typename M1, typename M2, typename M3>
+constexpr auto clamp(const MatrixExpression<T, M1>& a,
+                     const MatrixExpression<T, M2>& low,
+                     const MatrixExpression<T, M3>& high) {
+    JET_ASSERT(a.rows() == low.rows() && a.rows() == high.rows());
+    JET_ASSERT(a.cols() == low.cols() && a.cols() == high.cols());
+    return MatrixClamp<T, const M1&, const M2&, const M3&>{a(), low(), high()};
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: MatrixMul
 
-template <typename T, typename E1, typename E2>
-MatrixMul<T, E1, E2>::MatrixMul(const E1& u, const E2& v) : _u(u), _v(v) {
-    JET_ASSERT(_u.cols() == _v.rows());
+template <typename T, typename M1, typename M2>
+constexpr size_t MatrixMul<T, M1, M2>::rows() const {
+    return _m1.rows();
 }
 
-template <typename T, typename E1, typename E2>
-Size2 MatrixMul<T, E1, E2>::size() const {
-    return Size2(_u.rows(), _v.cols());
+template <typename T, typename M1, typename M2>
+constexpr size_t MatrixMul<T, M1, M2>::cols() const {
+    return _m2.cols();
 }
 
-template <typename T, typename E1, typename E2>
-size_t MatrixMul<T, E1, E2>::rows() const {
-    return _u.rows();
-}
-
-template <typename T, typename E1, typename E2>
-size_t MatrixMul<T, E1, E2>::cols() const {
-    return _v.cols();
-}
-
-template <typename T, typename E1, typename E2>
-T MatrixMul<T, E1, E2>::operator()(size_t i, size_t j) const {
-    // Unoptimized mat-mat-mul
-    T sum = 0;
-    const size_t n = _u.cols();
-    for (size_t k = 0; k < n; ++k) {
-        sum += _u(i, k) * _v(k, j);
+template <typename T, typename M1, typename M2>
+T MatrixMul<T, M1, M2>::operator()(size_t i, size_t j) const {
+    T sum = _m1(i, 0) * _m2(0, j);
+    for (size_t k = 1; k < _m1.cols(); ++k) {
+        sum += _m1(i, k) * _m2(k, j);
     }
     return sum;
 }
 
-// MARK: Operator overloadings
+////////////////////////////////////////////////////////////////////////////////
 
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator-(const MatrixExpression<T, E>& a) {
-    return MatrixScalarMul<T, E>(a(), T(-1));
-}
-
-template <typename T, typename E1, typename E2>
-MatrixAdd<T, E1, E2> operator+(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b) {
-    return MatrixAdd<T, E1, E2>(a(), b());
-}
-
-template <typename T, typename E>
-MatrixScalarAdd<T, E> operator+(const MatrixExpression<T, E>& a, T b) {
-    return MatrixScalarAdd<T, E>(a(), b);
-}
-
-template <typename T, typename E>
-MatrixScalarAdd<T, E> operator+(T a, const MatrixExpression<T, E>& b) {
-    return MatrixScalarAdd<T, E>(b(), a);
-}
-
-template <typename T, typename E1, typename E2>
-MatrixSub<T, E1, E2> operator-(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b) {
-    return MatrixSub<T, E1, E2>(a(), b());
-}
-
-template <typename T, typename E>
-MatrixScalarSub<T, E> operator-(const MatrixExpression<T, E>& a, T b) {
-    return MatrixScalarSub<T, E>(a(), b);
-}
-
-template <typename T, typename E>
-MatrixScalarRSub<T, E> operator-(T a, const MatrixExpression<T, E>& b) {
-    return MatrixScalarRSub<T, E>(b(), a);
-}
-
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator*(const MatrixExpression<T, E>& a, T b) {
-    return MatrixScalarMul<T, E>(a(), b);
-}
-
-template <typename T, typename E>
-MatrixScalarMul<T, E> operator*(T a, const MatrixExpression<T, E>& b) {
-    return MatrixScalarMul<T, E>(b(), a);
-}
-
-template <typename T, typename ME, typename VE>
-MatrixVectorMul<T, ME, VE> operator*(const MatrixExpression<T, ME>& a,
-                                     const VectorExpression<T, VE>& b) {
-    return MatrixVectorMul<T, ME, VE>(a(), b());
-}
-
-template <typename T, typename E1, typename E2>
-MatrixMul<T, E1, E2> operator*(const MatrixExpression<T, E1>& a,
-                               const MatrixExpression<T, E2>& b) {
-    return MatrixMul<T, E1, E2>(a(), b());
-}
-
-template <typename T, typename E>
-MatrixScalarDiv<T, E> operator/(const MatrixExpression<T, E>& a, T b) {
-    return MatrixScalarDiv<T, E>(a(), b);
-}
-
-template <typename T, typename E>
-MatrixScalarRDiv<T, E> operator/(T a, const MatrixExpression<T, E>& b) {
-    return MatrixScalarRDiv<T, E>(a(), b);
+template <typename T, typename M1, typename M2>
+constexpr auto operator*(const MatrixExpression<T, M1>& a,
+                         const MatrixExpression<T, M2>& b) {
+    return MatrixMul<T, const M1&, const M2&>{a(), b()};
 }
 
 }  // namespace jet
 
-#endif  // INCLUDE_DETAIL_JET_MATRIX_EXPRESSION_INL_H_
+#endif  // INCLUDE_JET_DETAIL_MATRIX_EXPRESSION_INL_H_

@@ -36,7 +36,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher3(const Size3& resolution, double gridSpacing);
+    PointParallelHashGridSearcher3(const Vector3UZ& resolution, double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -167,7 +167,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t getHashKeyFromBucketIndex(const SSize3& bucketIndex) const;
+    size_t getHashKeyFromBucketIndex(const SVector3UZ& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -176,7 +176,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The bucket index.
     //!
-    SSize3 getBucketIndex(const Vector3D& position) const;
+    SVector3UZ getBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -204,7 +204,7 @@ class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
 
  private:
     double _gridSpacing = 1.0;
-    SSize3 _resolution = SSize3(1, 1, 1);
+    SVector3UZ _resolution = SVector3UZ(1, 1, 1);
     std::vector<Vector3D> _points;
     std::vector<size_t> _keys;
     std::vector<size_t> _startIndexTable;
@@ -228,7 +228,7 @@ class PointParallelHashGridSearcher3::Builder final
     : public PointNeighborSearcherBuilder3 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(double gridSpacing);
@@ -243,7 +243,7 @@ class PointParallelHashGridSearcher3::Builder final
     PointNeighborSearcher3Ptr buildPointNeighborSearcher() const override;
 
  private:
-    Size3 _resolution{64, 64, 64};
+    Vector3UZ _resolution{64, 64, 64};
     double _gridSpacing = 1.0;
 };
 

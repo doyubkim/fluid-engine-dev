@@ -4,16 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-// #include <jet/vector_n.h>
-
-#include <jet/_dynamic_matrix.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
 using namespace jet;
-
-using VectorNF = DynamicVector<float>;
-using VectorND = DynamicVector<double>;
 
 TEST(VectorN, Constructors) {
     VectorND empty;
@@ -140,40 +135,40 @@ TEST(VectorN, BasicGetters) {
 
     auto d = vecA.end() - vecA.begin();
     EXPECT_EQ(4, d);
-/*
-    const auto acc = vecA.view();
-    EXPECT_EQ(4u, acc.length());
-    EXPECT_EQ(+6.0, acc[0]);
-    EXPECT_EQ(+2.5, acc[1]);
-    EXPECT_EQ(-9.0, acc[2]);
-    EXPECT_EQ(+8.0, acc[3]);
+    /*
+        const auto acc = vecA.view();
+        EXPECT_EQ(4u, acc.length());
+        EXPECT_EQ(+6.0, acc[0]);
+        EXPECT_EQ(+2.5, acc[1]);
+        EXPECT_EQ(-9.0, acc[2]);
+        EXPECT_EQ(+8.0, acc[3]);
 
-    vecA = {+3.0, -1.0, +2.0, 5.0};
-    auto acc2 = vecA.view();
-    acc2[0] = 6.0;
-    acc2[1] = 2.5;
-    acc2[2] = -9.0;
-    acc2[3] = 8.0;
-    EXPECT_EQ(+6.0, acc2[0]);
-    EXPECT_EQ(+2.5, acc2[1]);
-    EXPECT_EQ(-9.0, acc2[2]);
-    EXPECT_EQ(+8.0, acc2[3]);
+        vecA = {+3.0, -1.0, +2.0, 5.0};
+        auto acc2 = vecA.view();
+        acc2[0] = 6.0;
+        acc2[1] = 2.5;
+        acc2[2] = -9.0;
+        acc2[3] = 8.0;
+        EXPECT_EQ(+6.0, acc2[0]);
+        EXPECT_EQ(+2.5, acc2[1]);
+        EXPECT_EQ(-9.0, acc2[2]);
+        EXPECT_EQ(+8.0, acc2[3]);
 
-    EXPECT_EQ(+6.0, vecA.at(0));
-    EXPECT_EQ(+2.5, vecA.at(1));
-    EXPECT_EQ(-9.0, vecA.at(2));
-    EXPECT_EQ(+8.0, vecA.at(3));
+        EXPECT_EQ(+6.0, vecA.at(0));
+        EXPECT_EQ(+2.5, vecA.at(1));
+        EXPECT_EQ(-9.0, vecA.at(2));
+        EXPECT_EQ(+8.0, vecA.at(3));
 
-    vecA = {+3.0, -1.0, +2.0, 5.0};
-    vecA.at(0) = 6.0;
-    vecA.at(1) = 2.5;
-    vecA.at(2) = -9.0;
-    vecA.at(3) = 8.0;
-    EXPECT_EQ(+6.0, vecA[0]);
-    EXPECT_EQ(+2.5, vecA[1]);
-    EXPECT_EQ(-9.0, vecA[2]);
-    EXPECT_EQ(+8.0, vecA[3]);
-*/
+        vecA = {+3.0, -1.0, +2.0, 5.0};
+        vecA.at(0) = 6.0;
+        vecA.at(1) = 2.5;
+        vecA.at(2) = -9.0;
+        vecA.at(3) = 8.0;
+        EXPECT_EQ(+6.0, vecA[0]);
+        EXPECT_EQ(+2.5, vecA[1]);
+        EXPECT_EQ(-9.0, vecA[2]);
+        EXPECT_EQ(+8.0, vecA[3]);
+    */
     EXPECT_EQ(7.5, vecA.sum());
     EXPECT_EQ(7.5 / 4.0, vecA.avg());
     EXPECT_EQ(-9.0, vecA.min());

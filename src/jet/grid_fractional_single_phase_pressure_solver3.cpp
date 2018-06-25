@@ -50,7 +50,7 @@ void restrict(const Array3<float>& finer, Array3<float>* coarser) {
     kernels[1] = (kernelSize[1] == 3) ? staggeredKernel : centeredKernel;
     kernels[2] = (kernelSize[2] == 3) ? staggeredKernel : centeredKernel;
 
-    const Size3 n = coarser->size();
+    const Vector3UZ n = coarser->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y, kZeroSize, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
@@ -121,7 +121,7 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
                        const Array3<float>& wWeights,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
-    const Size3 size = input.resolution();
+    const Vector3UZ size = input.resolution();
     const auto uPos = input.uPosition();
     const auto vPos = input.vPosition();
     const auto wPos = input.wPosition();
@@ -273,7 +273,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const Array3<float>& wWeights,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
-    const Size3 size = input.resolution();
+    const Vector3UZ size = input.resolution();
     const auto uPos = input.uPosition();
     const auto vPos = input.vPosition();
     const auto wPos = input.wPosition();
@@ -532,9 +532,9 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
     _vWeights.resize(_fluidSdf.size());
     _wWeights.resize(_fluidSdf.size());
     for (size_t l = 0; l < _fluidSdf.size(); ++l) {
-        _uWeights[l].resize(_fluidSdf[l].size() + Size3(1, 0, 0));
-        _vWeights[l].resize(_fluidSdf[l].size() + Size3(0, 1, 0));
-        _wWeights[l].resize(_fluidSdf[l].size() + Size3(0, 0, 1));
+        _uWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(1, 0, 0));
+        _vWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(0, 1, 0));
+        _wWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(0, 0, 1));
     }
 
     // Build top-level grids
@@ -650,7 +650,7 @@ void GridFractionalSinglePhasePressureSolver3::decompressSolution() {
 
 void GridFractionalSinglePhasePressureSolver3::buildSystem(
     const FaceCenteredGrid3& input, bool useCompressed) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
@@ -714,7 +714,7 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
 
 void GridFractionalSinglePhasePressureSolver3::applyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     auto u = input.uView();
     auto v = input.vView();
     auto w = input.wView();

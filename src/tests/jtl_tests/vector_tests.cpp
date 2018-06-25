@@ -4,15 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-//#include <jet/vector3.h>
-#include <jet/_static_matrix.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
 using namespace jet;
-
-template <typename T, size_t N>
-using Vector = _Vector<T, N>;
 
 TEST(Vector, Constructors) {
     Vector<double, 5> vec1;

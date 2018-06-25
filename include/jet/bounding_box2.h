@@ -8,8 +8,9 @@
 #define INCLUDE_JET_BOUNDING_BOX2_H_
 
 #include <jet/bounding_box.h>
+#include <jet/matrix.h>
 #include <jet/ray2.h>
-#include <jet/vector2.h>
+
 #include <limits>
 
 namespace jet {

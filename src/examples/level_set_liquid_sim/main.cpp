@@ -49,7 +49,7 @@ void triangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
 
 void printInfo(const LevelSetLiquidSolver3Ptr& solver) {
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 

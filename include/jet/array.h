@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_ARRAY_H_
 #define INCLUDE_JET_ARRAY_H_
 
+#include <jet/matrix.h>
 #include <jet/nested_initializer_list.h>
-#include <jet/tuple.h>
 
 #include <algorithm>
 #include <functional>
@@ -33,13 +33,13 @@ class ArrayBase {
     size_t index(size_t i, Args... args) const;
 
     template <size_t... I>
-    size_t index(const SizeN<N>& idx) const;
+    size_t index(const Vector<size_t, N>& idx) const;
 
     T* data();
 
     const T* data() const;
 
-    const SizeN<N>& size() const;
+    const Vector<size_t, N>& size() const;
 
     template <size_t M = N>
     typename std::enable_if<(M > 0), size_t>::type  //
@@ -73,9 +73,9 @@ class ArrayBase {
     template <typename... Args>
     const T& at(size_t i, Args... args) const;
 
-    T& at(const SizeN<N>& idx);
+    T& at(const Vector<size_t, N>& idx);
 
-    const T& at(const SizeN<N>& idx) const;
+    const T& at(const Vector<size_t, N>& idx) const;
 
     T& operator[](size_t i);
 
@@ -87,13 +87,13 @@ class ArrayBase {
     template <typename... Args>
     const T& operator()(size_t i, Args... args) const;
 
-    T& operator()(const SizeN<N>& idx);
+    T& operator()(const Vector<size_t, N>& idx);
 
-    const T& operator()(const SizeN<N>& idx) const;
+    const T& operator()(const Vector<size_t, N>& idx) const;
 
  protected:
     T* _ptr = nullptr;
-    SizeN<N> _size;
+    Vector<size_t, N> _size;
 
     ArrayBase();
 
@@ -104,7 +104,7 @@ class ArrayBase {
     template <typename... Args>
     void setPtrAndSize(T* ptr, size_t ni, Args... args);
 
-    void setPtrAndSize(T* data, SizeN<N> size);
+    void setPtrAndSize(T* data, Vector<size_t, N> size);
 
     void clear();
 
@@ -121,7 +121,8 @@ class ArrayBase {
     size_t _index(size_t, size_t i) const;
 
     template <size_t... I>
-    size_t _index(const SizeN<N>& idx, std::index_sequence<I...>) const;
+    size_t _index(const Vector<size_t, N>& idx,
+                  std::index_sequence<I...>) const;
 };
 
 // MARK: Array
@@ -141,7 +142,7 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     // CTOR
     Array();
 
-    Array(const SizeN<N>& size_, const T& initVal = T{});
+    Array(const Vector<size_t, N>& size_, const T& initVal = T{});
 
     template <typename... Args>
     Array(size_t nx, Args... args);
@@ -156,7 +157,7 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     void set(const Array& other);
 
     // resize
-    void resize(SizeN<N> size_, const T& initVal = T{});
+    void resize(Vector<size_t, N> size_, const T& initVal = T{});
 
     template <typename... Args>
     void resize(size_t nx, Args... args);

@@ -44,7 +44,7 @@ class VectorGrid3 : public VectorField3, public Grid3 {
                 double initialValueZ = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(const Size3& resolution,
+    void resize(const Vector3UZ& resolution,
                 const Vector3D& gridSpacing = Vector3D(1, 1, 1),
                 const Vector3D& origin = Vector3D(),
                 const Vector3D& initialValue = Vector3D());
@@ -81,7 +81,7 @@ class VectorGrid3 : public VectorField3, public Grid3 {
     //! overriding class should allocate the internal storage based on its
     //! data layout scheme.
     //!
-    virtual void onResize(const Size3& resolution, const Vector3D& gridSpacing,
+    virtual void onResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                           const Vector3D& origin,
                           const Vector3D& initialValue) = 0;
 };
@@ -99,7 +99,7 @@ class VectorGridBuilder3 {
     virtual ~VectorGridBuilder3();
 
     //! Returns 3-D vector grid with given parameters.
-    virtual VectorGrid3Ptr build(const Size3& resolution,
+    virtual VectorGrid3Ptr build(const Vector3UZ& resolution,
                                  const Vector3D& gridSpacing,
                                  const Vector3D& gridOrigin,
                                  const Vector3D& initialVal) const = 0;

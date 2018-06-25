@@ -17,7 +17,7 @@ using jet::FdmVector2;
 using jet::FdmMatrix3;
 using jet::FdmVector3;
 using jet::FdmCompressedLinearSystem3;
-using jet::Size3;
+using jet::Vector3UZ;
 
 class FdmBlas2 : public ::benchmark::Fixture {
  public:
@@ -81,7 +81,7 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
     }
 
     static void buildSystem(FdmCompressedLinearSystem3* system,
-                            const Size3& size) {
+                            const Vector3UZ& size) {
         system->clear();
 
         Array3<size_t> coordToIndex(size);

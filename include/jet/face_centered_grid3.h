@@ -48,7 +48,7 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
                       double initialValueV = 0.0, double initialValueW = 0.0);
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid3(const Size3& resolution,
+    FaceCenteredGrid3(const Vector3UZ& resolution,
                       const Vector3D& gridSpacing = Vector3D(1.0, 1.0, 1.0),
                       const Vector3D& origin = Vector3D(),
                       const Vector3D& initialValue = Vector3D());
@@ -125,13 +125,13 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
     DataPositionFunc wPosition() const;
 
     //! Returns data size of the u component.
-    Size3 uSize() const;
+    Vector3UZ uSize() const;
 
     //! Returns data size of the v component.
-    Size3 vSize() const;
+    Vector3UZ vSize() const;
 
     //! Returns data size of the w component.
-    Size3 wSize() const;
+    Vector3UZ wSize() const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0, 0).
@@ -258,7 +258,7 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
 
  protected:
     // VectorGrid3 implementations
-    void onResize(const Size3& resolution, const Vector3D& gridSpacing,
+    void onResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                   const Vector3D& origin, const Vector3D& initialValue) final;
 
     //! Fetches the data into a continuous linear array.
@@ -291,7 +291,7 @@ typedef std::shared_ptr<FaceCenteredGrid3> FaceCenteredGrid3Ptr;
 class FaceCenteredGrid3::Builder final : public VectorGridBuilder3 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(size_t resolutionX, size_t resolutionY,
@@ -329,12 +329,12 @@ class FaceCenteredGrid3::Builder final : public VectorGridBuilder3 {
     //!
     //! This is an overriding function that implements VectorGridBuilder3.
     //!
-    VectorGrid3Ptr build(const Size3& resolution, const Vector3D& gridSpacing,
+    VectorGrid3Ptr build(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin,
                          const Vector3D& initialVal) const override;
 
  private:
-    Size3 _resolution{1, 1, 1};
+    Vector3UZ _resolution{1, 1, 1};
     Vector3D _gridSpacing{1, 1, 1};
     Vector3D _gridOrigin{0, 0, 0};
     Vector3D _initialVal{0, 0, 0};

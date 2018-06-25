@@ -29,7 +29,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();
@@ -76,7 +76,7 @@ JET_BEGIN_TEST_F(
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();
@@ -125,7 +125,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();

@@ -23,7 +23,7 @@ GridFractionalBoundaryConditionSolver3::
 
 void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     FaceCenteredGrid3* velocity, unsigned int extrapolationDepth) {
-    Size3 size = velocity->resolution();
+    Vector3UZ size = velocity->resolution();
     if (_colliderSdf == nullptr || _colliderSdf->resolution() != size) {
         updateCollider(collider(), size, velocity->gridSpacing(),
                        velocity->origin());
@@ -236,7 +236,7 @@ VectorField3Ptr GridFractionalBoundaryConditionSolver3::colliderVelocityField()
 }
 
 void GridFractionalBoundaryConditionSolver3::onColliderUpdated(
-    const Size3& gridSize, const Vector3D& gridSpacing,
+    const Vector3UZ& gridSize, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin) {
     if (_colliderSdf == nullptr) {
         _colliderSdf = std::make_shared<CellCenteredScalarGrid3>();

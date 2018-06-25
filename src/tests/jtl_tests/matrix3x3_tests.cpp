@@ -4,15 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-//#include <jet/matrix3x3.h>
-#include <jet/_static_matrix.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
 using namespace jet;
-
-using Matrix3x3F = StaticMatrix<float, 3, 3>;
-using Matrix3x3D = StaticMatrix<double, 3, 3>;
 
 TEST(Matrix3x3, Constructors) {
     Matrix3x3D mat;
@@ -89,17 +85,17 @@ TEST(Matrix3x3, SetMethods) {
     }
 
     mat.fill(0.0);
-    mat.setRow(0, Double3(1.0, 2.0, 3.0));
-    mat.setRow(1, Double3(4.0, 5.0, 6.0));
-    mat.setRow(2, Double3(7.0, 8.0, 9.0));
+    mat.setRow(0, Vector3D(1.0, 2.0, 3.0));
+    mat.setRow(1, Vector3D(4.0, 5.0, 6.0));
+    mat.setRow(2, Vector3D(7.0, 8.0, 9.0));
     for (int i = 0; i < 9; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
     mat.fill(0.0);
-    mat.setColumn(0, Double3(1.0, 4.0, 7.0));
-    mat.setColumn(1, Double3(2.0, 5.0, 8.0));
-    mat.setColumn(2, Double3(3.0, 6.0, 9.0));
+    mat.setColumn(0, Vector3D(1.0, 4.0, 7.0));
+    mat.setColumn(1, Vector3D(2.0, 5.0, 8.0));
+    mat.setColumn(2, Vector3D(3.0, 6.0, 9.0));
     for (int i = 0; i < 9; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
@@ -328,14 +324,14 @@ TEST(Matrix3x3, Helpers) {
                    0.0, -4.0, 0.0,
                    0.0, 0.0, 2.4)));
 
-    mat = Matrix3x3D::makeScaleMatrix(Double3(-2.0, 5.0, 3.5));
+    mat = Matrix3x3D::makeScaleMatrix(Vector3D(-2.0, 5.0, 3.5));
     EXPECT_TRUE(mat.isSimilar(
         Matrix3x3D(-2.0, 0.0, 0.0,
                    0.0, 5.0, 0.0,
                    0.0, 0.0, 3.5)));
 
     mat = Matrix3x3D::makeRotationMatrix(
-        Double3(-1.0/3.0, 2.0/3.0, 2.0/3.0), -74.0 / 180.0 * kPiD);
+        Vector3D(-1.0/3.0, 2.0/3.0, 2.0/3.0), -74.0 / 180.0 * kPiD);
     EXPECT_TRUE(mat.isSimilar(Matrix3x3D(
         0.36, 0.48, -0.8,
         -0.8, 0.60, 0.0,

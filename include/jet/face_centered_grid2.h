@@ -46,7 +46,7 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
                       double initialValueU = 0.0, double initialValueV = 0.0);
 
     //! Resizes the grid using given parameters.
-    FaceCenteredGrid2(const Size2& resolution,
+    FaceCenteredGrid2(const Vector2UZ& resolution,
                       const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
                       const Vector2D& origin = Vector2D(),
                       const Vector2D& initialValue = Vector2D());
@@ -108,10 +108,10 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     DataPositionFunc vPosition() const;
 
     //! Returns data size of the u component.
-    Size2 uSize() const;
+    Vector2UZ uSize() const;
 
     //! Returns data size of the v component.
-    Size2 vSize() const;
+    Vector2UZ vSize() const;
 
     //!
     //! \brief Returns u-data position for the grid point at (0, 0).
@@ -206,7 +206,7 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
 
  protected:
     // VectorGrid2 implementations
-    void onResize(const Size2& resolution, const Vector2D& gridSpacing,
+    void onResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                   const Vector2D& origin, const Vector2D& initialValue) final;
 
     //! Fetches the data into a continuous linear array.
@@ -236,7 +236,7 @@ typedef std::shared_ptr<FaceCenteredGrid2> FaceCenteredGrid2Ptr;
 class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size2& resolution);
+    Builder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(size_t resolutionX, size_t resolutionY);
@@ -270,12 +270,12 @@ class FaceCenteredGrid2::Builder final : public VectorGridBuilder2 {
     //!
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
-    VectorGrid2Ptr build(const Size2& resolution, const Vector2D& gridSpacing,
+    VectorGrid2Ptr build(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin,
                          const Vector2D& initialVal) const override;
 
  private:
-    Size2 _resolution{1, 1};
+    Vector2UZ _resolution{1, 1};
     Vector2D _gridSpacing{1, 1};
     Vector2D _gridOrigin{0, 0};
     Vector2D _initialVal{0, 0};

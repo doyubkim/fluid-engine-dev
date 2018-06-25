@@ -94,7 +94,7 @@ double FdmJacobiSolver2::lastResidual() const { return _lastResidual; }
 
 void FdmJacobiSolver2::relax(const FdmMatrix2& A, const FdmVector2& b,
                              FdmVector2* x_, FdmVector2* xTemp_) {
-    Size2 size = A.size();
+    Vector2UZ size = A.size();
     FdmVector2& x = *x_;
     FdmVector2& xTemp = *xTemp_;
 

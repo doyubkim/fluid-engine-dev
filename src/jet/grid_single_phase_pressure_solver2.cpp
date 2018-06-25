@@ -25,7 +25,7 @@ namespace {
 void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     Vector2D invH = 1.0 / input.gridSpacing();
     Vector2D invHSqr = invH * invH;
 
@@ -69,7 +69,7 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     Vector2D invH = 1.0 / input.gridSpacing();
     Vector2D invHSqr = invH * invH;
 
@@ -216,7 +216,7 @@ const FdmVector2& GridSinglePhasePressureSolver2::pressure() const {
 }
 
 void GridSinglePhasePressureSolver2::buildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySdf, const ScalarField2& fluidSdf) {
     // Build levels
     size_t maxLevels = 1;
@@ -241,7 +241,7 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     for (size_t l = 1; l < _markers.size(); ++l) {
         const auto& finer = _markers[l - 1];
         auto& coarser = _markers[l];
-        const Size2 n = coarser.size();
+        const Vector2UZ n = coarser.size();
 
         parallelRangeFor(
             kZeroSize, n.x, kZeroSize, n.y,
@@ -298,7 +298,7 @@ void GridSinglePhasePressureSolver2::decompressSolution() {
 
 void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
                                                  bool useCompressed) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
@@ -355,7 +355,7 @@ void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
 
 void GridSinglePhasePressureSolver2::applyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     auto u = input.uView();
     auto v = input.vView();
     auto u0 = output->uView();

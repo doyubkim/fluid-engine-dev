@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/_static_matrix.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
@@ -15,7 +15,7 @@ using namespace jet;
 namespace jet {
 
 template <typename T, size_t M, size_t N>
-std::ostream& operator<<(std::ostream& os, const StaticMatrix<T, M, N>& mat) {
+std::ostream& operator<<(std::ostream& os, const Matrix<T, M, N>& mat) {
     for (size_t i = 0; i < mat.rows(); ++i) {
         for (size_t j = 0; j < mat.cols(); ++j) {
             os << mat(i, j);
@@ -30,7 +30,7 @@ std::ostream& operator<<(std::ostream& os, const StaticMatrix<T, M, N>& mat) {
 }  // namespace jet
 
 TEST(Matrix, Constructors) {
-    StaticMatrix<double, 2, 3> mat;
+    Matrix<double, 2, 3> mat;
 
     EXPECT_EQ(2u, mat.rows());
     EXPECT_EQ(3u, mat.cols());
@@ -39,19 +39,19 @@ TEST(Matrix, Constructors) {
         EXPECT_DOUBLE_EQ(0.0, elem);
     }
 
-    StaticMatrix<double, 2, 3> mat2(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+    Matrix<double, 2, 3> mat2(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
 
     for (int i = 0; i < 6; ++i) {
         EXPECT_DOUBLE_EQ(i + 1.0, mat2[i]);
     }
 
-    StaticMatrix<double, 2, 3> mat3 = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
+    Matrix<double, 2, 3> mat3 = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
 
     for (int i = 0; i < 6; ++i) {
         EXPECT_DOUBLE_EQ(i + 1.0, mat3[i]);
     }
 
-    StaticMatrix<double, 2, 3> mat4(mat3);
+    Matrix<double, 2, 3> mat4(mat3);
 
     for (int i = 0; i < 6; ++i) {
         EXPECT_DOUBLE_EQ(i + 1.0, mat4[i]);
@@ -59,7 +59,7 @@ TEST(Matrix, Constructors) {
 }
 
 TEST(Matrix, BasicSetters) {
-    StaticMatrix<double, 4, 2> mat;
+    Matrix<double, 4, 2> mat;
     mat.fill(5.0);
     EXPECT_EQ(4u, mat.rows());
     EXPECT_EQ(2u, mat.cols());
@@ -77,7 +77,7 @@ TEST(Matrix, BasicSetters) {
         EXPECT_EQ(i + 1.0, mat[i]);
     }
 
-    StaticMatrix<double, 4, 2> mat2;
+    Matrix<double, 4, 2> mat2;
     mat2.copyFrom(mat);
     for (size_t i = 0; i < 8; ++i) {
         EXPECT_EQ(i + 1.0, mat2[i]);
@@ -101,7 +101,7 @@ TEST(Matrix, BasicSetters) {
         }
     }
 
-    _Vector<double, 2> row = {2.0, 3.0};
+    Vector<double, 2> row = {2.0, 3.0};
     mat.setRow(2, row);
     for (size_t i = 0; i < 8; ++i) {
         if (i == 0 || i == 3) {
@@ -116,8 +116,8 @@ TEST(Matrix, BasicSetters) {
     }
 
     mat = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}, {7.0, 8.0}};
-    mat2 = StaticMatrix<double, 4, 2>(
-        {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}, {7.0, 8.0}});
+    mat2 =
+        Matrix<double, 4, 2>({{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}, {7.0, 8.0}});
     EXPECT_EQ(mat, mat2);
 
     mat2 = {{1.01, 2.01}, {3.01, 4.01}, {4.99, 5.99}, {6.99, 7.99}};
@@ -128,29 +128,28 @@ TEST(Matrix, BasicSetters) {
 }
 
 TEST(Matrix, ComplexGetters) {
-    const StaticMatrix<double, 2, 3> matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
+    const Matrix<double, 2, 3> matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
 
     EXPECT_EQ(21.0, matA.sum());
     EXPECT_DOUBLE_EQ(21.0 / 6.0, matA.avg());
 
-    const StaticMatrix<double, 2, 3> matB = {{3.0, -1.0, 2.0},
-                                             {-9.0, 2.0, 8.0}};
+    const Matrix<double, 2, 3> matB = {{3.0, -1.0, 2.0}, {-9.0, 2.0, 8.0}};
     EXPECT_EQ(-9.0, matB.min());
     EXPECT_EQ(8.0, matB.max());
     EXPECT_EQ(-1.0, matB.absmin());
     EXPECT_EQ(-9.0, matB.absmax());
 
-    const StaticMatrix<double, 5, 5> matC = {{3.0, -1.0, 2.0, 4.0, 5.0},
-                                             {-9.0, 2.0, 8.0, -1.0, 2.0},
-                                             {4.0, 3.0, 6.0, 7.0, -5.0},
-                                             {-2.0, 6.0, 7.0, 1.0, 0.0},
-                                             {4.0, 2.0, 3.0, 3.0, -9.0}};
+    const Matrix<double, 5, 5> matC = {{3.0, -1.0, 2.0, 4.0, 5.0},
+                                       {-9.0, 2.0, 8.0, -1.0, 2.0},
+                                       {4.0, 3.0, 6.0, 7.0, -5.0},
+                                       {-2.0, 6.0, 7.0, 1.0, 0.0},
+                                       {4.0, 2.0, 3.0, 3.0, -9.0}};
     EXPECT_EQ(3.0, matC.trace());
 
     EXPECT_DOUBLE_EQ(-6380.0, matC.determinant());
 
-    StaticMatrix<double, 2, 3> mat = matA.diagonal();
-    StaticMatrix<double, 2, 3> ans = {{1.0, 0.0, 0.0}, {0.0, 5.0, 0.0}};
+    Matrix<double, 2, 3> mat = matA.diagonal();
+    Matrix<double, 2, 3> ans = {{1.0, 0.0, 0.0}, {0.0, 5.0, 0.0}};
     EXPECT_EQ(ans, mat);
 
     mat = matA.offDiagonal();
@@ -158,53 +157,52 @@ TEST(Matrix, ComplexGetters) {
     EXPECT_EQ(ans, mat);
 
     const auto matCStrictLowerTri = matC.strictLowerTri();
-    StaticMatrix<double, 5, 5> ansStrictLowerTri = {{0.0, 0.0, 0.0, 0.0, 0.0},
-                                                    {-9.0, 0.0, 0.0, 0.0, 0.0},
-                                                    {4.0, 3.0, 0.0, 0.0, 0.0},
-                                                    {-2.0, 6.0, 7.0, 0.0, 0.0},
-                                                    {4.0, 2.0, 3.0, 3.0, 0.0}};
+    Matrix<double, 5, 5> ansStrictLowerTri = {{0.0, 0.0, 0.0, 0.0, 0.0},
+                                              {-9.0, 0.0, 0.0, 0.0, 0.0},
+                                              {4.0, 3.0, 0.0, 0.0, 0.0},
+                                              {-2.0, 6.0, 7.0, 0.0, 0.0},
+                                              {4.0, 2.0, 3.0, 3.0, 0.0}};
     EXPECT_EQ(ansStrictLowerTri, matCStrictLowerTri);
 
     const auto matCStrictUpperTri = matC.strictUpperTri();
-    StaticMatrix<double, 5, 5> ansStrictUpperTri = {{0.0, -1.0, 2.0, 4.0, 5.0},
-                                                    {0.0, 0.0, 8.0, -1.0, 2.0},
-                                                    {0.0, 0.0, 0.0, 7.0, -5.0},
-                                                    {0.0, 0.0, 0.0, 0.0, 0.0},
-                                                    {0.0, 0.0, 0.0, 0.0, 0.0}};
+    Matrix<double, 5, 5> ansStrictUpperTri = {{0.0, -1.0, 2.0, 4.0, 5.0},
+                                              {0.0, 0.0, 8.0, -1.0, 2.0},
+                                              {0.0, 0.0, 0.0, 7.0, -5.0},
+                                              {0.0, 0.0, 0.0, 0.0, 0.0},
+                                              {0.0, 0.0, 0.0, 0.0, 0.0}};
     EXPECT_EQ(ansStrictUpperTri, matCStrictUpperTri);
 
     const auto matCLowerTri = matC.lowerTri();
-    StaticMatrix<double, 5, 5> ansLowerTri = {{3.0, 0.0, 0.0, 0.0, 0.0},
-                                              {-9.0, 2.0, 0.0, 0.0, 0.0},
-                                              {4.0, 3.0, 6.0, 0.0, 0.0},
-                                              {-2.0, 6.0, 7.0, 1.0, 0.0},
-                                              {4.0, 2.0, 3.0, 3.0, -9.0}};
+    Matrix<double, 5, 5> ansLowerTri = {{3.0, 0.0, 0.0, 0.0, 0.0},
+                                        {-9.0, 2.0, 0.0, 0.0, 0.0},
+                                        {4.0, 3.0, 6.0, 0.0, 0.0},
+                                        {-2.0, 6.0, 7.0, 1.0, 0.0},
+                                        {4.0, 2.0, 3.0, 3.0, -9.0}};
     EXPECT_EQ(ansLowerTri, matCLowerTri);
 
     const auto matUpperTri = matC.upperTri();
-    StaticMatrix<double, 5, 5> ansUpperTri = {{3.0, -1.0, 2.0, 4.0, 5.0},
-                                              {0.0, 2.0, 8.0, -1.0, 2.0},
-                                              {0.0, 0.0, 6.0, 7.0, -5.0},
-                                              {0.0, 0.0, 0.0, 1.0, 0.0},
-                                              {0.0, 0.0, 0.0, 0.0, -9.0}};
+    Matrix<double, 5, 5> ansUpperTri = {{3.0, -1.0, 2.0, 4.0, 5.0},
+                                        {0.0, 2.0, 8.0, -1.0, 2.0},
+                                        {0.0, 0.0, 6.0, 7.0, -5.0},
+                                        {0.0, 0.0, 0.0, 1.0, 0.0},
+                                        {0.0, 0.0, 0.0, 0.0, -9.0}};
     EXPECT_EQ(ansUpperTri, matUpperTri);
 
-    const StaticMatrix<float, 5, 5> matF = matC.castTo<float>();
-    const StaticMatrix<float, 5, 5> ansF = {{3.f, -1.f, 2.f, 4.f, 5.f},
-                                            {-9.f, 2.f, 8.f, -1.f, 2.f},
-                                            {4.f, 3.f, 6.f, 7.f, -5.f},
-                                            {-2.f, 6.f, 7.f, 1.f, 0.f},
-                                            {4.f, 2.f, 3.f, 3.f, -9.f}};
+    const Matrix<float, 5, 5> matF = matC.castTo<float>();
+    const Matrix<float, 5, 5> ansF = {{3.f, -1.f, 2.f, 4.f, 5.f},
+                                      {-9.f, 2.f, 8.f, -1.f, 2.f},
+                                      {4.f, 3.f, 6.f, 7.f, -5.f},
+                                      {-2.f, 6.f, 7.f, 1.f, 0.f},
+                                      {4.f, 2.f, 3.f, 3.f, -9.f}};
     EXPECT_EQ(ansF, matF);
 
-    const StaticMatrix<double, 3, 2> matT = matA.transposed();
-    const StaticMatrix<double, 3, 2> ansT = {
-        {1.0, 4.0}, {2.0, 5.0}, {3.0, 6.0}};
+    const Matrix<double, 3, 2> matT = matA.transposed();
+    const Matrix<double, 3, 2> ansT = {{1.0, 4.0}, {2.0, 5.0}, {3.0, 6.0}};
     EXPECT_EQ(ansT, matT);
 
-    StaticMatrix<double, 5, 5> matI = matC;
-    StaticMatrix<double, 5, 5> mat2I = matI.inverse();
-    StaticMatrix<double, 5, 5> ansI = {
+    Matrix<double, 5, 5> matI = matC;
+    Matrix<double, 5, 5> mat2I = matI.inverse();
+    Matrix<double, 5, 5> ansI = {
         {0.260345, -0.0484326, -0.300157, 0.109404, 0.300627},
         {-0.215517, -0.138715, 0.188871, 0.167712, -0.255486},
         {0.294828, 0.108307, -0.315831, 0.0498433, 0.363323},
@@ -214,18 +212,18 @@ TEST(Matrix, ComplexGetters) {
 }
 
 TEST(Matrix, Modifiers) {
-    StaticMatrix<double, 5, 5> mat = {{3.0, -1.0, 2.0, 4.0, 5.0},
-                                      {-9.0, 2.0, 8.0, -1.0, 2.0},
-                                      {4.0, 3.0, 6.0, 7.0, -5.0},
-                                      {-2.0, 6.0, 7.0, 1.0, 0.0},
-                                      {4.0, 2.0, 3.0, 3.0, -9.0}};
+    Matrix<double, 5, 5> mat = {{3.0, -1.0, 2.0, 4.0, 5.0},
+                                {-9.0, 2.0, 8.0, -1.0, 2.0},
+                                {4.0, 3.0, 6.0, 7.0, -5.0},
+                                {-2.0, 6.0, 7.0, 1.0, 0.0},
+                                {4.0, 2.0, 3.0, 3.0, -9.0}};
     mat.transpose();
 
-    StaticMatrix<double, 5, 5> ans = {{3.0, -9.0, 4.0, -2.0, 4.0},
-                                      {-1.0, 2.0, 3.0, 6.0, 2.0},
-                                      {2.0, 8.0, 6.0, 7.0, 3.0},
-                                      {4.0, -1.0, 7.0, 1.0, 3.0},
-                                      {5.0, 2.0, -5.0, 0.0, -9.0}};
+    Matrix<double, 5, 5> ans = {{3.0, -9.0, 4.0, -2.0, 4.0},
+                                {-1.0, 2.0, 3.0, 6.0, 2.0},
+                                {2.0, 8.0, 6.0, 7.0, 3.0},
+                                {4.0, -1.0, 7.0, 1.0, 3.0},
+                                {5.0, 2.0, -5.0, 0.0, -9.0}};
     EXPECT_EQ(ans, mat);
 
     mat = {{3.0, -1.0, 2.0, 4.0, 5.0},
@@ -244,10 +242,10 @@ TEST(Matrix, Modifiers) {
 }
 
 TEST(Matrix, SetterOperators) {
-    const StaticMatrix<double, 2, 3> matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-    const StaticMatrix<double, 2, 3> matB = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
+    const Matrix<double, 2, 3> matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
+    const Matrix<double, 2, 3> matB = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
 
-    StaticMatrix<double, 2, 3> mat = matA;
+    Matrix<double, 2, 3> mat = matA;
     mat += 3.5;
     for (size_t i = 0; i < 6; ++i) {
         EXPECT_EQ(i + 4.5, mat[i]);
@@ -255,7 +253,7 @@ TEST(Matrix, SetterOperators) {
 
     mat = matA;
     mat += matB;
-    StaticMatrix<double, 2, 3> ans = {{4.0, 1.0, 5.0}, {13.0, 7.0, 14.0}};
+    Matrix<double, 2, 3> ans = {{4.0, 1.0, 5.0}, {13.0, 7.0, 14.0}};
     EXPECT_EQ(ans, mat);
 
     mat = matA;
@@ -275,15 +273,15 @@ TEST(Matrix, SetterOperators) {
         EXPECT_EQ(2.0 * (i + 1.0), mat[i]);
     }
 
-    StaticMatrix<double, 5, 5> matA2;
-    StaticMatrix<double, 5, 5> matC2;
+    Matrix<double, 5, 5> matA2;
+    Matrix<double, 5, 5> matC2;
     for (int i = 0; i < 25; ++i) {
         matA2[i] = i + 1.0;
         matC2[i] = 25.0 - i;
     }
     matA2 *= matC2;
 
-    const StaticMatrix<double, 5, 5> ans2 = {
+    const Matrix<double, 5, 5> ans2 = {
         {175.0, 160.0, 145.0, 130.0, 115.0},
         {550.0, 510.0, 470.0, 430.0, 390.0},
         {925.0, 860.0, 795.0, 730.0, 665.0},
@@ -299,7 +297,7 @@ TEST(Matrix, SetterOperators) {
 }
 
 TEST(Matrix, GetterOperator) {
-    StaticMatrix<double, 2, 4> mat, mat2;
+    Matrix<double, 2, 4> mat, mat2;
     mat = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
     double cnt = 1.0;
     for (size_t i = 0; i < 2; ++i) {
@@ -315,14 +313,14 @@ TEST(Matrix, GetterOperator) {
 }
 /*
 TEST(Matrix, Builders) {
-    const StaticMatrix<double, 3, 4> mat =
-        StaticMatrix<double, 3, 4>::makeZero();
+    const Matrix<double, 3, 4> mat =
+        Matrix<double, 3, 4>::makeZero();
     for (size_t i = 0; i < 12; ++i) {
         EXPECT_EQ(0.0, mat[i]);
     }
 
-    const StaticMatrix<double, 5, 5> mat2 =
-        StaticMatrix<double, 5, 5>::makeIdentity();
+    const Matrix<double, 5, 5> mat2 =
+        Matrix<double, 5, 5>::makeIdentity();
     for (size_t i = 0; i < 25; ++i) {
         if (i % 6 == 0) {
             EXPECT_EQ(1.0, mat2[i]);

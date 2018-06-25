@@ -116,7 +116,7 @@ void saveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
     if (file) {
         printf("Writing %s...\n", filename.c_str());
 
-        Size3 dataSize = density->dataSize();
+        Vector3UZ dataSize = density->dataSize();
 
         std::array<char, 18> header;
         header.fill(0);
@@ -157,7 +157,7 @@ void saveVolumeAsTga(const ScalarGrid3Ptr& density, const std::string& rootDir,
 
 void printInfo(const GridSmokeSolver3Ptr& solver) {
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 

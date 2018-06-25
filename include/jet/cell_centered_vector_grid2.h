@@ -45,7 +45,7 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     CellCenteredVectorGrid2(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
         const Vector2D& origin = Vector2D(),
         const Vector2D& initialValue = Vector2D());
@@ -54,7 +54,7 @@ class CellCenteredVectorGrid2 final : public CollocatedVectorGrid2 {
     CellCenteredVectorGrid2(const CellCenteredVectorGrid2& other);
 
     //! Returns the actual data point size.
-    Size2 dataSize() const override;
+    Vector2UZ dataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
@@ -100,7 +100,7 @@ typedef std::shared_ptr<CellCenteredVectorGrid2> CellCenteredVectorGrid2Ptr;
 class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size2& resolution);
+    Builder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(size_t resolutionX, size_t resolutionY);
@@ -135,13 +135,13 @@ class CellCenteredVectorGrid2::Builder final : public VectorGridBuilder2 {
     //! This is an overriding function that implements VectorGridBuilder2.
     //!
     VectorGrid2Ptr build(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
         const Vector2D& initialVal) const override;
 
  private:
-    Size2 _resolution{1, 1};
+    Vector2UZ _resolution{1, 1};
     Vector2D _gridSpacing{1, 1};
     Vector2D _gridOrigin{0, 0};
     Vector2D _initialVal{0, 0};

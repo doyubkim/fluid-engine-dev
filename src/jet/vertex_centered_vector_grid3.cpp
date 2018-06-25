@@ -27,16 +27,16 @@ VertexCenteredVectorGrid3::VertexCenteredVectorGrid3(
 }
 
 VertexCenteredVectorGrid3::VertexCenteredVectorGrid3(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& origin, const Vector3D& initialValue) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
-Size3 VertexCenteredVectorGrid3::dataSize() const {
-    if (resolution() != Size3(0, 0, 0)) {
-        return resolution() + Size3(1, 1, 1);
+Vector3UZ VertexCenteredVectorGrid3::dataSize() const {
+    if (resolution() != Vector3UZ(0, 0, 0)) {
+        return resolution() + Vector3UZ(1, 1, 1);
     } else {
-        return Size3(0, 0, 0);
+        return Vector3UZ(0, 0, 0);
     }
 }
 
@@ -52,7 +52,7 @@ void VertexCenteredVectorGrid3::swap(Grid3* other) {
 
 void VertexCenteredVectorGrid3::fill(const Vector3D& value,
                                      ExecutionPolicy policy) {
-    Size3 size = dataSize();
+    Vector3UZ size = dataSize();
     auto acc = dataView();
     parallelFor(
         kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
@@ -63,7 +63,7 @@ void VertexCenteredVectorGrid3::fill(const Vector3D& value,
 void VertexCenteredVectorGrid3::fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy) {
-    Size3 size = dataSize();
+    Vector3UZ size = dataSize();
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
@@ -92,7 +92,7 @@ VertexCenteredVectorGrid3::Builder VertexCenteredVectorGrid3::builder() {
 }
 
 VertexCenteredVectorGrid3::Builder&
-VertexCenteredVectorGrid3::Builder::withResolution(const Size3& resolution) {
+VertexCenteredVectorGrid3::Builder::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -171,7 +171,7 @@ VertexCenteredVectorGrid3Ptr VertexCenteredVectorGrid3::Builder::makeShared()
 }
 
 VectorGrid3Ptr VertexCenteredVectorGrid3::Builder::build(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin, const Vector3D& initialVal) const {
     return std::shared_ptr<VertexCenteredVectorGrid3>(
         new VertexCenteredVectorGrid3(resolution, gridSpacing, gridOrigin,

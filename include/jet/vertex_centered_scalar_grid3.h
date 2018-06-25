@@ -47,7 +47,7 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3 {
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     VertexCenteredScalarGrid3(
-        const Size3& resolution,
+        const Vector3UZ& resolution,
         const Vector3D& gridSpacing = Vector3D(1.0, 1.0, 1.0),
         const Vector3D& origin = Vector3D(),
         double initialValue = 0.0);
@@ -56,7 +56,7 @@ class VertexCenteredScalarGrid3 final : public ScalarGrid3 {
     VertexCenteredScalarGrid3(const VertexCenteredScalarGrid3& other);
 
     //! Returns the actual data point size.
-    Size3 dataSize() const override;
+    Vector3UZ dataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
@@ -93,7 +93,7 @@ typedef std::shared_ptr<VertexCenteredScalarGrid3> VertexCenteredScalarGrid3Ptr;
 class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(
@@ -128,13 +128,13 @@ class VertexCenteredScalarGrid3::Builder final : public ScalarGridBuilder3 {
     //! This is an overriding function that implements ScalarGridBuilder3.
     //!
     ScalarGrid3Ptr build(
-        const Size3& resolution,
+        const Vector3UZ& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
         double initialVal) const override;
 
  private:
-    Size3 _resolution{1, 1, 1};
+    Vector3UZ _resolution{1, 1, 1};
     Vector3D _gridSpacing{1, 1, 1};
     Vector3D _gridOrigin{0, 0, 0};
     double _initialVal = 0.0;

@@ -126,8 +126,8 @@ PYBIND11_PLUGIN(pyjet) {
     addFrame(m);
     addQuaternionD(m);
     addQuaternionF(m);
-    addSize2(m);
-    addSize3(m);
+    addVector2UZ(m);
+    addVector3UZ(m);
     addTransform2(m);
     addTransform3(m);
 

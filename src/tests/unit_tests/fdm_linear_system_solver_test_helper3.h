@@ -11,7 +11,7 @@ namespace jet {
 class FdmLinearSystemSolverTestHelper3 {
  public:
     static void buildTestLinearSystem(FdmLinearSystem3* system,
-                                      const Size3& size) {
+                                      const Vector3UZ& size) {
         system->A.resize(size);
         system->x.resize(size);
         system->b.resize(size);
@@ -49,7 +49,7 @@ class FdmLinearSystemSolverTestHelper3 {
     }
 
     static void buildTestCompressedLinearSystem(
-        FdmCompressedLinearSystem3* system, const Size3& size) {
+        FdmCompressedLinearSystem3* system, const Vector3UZ& size) {
         Array3<size_t> coordToIndex(size);
         const auto acc = coordToIndex.view();
 

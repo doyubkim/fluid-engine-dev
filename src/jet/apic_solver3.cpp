@@ -11,7 +11,7 @@ using namespace jet;
 
 ApicSolver3::ApicSolver3() : ApicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-ApicSolver3::ApicSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+ApicSolver3::ApicSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin)
     : PicSolver3(resolution, gridSpacing, gridOrigin) {}
 
@@ -58,7 +58,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
         flow->wView(), flow->gridSpacing(), flow->wOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Size3, 8> indices;
+        std::array<Vector3UZ, 8> indices;
         std::array<double, 8> weights;
 
         auto uPosClamped = positions[i];
@@ -151,7 +151,7 @@ void ApicSolver3::transferFromGridsToParticles() {
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
 
-        std::array<Size3, 8> indices;
+        std::array<Vector3UZ, 8> indices;
         std::array<Vector3D, 8> gradWeights;
 
         // x

@@ -39,7 +39,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     GridFluidSolver2();
 
     //! Constructs solver with initial grid size.
-    GridFluidSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+    GridFluidSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                      const Vector2D& gridOrigin);
 
     //! Default destructor.
@@ -131,7 +131,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! \param[in] newGridSpacing The new grid spacing.
     //! \param[in] newGridOrigin  The new grid origin.
     //!
-    void resizeGrid(const Size2& newSize, const Vector2D& newGridSpacing,
+    void resizeGrid(const Vector2UZ& newSize, const Vector2D& newGridSpacing,
                     const Vector2D& newGridOrigin);
 
     //!
@@ -141,7 +141,7 @@ class GridFluidSolver2 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    Size2 resolution() const;
+    Vector2UZ resolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.
@@ -300,7 +300,7 @@ template <typename DerivedBuilder>
 class GridFluidSolverBuilderBase2 {
  public:
     //! Returns builder with grid resolution.
-    DerivedBuilder& withResolution(const Size2& resolution);
+    DerivedBuilder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with grid spacing.
     DerivedBuilder& withGridSpacing(const Vector2D& gridSpacing);
@@ -320,7 +320,7 @@ class GridFluidSolverBuilderBase2 {
     DerivedBuilder& withOrigin(const Vector2D& gridOrigin);
 
  protected:
-    Size2 _resolution{1, 1};
+    Vector2UZ _resolution{1, 1};
     Vector2D _gridSpacing{1, 1};
     Vector2D _gridOrigin{0, 0};
     double _domainSizeX = 1.0;
@@ -330,7 +330,7 @@ class GridFluidSolverBuilderBase2 {
 };
 
 template <typename T>
-T& GridFluidSolverBuilderBase2<T>::withResolution(const Size2& resolution) {
+T& GridFluidSolverBuilderBase2<T>::withResolution(const Vector2UZ& resolution) {
     _resolution = resolution;
     return static_cast<T&>(*this);
 }

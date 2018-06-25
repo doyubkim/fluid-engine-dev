@@ -28,7 +28,7 @@ inline double solveQuadNearBoundary(const Array2<char>& markers,
     UNUSED_VARIABLE(markers);
     UNUSED_VARIABLE(invGridSpacingSqr);
 
-    Size2 size = output.size();
+    Vector2UZ size = output.size();
 
     bool hasX = false;
     double phiX = kMaxD;
@@ -90,7 +90,7 @@ inline double solveQuadNearBoundary(const Array2<char>& markers,
 inline double solveQuad(const Array2<char>& markers, ArrayView2<double> output,
                         const Vector2D& gridSpacing,
                         const Vector2D& invGridSpacingSqr, size_t i, size_t j) {
-    Size2 size = output.size();
+    Vector2UZ size = output.size();
 
     bool hasX = false;
     double phiX = kMaxD;
@@ -170,7 +170,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                                       ScalarGrid2* outputSdf) {
     JET_THROW_INVALID_ARG_IF(!inputSdf.hasSameShape(*outputSdf));
 
-    Size2 size = inputSdf.dataSize();
+    Vector2UZ size = inputSdf.dataSize();
     Vector2D gridSpacing = inputSdf.gridSpacing();
     Vector2D invGridSpacing = 1.0 / gridSpacing;
     Vector2D invGridSpacingSqr = invGridSpacing * invGridSpacing;
@@ -211,12 +211,12 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
             }
         });
 
-        auto compare = [&](const Size2& a, const Size2& b) {
+        auto compare = [&](const Vector2UZ& a, const Vector2UZ& b) {
             return output(a.x, a.y) > output(b.x, b.y);
         };
 
         // Enqueue initial candidates
-        std::priority_queue<Size2, std::vector<Size2>, decltype(compare)> trial(
+        std::priority_queue<Vector2UZ, std::vector<Vector2UZ>, decltype(compare)> trial(
             compare);
         forEachIndex(markers.size(), [&](size_t i, size_t j) {
             if (markers(i, j) != kKnown &&
@@ -224,14 +224,14 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                  (i + 1 < size.x && markers(i + 1, j) == kKnown) ||
                  (j > 0 && markers(i, j - 1) == kKnown) ||
                  (j + 1 < size.y && markers(i, j + 1) == kKnown))) {
-                trial.push(Size2(i, j));
+                trial.push(Vector2UZ(i, j));
                 markers(i, j) = kTrial;
             }
         });
 
         // Propagate
         while (!trial.empty()) {
-            Size2 idx = trial.top();
+            Vector2UZ idx = trial.top();
             trial.pop();
 
             size_t i = idx.x;
@@ -250,7 +250,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                     markers(i - 1, j) = kTrial;
                     output(i - 1, j) = solveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i - 1, j);
-                    trial.push(Size2(i - 1, j));
+                    trial.push(Vector2UZ(i - 1, j));
                 }
             }
 
@@ -259,7 +259,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                     markers(i + 1, j) = kTrial;
                     output(i + 1, j) = solveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i + 1, j);
-                    trial.push(Size2(i + 1, j));
+                    trial.push(Vector2UZ(i + 1, j));
                 }
             }
 
@@ -268,7 +268,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                     markers(i, j - 1) = kTrial;
                     output(i, j - 1) = solveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i, j - 1);
-                    trial.push(Size2(i, j - 1));
+                    trial.push(Vector2UZ(i, j - 1));
                 }
             }
 
@@ -277,7 +277,7 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
                     markers(i, j + 1) = kTrial;
                     output(i, j + 1) = solveQuad(markers, output, gridSpacing,
                                                  invGridSpacingSqr, i, j + 1);
-                    trial.push(Size2(i, j + 1));
+                    trial.push(Vector2UZ(i, j + 1));
                 }
             }
         }
@@ -368,7 +368,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
                                      const Vector2D& gridSpacing,
                                      double maxDistance,
                                      ArrayView2<double> output) {
-    Size2 size = input.size();
+    Vector2UZ size = input.size();
     Vector2D invGridSpacing = 1.0 / gridSpacing;
 
     // Build markers
@@ -380,12 +380,12 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
         output(i, j) = input(i, j);
     });
 
-    auto compare = [&](const Size2& a, const Size2& b) {
+    auto compare = [&](const Vector2UZ& a, const Vector2UZ& b) {
         return sdf(a.x, a.y) > sdf(b.x, b.y);
     };
 
     // Enqueue initial candidates
-    std::priority_queue<Size2, std::vector<Size2>, decltype(compare)> trial(
+    std::priority_queue<Vector2UZ, std::vector<Vector2UZ>, decltype(compare)> trial(
         compare);
     forEachIndex(markers.size(), [&](size_t i, size_t j) {
         if (markers(i, j) == kKnown) {
@@ -393,25 +393,25 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
         }
 
         if (i > 0 && markers(i - 1, j) == kKnown) {
-            trial.push(Size2(i, j));
+            trial.push(Vector2UZ(i, j));
             markers(i, j) = kTrial;
             return;
         }
 
         if (i + 1 < size.x && markers(i + 1, j) == kKnown) {
-            trial.push(Size2(i, j));
+            trial.push(Vector2UZ(i, j));
             markers(i, j) = kTrial;
             return;
         }
 
         if (j > 0 && markers(i, j - 1) == kKnown) {
-            trial.push(Size2(i, j));
+            trial.push(Vector2UZ(i, j));
             markers(i, j) = kTrial;
             return;
         }
 
         if (j + 1 < size.y && markers(i, j + 1) == kKnown) {
-            trial.push(Size2(i, j));
+            trial.push(Vector2UZ(i, j));
             markers(i, j) = kTrial;
             return;
         }
@@ -419,7 +419,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
 
     // Propagate
     while (!trial.empty()) {
-        Size2 idx = trial.top();
+        Vector2UZ idx = trial.top();
         trial.pop();
 
         size_t i = idx.x;
@@ -447,7 +447,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
                 count += weight;
             } else if (markers(i - 1, j) == kUnknown) {
                 markers(i - 1, j) = kTrial;
-                trial.push(Size2(i - 1, j));
+                trial.push(Vector2UZ(i - 1, j));
             }
         }
 
@@ -464,7 +464,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
                 count += weight;
             } else if (markers(i + 1, j) == kUnknown) {
                 markers(i + 1, j) = kTrial;
-                trial.push(Size2(i + 1, j));
+                trial.push(Vector2UZ(i + 1, j));
             }
         }
 
@@ -481,7 +481,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
                 count += weight;
             } else if (markers(i, j - 1) == kUnknown) {
                 markers(i, j - 1) = kTrial;
-                trial.push(Size2(i, j - 1));
+                trial.push(Vector2UZ(i, j - 1));
             }
         }
 
@@ -498,7 +498,7 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
                 count += weight;
             } else if (markers(i, j + 1) == kUnknown) {
                 markers(i, j + 1) = kTrial;
-                trial.push(Size2(i, j + 1));
+                trial.push(Vector2UZ(i, j + 1));
             }
         }
 

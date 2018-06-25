@@ -18,7 +18,7 @@ template <typename T>
 CudaArray<T, 2>::CudaArray() {}
 
 template <typename T>
-CudaArray<T, 2>::CudaArray(const Size2& size, const T& initVal) {
+CudaArray<T, 2>::CudaArray(const Vector2UZ& size, const T& initVal) {
     resize(size, initVal);
 }
 
@@ -87,12 +87,12 @@ void CudaArray<T, 2>::set(const CudaArray& other) {
 
 template <typename T>
 void CudaArray<T, 2>::clear() {
-    _size = Size2{};
+    _size = Vector2UZ{};
     _data.clear();
 }
 
 template <typename T>
-void CudaArray<T, 2>::resize(const Size2& size, const T& initVal) {
+void CudaArray<T, 2>::resize(const Vector2UZ& size, const T& initVal) {
     _size = size;
     _data.resize(_size.x * _size.y, initVal);
 
@@ -106,7 +106,7 @@ void CudaArray<T, 2>::swap(CudaArray& other) {
 }
 
 template <typename T>
-const Size2& CudaArray<T, 2>::size() const {
+const Vector2UZ& CudaArray<T, 2>::size() const {
     return _size;
 }
 

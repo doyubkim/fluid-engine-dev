@@ -21,7 +21,7 @@ LevelSetLiquidSolver2::LevelSetLiquidSolver2()
 }
 
 LevelSetLiquidSolver2::LevelSetLiquidSolver2(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& gridOrigin)
 : GridFluidSolver2(resolution, gridSpacing, gridOrigin) {

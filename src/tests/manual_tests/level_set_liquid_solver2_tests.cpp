@@ -28,7 +28,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 64), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -149,7 +149,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 128.0;
-    data->resize(Size2(128, 256), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(128, 256), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -189,7 +189,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 150), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -240,7 +240,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 150), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -282,7 +282,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 150), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 150), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -334,7 +334,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 50.0;
-    data->resize(Size2(50, 100), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(50, 100), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -375,7 +375,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 64), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();
@@ -414,7 +414,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 64), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     BoundingBox2D domain = data->boundingBox();

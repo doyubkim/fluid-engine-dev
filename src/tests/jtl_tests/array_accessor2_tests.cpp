@@ -18,7 +18,7 @@ TEST(ArrayView2, Constructors) {
         data[i] = static_cast<double>(i);
     }
 
-    ArrayView2<double> acc(data, Size2(5, 4));
+    ArrayView2<double> acc(data, Vector2UZ(5, 4));
 
     EXPECT_EQ(5u, acc.size().x);
     EXPECT_EQ(4u, acc.size().y);
@@ -78,7 +78,7 @@ TEST(ConstArrayView2, Constructors) {
     }
 
     // Construct with ArrayView2
-    ArrayView2<double> acc(data, Size2(5, 4));
+    ArrayView2<double> acc(data, Vector2UZ(5, 4));
     ConstArrayView2<double> cacc(acc);
 
     EXPECT_EQ(5u, cacc.size().x);

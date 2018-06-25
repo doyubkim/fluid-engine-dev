@@ -25,7 +25,7 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     virtual ~CollocatedVectorGrid2();
 
     //! Returns the actual data point size.
-    virtual Size2 dataSize() const = 0;
+    virtual Vector2UZ dataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0).
@@ -115,7 +115,7 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     LinearArraySampler2<Vector2D, double> _linearSampler;
     std::function<Vector2D(const Vector2D&)> _sampler;
 
-    void onResize(const Size2& resolution, const Vector2D& gridSpacing,
+    void onResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                   const Vector2D& origin, const Vector2D& initialValue) final;
 
     void resetSampler();

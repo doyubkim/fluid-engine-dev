@@ -44,7 +44,7 @@ class GridSystemData2 : public Serializable {
     //! \param[in]  origin      The origin.
     //!
     GridSystemData2(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& origin);
 
@@ -70,7 +70,7 @@ class GridSystemData2 : public Serializable {
     //! \param[in]  origin      The origin.
     //!
     void resize(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& origin);
 
@@ -86,7 +86,7 @@ class GridSystemData2 : public Serializable {
     //!
     //! \return     Grid cell resolution.
     //!
-    Size2 resolution() const;
+    Vector2UZ resolution() const;
 
     //! Return the grid spacing.
     Vector2D gridSpacing() const;
@@ -221,7 +221,7 @@ class GridSystemData2 : public Serializable {
     void deserialize(const std::vector<uint8_t>& buffer) override;
 
  private:
-    Size2 _resolution;
+    Vector2UZ _resolution;
     Vector2D _gridSpacing;
     Vector2D _origin;
 

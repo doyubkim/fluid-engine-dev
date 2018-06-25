@@ -44,7 +44,7 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     VertexCenteredScalarGrid2(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing = Vector2D(1.0, 1.0),
         const Vector2D& origin = Vector2D(),
         double initialValue = 0.0);
@@ -53,7 +53,7 @@ class VertexCenteredScalarGrid2 final : public ScalarGrid2 {
     VertexCenteredScalarGrid2(const VertexCenteredScalarGrid2& other);
 
     //! Returns the actual data point size.
-    Size2 dataSize() const override;
+    Vector2UZ dataSize() const override;
 
     //! Returns data position for the grid point at (0, 0).
     //! Note that this is different from origin() since origin() returns
@@ -92,7 +92,7 @@ typedef std::shared_ptr<VertexCenteredScalarGrid2> VertexCenteredScalarGrid2Ptr;
 class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size2& resolution);
+    Builder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(size_t resolutionX, size_t resolutionY);
@@ -124,13 +124,13 @@ class VertexCenteredScalarGrid2::Builder final : public ScalarGridBuilder2 {
     //! This is an overriding function that implements ScalarGridBuilder2.
     //!
     ScalarGrid2Ptr build(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin,
         double initialVal) const override;
 
  private:
-    Size2 _resolution{1, 1};
+    Vector2UZ _resolution{1, 1};
     Vector2D _gridSpacing{1, 1};
     Vector2D _gridOrigin{0, 0};
     double _initialVal = 0.0;

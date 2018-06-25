@@ -213,10 +213,10 @@ class GlfwWindow final {
     //! Returns the framebuffer size.
     //! Note that the framebuffer size can be different from the window size,
     //! especially on a Retina display (2x the window size).
-    Size2 framebufferSize() const;
+    Vector2UZ framebufferSize() const;
 
     //! Returns the window size.
-    Size2 windowSize() const;
+    Vector2UZ windowSize() const;
 
  private:
     GLFWwindow* _window = nullptr;

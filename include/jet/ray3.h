@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_RAY3_H_
 #define INCLUDE_JET_RAY3_H_
 
-#include <jet/vector3.h>
+#include <jet/matrix.h>
 #include <jet/ray.h>
 
 namespace jet {
@@ -20,9 +20,8 @@ namespace jet {
 template <typename T>
 class Ray<T, 3> final {
  public:
-    static_assert(
-        std::is_floating_point<T>::value,
-        "Ray only can be instantiated with floating point types");
+    static_assert(std::is_floating_point<T>::value,
+                  "Ray only can be instantiated with floating point types");
 
     //! The origin of the ray.
     Vector3<T> origin;
@@ -44,7 +43,8 @@ class Ray<T, 3> final {
 };
 
 //! Type alias for 3-D ray.
-template <typename T> using Ray3 = Ray<T, 3>;
+template <typename T>
+using Ray3 = Ray<T, 3>;
 
 //! Float-type 3-D ray.
 typedef Ray3<float> Ray3F;

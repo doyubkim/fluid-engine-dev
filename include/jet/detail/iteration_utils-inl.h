@@ -16,7 +16,7 @@ namespace internal {
 template <size_t N, size_t I>
 struct ForEachIndex {
     template <typename Func, typename... RemainingIndices>
-    static void call(const SizeN<N>& begin, const SizeN<N>& end, Func func,
+    static void call(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
                      RemainingIndices... indices) {
         for (size_t i = begin[I - 1]; i < end[I - 1]; ++i) {
             ForEachIndex<N, I - 1>::call(begin, end, func, i, indices...);
@@ -27,7 +27,7 @@ struct ForEachIndex {
 template <size_t N>
 struct ForEachIndex<N, 1> {
     template <typename Func, typename... RemainingIndices>
-    static void call(const SizeN<N>& begin, const SizeN<N>& end, Func func,
+    static void call(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
                      RemainingIndices... indices) {
         for (size_t i = begin[0]; i < end[0]; ++i) {
             func(i, indices...);
@@ -40,14 +40,14 @@ struct ForEachIndex<N, 1> {
 // MARK: Serial Iteration
 
 template <size_t N, typename Func>
-void forEachIndex(const SizeN<N>& begin, const SizeN<N>& end, Func func) {
+void forEachIndex(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func) {
     for (size_t i = begin[N - 1]; i < end[N - 1]; ++i) {
         internal::ForEachIndex<N, N - 1>::call(begin, end, func, i);
     }
 }
 
 template <typename Func>
-void forEachIndex(const Size1& begin, const Size1& end, Func func) {
+void forEachIndex(const Vector1UZ& begin, const Vector1UZ& end, Func func) {
     for (size_t i = begin[0]; i < end[0]; ++i) {
         func(i);
     }
@@ -61,12 +61,12 @@ void forEachIndex(size_t begin, size_t end, Func func) {
 }
 
 template <size_t N, typename Func>
-void forEachIndex(const SizeN<N>& size, Func func) {
+void forEachIndex(const Vector<size_t, N>& size, Func func) {
     forEachIndex({}, size, func);
 }
 
 template <typename Func>
-void forEachIndex(const Size1& size, Func func) {
+void forEachIndex(const Vector1UZ& size, Func func) {
     forEachIndex({}, size, func);
 }
 
@@ -78,7 +78,7 @@ void forEachIndex(size_t size, Func func) {
 // MARK: Parallel Iteration
 
 template <size_t N, typename Func>
-void parallelForEachIndex(const SizeN<N>& begin, const SizeN<N>& end, Func func,
+void parallelForEachIndex(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
                           ExecutionPolicy policy) {
     parallelFor(begin[N - 1], end[N - 1],
                 [&](size_t i) {
@@ -88,7 +88,7 @@ void parallelForEachIndex(const SizeN<N>& begin, const SizeN<N>& end, Func func,
 }
 
 template <typename Func>
-void parallelForEachIndex(const Size1& begin, const Size1& end, Func func,
+void parallelForEachIndex(const Vector1UZ& begin, const Vector1UZ& end, Func func,
                           ExecutionPolicy policy) {
     parallelFor(begin[0], end[0], func, policy);
 }
@@ -100,12 +100,12 @@ void parallelForEachIndex(size_t begin, size_t end, Func func,
 }
 
 template <size_t N, typename Func>
-void parallelForEachIndex(const SizeN<N>& size, Func func, ExecutionPolicy policy) {
+void parallelForEachIndex(const Vector<size_t, N>& size, Func func, ExecutionPolicy policy) {
     parallelForEachIndex({}, size, func, policy);
 }
 
 template <typename Func>
-void parallelForEachIndex(const Size1& size, Func func, ExecutionPolicy policy) {
+void parallelForEachIndex(const Vector1UZ& size, Func func, ExecutionPolicy policy) {
     parallelForEachIndex({}, size, func, policy);
 }
 

@@ -94,7 +94,7 @@ template <typename T>
 bool BoundingBox<T, 3>::intersects(const Ray3<T>& ray) const {
     T tMin = 0;
     T tMax = std::numeric_limits<T>::max();
-    const Vector3<T>& rayInvDir = ray.direction.rdiv(1);
+    const Vector3<T>& rayInvDir = T(1) / ray.direction;
 
     for (int i = 0; i < 3; ++i) {
         T tNear = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
@@ -117,7 +117,7 @@ BoundingBoxRayIntersection3<T> BoundingBox<T, 3>::closestIntersection(
 
     T tMin = 0;
     T tMax = std::numeric_limits<T>::max();
-    const Vector3<T>& rayInvDir = ray.direction.rdiv(1);
+    const Vector3<T>& rayInvDir = T(1) / ray.direction;
 
     for (int i = 0; i < 3; ++i) {
         T tNear = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
@@ -153,12 +153,12 @@ Vector3<T> BoundingBox<T, 3>::midPoint() const {
 
 template <typename T>
 T BoundingBox<T, 3>::diagonalLength() const {
-    return (upperCorner - lowerCorner).length();
+    return Vector3<T>(upperCorner - lowerCorner).length();
 }
 
 template <typename T>
 T BoundingBox<T, 3>::diagonalLengthSquared() const {
-    return (upperCorner - lowerCorner).lengthSquared();
+    return Vector3<T>(upperCorner - lowerCorner).lengthSquared();
 }
 
 template <typename T>
@@ -204,7 +204,7 @@ Vector3<T> BoundingBox<T, 3>::corner(size_t idx) const {
         {-h, -h, -h}, {+h, -h, -h}, {-h, +h, -h}, {+h, +h, -h},
         {-h, -h, +h}, {+h, -h, +h}, {-h, +h, +h}, {+h, +h, +h}};
 
-    return Vector3<T>(width(), height(), depth()) * offset[idx] + midPoint();
+    return elemMul(Vector3<T>(width(), height(), depth()), offset[idx]) + midPoint();
 }
 
 template <typename T>

@@ -30,7 +30,7 @@ Vector3D& CollocatedVectorGrid3::operator()(size_t i, size_t j, size_t k) {
 
 double CollocatedVectorGrid3::divergenceAtDataPoint(size_t i, size_t j,
                                                     size_t k) const {
-    const Size3 ds = _data.size();
+    const Vector3UZ ds = _data.size();
     const Vector3D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
@@ -48,7 +48,7 @@ double CollocatedVectorGrid3::divergenceAtDataPoint(size_t i, size_t j,
 
 Vector3D CollocatedVectorGrid3::curlAtDataPoint(size_t i, size_t j,
                                                 size_t k) const {
-    const Size3 ds = _data.size();
+    const Vector3UZ ds = _data.size();
     const Vector3D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
@@ -86,7 +86,7 @@ Vector3D CollocatedVectorGrid3::sample(const Vector3D& x) const {
 }
 
 double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -101,7 +101,7 @@ double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
 }
 
 Vector3D CollocatedVectorGrid3::curl(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -162,7 +162,7 @@ void CollocatedVectorGrid3::setCollocatedVectorGrid(
     resetSampler();
 }
 
-void CollocatedVectorGrid3::onResize(const Size3& resolution,
+void CollocatedVectorGrid3::onResize(const Vector3UZ& resolution,
                                      const Vector3D& gridSpacing,
                                      const Vector3D& origin,
                                      const Vector3D& initialValue) {

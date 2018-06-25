@@ -12,7 +12,7 @@
 using namespace jet;
 
 void FdmIccgSolver2::Preconditioner::build(const FdmMatrix2& matrix) {
-    Size2 size = matrix.size();
+    Vector2UZ size = matrix.size();
     A = matrix.view();
 
     d.resize(size, 0.0);
@@ -33,7 +33,7 @@ void FdmIccgSolver2::Preconditioner::build(const FdmMatrix2& matrix) {
 }
 
 void FdmIccgSolver2::Preconditioner::solve(const FdmVector2& b, FdmVector2* x) {
-    Size2 size = b.size();
+    Vector2UZ size = b.size();
     ssize_t sx = static_cast<ssize_t>(size.x);
     ssize_t sy = static_cast<ssize_t>(size.y);
 
@@ -150,7 +150,7 @@ bool FdmIccgSolver2::solve(FdmLinearSystem2* system) {
 
     clearCompressedVectors();
 
-    Size2 size = matrix.size();
+    Vector2UZ size = matrix.size();
     _r.resize(size);
     _d.resize(size);
     _q.resize(size);

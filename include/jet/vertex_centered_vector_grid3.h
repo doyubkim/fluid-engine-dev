@@ -48,13 +48,13 @@ class VertexCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
     //! Constructs a grid with given resolution, grid spacing, origin and
     //! initial value.
     VertexCenteredVectorGrid3(
-        const Size3& resolution,
+        const Vector3UZ& resolution,
         const Vector3D& gridSpacing = Vector3D(1.0, 1.0, 1.0),
         const Vector3D& origin = Vector3D(),
         const Vector3D& initialValue = Vector3D());
 
     //! Returns the actual data point size.
-    Size3 dataSize() const override;
+    Vector3UZ dataSize() const override;
 
     //! Returns data position for the grid point at (0, 0, 0).
     //! Note that this is different from origin() since origin() returns
@@ -101,7 +101,7 @@ typedef std::shared_ptr<VertexCenteredVectorGrid3> VertexCenteredVectorGrid3Ptr;
 class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with resolution.
     Builder& withResolution(
@@ -140,13 +140,13 @@ class VertexCenteredVectorGrid3::Builder final : public VectorGridBuilder3 {
     //! This is an overriding function that implements VectorGridBuilder3.
     //!
     VectorGrid3Ptr build(
-        const Size3& resolution,
+        const Vector3UZ& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin,
         const Vector3D& initialVal) const override;
 
  private:
-    Size3 _resolution{1, 1, 1};
+    Vector3UZ _resolution{1, 1, 1};
     Vector3D _gridSpacing{1, 1, 1};
     Vector3D _gridOrigin{0, 0, 0};
     Vector3D _initialVal{0, 0, 0};

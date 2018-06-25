@@ -19,7 +19,7 @@ Grid2::Grid2() {}
 
 Grid2::~Grid2() {}
 
-const Size2& Grid2::resolution() const { return _resolution; }
+const Vector2UZ& Grid2::resolution() const { return _resolution; }
 
 const Vector2D& Grid2::origin() const { return _origin; }
 
@@ -55,7 +55,7 @@ bool Grid2::hasSameShape(const Grid2& other) const {
            similar(_origin.y, other._origin.y);
 }
 
-void Grid2::setSizeParameters(const Size2& resolution,
+void Grid2::setSizeParameters(const Vector2UZ& resolution,
                               const Vector2D& gridSpacing,
                               const Vector2D& origin) {
     _resolution = resolution;

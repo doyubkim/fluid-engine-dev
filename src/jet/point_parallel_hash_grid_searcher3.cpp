@@ -22,7 +22,7 @@
 using namespace jet;
 
 PointParallelHashGridSearcher3::PointParallelHashGridSearcher3(
-    const Size3& resolution, double gridSpacing)
+    const Vector3UZ& resolution, double gridSpacing)
     : PointParallelHashGridSearcher3(resolution.x, resolution.y, resolution.z,
                                      gridSpacing) {}
 
@@ -212,9 +212,9 @@ const std::vector<size_t>& PointParallelHashGridSearcher3::sortedIndices()
     return _sortedIndices;
 }
 
-SSize3 PointParallelHashGridSearcher3::getBucketIndex(
+SVector3UZ PointParallelHashGridSearcher3::getBucketIndex(
     const Vector3D& position) const {
-    SSize3 bucketIndex;
+    SVector3UZ bucketIndex;
     bucketIndex.x = static_cast<ssize_t>(std::floor(position.x / _gridSpacing));
     bucketIndex.y = static_cast<ssize_t>(std::floor(position.y / _gridSpacing));
     bucketIndex.z = static_cast<ssize_t>(std::floor(position.z / _gridSpacing));
@@ -223,14 +223,14 @@ SSize3 PointParallelHashGridSearcher3::getBucketIndex(
 
 size_t PointParallelHashGridSearcher3::getHashKeyFromPosition(
     const Vector3D& position) const {
-    SSize3 bucketIndex = getBucketIndex(position);
+    SVector3UZ bucketIndex = getBucketIndex(position);
 
     return getHashKeyFromBucketIndex(bucketIndex);
 }
 
 size_t PointParallelHashGridSearcher3::getHashKeyFromBucketIndex(
-    const SSize3& bucketIndex) const {
-    SSize3 wrappedIndex = bucketIndex;
+    const SVector3UZ& bucketIndex) const {
+    SVector3UZ wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     wrappedIndex.z = bucketIndex.z % _resolution.z;
@@ -250,7 +250,7 @@ size_t PointParallelHashGridSearcher3::getHashKeyFromBucketIndex(
 
 void PointParallelHashGridSearcher3::getNearbyKeys(const Vector3D& position,
                                                    size_t* nearbyKeys) const {
-    SSize3 originIndex = getBucketIndex(position), nearbyBucketIndices[8];
+    SVector3UZ originIndex = getBucketIndex(position), nearbyBucketIndices[8];
 
     for (int i = 0; i < 8; i++) {
         nearbyBucketIndices[i] = originIndex;
@@ -324,7 +324,7 @@ void PointParallelHashGridSearcher3::serialize(
 
     // Copy simple data
     auto fbsResolution =
-        fbs::Size3(_resolution.x, _resolution.y, _resolution.z);
+        fbs::Vector3UZ(_resolution.x, _resolution.y, _resolution.z);
 
     // Copy points
     std::vector<fbs::Vector3D> points;
@@ -415,7 +415,7 @@ PointParallelHashGridSearcher3::builder() {
 
 PointParallelHashGridSearcher3::Builder&
 PointParallelHashGridSearcher3::Builder::withResolution(
-    const Size3& resolution) {
+    const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }

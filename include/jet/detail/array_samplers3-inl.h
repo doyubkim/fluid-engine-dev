@@ -59,7 +59,7 @@ T NearestArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
 
 template <typename T, typename R>
 void NearestArraySampler3<T, R>::getCoordinate(const Vector3<R>& x,
-                                               Size3* index) const {
+                                               Vector3UZ* index) const {
     ssize_t i, j, k;
     R fx, fy, fz;
 
@@ -138,7 +138,7 @@ T LinearArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
 
 template <typename T, typename R>
 void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
-    const Vector3<R>& x, std::array<Size3, 8>* indices,
+    const Vector3<R>& x, std::array<Vector3UZ, 8>* indices,
     std::array<R, 8>* weights) const {
     ssize_t i, j, k;
     R fx, fy, fz;
@@ -160,14 +160,14 @@ void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
     const ssize_t jp1 = std::min(j + 1, jSize - 1);
     const ssize_t kp1 = std::min(k + 1, kSize - 1);
 
-    (*indices)[0] = Size3(i, j, k);
-    (*indices)[1] = Size3(ip1, j, k);
-    (*indices)[2] = Size3(i, jp1, k);
-    (*indices)[3] = Size3(ip1, jp1, k);
-    (*indices)[4] = Size3(i, j, kp1);
-    (*indices)[5] = Size3(ip1, j, kp1);
-    (*indices)[6] = Size3(i, jp1, kp1);
-    (*indices)[7] = Size3(ip1, jp1, kp1);
+    (*indices)[0] = Vector3UZ(i, j, k);
+    (*indices)[1] = Vector3UZ(ip1, j, k);
+    (*indices)[2] = Vector3UZ(i, jp1, k);
+    (*indices)[3] = Vector3UZ(ip1, jp1, k);
+    (*indices)[4] = Vector3UZ(i, j, kp1);
+    (*indices)[5] = Vector3UZ(ip1, j, kp1);
+    (*indices)[6] = Vector3UZ(i, jp1, kp1);
+    (*indices)[7] = Vector3UZ(ip1, jp1, kp1);
 
     (*weights)[0] = (1 - fx) * (1 - fy) * (1 - fz);
     (*weights)[1] = fx * (1 - fy) * (1 - fz);
@@ -181,7 +181,7 @@ void LinearArraySampler3<T, R>::getCoordinatesAndWeights(
 
 template <typename T, typename R>
 void LinearArraySampler3<T, R>::getCoordinatesAndGradientWeights(
-    const Vector3<R>& x, std::array<Size3, 8>* indices,
+    const Vector3<R>& x, std::array<Vector3UZ, 8>* indices,
     std::array<Vector3<R>, 8>* weights) const {
     ssize_t i, j, k;
     R fx, fy, fz;
@@ -203,14 +203,14 @@ void LinearArraySampler3<T, R>::getCoordinatesAndGradientWeights(
     ssize_t jp1 = std::min(j + 1, jSize - 1);
     ssize_t kp1 = std::min(k + 1, kSize - 1);
 
-    (*indices)[0] = Size3(i, j, k);
-    (*indices)[1] = Size3(ip1, j, k);
-    (*indices)[2] = Size3(i, jp1, k);
-    (*indices)[3] = Size3(ip1, jp1, k);
-    (*indices)[4] = Size3(i, j, kp1);
-    (*indices)[5] = Size3(ip1, j, kp1);
-    (*indices)[6] = Size3(i, jp1, kp1);
-    (*indices)[7] = Size3(ip1, jp1, kp1);
+    (*indices)[0] = Vector3UZ(i, j, k);
+    (*indices)[1] = Vector3UZ(ip1, j, k);
+    (*indices)[2] = Vector3UZ(i, jp1, k);
+    (*indices)[3] = Vector3UZ(ip1, jp1, k);
+    (*indices)[4] = Vector3UZ(i, j, kp1);
+    (*indices)[5] = Vector3UZ(ip1, j, kp1);
+    (*indices)[6] = Vector3UZ(i, jp1, kp1);
+    (*indices)[7] = Vector3UZ(ip1, jp1, kp1);
 
     (*weights)[0] = Vector3<R>(-_invGridSpacing.x * (1 - fy) * (1 - fz),
                                -_invGridSpacing.y * (1 - fx) * (1 - fz),
@@ -272,7 +272,7 @@ T CubicArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.z > std::numeric_limits<R>::epsilon());
-    Vector3<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector3<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
     getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);

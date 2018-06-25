@@ -13,7 +13,7 @@
 namespace jet {
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N> a, const SizeN<N>& begin, const SizeN<N>& end,
+void fill(ArrayView<T, N> a, const Vector<size_t, N>& begin, const Vector<size_t, N>& end,
           const T& val);
 
 template <typename T, size_t N>
@@ -23,7 +23,7 @@ template <typename T>
 void fill(ArrayView<T, 1> a, size_t begin, size_t end, const T& val);
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N> src, const SizeN<N>& begin, const SizeN<N>& end,
+void copy(ArrayView<T, N> src, const Vector<size_t, N>& begin, const Vector<size_t, N>& end,
           ArrayView<U, N> dst);
 
 template <typename T, typename U, size_t N>

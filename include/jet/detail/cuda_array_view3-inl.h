@@ -19,7 +19,7 @@ template <typename T>
 CudaArrayView<T, 3>::CudaArrayView() {}
 
 template <typename T>
-CudaArrayView<T, 3>::CudaArrayView(pointer data, const Size3& size) {
+CudaArrayView<T, 3>::CudaArrayView(pointer data, const Vector3UZ& size) {
     set(data, size);
 }
 
@@ -39,7 +39,7 @@ CudaArrayView<T, 3>::CudaArrayView(CudaArrayView&& other) {
 }
 
 template <typename T>
-void CudaArrayView<T, 3>::set(pointer data, const Size3& size) {
+void CudaArrayView<T, 3>::set(pointer data, const Vector3UZ& size) {
     _data = thrust::device_pointer_cast<T>(data);
     _size = size;
 }
@@ -62,7 +62,7 @@ void CudaArrayView<T, 3>::swap(CudaArrayView& other) {
 }
 
 template <typename T>
-const Size3& CudaArrayView<T, 3>::size() const {
+const Vector3UZ& CudaArrayView<T, 3>::size() const {
     return _size;
 }
 
@@ -157,7 +157,7 @@ CudaArrayView<T, 3>& CudaArrayView<T, 3>::operator=(CudaArrayView&& view) {
     _data = view._data;
     _size = view._size;
     view._data = thrust::device_ptr<T>();
-    view._size = Size3{};
+    view._size = Vector3UZ{};
     return *this;
 }
 
@@ -168,7 +168,7 @@ ConstCudaArrayView<T, 3>::ConstCudaArrayView() {}
 
 template <typename T>
 ConstCudaArrayView<T, 3>::ConstCudaArrayView(const_pointer data,
-                                             const Size3& size) {
+                                             const Vector3UZ& size) {
     set(data, size);
 }
 
@@ -193,7 +193,7 @@ ConstCudaArrayView<T, 3>::ConstCudaArrayView(ConstCudaArrayView&& other) {
 }
 
 template <typename T>
-const Size3& ConstCudaArrayView<T, 3>::size() const {
+const Vector3UZ& ConstCudaArrayView<T, 3>::size() const {
     return _size;
 }
 
@@ -270,12 +270,12 @@ ConstCudaArrayView<T, 3>& ConstCudaArrayView<T, 3>::operator=(
     _data = view._data;
     _size = view._size;
     view._data = thrust::device_ptr<T>();
-    view._size = Size3{};
+    view._size = Vector3UZ{};
     return *this;
 }
 
 template <typename T>
-void ConstCudaArrayView<T, 3>::set(const_pointer data, const Size3& size) {
+void ConstCudaArrayView<T, 3>::set(const_pointer data, const Vector3UZ& size) {
     _data = thrust::device_pointer_cast<T>(const_cast<T*>(data));
     _size = size;
 }

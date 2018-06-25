@@ -64,7 +64,7 @@ void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
 
 void printInfo(const PicSolver3Ptr& solver) {
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 
@@ -211,7 +211,7 @@ void runExample2(const std::string& rootDir, size_t resolutionX,
 void runExample3(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = FlipSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -289,7 +289,7 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
 void runExample4(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = PicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -367,7 +367,7 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
 void runExample5(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = ApicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)

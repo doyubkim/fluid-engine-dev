@@ -11,7 +11,7 @@ using namespace jet;
 
 FlipSolver2::FlipSolver2() : FlipSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-FlipSolver2::FlipSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+FlipSolver2::FlipSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
     : PicSolver2(resolution, gridSpacing, gridOrigin) {}
 

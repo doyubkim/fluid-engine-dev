@@ -139,7 +139,7 @@ class CudaPointHashGridSearcher3 final {
 
     float gridSpacing() const;
 
-    Size3 resolution() const;
+    Vector3UZ resolution() const;
 
     ConstCudaArrayView1<float4> sortedPoints() const;
 
@@ -254,7 +254,7 @@ typedef std::shared_ptr<CudaPointHashGridSearcher3>
 class CudaPointHashGridSearcher3::Builder final {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(float gridSpacing);
@@ -266,7 +266,7 @@ class CudaPointHashGridSearcher3::Builder final {
     CudaPointHashGridSearcher3Ptr makeShared() const;
 
  private:
-    Size3 _resolution{64, 64, 64};
+    Vector3UZ _resolution{64, 64, 64};
     float _gridSpacing = 1.0f;
 };
 

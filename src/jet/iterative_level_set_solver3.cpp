@@ -23,7 +23,7 @@ IterativeLevelSetSolver3::~IterativeLevelSetSolver3() {}
 void IterativeLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                                             double maxDistance,
                                             ScalarGrid3* outputSdf) {
-    const Size3 size = inputSdf.dataSize();
+    const Vector3UZ size = inputSdf.dataSize();
     const Vector3D gridSpacing = inputSdf.gridSpacing();
 
     JET_THROW_INVALID_ARG_IF(!inputSdf.hasSameShape(*outputSdf));
@@ -176,7 +176,7 @@ void IterativeLevelSetSolver3::extrapolate(const ConstArrayView3<double>& input,
                                            const Vector3D& gridSpacing,
                                            double maxDistance,
                                            ArrayView3<double> output) {
-    const Size3 size = input.size();
+    const Vector3UZ size = input.size();
 
     ArrayView3<double> outputAcc = output;
 
@@ -239,7 +239,7 @@ double IterativeLevelSetSolver3::sign(const ConstArrayView3<double>& sdf,
 
 double IterativeLevelSetSolver3::pseudoTimeStep(ConstArrayView3<double> sdf,
                                                 const Vector3D& gridSpacing) {
-    const Size3 size = sdf.size();
+    const Vector3UZ size = sdf.size();
 
     const double h = max3(gridSpacing.x, gridSpacing.y, gridSpacing.z);
 

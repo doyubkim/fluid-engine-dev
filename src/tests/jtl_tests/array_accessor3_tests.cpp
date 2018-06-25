@@ -18,7 +18,7 @@ TEST(ArrayView3, Constructors) {
         data[i] = static_cast<double>(i);
     }
 
-    ArrayView3<double> acc(data, Size3(5, 4, 3));
+    ArrayView3<double> acc(data, Vector3UZ(5, 4, 3));
 
     EXPECT_EQ(5u, acc.size().x);
     EXPECT_EQ(4u, acc.size().y);
@@ -89,7 +89,7 @@ TEST(ConstArrayView3, Constructors) {
     }
 
     // Construct with ArrayView3
-    ArrayView3<double> acc(data, Size3(5, 4, 3));
+    ArrayView3<double> acc(data, Vector3UZ(5, 4, 3));
     ConstArrayView3<double> cacc(acc);
 
     EXPECT_EQ(5u, cacc.size().x);

@@ -21,7 +21,7 @@ TEST(Array3, Constructors) {
         EXPECT_EQ(0u, arr.depth());
     }
     {
-        Array3<float> arr(Size3(3, 7, 4));
+        Array3<float> arr(Vector3UZ(3, 7, 4));
         EXPECT_EQ(3u, arr.width());
         EXPECT_EQ(7u, arr.height());
         EXPECT_EQ(4u, arr.depth());
@@ -30,7 +30,7 @@ TEST(Array3, Constructors) {
         }
     }
     {
-        Array3<float> arr(Size3(1, 9, 5), 1.5f);
+        Array3<float> arr(Vector3UZ(1, 9, 5), 1.5f);
         EXPECT_EQ(1u, arr.width());
         EXPECT_EQ(9u, arr.height());
         EXPECT_EQ(5u, arr.depth());
@@ -120,7 +120,7 @@ TEST(Array3, Clear) {
 TEST(Array3, ResizeMethod) {
     {
         Array3<float> arr;
-        arr.resize(Size3(2, 9, 5));
+        arr.resize(Vector3UZ(2, 9, 5));
         EXPECT_EQ(2u, arr.width());
         EXPECT_EQ(9u, arr.height());
         EXPECT_EQ(5u, arr.depth());
@@ -128,7 +128,7 @@ TEST(Array3, ResizeMethod) {
             EXPECT_FLOAT_EQ(0.f, arr[i]);
         }
 
-        arr.resize(Size3(8, 13, 7), 4.f);
+        arr.resize(Vector3UZ(8, 13, 7), 4.f);
         EXPECT_EQ(8u, arr.width());
         EXPECT_EQ(13u, arr.height());
         EXPECT_EQ(7u, arr.depth());

@@ -7,7 +7,7 @@
 #ifndef SRC_TESTS_JTL_TESTS_JTL_TESTS_UTILS_H_
 #define SRC_TESTS_JTL_TESTS_JTL_TESTS_UTILS_H_
 
-#include <jet/vector3.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 

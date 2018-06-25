@@ -15,7 +15,7 @@ using namespace jet;
 GridSmokeSolver2::GridSmokeSolver2()
     : GridSmokeSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-GridSmokeSolver2::GridSmokeSolver2(const Size2& resolution,
+GridSmokeSolver2::GridSmokeSolver2(const Vector2UZ& resolution,
                                    const Vector2D& gridSpacing,
                                    const Vector2D& gridOrigin)
     : GridFluidSolver2(resolution, gridSpacing, gridOrigin) {

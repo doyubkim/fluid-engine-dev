@@ -19,7 +19,7 @@ template <typename T>
 T laplacian(const ConstArrayView3<T>& data, const Array3<char>& marker,
             const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
     const T center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -151,7 +151,7 @@ void GridForwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
 }
 
 void GridForwardEulerDiffusionSolver3::buildMarkers(
-    const Size3& size,
+    const Vector3UZ& size,
     const std::function<Vector3D(size_t, size_t, size_t)>& pos,
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     _markers.resize(size);

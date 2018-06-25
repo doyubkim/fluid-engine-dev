@@ -12,7 +12,7 @@
 namespace jet {
 
 template <typename T>
-void FdmMgUtils3::resizeArrayWithCoarsest(const Size3& coarsestResolution,
+void FdmMgUtils3::resizeArrayWithCoarsest(const Vector3UZ& coarsestResolution,
                                           size_t numberOfLevels,
                                           std::vector<Array3<T>>* levels) {
     numberOfLevels = std::max(numberOfLevels, kOneSize);
@@ -22,7 +22,7 @@ void FdmMgUtils3::resizeArrayWithCoarsest(const Size3& coarsestResolution,
     // Level 0 is the finest level, thus takes coarsestResolution ^
     // numberOfLevels.
     // Level numberOfLevels - 1 is the coarsest, taking coarsestResolution.
-    Size3 res = coarsestResolution;
+    Vector3UZ res = coarsestResolution;
     for (size_t level = 0; level < numberOfLevels; ++level) {
         (*levels)[numberOfLevels - level - 1].resize(res);
         res.x = res.x << 1;
@@ -32,10 +32,10 @@ void FdmMgUtils3::resizeArrayWithCoarsest(const Size3& coarsestResolution,
 }
 
 template <typename T>
-void FdmMgUtils3::resizeArrayWithFinest(const Size3& finestResolution,
+void FdmMgUtils3::resizeArrayWithFinest(const Vector3UZ& finestResolution,
                                         size_t maxNumberOfLevels,
                                         std::vector<Array3<T>>* levels) {
-    Size3 res = finestResolution;
+    Vector3UZ res = finestResolution;
     size_t i = 1;
     for (; i < maxNumberOfLevels; ++i) {
         if (res.x % 2 == 0 && res.y % 2 == 0 && res.z % 2 == 0) {

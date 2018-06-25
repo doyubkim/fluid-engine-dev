@@ -21,7 +21,7 @@ using namespace jet;
 JET_TESTS(GridForwardEulerDiffusionSolver3);
 
 JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve) {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -55,7 +55,7 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable) {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -96,7 +96,7 @@ JET_END_TEST_F
 JET_TESTS(GridBackwardEulerDiffusionSolver2);
 
 JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve) {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid2 src(size, gridSpacing);
@@ -142,7 +142,7 @@ JET_END_TEST_F
 JET_TESTS(GridBackwardEulerDiffusionSolver3);
 
 JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve) {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -176,7 +176,7 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable) {
-    Size3 size(160, 120, 150);
+    Vector3UZ size(160, 120, 150);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -216,7 +216,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(
     GridBackwardEulerDiffusionSolver3,
     SolveWithBoundaryDirichlet) {
-    Size3 size(80, 60, 75);
+    Vector3UZ size(80, 60, 75);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);
@@ -258,7 +258,7 @@ JET_BEGIN_TEST_F(
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, SolveWithBoundaryNeumann) {
-    Size3 size(80, 60, 75);
+    Vector3UZ size(80, 60, 75);
     Vector3D gridSpacing(1.0/size.x, 1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid3 src(size, gridSpacing);

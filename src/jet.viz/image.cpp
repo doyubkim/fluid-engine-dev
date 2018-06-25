@@ -53,7 +53,7 @@ void ByteImage::resize(size_t width, size_t height,
     _data.resize({width, height}, initialValue);
 }
 
-Size2 ByteImage::size() const { return _data.size(); }
+Vector2UZ ByteImage::size() const { return _data.size(); }
 
 ByteColor* ByteImage::data() { return _data.data(); }
 

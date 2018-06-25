@@ -40,7 +40,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Size2 dataSize() const = 0;
+    virtual Vector2UZ dataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -64,7 +64,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
                 double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(const Size2& resolution,
+    void resize(const Vector2UZ& resolution,
                 const Vector2D& gridSpacing = Vector2D(1, 1),
                 const Vector2D& origin = Vector2D(), double initialValue = 0.0);
 
@@ -190,7 +190,7 @@ class ScalarGridBuilder2 {
     virtual ~ScalarGridBuilder2();
 
     //! Returns 2-D scalar grid with given parameters.
-    virtual ScalarGrid2Ptr build(const Size2& resolution,
+    virtual ScalarGrid2Ptr build(const Vector2UZ& resolution,
                                  const Vector2D& gridSpacing,
                                  const Vector2D& gridOrigin,
                                  double initialVal) const = 0;

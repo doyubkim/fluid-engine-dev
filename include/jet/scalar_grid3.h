@@ -40,7 +40,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Size3 dataSize() const = 0;
+    virtual Vector3UZ dataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -65,7 +65,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
                 double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(const Size3& resolution,
+    void resize(const Vector3UZ& resolution,
                 const Vector3D& gridSpacing = Vector3D(1, 1, 1),
                 const Vector3D& origin = Vector3D(), double initialValue = 0.0);
 
@@ -191,7 +191,7 @@ class ScalarGridBuilder3 {
     virtual ~ScalarGridBuilder3();
 
     //! Returns 3-D scalar grid with given parameters.
-    virtual ScalarGrid3Ptr build(const Size3& resolution,
+    virtual ScalarGrid3Ptr build(const Vector3UZ& resolution,
                                  const Vector3D& gridSpacing,
                                  const Vector3D& gridOrigin,
                                  double initialVal) const = 0;

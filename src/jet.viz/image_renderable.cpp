@@ -67,7 +67,7 @@ void ImageRenderable::setTextureSamplingMode(const TextureSamplingMode& mode) {
 
 void ImageRenderable::render(Renderer* renderer) {
     if (_shader != nullptr && _texture != nullptr &&
-        _texture->size() != Size2()) {
+        _texture->size() != Vector2UZ()) {
         renderer->bindShader(_shader);
         renderer->bindVertexBuffer(_vertexBuffer);
         renderer->bindTexture(_texture, 0);

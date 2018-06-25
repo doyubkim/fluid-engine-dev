@@ -19,7 +19,7 @@ using namespace jet;
 
 PicSolver2::PicSolver2() : PicSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-PicSolver2::PicSolver2(const Size2& resolution, const Vector2D& gridSpacing,
+PicSolver2::PicSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                        const Vector2D& gridOrigin)
     : GridFluidSolver2(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
@@ -129,7 +129,7 @@ void PicSolver2::transferFromParticlesToGrids() {
     LinearArraySampler2<double, double> vSampler(
         flow->vView(), flow->gridSpacing(), flow->vOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Size2, 4> indices;
+        std::array<Vector2UZ, 4> indices;
         std::array<double, 4> weights;
 
         uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);

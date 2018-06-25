@@ -113,7 +113,7 @@ JET_BEGIN_TEST_F(FmmLevelSetSolver2, Reinitialize) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver2, Extrapolate) {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 

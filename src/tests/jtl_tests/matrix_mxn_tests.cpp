@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/matrix_mxn.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
@@ -24,7 +24,7 @@ inline std::ostream& operator<<(std::ostream& strm, const MatrixMxN<T>& m) {
     }
     return strm;
 }
-}
+}  // namespace
 
 TEST(MatrixMxN, Constructors) {
     MatrixMxND mat;
@@ -71,12 +71,12 @@ TEST(MatrixMxN, BasicSetters) {
         EXPECT_EQ(5.0, mat[i]);
     }
 
-    mat.set(7.0);
+    mat.fill(7.0);
     for (size_t i = 0; i < 8; ++i) {
         EXPECT_EQ(7.0, mat[i]);
     }
 
-    mat.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
+    mat = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
     EXPECT_EQ(2u, mat.rows());
     EXPECT_EQ(4u, mat.cols());
     for (size_t i = 0; i < 8; ++i) {
@@ -84,7 +84,7 @@ TEST(MatrixMxN, BasicSetters) {
     }
 
     MatrixMxND mat2;
-    mat2.set(mat);
+    mat2 = mat;
     EXPECT_EQ(2u, mat2.rows());
     EXPECT_EQ(4u, mat2.cols());
     for (size_t i = 0; i < 8; ++i) {
@@ -92,7 +92,7 @@ TEST(MatrixMxN, BasicSetters) {
     }
 
     double arr[] = {8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0};
-    mat.set(4, 2, arr);
+    mat = MatrixMxND(4, 2, arr);
     EXPECT_EQ(4u, mat.rows());
     EXPECT_EQ(2u, mat.cols());
     for (size_t i = 0; i < 8; ++i) {
@@ -131,132 +131,17 @@ TEST(MatrixMxN, BasicSetters) {
         }
     }
 
-    mat.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
-    mat2.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
-    EXPECT_TRUE(mat.isEqual(mat2));
+    mat = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
+    mat2 = MatrixMxND({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
+    EXPECT_TRUE(mat == mat2);
 
-    mat2.set({{1.01, 2.01, 3.01, 4.01}, {4.99, 5.99, 6.99, 7.99}});
+    mat2 = {{1.01, 2.01, 3.01, 4.01}, {4.99, 5.99, 6.99, 7.99}};
     EXPECT_TRUE(mat.isSimilar(mat2, 0.02));
     EXPECT_FALSE(mat.isSimilar(mat2, 0.005));
 
     EXPECT_FALSE(mat.isSquare());
-    mat.set({{1.0, 2.0}, {3.0, 4.0}});
+    mat = {{1.0, 2.0}, {3.0, 4.0}};
     EXPECT_TRUE(mat.isSquare());
-}
-
-TEST(MatrixMxN, BinaryOperatorMethod) {
-    const MatrixMxND matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-
-    MatrixMxND matB = matA.add(3.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(i + 4.5, matB[i]);
-    }
-
-    MatrixMxND matC = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
-    matB = matA.add(matC);
-    MatrixMxND ans = {{4.0, 1.0, 5.0}, {13.0, 7.0, 14.0}};
-    EXPECT_TRUE(ans.isEqual(matB));
-
-    matB = matA.sub(1.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(i - 0.5, matB[i]);
-    }
-
-    matB = matA.sub(matC);
-    ans = {{-2.0, 3.0, 1.0}, {-5.0, 3.0, -2.0}};
-    EXPECT_TRUE(ans.isEqual(matB));
-
-    matB = matA.mul(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(2.0 * (i + 1.0), matB[i]);
-    }
-
-    matC = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
-    matB = matA.mul(matC);
-    ans = {{13.0, 41.0}, {34.0, 89.0}};
-    EXPECT_TRUE(ans.isEqual(matB));
-
-    matB = matA.div(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ((i + 1.0) / 2.0, matB[i]);
-    }
-
-    matB = matA.radd(3.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(i + 4.5, matB[i]);
-    }
-
-    matB = matA.rsub(1.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(0.5 - i, matB[i]);
-    }
-
-    matC = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
-    matB = matA.rsub(matC);
-    ans = {{2.0, -3.0, -1.0}, {5.0, -3.0, 2.0}};
-    EXPECT_EQ(ans, matB);
-
-    matB = matA.rmul(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(2.0 * (i + 1.0), matB[i]);
-    }
-
-    matC = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
-    matB = matC.rmul(matA);
-    ans = {{13.0, 41.0}, {34.0, 89.0}};
-    EXPECT_EQ(ans, matB);
-
-    matB = matA.rdiv(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(2.0 / (i + 1.0), matB[i]);
-    }
-}
-
-TEST(MatrixMxN, AugmentedOperatorMethod) {
-    const MatrixMxND matA = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
-    const MatrixMxND matB = {{3.0, -1.0, 2.0}, {9.0, 2.0, 8.0}};
-
-    MatrixMxND mat = matA;
-    mat.iadd(3.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(i + 4.5, mat[i]);
-    }
-
-    mat = matA;
-    mat.iadd(matB);
-    MatrixMxND ans = {{4.0, 1.0, 5.0}, {13.0, 7.0, 14.0}};
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.isub(1.5);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(i - 0.5, mat[i]) << i;
-    }
-
-    mat = matA;
-    mat.isub(matB);
-    ans = {{-2.0, 3.0, 1.0}, {-5.0, 3.0, -2.0}};
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.imul(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ(2.0 * (i + 1.0), mat[i]);
-    }
-
-    mat = matA;
-    const MatrixMxND matC = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
-    mat.imul(matC);
-    EXPECT_EQ(2u, mat.rows());
-    EXPECT_EQ(2u, mat.cols());
-    ans = {{13.0, 41.0}, {34.0, 89.0}};
-    EXPECT_EQ(ans, mat);
-
-    mat = matA;
-    mat.idiv(2.0);
-    for (size_t i = 0; i < 6; ++i) {
-        EXPECT_EQ((i + 1.0) / 2.0, mat[i]);
-    }
 }
 
 TEST(MatrixMxN, ComplexGetters) {
@@ -387,7 +272,7 @@ TEST(MatrixMxN, SetterOperators) {
 
 TEST(MatrixMxN, GetterOperator) {
     MatrixMxND mat, mat2;
-    mat.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
+    mat = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
     double cnt = 1.0;
     for (size_t i = 0; i < 2; ++i) {
         for (size_t j = 0; j < 4; ++j) {
@@ -400,8 +285,8 @@ TEST(MatrixMxN, GetterOperator) {
         EXPECT_EQ(i + 1.0, mat[i]);
     }
 
-    mat.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
-    mat2.set({{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}});
+    mat = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
+    mat2 = {{1.0, 2.0, 3.0, 4.0}, {5.0, 6.0, 7.0, 8.0}};
     EXPECT_EQ(mat, mat2);
 }
 

@@ -4,9 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <jet/matrix.h>
 #include <jet/matrix_csr.h>
-#include <jet/matrix_mxn.h>
-#include <jet/vector_n.h>
 
 #include <gtest/gtest.h>
 
@@ -268,7 +267,7 @@ TEST(MatrixCsr, BinaryOperatorMethods) {
     const VectorND vecA = {-1.0, 9.0, 8.0};
     const VectorND vecB = matA.mul(vecA);
     const VectorND ansV = {41.0, 89.0};
-    EXPECT_TRUE(ansV.isEqual(vecB));
+    EXPECT_TRUE(ansV == vecB);
 
     const MatrixCsrD matF = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
     const MatrixCsrD matG = matA.mul(matF);
@@ -513,7 +512,7 @@ TEST(MatrixCsr, OperatorOverloadings) {
     const VectorND vecA = {-1.0, 9.0, 8.0};
     const VectorND vecB = matA * vecA;
     const VectorND ansV = {41.0, 89.0};
-    EXPECT_TRUE(ansV.isEqual(vecB));
+    EXPECT_TRUE(ansV == vecB);
 
     const MatrixCsrD matF = {{3.0, -1.0}, {2.0, 9.0}, {2.0, 8.0}};
     const MatrixCsrD matG = matA * matF;

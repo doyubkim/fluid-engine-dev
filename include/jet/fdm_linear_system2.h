@@ -47,7 +47,7 @@ struct FdmLinearSystem2 {
     void clear();
 
     //! Resizes the arrays with given grid size.
-    void resize(const Size2& size);
+    void resize(const Vector2UZ& size);
 };
 
 //! Compressed linear system (Ax=b) for 2-D finite differencing.

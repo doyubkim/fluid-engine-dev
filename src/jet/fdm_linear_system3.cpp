@@ -19,7 +19,7 @@ void FdmLinearSystem3::clear() {
     b.clear();
 }
 
-void FdmLinearSystem3::resize(const Size3& size) {
+void FdmLinearSystem3::resize(const Vector3UZ& size) {
     A.resize(size);
     x.resize(size);
     b.resize(size);
@@ -50,7 +50,7 @@ void FdmBlas3::set(double s, FdmMatrix3* result) {
 void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->set(m); }
 
 double FdmBlas3::dot(const FdmVector3& a, const FdmVector3& b) {
-    Size3 size = a.size();
+    Vector3UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != b.size());
 
@@ -69,7 +69,7 @@ double FdmBlas3::dot(const FdmVector3& a, const FdmVector3& b) {
 
 void FdmBlas3::axpy(double a, const FdmVector3& x, const FdmVector3& y,
                     FdmVector3* result) {
-    Size3 size = x.size();
+    Vector3UZ size = x.size();
 
     JET_THROW_INVALID_ARG_IF(size != y.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
@@ -81,7 +81,7 @@ void FdmBlas3::axpy(double a, const FdmVector3& x, const FdmVector3& y,
 
 void FdmBlas3::mvm(const FdmMatrix3& m, const FdmVector3& v,
                    FdmVector3* result) {
-    Size3 size = m.size();
+    Vector3UZ size = m.size();
 
     JET_THROW_INVALID_ARG_IF(size != v.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
@@ -100,7 +100,7 @@ void FdmBlas3::mvm(const FdmMatrix3& m, const FdmVector3& v,
 
 void FdmBlas3::residual(const FdmMatrix3& a, const FdmVector3& x,
                         const FdmVector3& b, FdmVector3* result) {
-    Size3 size = a.size();
+    Vector3UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != x.size());
     JET_THROW_INVALID_ARG_IF(size != b.size());
@@ -121,7 +121,7 @@ void FdmBlas3::residual(const FdmMatrix3& a, const FdmVector3& x,
 double FdmBlas3::l2Norm(const FdmVector3& v) { return std::sqrt(dot(v, v)); }
 
 double FdmBlas3::lInfNorm(const FdmVector3& v) {
-    Size3 size = v.size();
+    Vector3UZ size = v.size();
 
     double result = 0.0;
 

@@ -25,7 +25,7 @@ using namespace jet;
 GridFluidSolver2::GridFluidSolver2()
     : GridFluidSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-GridFluidSolver2::GridFluidSolver2(const Size2& resolution,
+GridFluidSolver2::GridFluidSolver2(const Vector2UZ& resolution,
                                    const Vector2D& gridSpacing,
                                    const Vector2D& gridOrigin) {
     _grids = std::make_shared<GridSystemData2>();
@@ -133,13 +133,13 @@ const GridSystemData2Ptr& GridFluidSolver2::gridSystemData() const {
     return _grids;
 }
 
-void GridFluidSolver2::resizeGrid(const Size2& newSize,
+void GridFluidSolver2::resizeGrid(const Vector2UZ& newSize,
                                   const Vector2D& newGridSpacing,
                                   const Vector2D& newGridOrigin) {
     _grids->resize(newSize, newGridSpacing, newGridOrigin);
 }
 
-Size2 GridFluidSolver2::resolution() const { return _grids->resolution(); }
+Vector2UZ GridFluidSolver2::resolution() const { return _grids->resolution(); }
 
 Vector2D GridFluidSolver2::gridSpacing() const { return _grids->gridSpacing(); }
 

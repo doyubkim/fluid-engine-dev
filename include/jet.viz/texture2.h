@@ -49,7 +49,7 @@ class Texture2 {
     void bind(Renderer* renderer, unsigned int slotId);
 
     //! Returns the size of the texture.
-    const Size2& size() const;
+    const Vector2UZ& size() const;
 
     //! Returns the sampling mode of the texture.
     const TextureSamplingMode& samplingMode() const;
@@ -74,7 +74,7 @@ class Texture2 {
     virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
  private:
-    Size2 _size;
+    Vector2UZ _size;
     TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
 };
 

@@ -20,7 +20,7 @@ void FdmMgLinearSystem3::clear() {
 
 size_t FdmMgLinearSystem3::numberOfLevels() const { return A.levels.size(); }
 
-void FdmMgLinearSystem3::resizeWithCoarsest(const Size3 &coarsestResolution,
+void FdmMgLinearSystem3::resizeWithCoarsest(const Vector3UZ &coarsestResolution,
                                             size_t numberOfLevels) {
     FdmMgUtils3::resizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
                                          &A.levels);
@@ -30,7 +30,7 @@ void FdmMgLinearSystem3::resizeWithCoarsest(const Size3 &coarsestResolution,
                                          &b.levels);
 }
 
-void FdmMgLinearSystem3::resizeWithFinest(const Size3 &finestResolution,
+void FdmMgLinearSystem3::resizeWithFinest(const Vector3UZ &finestResolution,
                                           size_t maxNumberOfLevels) {
     FdmMgUtils3::resizeArrayWithFinest(finestResolution, maxNumberOfLevels,
                                        &A.levels);
@@ -51,7 +51,7 @@ void FdmMgUtils3::restrict(const FdmVector3 &finer, FdmVector3 *coarser) {
     // -----|-----*-----|-----
     static const std::array<double, 4> kernel = {{0.125, 0.375, 0.375, 0.125}};
 
-    const Size3 n = coarser->size();
+    const Vector3UZ n = coarser->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y, kZeroSize, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
@@ -106,7 +106,7 @@ void FdmMgUtils3::correct(const FdmVector3 &coarser, FdmVector3 *finer) {
     //           to
     //  1/4   3/4   3/4   1/4
     // --*--|--*--|--*--|--*--
-    const Size3 n = finer->size();
+    const Vector3UZ n = finer->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y, kZeroSize, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,

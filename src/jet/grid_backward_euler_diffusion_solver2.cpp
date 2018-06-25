@@ -125,7 +125,7 @@ void GridBackwardEulerDiffusionSolver2::setLinearSystemSolver(
 }
 
 void GridBackwardEulerDiffusionSolver2::buildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySdf, const ScalarField2& fluidSdf) {
     _markers.resize(size);
 
@@ -140,7 +140,7 @@ void GridBackwardEulerDiffusionSolver2::buildMarkers(
     });
 }
 
-void GridBackwardEulerDiffusionSolver2::buildMatrix(const Size2& size,
+void GridBackwardEulerDiffusionSolver2::buildMatrix(const Vector2UZ& size,
                                                     const Vector2D& c) {
     _system.A.resize(size);
 
@@ -192,7 +192,7 @@ void GridBackwardEulerDiffusionSolver2::buildMatrix(const Size2& size,
 
 void GridBackwardEulerDiffusionSolver2::buildVectors(
     const ConstArrayView2<double>& f, const Vector2D& c) {
-    Size2 size = f.size();
+    Vector2UZ size = f.size();
 
     _system.x.resize(size, 0.0);
     _system.b.resize(size, 0.0);
@@ -224,7 +224,7 @@ void GridBackwardEulerDiffusionSolver2::buildVectors(
 void GridBackwardEulerDiffusionSolver2::buildVectors(
     const ConstArrayView2<Vector2D>& f, const Vector2D& c,
     size_t component) {
-    Size2 size = f.size();
+    Vector2UZ size = f.size();
 
     _system.x.resize(size, 0.0);
     _system.b.resize(size, 0.0);

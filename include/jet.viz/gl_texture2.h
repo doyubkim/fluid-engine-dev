@@ -32,7 +32,7 @@ class GLTexture2 final : public Texture2, public GLTexture {
     void update(const ByteColor* data) override;
 
  private:
-    Size2 _size;
+    Vector2UZ _size;
 
     void onClear() override;
 

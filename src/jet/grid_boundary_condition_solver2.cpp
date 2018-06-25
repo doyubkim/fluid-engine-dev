@@ -21,7 +21,7 @@ const Collider2Ptr& GridBoundaryConditionSolver2::collider() const {
 
 void GridBoundaryConditionSolver2::updateCollider(
     const Collider2Ptr& newCollider,
-    const Size2& gridSize,
+    const Vector2UZ& gridSize,
     const Vector2D& gridSpacing,
     const Vector2D& gridOrigin) {
     _collider = newCollider;
@@ -40,7 +40,7 @@ void GridBoundaryConditionSolver2::setClosedDomainBoundaryFlag(int flag) {
     _closedDomainBoundaryFlag = flag;
 }
 
-const Size2& GridBoundaryConditionSolver2::gridSize() const {
+const Vector2UZ& GridBoundaryConditionSolver2::gridSize() const {
     return _gridSize;
 }
 

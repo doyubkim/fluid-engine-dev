@@ -16,12 +16,12 @@
 
 namespace jet {
 
-inline fbs::Size2 jetToFbs(const Size2& vec) {
-    return fbs::Size2(vec.x, vec.y);
+inline fbs::Vector2UZ jetToFbs(const Vector2UZ& vec) {
+    return fbs::Vector2UZ(vec.x, vec.y);
 }
 
-inline fbs::Size3 jetToFbs(const Size3& vec) {
-    return fbs::Size3(vec.x, vec.y, vec.z);
+inline fbs::Vector3UZ jetToFbs(const Vector3UZ& vec) {
+    return fbs::Vector3UZ(vec.x, vec.y, vec.z);
 }
 
 inline fbs::Vector2D jetToFbs(const Vector2D& vec) {
@@ -32,12 +32,12 @@ inline fbs::Vector3D jetToFbs(const Vector3D& vec) {
     return fbs::Vector3D(vec.x, vec.y, vec.z);
 }
 
-inline Size2 fbsToJet(const fbs::Size2& vec) {
-    return Size2({vec.x(), vec.y()});
+inline Vector2UZ fbsToJet(const fbs::Vector2UZ& vec) {
+    return Vector2UZ({vec.x(), vec.y()});
 }
 
-inline Size3 fbsToJet(const fbs::Size3& vec) {
-    return Size3({vec.x(), vec.y(), vec.z()});
+inline Vector3UZ fbsToJet(const fbs::Vector3UZ& vec) {
+    return Vector3UZ({vec.x(), vec.y(), vec.z()});
 }
 
 inline Vector2D fbsToJet(const fbs::Vector2D& vec) {

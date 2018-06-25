@@ -42,7 +42,7 @@ class VectorGrid2 : public VectorField2, public Grid2 {
                 double initialValueX = 0.0, double initialValueY = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(const Size2& resolution,
+    void resize(const Vector2UZ& resolution,
                 const Vector2D& gridSpacing = Vector2D(1, 1),
                 const Vector2D& origin = Vector2D(),
                 const Vector2D& initialValue = Vector2D());
@@ -79,7 +79,7 @@ class VectorGrid2 : public VectorField2, public Grid2 {
     //! overriding class should allocate the internal storage based on its
     //! data layout scheme.
     //!
-    virtual void onResize(const Size2& resolution, const Vector2D& gridSpacing,
+    virtual void onResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                           const Vector2D& origin,
                           const Vector2D& initialValue) = 0;
 };
@@ -97,7 +97,7 @@ class VectorGridBuilder2 {
     virtual ~VectorGridBuilder2();
 
     //! Returns 2-D vector grid with given parameters.
-    virtual VectorGrid2Ptr build(const Size2& resolution,
+    virtual VectorGrid2Ptr build(const Vector2UZ& resolution,
                                  const Vector2D& gridSpacing,
                                  const Vector2D& gridOrigin,
                                  const Vector2D& initialVal) const = 0;

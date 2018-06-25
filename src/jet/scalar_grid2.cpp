@@ -32,17 +32,17 @@ ScalarGrid2::ScalarGrid2()
 
 ScalarGrid2::~ScalarGrid2() {}
 
-void ScalarGrid2::clear() { resize(Size2(), gridSpacing(), origin(), 0.0); }
+void ScalarGrid2::clear() { resize(Vector2UZ(), gridSpacing(), origin(), 0.0); }
 
 void ScalarGrid2::resize(size_t resolutionX, size_t resolutionY,
                          double gridSpacingX, double gridSpacingY,
                          double originX, double originY, double initialValue) {
-    resize(Size2(resolutionX, resolutionY),
+    resize(Vector2UZ(resolutionX, resolutionY),
            Vector2D(gridSpacingX, gridSpacingY), Vector2D(originX, originY),
            initialValue);
 }
 
-void ScalarGrid2::resize(const Size2& resolution, const Vector2D& gridSpacing,
+void ScalarGrid2::resize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
                          const Vector2D& origin, double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
@@ -80,7 +80,7 @@ std::function<double(const Vector2D&)> ScalarGrid2::sampler() const {
 }
 
 Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
-    std::array<Size2, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -94,7 +94,7 @@ Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
 }
 
 double ScalarGrid2::laplacian(const Vector2D& x) const {
-    std::array<Size2, 4> indices;
+    std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 

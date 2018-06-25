@@ -29,7 +29,7 @@ void addFaceCenteredGrid2(py::module& m) {
         )pbdoc")
         .def("__init__",
              [](FaceCenteredGrid2& instance, py::args args, py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -249,7 +249,7 @@ void addFaceCenteredGrid3(py::module& m) {
         )pbdoc")
         .def("__init__",
              [](FaceCenteredGrid3& instance, py::args args, py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,

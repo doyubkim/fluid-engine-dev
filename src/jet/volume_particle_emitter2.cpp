@@ -92,7 +92,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
     } else {
         // Use serial hash grid searcher for continuous update.
         PointHashGridSearcher2 neighborSearcher(
-            Size2(kDefaultHashGridResolution, kDefaultHashGridResolution),
+            Vector2UZ(kDefaultHashGridResolution, kDefaultHashGridResolution),
             2.0 * _spacing);
         if (!_allowOverlapping) {
             neighborSearcher.build(particles->positions());

@@ -23,7 +23,7 @@ void EnoLevelSetSolver2::getDerivatives(
     std::array<double, 2>* dx,
     std::array<double, 2>* dy) const {
     double D0[7];
-    Size2 size = grid.size();
+    Vector2UZ size = grid.size();
 
     const size_t im3 = (i < 3) ? 0 : i - 3;
     const size_t im2 = (i < 2) ? 0 : i - 2;

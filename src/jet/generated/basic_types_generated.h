@@ -9,27 +9,27 @@
 namespace jet {
 namespace fbs {
 
-struct Size2;
+struct Vector2UZ;
 
-struct Size3;
+struct Vector3UZ;
 
 struct Vector2D;
 
 struct Vector3D;
 
-MANUALLY_ALIGNED_STRUCT(8) Size2 FLATBUFFERS_FINAL_CLASS {
+MANUALLY_ALIGNED_STRUCT(8) Vector2UZ FLATBUFFERS_FINAL_CLASS {
  private:
   uint64_t x_;
   uint64_t y_;
 
  public:
-  Size2() {
-    memset(this, 0, sizeof(Size2));
+  Vector2UZ() {
+    memset(this, 0, sizeof(Vector2UZ));
   }
-  Size2(const Size2 &_o) {
-    memcpy(this, &_o, sizeof(Size2));
+  Vector2UZ(const Vector2UZ &_o) {
+    memcpy(this, &_o, sizeof(Vector2UZ));
   }
-  Size2(uint64_t _x, uint64_t _y)
+  Vector2UZ(uint64_t _x, uint64_t _y)
       : x_(flatbuffers::EndianScalar(_x)),
         y_(flatbuffers::EndianScalar(_y)) {
   }
@@ -40,22 +40,22 @@ MANUALLY_ALIGNED_STRUCT(8) Size2 FLATBUFFERS_FINAL_CLASS {
     return flatbuffers::EndianScalar(y_);
   }
 };
-STRUCT_END(Size2, 16);
+STRUCT_END(Vector2UZ, 16);
 
-MANUALLY_ALIGNED_STRUCT(8) Size3 FLATBUFFERS_FINAL_CLASS {
+MANUALLY_ALIGNED_STRUCT(8) Vector3UZ FLATBUFFERS_FINAL_CLASS {
  private:
   uint64_t x_;
   uint64_t y_;
   uint64_t z_;
 
  public:
-  Size3() {
-    memset(this, 0, sizeof(Size3));
+  Vector3UZ() {
+    memset(this, 0, sizeof(Vector3UZ));
   }
-  Size3(const Size3 &_o) {
-    memcpy(this, &_o, sizeof(Size3));
+  Vector3UZ(const Vector3UZ &_o) {
+    memcpy(this, &_o, sizeof(Vector3UZ));
   }
-  Size3(uint64_t _x, uint64_t _y, uint64_t _z)
+  Vector3UZ(uint64_t _x, uint64_t _y, uint64_t _z)
       : x_(flatbuffers::EndianScalar(_x)),
         y_(flatbuffers::EndianScalar(_y)),
         z_(flatbuffers::EndianScalar(_z)) {
@@ -70,7 +70,7 @@ MANUALLY_ALIGNED_STRUCT(8) Size3 FLATBUFFERS_FINAL_CLASS {
     return flatbuffers::EndianScalar(z_);
   }
 };
-STRUCT_END(Size3, 24);
+STRUCT_END(Vector3UZ, 24);
 
 MANUALLY_ALIGNED_STRUCT(8) Vector2D FLATBUFFERS_FINAL_CLASS {
  private:

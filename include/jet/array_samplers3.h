@@ -7,9 +7,10 @@
 #ifndef INCLUDE_JET_ARRAY_SAMPLERS3_H_
 #define INCLUDE_JET_ARRAY_SAMPLERS3_H_
 
-#include <jet/array_view.h>
 #include <jet/array_samplers.h>
-#include <jet/vector3.h>
+#include <jet/array_view.h>
+#include <jet/matrix.h>
+
 #include <functional>
 
 namespace jet {
@@ -48,7 +49,7 @@ class NearestArraySampler<T, R, 3> final {
     T operator()(const Vector3<R>& pt) const;
 
     //! Returns the nearest array index for point \p x.
-    void getCoordinate(const Vector3<R>& pt, Size3* index) const;
+    void getCoordinate(const Vector3<R>& pt, Vector3UZ* index) const;
 
     //! Returns a funtion object that wraps this instance.
     std::function<T(const Vector3<R>&)> functor() const;
@@ -98,13 +99,13 @@ class LinearArraySampler<T, R, 3> final {
 
     //! Returns the indices of points and their sampling weight for given point.
     void getCoordinatesAndWeights(const Vector3<R>& pt,
-                                  std::array<Size3, 8>* indices,
+                                  std::array<Vector3UZ, 8>* indices,
                                   std::array<R, 8>* weights) const;
 
     //! Returns the indices of points and their gradient of sampling weight for
     //! given point.
     void getCoordinatesAndGradientWeights(
-        const Vector3<R>& pt, std::array<Size3, 8>* indices,
+        const Vector3<R>& pt, std::array<Vector3UZ, 8>* indices,
         std::array<Vector3<R>, 8>* weights) const;
 
     //! Returns a funtion object that wraps this instance.

@@ -37,7 +37,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SSize2(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                SVector2UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t value = pointSearcher.buckets()[key].size();
             grid(i, j) += static_cast<double>(value);
         }
@@ -65,7 +65,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher3, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SSize3(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
+                SVector3UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
             size_t value = pointSearcher.buckets()[key].size();
             grid(i, j) += static_cast<double>(value);
         }
@@ -93,7 +93,7 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SSize2(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                SVector2UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t start = pointSearcher.startIndexTable()[key];
             size_t end = pointSearcher.endIndexTable()[key];
             size_t value = end - start;
@@ -123,7 +123,7 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher3, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SSize3(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
+                SVector3UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
             size_t start = pointSearcher.startIndexTable()[key];
             size_t end = pointSearcher.endIndexTable()[key];
             size_t value = end - start;

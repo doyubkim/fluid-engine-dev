@@ -20,7 +20,7 @@ namespace internal {
 template <typename T, size_t N, size_t I>
 struct GetSizeAndInitVal {
     template <typename... Args>
-    static void call(SizeN<N>& size, T& value, size_t n, Args... args) {
+    static void call(Vector<size_t, N>& size, T& value, size_t n, Args... args) {
         size[N - I - 1] = n;
         GetSizeAndInitVal<T, N, I - 1>::call(size, value, args...);
     }
@@ -28,11 +28,11 @@ struct GetSizeAndInitVal {
 
 template <typename T, size_t N>
 struct GetSizeAndInitVal<T, N, 0> {
-    static void call(SizeN<N>& size, T& value, size_t n) {
+    static void call(Vector<size_t, N>& size, T& value, size_t n) {
         call(size, value, n, T{});
     }
 
-    static void call(SizeN<N>& size, T& value, size_t n, const T& initVal) {
+    static void call(Vector<size_t, N>& size, T& value, size_t n, const T& initVal) {
         size[N - 1] = n;
         value = initVal;
     }
@@ -40,14 +40,14 @@ struct GetSizeAndInitVal<T, N, 0> {
 
 template <typename T, size_t N, size_t I>
 struct GetSizeFromInitList {
-    static size_t call(SizeN<N>& size, NestedInitializerListsT<T, I> lst) {
+    static size_t call(Vector<size_t, N>& size, NestedInitializerListsT<T, I> lst) {
         size[I - 1] = lst.size();
         size_t i = 0;
         for (auto subLst : lst) {
             if (i == 0) {
                 GetSizeFromInitList<T, N, I - 1>::call(size, subLst);
             } else {
-                SizeN<N> tempSizeN;
+                Vector<size_t, N> tempSizeN;
                 size_t otherSize =
                     GetSizeFromInitList<T, N, I - 1>::call(tempSizeN, subLst);
                 (void)otherSize;
@@ -61,7 +61,7 @@ struct GetSizeFromInitList {
 
 template <typename T, size_t N>
 struct GetSizeFromInitList<T, N, 1> {
-    static size_t call(SizeN<N>& size, NestedInitializerListsT<T, 1> lst) {
+    static size_t call(Vector<size_t, N>& size, NestedInitializerListsT<T, 1> lst) {
         size[0] = lst.size();
         return size[0];
     }
@@ -130,7 +130,7 @@ size_t ArrayBase<T, N, D>::index(size_t i, Args... args) const {
 
 template <typename T, size_t N, typename D>
 template <size_t... I>
-size_t ArrayBase<T, N, D>::index(const SizeN<N>& idx) const {
+size_t ArrayBase<T, N, D>::index(const Vector<size_t, N>& idx) const {
     return _index(idx, std::make_index_sequence<N>{});
 }
 
@@ -145,7 +145,7 @@ const T* ArrayBase<T, N, D>::data() const {
 }
 
 template <typename T, size_t N, typename D>
-const SizeN<N>& ArrayBase<T, N, D>::size() const {
+const Vector<size_t, N>& ArrayBase<T, N, D>::size() const {
     return _size;
 }
 
@@ -218,12 +218,12 @@ const T& ArrayBase<T, N, D>::at(size_t i, Args... args) const {
 }
 
 template <typename T, size_t N, typename D>
-T& ArrayBase<T, N, D>::at(const SizeN<N>& idx) {
+T& ArrayBase<T, N, D>::at(const Vector<size_t, N>& idx) {
     return data()[index(idx)];
 }
 
 template <typename T, size_t N, typename D>
-const T& ArrayBase<T, N, D>::at(const SizeN<N>& idx) const {
+const T& ArrayBase<T, N, D>::at(const Vector<size_t, N>& idx) const {
     return data()[index(idx)];
 }
 
@@ -250,12 +250,12 @@ const T& ArrayBase<T, N, D>::operator()(size_t i, Args... args) const {
 }
 
 template <typename T, size_t N, typename D>
-T& ArrayBase<T, N, D>::operator()(const SizeN<N>& idx) {
+T& ArrayBase<T, N, D>::operator()(const Vector<size_t, N>& idx) {
     return at(idx);
 }
 
 template <typename T, size_t N, typename D>
-const T& ArrayBase<T, N, D>::operator()(const SizeN<N>& idx) const {
+const T& ArrayBase<T, N, D>::operator()(const Vector<size_t, N>& idx) const {
     return at(idx);
 }
 
@@ -275,18 +275,18 @@ ArrayBase<T, N, D>::ArrayBase(ArrayBase&& other) {
 template <typename T, size_t N, typename D>
 template <typename... Args>
 void ArrayBase<T, N, D>::setPtrAndSize(T* ptr, size_t ni, Args... args) {
-    setPtrAndSize(ptr, SizeN<N>{ni, args...});
+    setPtrAndSize(ptr, Vector<size_t, N>{ni, args...});
 }
 
 template <typename T, size_t N, typename D>
-void ArrayBase<T, N, D>::setPtrAndSize(T* data, SizeN<N> size) {
+void ArrayBase<T, N, D>::setPtrAndSize(T* data, Vector<size_t, N> size) {
     _ptr = data;
     _size = size;
 }
 
 template <typename T, size_t N, typename D>
 void ArrayBase<T, N, D>::clear() {
-    setPtrAndSize(nullptr, SizeN<N>{});
+    setPtrAndSize(nullptr, Vector<size_t, N>{});
 }
 
 template <typename T, size_t N, typename D>
@@ -304,7 +304,7 @@ ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(const ArrayBase& other) {
 template <typename T, size_t N, typename D>
 ArrayBase<T, N, D>& ArrayBase<T, N, D>::operator=(ArrayBase&& other) {
     setPtrAndSize(other.data(), other.size());
-    other.setPtrAndSize(nullptr, SizeN<N>{});
+    other.setPtrAndSize(nullptr, Vector<size_t, N>{});
     return *this;
 }
 
@@ -321,7 +321,7 @@ size_t ArrayBase<T, N, D>::_index(size_t, size_t i) const {
 
 template <typename T, size_t N, typename D>
 template <size_t... I>
-size_t ArrayBase<T, N, D>::_index(const SizeN<N>& idx,
+size_t ArrayBase<T, N, D>::_index(const Vector<size_t, N>& idx,
                                   std::index_sequence<I...>) const {
     return index(idx[I]...);
 }
@@ -333,7 +333,7 @@ template <typename T, size_t N>
 Array<T, N>::Array() : Base() {}
 
 template <typename T, size_t N>
-Array<T, N>::Array(const SizeN<N>& size_, const T& initVal) : Array() {
+Array<T, N>::Array(const Vector<size_t, N>& size_, const T& initVal) : Array() {
     _data.resize(product<size_t, N>(size_, 1), initVal);
     Base::setPtrAndSize(_data.data(), size_);
 }
@@ -341,7 +341,7 @@ Array<T, N>::Array(const SizeN<N>& size_, const T& initVal) : Array() {
 template <typename T, size_t N>
 template <typename... Args>
 Array<T, N>::Array(size_t nx, Args... args) {
-    SizeN<N> size_;
+    Vector<size_t, N> size_;
     T initVal;
     internal::GetSizeAndInitVal<T, N, N - 1>::call(size_, initVal, nx, args...);
     _data.resize(product<size_t, N>(size_, 1), initVal);
@@ -350,7 +350,7 @@ Array<T, N>::Array(size_t nx, Args... args) {
 
 template <typename T, size_t N>
 Array<T, N>::Array(NestedInitializerListsT<T, N> lst) {
-    SizeN<N> newSize{};
+    Vector<size_t, N> newSize{};
     internal::GetSizeFromInitList<T, N, N>::call(newSize, lst);
     _data.resize(product<size_t, N>(newSize, 1));
     Base::setPtrAndSize(_data.data(), newSize);
@@ -374,9 +374,9 @@ void Array<T, N>::set(const Array& other) {
 }
 
 template <typename T, size_t N>
-void Array<T, N>::resize(SizeN<N> size_, const T& initVal) {
+void Array<T, N>::resize(Vector<size_t, N> size_, const T& initVal) {
     Array newArray{size_, initVal};
-    SizeN<N> minSize = min(_size, newArray._size);
+    Vector<size_t, N> minSize = min(_size, newArray._size);
     forEachIndex(minSize,
                  [&](auto... idx) { newArray(idx...) = (*this)(idx...); });
     *this = std::move(newArray);
@@ -385,7 +385,7 @@ void Array<T, N>::resize(SizeN<N> size_, const T& initVal) {
 template <typename T, size_t N>
 template <typename... Args>
 void Array<T, N>::resize(size_t nx, Args... args) {
-    SizeN<N> size_;
+    Vector<size_t, N> size_;
     T initVal;
     internal::GetSizeAndInitVal<T, N, N - 1>::call(size_, initVal, nx, args...);
 
@@ -440,7 +440,7 @@ template <typename T, size_t N>
 Array<T, N>& Array<T, N>::operator=(Array&& other) {
     _data = std::move(other._data);
     Base::setPtrAndSize(other.data(), other.size());
-    other.setPtrAndSize(nullptr, SizeN<N>{});
+    other.setPtrAndSize(nullptr, Vector<size_t, N>{});
 
     return *this;
 }

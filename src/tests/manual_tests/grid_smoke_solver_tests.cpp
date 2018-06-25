@@ -282,7 +282,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
         });
 
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];
@@ -350,7 +350,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
 
     solver->setCollider(collider);
 
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];
@@ -418,7 +418,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
 
     solver->setCollider(collider);
 
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];

@@ -40,7 +40,7 @@ class CudaArray<T, 3> final {
 
     CudaArray();
 
-    explicit CudaArray(const Size3& size, const T& initVal = T());
+    explicit CudaArray(const Vector3UZ& size, const T& initVal = T());
 
     explicit CudaArray(size_t width, size_t height, size_t depth,
                        const T& initVal = T());
@@ -69,11 +69,11 @@ class CudaArray<T, 3> final {
 
     void clear();
 
-    void resize(const Size3& size, const T& initVal = T());
+    void resize(const Vector3UZ& size, const T& initVal = T());
 
     void swap(CudaArray& other);
 
-    const Size3& size() const;
+    const Vector3UZ& size() const;
 
     size_t width() const;
 
@@ -121,7 +121,7 @@ class CudaArray<T, 3> final {
 
  private:
     ContainerType _data;
-    Size3 _size;
+    Vector3UZ _size;
 };
 
 //! Type alias for 3-D CUDA array.

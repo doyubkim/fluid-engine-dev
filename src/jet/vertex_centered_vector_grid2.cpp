@@ -23,7 +23,7 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
 }
 
 VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& origin, const Vector2D& initialValue) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
@@ -33,11 +33,11 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     set(other);
 }
 
-Size2 VertexCenteredVectorGrid2::dataSize() const {
-    if (resolution() != Size2(0, 0)) {
-        return resolution() + Size2(1, 1);
+Vector2UZ VertexCenteredVectorGrid2::dataSize() const {
+    if (resolution() != Vector2UZ(0, 0)) {
+        return resolution() + Vector2UZ(1, 1);
     } else {
-        return Size2(0, 0);
+        return Vector2UZ(0, 0);
     }
 }
 
@@ -63,7 +63,7 @@ VertexCenteredVectorGrid2& VertexCenteredVectorGrid2::operator=(
 
 void VertexCenteredVectorGrid2::fill(const Vector2D& value,
                                      ExecutionPolicy policy) {
-    Size2 size = dataSize();
+    Vector2UZ size = dataSize();
     auto acc = dataView();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
                 [value, &acc](size_t i, size_t j) { acc(i, j) = value; },
@@ -73,7 +73,7 @@ void VertexCenteredVectorGrid2::fill(const Vector2D& value,
 void VertexCenteredVectorGrid2::fill(
     const std::function<Vector2D(const Vector2D&)>& func,
     ExecutionPolicy policy) {
-    Size2 size = dataSize();
+    Vector2UZ size = dataSize();
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
@@ -92,7 +92,7 @@ VertexCenteredVectorGrid2::Builder VertexCenteredVectorGrid2::builder() {
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withResolution(const Size2& resolution) {
+VertexCenteredVectorGrid2::Builder::withResolution(const Vector2UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -163,7 +163,7 @@ VertexCenteredVectorGrid2Ptr VertexCenteredVectorGrid2::Builder::makeShared()
 }
 
 VectorGrid2Ptr VertexCenteredVectorGrid2::Builder::build(
-    const Size2& resolution, const Vector2D& gridSpacing,
+    const Vector2UZ& resolution, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin, const Vector2D& initialVal) const {
     return std::shared_ptr<VertexCenteredVectorGrid2>(
         new VertexCenteredVectorGrid2(resolution, gridSpacing, gridOrigin,

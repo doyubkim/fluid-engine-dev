@@ -14,7 +14,7 @@ Vector2D gradient2(
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -31,7 +31,7 @@ std::array<Vector2D, 2> gradient2(
     const Vector2D& gridSpacing,
     size_t i,
     size_t j) {
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -52,7 +52,7 @@ Vector3D gradient3(
     size_t i,
     size_t j,
     size_t k) {
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -72,7 +72,7 @@ std::array<Vector3D, 3> gradient3(
     size_t i,
     size_t j,
     size_t k) {
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -99,7 +99,7 @@ double laplacian2(
     size_t i,
     size_t j) {
     const double center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -132,7 +132,7 @@ Vector2D laplacian2(
     size_t i,
     size_t j) {
     const Vector2D center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -166,7 +166,7 @@ double laplacian3(
     size_t j,
     size_t k) {
     const double center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -210,7 +210,7 @@ Vector3D laplacian3(
     size_t j,
     size_t k) {
     const Vector3D center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 

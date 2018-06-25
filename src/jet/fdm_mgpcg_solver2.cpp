@@ -52,7 +52,7 @@ FdmMgpcgSolver2::FdmMgpcgSolver2(
       _lastResidualNorm(kMaxD) {}
 
 bool FdmMgpcgSolver2::solve(FdmMgLinearSystem2* system) {
-    Size2 size = system->A.levels.front().size();
+    Vector2UZ size = system->A.levels.front().size();
     _r.resize(size);
     _d.resize(size);
     _q.resize(size);

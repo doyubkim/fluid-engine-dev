@@ -86,7 +86,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     } else {
         // Use serial hash grid searcher for continuous update.
         PointHashGridSearcher3 neighborSearcher(
-            Size3(kDefaultHashGridResolution, kDefaultHashGridResolution,
+            Vector3UZ(kDefaultHashGridResolution, kDefaultHashGridResolution,
                   kDefaultHashGridResolution),
             2.0 * _spacing);
         if (!_allowOverlapping) {

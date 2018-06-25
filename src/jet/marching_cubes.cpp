@@ -58,7 +58,7 @@ inline Vector3D grad(const ConstArrayView3<double>& grid, ssize_t i,
     ssize_t jm = j - 1;
     ssize_t kp = k + 1;
     ssize_t km = k - 1;
-    Size3 dim = grid.size();
+    Vector3UZ dim = grid.size();
     ssize_t dimx = static_cast<ssize_t>(dim.x);
     ssize_t dimy = static_cast<ssize_t>(dim.y);
     ssize_t dimz = static_cast<ssize_t>(dim.z);
@@ -98,7 +98,7 @@ inline Vector3D safeNormalize(const Vector3D& n) {
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t globalEdgeId(size_t i, size_t j, size_t k, const Size3& dim,
+inline size_t globalEdgeId(size_t i, size_t j, size_t k, const Vector3UZ& dim,
                            size_t localEdgeId) {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
     static const int edgeOffset3D[12][3] = {
@@ -118,7 +118,7 @@ inline size_t globalEdgeId(size_t i, size_t j, size_t k, const Size3& dim,
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t globalVertexId(size_t i, size_t j, size_t k, const Size3& dim,
+inline size_t globalVertexId(size_t i, size_t j, size_t k, const Vector3UZ& dim,
                              size_t localVertexId) {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
     static const int vertexOffset3D[8][3] = {{0, 0, 0}, {2, 0, 0}, {2, 0, 2},
@@ -207,7 +207,7 @@ static void singleSquare(const std::array<double, 4>& data,
             break;
         }
 
-        Size3 face;
+        Vector3UZ face;
 
         for (int j = 0; j < 3; ++j) {
             int idxVertex = triangleConnectionTable2D[idxFlags][3 * itrTri + j];
@@ -312,7 +312,7 @@ static void singleCube(const std::array<double, 8>& data,
             break;
         }
 
-        Size3 face;
+        Vector3UZ face;
 
         for (int j = 0; j < 3; j++) {
             int k = 3 * itrTri + j;
@@ -340,7 +340,7 @@ void marchingCubes(const ConstArrayView3<double>& grid,
                    TriangleMesh3* mesh, double isoValue, int bndFlag) {
     MarchingCubeVertexMap vertexMap;
 
-    const Size3 dim = grid.size();
+    const Vector3UZ dim = grid.size();
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {

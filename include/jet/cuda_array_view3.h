@@ -28,7 +28,7 @@ class CudaArrayView<T, 3> final {
 
     CudaArrayView();
 
-    CudaArrayView(pointer data, const Size3& size);
+    CudaArrayView(pointer data, const Vector3UZ& size);
 
     CudaArrayView(const CudaArray<T, 3>& array);
 
@@ -36,7 +36,7 @@ class CudaArrayView<T, 3> final {
 
     CudaArrayView(CudaArrayView&& other);
 
-    void set(pointer data, const Size3& size);
+    void set(pointer data, const Vector3UZ& size);
 
     void set(const CudaArray<T, 3>& array);
 
@@ -44,7 +44,7 @@ class CudaArrayView<T, 3> final {
 
     void swap(CudaArrayView& other);
 
-    const Size3& size() const;
+    const Vector3UZ& size() const;
 
     size_t width() const;
 
@@ -82,7 +82,7 @@ class CudaArrayView<T, 3> final {
 
  private:
     thrust::device_ptr<T> _data;
-    Size3 _size;
+    Vector3UZ _size;
 };
 
 //! Type alias for 3-D CUDA array view.
@@ -102,7 +102,7 @@ class ConstCudaArrayView<T, 3> final {
 
     ConstCudaArrayView();
 
-    ConstCudaArrayView(const_pointer data, const Size3& size);
+    ConstCudaArrayView(const_pointer data, const Vector3UZ& size);
 
     ConstCudaArrayView(const CudaArray<T, 3>& array);
 
@@ -112,7 +112,7 @@ class ConstCudaArrayView<T, 3> final {
 
     ConstCudaArrayView(ConstCudaArrayView&& other);
 
-    const Size3& size() const;
+    const Vector3UZ& size() const;
 
     size_t width() const;
 
@@ -141,9 +141,9 @@ class ConstCudaArrayView<T, 3> final {
 
  private:
     thrust::device_ptr<T> _data;
-    Size3 _size;
+    Vector3UZ _size;
 
-    void set(const_pointer data, const Size3& size);
+    void set(const_pointer data, const Vector3UZ& size);
 
     void set(const CudaArray<T, 3>& array);
 

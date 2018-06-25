@@ -38,7 +38,7 @@ T NearestArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
 
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon());
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector2<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
@@ -54,7 +54,7 @@ T NearestArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
 
 template <typename T, typename R>
 void NearestArraySampler2<T, R>::getCoordinate(const Vector2<R>& x,
-                                               Size2* index) const {
+                                               Vector2UZ* index) const {
     ssize_t i, j;
     R fx, fy;
 
@@ -105,7 +105,7 @@ T LinearArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
 
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon());
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector2<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
@@ -122,7 +122,7 @@ T LinearArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
 
 template <typename T, typename R>
 void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
-    const Vector2<R>& x, std::array<Size2, 4>* indices,
+    const Vector2<R>& x, std::array<Vector2UZ, 4>* indices,
     std::array<R, 4>* weights) const {
     ssize_t i, j;
     R fx, fy;
@@ -140,10 +140,10 @@ void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
     ssize_t ip1 = std::min(i + 1, iSize - 1);
     ssize_t jp1 = std::min(j + 1, jSize - 1);
 
-    (*indices)[0] = Size2(i, j);
-    (*indices)[1] = Size2(ip1, j);
-    (*indices)[2] = Size2(i, jp1);
-    (*indices)[3] = Size2(ip1, jp1);
+    (*indices)[0] = Vector2UZ(i, j);
+    (*indices)[1] = Vector2UZ(ip1, j);
+    (*indices)[2] = Vector2UZ(i, jp1);
+    (*indices)[3] = Vector2UZ(ip1, jp1);
 
     (*weights)[0] = (1 - fx) * (1 - fy);
     (*weights)[1] = fx * (1 - fy);
@@ -153,7 +153,7 @@ void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
 
 template <typename T, typename R>
 void LinearArraySampler2<T, R>::getCoordinatesAndGradientWeights(
-    const Vector2<R>& x, std::array<Size2, 4>* indices,
+    const Vector2<R>& x, std::array<Vector2UZ, 4>* indices,
     std::array<Vector2<R>, 4>* weights) const {
     ssize_t i, j;
     R fx, fy;
@@ -171,10 +171,10 @@ void LinearArraySampler2<T, R>::getCoordinatesAndGradientWeights(
     const ssize_t ip1 = std::min(i + 1, iSize - 1);
     const ssize_t jp1 = std::min(j + 1, jSize - 1);
 
-    (*indices)[0] = Size2(i, j);
-    (*indices)[1] = Size2(ip1, j);
-    (*indices)[2] = Size2(i, jp1);
-    (*indices)[3] = Size2(ip1, jp1);
+    (*indices)[0] = Vector2UZ(i, j);
+    (*indices)[1] = Vector2UZ(ip1, j);
+    (*indices)[2] = Vector2UZ(i, jp1);
+    (*indices)[3] = Vector2UZ(ip1, jp1);
 
     (*weights)[0] = Vector2<R>(fy * _invGridSpacing.x - _invGridSpacing.x,
                                fx * _invGridSpacing.y - _invGridSpacing.y);
@@ -217,7 +217,7 @@ T CubicArraySampler2<T, R>::operator()(const Vector2<R>& x) const {
 
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon());
-    const Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    const Vector2<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     getBarycentric(normalizedX.x, 0, iSize - 1, &i, &fx);
     getBarycentric(normalizedX.y, 0, jSize - 1, &j, &fy);

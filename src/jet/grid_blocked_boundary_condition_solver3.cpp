@@ -27,7 +27,7 @@ void GridBlockedBoundaryConditionSolver3::constrainVelocity(
         velocity, extrapolationDepth);
 
     // No-flux: project the velocity at the marker interface
-    Size3 size = velocity->resolution();
+    Vector3UZ size = velocity->resolution();
     auto u = velocity->uView();
     auto v = velocity->vView();
     auto w = velocity->wView();
@@ -73,7 +73,7 @@ const Array3<char>& GridBlockedBoundaryConditionSolver3::marker() const {
 }
 
 void GridBlockedBoundaryConditionSolver3::onColliderUpdated(
-    const Size3& gridSize,
+    const Vector3UZ& gridSize,
     const Vector3D& gridSpacing,
     const Vector3D& gridOrigin) {
     GridFractionalBoundaryConditionSolver3::onColliderUpdated(

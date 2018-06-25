@@ -28,7 +28,7 @@ GridSystemData2::GridSystemData2()
 }
 
 GridSystemData2::GridSystemData2(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin) {
     _velocity = std::make_shared<FaceCenteredGrid2>();
@@ -67,7 +67,7 @@ GridSystemData2::~GridSystemData2() {
 }
 
 void GridSystemData2::resize(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin) {
     _resolution = resolution;
@@ -88,7 +88,7 @@ void GridSystemData2::resize(
     }
 }
 
-Size2 GridSystemData2::resolution() const {
+Vector2UZ GridSystemData2::resolution() const {
     return _resolution;
 }
 

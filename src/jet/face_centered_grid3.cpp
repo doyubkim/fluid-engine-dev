@@ -32,13 +32,13 @@ FaceCenteredGrid3::FaceCenteredGrid3(size_t resolutionX, size_t resolutionY,
                                      double originX, double originY,
                                      double originZ, double initialValueU,
                                      double initialValueV, double initialValueW)
-    : FaceCenteredGrid3(Size3(resolutionX, resolutionY, resolutionZ),
+    : FaceCenteredGrid3(Vector3UZ(resolutionX, resolutionY, resolutionZ),
                         Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
                         Vector3D(originX, originY, originZ),
                         Vector3D(initialValueU, initialValueV, initialValueW)) {
 }
 
-FaceCenteredGrid3::FaceCenteredGrid3(const Size3& resolution,
+FaceCenteredGrid3::FaceCenteredGrid3(const Vector3UZ& resolution,
                                      const Vector3D& gridSpacing,
                                      const Vector3D& origin,
                                      const Vector3D& initialValue)
@@ -151,7 +151,7 @@ double FaceCenteredGrid3::divergenceAtCellCenter(size_t i, size_t j,
 
 Vector3D FaceCenteredGrid3::curlAtCellCenter(size_t i, size_t j,
                                              size_t k) const {
-    const Size3& res = resolution();
+    const Vector3UZ& res = resolution();
     const Vector3D& gs = gridSpacing();
 
     JET_ASSERT(i < res.x && j < res.y && k < res.z);
@@ -226,11 +226,11 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::wPosition() const {
     };
 }
 
-Size3 FaceCenteredGrid3::uSize() const { return _dataU.size(); }
+Vector3UZ FaceCenteredGrid3::uSize() const { return _dataU.size(); }
 
-Size3 FaceCenteredGrid3::vSize() const { return _dataV.size(); }
+Vector3UZ FaceCenteredGrid3::vSize() const { return _dataV.size(); }
 
-Size3 FaceCenteredGrid3::wSize() const { return _dataW.size(); }
+Vector3UZ FaceCenteredGrid3::wSize() const { return _dataW.size(); }
 
 Vector3D FaceCenteredGrid3::uOrigin() const { return _dataOriginU; }
 
@@ -330,7 +330,7 @@ std::function<Vector3D(const Vector3D&)> FaceCenteredGrid3::sampler() const {
 }
 
 double FaceCenteredGrid3::divergence(const Vector3D& x) const {
-    Size3 res = resolution();
+    Vector3UZ res = resolution();
     ssize_t i, j, k;
     double fx, fy, fz;
     Vector3D cellCenterOrigin = origin() + 0.5 * gridSpacing();
@@ -341,17 +341,17 @@ double FaceCenteredGrid3::divergence(const Vector3D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
     getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
 
-    indices[0] = Size3(i, j, k);
-    indices[1] = Size3(i + 1, j, k);
-    indices[2] = Size3(i, j + 1, k);
-    indices[3] = Size3(i + 1, j + 1, k);
-    indices[4] = Size3(i, j, k + 1);
-    indices[5] = Size3(i + 1, j, k + 1);
-    indices[6] = Size3(i, j + 1, k + 1);
-    indices[7] = Size3(i + 1, j + 1, k + 1);
+    indices[0] = Vector3UZ(i, j, k);
+    indices[1] = Vector3UZ(i + 1, j, k);
+    indices[2] = Vector3UZ(i, j + 1, k);
+    indices[3] = Vector3UZ(i + 1, j + 1, k);
+    indices[4] = Vector3UZ(i, j, k + 1);
+    indices[5] = Vector3UZ(i + 1, j, k + 1);
+    indices[6] = Vector3UZ(i, j + 1, k + 1);
+    indices[7] = Vector3UZ(i + 1, j + 1, k + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy) * (1.0 - fz);
     weights[1] = fx * (1.0 - fy) * (1.0 - fz);
@@ -373,7 +373,7 @@ double FaceCenteredGrid3::divergence(const Vector3D& x) const {
 }
 
 Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
-    Size3 res = resolution();
+    Vector3UZ res = resolution();
     ssize_t i, j, k;
     double fx, fy, fz;
     Vector3D cellCenterOrigin = origin() + 0.5 * gridSpacing();
@@ -384,17 +384,17 @@ Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
     getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
     getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
 
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
 
-    indices[0] = Size3(i, j, k);
-    indices[1] = Size3(i + 1, j, k);
-    indices[2] = Size3(i, j + 1, k);
-    indices[3] = Size3(i + 1, j + 1, k);
-    indices[4] = Size3(i, j, k + 1);
-    indices[5] = Size3(i + 1, j, k + 1);
-    indices[6] = Size3(i, j + 1, k + 1);
-    indices[7] = Size3(i + 1, j + 1, k + 1);
+    indices[0] = Vector3UZ(i, j, k);
+    indices[1] = Vector3UZ(i + 1, j, k);
+    indices[2] = Vector3UZ(i, j + 1, k);
+    indices[3] = Vector3UZ(i + 1, j + 1, k);
+    indices[4] = Vector3UZ(i, j, k + 1);
+    indices[5] = Vector3UZ(i + 1, j, k + 1);
+    indices[6] = Vector3UZ(i, j + 1, k + 1);
+    indices[7] = Vector3UZ(i + 1, j + 1, k + 1);
 
     weights[0] = (1.0 - fx) * (1.0 - fy) * (1.0 - fz);
     weights[1] = fx * (1.0 - fy) * (1.0 - fz);
@@ -415,18 +415,18 @@ Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
     return result;
 }
 
-void FaceCenteredGrid3::onResize(const Size3& resolution,
+void FaceCenteredGrid3::onResize(const Vector3UZ& resolution,
                                  const Vector3D& gridSpacing,
                                  const Vector3D& origin,
                                  const Vector3D& initialValue) {
-    if (resolution != Size3(0, 0, 0)) {
-        _dataU.resize(resolution + Size3(1, 0, 0), initialValue.x);
-        _dataV.resize(resolution + Size3(0, 1, 0), initialValue.y);
-        _dataW.resize(resolution + Size3(0, 0, 1), initialValue.z);
+    if (resolution != Vector3UZ(0, 0, 0)) {
+        _dataU.resize(resolution + Vector3UZ(1, 0, 0), initialValue.x);
+        _dataV.resize(resolution + Vector3UZ(0, 1, 0), initialValue.y);
+        _dataW.resize(resolution + Vector3UZ(0, 0, 1), initialValue.z);
     } else {
-        _dataU.resize(Size3(0, 0, 0));
-        _dataV.resize(Size3(0, 0, 0));
-        _dataW.resize(Size3(0, 0, 0));
+        _dataU.resize(Vector3UZ(0, 0, 0));
+        _dataV.resize(Vector3UZ(0, 0, 0));
+        _dataW.resize(Vector3UZ(0, 0, 0));
     }
     _dataOriginU = origin + 0.5 * Vector3D(0.0, gridSpacing.y, gridSpacing.z);
     _dataOriginV = origin + 0.5 * Vector3D(gridSpacing.x, 0.0, gridSpacing.z);
@@ -490,7 +490,7 @@ void FaceCenteredGrid3::setData(const std::vector<double>& data) {
 }
 
 FaceCenteredGrid3::Builder& FaceCenteredGrid3::Builder::withResolution(
-    const Size3& resolution) {
+    const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -558,7 +558,7 @@ FaceCenteredGrid3Ptr FaceCenteredGrid3::Builder::makeShared() const {
 }
 
 VectorGrid3Ptr FaceCenteredGrid3::Builder::build(
-    const Size3& resolution, const Vector3D& gridSpacing,
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
     const Vector3D& gridOrigin, const Vector3D& initialVal) const {
     return std::shared_ptr<FaceCenteredGrid3>(
         new FaceCenteredGrid3(resolution, gridSpacing, gridOrigin, initialVal),

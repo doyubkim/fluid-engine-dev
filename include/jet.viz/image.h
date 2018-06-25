@@ -52,7 +52,7 @@ class ByteImage final {
                 const ByteColor& initialValue = ByteColor());
 
     //! Returns the size of the image.
-    Size2 size() const;
+    Vector2UZ size() const;
 
     //! Returns mutable raw pointer of the image data.
     ByteColor* data();

@@ -19,7 +19,7 @@ Grid3::Grid3() {}
 
 Grid3::~Grid3() {}
 
-const Size3& Grid3::resolution() const { return _resolution; }
+const Vector3UZ& Grid3::resolution() const { return _resolution; }
 
 const Vector3D& Grid3::origin() const { return _origin; }
 
@@ -60,7 +60,7 @@ bool Grid3::hasSameShape(const Grid3& other) const {
            similar(_origin.z, other._origin.z);
 }
 
-void Grid3::setSizeParameters(const Size3& resolution,
+void Grid3::setSizeParameters(const Vector3UZ& resolution,
                               const Vector3D& gridSpacing,
                               const Vector3D& origin) {
     _resolution = resolution;

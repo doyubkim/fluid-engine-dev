@@ -31,19 +31,19 @@ ScalarGrid3::ScalarGrid3()
 
 ScalarGrid3::~ScalarGrid3() {}
 
-void ScalarGrid3::clear() { resize(Size3(), gridSpacing(), origin(), 0.0); }
+void ScalarGrid3::clear() { resize(Vector3UZ(), gridSpacing(), origin(), 0.0); }
 
 void ScalarGrid3::resize(size_t resolutionX, size_t resolutionY,
                          size_t resolutionZ, double gridSpacingX,
                          double gridSpacingY, double gridSpacingZ,
                          double originX, double originY, double originZ,
                          double initialValue) {
-    resize(Size3(resolutionX, resolutionY, resolutionZ),
+    resize(Vector3UZ(resolutionX, resolutionY, resolutionZ),
            Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
            Vector3D(originX, originY, originZ), initialValue);
 }
 
-void ScalarGrid3::resize(const Size3& resolution, const Vector3D& gridSpacing,
+void ScalarGrid3::resize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                          const Vector3D& origin, double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
@@ -85,7 +85,7 @@ std::function<double(const Vector3D&)> ScalarGrid3::sampler() const {
 }
 
 Vector3D ScalarGrid3::gradient(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 
@@ -100,7 +100,7 @@ Vector3D ScalarGrid3::gradient(const Vector3D& x) const {
 }
 
 double ScalarGrid3::laplacian(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
     _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
 

@@ -16,43 +16,6 @@
 
 namespace jet {
 
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE>::MatrixCsrVectorMul(const MatrixCsr<T>& m,
-                                              const VE& v)
-    : _m(m), _v(v) {
-    JET_ASSERT(_m.cols() == _v.size());
-}
-
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE>::MatrixCsrVectorMul(const MatrixCsrVectorMul& other)
-    : _m(other._m), _v(other._v) {}
-
-template <typename T, typename VE>
-size_t MatrixCsrVectorMul<T, VE>::size() const {
-    return _m.rows();
-}
-
-template <typename T, typename VE>
-T MatrixCsrVectorMul<T, VE>::operator[](size_t i) const {
-    auto rp = _m.rowPointersBegin();
-    auto ci = _m.columnIndicesBegin();
-    auto nnz = _m.nonZeroBegin();
-
-    size_t colBegin = rp[i];
-    size_t colEnd = rp[i + 1];
-
-    T sum = 0;
-
-    for (size_t jj = colBegin; jj < colEnd; ++jj) {
-        size_t j = ci[jj];
-        sum += nnz[jj] * _v[j];
-    }
-
-    return sum;
-}
-
-//
-
 template <typename T, typename ME>
 MatrixCsrMatrixMul<T, ME>::MatrixCsrMatrixMul(const MatrixCsr<T>& m1,
                                               const ME& m2)
@@ -61,11 +24,6 @@ MatrixCsrMatrixMul<T, ME>::MatrixCsrMatrixMul(const MatrixCsr<T>& m1,
       _nnz(m1.nonZeroData()),
       _rp(m1.rowPointersData()),
       _ci(m1.columnIndicesData()) {}
-
-template <typename T, typename ME>
-Size2 MatrixCsrMatrixMul<T, ME>::size() const {
-    return {rows(), cols()};
-}
 
 template <typename T, typename ME>
 size_t MatrixCsrMatrixMul<T, ME>::rows() const {
@@ -153,7 +111,7 @@ void MatrixCsr<T>::set(const MatrixCsr& other) {
 
 template <typename T>
 void MatrixCsr<T>::reserve(size_t rows, size_t cols, size_t numNonZeros) {
-    _size = Size2(rows, cols);
+    _size = Vector2UZ(rows, cols);
     _rowPointers.resize(_size.x + 1);
     _nonZeros.resize(numNonZeros);
     _columnIndices.resize(numNonZeros);
@@ -351,7 +309,7 @@ bool MatrixCsr<T>::isSquare() const {
 }
 
 template <typename T>
-Size2 MatrixCsr<T>::size() const {
+Vector2UZ MatrixCsr<T>::size() const {
     return _size;
 }
 
@@ -506,13 +464,6 @@ MatrixCsr<T> MatrixCsr<T>::mul(const T& s) const {
                 [&](size_t i) { ret._nonZeros[i] *= s; });
     return ret;
 }
-
-template <typename T>
-template <typename VE>
-MatrixCsrVectorMul<T, VE> MatrixCsr<T>::mul(
-    const VectorExpression<T, VE>& v) const {
-    return MatrixCsrVectorMul<T, VE>(*this, v());
-};
 
 template <typename T>
 template <typename ME>
@@ -732,7 +683,7 @@ MatrixCsr<T>& MatrixCsr<T>::operator=(const MatrixCsr& other) {
 template <typename T>
 MatrixCsr<T>& MatrixCsr<T>::operator=(MatrixCsr&& other) {
     _size = other._size;
-    other._size = Size2();
+    other._size = Vector2UZ();
     _nonZeros = std::move(other._nonZeros);
     _rowPointers = std::move(other._rowPointers);
     _columnIndices = std::move(other._columnIndices);
@@ -805,7 +756,7 @@ bool MatrixCsr<T>::operator!=(const MatrixCsr& m) const {
 template <typename T>
 MatrixCsr<T> MatrixCsr<T>::makeIdentity(size_t m) {
     MatrixCsr ret;
-    ret._size = Size2(m, m);
+    ret._size = Vector2UZ(m, m);
     ret._nonZeros.resize(m, 1.0);
     ret._columnIndices.resize(m);
     std::iota(ret._columnIndices.begin(), ret._columnIndices.end(), kZeroSize);
@@ -923,12 +874,6 @@ MatrixCsr<T> operator*(const MatrixCsr<T>& a, T b) {
 template <typename T>
 MatrixCsr<T> operator*(T a, const MatrixCsr<T>& b) {
     return b.rmul(a);
-}
-
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE> operator*(const MatrixCsr<T>& a,
-                                    const VectorExpression<T, VE>& b) {
-    return a.mul(b);
 }
 
 template <typename T, typename ME>

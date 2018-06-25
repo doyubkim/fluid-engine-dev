@@ -27,7 +27,7 @@ bool FdmCgSolver3::solve(FdmLinearSystem3* system) {
 
     clearCompressedVectors();
 
-    Size3 size = matrix.size();
+    Vector3UZ size = matrix.size();
     _r.resize(size);
     _d.resize(size);
     _q.resize(size);

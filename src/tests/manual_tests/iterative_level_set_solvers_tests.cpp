@@ -21,7 +21,7 @@ using namespace jet;
 JET_TESTS(LevelSetSolver2);
 
 JET_BEGIN_TEST_F(LevelSetSolver2, Reinitialize) {
-    Size2 size(256, 256);
+    Vector2UZ size(256, 256);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
@@ -46,8 +46,8 @@ JET_BEGIN_TEST_F(LevelSetSolver2, Reinitialize) {
 
     CustomVectorField2 flow(flowFunc);
 
-    CellCenteredScalarGrid2 dataU(Size2(20, 20), Vector2D(1/20.0, 1/20.0));
-    CellCenteredScalarGrid2 dataV(Size2(20, 20), Vector2D(1/20.0, 1/20.0));
+    CellCenteredScalarGrid2 dataU(Vector2UZ(20, 20), Vector2D(1/20.0, 1/20.0));
+    CellCenteredScalarGrid2 dataV(Vector2UZ(20, 20), Vector2D(1/20.0, 1/20.0));
     dataU.fill([&] (const Vector2D& pt) {
         return flowFunc(pt).x;
     });
@@ -72,7 +72,7 @@ JET_BEGIN_TEST_F(LevelSetSolver2, Reinitialize) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize) {
-    Size2 size(256, 256);
+    Vector2UZ size(256, 256);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
@@ -205,7 +205,7 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate) {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
@@ -394,7 +394,7 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, Reinitialize) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, Extrapolate) {
-    Size2 size(160, 120);
+    Vector2UZ size(160, 120);
     Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 

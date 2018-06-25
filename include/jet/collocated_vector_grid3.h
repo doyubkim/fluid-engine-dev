@@ -25,7 +25,7 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     virtual ~CollocatedVectorGrid3();
 
     //! Returns the actual data point size.
-    virtual Size3 dataSize() const = 0;
+    virtual Vector3UZ dataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0, 0).
@@ -115,7 +115,7 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     LinearArraySampler3<Vector3D, double> _linearSampler;
     std::function<Vector3D(const Vector3D&)> _sampler;
 
-    void onResize(const Size3& resolution, const Vector3D& gridSpacing,
+    void onResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                   const Vector3D& origin, const Vector3D& initialValue) final;
 
     void resetSampler();

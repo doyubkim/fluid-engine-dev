@@ -191,21 +191,21 @@ const Vector2D& TriangleMesh3::uv(size_t i) const { return _uvs[i]; }
 
 Vector2D& TriangleMesh3::uv(size_t i) { return _uvs[i]; }
 
-const Size3& TriangleMesh3::pointIndex(size_t i) const {
+const Vector3UZ& TriangleMesh3::pointIndex(size_t i) const {
     return _pointIndices[i];
 }
 
-Size3& TriangleMesh3::pointIndex(size_t i) { return _pointIndices[i]; }
+Vector3UZ& TriangleMesh3::pointIndex(size_t i) { return _pointIndices[i]; }
 
-const Size3& TriangleMesh3::normalIndex(size_t i) const {
+const Vector3UZ& TriangleMesh3::normalIndex(size_t i) const {
     return _normalIndices[i];
 }
 
-Size3& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
+Vector3UZ& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
 
-const Size3& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
+const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
 
-Size3& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
+Vector3UZ& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
 
 Triangle3 TriangleMesh3::triangle(size_t i) const {
     Triangle3 tri;
@@ -247,13 +247,13 @@ void TriangleMesh3::addNormal(const Vector3D& n) { _normals.append(n); }
 
 void TriangleMesh3::addUv(const Vector2D& t) { _uvs.append(t); }
 
-void TriangleMesh3::addPointTriangle(const Size3& newPointIndices) {
+void TriangleMesh3::addPointTriangle(const Vector3UZ& newPointIndices) {
     _pointIndices.append(newPointIndices);
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointNormalTriangle(const Size3& newPointIndices,
-                                           const Size3& newNormalIndices) {
+void TriangleMesh3::addPointNormalTriangle(const Vector3UZ& newPointIndices,
+                                           const Vector3UZ& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.length() == _normalIndices.length());
@@ -264,9 +264,9 @@ void TriangleMesh3::addPointNormalTriangle(const Size3& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvNormalTriangle(const Size3& newPointIndices,
-                                             const Size3& newUvIndices,
-                                             const Size3& newNormalIndices) {
+void TriangleMesh3::addPointUvNormalTriangle(const Vector3UZ& newPointIndices,
+                                             const Vector3UZ& newUvIndices,
+                                             const Vector3UZ& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.length() == _normalIndices.length());
@@ -278,8 +278,8 @@ void TriangleMesh3::addPointUvNormalTriangle(const Size3& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvTriangle(const Size3& newPointIndices,
-                                       const Size3& newUvIndices) {
+void TriangleMesh3::addPointUvTriangle(const Vector3UZ& newPointIndices,
+                                       const Vector3UZ& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.length() == _uvs.length());
@@ -293,9 +293,9 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
     size_t vStart = _points.length();
     size_t nStart = _normals.length();
     size_t tStart = _uvs.length();
-    Size3 newPointIndices;
-    Size3 newNormalIndices;
-    Size3 newUvIndices;
+    Vector3UZ newPointIndices;
+    Vector3UZ newNormalIndices;
+    Vector3UZ newUvIndices;
     for (size_t i = 0; i < 3; i++) {
         _points.append(tri.points[i]);
         _normals.append(tri.normals[i]);
@@ -318,7 +318,7 @@ void TriangleMesh3::setFaceNormal() {
     for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
         Vector3D n = tri.faceNormal();
-        Size3 f = _pointIndices[i];
+        Vector3UZ f = _pointIndices[i];
         _normals[f.x] = n;
         _normals[f.y] = n;
         _normals[f.z] = n;
