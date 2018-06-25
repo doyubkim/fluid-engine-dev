@@ -127,7 +127,7 @@ void MatrixMxN<T>::setColumn(size_t j, const VectorExpression<T, E>& col) {
 template <typename T>
 template <typename E>
 bool MatrixMxN<T>::isEqual(const MatrixExpression<T, E>& other) const {
-    if (size() != other.size()) {
+    if (rows() != other.rows() && cols() != other.cols()) {
         return false;
     }
 
@@ -147,7 +147,7 @@ template <typename T>
 template <typename E>
 bool MatrixMxN<T>::isSimilar(const MatrixExpression<T, E>& other,
                              double tol) const {
-    if (size() != other.size()) {
+    if (rows() != other.rows() && cols() != other.cols()) {
         return false;
     }
 

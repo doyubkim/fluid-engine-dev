@@ -15,30 +15,6 @@ namespace jet {
 // MARK: MatrixExpression
 
 //!
-//! \brief Base class for matrix expression.
-//!
-//! Matrix expression is a meta type that enables template expression pattern.
-//!
-//! \tparam T  Real number type.
-//! \tparam E  Subclass type.
-//!
-template <typename T, typename E>
-class MatrixExpression {
- public:
-    //! Size of the matrix.
-    Size2 size() const;
-
-    //! Number of rows.
-    size_t rows() const;
-
-    //! Number of columns.
-    size_t cols() const;
-
-    //! Returns actual implementation (the subclass).
-    const E& operator()() const;
-};
-
-//!
 //! \brief Constant matrix expression.
 //!
 //! This matrix expression represents a constant matrix.

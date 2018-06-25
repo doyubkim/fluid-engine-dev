@@ -7,6 +7,9 @@
 #ifndef INCLUDE_JET_TUPLE_H_
 #define INCLUDE_JET_TUPLE_H_
 
+#include <jet/_static_matrix.h>
+
+#if 0
 #include <jet/macros.h>
 
 #include <array>
@@ -270,5 +273,7 @@ using Size4 = Tuple4<size_t>;
 
 #include <jet/detail/tuple-inl.h>
 #include <jet/tuple_utils.h>
+
+#endif
 
 #endif  // INCLUDE_JET_TUPLE_H_

@@ -6,6 +6,7 @@
 
 #ifndef INCLUDE_JET_JET_H_
 #define INCLUDE_JET_JET_H_
+#include <jet/_matrix.h>
 #include <jet/advection_solver2.h>
 #include <jet/advection_solver3.h>
 #include <jet/animation.h>

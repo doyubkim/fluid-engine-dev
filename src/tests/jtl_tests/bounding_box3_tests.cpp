@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <unit_tests_utils.h>
+#include <jtl_tests_utils.h>
 
 #include <jet/bounding_box3.h>
 

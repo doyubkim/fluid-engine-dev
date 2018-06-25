@@ -11,6 +11,12 @@
 
 namespace jet {
 
+//! No-op operator.
+template <typename T>
+struct NoOp {
+    constexpr T operator()(const T& a) const;
+};
+
 //! Type casting operator.
 template <typename T, typename U>
 struct TypeCast {
@@ -26,6 +32,12 @@ struct Ceil {
 //! Performs std::floor.
 template <typename T>
 struct Floor {
+    constexpr T operator()(const T& a) const;
+};
+
+//! Square operator (a * a).
+template <typename T>
+struct Square {
     constexpr T operator()(const T& a) const;
 };
 
@@ -75,6 +87,26 @@ struct Min {
 template <typename T>
 struct Max {
     constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Takes absolute minimum value.
+template <typename T>
+struct AbsMin {
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! Takes absolute maximum value.
+template <typename T>
+struct AbsMax {
+    constexpr T operator()(const T& a, const T& b) const;
+};
+
+//! True if similar
+template <typename T>
+struct SimilarTo {
+    double tol;
+    constexpr SimilarTo(double tol_ = std::numeric_limits<double>::epsilon()) : tol(tol_) {}
+    constexpr bool operator()(const T& a, const T& b) const;
 };
 
 //! Clamps the input value with low/high.

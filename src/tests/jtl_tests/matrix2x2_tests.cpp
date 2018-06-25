@@ -4,14 +4,20 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/matrix2x2.h>
+//#include <jet/matrix2x2.h>
+#include <jet/_static_matrix.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
 
+using Matrix2x2D = StaticMatrix<double, 2, 2>;
+
 TEST(Matrix2x2, Constructors) {
     Matrix2x2D mat;
-    EXPECT_TRUE(mat == Matrix2x2D(1.0, 0.0, 0.0, 1.0));
+    // Deprecated behavior: default ctor will make zero matrix, not an identity.
+    // EXPECT_TRUE(mat == Matrix2x2D(1.0, 0.0, 0.0, 1.0));
+    EXPECT_TRUE(mat == Matrix2x2D(0.0, 0.0, 0.0, 0.0));
 
     Matrix2x2D mat2(3.1);
     for (int i = 0; i < 4; ++i) {
@@ -43,37 +49,24 @@ TEST(Matrix2x2, Constructors) {
 TEST(Matrix2x2, SetMethods) {
     Matrix2x2D mat;
 
-    mat.set(3.1);
+    mat.fill(3.1);
     for (int i = 0; i < 4; ++i) {
         EXPECT_DOUBLE_EQ(3.1, mat[i]);
     }
 
-    mat.set(0.0);
-    mat.set(1.0, 2.0, 3.0, 4.0);
+    mat.fill([](size_t i) -> double { return i + 1.0; });
     for (int i = 0; i < 4; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.set(0.0);
-    mat.set({{1.0, 2.0}, {3.0, 4.0}});
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+    mat.fill([](size_t i, size_t j) -> double { return i + j; });
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
+        }
     }
 
-    mat.set(0.0);
-    mat.set(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.set(0.0);
-    double arr[4] = {1.0, 2.0, 3.0, 4.0};
-    mat.set(arr);
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
-    }
-
-    mat.set(0.0);
+    mat.fill(0.0);
     mat.setDiagonal(3.1);
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -85,7 +78,7 @@ TEST(Matrix2x2, SetMethods) {
         }
     }
 
-    mat.set(0.0);
+    mat.fill(0.0);
     mat.setOffDiagonal(4.2);
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -97,16 +90,16 @@ TEST(Matrix2x2, SetMethods) {
         }
     }
 
-    mat.set(0.0);
-    mat.setRow(0, Vector2D(1.0, 2.0));
-    mat.setRow(1, Vector2D(3.0, 4.0));
+    mat.fill(0.0);
+    mat.setRow(0, _Vector<double, 2>(1.0, 2.0));
+    mat.setRow(1, _Vector<double, 2>(3.0, 4.0));
     for (int i = 0; i < 4; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.set(0.0);
-    mat.setColumn(0, Vector2D(1.0, 3.0));
-    mat.setColumn(1, Vector2D(2.0, 4.0));
+    mat.fill(0.0);
+    mat.setColumn(0, _Vector<double, 2>(1.0, 3.0));
+    mat.setColumn(1, _Vector<double, 2>(2.0, 4.0));
     for (int i = 0; i < 4; ++i) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
@@ -126,84 +119,34 @@ TEST(Matrix2x2, BasicGetters) {
 
 TEST(Matrix2x2, BinaryOperators) {
     Matrix2x2D mat(-4.0, 3.0, -2.0, 1.0), mat2;
-    Vector2D vec;
+    Double2 vec;
 
-    mat2 = mat.add(2.0);
+    mat2 = mat + 2.0;
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-2.0, 5.0, 0.0, 3.0)));
 
-    mat2 = mat.add(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
+    mat2 = mat + Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-3.0, 5.0, 1.0, 5.0)));
 
-    mat2 = mat.sub(2.0);
+    mat2 = mat - 2.0;
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-6.0, 1.0, -4.0, -1.0)));
 
-    mat2 = mat.sub(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
+    mat2 = mat - Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-5.0, 1.0, -5.0, -3.0)));
 
-    mat2 = mat.mul(2.0);
+    mat2 = mat * 2.0;
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-8.0, 6.0, -4.0, 2.0)));
 
-    vec = mat.mul(Vector2D(1, 2));
-    EXPECT_TRUE(vec.isSimilar(Vector2D(2.0, 0.0)));
+    vec = mat * Double2(1, 2);
+    EXPECT_TRUE(vec.isSimilar(Double2(2.0, 0.0)));
 
-    mat2 = mat.mul(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
+    mat2 = mat * Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(5.0, 4.0, 1.0, 0.0)));
 
-    mat2 = mat.div(2.0);
+    mat2 = mat / 2.0;
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-2.0, 1.5, -1.0, 0.5)));
 
-
-    mat2 = mat.radd(2.0);
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-2.0, 5.0, 0.0, 3.0)));
-
-    mat2 = mat.radd(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-3.0, 5.0, 1.0, 5.0)));
-
-    mat2 = mat.rsub(2.0);
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(6.0, -1.0, 4.0, 1.0)));
-
-    mat2 = mat.rsub(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(5.0, -1.0, 5.0, 3.0)));
-
-    mat2 = mat.rmul(2.0);
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-8.0, 6.0, -4.0, 2.0)));
-
-    mat2 = mat.rmul(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-8.0, 5.0, -20.0, 13.0)));
-
-    mat2 = mat.rdiv(2.0);
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-0.5, 2.0/3.0, -1.0, 2.0)));
-}
-
-TEST(Matrix2x2, AugmentedOperators) {
-    Matrix2x2D mat(-4.0, 3.0, -2.0, 1.0);
-
-    mat.iadd(2.0);
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-2.0, 5.0, 0.0, 3.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.iadd(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-3.0, 5.0, 1.0, 5.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.isub(2.0);
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-6.0, 1.0, -4.0, -1.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.isub(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-5.0, 1.0, -5.0, -3.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.imul(2.0);
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-8.0, 6.0, -4.0, 2.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.imul(Matrix2x2D(1.0, 2.0, 3.0, 4.0));
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(5.0, 4.0, 1.0, 0.0)));
-
-    mat.set(-4.0, 3.0, -2.0, 1.0);
-    mat.idiv(2.0);
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-2.0, 1.5, -1.0, 0.5)));
+    vec = ((mat * Matrix2x2D(1.0, 2.0, 3.0, 4.0)) + 1.0) * Double2(1, 2);
+    EXPECT_TRUE(vec.isSimilar(Double2(16.0, 4.0)));
 }
 
 TEST(Matrix2x2, Modifiers) {
@@ -212,7 +155,7 @@ TEST(Matrix2x2, Modifiers) {
     mat.transpose();
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-4.0, -2.0, 3.0, 1.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat.invert();
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(0.5, -1.5, 1.0, -2.0)));
 }
@@ -256,12 +199,13 @@ TEST(Matrix2x2, ComplexGetters) {
 
     mat2 = mat.transposed();
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-4.0, -2.0, 3.0, 1.0)));
-
-    mat2 = mat.inverse();
-    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(0.5, -1.5, 1.0, -2.0)));
-
-    Matrix2x2F mat3 = mat.castTo<float>();
-    EXPECT_TRUE(mat3.isSimilar(Matrix2x2F(-4.f, 3.f, -2.f, 1.f)));
+    /*
+        mat2 = mat.inverse();
+        EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(0.5, -1.5, 1.0, -2.0)));
+    */
+    StaticMatrix<float, 2, 2> mat3 = mat.castTo<float>();
+    EXPECT_TRUE(
+        mat3.isSimilar(StaticMatrix<float, 2, 2>(-4.f, 3.f, -2.f, 1.f)));
 }
 
 TEST(Matrix2x2, SetterOperatorOverloadings) {
@@ -273,27 +217,27 @@ TEST(Matrix2x2, SetterOperatorOverloadings) {
     mat += 2.0;
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-2.0, 5.0, 0.0, 3.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat += Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-3.0, 5.0, 1.0, 5.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat -= 2.0;
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-6.0, 1.0, -4.0, -1.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat -= Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-5.0, 1.0, -5.0, -3.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat *= 2.0;
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-8.0, 6.0, -4.0, 2.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat *= Matrix2x2D(1.0, 2.0, 3.0, 4.0);
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(5.0, 4.0, 1.0, 0.0)));
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     mat /= 2.0;
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-2.0, 1.5, -1.0, 0.5)));
 }
@@ -315,7 +259,7 @@ TEST(Matrix2x2, GetterOperatorOverloadings) {
     EXPECT_DOUBLE_EQ(2.0, mat[2]);
     EXPECT_DOUBLE_EQ(-1.0, mat[3]);
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     EXPECT_DOUBLE_EQ(-4.0, mat(0, 0));
     EXPECT_DOUBLE_EQ(3.0, mat(0, 1));
     EXPECT_DOUBLE_EQ(-2.0, mat(1, 0));
@@ -330,13 +274,13 @@ TEST(Matrix2x2, GetterOperatorOverloadings) {
     EXPECT_DOUBLE_EQ(2.0, mat[2]);
     EXPECT_DOUBLE_EQ(-1.0, mat[3]);
 
-    mat.set(-4.0, 3.0, -2.0, 1.0);
+    mat = {-4.0, 3.0, -2.0, 1.0};
     EXPECT_TRUE(mat == Matrix2x2D(-4.0, 3.0, -2.0, 1.0));
 
-    mat.set(4.0, 3.0, 2.0, 1.0);
+    mat = {4.0, 3.0, 2.0, 1.0};
     EXPECT_TRUE(mat != Matrix2x2D(-4.0, 3.0, -2.0, 1.0));
 }
-
+/*
 TEST(Matrix2x2, Helpers) {
     Matrix2x2D mat = Matrix2x2D::makeZero();
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(0.0, 0.0, 0.0, 0.0)));
@@ -347,10 +291,11 @@ TEST(Matrix2x2, Helpers) {
     mat = Matrix2x2D::makeScaleMatrix(3.0, -4.0);
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(3.0, 0.0, 0.0, -4.0)));
 
-    mat = Matrix2x2D::makeScaleMatrix(Vector2D(-2.0, 5.0));
+    mat = Matrix2x2D::makeScaleMatrix(Double2(-2.0, 5.0));
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(-2.0, 0.0, 0.0, 5.0)));
 
     mat = Matrix2x2D::makeRotationMatrix(kPiD / 3.0);
-    EXPECT_TRUE(mat.isSimilar(Matrix2x2D(
-        0.5, -std::sqrt(3.0) / 2.0, std::sqrt(3.0) / 2.0, 0.5)));
+    EXPECT_TRUE(mat.isSimilar(
+        Matrix2x2D(0.5, -std::sqrt(3.0) / 2.0, std::sqrt(3.0) / 2.0, 0.5)));
 }
+*/

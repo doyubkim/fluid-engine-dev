@@ -24,10 +24,10 @@ template <typename Func>
 void forEachIndex(size_t begin, size_t end, Func func);
 
 template <size_t N, typename Func>
-void forEachIndex(SizeN<N> size, Func func);
+void forEachIndex(const SizeN<N>& size, Func func);
 
 template <typename Func>
-void forEachIndex(Size1 size, Func func);
+void forEachIndex(const Size1& size, Func func);
 
 template <typename Func>
 void forEachIndex(size_t size, Func func);
@@ -47,11 +47,11 @@ void parallelForEachIndex(size_t begin, size_t end, Func func,
                           ExecutionPolicy policy);
 
 template <size_t N, typename Func>
-void parallelForEachIndex(SizeN<N> size, Func func,
+void parallelForEachIndex(const SizeN<N>& size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 template <typename Func>
-void parallelForEachIndex(Size1 size, Func func,
+void parallelForEachIndex(const Size1& size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 template <typename Func>

@@ -1,0 +1,356 @@
+// Copyright (c) 2018 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
+
+//#include <jet/matrix4x4.h>
+#include <jet/_static_matrix.h>
+
+#include <gtest/gtest.h>
+
+using namespace jet;
+
+using Matrix4x4F = StaticMatrix<float, 4, 4>;
+using Matrix4x4D = StaticMatrix<double, 4, 4>;
+
+TEST(Matrix4x4, Constructors) {
+    Matrix4x4D mat;
+
+    // Deprecated behavior: default ctor will make zero matrix, not an identity.
+    //    for (int i = 0; i < 4; ++i) {
+    //        for (int j = 0; j < 4; ++j) {
+    //            if (i == j) {
+    //                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
+    //            } else {
+    //                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
+    //            }
+    //        }
+    //    }
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            EXPECT_DOUBLE_EQ(0.0, mat(i, j));
+        }
+    }
+
+    Matrix4x4D mat2(3.1);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat2[i]);
+    }
+
+    Matrix4x4D mat3(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat3[i]);
+    }
+
+    Matrix4x4D mat4(
+        {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}});
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat4[i]);
+    }
+
+    Matrix4x4D mat5(mat4);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat5[i]);
+    }
+
+    double arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    Matrix4x4D mat6(arr);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat6[i]);
+    }
+}
+
+TEST(Matrix4x4, SetMethods) {
+    Matrix4x4D mat;
+
+    mat.fill(3.1);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
+    }
+
+    mat.fill(3.1);
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(3.1, mat[i]);
+    }
+
+    mat.fill([](size_t i) -> double { return i + 1.0; });
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+    }
+
+    mat.fill([](size_t i, size_t j) -> double { return i + j; });
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
+        }
+    }
+
+    mat.setDiagonal(3.1);
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (i == j) {
+                EXPECT_DOUBLE_EQ(3.1, mat(i, j));
+            }
+        }
+    }
+
+    mat.setOffDiagonal(4.2);
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (i != j) {
+                EXPECT_DOUBLE_EQ(4.2, mat(i, j));
+            }
+        }
+    }
+
+    mat.setRow(0, Double4(1, 2, 3, 4));
+    mat.setRow(1, Double4(5, 6, 7, 8));
+    mat.setRow(2, Double4(9, 10, 11, 12));
+    mat.setRow(3, Double4(13, 14, 15, 16));
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+    }
+
+    mat.setColumn(0, Double4(1, 5, 9, 13));
+    mat.setColumn(1, Double4(2, 6, 10, 14));
+    mat.setColumn(2, Double4(3, 7, 11, 15));
+    mat.setColumn(3, Double4(4, 8, 12, 16));
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
+    }
+}
+
+TEST(Matrix4x4, BasicGetters) {
+    Matrix4x4D mat(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16),
+        mat2(1.01, 2.01, 2.99, 4.0, 4.99, 6.001, 7.0003, 8.0, 8.99, 10.01, 11,
+             11.99, 13.01, 14.001, 14.999, 16),
+        mat3;
+
+    EXPECT_TRUE(mat.isSimilar(mat2, 0.02));
+    EXPECT_FALSE(mat.isSimilar(mat2, 0.001));
+
+    EXPECT_TRUE(mat.isSquare());
+
+    EXPECT_EQ(4u, mat.rows());
+    EXPECT_EQ(4u, mat.cols());
+}
+
+TEST(Matrix4x4, Modifiers) {
+    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2,
+                   1);
+
+    mat.transpose();
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-16, -12, -8, -6},
+                                          {15, 11, 7, 3},
+                                          {-14, -10, -6, -2},
+                                          {13, 9, 5, 1}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2};
+    mat.invert();
+    EXPECT_TRUE(mat.isSimilar(
+        Matrix4x4D({{-1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0},
+                    {-5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0},
+                    {-5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0},
+                    {1.0, -2.0, 1.0, 0.0}})));
+}
+
+TEST(Matrix4x4, ComplexGetters) {
+    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -4, 3, -2,
+                   1),
+        mat2;
+
+    EXPECT_DOUBLE_EQ(-8.0, mat.sum());
+
+    EXPECT_DOUBLE_EQ(-0.5, mat.avg());
+
+    EXPECT_DOUBLE_EQ(-16.0, mat.min());
+
+    EXPECT_DOUBLE_EQ(15.0, mat.max());
+
+    EXPECT_DOUBLE_EQ(1.0, mat.absmin());
+
+    EXPECT_DOUBLE_EQ(-16.0, mat.absmax());
+
+    EXPECT_DOUBLE_EQ(-10.0, mat.trace());
+
+    EXPECT_DOUBLE_EQ(0.0, mat.determinant());
+
+    mat2 = mat.diagonal();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(-16, 0, 0, 0, 0, 11, 0, 0, 0, 0, -6, 0, 0, 0, 0, 1)));
+
+    mat2 = mat.offDiagonal();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(0, 15, -14, 13, -12, 0, -10, 9, -8, 7, 0, 5, -4, 3, -2, 0)));
+
+    mat2 = mat.strictLowerTri();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(0, 0, 0, 0, -12, 0, 0, 0, -8, 7, 0, 0, -4, 3, -2, 0)));
+
+    mat2 = mat.strictUpperTri();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(0, 15, -14, 13, 0, 0, -10, 9, 0, 0, 0, 5, 0, 0, 0, 0)));
+
+    mat2 = mat.lowerTri();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(-16, 0, 0, 0, -12, 11, 0, 0, -8, 7, -6, 0, -4, 3, -2, 1)));
+
+    mat2 = mat.upperTri();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D(-16, 15, -14, 13, 0, 11, -10, 9, 0, 0, -6, 5, 0, 0, 0, 1)));
+
+    mat2 = mat.transposed();
+    EXPECT_TRUE(mat2.isSimilar(Matrix4x4D({{-16, -12, -8, -4},
+                                           {15, 11, 7, 3},
+                                           {-14, -10, -6, -2},
+                                           {13, 9, 5, 1}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 6, -6, 3, -2, 2};
+    mat2 = mat.inverse();
+    EXPECT_TRUE(mat2.isSimilar(
+        Matrix4x4D({{-1.0 / 2.0, 1.0 / 2.0, 1.0 / 2.0, -1.0 / 2.0},
+                    {-5.0 / 2.0, 5.0 / 2.0, 2.0, -1.0},
+                    {-5.0 / 4.0, 1.0 / 4.0, 5.0 / 2.0, -1.0 / 2.0},
+                    {1.0, -2.0, 1.0, 0.0}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    Matrix4x4F mat3 = mat.castTo<float>();
+    EXPECT_TRUE(mat3.isSimilar(Matrix4x4F(-16, 15, -14, 13, -12, 11, -10, 9, -8,
+                                          7, -6, 5, -6, 3, -2, 1)));
+}
+
+TEST(Matrix4x4, SetterOperatorOverloadings) {
+    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2,
+                   1),
+        mat2;
+
+    mat2 = mat;
+    EXPECT_TRUE(mat2.isSimilar(Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8,
+                                          7, -6, 5, -6, 3, -2, 1)));
+
+    mat += 2.0;
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-14, 17, -12, 15},
+                                          {-10, 13, -8, 11},
+                                          {-6, 9, -4, 7},
+                                          {-4, 5, 0, 3}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat += Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-15, 17, -11, 17},
+                                          {-7, 17, -3, 17},
+                                          {1, 17, 5, 17},
+                                          {7, 17, 13, 17}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat -= 2.0;
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-18, 13, -16, 11},
+                                          {-14, 9, -12, 7},
+                                          {-10, 5, -8, 3},
+                                          {-8, 1, -4, -1}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat -= Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-17, 13, -17, 9},
+                                          {-17, 5, -17, 1},
+                                          {-17, -3, -17, -7},
+                                          {-19, -11, -17, -15}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat *= 2.0;
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{-32, 30, -28, 26},
+                                          {-24, 22, -20, 18},
+                                          {-16, 14, -12, 10},
+                                          {-12, 6, -4, 2}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat *= Matrix4x4D(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D({{102, 100, 98, 96},
+                                          {70, 68, 66, 64},
+                                          {38, 36, 34, 32},
+                                          {4, 0, -4, -8}})));
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -6, 3, -2, 1};
+    mat /= 2.0;
+    EXPECT_TRUE(
+        mat.isSimilar(Matrix4x4D({{-8.0, 15.0 / 2.0, -7.0, 13.0 / 2.0},
+                                  {-6.0, 11.0 / 2.0, -5.0, 9.0 / 2.0},
+                                  {-4.0, 7.0 / 2.0, -3.0, 5.0 / 2.0},
+                                  {-3.0, 3.0 / 2.0, -1.0, 1.0 / 2.0}})));
+}
+
+TEST(Matrix4x4, GetterOperatorOverloadings) {
+    Matrix4x4D mat(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -4, 3, -2,
+                   1);
+
+    double sign = -1.0;
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(sign * (16 - i), mat[i]);
+        sign *= -1.0;
+
+        mat[i] *= -1.0;
+    }
+
+    sign = 1.0;
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_DOUBLE_EQ(sign * (16 - i), mat[i]);
+        sign *= -1.0;
+    }
+
+    sign = 1.0;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            double ans = sign * (16 - (4 * i + j));
+            EXPECT_DOUBLE_EQ(ans, mat(i, j));
+            sign *= -1.0;
+        }
+    }
+
+    mat = {-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6, 5, -4, 3, -2, 1};
+    EXPECT_TRUE(mat == Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6,
+                                  5, -4, 3, -2, 1));
+
+    mat = {16, -15, 14, -13, 12, -11, 10, -9, -8, 7, -6, 5, -4, 3, -2, 1};
+    EXPECT_TRUE(mat != Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6,
+                                  5, -4, 3, -2, 1));
+}
+/*
+TEST(Matrix4x4, Helpers) {
+    Matrix4x4D mat = Matrix4x4D::makeZero();
+    for (int i = 0; i < 16; ++i) {
+        EXPECT_EQ(0.0, mat[i]);
+    }
+
+    mat = Matrix4x4D::makeIdentity();
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            if (i == j) {
+                EXPECT_DOUBLE_EQ(1.0, mat(i, j));
+            } else {
+                EXPECT_DOUBLE_EQ(0.0, mat(i, j));
+            }
+        }
+    }
+
+    mat = Matrix4x4D::makeScaleMatrix(3.0, -4.0, 2.4, 1.0);
+    EXPECT_TRUE(
+        mat.isSimilar(Matrix4x4D(3.0, 0.0, 0.0, 0.0, 0.0, -4.0, 0.0, 0.0, 0.0,
+                                 0.0, 2.4, 0.0, 0.0, 0.0, 0.0, 1.0)));
+
+    mat = Matrix4x4D::makeScaleMatrix(Double4(-2.0, 5.0, 3.5, 1.0));
+    EXPECT_TRUE(
+        mat.isSimilar(Matrix4x4D(-2.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0, 0.0, 0.0,
+                                 0.0, 3.5, 0.0, 0.0, 0.0, 0.0, 1.0)));
+
+    mat = Matrix4x4D::makeRotationMatrix(
+        Double3(-1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0), -74.0 / 180.0 * kPiD);
+    EXPECT_TRUE(mat.isSimilar(Matrix4x4D(0.36, 0.48, -0.8, 0, -0.8, 0.60, 0.0,
+                                         0, 0.48, 0.64, 0.6, 0, 0, 0, 0, 1),
+                              0.05));
+
+    mat = Matrix4x4D::makeTranslationMatrix(Double3(-2.0, 5.0, 3.5));
+    EXPECT_TRUE(
+        mat.isSimilar(Matrix4x4D(1.0, 0.0, 0.0, -2.0, 0.0, 1.0, 0.0, 5.0, 0.0,
+                                 0.0, 1.0, 3.5, 0.0, 0.0, 0.0, 1.0)));
+}
+*/

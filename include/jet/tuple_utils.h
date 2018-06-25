@@ -7,6 +7,8 @@
 #ifndef INCLUDE_JET_TUPLE_UTILS_H_
 #define INCLUDE_JET_TUPLE_UTILS_H_
 
+#if 0
+
 #include <jet/tuple.h>
 
 namespace jet {
@@ -122,5 +124,7 @@ constexpr auto floor(const TupleBase<T, N, D>& a);
 }  // namespace jet
 
 #include <jet/detail/tuple_utils-inl.h>
+
+#endif
 
 #endif  // INCLUDE_JET_TUPLE_UTILS_H_

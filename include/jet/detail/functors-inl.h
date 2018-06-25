@@ -12,6 +12,11 @@
 
 namespace jet {
 
+template <typename T>
+constexpr T NoOp<T>::operator()(const T& a) const {
+    return a;
+}
+
 template <typename T, typename U>
 constexpr U TypeCast<T, U>::operator()(const T& a) const {
     return static_cast<U>(a);
@@ -25,6 +30,11 @@ constexpr T Ceil<T>::operator()(const T& a) const {
 template <typename T>
 constexpr T Floor<T>::operator()(const T& a) const {
     return std::floor(a);
+}
+
+template <typename T>
+constexpr T Square<T>::operator()(const T& a) const {
+    return a * a;
 }
 
 template <typename T>
@@ -65,6 +75,21 @@ constexpr T Min<T>::operator()(const T& a, const T& b) const {
 template <typename T>
 constexpr T Max<T>::operator()(const T& a, const T& b) const {
     return std::max(a, b);
+}
+
+template <typename T>
+constexpr T AbsMin<T>::operator()(const T& a, const T& b) const {
+    return absmin(a, b);
+}
+
+template <typename T>
+constexpr T AbsMax<T>::operator()(const T& a, const T& b) const {
+    return absmax(a, b);
+}
+
+template <typename T>
+constexpr bool SimilarTo<T>::operator()(const T &a, const T &b) const {
+    return std::fabs(a - b) <= tol;
 }
 
 template <typename T>

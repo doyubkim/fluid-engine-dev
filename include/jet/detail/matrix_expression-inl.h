@@ -13,28 +13,6 @@ namespace jet {
 
 // MARK: MatrixExpression
 
-template <typename T, typename E>
-Size2 MatrixExpression<T, E>::size() const {
-    return static_cast<const E&>(*this).size();
-}
-
-template <typename T, typename E>
-size_t MatrixExpression<T, E>::rows() const {
-    return static_cast<const E&>(*this).rows();
-}
-
-template <typename T, typename E>
-size_t MatrixExpression<T, E>::cols() const {
-    return static_cast<const E&>(*this).cols();
-}
-
-template <typename T, typename E>
-const E& MatrixExpression<T, E>::operator()() const {
-    return static_cast<const E&>(*this);
-}
-
-//
-
 template <typename T>
 MatrixConstant<T>::MatrixConstant(size_t m, size_t n, const T& c)
     : _m(m), _n(n), _c(c) {}

@@ -50,7 +50,8 @@ struct GetSizeFromInitList {
                 SizeN<N> tempSizeN;
                 size_t otherSize =
                     GetSizeFromInitList<T, N, I - 1>::call(tempSizeN, subLst);
-                assert(otherSize == tempSizeN[I - 2]);
+                (void)otherSize;
+                JET_ASSERT(otherSize == tempSizeN[I - 2]);
             }
             ++i;
         }
@@ -71,7 +72,7 @@ struct SetArrayFromInitList {
     static void call(Array<T, N>& arr, NestedInitializerListsT<T, I> lst) {
         size_t i = 0;
         for (auto subLst : lst) {
-            assert(i < arr.size()[I - 1]);
+            JET_ASSERT(i < arr.size()[I - 1]);
             SetArrayFromInitList<T, N, I - 1>::call(arr, subLst, i);
             ++i;
         }
@@ -82,7 +83,7 @@ struct SetArrayFromInitList {
                      RemainingIndices... indices) {
         size_t i = 0;
         for (auto subLst : lst) {
-            assert(i < arr.size()[I - 1]);
+            JET_ASSERT(i < arr.size()[I - 1]);
             SetArrayFromInitList<T, N, I - 1>::call(arr, subLst, i, indices...);
             ++i;
         }
@@ -94,7 +95,7 @@ struct SetArrayFromInitList<T, N, 1> {
     static void call(Array<T, N>& arr, NestedInitializerListsT<T, 1> lst) {
         size_t i = 0;
         for (auto val : lst) {
-            assert(i < arr.size()[0]);
+            JET_ASSERT(i < arr.size()[0]);
             arr(i) = val;
             ++i;
         }
@@ -105,7 +106,7 @@ struct SetArrayFromInitList<T, N, 1> {
                      RemainingIndices... indices) {
         size_t i = 0;
         for (auto val : lst) {
-            assert(i < arr.size()[0]);
+            JET_ASSERT(i < arr.size()[0]);
             arr(i, indices...) = val;
             ++i;
         }
@@ -375,7 +376,7 @@ void Array<T, N>::set(const Array& other) {
 template <typename T, size_t N>
 void Array<T, N>::resize(SizeN<N> size_, const T& initVal) {
     Array newArray{size_, initVal};
-    auto minSize = min(_size, newArray._size);
+    SizeN<N> minSize = min(_size, newArray._size);
     forEachIndex(minSize,
                  [&](auto... idx) { newArray(idx...) = (*this)(idx...); });
     *this = std::move(newArray);
