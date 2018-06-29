@@ -8,7 +8,7 @@
 #define INCLUDE_JET_NEAREST_NEIGHBOR_QUERY_ENGINE2_H_
 
 #include <jet/constants.h>
-#include <jet/vector2.h>
+#include <jet/matrix.h>
 
 #include <functional>
 

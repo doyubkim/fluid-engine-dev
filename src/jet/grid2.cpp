@@ -30,8 +30,8 @@ const BoundingBox2D& Grid2::boundingBox() const { return _boundingBox; }
 Grid2::DataPositionFunc Grid2::cellCenterPosition() const {
     Vector2D h = _gridSpacing;
     Vector2D o = _origin;
-    return [h, o](size_t i, size_t j) {
-        return o + h * Vector2D(i + 0.5, j + 0.5);
+    return [h, o](size_t i, size_t j) -> Vector2D {
+        return o + elemMul(h, Vector2D(i + 0.5, j + 0.5));
     };
 }
 
@@ -65,7 +65,7 @@ void Grid2::setSizeParameters(const Vector2UZ& resolution,
     Vector2D resolutionD = Vector2D(static_cast<double>(resolution.x),
                                     static_cast<double>(resolution.y));
 
-    _boundingBox = BoundingBox2D(origin, origin + gridSpacing * resolutionD);
+    _boundingBox = BoundingBox2D(origin, origin + elemMul(gridSpacing, resolutionD));
 }
 
 void Grid2::swapGrid(Grid2* other) {

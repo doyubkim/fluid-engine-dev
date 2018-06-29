@@ -27,7 +27,7 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
                        const FaceCenteredGrid3& input) {
     Vector3UZ size = input.resolution();
     Vector3D invH = 1.0 / input.gridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = elemMul(invH, invH);
 
     // Build linear system
     parallelForEachIndex(A->size(), [&](size_t i, size_t j, size_t k) {
@@ -83,7 +83,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const FaceCenteredGrid3& input) {
     Vector3UZ size = input.resolution();
     Vector3D invH = 1.0 / input.gridSpacing();
-    Vector3D invHSqr = invH * invH;
+    Vector3D invHSqr = elemMul(invH, invH);
 
     ConstArrayView3<char> markerAcc(markers);
 
@@ -104,7 +104,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         const size_t cIdx = markerAcc.index(i, j, k);
 
         if (markerAcc[cIdx] == kFluid) {
-            b->append(input.divergenceAtCellCenter(i, j, k));
+            b->addElement(input.divergenceAtCellCenter(i, j, k));
 
             std::vector<double> row(1, 0.0);
             std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
@@ -167,7 +167,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    x->resize(b->size(), 0.0);
+    x->resize(b->rows(), 0.0);
 }
 
 }  // namespace

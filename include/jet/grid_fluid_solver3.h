@@ -369,7 +369,7 @@ template <typename T>
 Vector3D GridFluidSolverBuilderBase3<T>::getGridSpacing() const {
     Vector3D gridSpacing = _gridSpacing;
     if (_useDomainSize) {
-        gridSpacing.set(_domainSizeX / static_cast<double>(_resolution.x));
+        gridSpacing.fill(_domainSizeX / static_cast<double>(_resolution.x));
     }
     return gridSpacing;
 }

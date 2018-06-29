@@ -65,7 +65,7 @@ void extrapolateToRegion(const ArrayView2<T>& input,
 
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
         forEachIndex(valid0.size(), [&](size_t i, size_t j) {
-            T sum = zero<T>();
+            T sum = T{};
             unsigned int count = 0;
 
             if (!valid0(i, j)) {
@@ -123,7 +123,7 @@ void extrapolateToRegion(const ArrayView3<T>& input,
 
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
         forEachIndex(valid0.size(), [&](size_t i, size_t j, size_t k) {
-            T sum = zero<T>();
+            T sum = T{};
             unsigned int count = 0;
 
             if (!valid0(i, j, k)) {

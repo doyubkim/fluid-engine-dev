@@ -127,7 +127,7 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
     const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
-    const Vector3D invHSqr = invH * invH;
+    const Vector3D invHSqr = elemMul(invH, invH);
 
     // Build linear system
     parallelForEachIndex(A->size(), [&](size_t i, size_t j, size_t k) {
@@ -279,7 +279,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
     const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
-    const Vector3D invHSqr = invH * invH;
+    const Vector3D invHSqr = elemMul(invH, invH);
 
     ConstArrayView3<float> fluidSdfAcc(fluidSdf);
 
@@ -436,11 +436,11 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
             }
 
             A->addRow(row, colIdx);
-            b->append(bijk);
+            b->addElement(bijk);
         }
     });
 
-    x->resize(b->size(), 0.0);
+    x->resize(b->rows(), 0.0);
 }
 
 }  // namespace

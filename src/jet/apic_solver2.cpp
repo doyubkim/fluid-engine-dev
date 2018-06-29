@@ -25,7 +25,7 @@ void ApicSolver2::transferFromParticlesToGrids() {
     const auto positions = particles->positions();
     auto velocities = particles->velocities();
     const size_t numberOfParticles = particles->numberOfParticles();
-    const auto hh = flow->gridSpacing() / 2.0;
+    const Vector2D hh = flow->gridSpacing() / 2.0;
     const auto bbox = flow->boundingBox();
 
     // Allocate buffers
@@ -98,7 +98,7 @@ void ApicSolver2::transferFromGridsToParticles() {
     auto positions = particles->positions();
     auto velocities = particles->velocities();
     const size_t numberOfParticles = particles->numberOfParticles();
-    const auto hh = flow->gridSpacing() / 2.0;
+    const Vector2D hh = flow->gridSpacing() / 2.0;
     const auto bbox = flow->boundingBox();
 
     // Allocate buffers

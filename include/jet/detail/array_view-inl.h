@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_DETAIL_ARRAY_VIEW_INL_H_
 #define INCLUDE_JET_DETAIL_ARRAY_VIEW_INL_H_
 
+#include <jet/array.h>
 #include <jet/array_view.h>
 
 namespace jet {

@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_CUDA_ARRAY_H_
 #define INCLUDE_JET_CUDA_ARRAY_H_
 
-#include <jet/tuple.h>
+#include <jet/matrix.h>
 
 namespace jet {
 

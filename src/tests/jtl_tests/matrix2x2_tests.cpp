@@ -118,6 +118,9 @@ TEST(Matrix2x2, BinaryOperators) {
     Matrix2x2D mat(-4.0, 3.0, -2.0, 1.0), mat2;
     Vector2D vec;
 
+    mat2 = -mat;
+    EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(4.0, -3.0, 2.0, -1.0)));
+
     mat2 = mat + 2.0;
     EXPECT_TRUE(mat2.isSimilar(Matrix2x2D(-2.0, 5.0, 0.0, 3.0)));
 

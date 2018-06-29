@@ -23,10 +23,10 @@ inline T laplacian(const ConstArrayView2<T>& data, const Array2<char>& marker,
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
-    T dleft = zero<T>();
-    T dright = zero<T>();
-    T ddown = zero<T>();
-    T dup = zero<T>();
+    T dleft = T{};
+    T dright = T{};
+    T ddown = T{};
+    T dup = T{};
 
     if (i > 0 && marker(i - 1, j) == kFluid) {
         dleft = center - data(i - 1, j);

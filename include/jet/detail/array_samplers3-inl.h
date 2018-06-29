@@ -116,7 +116,7 @@ T LinearArraySampler3<T, R>::operator()(const Vector3<R>& x) const {
     JET_ASSERT(_gridSpacing.x > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.y > std::numeric_limits<R>::epsilon() &&
                _gridSpacing.z > std::numeric_limits<R>::epsilon());
-    Vector3<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector3<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);
@@ -189,7 +189,7 @@ void LinearArraySampler3<T, R>::getCoordinatesAndGradientWeights(
     JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0 &&
                _gridSpacing.z > 0.0);
 
-    Vector3<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector3<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);

@@ -30,8 +30,8 @@ const BoundingBox3D& Grid3::boundingBox() const { return _boundingBox; }
 Grid3::DataPositionFunc Grid3::cellCenterPosition() const {
     Vector3D h = _gridSpacing;
     Vector3D o = _origin;
-    return [h, o](size_t i, size_t j, size_t k) {
-        return o + h * Vector3D(i + 0.5, j + 0.5, k + 0.5);
+    return [h, o](size_t i, size_t j, size_t k) -> Vector3D {
+        return o + elemMul(h, Vector3D(i + 0.5, j + 0.5, k + 0.5));
     };
 }
 
@@ -71,7 +71,7 @@ void Grid3::setSizeParameters(const Vector3UZ& resolution,
                                     static_cast<double>(resolution.y),
                                     static_cast<double>(resolution.z));
 
-    _boundingBox = BoundingBox3D(origin, origin + gridSpacing * resolutionD);
+    _boundingBox = BoundingBox3D(origin, origin + elemMul(gridSpacing, resolutionD));
 }
 
 void Grid3::swapGrid(Grid3* other) {

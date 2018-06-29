@@ -72,8 +72,8 @@ MatrixCsr<T>::MatrixCsr(
 }
 
 template <typename T>
-template <typename E>
-MatrixCsr<T>::MatrixCsr(const MatrixExpression<T, E>& other, T epsilon) {
+template <size_t R, size_t C, typename ME>
+MatrixCsr<T>::MatrixCsr(const MatrixExpression<T, R, C, ME>& other, T epsilon) {
     compress(other, epsilon);
 }
 
@@ -149,8 +149,9 @@ void MatrixCsr<T>::compress(
 }
 
 template <typename T>
-template <typename E>
-void MatrixCsr<T>::compress(const MatrixExpression<T, E>& other, T epsilon) {
+template <size_t R, size_t C, typename E>
+void MatrixCsr<T>::compress(const MatrixExpression<T, R, C, E>& other,
+                            T epsilon) {
     size_t numRows = other.rows();
     size_t numCols = other.cols();
 
@@ -466,9 +467,9 @@ MatrixCsr<T> MatrixCsr<T>::mul(const T& s) const {
 }
 
 template <typename T>
-template <typename ME>
+template <size_t R, size_t C, typename ME>
 MatrixCsrMatrixMul<T, ME> MatrixCsr<T>::mul(
-    const MatrixExpression<T, ME>& m) const {
+    const MatrixExpression<T, R, C, ME>& m) const {
     return MatrixCsrMatrixMul<T, ME>(*this, m());
 }
 
@@ -545,8 +546,8 @@ void MatrixCsr<T>::imul(const T& s) {
 }
 
 template <typename T>
-template <typename ME>
-void MatrixCsr<T>::imul(const MatrixExpression<T, ME>& m) {
+template <size_t R, size_t C, typename ME>
+void MatrixCsr<T>::imul(const MatrixExpression<T, R, C, ME>& m) {
     MatrixCsrD result = mul(m);
     *this = std::move(result);
 }
@@ -668,8 +669,8 @@ MatrixCsr<U> MatrixCsr<T>::castTo() const {
 }
 
 template <typename T>
-template <typename E>
-MatrixCsr<T>& MatrixCsr<T>::operator=(const E& m) {
+template <size_t R, size_t C, typename E>
+MatrixCsr<T>& MatrixCsr<T>::operator=(const MatrixExpression<T, R, C, E>& m) {
     set(m);
     return *this;
 }
@@ -721,8 +722,8 @@ MatrixCsr<T>& MatrixCsr<T>::operator*=(const T& s) {
 }
 
 template <typename T>
-template <typename ME>
-MatrixCsr<T>& MatrixCsr<T>::operator*=(const MatrixExpression<T, ME>& m) {
+template <size_t R, size_t C, typename ME>
+MatrixCsr<T>& MatrixCsr<T>::operator*=(const MatrixExpression<T, R, C, ME>& m) {
     imul(m);
     return *this;
 }
@@ -876,9 +877,9 @@ MatrixCsr<T> operator*(T a, const MatrixCsr<T>& b) {
     return b.rmul(a);
 }
 
-template <typename T, typename ME>
+template <typename T, size_t R, size_t C, typename ME>
 MatrixCsrMatrixMul<T, ME> operator*(const MatrixCsr<T>& a,
-                                    const MatrixExpression<T, ME>& b) {
+                                    const MatrixExpression<T, R, C, ME>& b) {
     return a.mul(b);
 }
 

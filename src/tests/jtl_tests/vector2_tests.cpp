@@ -201,6 +201,11 @@ TEST(Vector2, CeilFloorFunction) {
 
 TEST(Vector2, BinaryOperators) {
     Vector2F vec(3.f, 9.f);
+
+    Vector2F vec2 = -vec;
+    EXPECT_FLOAT_EQ(-3.f, vec2.x);
+    EXPECT_FLOAT_EQ(-9.f, vec2.y);
+
     vec = vec + 4.f;
     EXPECT_FLOAT_EQ(7.f, vec.x);
     EXPECT_FLOAT_EQ(vec.y, 13.f);

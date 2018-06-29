@@ -54,17 +54,17 @@ bool FdmCgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
 
     clearUncompressedVectors();
 
-    size_t size = solution.size();
+    size_t size = solution.rows();
     _rComp.resize(size);
     _dComp.resize(size);
     _qComp.resize(size);
     _sComp.resize(size);
 
-    system->x.set(0.0);
-    _rComp.set(0.0);
-    _dComp.set(0.0);
-    _qComp.set(0.0);
-    _sComp.set(0.0);
+    system->x.fill(0.0);
+    _rComp.fill(0.0);
+    _dComp.fill(0.0);
+    _qComp.fill(0.0);
+    _sComp.fill(0.0);
 
     cg<FdmCompressedBlas2>(matrix, rhs, _maxNumberOfIterations, _tolerance,
                            &solution, &_rComp, &_dComp, &_qComp, &_sComp,

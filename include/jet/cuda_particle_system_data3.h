@@ -12,7 +12,7 @@
 #include <jet/array_view1.h>
 #include <jet/cuda_array1.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
-#include <jet/vector4.h>
+#include <jet/matrix.h>
 
 #include <cuda_runtime.h>
 

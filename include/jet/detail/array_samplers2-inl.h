@@ -129,7 +129,7 @@ void LinearArraySampler2<T, R>::getCoordinatesAndWeights(
 
     JET_ASSERT(_gridSpacing.x > 0.0 && _gridSpacing.y > 0.0);
 
-    Vector2<R> normalizedX = (x - _origin) / _gridSpacing;
+    Vector2<R> normalizedX = elemDiv((x - _origin), _gridSpacing);
 
     ssize_t iSize = static_cast<ssize_t>(_accessor.size().x);
     ssize_t jSize = static_cast<ssize_t>(_accessor.size().y);

@@ -4,15 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include "array_accessor.h"
+#include "array_view.h"
 #include "pybind11_utils.h"
 
 #include <jet/array_view.h>
-#include <jet/array_view.h>
-#include <jet/array_view.h>
-#include <jet/vector2.h>
-#include <jet/vector3.h>
-#include <jet/vector4.h>
+#include <jet/matrix.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -40,23 +36,23 @@ void addArrayView1Vector(py::module m, const char* name) {
 template <typename T>
 void addArrayView2Scalar(py::module m, const char* name) {
     py::class_<ArrayView2<T>>(m, name, py::buffer_protocol())
-            .def_buffer([](ArrayView2<T>& m) -> py::buffer_info {
-                return py::buffer_info(m.data(), sizeof(T),
-                                       py::format_descriptor<T>::format(), 2,
-                                       {m.height(), m.width()}, {sizeof(T) * m.width(), sizeof(T)});
-            });
+        .def_buffer([](ArrayView2<T>& m) -> py::buffer_info {
+            return py::buffer_info(
+                m.data(), sizeof(T), py::format_descriptor<T>::format(), 2,
+                {m.height(), m.width()}, {sizeof(T) * m.width(), sizeof(T)});
+        });
 };
 
 template <typename T>
 void addArrayView3Scalar(py::module m, const char* name) {
     py::class_<ArrayView3<T>>(m, name, py::buffer_protocol())
-            .def_buffer([](ArrayView3<T>& m) -> py::buffer_info {
-                return py::buffer_info(m.data(), sizeof(T),
-                                       py::format_descriptor<T>::format(), 3,
-                                       {m.depth(), m.height(), m.width()},
-                                       {sizeof(T) * m.width() * m.height(),
-                                        sizeof(T) * m.width(), sizeof(T)});
-            });
+        .def_buffer([](ArrayView3<T>& m) -> py::buffer_info {
+            return py::buffer_info(m.data(), sizeof(T),
+                                   py::format_descriptor<T>::format(), 3,
+                                   {m.depth(), m.height(), m.width()},
+                                   {sizeof(T) * m.width() * m.height(),
+                                    sizeof(T) * m.width(), sizeof(T)});
+        });
 };
 
 void addArrayView1(py::module& m) {

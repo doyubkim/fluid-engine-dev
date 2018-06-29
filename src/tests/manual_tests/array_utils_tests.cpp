@@ -6,9 +6,9 @@
 
 #include <manual_tests.h>
 
-#include <jet/array_utils.h>
 #include <jet/array.h>
-#include <jet/vector2.h>
+#include <jet/array_utils.h>
+#include <jet/matrix.h>
 
 using namespace jet;
 
@@ -36,8 +36,7 @@ JET_BEGIN_TEST_F(ArrayUtils, ExtralateToRegion2) {
     saveData<double>(data.view(), "data0.npy");
     saveData<char>(valid.view(), "valid0.npy");
 
-    extrapolateToRegion(
-        data.view(), valid.view(), 10, data.view());
+    extrapolateToRegion(data.view(), valid.view(), 10, data.view());
 
     saveData<double>(data.view(), "data10.npy");
     saveData<char>(valid.view(), "valid10.npy");

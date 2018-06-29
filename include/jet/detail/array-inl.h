@@ -9,6 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_view.h>
+#include <jet/iteration_utils.h>
 
 namespace jet {
 

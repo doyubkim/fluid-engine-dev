@@ -96,7 +96,7 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
             const size_t bIdx = acc.index(i, j, k - 1);
             const size_t fIdx = acc.index(i, j, k + 1);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.rows();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -146,10 +146,10 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
             }
 
             system->A.addRow(row, colIdx);
-            system->b.append(bijk);
+            system->b.addElement(bijk);
         });
 
-        system->x.resize(system->b.size(), 0.0);
+        system->x.resize(system->b.rows(), 0.0);
     }
 };
 

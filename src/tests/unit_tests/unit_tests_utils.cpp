@@ -4,8 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/vector2.h>
-#include <jet/vector3.h>
+#include <jet/matrix.h>
 
 #define STR(s) #s
 

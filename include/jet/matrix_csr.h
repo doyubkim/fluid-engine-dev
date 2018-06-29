@@ -29,7 +29,8 @@ class MatrixCsr;
 //!
 template <typename T, typename ME>
 class MatrixCsrMatrixMul
-    : public MatrixExpression<T, MatrixCsrMatrixMul<T, ME>> {
+    : public MatrixExpression<T, kMatrixSizeDynamic, kMatrixSizeDynamic,
+                              MatrixCsrMatrixMul<T, ME>> {
  public:
     MatrixCsrMatrixMul(const MatrixCsr<T>& m1, const ME& m2);
 
@@ -61,7 +62,9 @@ class MatrixCsrMatrixMul
 //! \tparam T Type of the element.
 //!
 template <typename T>
-class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
+class MatrixCsr final
+    : public MatrixExpression<T, kMatrixSizeDynamic, kMatrixSizeDynamic,
+                              MatrixCsr<T>> {
  public:
     static_assert(
         std::is_floating_point<T>::value,
@@ -120,8 +123,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    MatrixCsr(const MatrixExpression<T, E>& other,
+    template <size_t R, size_t C, typename E>
+    MatrixCsr(const MatrixExpression<T, R, C, E>& other,
               T epsilon = std::numeric_limits<T>::epsilon());
 
     //! Copy constructor.
@@ -175,8 +178,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    void compress(const MatrixExpression<T, E>& other,
+    template <size_t R, size_t C, typename E>
+    void compress(const MatrixExpression<T, R, C, E>& other,
                   T epsilon = std::numeric_limits<T>::epsilon());
 
     //! Adds non-zero element to (i, j).
@@ -301,8 +304,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     MatrixCsr mul(const T& s) const;
 
     //! Returns this matrix * input matrix.
-    template <typename ME>
-    MatrixCsrMatrixMul<T, ME> mul(const MatrixExpression<T, ME>& m) const;
+    template <size_t R, size_t C, typename ME>
+    MatrixCsrMatrixMul<T, ME> mul(const MatrixExpression<T, R, C, ME>& m) const;
 
     //! Returns this matrix / input scalar.
     MatrixCsr div(const T& s) const;
@@ -345,8 +348,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     void imul(const T& s);
 
     //! Multiplies input matrix to this matrix.
-    template <typename ME>
-    void imul(const MatrixExpression<T, ME>& m);
+    template <size_t R, size_t C, typename ME>
+    void imul(const MatrixExpression<T, R, C, ME>& m);
 
     //! Divides this matrix with input scalar.
     void idiv(const T& s);
@@ -388,8 +391,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    MatrixCsr& operator=(const E& m);
+    template <size_t R, size_t C, typename ME>
+    MatrixCsr& operator=(const MatrixExpression<T, R, C, ME>& m);
 
     //! Copies to this matrix.
     MatrixCsr& operator=(const MatrixCsr& other);
@@ -413,8 +416,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     MatrixCsr& operator*=(const T& s);
 
     //! Multiplication assignment with input matrix.
-    template <typename ME>
-    MatrixCsr& operator*=(const MatrixExpression<T, ME>& m);
+    template <size_t R, size_t C, typename ME>
+    MatrixCsr& operator*=(const MatrixExpression<T, R, C, ME>& m);
 
     //! Division assignment with input scalar.
     MatrixCsr& operator/=(const T& s);

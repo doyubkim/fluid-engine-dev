@@ -7,11 +7,10 @@
 #ifndef INCLUDE_JET_KDTREE_H
 #define INCLUDE_JET_KDTREE_H
 
+#include <jet/array_view.h>
 #include <jet/bounding_box2.h>
 #include <jet/bounding_box3.h>
-#include <jet/vector2.h>
-#include <jet/vector3.h>
-#include <jet/vector4.h>
+#include <jet/matrix.h>
 
 #include <vector>
 

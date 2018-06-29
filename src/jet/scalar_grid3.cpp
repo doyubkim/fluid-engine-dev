@@ -125,7 +125,7 @@ ScalarGrid3::ConstScalarDataView ScalarGrid3::dataView() const {
 ScalarGrid3::DataPositionFunc ScalarGrid3::dataPosition() const {
     Vector3D o = dataOrigin();
     return [this, o](size_t i, size_t j, size_t k) -> Vector3D {
-        return o + gridSpacing() * Vector3D({i, j, k});
+        return o + elemMul(gridSpacing(), Vector3D(i, j, k));
     };
 }
 

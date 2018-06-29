@@ -8,13 +8,12 @@
 #define INCLUDE_JET_GRID3_H_
 
 #include <jet/bounding_box3.h>
+#include <jet/matrix.h>
 #include <jet/serialization.h>
-#include <jet/tuple.h>
 
 #include <functional>
 #include <memory>
 #include <string>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 namespace jet {
@@ -92,8 +91,8 @@ class Grid3 : public Serializable {
  protected:
     //! Sets the size parameters including the resolution, grid spacing, and
     //! origin.
-    void setSizeParameters(const Vector3UZ& resolution, const Vector3D& gridSpacing,
-                           const Vector3D& origin);
+    void setSizeParameters(const Vector3UZ& resolution,
+                           const Vector3D& gridSpacing, const Vector3D& origin);
 
     //! Swaps the size parameters with given grid \p other.
     void swapGrid(Grid3* other);

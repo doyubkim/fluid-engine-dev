@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_QUATERNION_H_
 #define INCLUDE_JET_QUATERNION_H_
 
-#include <jet/matrix4x4.h>
+#include <jet/matrix.h>
 
 namespace jet {
 

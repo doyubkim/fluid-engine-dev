@@ -8,8 +8,9 @@
 #define INCLUDE_JET_POINT_NEIGHBOR_SEARCHER2_H_
 
 #include <jet/array_view.h>
+#include <jet/matrix.h>
 #include <jet/serialization.h>
-#include <jet/vector2.h>
+
 #include <functional>
 #include <memory>
 #include <string>
@@ -29,8 +30,7 @@ class PointNeighborSearcher2 : public Serializable {
  public:
     //! Callback function for nearby search query. The first parameter is the
     //! index of the nearby point, and the second is the position of the point.
-    typedef std::function<void(size_t, const Vector2D&)>
-        ForEachNearbyPointFunc;
+    typedef std::function<void(size_t, const Vector2D&)> ForEachNearbyPointFunc;
 
     //! Default constructor.
     PointNeighborSearcher2();
@@ -53,8 +53,7 @@ class PointNeighborSearcher2 : public Serializable {
     //! \param[in]  callback The callback function.
     //!
     virtual void forEachNearbyPoint(
-        const Vector2D& origin,
-        double radius,
+        const Vector2D& origin, double radius,
         const ForEachNearbyPointFunc& callback) const = 0;
 
     //!
@@ -66,8 +65,8 @@ class PointNeighborSearcher2 : public Serializable {
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    virtual bool hasNearbyPoint(
-        const Vector2D& origin, double radius) const = 0;
+    virtual bool hasNearbyPoint(const Vector2D& origin,
+                                double radius) const = 0;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -93,9 +92,7 @@ typedef std::shared_ptr<PointNeighborSearcherBuilder2>
     PointNeighborSearcherBuilder2Ptr;
 
 #define JET_NEIGHBOR_SEARCHER2_TYPE_NAME(DerivedClassName) \
-    std::string typeName() const override { \
-        return #DerivedClassName; \
-    }
+    std::string typeName() const override { return #DerivedClassName; }
 
 }  // namespace jet
 

@@ -23,12 +23,12 @@ T laplacian(const ConstArrayView3<T>& data, const Array3<char>& marker,
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
-    T dleft = zero<T>();
-    T dright = zero<T>();
-    T ddown = zero<T>();
-    T dup = zero<T>();
-    T dback = zero<T>();
-    T dfront = zero<T>();
+    T dleft = T{};
+    T dright = T{};
+    T ddown = T{};
+    T dup = T{};
+    T dback = T{};
+    T dfront = T{};
 
     if (i > 0 && marker(i - 1, j, k) == kFluid) {
         dleft = center - data(i - 1, j, k);

@@ -11,7 +11,7 @@
 #include <jet.viz/texture.h>
 #include <jet/array_view.h>
 #include <jet/macros.h>
-#include <jet/tuple.h>
+#include <jet/matrix.h>
 
 #include <memory>
 

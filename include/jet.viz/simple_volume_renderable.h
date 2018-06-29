@@ -14,7 +14,7 @@
 #include <jet.viz/texture3.h>
 #include <jet.viz/vertex_buffer.h>
 #include <jet/array_view.h>
-#include <jet/tuple.h>
+#include <jet/matrix.h>
 
 namespace jet {
 namespace viz {

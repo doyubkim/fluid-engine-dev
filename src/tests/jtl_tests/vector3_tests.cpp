@@ -271,7 +271,7 @@ TEST(Vector3, BinaryOperators) {
     Vector3D projected = v.projected(normal);
     EXPECT_NEAR(projected.dot(normal), 0.0, 1e-9);
 
-    auto tangential = normal.tangential();
+    auto tangential = normal.tangentials();
     EXPECT_NEAR(std::get<0>(tangential).dot(normal), 0.0, 1e-9);
     EXPECT_NEAR(std::get<1>(tangential).dot(normal), 0.0, 1e-9);
 }

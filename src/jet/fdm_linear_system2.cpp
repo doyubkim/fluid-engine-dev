@@ -128,10 +128,10 @@ double FdmBlas2::lInfNorm(const FdmVector2& v) {
 
 //
 
-void FdmCompressedBlas2::set(double s, VectorND* result) { result->set(s); }
+void FdmCompressedBlas2::set(double s, VectorND* result) { result->fill(s); }
 
 void FdmCompressedBlas2::set(const VectorND& v, VectorND* result) {
-    result->set(v);
+    result->copyFrom(v);
 }
 
 void FdmCompressedBlas2::set(double s, MatrixCsrD* result) { result->set(s); }
@@ -155,7 +155,7 @@ void FdmCompressedBlas2::mvm(const MatrixCsrD& m, const VectorND& v,
     const auto ci = m.columnIndicesBegin();
     const auto nnz = m.nonZeroBegin();
 
-    parallelForEachIndex(v.size(), [&](size_t i) {
+    parallelForEachIndex(v.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -176,7 +176,7 @@ void FdmCompressedBlas2::residual(const MatrixCsrD& a, const VectorND& x,
     const auto ci = a.columnIndicesBegin();
     const auto nnz = a.nonZeroBegin();
 
-    parallelForEachIndex(x.size(), [&](size_t i) {
+    parallelForEachIndex(x.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

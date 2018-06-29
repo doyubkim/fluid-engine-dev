@@ -111,7 +111,7 @@ VectorGrid2::ConstVectorDataView CollocatedVectorGrid2::dataView() const {
 VectorGrid2::DataPositionFunc CollocatedVectorGrid2::dataPosition() const {
     Vector2D dataOrigin_ = dataOrigin();
     return [this, dataOrigin_](size_t i, size_t j) -> Vector2D {
-        return dataOrigin_ + gridSpacing() * Vector2D({i, j});
+        return dataOrigin_ + elemMul(gridSpacing(), Vector2D(i, j));
     };
 }
 

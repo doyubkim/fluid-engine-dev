@@ -8,8 +8,7 @@
 #include <jet/blas.h>
 #include <jet/cg.h>
 #include <jet/constants.h>
-#include <jet/matrix2x2.h>
-#include <jet/vector2.h>
+#include <jet/matrix.h>
 
 using namespace jet;
 
@@ -72,7 +71,7 @@ TEST(Pcg, Solve) {
             precond.y = matrix(1, 1);
         }
 
-        void solve(const Vector2D& b, Vector2D* x) { *x = b / precond; }
+        void solve(const Vector2D& b, Vector2D* x) { *x = elemDiv(b, precond); }
     };
 
     {

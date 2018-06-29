@@ -7,9 +7,15 @@
 #ifndef INCLUDE_JET_ARRAY_VIEW_H_
 #define INCLUDE_JET_ARRAY_VIEW_H_
 
-#include <jet/array.h>
+#include <jet/matrix.h>
 
 namespace jet {
+
+template <typename T, size_t N, typename Derived>
+class ArrayBase;
+
+template <typename T, size_t N>
+class Array;
 
 // MARK: ArrayView
 

@@ -10,7 +10,7 @@
 #include <jet/array.h>
 #include <jet/array.h>
 #include <jet/matrix_csr.h>
-#include <jet/vector_n.h>
+#include <jet/matrix.h>
 
 namespace jet {
 

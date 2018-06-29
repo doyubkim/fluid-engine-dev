@@ -200,7 +200,7 @@ TEST(Quaternion, BinaryOperators) {
     Vector3D ans1 = q1.mul(v);
 
     Matrix3x3D m = q1.matrix3();
-    Vector3D ans2 = m.mul(v);
+    Vector3D ans2 = m * v;
 
     EXPECT_DOUBLE_EQ(ans2.x, ans1.x);
     EXPECT_DOUBLE_EQ(ans2.y, ans1.y);

@@ -7,11 +7,8 @@
 #ifndef SRC_PYTHON_PYBIND11_UTILS_H_
 #define SRC_PYTHON_PYBIND11_UTILS_H_
 
+#include <jet/matrix.h>
 #include <jet/quaternion.h>
-#include <jet/tuple.h>
-#include <jet/vector2.h>
-#include <jet/vector3.h>
-#include <jet/vector4.h>
 
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
@@ -370,7 +367,7 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     }
     if (kwargs.contains("domainSizeX")) {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 
@@ -404,7 +401,7 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     }
     if (kwargs.contains("domainSizeX")) {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 }  // namespace jet

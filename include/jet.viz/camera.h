@@ -8,7 +8,7 @@
 #define INCLUDE_JET_VIZ_CAMERA_H_
 
 #include <jet.viz/viewport.h>
-#include <jet/matrix4x4.h>
+#include <jet/matrix.h>
 #include <jet/ray3.h>
 
 #include <memory>

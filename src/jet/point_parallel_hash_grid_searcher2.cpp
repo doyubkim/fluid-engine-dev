@@ -201,9 +201,9 @@ const std::vector<size_t>& PointParallelHashGridSearcher2::sortedIndices()
     return _sortedIndices;
 }
 
-SVector2UZ PointParallelHashGridSearcher2::getBucketIndex(
+Vector2Z PointParallelHashGridSearcher2::getBucketIndex(
     const Vector2D& position) const {
-    SVector2UZ bucketIndex;
+    Vector2Z bucketIndex;
     bucketIndex.x = static_cast<ssize_t>(std::floor(position.x / _gridSpacing));
     bucketIndex.y = static_cast<ssize_t>(std::floor(position.y / _gridSpacing));
     return bucketIndex;
@@ -211,14 +211,14 @@ SVector2UZ PointParallelHashGridSearcher2::getBucketIndex(
 
 size_t PointParallelHashGridSearcher2::getHashKeyFromPosition(
     const Vector2D& position) const {
-    SVector2UZ bucketIndex = getBucketIndex(position);
+    Vector2Z bucketIndex = getBucketIndex(position);
 
     return getHashKeyFromBucketIndex(bucketIndex);
 }
 
 size_t PointParallelHashGridSearcher2::getHashKeyFromBucketIndex(
-    const SVector2UZ& bucketIndex) const {
-    SVector2UZ wrappedIndex = bucketIndex;
+    const Vector2Z& bucketIndex) const {
+    Vector2Z wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     if (wrappedIndex.x < 0) {
@@ -232,7 +232,7 @@ size_t PointParallelHashGridSearcher2::getHashKeyFromBucketIndex(
 
 void PointParallelHashGridSearcher2::getNearbyKeys(const Vector2D& position,
                                                    size_t* nearbyKeys) const {
-    SVector2UZ originIndex = getBucketIndex(position), nearbyBucketIndices[4];
+    Vector2Z originIndex = getBucketIndex(position), nearbyBucketIndices[4];
 
     for (int i = 0; i < 4; i++) {
         nearbyBucketIndices[i] = originIndex;

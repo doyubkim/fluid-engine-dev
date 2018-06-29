@@ -4,7 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/matrix_mxn.h>
+#include <jet/iteration_utils.h>
+#include <jet/matrix.h>
 
 #include <benchmark/benchmark.h>
 
@@ -27,8 +28,10 @@ class MatrixMxN : public ::benchmark::Fixture {
         mat.resize(n, n);
         x.resize(n);
         y.resize(n);
-        mat.forEachIndex([&](size_t i, size_t j) { mat(i, j) = d(rng); });
-        jet::forEachIndex(x.size(), [&](size_t i) {
+        jet::forEachIndex(jet::Vector2UZ{},
+                          jet::Vector2UZ{mat.cols(), mat.rows()},
+                          [&](size_t j, size_t i) { mat(i, j) = d(rng); });
+        jet::forEachIndex(x.rows(), [&](size_t i) {
             x[i] = d(rng);
             y[i] = d(rng);
         });

@@ -131,7 +131,7 @@ VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::dataView() const {
 VectorGrid3::DataPositionFunc CollocatedVectorGrid3::dataPosition() const {
     Vector3D dataOrigin_ = dataOrigin();
     return [this, dataOrigin_](size_t i, size_t j, size_t k) -> Vector3D {
-        return dataOrigin_ + gridSpacing() * Vector3D({i, j, k});
+        return dataOrigin_ + elemMul(gridSpacing(), Vector3D(i, j, k));
     };
 }
 

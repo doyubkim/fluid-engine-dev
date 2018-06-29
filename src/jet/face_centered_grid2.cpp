@@ -152,7 +152,7 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::uPosition() const {
     Vector2D h = gridSpacing();
 
     return [this, h](size_t i, size_t j) -> Vector2D {
-        return _dataOriginU + h * Vector2D({i, j});
+        return _dataOriginU + elemMul(h, Vector2D(i, j));
     };
 }
 
@@ -160,7 +160,7 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::vPosition() const {
     Vector2D h = gridSpacing();
 
     return [this, h](size_t i, size_t j) -> Vector2D {
-        return _dataOriginV + h * Vector2D({i, j});
+        return _dataOriginV + elemMul(h, Vector2D(i, j));
     };
 }
 
@@ -236,7 +236,7 @@ double FaceCenteredGrid2::divergence(const Vector2D& x) const {
     double fx, fy;
     Vector2D cellCenterOrigin = origin() + 0.5 * gridSpacing();
 
-    Vector2D normalizedX = (x - cellCenterOrigin) / gridSpacing();
+    Vector2D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
     getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1,
                    &i, &fx);
@@ -271,7 +271,7 @@ double FaceCenteredGrid2::curl(const Vector2D& x) const {
     double fx, fy;
     Vector2D cellCenterOrigin = origin() + 0.5 * gridSpacing();
 
-    Vector2D normalizedX = (x - cellCenterOrigin) / gridSpacing();
+    Vector2D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
     getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1,
                    &i, &fx);

@@ -13,7 +13,7 @@
 #define INCLUDE_JET_SPH_KERNELS2_H_
 
 #include <jet/constants.h>
-#include <jet/vector2.h>
+#include <jet/matrix.h>
 
 namespace jet {
 

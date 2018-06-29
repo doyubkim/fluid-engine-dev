@@ -52,8 +52,8 @@ bool FdmJacobiSolver3::solve(FdmLinearSystem3* system) {
 bool FdmJacobiSolver3::solveCompressed(FdmCompressedLinearSystem3* system) {
     clearUncompressedVectors();
 
-    _xTempComp.resize(system->x.size());
-    _residualComp.resize(system->x.size());
+    _xTempComp.resize(system->x.rows());
+    _residualComp.resize(system->x.rows());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
 
@@ -120,7 +120,7 @@ void FdmJacobiSolver3::relax(const MatrixCsrD& A, const VectorND& b,
     VectorND& x = *x_;
     VectorND& xTemp = *xTemp_;
 
-    parallelForEachIndex(b.size(), [&](size_t i) {
+    parallelForEachIndex(b.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

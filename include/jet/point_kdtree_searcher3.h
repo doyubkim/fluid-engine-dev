@@ -8,8 +8,8 @@
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER3_H
 
 #include <jet/kdtree.h>
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher3.h>
-#include <jet/tuple.h>
 
 #include <vector>
 

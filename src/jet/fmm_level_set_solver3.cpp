@@ -225,7 +225,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
     Vector3UZ size = inputSdf.dataSize();
     Vector3D gridSpacing = inputSdf.gridSpacing();
     Vector3D invGridSpacing = 1.0 / gridSpacing;
-    Vector3D invGridSpacingSqr = invGridSpacing * invGridSpacing;
+    Vector3D invGridSpacingSqr = elemMul(invGridSpacing, invGridSpacing);
     Array3<char> markers(size);
 
     auto output = outputSdf->dataView();

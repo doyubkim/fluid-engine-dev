@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 #define INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher3.h>
-#include <jet/tuple.h>
 
 #include <vector>
 
@@ -111,7 +111,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t getHashKeyFromBucketIndex(const SVector3UZ& bucketIndex) const;
+    size_t getHashKeyFromBucketIndex(const Vector3Z& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -120,7 +120,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The bucket index.
     //!
-    SVector3UZ getBucketIndex(const Vector3D& position) const;
+    Vector3Z getBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -147,7 +147,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
 
  private:
     double _gridSpacing = 1.0;
-    SVector3UZ _resolution = SVector3UZ(1, 1, 1);
+    Vector3Z _resolution = Vector3Z(1, 1, 1);
     std::vector<Vector3D> _points;
     std::vector<std::vector<size_t>> _buckets;
 

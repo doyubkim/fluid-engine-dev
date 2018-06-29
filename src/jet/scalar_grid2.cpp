@@ -118,7 +118,7 @@ ScalarGrid2::ConstScalarDataView ScalarGrid2::dataView() const {
 ScalarGrid2::DataPositionFunc ScalarGrid2::dataPosition() const {
     Vector2D o = dataOrigin();
     return [this, o](size_t i, size_t j) -> Vector2D {
-        return o + gridSpacing() * Vector2D({i, j});
+        return o + elemMul(gridSpacing(), Vector2D(i, j));
     };
 }
 

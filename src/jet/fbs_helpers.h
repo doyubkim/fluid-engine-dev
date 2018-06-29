@@ -8,9 +8,7 @@
 #define SRC_JET_FBS_HELPERS_H_
 
 #include <generated/basic_types_generated.h>
-#include <jet/tuple.h>
-#include <jet/vector2.h>
-#include <jet/vector3.h>
+#include <jet/matrix.h>
 #include <algorithm>
 #include <vector>
 

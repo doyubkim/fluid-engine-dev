@@ -48,7 +48,7 @@ class FdmLinearSystemSolverTestHelper2 {
         forEachIndex(coordToIndex.size(), [&](size_t i, size_t j) {
             const size_t cIdx = acc.index(i, j);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.rows();
             double bij = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -86,10 +86,10 @@ class FdmLinearSystemSolverTestHelper2 {
             }
 
             system->A.addRow(row, colIdx);
-            system->b.append(bij);
+            system->b.addElement(bij);
         });
 
-        system->x.resize(system->b.size(), 0.0);
+        system->x.resize(system->b.rows(), 0.0);
     }
 };
 

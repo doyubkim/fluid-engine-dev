@@ -92,13 +92,13 @@ void FdmIccgSolver2::PreconditionerCompressed::build(const MatrixCsrD& matrix) {
 
 void FdmIccgSolver2::PreconditionerCompressed::solve(const VectorND& b,
                                                      VectorND* x) {
-    const ssize_t size = static_cast<ssize_t>(b.size());
+    const ssize_t size = static_cast<ssize_t>(b.rows());
 
     const auto rp = A->rowPointersBegin();
     const auto ci = A->columnIndicesBegin();
     const auto nnz = A->nonZeroBegin();
 
-    forEachIndex(b.size(), [&](size_t i) {
+    forEachIndex(b.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -182,17 +182,17 @@ bool FdmIccgSolver2::solveCompressed(FdmCompressedLinearSystem2* system) {
 
     clearUncompressedVectors();
 
-    size_t size = solution.size();
+    size_t size = solution.rows();
     _rComp.resize(size);
     _dComp.resize(size);
     _qComp.resize(size);
     _sComp.resize(size);
 
-    system->x.set(0.0);
-    _rComp.set(0.0);
-    _dComp.set(0.0);
-    _qComp.set(0.0);
-    _sComp.set(0.0);
+    system->x.fill(0.0);
+    _rComp.fill(0.0);
+    _dComp.fill(0.0);
+    _qComp.fill(0.0);
+    _sComp.fill(0.0);
 
     _precondComp.build(matrix);
 

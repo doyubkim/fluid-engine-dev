@@ -5,28 +5,24 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/matrix2x2.h>
+
+#include <jet/matrix.h>
 #include <jet/point_particle_emitter2.h>
 #include <jet/samplers.h>
 
 namespace jet {
 
 PointParticleEmitter2::PointParticleEmitter2(
-    const Vector2D& origin,
-    const Vector2D& direction,
-    double speed,
-    double spreadAngleInDegrees,
-    size_t maxNumOfNewParticlesPerSec,
-    size_t maxNumOfParticles,
-    uint32_t seed) :
-    _rng(seed),
-    _maxNumberOfNewParticlesPerSecond(maxNumOfNewParticlesPerSec),
-    _maxNumberOfParticles(maxNumOfParticles),
-    _origin(origin),
-    _direction(direction),
-    _speed(speed),
-    _spreadAngleInRadians(degreesToRadians(spreadAngleInDegrees)) {
-}
+    const Vector2D& origin, const Vector2D& direction, double speed,
+    double spreadAngleInDegrees, size_t maxNumOfNewParticlesPerSec,
+    size_t maxNumOfParticles, uint32_t seed)
+    : _rng(seed),
+      _maxNumberOfNewParticlesPerSecond(maxNumOfNewParticlesPerSec),
+      _maxNumberOfParticles(maxNumOfParticles),
+      _origin(origin),
+      _direction(direction),
+      _speed(speed),
+      _spreadAngleInRadians(degreesToRadians(spreadAngleInDegrees)) {}
 
 size_t PointParticleEmitter2::maxNumberOfNewParticlesPerSecond() const {
     return _maxNumberOfNewParticlesPerSecond;
@@ -45,9 +41,8 @@ void PointParticleEmitter2::setMaxNumberOfParticles(
     _maxNumberOfParticles = maxNumberOfParticles;
 }
 
-void PointParticleEmitter2::onUpdate(
-    double currentTimeInSeconds,
-    double timeIntervalInSeconds) {
+void PointParticleEmitter2::onUpdate(double currentTimeInSeconds,
+                                     double timeIntervalInSeconds) {
     auto particles = target();
 
     if (particles == nullptr) {
@@ -58,17 +53,16 @@ void PointParticleEmitter2::onUpdate(
         _firstFrameTimeInSeconds = currentTimeInSeconds;
     }
 
-    double elapsedTimeInSeconds
-        = currentTimeInSeconds - _firstFrameTimeInSeconds;
+    double elapsedTimeInSeconds =
+        currentTimeInSeconds - _firstFrameTimeInSeconds;
 
     size_t newMaxTotalNumberOfEmittedParticles = static_cast<size_t>(
-        std::ceil((elapsedTimeInSeconds + timeIntervalInSeconds)
-            * _maxNumberOfNewParticlesPerSecond));
-    newMaxTotalNumberOfEmittedParticles = std::min(
-        newMaxTotalNumberOfEmittedParticles,
-        _maxNumberOfParticles);
-    size_t maxNumberOfNewParticles
-        = newMaxTotalNumberOfEmittedParticles - _numberOfEmittedParticles;
+        std::ceil((elapsedTimeInSeconds + timeIntervalInSeconds) *
+                  _maxNumberOfNewParticlesPerSecond));
+    newMaxTotalNumberOfEmittedParticles =
+        std::min(newMaxTotalNumberOfEmittedParticles, _maxNumberOfParticles);
+    size_t maxNumberOfNewParticles =
+        newMaxTotalNumberOfEmittedParticles - _numberOfEmittedParticles;
 
     if (maxNumberOfNewParticles > 0) {
         Array1<Vector2D> candidatePositions;
@@ -76,10 +70,8 @@ void PointParticleEmitter2::onUpdate(
         Array1<Vector2D> newPositions;
         Array1<Vector2D> newVelocities;
 
-        emit(
-            &candidatePositions,
-            &candidateVelocities,
-            maxNumberOfNewParticles);
+        emit(&candidatePositions, &candidateVelocities,
+             maxNumberOfNewParticles);
 
         newPositions.append(candidatePositions);
         newVelocities.append(candidateVelocities);
@@ -90,10 +82,9 @@ void PointParticleEmitter2::onUpdate(
     }
 }
 
-void PointParticleEmitter2::emit(
-    Array1<Vector2D>* newPositions,
-    Array1<Vector2D>* newVelocities,
-    size_t maxNewNumberOfParticles) {
+void PointParticleEmitter2::emit(Array1<Vector2D>* newPositions,
+                                 Array1<Vector2D>* newVelocities,
+                                 size_t maxNewNumberOfParticles) {
     for (size_t i = 0; i < maxNewNumberOfParticles; ++i) {
         double newAngleInRadian = (random() - 0.5) * _spreadAngleInRadians;
         Matrix2x2D rotationMatrix =
@@ -113,21 +104,20 @@ PointParticleEmitter2::Builder PointParticleEmitter2::builder() {
     return Builder();
 }
 
-
-PointParticleEmitter2::Builder&
-PointParticleEmitter2::Builder::withOrigin(const Vector2D& origin) {
+PointParticleEmitter2::Builder& PointParticleEmitter2::Builder::withOrigin(
+    const Vector2D& origin) {
     _origin = origin;
     return *this;
 }
 
-PointParticleEmitter2::Builder&
-PointParticleEmitter2::Builder::withDirection(const Vector2D& direction) {
+PointParticleEmitter2::Builder& PointParticleEmitter2::Builder::withDirection(
+    const Vector2D& direction) {
     _direction = direction;
     return *this;
 }
 
-PointParticleEmitter2::Builder&
-PointParticleEmitter2::Builder::withSpeed(double speed) {
+PointParticleEmitter2::Builder& PointParticleEmitter2::Builder::withSpeed(
+    double speed) {
     _speed = speed;
     return *this;
 }
@@ -153,36 +143,24 @@ PointParticleEmitter2::Builder::withMaxNumberOfParticles(
     return *this;
 }
 
-PointParticleEmitter2::Builder&
-PointParticleEmitter2::Builder::withRandomSeed(uint32_t seed) {
+PointParticleEmitter2::Builder& PointParticleEmitter2::Builder::withRandomSeed(
+    uint32_t seed) {
     _seed = seed;
     return *this;
 }
 
 PointParticleEmitter2 PointParticleEmitter2::Builder::build() const {
     return PointParticleEmitter2(
-        _origin,
-        _direction,
-        _speed,
-        _spreadAngleInDegrees,
-        _maxNumberOfNewParticlesPerSecond,
-        _maxNumberOfParticles,
-        _seed);
+        _origin, _direction, _speed, _spreadAngleInDegrees,
+        _maxNumberOfNewParticlesPerSecond, _maxNumberOfParticles, _seed);
 }
 
 PointParticleEmitter2Ptr PointParticleEmitter2::Builder::makeShared() const {
     return std::shared_ptr<PointParticleEmitter2>(
         new PointParticleEmitter2(
-            _origin,
-            _direction,
-            _speed,
-            _spreadAngleInDegrees,
-            _maxNumberOfNewParticlesPerSecond,
-            _maxNumberOfParticles,
-            _seed),
-        [] (PointParticleEmitter2* obj) {
-            delete obj;
-        });
+            _origin, _direction, _speed, _spreadAngleInDegrees,
+            _maxNumberOfNewParticlesPerSecond, _maxNumberOfParticles, _seed),
+        [](PointParticleEmitter2* obj) { delete obj; });
 }
 
 }  // namespace jet

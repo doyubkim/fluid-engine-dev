@@ -95,8 +95,8 @@ static void sweep(const TriangleMesh3& mesh, int di, int dj, int dk,
     for (ssize_t k = k0; k != k1; k += dk) {
         for (ssize_t j = j0; j != j1; j += dj) {
             for (ssize_t i = i0; i != i1; i += di) {
-                Vector3D gx({i, j, k});
-                gx *= h;
+                Vector3D gx(i, j, k);
+                elemIMul(gx, h);
                 gx += origin;
 
                 checkNeighbor(mesh, gx, i, j, k, i - di, j, k, sdf, closestTri);
@@ -216,9 +216,9 @@ void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
         Vector3D pt3 = mesh.point(indices.z);
 
         // Normalize coordinates
-        Vector3D f1 = (pt1 - origin) / h;
-        Vector3D f2 = (pt2 - origin) / h;
-        Vector3D f3 = (pt3 - origin) / h;
+        Vector3D f1 = elemDiv((pt1 - origin), h);
+        Vector3D f2 = elemDiv((pt2 - origin), h);
+        Vector3D f3 = elemDiv((pt3 - origin), h);
 
         // Do distances nearby
         ssize_t i0 = static_cast<ssize_t>(min3<double>(f1.x, f2.x, f3.x));

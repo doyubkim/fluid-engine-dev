@@ -368,7 +368,7 @@ template <typename T>
 Vector2D GridFluidSolverBuilderBase2<T>::getGridSpacing() const {
     Vector2D gridSpacing = _gridSpacing;
     if (_useDomainSize) {
-        gridSpacing.set(_domainSizeX / static_cast<double>(_resolution.x));
+        gridSpacing.fill(_domainSizeX / static_cast<double>(_resolution.x));
     }
     return gridSpacing;
 }

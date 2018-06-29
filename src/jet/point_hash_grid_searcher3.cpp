@@ -132,8 +132,8 @@ const std::vector<std::vector<size_t>>& PointHashGridSearcher3::buckets()
     return _buckets;
 }
 
-SVector3UZ PointHashGridSearcher3::getBucketIndex(const Vector3D& position) const {
-    SVector3UZ bucketIndex;
+Vector3Z PointHashGridSearcher3::getBucketIndex(const Vector3D& position) const {
+    Vector3Z bucketIndex;
     bucketIndex.x = static_cast<ssize_t>(std::floor(position.x / _gridSpacing));
     bucketIndex.y = static_cast<ssize_t>(std::floor(position.y / _gridSpacing));
     bucketIndex.z = static_cast<ssize_t>(std::floor(position.z / _gridSpacing));
@@ -142,13 +142,13 @@ SVector3UZ PointHashGridSearcher3::getBucketIndex(const Vector3D& position) cons
 
 size_t PointHashGridSearcher3::getHashKeyFromPosition(
     const Vector3D& position) const {
-    SVector3UZ bucketIndex = getBucketIndex(position);
+    Vector3Z bucketIndex = getBucketIndex(position);
     return getHashKeyFromBucketIndex(bucketIndex);
 }
 
 size_t PointHashGridSearcher3::getHashKeyFromBucketIndex(
-    const SVector3UZ& bucketIndex) const {
-    SVector3UZ wrappedIndex = bucketIndex;
+    const Vector3Z& bucketIndex) const {
+    Vector3Z wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     wrappedIndex.z = bucketIndex.z % _resolution.z;
@@ -168,7 +168,7 @@ size_t PointHashGridSearcher3::getHashKeyFromBucketIndex(
 
 void PointHashGridSearcher3::getNearbyKeys(const Vector3D& position,
                                            size_t* nearbyKeys) const {
-    SVector3UZ originIndex = getBucketIndex(position), nearbyBucketIndices[8];
+    Vector3Z originIndex = getBucketIndex(position), nearbyBucketIndices[8];
 
     for (int i = 0; i < 8; i++) {
         nearbyBucketIndices[i] = originIndex;

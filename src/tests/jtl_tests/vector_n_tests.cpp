@@ -179,7 +179,7 @@ TEST(VectorN, BasicGetters) {
     EXPECT_EQ(1u, vecA.subminantAxis());
 
     auto vecB = vecA;
-    auto vecC = vecB.normalized();
+    VectorND vecC = vecB.normalized();
     vecA.normalize();
     for (size_t i = 0; i < vecA.rows(); ++i) {
         EXPECT_EQ(vecA[i], vecC[i]);

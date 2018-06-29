@@ -64,7 +64,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
 
     VertexCenteredScalarGrid3 grid(16, 16, 16);
     grid.fill([](const Vector3D& x) {
-        return x.distanceTo({8.0, 8.0, 8.0}) - 3.0;
+        return x.distanceTo(Vector3D{8.0, 8.0, 8.0}) - 3.0;
     });
 
     marchingCubes(
@@ -78,7 +78,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     saveTriangleMeshData(triMesh, "sphere.obj");
 
     grid.fill([](const Vector3D& x) {
-        return x.distanceTo({0.0, 4.0, 3.0}) - 6.0;
+        return x.distanceTo(Vector3D{0.0, 4.0, 3.0}) - 6.0;
     });
 
     triMesh.clear();
@@ -94,7 +94,7 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     saveTriangleMeshData(triMesh, "clamped_sphere.obj");
 
     grid.fill([](const Vector3D& x) {
-        return x.distanceTo({11.0, 14.0, 12.0}) - 6.0;
+        return x.distanceTo(Vector3D{11.0, 14.0, 12.0}) - 6.0;
     });
 
     triMesh.clear();

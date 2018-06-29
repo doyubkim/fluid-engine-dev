@@ -57,7 +57,7 @@ bool FdmGaussSeidelSolver2::solveCompressed(
     FdmCompressedLinearSystem2* system) {
     clearUncompressedVectors();
 
-    _residualComp.resize(system->x.size());
+    _residualComp.resize(system->x.rows());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
 
@@ -124,7 +124,7 @@ void FdmGaussSeidelSolver2::relax(const MatrixCsrD& A, const VectorND& b,
 
     VectorND& x = *x_;
 
-    forEachIndex(b.size(), [&](size_t i) {
+    forEachIndex(b.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

@@ -9,12 +9,12 @@
 
 #include <jet/functors.h>
 #include <jet/macros.h>
+#include <jet/matrix_dense_base.h>
 #include <jet/matrix_expression.h>
-#include <jet/matrix_operation.h>
+#include <jet/type_helpers.h>
 
 #include <array>
 #include <numeric>
-#include <tuple>
 #include <vector>
 
 namespace jet {
@@ -24,8 +24,8 @@ namespace jet {
 
 template <typename T, size_t Rows, size_t Cols>
 class Matrix final
-    : public MatrixExpression<T, Matrix<T, Rows, Cols>>,
-      public MatrixOperation<T, Rows, Cols, Matrix<T, Rows, Cols>> {
+    : public MatrixExpression<T, Rows, Cols, Matrix<T, Rows, Cols>>,
+      public MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>> {
  public:
     static_assert(isMatrixSizeStatic<Rows, Cols>(),
                   "This class should be a static-sized matrix.");
@@ -37,7 +37,7 @@ class Matrix final
     using const_pointer = const T*;
     using iterator = pointer;
     using const_iterator = const_pointer;
-    using MatrixOperation<T, Rows, Cols, Matrix<T, Rows, Cols>>::copyFrom;
+    using MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>>::copyFrom;
 
     constexpr Matrix() : _elements{} {}
 
@@ -47,10 +47,10 @@ class Matrix final
     constexpr Matrix(const_reference first, Args... rest)
         : _elements{{first, static_cast<value_type>(rest)...}} {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression);
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
 
-    Matrix(NestedInitializerListsT<T, 2> lst);
+    Matrix(const NestedInitializerListsT<T, 2>& lst);
 
     Matrix(const_pointer ptr);
 
@@ -91,8 +91,8 @@ class Matrix final
 // MARK: Specialized Matrix for 1, 2, 3, and 4-D Vector Types
 
 template <typename T>
-class Matrix<T, 1, 1> final : public MatrixExpression<T, Matrix<T, 1, 1>>,
-                              public MatrixOperation<T, 1, 1, Matrix<T, 1, 1>> {
+class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
+                              public MatrixDenseBase<T, 1, 1, Matrix<T, 1, 1>> {
  public:
     using value_type = T;
     using reference = T&;
@@ -110,8 +110,10 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, Matrix<T, 1, 1>>,
 
     constexpr Matrix(const Matrix& other) : x(other.x) {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression);
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
 
     // Simple setters/modifiers
 
@@ -149,8 +151,8 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, Matrix<T, 1, 1>>,
 };
 
 template <typename T>
-class Matrix<T, 2, 1> final : public MatrixExpression<T, Matrix<T, 2, 1>>,
-                              public MatrixOperation<T, 2, 1, Matrix<T, 2, 1>> {
+class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
+                              public MatrixDenseBase<T, 2, 1, Matrix<T, 2, 1>> {
  public:
     using value_type = T;
     using reference = T&;
@@ -169,8 +171,10 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, Matrix<T, 2, 1>>,
 
     constexpr Matrix(const Matrix& other) : x(other.x), y(other.y) {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression);
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
 
     // Simple setters/modifiers
 
@@ -200,20 +204,6 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, Matrix<T, 2, 1>>,
 
     constexpr const_pointer data() const;
 
-    //! Returns the reflection vector to the surface with given surface normal.
-    constexpr Matrix reflected(const Matrix& normal) const;
-
-    //! Returns the projected vector to the surface with given surface normal.
-    constexpr Matrix projected(const Matrix& normal) const;
-
-    //! Returns the tangential vector for this vector.
-    constexpr Matrix tangential() const;
-
-    // Binary operators
-
-    template <typename E>
-    constexpr value_type cross(const MatrixExpression<T, E>& expression) const;
-
     // Operator overloadings
 
     reference operator[](size_t i);
@@ -222,8 +212,8 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, Matrix<T, 2, 1>>,
 };
 
 template <typename T>
-class Matrix<T, 3, 1> final : public MatrixExpression<T, Matrix<T, 3, 1>>,
-                              public MatrixOperation<T, 3, 1, Matrix<T, 3, 1>> {
+class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
+                              public MatrixDenseBase<T, 3, 1, Matrix<T, 3, 1>> {
  public:
     using value_type = T;
     using reference = T&;
@@ -248,8 +238,10 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, Matrix<T, 3, 1>>,
     constexpr Matrix(const Matrix& other)
         : x(other.x), y(other.y), z(other.z) {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression);
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
 
     // Simple setters/modifiers
 
@@ -279,20 +271,6 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, Matrix<T, 3, 1>>,
 
     constexpr const_pointer data() const;
 
-    //! Returns the reflection vector to the surface with given surface normal.
-    constexpr Matrix reflected(const Matrix& normal) const;
-
-    //! Returns the projected vector to the surface with given surface normal.
-    constexpr Matrix projected(const Matrix& normal) const;
-
-    //! Returns the tangential vector for this vector.
-    std::tuple<Matrix, Matrix> tangential() const;
-
-    // Binary operators
-
-    template <typename E>
-    constexpr Matrix cross(const MatrixExpression<T, E>& expression) const;
-
     // Operator overloadings
 
     reference operator[](size_t i);
@@ -301,8 +279,8 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, Matrix<T, 3, 1>>,
 };
 
 template <typename T>
-class Matrix<T, 4, 1> final : public MatrixExpression<T, Matrix<T, 4, 1>>,
-                              public MatrixOperation<T, 4, 1, Matrix<T, 4, 1>> {
+class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
+                              public MatrixDenseBase<T, 4, 1, Matrix<T, 4, 1>> {
  public:
     using value_type = T;
     using reference = T&;
@@ -325,8 +303,10 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, Matrix<T, 4, 1>>,
     constexpr Matrix(const Matrix& other)
         : x(other.x), y(other.y), z(other.z), w(other.w) {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression);
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
+
+    Matrix(const std::initializer_list<T>& lst);
 
     // Simple setters/modifiers
 
@@ -369,8 +349,9 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, Matrix<T, 4, 1>>,
 template <typename T>
 class Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic> final
     : public MatrixExpression<
-          T, Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>>,
-      public MatrixOperation<
+          T, kMatrixSizeDynamic, kMatrixSizeDynamic,
+          Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>>,
+      public MatrixDenseBase<
           T, kMatrixSizeDynamic, kMatrixSizeDynamic,
           Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>> {
  public:
@@ -381,147 +362,64 @@ class Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic> final
     using const_pointer = const T*;
     using iterator = pointer;
     using const_iterator = const_pointer;
-    using MatrixOperation<
+    using MatrixDenseBase<
         T, kMatrixSizeDynamic, kMatrixSizeDynamic,
         Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>>::copyFrom;
 
-    Matrix() {}
+    Matrix();
 
-    Matrix(size_t rows, size_t cols, const_reference value = value_type{}) {
-        _elements.resize(rows * cols);
-        _rows = rows;
-        _cols = cols;
-        fill(value);
-    }
+    Matrix(size_t rows, size_t cols, const_reference value = value_type{});
 
     // template <typename... Args>
     // Matrix(const_reference first, Args... rest)
     //     : _elements{{first, static_cast<value_type>(rest)...}} {}
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression)
-        : Matrix(expression.rows(), expression.cols()) {
-        copyFrom(expression);
-    }
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
 
-    Matrix(NestedInitializerListsT<T, 2> lst) {
-        size_t i = 0;
-        for (auto rows : lst) {
-            size_t j = 0;
-            for (auto col : rows) {
-                ++j;
-            }
-            _cols = j;
-            ++i;
-        }
-        _rows = i;
-        _elements.resize(_rows * _cols);
+    Matrix(const NestedInitializerListsT<T, 2>& lst);
 
-        i = 0;
-        for (auto rows : lst) {
-            JET_ASSERT(i < _rows);
-            size_t j = 0;
-            for (auto col : rows) {
-                JET_ASSERT(j < _cols);
-                (*this)(i, j) = col;
-                ++j;
-            }
-            ++i;
-        }
-    }
+    explicit Matrix(size_t rows, size_t cols, const_pointer ptr);
 
-    explicit Matrix(size_t rows, size_t cols, const_pointer ptr)
-        : Matrix(rows, cols) {
-        size_t cnt = 0;
-        for (size_t i = 0; i < rows; ++i) {
-            for (size_t j = 0; j < cols; ++j) {
-                (*this)(i, j) = ptr[cnt++];
-            }
-        }
-    }
+    Matrix(const Matrix& other);
 
-    Matrix(const Matrix& other)
-        : _elements(other._elements), _rows(other._rows), _cols(other._cols) {}
+    Matrix(Matrix&& other);
 
-    Matrix(Matrix&& other) { *this = std::move(other); }
+    void fill(const T& val);
 
-    void fill(const T& val) {
-        std::fill(_elements.begin(), _elements.end(), val);
-    }
+    void fill(const std::function<T(size_t i)>& func);
 
-    void fill(const std::function<T(size_t i)>& func) {
-        for (size_t i = 0; i < _elements.size(); ++i) {
-            _elements[i] = func(i);
-        }
-    }
+    void fill(const std::function<T(size_t i, size_t j)>& func);
 
-    void fill(const std::function<T(size_t i, size_t j)>& func) {
-        for (size_t i = 0; i < rows(); ++i) {
-            for (size_t j = 0; j < cols(); ++j) {
-                (*this)(i, j) = func(i, j);
-            }
-        }
-    }
+    void swap(Matrix& other);
 
-    void swap(Matrix& other) {
-        _elements.swap(other._elements);
-        std::swap(_rows, other._rows);
-        std::swap(_cols, other._cols);
-    }
+    void resize(size_t rows, size_t cols, const_reference val = value_type{});
 
-    void resize(size_t rows, size_t cols, const_reference val = value_type{}) {
-        Matrix newMatrix{rows, cols, val};
-        size_t minRows = std::min(rows, _rows);
-        size_t minCols = std::min(cols, _cols);
-        for (size_t i = 0; i < minRows; ++i) {
-            for (size_t j = 0; j < minCols; ++j) {
-                newMatrix(i, j) = (*this)(i, j);
-            }
-        }
-        *this = std::move(newMatrix);
-    }
+    void clear();
 
-    size_t rows() const { return _rows; }
+    size_t rows() const;
 
-    size_t cols() const { return _cols; }
+    size_t cols() const;
 
-    iterator begin() { return &_elements[0]; }
+    iterator begin();
 
-    const_iterator begin() const { return &_elements[0]; }
+    const_iterator begin() const;
 
-    iterator end() { return begin() + _rows * _cols; }
+    iterator end();
 
-    const_iterator end() const { return begin() + _rows * _cols; }
+    const_iterator end() const;
 
-    pointer data() { return &_elements[0]; }
+    pointer data();
 
-    const_pointer data() const { return &_elements[0]; }
+    const_pointer data() const;
 
-    reference operator[](size_t i) {
-        JET_ASSERT(i < _rows * _Cols);
-        return _elements[i];
-    }
+    reference operator[](size_t i);
 
-    const_reference operator[](size_t i) const {
-        JET_ASSERT(i < _rows * _Cols);
-        return _elements[i];
-    }
+    const_reference operator[](size_t i) const;
 
-    Matrix& operator=(const Matrix& other) {
-        _elements = other._elements;
-        _rows = other._rows;
-        _cols = other._cols;
-        return *this;
-    }
+    Matrix& operator=(const Matrix& other);
 
-    Matrix& operator=(Matrix&& other) {
-        _elements = std::move(other._elements);
-        _rows = other._rows;
-        _cols = other._cols;
-        other._rows = 0;
-        other._cols = 0;
-        return *this;
-    }
+    Matrix& operator=(Matrix&& other);
 
  private:
     std::vector<T> _elements;
@@ -533,8 +431,9 @@ class Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic> final
 
 template <typename T>
 class Matrix<T, kMatrixSizeDynamic, 1> final
-    : public MatrixExpression<T, Matrix<T, kMatrixSizeDynamic, 1>>,
-      public MatrixOperation<T, kMatrixSizeDynamic, 1,
+    : public MatrixExpression<T, kMatrixSizeDynamic, 1,
+                              Matrix<T, kMatrixSizeDynamic, 1>>,
+      public MatrixDenseBase<T, kMatrixSizeDynamic, 1,
                              Matrix<T, kMatrixSizeDynamic, 1>> {
  public:
     using value_type = T;
@@ -544,105 +443,63 @@ class Matrix<T, kMatrixSizeDynamic, 1> final
     using const_pointer = const T*;
     using iterator = pointer;
     using const_iterator = const_pointer;
-    using MatrixOperation<T, kMatrixSizeDynamic, 1,
+    using MatrixDenseBase<T, kMatrixSizeDynamic, 1,
                           Matrix<T, kMatrixSizeDynamic, 1>>::copyFrom;
 
-    Matrix() {}
+    Matrix();
 
-    Matrix(size_t rows, const_reference value = value_type{}) {
-        _elements.resize(rows);
-        fill(value);
-    }
+    Matrix(size_t rows, const_reference value = value_type{});
 
-    // template <typename... Args>
-    // Matrix(const_reference first, Args... rest)
-    //     : _elements{{first, static_cast<value_type>(rest)...}} {}
+    template <size_t R, size_t C, typename E>
+    Matrix(const MatrixExpression<T, R, C, E>& expression);
 
-    template <typename E>
-    Matrix(const MatrixExpression<T, E>& expression)
-        : Matrix(expression.rows(), expression.cols()) {
-        copyFrom(expression);
-    }
+    Matrix(const std::initializer_list<T>& lst);
 
-    Matrix(NestedInitializerListsT<T, 1> lst) {
-        size_t sz = lst.size();
-        _elements.resize(sz);
+    explicit Matrix(size_t rows, const_pointer ptr);
 
-        size_t i = 0;
-        for (auto row : lst) {
-            _elements[i] = row;
-            ++i;
-        }
-    }
+    Matrix(const Matrix& other);
 
-    explicit Matrix(size_t rows, const_pointer ptr) : Matrix(rows) {
-        size_t cnt = 0;
-        for (size_t i = 0; i < rows; ++i) {
-            (*this)[i] = ptr[cnt++];
-        }
-    }
+    Matrix(Matrix&& other);
 
-    Matrix(const Matrix& other) : _elements(other._elements) {}
+    void fill(const T& val);
 
-    Matrix(Matrix&& other) { *this = std::move(other); }
+    void fill(const std::function<T(size_t i)>& func);
 
-    void fill(const T& val) {
-        std::fill(_elements.begin(), _elements.end(), val);
-    }
+    void fill(const std::function<T(size_t i, size_t j)>& func);
 
-    void fill(const std::function<T(size_t i)>& func) {
-        for (size_t i = 0; i < _elements.size(); ++i) {
-            _elements[i] = func(i);
-        }
-    }
+    void swap(Matrix& other);
 
-    void fill(const std::function<T(size_t i, size_t j)>& func) {
-        for (size_t i = 0; i < rows(); ++i) {
-            _elements[i] = func(i, 0);
-        }
-    }
+    void resize(size_t rows, const_reference val = value_type{});
 
-    void swap(Matrix& other) { _elements.swap(other._elements); }
+    void addElement(const_reference newElem);
 
-    void resize(size_t rows, const_reference val = value_type{}) {
-        _elements.resize(rows, val);
-    }
+    void addElement(const Matrix& newElems);
 
-    size_t rows() const { return _elements.size(); }
+    void clear();
 
-    constexpr size_t cols() const { return 1; }
+    size_t rows() const;
 
-    iterator begin() { return &_elements[0]; }
+    constexpr size_t cols() const;
 
-    const_iterator begin() const { return &_elements[0]; }
+    iterator begin();
 
-    iterator end() { return begin() + _elements.size(); }
+    const_iterator begin() const;
 
-    const_iterator end() const { return begin() + _elements.size(); }
+    iterator end();
 
-    pointer data() { return &_elements[0]; }
+    const_iterator end() const;
 
-    const_pointer data() const { return &_elements[0]; }
+    pointer data();
 
-    reference operator[](size_t i) {
-        JET_ASSERT(i < _elements.size());
-        return _elements[i];
-    }
+    const_pointer data() const;
 
-    const_reference operator[](size_t i) const {
-        JET_ASSERT(i < _elements.size());
-        return _elements[i];
-    }
+    reference operator[](size_t i);
 
-    Matrix& operator=(const Matrix& other) {
-        _elements = other._elements;
-        return *this;
-    }
+    const_reference operator[](size_t i) const;
 
-    Matrix& operator=(Matrix&& other) {
-        _elements = std::move(other._elements);
-        return *this;
-    }
+    Matrix& operator=(const Matrix& other);
+
+    Matrix& operator=(Matrix&& other);
 
  private:
     std::vector<T> _elements;
@@ -798,6 +655,11 @@ using VectorND = VectorN<double>;
 using VectorNZ = VectorN<ssize_t>;
 using VectorNUZ = VectorN<size_t>;
 
+template <typename T, size_t Rows, size_t Cols>
+struct ScalarType<Matrix<T, Rows, Cols>> {
+    using value = T;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix Operators
 
@@ -819,95 +681,112 @@ template <typename T, size_t Rows>
 
 // +=
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
-void operator+=(Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator+=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
 template <typename T, size_t Rows, size_t Cols>
 void operator+=(Matrix<T, Rows, Cols>& a, const T& b);
 
 // -=
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
-void operator-=(Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator-=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
 template <typename T, size_t Rows, size_t Cols>
 void operator-=(Matrix<T, Rows, Cols>& a, const T& b);
 
 // *=
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
-void operator*=(Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void operator*=(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
-template <typename T, size_t Rows, typename M2>
+template <typename T, size_t R1, size_t R2, size_t C2, typename M2>
 [[deprecated("Use elemIMul instead")]] void operator*=(
-    Matrix<T, Rows, 1>& a, const MatrixExpression<T, M2>& b);
+    Matrix<T, R1, 1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
-void elemIMul(Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void elemIMul(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
 template <typename T, size_t Rows, size_t Cols>
 void operator*=(Matrix<T, Rows, Cols>& a, const T& b);
 
 // /=
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
 [[deprecated("Use elemIDiv instead")]] void operator/=(
-    Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+    Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
-template <typename T, size_t Rows, size_t Cols, typename M2>
-void elemIDiv(Matrix<T, Rows, Cols>& a, const MatrixExpression<T, M2>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
+void elemIDiv(Matrix<T, R1, C1>& a, const MatrixExpression<T, R2, C2, M2>& b);
 
 template <typename T, size_t Rows, size_t Cols>
 void operator/=(Matrix<T, Rows, Cols>& a, const T& b);
 
 // MARK: Comparison Operators
 
-template <typename T, size_t Rows, size_t Cols>
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), bool> operator==(
-    const Matrix<T, Rows, Cols>& a, const Matrix<T, Rows, Cols>& b);
+    const MatrixExpression<T, Rows, Cols, M1>& a,
+    const MatrixExpression<T, Rows, Cols, M2>& b);
 
-template <typename T, size_t Rows, size_t Cols, typename E>
-bool operator==(const Matrix<T, Rows, Cols>& a,
-                const MatrixExpression<T, E>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+bool operator==(const MatrixExpression<T, R1, C1, M1>& a,
+                const MatrixExpression<T, R2, C2, M2>& b);
 
-template <typename T, size_t Rows, size_t Cols, typename E>
-bool operator!=(const Matrix<T, Rows, Cols>& a,
-                const MatrixExpression<T, E>& b);
+template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
+          typename M2>
+bool operator!=(const MatrixExpression<T, R1, C1, M1>& a,
+                const MatrixExpression<T, R2, C2, M2>& b);
 
 // MARK: Simple Utilities
 
 // Static Accumulate
 
-template <typename T, size_t Rows, size_t Cols, typename BinaryOperation>
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
 constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a, const T& init, BinaryOperation op);
+    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+    BinaryOperation op);
 
-template <typename T, size_t Rows, size_t Cols>
+template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a, const T& init);
+    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
 
-template <typename T, size_t Rows, size_t Cols>
+template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a);
+    const MatrixExpression<T, Rows, Cols, M1>& a);
 
 // Dynamic Accumulate
 
-template <typename T, size_t Rows, size_t Cols, typename BinaryOperation>
+template <typename T, size_t Rows, size_t Cols, typename M1,
+          typename BinaryOperation>
 constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a, const T& init, BinaryOperation op);
+    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+    BinaryOperation op);
 
-template <typename T, size_t Rows, size_t Cols>
+template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a, const T& init);
+    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
 
-template <typename T, size_t Rows, size_t Cols>
+template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const Matrix<T, Rows, Cols>& a);
+    const MatrixExpression<T, Rows, Cols, M1>& a);
 
 // Product
 
-template <typename T, size_t Rows, size_t Cols>
-constexpr T product(const Matrix<T, Rows, Cols>& a, const T& init);
+template <typename T, size_t Rows, size_t Cols, typename M1>
+constexpr T product(const MatrixExpression<T, Rows, Cols, M1>& a,
+                    const T& init);
+
+// Interpolation
+template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
+          typename M3, typename M4>
+std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), Matrix<T, Rows, Cols>>
+monotonicCatmullRom(const MatrixExpression<T, Rows, Cols, M1>& f0,
+                    const MatrixExpression<T, Rows, Cols, M2>& f1,
+                    const MatrixExpression<T, Rows, Cols, M3>& f2,
+                    const MatrixExpression<T, Rows, Cols, M4>& f3, T f);
 
 }  // namespace jet
 

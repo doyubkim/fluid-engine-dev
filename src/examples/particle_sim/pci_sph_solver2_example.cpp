@@ -159,7 +159,7 @@ void PciSphSolver2Example::particlesToVertices() {
         std::lock_guard<std::mutex> lock(_verticesMutex);
         _vertices.resize(pos.size());
         for (size_t i = 0; i < pos.length(); ++i) {
-            auto p = pos[i].castTo<float>();
+            Vector2F p = pos[i].castTo<float>();
             float d = (float)den[i];
 
             d = std::min(std::max(d / 1000.0f, 0.0f), 1.0f);

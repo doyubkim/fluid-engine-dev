@@ -58,7 +58,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SVector2UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t value = pointSearcher.buckets()[key].size();
             grid(i, j) = value;
         }
@@ -70,7 +70,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = parallelSearcher.getHashKeyFromBucketIndex(
-                SVector2UZ(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t start = parallelSearcher.startIndexTable()[key];
             size_t end = parallelSearcher.endIndexTable()[key];
             size_t value = end - start;
