@@ -18,9 +18,9 @@ cnt = 0
 def test_grid2():
     global cnt
 
-    a = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      gridSpacing=(1, 2),
-                                      gridOrigin=(7, 5))
+    a = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        gridSpacing=(1, 2),
+                                        gridOrigin=(7, 5))
 
     assert a.resolution == (3, 4)
     assert_vector_similar(a.origin, (7, 5))
@@ -30,9 +30,9 @@ def test_grid2():
     f = a.cellCenterPosition
     assert_vector_similar(f(0, 0), (7.5, 6))
 
-    b = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      gridSpacing=(1, 2),
-                                      gridOrigin=(7, 5))
+    b = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        gridSpacing=(1, 2),
+                                        gridOrigin=(7, 5))
     assert a.hasSameShape(b)
 
     def func(i, j):
@@ -47,9 +47,9 @@ def test_grid2():
 
 def test_scalar_grid2():
     global cnt
-    a = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      gridSpacing=(1, 2),
-                                      gridOrigin=(7, 5))
+    a = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        gridSpacing=(1, 2),
+                                        gridOrigin=(7, 5))
 
     a.resize(resolution=(12, 7),
              gridSpacing=(3, 4),
@@ -89,15 +89,15 @@ def test_scalar_grid2():
 
     def func(i, j):
         global cnt
-        assert i >= 0 and i < a.resolution.x
-        assert j >= 0 and j < a.resolution.y
+        assert i >= 0 and i < a.resolution.x + 1
+        assert j >= 0 and j < a.resolution.y + 1
         cnt += 1
     cnt = 0
     a.forEachDataPointIndex(func)
-    assert cnt == a.resolution.x * a.resolution.y
+    assert cnt == (a.resolution.x + 1) * (a.resolution.y + 1)
 
     blob = a.serialize()
-    b = pyjet.CellCenteredScalarGrid2()
+    b = pyjet.VertexCenteredScalarGrid2()
     b.deserialize(blob)
     assert b.resolution == (12, 7)
     assert_vector_similar(b.origin, (9, 2))
@@ -109,41 +109,41 @@ def test_scalar_grid2():
 
 def test_cell_centered_scalar_grid2():
     # CTOR
-    a = pyjet.CellCenteredScalarGrid2()
+    a = pyjet.VertexCenteredScalarGrid2()
     assert a.resolution == (1, 1)
     assert_vector_similar(a.origin, (0.0, 0.0))
     assert_vector_similar(a.gridSpacing, (1.0, 1.0))
 
-    a = pyjet.CellCenteredScalarGrid2((3, 4), (1, 2), (7, 5))
+    a = pyjet.VertexCenteredScalarGrid2((3, 4), (1, 2), (7, 5))
     assert a.resolution == (3, 4)
     assert_vector_similar(a.origin, (7, 5))
     assert_vector_similar(a.gridSpacing, (1, 2))
 
-    a = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      gridSpacing=(1, 2),
-                                      gridOrigin=(7, 5))
+    a = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        gridSpacing=(1, 2),
+                                        gridOrigin=(7, 5))
     assert a.resolution == (3, 4)
     assert_vector_similar(a.origin, (7, 5))
     assert_vector_similar(a.gridSpacing, (1, 2))
 
-    a = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      domainSizeX=12.0,
-                                      gridOrigin=(7, 5))
+    a = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        domainSizeX=12.0,
+                                        gridOrigin=(7, 5))
     assert a.resolution == (3, 4)
     assert_vector_similar(a.origin, (7, 5))
     assert_vector_similar(a.gridSpacing, (4, 4))
 
     # Properties
-    a = pyjet.CellCenteredScalarGrid2(resolution=(3, 4),
-                                      gridSpacing=(1, 2),
-                                      gridOrigin=(7, 5))
-    assert_vector_similar(a.dataSize, (3, 4))
-    assert_vector_similar(a.dataOrigin, (7.5, 6))
+    a = pyjet.VertexCenteredScalarGrid2(resolution=(3, 4),
+                                        gridSpacing=(1, 2),
+                                        gridOrigin=(7, 5))
+    assert_vector_similar(a.dataSize, (4, 5))
+    assert_vector_similar(a.dataOrigin, (7, 5))
 
     # Modifiers
-    b = pyjet.CellCenteredScalarGrid2(resolution=(6, 3),
-                                      gridSpacing=(5, 9),
-                                      gridOrigin=(1, 2))
+    b = pyjet.VertexCenteredScalarGrid2(resolution=(6, 3),
+                                        gridSpacing=(5, 9),
+                                        gridOrigin=(1, 2))
     a.fill(42.0)
     for j in range(a.resolution.y):
         for i in range(a.resolution.x):
