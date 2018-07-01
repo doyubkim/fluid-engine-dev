@@ -108,10 +108,9 @@ void addCollocatedVectorGrid2(py::module& m) {
              )pbdoc",
              py::arg("i"), py::arg("j"))
         .def("dataAccessor", &CollocatedVectorGrid2::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &CollocatedVectorGrid2::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &CollocatedVectorGrid2::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def("forEachDataPointIndex",
              [](CollocatedVectorGrid2& instance, py::function func) {
                  instance.forEachDataPointIndex(func);
@@ -253,10 +252,9 @@ void addCollocatedVectorGrid3(py::module& m) {
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
         .def("dataAccessor", &CollocatedVectorGrid3::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &CollocatedVectorGrid3::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &CollocatedVectorGrid3::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
         .def("forEachDataPointIndex",
              [](CollocatedVectorGrid3& instance, py::function func) {
                  instance.forEachDataPointIndex(func);

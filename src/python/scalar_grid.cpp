@@ -17,6 +17,25 @@ void addScalarGrid2(py::module& m) {
     py::class_<ScalarGrid2, ScalarGrid2Ptr, ScalarField2, Grid2>(
         m, "ScalarGrid2",
         R"pbdoc(Abstract base class for 2-D scalar grid structure.)pbdoc")
+        .def_property_readonly("dataSize", &ScalarGrid2::dataSize,
+                               R"pbdoc(
+                               Returns the size of the grid data.
+
+                               This function returns the size of the grid data which is not necessarily
+                               equal to the grid resolution if the data is not stored at cell-center.
+                               )pbdoc")
+        .def_property_readonly("dataOrigin", &ScalarGrid2::dataOrigin,
+                               R"pbdoc(
+                               Returns the origin of the grid data.
+
+                               This function returns data position for the grid point at (0, 0).
+                               Note that this is different from `origin()` since `origin()` returns
+                               the lower corner point of the bounding box.
+                               )pbdoc")
+        .def("clone", &ScalarGrid2::clone,
+             R"pbdoc(Returns the copy of the grid instance.)pbdoc")
+        .def("clear", &ScalarGrid2::clear,
+             R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def("resize",
              [](ScalarGrid2& instance, py::args args, py::kwargs kwargs) {
                  Size2 resolution{1, 1};
@@ -126,15 +145,17 @@ void addScalarGrid2(py::module& m) {
              )pbdoc",
              py::arg("i"), py::arg("j"))
         .def("dataAccessor", &ScalarGrid2::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &ScalarGrid2::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &ScalarGrid2::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid2& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid2& instance, py::object obj) {
-                 if (py::isinstance<double>(obj)) {
-                     instance.fill(obj.cast<double>());
-                 } else if (py::isinstance<py::function>(obj)) {
+                 if (py::isinstance<py::function>(obj)) {
                      auto func = obj.cast<py::function>();
                      instance.fill(
                          [func](const Vector2D& pt) -> double {
@@ -143,11 +164,11 @@ void addScalarGrid2(py::module& m) {
                          ExecutionPolicy::kSerial);
                  } else {
                      throw std::invalid_argument(
-                         "Input type must be Vector2D or function object -> "
+                         "Input type must be double or function object -> "
                          "double");
                  }
              },
-             R"pbdoc(Fills the grid with given value or function.)pbdoc")
+             R"pbdoc(Fills the grid with given function.)pbdoc")
         .def("forEachDataPointIndex",
              [](ScalarGrid2& instance, py::function func) {
                  instance.forEachDataPointIndex(func);
@@ -184,6 +205,25 @@ void addScalarGrid3(py::module& m) {
     py::class_<ScalarGrid3, ScalarGrid3Ptr, ScalarField3, Grid3>(
         m, "ScalarGrid3",
         R"pbdoc(Abstract base class for 3-D scalar grid structure.)pbdoc")
+        .def_property_readonly("dataSize", &ScalarGrid3::dataSize,
+                               R"pbdoc(
+                               Returns the size of the grid data.
+
+                               This function returns the size of the grid data which is not necessarily
+                               equal to the grid resolution if the data is not stored at cell-center.
+                               )pbdoc")
+        .def_property_readonly("dataOrigin", &ScalarGrid3::dataOrigin,
+                               R"pbdoc(
+                               Returns the origin of the grid data.
+
+                               This function returns data position for the grid point at (0, 0).
+                               Note that this is different from `origin()` since `origin()` returns
+                               the lower corner point of the bounding box.
+                               )pbdoc")
+        .def("clone", &ScalarGrid3::clone,
+             R"pbdoc(Returns the copy of the grid instance.)pbdoc")
+        .def("clear", &ScalarGrid3::clear,
+             R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def("resize",
              [](ScalarGrid3& instance, py::args args, py::kwargs kwargs) {
                  Size3 resolution{1, 1, 1};
@@ -298,15 +338,17 @@ void addScalarGrid3(py::module& m) {
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
         .def("dataAccessor", &ScalarGrid3::dataAccessor,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &ScalarGrid3::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array accessor.)pbdoc")
+        .def("dataPosition", &ScalarGrid3::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid3& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid3& instance, py::object obj) {
-                 if (py::isinstance<double>(obj)) {
-                     instance.fill(obj.cast<double>());
-                 } else if (py::isinstance<py::function>(obj)) {
+                 if (py::isinstance<py::function>(obj)) {
                      auto func = obj.cast<py::function>();
                      instance.fill(
                          [func](const Vector3D& pt) -> double {
@@ -315,11 +357,11 @@ void addScalarGrid3(py::module& m) {
                          ExecutionPolicy::kSerial);
                  } else {
                      throw std::invalid_argument(
-                         "Input type must be Vector3D or function object -> "
+                         "Input type must be double or function object -> "
                          "double");
                  }
              },
-             R"pbdoc(Fills the grid with given value or function.)pbdoc")
+             R"pbdoc(Fills the grid with given function.)pbdoc")
         .def("forEachDataPointIndex",
              [](ScalarGrid3& instance, py::function func) {
                  instance.forEachDataPointIndex(func);

@@ -18,9 +18,9 @@ namespace py = pybind11;
 using namespace jet;
 
 void addCellCenteredScalarGrid2(py::module& m) {
-    py::class_<CellCenteredScalarGrid2, CellCenteredScalarGrid2Ptr, ScalarGrid2>(
-        m, "CellCenteredScalarGrid2",
-        R"pbdoc(
+    py::class_<CellCenteredScalarGrid2, CellCenteredScalarGrid2Ptr,
+               ScalarGrid2>(m, "CellCenteredScalarGrid2",
+                            R"pbdoc(
         2-D Cell-centered scalar grid structure.
 
         This class represents 2-D cell-centered scalar grid which extends
@@ -54,7 +54,8 @@ void addCellCenteredScalarGrid2(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredScalarGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredScalarGrid2::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &CellCenteredScalarGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -73,9 +74,9 @@ void addCellCenteredScalarGrid2(py::module& m) {
 }
 
 void addCellCenteredScalarGrid3(py::module& m) {
-    py::class_<CellCenteredScalarGrid3, CellCenteredScalarGrid3Ptr, ScalarGrid3>(
-        m, "CellCenteredScalarGrid3",
-        R"pbdoc(
+    py::class_<CellCenteredScalarGrid3, CellCenteredScalarGrid3Ptr,
+               ScalarGrid3>(m, "CellCenteredScalarGrid3",
+                            R"pbdoc(
         3-D Cell-centered scalar grid structure.
 
         This class represents 3-D cell-centered scalar grid which extends
@@ -109,7 +110,8 @@ void addCellCenteredScalarGrid3(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredScalarGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredScalarGrid3::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &CellCenteredScalarGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 
