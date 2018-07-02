@@ -36,18 +36,18 @@ void FdmCompressedLinearSystem3::clear() {
 //
 
 void FdmBlas3::set(double s, FdmVector3* result) {
-    fill(result->view(), s);
+    result->fill(s);
 }
 
-void FdmBlas3::set(const FdmVector3& v, FdmVector3* result) { result->set(v); }
+void FdmBlas3::set(const FdmVector3& v, FdmVector3* result) { result->copyFrom(v); }
 
 void FdmBlas3::set(double s, FdmMatrix3* result) {
     FdmMatrixRow3 row;
     row.center = row.right = row.up = row.front = s;
-    fill(result->view(), row);
+    result->fill(row);
 }
 
-void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->set(m); }
+void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->copyFrom(m); }
 
 double FdmBlas3::dot(const FdmVector3& a, const FdmVector3& b) {
     Vector3UZ size = a.size();

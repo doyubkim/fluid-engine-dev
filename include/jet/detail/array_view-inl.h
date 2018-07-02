@@ -18,7 +18,8 @@ template <typename T, size_t N>
 ArrayView<T, N>::ArrayView() : Base() {}
 
 template <typename T, size_t N>
-ArrayView<T, N>::ArrayView(T* ptr, const Vector<size_t, N>& size_) : ArrayView() {
+ArrayView<T, N>::ArrayView(T* ptr, const Vector<size_t, N>& size_)
+    : ArrayView() {
     Base::setPtrAndSize(ptr, size_);
 }
 
@@ -51,6 +52,12 @@ void ArrayView<T, N>::set(Array<T, N>& other) {
 template <typename T, size_t N>
 void ArrayView<T, N>::set(const ArrayView& other) {
     Base::setPtrAndSize(const_cast<T*>(other.data()), other.size());
+}
+
+template <typename T, size_t N>
+void ArrayView<T, N>::fill(const T& val) {
+    forEachIndex(Vector<size_t, N>{}, _size,
+                 [&](auto... idx) { at(idx...) = val; });
 }
 
 template <typename T, size_t N>

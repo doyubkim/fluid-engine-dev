@@ -158,7 +158,7 @@ void CollocatedVectorGrid3::setCollocatedVectorGrid(
     const CollocatedVectorGrid3& other) {
     setGrid(other);
 
-    _data.set(other._data);
+    _data.copyFrom(other._data);
     resetSampler();
 }
 

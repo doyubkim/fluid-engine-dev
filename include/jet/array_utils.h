@@ -13,8 +13,8 @@
 namespace jet {
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N> a, const Vector<size_t, N>& begin, const Vector<size_t, N>& end,
-          const T& val);
+void fill(ArrayView<T, N> a, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, const T& val);
 
 template <typename T, size_t N>
 void fill(ArrayView<T, N> a, const T& val);
@@ -23,8 +23,8 @@ template <typename T>
 void fill(ArrayView<T, 1> a, size_t begin, size_t end, const T& val);
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N> src, const Vector<size_t, N>& begin, const Vector<size_t, N>& end,
-          ArrayView<U, N> dst);
+void copy(ArrayView<T, N> src, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, ArrayView<U, N> dst);
 
 template <typename T, typename U, size_t N>
 void copy(ArrayView<T, N> src, ArrayView<U, N> dst);
@@ -47,8 +47,7 @@ void copy(ArrayView<T, 1> src, size_t begin, size_t end, ArrayView<U, 1> dst);
 //! \param output - extrapolated output
 //!
 template <typename T, typename U>
-void extrapolateToRegion(const ArrayView2<T>& input,
-                         const ConstArrayView2<char>& valid,
+void extrapolateToRegion(ArrayView2<T> input, ArrayView2<char> valid,
                          unsigned int numberOfIterations, ArrayView2<U> output);
 
 //!
@@ -66,8 +65,7 @@ void extrapolateToRegion(const ArrayView2<T>& input,
 //! \param output - extrapolated output
 //!
 template <typename T, typename U>
-void extrapolateToRegion(const ArrayView3<T>& input,
-                         const ConstArrayView3<char>& valid,
+void extrapolateToRegion(ArrayView3<T> input, ArrayView3<char> valid,
                          unsigned int numberOfIterations, ArrayView3<U> output);
 
 }  // namespace jet

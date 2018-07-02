@@ -24,6 +24,7 @@ class ArrayView final : public ArrayBase<T, N, ArrayView<T, N>> {
     using Base = ArrayBase<T, N, ArrayView<T, N>>;
     using Base::_size;
     using Base::setPtrAndSize;
+    using Base::at;
 
  public:
     // CTOR
@@ -45,6 +46,8 @@ class ArrayView final : public ArrayBase<T, N, ArrayView<T, N>> {
     void set(Array<T, N>& other);
 
     void set(const ArrayView& other);
+
+    void fill(const T& val);
 
     // Assignment Operators
     ArrayView& operator=(const ArrayView& other);

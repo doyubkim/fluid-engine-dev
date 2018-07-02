@@ -35,17 +35,17 @@ void FdmCompressedLinearSystem2::clear() {
 
 //
 
-void FdmBlas2::set(double s, FdmVector2* result) { fill(result->view(), s); }
+void FdmBlas2::set(double s, FdmVector2* result) { result->fill(s); }
 
-void FdmBlas2::set(const FdmVector2& v, FdmVector2* result) { result->set(v); }
+void FdmBlas2::set(const FdmVector2& v, FdmVector2* result) { result->copyFrom(v); }
 
 void FdmBlas2::set(double s, FdmMatrix2* result) {
     FdmMatrixRow2 row;
     row.center = row.right = row.up = s;
-    fill(result->view(), row);
+    result->fill(row);
 }
 
-void FdmBlas2::set(const FdmMatrix2& m, FdmMatrix2* result) { result->set(m); }
+void FdmBlas2::set(const FdmMatrix2& m, FdmMatrix2* result) { result->copyFrom(m); }
 
 double FdmBlas2::dot(const FdmVector2& a, const FdmVector2& b) {
     Vector2UZ size = a.size();

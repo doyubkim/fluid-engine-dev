@@ -364,8 +364,7 @@ void GridFluidSolver3::extrapolateIntoCollider(ScalarGrid3* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion(grid->dataView(), marker, depth,
-                                grid->dataView());
+    extrapolateToRegion(grid->dataView(), marker, depth, grid->dataView());
 }
 
 void GridFluidSolver3::extrapolateIntoCollider(CollocatedVectorGrid3* grid) {
@@ -380,8 +379,7 @@ void GridFluidSolver3::extrapolateIntoCollider(CollocatedVectorGrid3* grid) {
     });
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(_maxCfl));
-    extrapolateToRegion<Vector3D>(grid->dataView(), marker, depth,
-                                  grid->dataView());
+    extrapolateToRegion(grid->dataView(), marker, depth, grid->dataView());
 }
 
 void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {

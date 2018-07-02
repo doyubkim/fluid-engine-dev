@@ -330,8 +330,8 @@ constexpr std::enable_if_t<
     Matrix<U, 3, 1>>
 MatrixExpression<T, Rows, Cols, D>::cross(
     const MatrixExpression<T, R, C, E>& exp) const {
-    JET_ASSERT(rows() == 3 && cols() == 1 && expression.rows() == 3 &&
-               expression.cols() == 1);
+    JET_ASSERT(rows() == 3 && cols() == 1 && exp.rows() == 3 &&
+               exp.cols() == 1);
 
     return Matrix<U, 3, 1>(
         eval(1, 0) * exp.eval(2, 0) - exp.eval(1, 0) * eval(2, 0),
@@ -349,7 +349,7 @@ constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
 MatrixExpression<T, Rows, Cols, D>::reflected(
     const MatrixExpression<T, R, C, E>& normal) const {
     JET_ASSERT((rows() == 2 || rows() == 3) && cols() == 1 &&
-               expression.rows() == rows() && expression.cols() == 1);
+               normal.rows() == rows() && normal.cols() == 1);
 
     // this - 2(this.n)n
     return (*this) - 2 * dot(normal) * normal;
@@ -365,7 +365,7 @@ constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
 MatrixExpression<T, Rows, Cols, D>::projected(
     const MatrixExpression<T, R, C, E>& normal) const {
     JET_ASSERT((rows() == 2 || rows() == 3) && cols() == 1 &&
-               expression.rows() == rows() && expression.cols() == 1);
+               normal.rows() == rows() && normal.cols() == 1);
 
     // this - this.n n
     return (*this) - this->dot(normal) * normal;

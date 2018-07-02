@@ -21,7 +21,7 @@ TEST(FdmMgpcgSolver3, Solve) {
         FdmMatrix3& A = system.A[l];
         FdmVector3& b = system.b[l];
 
-        fill(system.x[l].view(), 0.0);
+        system.x[l].fill(0.0);
 
         forEachIndex(A.size(), [&](size_t i, size_t j, size_t k) {
             if (i > 0) {

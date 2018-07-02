@@ -113,7 +113,7 @@ void PciSphSolver2::accumulatePressureForce(double timeIntervalInSeconds) {
         });
 
         // Compute pressure gradient force
-        fill(_pressureForces.view(), Vector2D{});
+        _pressureForces.fill(Vector2D{});
         SphSolver2::accumulatePressureForce(x, ds, p, _pressureForces);
 
         // Compute max density error

@@ -11,7 +11,6 @@ set(target jtl_tests)
 
 # Includes
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-link_directories(/usr/local/lib)
 
 # Sources
 if (USE_CUDA)
@@ -57,5 +56,5 @@ target_compile_definitions(${target}
 # Link libraries
 target_link_libraries(${target}
     ${DEFAULT_LINKER_OPTIONS}
-    tbb
+    ${DEFAULT_LIBRARIES}
     gtest)

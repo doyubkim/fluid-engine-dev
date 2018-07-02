@@ -114,7 +114,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    fill(newVelocities->view(), _initialVel);
+    newVelocities->fill(_initialVel);
 }
 
 void VolumeParticleEmitter3::setPointGenerator(

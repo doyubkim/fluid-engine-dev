@@ -17,7 +17,6 @@ project(jet)
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
-cmake_policy(SET CMP0023 OLD) # TODO: blaming FindCUDA in default CMake for Ubuntu 14.04
 if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
     cmake_policy(SET CMP0063 NEW)
 endif()
@@ -35,8 +34,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # Build type - Release by default
+message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_definitions(-DDEBUG)
 endif()
 
 # OpenGL

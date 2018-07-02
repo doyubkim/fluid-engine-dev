@@ -69,8 +69,8 @@ void FaceCenteredGrid2::swap(Grid2* other) {
 void FaceCenteredGrid2::set(const FaceCenteredGrid2& other) {
     setGrid(other);
 
-    _dataU.set(other._dataU);
-    _dataV.set(other._dataV);
+    _dataU.copyFrom(other._dataU);
+    _dataV.copyFrom(other._dataV);
     _dataOriginU = other._dataOriginU;
     _dataOriginV = other._dataOriginV;
 

@@ -53,13 +53,13 @@ TEST(Array1, Constructors) {
 
 TEST(Array1, SetMethods) {
     Array1<float> arr1(12, -1.f);
-    fill(arr1.view(), 3.5f);
+    arr1.fill(3.5f);
     for (float a : arr1) {
         EXPECT_EQ(3.5f, a);
     }
 
     Array1<float> arr2;
-    arr1.set(arr2);
+    arr1.copyFrom(arr2);
     EXPECT_EQ(arr1.length(), arr2.length());
     for (size_t i = 0; i < arr2.length(); ++i) {
         EXPECT_EQ(arr1[i], arr2[i]);

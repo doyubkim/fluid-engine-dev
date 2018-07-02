@@ -44,8 +44,8 @@ void ApicSolver2::transferFromParticlesToGrids() {
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
-    fill(_uMarkers.view(), char(0));
-    fill(_vMarkers.view(), char(0));
+    _uMarkers.fill(0);
+    _vMarkers.fill(0);
     LinearArraySampler2<double, double> uSampler(
         flow->uView(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler2<double, double> vSampler(
@@ -104,8 +104,8 @@ void ApicSolver2::transferFromGridsToParticles() {
     // Allocate buffers
     _cX.resize(numberOfParticles);
     _cY.resize(numberOfParticles);
-    fill(_cX.view(), Vector2D{});
-    fill(_cY.view(), Vector2D{});
+    _cX.fill(Vector2D{});
+    _cY.fill(Vector2D{});
 
     auto u = flow->uView();
     auto v = flow->vView();

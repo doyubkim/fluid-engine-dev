@@ -139,12 +139,12 @@ void TriangleMesh3::clear() {
 }
 
 void TriangleMesh3::set(const TriangleMesh3& other) {
-    _points.set(other._points);
-    _normals.set(other._normals);
-    _uvs.set(other._uvs);
-    _pointIndices.set(other._pointIndices);
-    _normalIndices.set(other._normalIndices);
-    _uvIndices.set(other._uvIndices);
+    _points.copyFrom(other._points);
+    _normals.copyFrom(other._normals);
+    _uvs.copyFrom(other._uvs);
+    _pointIndices.copyFrom(other._pointIndices);
+    _normalIndices.copyFrom(other._normalIndices);
+    _uvIndices.copyFrom(other._uvIndices);
 
     invalidateBvh();
 }
@@ -313,7 +313,7 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
 
 void TriangleMesh3::setFaceNormal() {
     _normals.resize(_points.length());
-    _normalIndices.set(_pointIndices);
+    _normalIndices.copyFrom(_pointIndices);
 
     for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
@@ -393,7 +393,7 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
     }
 
     std::swap(pseudoNormals, _normals);
-    _normalIndices.set(_pointIndices);
+    _normalIndices.copyFrom(_pointIndices);
 }
 
 void TriangleMesh3::scale(double factor) {

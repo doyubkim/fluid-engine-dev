@@ -167,11 +167,11 @@ bool FdmIccgSolver3::solve(FdmLinearSystem3* system) {
     _q.resize(size);
     _s.resize(size);
 
-    fill(system->x.view(), 0.0);
-    fill(_r.view(), 0.0);
-    fill(_d.view(), 0.0);
-    fill(_q.view(), 0.0);
-    fill(_s.view(), 0.0);
+    system->x.fill(0.0);
+    _r.fill(0.0);
+    _d.fill(0.0);
+    _q.fill(0.0);
+    _s.fill(0.0);
 
     _precond.build(matrix);
 

@@ -290,7 +290,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        fill(output.view(), 0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);
@@ -358,7 +358,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        fill(output.view(), 0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);
@@ -426,7 +426,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        fill(output.view(), 0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);

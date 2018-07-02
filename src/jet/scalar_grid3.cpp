@@ -205,7 +205,7 @@ void ScalarGrid3::swapScalarGrid(ScalarGrid3* other) {
 void ScalarGrid3::setScalarGrid(const ScalarGrid3& other) {
     setGrid(other);
 
-    _data.set(other._data);
+    _data.copyFrom(other._data);
     resetSampler();
 }
 

@@ -128,9 +128,9 @@ void PicSolver3::transferFromParticlesToGrids() {
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
     _wMarkers.resize(w.size());
-    fill(_uMarkers.view(), (char)0);
-    fill(_vMarkers.view(), (char)0);
-    fill(_wMarkers.view(), (char)0);
+    _uMarkers.fill(0);
+    _vMarkers.fill(0);
+    _wMarkers.fill(0);
     LinearArraySampler3<double, double> uSampler(
         flow->uView(), flow->gridSpacing(), flow->uOrigin());
     LinearArraySampler3<double, double> vSampler(

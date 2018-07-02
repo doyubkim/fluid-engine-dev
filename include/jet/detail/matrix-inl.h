@@ -853,7 +853,7 @@ Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::data() const {
 template <typename T>
 typename Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::reference
     Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::operator[](size_t i) {
-    JET_ASSERT(i < _rows * _Cols);
+    JET_ASSERT(i < _rows * _cols);
     return _elements[i];
 }
 
@@ -861,7 +861,7 @@ template <typename T>
 typename Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::const_reference
     Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::operator[](
         size_t i) const {
-    JET_ASSERT(i < _rows * _Cols);
+    JET_ASSERT(i < _rows * _cols);
     return _elements[i];
 }
 
@@ -1113,9 +1113,9 @@ void operator-=(Matrix<T, Rows, Cols>& a, const T& b) {
 template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M2>
 void operator*=(Matrix<T, R1, C1>& a,
                 const MatrixExpression<T, R2, C2, M2>& b) {
-    JET_ASSERT(a.rows() == b.rows() && a.cols() == b.cols());
+    JET_ASSERT(a.cols() == b.rows());
 
-    Matrix<T, R1, C1> c = a * b;
+    Matrix<T, R1, C2> c = a * b;
     a = c;
 }
 

@@ -124,7 +124,7 @@ void ParticleSystemSolver3::accumulateForces(double timeStepInSeconds) {
 void ParticleSystemSolver3::beginAdvanceTimeStep(double timeStepInSeconds) {
     // Clear forces
     auto forces = _particleSystemData->forces();
-    fill(forces, Vector3D{});
+    forces.fill(Vector3D{});
 
     // Update collider and emitter
     Timer timer;

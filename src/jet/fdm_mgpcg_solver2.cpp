@@ -26,13 +26,13 @@ void FdmMgpcgSolver2::Preconditioner::solve(const FdmVector2& b,
     FdmMgVector2 mgBuffer = system->x;
 
     // Copy input to the top
-    mgX.levels.front().set(*x);
-    mgB.levels.front().set(b);
+    mgX.levels.front().copyFrom(*x);
+    mgB.levels.front().copyFrom(b);
 
     mgVCycle(system->A, mgParams, &mgX, &mgB, &mgBuffer);
 
     // Copy result to the output
-    x->set(mgX.levels.front());
+    x->copyFrom(mgX.levels.front());
 }
 
 //
@@ -58,11 +58,11 @@ bool FdmMgpcgSolver2::solve(FdmMgLinearSystem2* system) {
     _q.resize(size);
     _s.resize(size);
 
-    fill(system->x.levels.front().view(), 0.0);
-    fill(_r.view(), 0.0);
-    fill(_d.view(), 0.0);
-    fill(_q.view(), 0.0);
-    fill(_s.view(), 0.0);
+    system->x.levels.front().fill(0.0);
+    _r.fill(0.0);
+    _d.fill(0.0);
+    _q.fill(0.0);
+    _s.fill(0.0);
 
     _precond.build(system, params());
 

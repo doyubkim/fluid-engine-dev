@@ -22,7 +22,7 @@ TEST(FdmMgSolver2, Solve) {
         FdmMatrix2& A = system.A[l];
         FdmVector2& b = system.b[l];
 
-        fill(system.x[l].view(), 0.0);
+        system.x[l].fill(0.0);
 
         forEachIndex(A.size(), [&](size_t i, size_t j) {
             if (i > 0) {

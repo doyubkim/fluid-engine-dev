@@ -122,7 +122,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    fill(newVelocities->view(), _initialVel);
+    newVelocities->fill(_initialVel);
 }
 
 void VolumeParticleEmitter2::setPointGenerator(

@@ -42,16 +42,13 @@ class ArrayBase {
     const Vector<size_t, N>& size() const;
 
     template <size_t M = N>
-    typename std::enable_if<(M > 0), size_t>::type  //
-    width() const;
+    std::enable_if_t<(M > 0), size_t> width() const;
 
     template <size_t M = N>
-    typename std::enable_if<(M > 1), size_t>::type  //
-    height() const;
+    std::enable_if_t<(M > 1), size_t> height() const;
 
     template <size_t M = N>
-    typename std::enable_if<(M > 2), size_t>::type  //
-    depth() const;
+    std::enable_if_t<(M > 2), size_t> depth() const;
 
     size_t length() const;
 
@@ -137,6 +134,7 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     using Base::setPtrAndSize;
     using Base::swap;
     using Base::clear;
+    using Base::at;
 
  public:
     // CTOR
@@ -153,8 +151,10 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
 
     Array(Array&& other);
 
-    // set
-    void set(const Array& other);
+    template <typename D>
+    void copyFrom(const ArrayBase<T, N, D>& other);
+
+    void fill(const T& val);
 
     // resize
     void resize(Vector<size_t, N> size_, const T& initVal = T{});
@@ -163,12 +163,10 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     void resize(size_t nx, Args... args);
 
     template <size_t M = N>
-    typename std::enable_if<(M == 1), void>::type  //
-    append(const T& val);
+    std::enable_if_t<(M == 1), void> append(const T& val);
 
     template <size_t M = N>
-    typename std::enable_if<(M == 1), void>::type  //
-    append(const Array& extra);
+    std::enable_if_t<(M == 1), void> append(const Array& extra);
 
     void clear();
 

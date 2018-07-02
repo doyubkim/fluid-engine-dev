@@ -21,7 +21,8 @@ namespace internal {
 template <typename T, size_t N, size_t I>
 struct GetSizeAndInitVal {
     template <typename... Args>
-    static void call(Vector<size_t, N>& size, T& value, size_t n, Args... args) {
+    static void call(Vector<size_t, N>& size, T& value, size_t n,
+                     Args... args) {
         size[N - I - 1] = n;
         GetSizeAndInitVal<T, N, I - 1>::call(size, value, args...);
     }
@@ -33,7 +34,8 @@ struct GetSizeAndInitVal<T, N, 0> {
         call(size, value, n, T{});
     }
 
-    static void call(Vector<size_t, N>& size, T& value, size_t n, const T& initVal) {
+    static void call(Vector<size_t, N>& size, T& value, size_t n,
+                     const T& initVal) {
         size[N - 1] = n;
         value = initVal;
     }
@@ -41,7 +43,8 @@ struct GetSizeAndInitVal<T, N, 0> {
 
 template <typename T, size_t N, size_t I>
 struct GetSizeFromInitList {
-    static size_t call(Vector<size_t, N>& size, NestedInitializerListsT<T, I> lst) {
+    static size_t call(Vector<size_t, N>& size,
+                       NestedInitializerListsT<T, I> lst) {
         size[I - 1] = lst.size();
         size_t i = 0;
         for (auto subLst : lst) {
@@ -62,7 +65,8 @@ struct GetSizeFromInitList {
 
 template <typename T, size_t N>
 struct GetSizeFromInitList<T, N, 1> {
-    static size_t call(Vector<size_t, N>& size, NestedInitializerListsT<T, 1> lst) {
+    static size_t call(Vector<size_t, N>& size,
+                       NestedInitializerListsT<T, 1> lst) {
         size[0] = lst.size();
         return size[0];
     }
@@ -152,22 +156,19 @@ const Vector<size_t, N>& ArrayBase<T, N, D>::size() const {
 
 template <typename T, size_t N, typename D>
 template <size_t M>
-typename std::enable_if<(M > 0), size_t>::type ArrayBase<T, N, D>::width()
-    const {
+std::enable_if_t<(M > 0), size_t> ArrayBase<T, N, D>::width() const {
     return _size.x;
 }
 
 template <typename T, size_t N, typename D>
 template <size_t M>
-typename std::enable_if<(M > 1), size_t>::type ArrayBase<T, N, D>::height()
-    const {
+std::enable_if_t<(M > 1), size_t> ArrayBase<T, N, D>::height() const {
     return _size.y;
 }
 
 template <typename T, size_t N, typename D>
 template <size_t M>
-typename std::enable_if<(M > 2), size_t>::type ArrayBase<T, N, D>::depth()
-    const {
+std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, D>::depth() const {
     return _size.z;
 }
 
@@ -360,7 +361,7 @@ Array<T, N>::Array(NestedInitializerListsT<T, N> lst) {
 
 template <typename T, size_t N>
 Array<T, N>::Array(const Array& other) : Array() {
-    set(other);
+    copyFrom(other);
 }
 
 template <typename T, size_t N>
@@ -369,14 +370,21 @@ Array<T, N>::Array(Array&& other) : Array() {
 }
 
 template <typename T, size_t N>
-void Array<T, N>::set(const Array& other) {
-    _data = other._data;
-    Base::setPtrAndSize(_data.data(), other.size());
+template <typename D>
+void Array<T, N>::copyFrom(const ArrayBase<T, N, D>& other) {
+    resize(other.size());
+    forEachIndex(Vector<size_t, N>{}, other.size(),
+                 [&](auto... idx) { at(idx...) = other(idx...); });
+}
+
+template <typename T, size_t N>
+void Array<T, N>::fill(const T& val) {
+    std::fill(_data.begin(), _data.end(), val);
 }
 
 template <typename T, size_t N>
 void Array<T, N>::resize(Vector<size_t, N> size_, const T& initVal) {
-    Array newArray{size_, initVal};
+    Array newArray(size_, initVal);
     Vector<size_t, N> minSize = min(_size, newArray._size);
     forEachIndex(minSize,
                  [&](auto... idx) { newArray(idx...) = (*this)(idx...); });
@@ -395,16 +403,14 @@ void Array<T, N>::resize(size_t nx, Args... args) {
 
 template <typename T, size_t N>
 template <size_t M>
-typename std::enable_if<(M == 1), void>::type  //
-Array<T, N>::append(const T& val) {
+std::enable_if_t<(M == 1), void> Array<T, N>::append(const T& val) {
     _data.push_back(val);
     Base::setPtrAndSize(_data.data(), _data.size());
 }
 
 template <typename T, size_t N>
 template <size_t M>
-typename std::enable_if<(M == 1), void>::type  //
-Array<T, N>::append(const Array& extra) {
+std::enable_if_t<(M == 1), void> Array<T, N>::append(const Array& extra) {
     _data.insert(_data.end(), extra._data.begin(), extra._data.end());
     Base::setPtrAndSize(_data.data(), _data.size());
 }
@@ -433,7 +439,7 @@ ArrayView<const T, N> Array<T, N>::view() const {
 
 template <typename T, size_t N>
 Array<T, N>& Array<T, N>::operator=(const Array& other) {
-    set(other);
+    copyFrom(other);
     return *this;
 }
 
