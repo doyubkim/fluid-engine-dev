@@ -9,7 +9,7 @@
 
 #include <jet.viz/viewport.h>
 #include <jet/matrix.h>
-#include <jet/ray3.h>
+#include <jet/ray.h>
 
 #include <memory>
 

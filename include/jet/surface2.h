@@ -9,7 +9,7 @@
 
 #include <jet/bounding_box2.h>
 #include <jet/constants.h>
-#include <jet/ray2.h>
+#include <jet/ray.h>
 #include <jet/transform2.h>
 #include <memory>
 

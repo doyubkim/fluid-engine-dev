@@ -6,6 +6,7 @@
 
 #ifndef INCLUDE_JET_JET_H_
 #define INCLUDE_JET_JET_H_
+#include <jet/_bounding_box.h>
 #include <jet/advection_solver2.h>
 #include <jet/advection_solver3.h>
 #include <jet/animation.h>
@@ -213,8 +214,6 @@
 #include <jet/quadtree.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
-#include <jet/ray2.h>
-#include <jet/ray3.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/samplers.h>

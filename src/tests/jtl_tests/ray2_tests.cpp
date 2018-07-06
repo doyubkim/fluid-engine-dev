@@ -4,7 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/ray2.h>
+#include <jet/ray.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;

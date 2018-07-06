@@ -9,7 +9,7 @@
 
 #include <jet/bounding_box2.h>
 #include <jet/matrix.h>
-#include <jet/ray2.h>
+#include <jet/ray.h>
 
 namespace jet {
 

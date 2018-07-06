@@ -49,12 +49,12 @@ struct Cubic {
         using Next = Cubic<T, N, I - 1>;
         return op(
             Next::call(view, i, t, op,
-                       std::max(i[I - 1] - 1, (ssize_t)view.size()[I - 1]),
+                       std::max(i[I - 1] - 1, (ssize_t)view.size()[I - 1] - 1),
                        indices...),
             Next::call(view, i, t, op, i[I - 1], indices...),
             Next::call(view, i, t, op, i[I - 1] + 1, indices...),
             Next::call(view, i, t, op,
-                       std::min(i[I - 1] + 2, (ssize_t)view.size()[I - 1]),
+                       std::min(i[I - 1] + 2, (ssize_t)view.size()[I - 1] - 1),
                        indices...),
             t[I - 1]);
     }
@@ -69,10 +69,11 @@ struct Cubic<T, N, 1> {
     static auto call(const View& view, Vector<ssize_t, N> i,
                      Vector<ScalarType, N> t, CubicInterpolationOp op,
                      RemainingIndices... indices) {
-        return op(view(std::max(i[0] - 1, (ssize_t)view.size()[0]), indices...),
-                  view(i[0], indices...), view(i[0] + 1, indices...),
-                  view(std::min(i[0] + 2, (ssize_t)view.size()[0]), indices...),
-                  t[0]);
+        return op(
+            view(std::max(i[0] - 1, (ssize_t)view.size()[0] - 1), indices...),
+            view(i[0], indices...), view(i[0] + 1, indices...),
+            view(std::min(i[0] + 2, (ssize_t)view.size()[0] - 1), indices...),
+            t[0]);
     }
 };
 

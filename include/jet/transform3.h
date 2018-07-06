@@ -10,7 +10,7 @@
 #include <jet/bounding_box3.h>
 #include <jet/matrix.h>
 #include <jet/quaternion.h>
-#include <jet/ray3.h>
+#include <jet/ray.h>
 
 namespace jet {
 

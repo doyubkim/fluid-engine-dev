@@ -29,7 +29,7 @@ namespace jet {
 template <typename T, size_t N>
 class NearestArraySampler final {
  public:
-    static_assert(N > 0, "N should be greater than 0");
+    static_assert(N > 0, "Dimension should be greater than 0");
 
     using ScalarType = typename GetScalarType<T>::value;
 

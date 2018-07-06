@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/ray3.h>
+#include <jet/ray.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -14,7 +14,7 @@ TEST(Ray3, Constructors) {
     EXPECT_EQ(Vector3D(), ray.origin);
     EXPECT_EQ(Vector3D(1, 0, 0), ray.direction);
 
-    Ray3D ray2({1, 2, 3}, {4, 5, 6});
+    Ray3D ray2(Vector3D(1, 2, 3),Vector3D(4, 5, 6));
     EXPECT_EQ(Vector3D(1, 2, 3), ray2.origin);
     EXPECT_EQ(Vector3D(4, 5, 6).normalized(), ray2.direction);
 
