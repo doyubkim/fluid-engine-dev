@@ -72,6 +72,16 @@ class MatrixDenseBase {
     static std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), D> makeZero(
         size_t rows, size_t cols);
 
+    //! Makes a static matrix with constant entries.
+    template <typename D = Derived>
+    static std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), D> makeConstant(
+        value_type val);
+
+    //! Makes a dynamic matrix with constant entries.
+    template <typename D = Derived>
+    static std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), D> makeConstant(
+        size_t rows, size_t cols, value_type val);
+
     //! Makes a static identity matrix.
     template <typename D = Derived>
     static std::enable_if_t<isMatrixStaticSquare<Rows, Cols>(), D>

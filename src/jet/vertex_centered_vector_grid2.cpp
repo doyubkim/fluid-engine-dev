@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/vertex_centered_vector_grid2.h>
 #include <pch.h>

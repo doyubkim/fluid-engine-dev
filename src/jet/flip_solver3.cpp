@@ -68,13 +68,13 @@ void FlipSolver3::transferFromGridsToParticles() {
             static_cast<float>(flow->w(i, j, k)) - _wDelta(i, j, k);
     });
 
-    LinearArraySampler3<float, float> uSampler(
+    LinearArraySampler3<float> uSampler(
         _uDelta, flow->gridSpacing().castTo<float>(),
         flow->uOrigin().castTo<float>());
-    LinearArraySampler3<float, float> vSampler(
+    LinearArraySampler3<float> vSampler(
         _vDelta, flow->gridSpacing().castTo<float>(),
         flow->vOrigin().castTo<float>());
-    LinearArraySampler3<float, float> wSampler(
+    LinearArraySampler3<float> wSampler(
         _wDelta, flow->gridSpacing().castTo<float>(),
         flow->wOrigin().castTo<float>());
 

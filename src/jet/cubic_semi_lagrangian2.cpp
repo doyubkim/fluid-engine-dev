@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <pch.h>
 
@@ -14,7 +14,7 @@ CubicSemiLagrangian2::CubicSemiLagrangian2() {}
 
 std::function<double(const Vector2D&)>
 CubicSemiLagrangian2::getScalarSamplerFunc(const ScalarGrid2& source) const {
-    auto sourceSampler = CubicArraySampler2<double, double>(
+    auto sourceSampler = MonotonicCatmullRomArraySampler2<double>(
         source.dataView(), source.gridSpacing(), source.dataOrigin());
     return sourceSampler.functor();
 }
@@ -22,7 +22,7 @@ CubicSemiLagrangian2::getScalarSamplerFunc(const ScalarGrid2& source) const {
 std::function<Vector2D(const Vector2D&)>
 CubicSemiLagrangian2::getVectorSamplerFunc(
     const CollocatedVectorGrid2& source) const {
-    auto sourceSampler = CubicArraySampler2<Vector2D, double>(
+    auto sourceSampler = MonotonicCatmullRomArraySampler2<Vector2D>(
         source.dataView(), source.gridSpacing(), source.dataOrigin());
     return sourceSampler.functor();
 }
@@ -30,9 +30,9 @@ CubicSemiLagrangian2::getVectorSamplerFunc(
 std::function<Vector2D(const Vector2D&)>
 CubicSemiLagrangian2::getVectorSamplerFunc(
     const FaceCenteredGrid2& source) const {
-    auto uSourceSampler = CubicArraySampler2<double, double>(
+    auto uSourceSampler = MonotonicCatmullRomArraySampler2<double>(
         source.uView(), source.gridSpacing(), source.uOrigin());
-    auto vSourceSampler = CubicArraySampler2<double, double>(
+    auto vSourceSampler = MonotonicCatmullRomArraySampler2<double>(
         source.vView(), source.gridSpacing(), source.vOrigin());
     return [uSourceSampler, vSourceSampler](const Vector2D& x) {
         return Vector2D(uSourceSampler(x), vSourceSampler(x));

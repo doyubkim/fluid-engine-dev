@@ -8,8 +8,8 @@
 #define INCLUDE_JET_SCALAR_GRID3_H_
 
 #include <jet/array.h>
+#include <jet/array_samplers.h>
 #include <jet/array_view.h>
-#include <jet/array_samplers3.h>
 #include <jet/grid3.h>
 #include <jet/parallel.h>
 #include <jet/scalar_field3.h>
@@ -172,7 +172,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
 
  private:
     Array3<double> _data;
-    LinearArraySampler3<double, double> _linearSampler;
+    LinearArraySampler3<double> _linearSampler;
     std::function<double(const Vector3D&)> _sampler;
 
     void resetSampler();

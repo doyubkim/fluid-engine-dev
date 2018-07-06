@@ -69,7 +69,7 @@ Vector2D CollocatedVectorGrid2::sample(const Vector2D& x) const {
 double CollocatedVectorGrid2::divergence(const Vector2D& x) const {
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -84,7 +84,7 @@ double CollocatedVectorGrid2::divergence(const Vector2D& x) const {
 double CollocatedVectorGrid2::curl(const Vector2D& x) const {
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -155,8 +155,8 @@ void CollocatedVectorGrid2::onResize(const Vector2UZ& resolution,
 }
 
 void CollocatedVectorGrid2::resetSampler() {
-    _linearSampler = LinearArraySampler2<Vector2D, double>(
-        _data, gridSpacing(), dataOrigin());
+    _linearSampler =
+        LinearArraySampler2<Vector2D>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

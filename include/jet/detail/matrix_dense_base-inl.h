@@ -124,6 +124,21 @@ MatrixDenseBase<T, Rows, Cols, Derived>::makeZero(size_t rows, size_t cols) {
 
 template <typename T, size_t Rows, size_t Cols, typename Derived>
 template <typename D>
+std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), D>
+MatrixDenseBase<T, Rows, Cols, Derived>::makeConstant(value_type val) {
+    return MatrixConstant<T, Rows, Cols>{Rows, Cols, val};
+}
+
+template <typename T, size_t Rows, size_t Cols, typename Derived>
+template <typename D>
+std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), D>
+MatrixDenseBase<T, Rows, Cols, Derived>::makeConstant(size_t rows, size_t cols,
+                                                      value_type val) {
+    return MatrixConstant<T, Rows, Cols>{rows, cols, val};
+}
+
+template <typename T, size_t Rows, size_t Cols, typename Derived>
+template <typename D>
 std::enable_if_t<isMatrixStaticSquare<Rows, Cols>(), D>
 MatrixDenseBase<T, Rows, Cols, Derived>::makeIdentity() {
     using ConstType = MatrixConstant<T, Rows, Cols>;

@@ -13,23 +13,26 @@ namespace jet {
 
 namespace internal {
 
-template <size_t N, size_t I>
+template <typename IndexType, size_t N, size_t I>
 struct ForEachIndex {
     template <typename Func, typename... RemainingIndices>
-    static void call(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
+    static void call(const Vector<IndexType, N>& begin,
+                     const Vector<IndexType, N>& end, Func func,
                      RemainingIndices... indices) {
-        for (size_t i = begin[I - 1]; i < end[I - 1]; ++i) {
-            ForEachIndex<N, I - 1>::call(begin, end, func, i, indices...);
+        for (IndexType i = begin[I - 1]; i < end[I - 1]; ++i) {
+            ForEachIndex<IndexType, N, I - 1>::call(begin, end, func, i,
+                                                    indices...);
         }
     }
 };
 
-template <size_t N>
-struct ForEachIndex<N, 1> {
+template <typename IndexType, size_t N>
+struct ForEachIndex<IndexType, N, 1> {
     template <typename Func, typename... RemainingIndices>
-    static void call(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
+    static void call(const Vector<IndexType, N>& begin,
+                     const Vector<IndexType, N>& end, Func func,
                      RemainingIndices... indices) {
-        for (size_t i = begin[0]; i < end[0]; ++i) {
+        for (IndexType i = begin[0]; i < end[0]; ++i) {
             func(i, indices...);
         }
     }
@@ -39,79 +42,86 @@ struct ForEachIndex<N, 1> {
 
 // MARK: Serial Iteration
 
-template <size_t N, typename Func>
-void forEachIndex(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func) {
-    for (size_t i = begin[N - 1]; i < end[N - 1]; ++i) {
-        internal::ForEachIndex<N, N - 1>::call(begin, end, func, i);
+template <typename IndexType, size_t N, typename Func>
+void forEachIndex(const Vector<IndexType, N>& begin,
+                  const Vector<IndexType, N>& end, Func func) {
+    for (IndexType i = begin[N - 1]; i < end[N - 1]; ++i) {
+        internal::ForEachIndex<IndexType, N, N - 1>::call(begin, end, func, i);
     }
 }
 
-template <typename Func>
-void forEachIndex(const Vector1UZ& begin, const Vector1UZ& end, Func func) {
-    for (size_t i = begin[0]; i < end[0]; ++i) {
+template <typename IndexType, typename Func>
+void forEachIndex(const Vector<IndexType, 1>& begin,
+                  const Vector<IndexType, 1>& end, Func func) {
+    for (IndexType i = begin[0]; i < end[0]; ++i) {
         func(i);
     }
 }
 
-template <typename Func>
-void forEachIndex(size_t begin, size_t end, Func func) {
-    for (size_t i = begin; i < end; ++i) {
+template <typename IndexType, typename Func>
+void forEachIndex(IndexType begin, IndexType end, Func func) {
+    for (IndexType i = begin; i < end; ++i) {
         func(i);
     }
 }
 
-template <size_t N, typename Func>
-void forEachIndex(const Vector<size_t, N>& size, Func func) {
-    forEachIndex({}, size, func);
+template <typename IndexType, size_t N, typename Func>
+void forEachIndex(const Vector<IndexType, N>& size, Func func) {
+    forEachIndex(Vector<IndexType, N>{}, size, func);
 }
 
-template <typename Func>
-void forEachIndex(const Vector1UZ& size, Func func) {
-    forEachIndex({}, size, func);
+template <typename IndexType, typename Func>
+void forEachIndex(const Vector<IndexType, 1>& size, Func func) {
+    forEachIndex(Vector<IndexType, 1>{}, size, func);
 }
 
-template <typename Func>
-void forEachIndex(size_t size, Func func) {
-    forEachIndex({}, {size}, func);
+template <typename IndexType, typename Func>
+void forEachIndex(IndexType size, Func func) {
+    forEachIndex(IndexType{}, size, func);
 }
 
 // MARK: Parallel Iteration
 
-template <size_t N, typename Func>
-void parallelForEachIndex(const Vector<size_t, N>& begin, const Vector<size_t, N>& end, Func func,
+template <typename IndexType, size_t N, typename Func>
+void parallelForEachIndex(const Vector<IndexType, N>& begin,
+                          const Vector<IndexType, N>& end, Func func,
                           ExecutionPolicy policy) {
     parallelFor(begin[N - 1], end[N - 1],
-                [&](size_t i) {
-                    internal::ForEachIndex<N, N - 1>::call(begin, end, func, i);
+                [&](IndexType i) {
+                    internal::ForEachIndex<IndexType, N, N - 1>::call(
+                        begin, end, func, i);
                 },
                 policy);
 }
 
-template <typename Func>
-void parallelForEachIndex(const Vector1UZ& begin, const Vector1UZ& end, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(const Vector<IndexType, 1>& begin,
+                          const Vector<IndexType, 1>& end, Func func,
                           ExecutionPolicy policy) {
     parallelFor(begin[0], end[0], func, policy);
 }
 
-template <typename Func>
-void parallelForEachIndex(size_t begin, size_t end, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(IndexType begin, IndexType end, Func func,
                           ExecutionPolicy policy) {
     parallelFor(begin, end, func, policy);
 }
 
-template <size_t N, typename Func>
-void parallelForEachIndex(const Vector<size_t, N>& size, Func func, ExecutionPolicy policy) {
-    parallelForEachIndex({}, size, func, policy);
+template <typename IndexType, size_t N, typename Func>
+void parallelForEachIndex(const Vector<IndexType, N>& size, Func func,
+                          ExecutionPolicy policy) {
+    parallelForEachIndex(Vector<IndexType, N>{}, size, func, policy);
 }
 
-template <typename Func>
-void parallelForEachIndex(const Vector1UZ& size, Func func, ExecutionPolicy policy) {
-    parallelForEachIndex({}, size, func, policy);
+template <typename IndexType, typename Func>
+void parallelForEachIndex(const Vector<IndexType, 1>& size, Func func,
+                          ExecutionPolicy policy) {
+    parallelForEachIndex(Vector<IndexType, 1>{}, size, func, policy);
 }
 
-template <typename Func>
-void parallelForEachIndex(size_t size, Func func, ExecutionPolicy policy) {
-    parallelForEachIndex({}, {size}, func, policy);
+template <typename IndexType, typename Func>
+void parallelForEachIndex(IndexType size, Func func, ExecutionPolicy policy) {
+    parallelForEachIndex(IndexType{}, size, func, policy);
 }
 
 }  // namespace jet

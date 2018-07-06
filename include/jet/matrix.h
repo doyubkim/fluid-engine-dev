@@ -656,7 +656,7 @@ using VectorNZ = VectorN<ssize_t>;
 using VectorNUZ = VectorN<size_t>;
 
 template <typename T, size_t Rows, size_t Cols>
-struct ScalarType<Matrix<T, Rows, Cols>> {
+struct GetScalarType<Matrix<T, Rows, Cols>> {
     using value = T;
 };
 

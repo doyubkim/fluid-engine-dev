@@ -13,7 +13,8 @@ using namespace jet;
 
 ApicSolver2::ApicSolver2() : ApicSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-ApicSolver2::ApicSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
+ApicSolver2::ApicSolver2(const Vector2UZ& resolution,
+                         const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
     : PicSolver2(resolution, gridSpacing, gridOrigin) {}
 
@@ -46,10 +47,10 @@ void ApicSolver2::transferFromParticlesToGrids() {
     _vMarkers.resize(v.size());
     _uMarkers.fill(0);
     _vMarkers.fill(0);
-    LinearArraySampler2<double, double> uSampler(
-        flow->uView(), flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler2<double, double> vSampler(
-        flow->vView(), flow->gridSpacing(), flow->vOrigin());
+    LinearArraySampler2<double> uSampler(flow->uView(), flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler2<double> vSampler(flow->vView(), flow->gridSpacing(),
+                                         flow->vOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Vector2UZ, 4> indices;
@@ -58,7 +59,7 @@ void ApicSolver2::transferFromParticlesToGrids() {
         auto uPosClamped = positions[i];
         uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
                               bbox.upperCorner.y - hh.y);
-        uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
+        uSampler.getCoordinatesAndWeights(uPosClamped, indices, weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = uPos(indices[j].x, indices[j].y);
             double apicTerm = _cX[i].dot(gridPos - uPosClamped);
@@ -70,7 +71,7 @@ void ApicSolver2::transferFromParticlesToGrids() {
         auto vPosClamped = positions[i];
         vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
                               bbox.upperCorner.x - hh.x);
-        vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
+        vSampler.getCoordinatesAndWeights(vPosClamped, indices, weights);
         for (int j = 0; j < 4; ++j) {
             Vector2D gridPos = vPos(indices[j].x, indices[j].y);
             double apicTerm = _cY[i].dot(gridPos - vPosClamped);
@@ -109,10 +110,10 @@ void ApicSolver2::transferFromGridsToParticles() {
 
     auto u = flow->uView();
     auto v = flow->vView();
-    LinearArraySampler2<double, double> uSampler(u, flow->gridSpacing(),
-                                                 flow->uOrigin());
-    LinearArraySampler2<double, double> vSampler(v, flow->gridSpacing(),
-                                                 flow->vOrigin());
+    LinearArraySampler2<double> uSampler(u, flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler2<double> vSampler(v, flow->gridSpacing(),
+                                         flow->vOrigin());
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
@@ -124,8 +125,8 @@ void ApicSolver2::transferFromGridsToParticles() {
         auto uPosClamped = positions[i];
         uPosClamped.y = clamp(uPosClamped.y, bbox.lowerCorner.y + hh.y,
                               bbox.upperCorner.y - hh.y);
-        uSampler.getCoordinatesAndGradientWeights(uPosClamped, &indices,
-                                                  &gradWeights);
+        uSampler.getCoordinatesAndGradientWeights(uPosClamped, indices,
+                                                  gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
@@ -134,8 +135,8 @@ void ApicSolver2::transferFromGridsToParticles() {
         auto vPosClamped = positions[i];
         vPosClamped.x = clamp(vPosClamped.x, bbox.lowerCorner.x + hh.x,
                               bbox.upperCorner.x - hh.x);
-        vSampler.getCoordinatesAndGradientWeights(vPosClamped, &indices,
-                                                  &gradWeights);
+        vSampler.getCoordinatesAndGradientWeights(vPosClamped, indices,
+                                                  gradWeights);
         for (int j = 0; j < 4; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }

@@ -6,7 +6,7 @@
 
 #include <pch.h>
 
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/parallel.h>
 
@@ -19,12 +19,12 @@ FaceCenteredGrid3::FaceCenteredGrid3()
     : _dataOriginU(0.0, 0.5, 0.5),
       _dataOriginV(0.5, 0.0, 0.5),
       _dataOriginW(0.5, 0.5, 0.0),
-      _uLinearSampler(LinearArraySampler3<double, double>(
-          _dataU, Vector3D(1, 1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler3<double, double>(
-          _dataV, Vector3D(1, 1, 1), _dataOriginV)),
-      _wLinearSampler(LinearArraySampler3<double, double>(
-          _dataW, Vector3D(1, 1, 1), _dataOriginW)) {}
+      _uLinearSampler(
+          LinearArraySampler3<double>(_dataU, Vector3D(1, 1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler3<double>(_dataV, Vector3D(1, 1, 1), _dataOriginV)),
+      _wLinearSampler(LinearArraySampler3<double>(_dataW, Vector3D(1, 1, 1),
+                                                  _dataOriginW)) {}
 
 FaceCenteredGrid3::FaceCenteredGrid3(size_t resolutionX, size_t resolutionY,
                                      size_t resolutionZ, double gridSpacingX,
@@ -42,22 +42,22 @@ FaceCenteredGrid3::FaceCenteredGrid3(const Vector3UZ& resolution,
                                      const Vector3D& gridSpacing,
                                      const Vector3D& origin,
                                      const Vector3D& initialValue)
-    : _uLinearSampler(LinearArraySampler3<double, double>(
-          _dataU, Vector3D(1, 1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler3<double, double>(
-          _dataV, Vector3D(1, 1, 1), _dataOriginV)),
-      _wLinearSampler(LinearArraySampler3<double, double>(
-          _dataW, Vector3D(1, 1, 1), _dataOriginW)) {
+    : _uLinearSampler(
+          LinearArraySampler3<double>(_dataU, Vector3D(1, 1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler3<double>(_dataV, Vector3D(1, 1, 1), _dataOriginV)),
+      _wLinearSampler(LinearArraySampler3<double>(_dataW, Vector3D(1, 1, 1),
+                                                  _dataOriginW)) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
 FaceCenteredGrid3::FaceCenteredGrid3(const FaceCenteredGrid3& other)
-    : _uLinearSampler(LinearArraySampler3<double, double>(
-          _dataU, Vector3D(1, 1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler3<double, double>(
-          _dataV, Vector3D(1, 1, 1), _dataOriginV)),
-      _wLinearSampler(LinearArraySampler3<double, double>(
-          _dataW, Vector3D(1, 1, 1), _dataOriginW)) {
+    : _uLinearSampler(
+          LinearArraySampler3<double>(_dataU, Vector3D(1, 1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler3<double>(_dataV, Vector3D(1, 1, 1), _dataOriginV)),
+      _wLinearSampler(LinearArraySampler3<double>(_dataW, Vector3D(1, 1, 1),
+                                                  _dataOriginW)) {
     set(other);
 }
 
@@ -337,9 +337,9 @@ double FaceCenteredGrid3::divergence(const Vector3D& x) const {
 
     Vector3D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x) - 1, &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
-    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
+    getBarycentric(normalizedX.x, static_cast<ssize_t>(res.x), i, fx);
+    getBarycentric(normalizedX.y, static_cast<ssize_t>(res.y), j, fy);
+    getBarycentric(normalizedX.z, static_cast<ssize_t>(res.z), k, fz);
 
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
@@ -380,9 +380,9 @@ Vector3D FaceCenteredGrid3::curl(const Vector3D& x) const {
 
     Vector3D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(res.x) - 1, &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(res.y) - 1, &j, &fy);
-    getBarycentric(normalizedX.z, 0, static_cast<ssize_t>(res.z) - 1, &k, &fz);
+    getBarycentric(normalizedX.x, static_cast<ssize_t>(res.x), i, fx);
+    getBarycentric(normalizedX.y, static_cast<ssize_t>(res.y), j, fy);
+    getBarycentric(normalizedX.z, static_cast<ssize_t>(res.z), k, fz);
 
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
@@ -436,12 +436,9 @@ void FaceCenteredGrid3::onResize(const Vector3UZ& resolution,
 }
 
 void FaceCenteredGrid3::resetSampler() {
-    LinearArraySampler3<double, double> uSampler(_dataU, gridSpacing(),
-                                                 _dataOriginU);
-    LinearArraySampler3<double, double> vSampler(_dataV, gridSpacing(),
-                                                 _dataOriginV);
-    LinearArraySampler3<double, double> wSampler(_dataW, gridSpacing(),
-                                                 _dataOriginW);
+    LinearArraySampler3<double> uSampler(_dataU, gridSpacing(), _dataOriginU);
+    LinearArraySampler3<double> vSampler(_dataV, gridSpacing(), _dataOriginV);
+    LinearArraySampler3<double> wSampler(_dataW, gridSpacing(), _dataOriginW);
 
     _uLinearSampler = uSampler;
     _vLinearSampler = vSampler;

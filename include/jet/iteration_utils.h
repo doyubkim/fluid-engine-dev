@@ -14,50 +14,52 @@ namespace jet {
 
 // MARK: Serial Iteration
 
-template <size_t N, typename Func>
-void forEachIndex(const Vector<size_t, N>& begin, const Vector<size_t, N>& end,
-                  Func func);
+template <typename IndexType, size_t N, typename Func>
+void forEachIndex(const Vector<IndexType, N>& begin,
+                  const Vector<IndexType, N>& end, Func func);
 
-template <typename Func>
-void forEachIndex(const Vector1UZ& begin, const Vector1UZ& end, Func func);
+template <typename IndexType, typename Func>
+void forEachIndex(const Vector<IndexType, 1>& begin,
+                  const Vector<IndexType, 1>& end, Func func);
 
-template <typename Func>
-void forEachIndex(size_t begin, size_t end, Func func);
+template <typename IndexType, typename Func>
+void forEachIndex(IndexType begin, IndexType end, Func func);
 
-template <size_t N, typename Func>
-void forEachIndex(const Vector<size_t, N>& size, Func func);
+template <typename IndexType, size_t N, typename Func>
+void forEachIndex(const Vector<IndexType, N>& size, Func func);
 
-template <typename Func>
-void forEachIndex(const Vector1UZ& size, Func func);
+template <typename IndexType, typename Func>
+void forEachIndex(const Vector<IndexType, 1>& size, Func func);
 
-template <typename Func>
-void forEachIndex(size_t size, Func func);
+template <typename IndexType, typename Func>
+void forEachIndex(IndexType size, Func func);
 
 // MARK: Parallel Iteration
 
-template <size_t N, typename Func>
-void parallelForEachIndex(const Vector<size_t, N>& begin,
-                          const Vector<size_t, N>& end, Func func,
+template <typename IndexType, size_t N, typename Func>
+void parallelForEachIndex(const Vector<IndexType, N>& begin,
+                          const Vector<IndexType, N>& end, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
-template <typename Func>
-void parallelForEachIndex(const Vector1UZ& begin, const Vector1UZ& end,
-                          Func func, ExecutionPolicy policy);
-
-template <typename Func>
-void parallelForEachIndex(size_t begin, size_t end, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(const Vector<IndexType, 1>& begin,
+                          const Vector<IndexType, 1>& end, Func func,
                           ExecutionPolicy policy);
 
-template <size_t N, typename Func>
-void parallelForEachIndex(const Vector<size_t, N>& size, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(IndexType begin, IndexType end, Func func,
+                          ExecutionPolicy policy);
+
+template <typename IndexType, size_t N, typename Func>
+void parallelForEachIndex(const Vector<IndexType, N>& size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
-template <typename Func>
-void parallelForEachIndex(const Vector1UZ& size, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(const Vector<IndexType, 1>& size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
-template <typename Func>
-void parallelForEachIndex(size_t size, Func func,
+template <typename IndexType, typename Func>
+void parallelForEachIndex(IndexType size, Func func,
                           ExecutionPolicy policy = ExecutionPolicy::kParallel);
 
 }  // namespace jet

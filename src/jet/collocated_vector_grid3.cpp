@@ -88,7 +88,7 @@ Vector3D CollocatedVectorGrid3::sample(const Vector3D& x) const {
 double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -103,7 +103,7 @@ double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
 Vector3D CollocatedVectorGrid3::curl(const Vector3D& x) const {
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     Vector3D result;
 
@@ -175,8 +175,8 @@ void CollocatedVectorGrid3::onResize(const Vector3UZ& resolution,
 }
 
 void CollocatedVectorGrid3::resetSampler() {
-    _linearSampler = LinearArraySampler3<Vector3D, double>(_data, gridSpacing(),
-                                                           dataOrigin());
+    _linearSampler =
+        LinearArraySampler3<Vector3D>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

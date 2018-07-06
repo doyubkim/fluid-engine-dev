@@ -27,8 +27,8 @@
 using namespace jet;
 
 ScalarGrid2::ScalarGrid2()
-    : _linearSampler(LinearArraySampler2<double, double>(_data, Vector2D(1, 1),
-                                                         Vector2D())) {}
+    : _linearSampler(
+          LinearArraySampler2<double>(_data, Vector2D(1, 1), Vector2D())) {}
 
 ScalarGrid2::~ScalarGrid2() {}
 
@@ -42,8 +42,9 @@ void ScalarGrid2::resize(size_t resolutionX, size_t resolutionY,
            initialValue);
 }
 
-void ScalarGrid2::resize(const Vector2UZ& resolution, const Vector2D& gridSpacing,
-                         const Vector2D& origin, double initialValue) {
+void ScalarGrid2::resize(const Vector2UZ& resolution,
+                         const Vector2D& gridSpacing, const Vector2D& origin,
+                         double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
     _data.resize(dataSize(), initialValue);
@@ -82,7 +83,7 @@ std::function<double(const Vector2D&)> ScalarGrid2::sampler() const {
 Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     Vector2D result;
 
@@ -96,7 +97,7 @@ Vector2D ScalarGrid2::gradient(const Vector2D& x) const {
 double ScalarGrid2::laplacian(const Vector2D& x) const {
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -201,7 +202,7 @@ void ScalarGrid2::setScalarGrid(const ScalarGrid2& other) {
 
 void ScalarGrid2::resetSampler() {
     _linearSampler =
-        LinearArraySampler2<double, double>(_data, gridSpacing(), dataOrigin());
+        LinearArraySampler2<double>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

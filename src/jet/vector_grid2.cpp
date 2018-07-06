@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/vector_grid2_generated.h>
 
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid2.h>
 
 #include <flatbuffers/flatbuffers.h>

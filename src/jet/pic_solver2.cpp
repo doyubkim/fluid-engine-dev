@@ -124,22 +124,22 @@ void PicSolver2::transferFromParticlesToGrids() {
     _vMarkers.resize(v.size());
     _uMarkers.fill(0);
     _vMarkers.fill(0);
-    LinearArraySampler2<double, double> uSampler(
-        flow->uView(), flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler2<double, double> vSampler(
-        flow->vView(), flow->gridSpacing(), flow->vOrigin());
+    LinearArraySampler2<double> uSampler(flow->uView(), flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler2<double> vSampler(flow->vView(), flow->gridSpacing(),
+                                         flow->vOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Vector2UZ, 4> indices;
         std::array<double, 4> weights;
 
-        uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        uSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 4; ++j) {
             u(indices[j]) += velocities[i].x * weights[j];
             uWeight(indices[j]) += weights[j];
             _uMarkers(indices[j]) = 1;
         }
 
-        vSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        vSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 4; ++j) {
             v(indices[j]) += velocities[i].y * weights[j];
             vWeight(indices[j]) += weights[j];

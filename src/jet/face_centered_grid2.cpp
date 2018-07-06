@@ -6,7 +6,7 @@
 
 #include <pch.h>
 
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/parallel.h>
 
@@ -18,35 +18,36 @@ using namespace jet;
 FaceCenteredGrid2::FaceCenteredGrid2()
     : _dataOriginU(0.0, 0.5),
       _dataOriginV(0.5, 0.0),
-      _uLinearSampler(LinearArraySampler2<double, double>(
-          _dataU, Vector2D(1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler2<double, double>(
-          _dataV, Vector2D(1, 1), _dataOriginV)) {}
+      _uLinearSampler(
+          LinearArraySampler2<double>(_dataU, Vector2D(1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler2<double>(_dataV, Vector2D(1, 1), _dataOriginV)) {}
 
 FaceCenteredGrid2::FaceCenteredGrid2(size_t resolutionX, size_t resolutionY,
                                      double gridSpacingX, double gridSpacingY,
                                      double originX, double originY,
                                      double initialValueU, double initialValueV)
-    : FaceCenteredGrid2(
-          Vector2UZ(resolutionX, resolutionY), Vector2D(gridSpacingX, gridSpacingY),
-          Vector2D(originX, originY), Vector2D(initialValueU, initialValueV)) {}
+    : FaceCenteredGrid2(Vector2UZ(resolutionX, resolutionY),
+                        Vector2D(gridSpacingX, gridSpacingY),
+                        Vector2D(originX, originY),
+                        Vector2D(initialValueU, initialValueV)) {}
 
 FaceCenteredGrid2::FaceCenteredGrid2(const Vector2UZ& resolution,
                                      const Vector2D& gridSpacing,
                                      const Vector2D& origin,
                                      const Vector2D& initialValue)
-    : _uLinearSampler(LinearArraySampler2<double, double>(
-          _dataU, Vector2D(1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler2<double, double>(
-          _dataV, Vector2D(1, 1), _dataOriginV)) {
+    : _uLinearSampler(
+          LinearArraySampler2<double>(_dataU, Vector2D(1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler2<double>(_dataV, Vector2D(1, 1), _dataOriginV)) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
 FaceCenteredGrid2::FaceCenteredGrid2(const FaceCenteredGrid2& other)
-    : _uLinearSampler(LinearArraySampler2<double, double>(
-          _dataU, Vector2D(1, 1), _dataOriginU)),
-      _vLinearSampler(LinearArraySampler2<double, double>(
-          _dataV, Vector2D(1, 1), _dataOriginV)) {
+    : _uLinearSampler(
+          LinearArraySampler2<double>(_dataU, Vector2D(1, 1), _dataOriginU)),
+      _vLinearSampler(
+          LinearArraySampler2<double>(_dataV, Vector2D(1, 1), _dataOriginV)) {
     set(other);
 }
 
@@ -238,10 +239,10 @@ double FaceCenteredGrid2::divergence(const Vector2D& x) const {
 
     Vector2D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1,
-                   &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1,
-                   &j, &fy);
+    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(resolution().x), i,
+                    fx);
+    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(resolution().y), j,
+                    fy);
 
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
@@ -273,10 +274,8 @@ double FaceCenteredGrid2::curl(const Vector2D& x) const {
 
     Vector2D normalizedX = elemDiv((x - cellCenterOrigin), gridSpacing());
 
-    getBarycentric(normalizedX.x, 0, static_cast<ssize_t>(resolution().x) - 1,
-                   &i, &fx);
-    getBarycentric(normalizedX.y, 0, static_cast<ssize_t>(resolution().y) - 1,
-                   &j, &fy);
+    getBarycentric(normalizedX.x, static_cast<ssize_t>(resolution().x), i, fx);
+    getBarycentric(normalizedX.y, static_cast<ssize_t>(resolution().y), j, fy);
 
     std::array<Vector2UZ, 4> indices;
     std::array<double, 4> weights;
@@ -318,9 +317,9 @@ void FaceCenteredGrid2::onResize(const Vector2UZ& resolution,
 }
 
 void FaceCenteredGrid2::resetSampler() {
-    LinearArraySampler2<double, double> uSampler(_dataU, gridSpacing(),
+    LinearArraySampler2<double> uSampler(_dataU, gridSpacing(),
                                                  _dataOriginU);
-    LinearArraySampler2<double, double> vSampler(_dataV, gridSpacing(),
+    LinearArraySampler2<double> vSampler(_dataV, gridSpacing(),
                                                  _dataOriginV);
 
     _uLinearSampler = uSampler;

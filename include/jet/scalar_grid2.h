@@ -9,7 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_view.h>
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/grid2.h>
 #include <jet/parallel.h>
 #include <jet/scalar_field2.h>
@@ -171,7 +171,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
 
  private:
     Array2<double> _data;
-    LinearArraySampler2<double, double> _linearSampler;
+    LinearArraySampler2<double> _linearSampler;
     std::function<double(const Vector2D&)> _sampler;
 
     void resetSampler();

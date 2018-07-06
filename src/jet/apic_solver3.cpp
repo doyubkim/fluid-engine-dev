@@ -11,7 +11,8 @@ using namespace jet;
 
 ApicSolver3::ApicSolver3() : ApicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-ApicSolver3::ApicSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
+ApicSolver3::ApicSolver3(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin)
     : PicSolver3(resolution, gridSpacing, gridOrigin) {}
 
@@ -50,12 +51,12 @@ void ApicSolver3::transferFromParticlesToGrids() {
     _uMarkers.fill(0);
     _vMarkers.fill(0);
     _wMarkers.fill(0);
-    LinearArraySampler3<double, double> uSampler(
-        flow->uView(), flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler3<double, double> vSampler(
-        flow->vView(), flow->gridSpacing(), flow->vOrigin());
-    LinearArraySampler3<double, double> wSampler(
-        flow->wView(), flow->gridSpacing(), flow->wOrigin());
+    LinearArraySampler3<double> uSampler(flow->uView(), flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler3<double> vSampler(flow->vView(), flow->gridSpacing(),
+                                         flow->vOrigin());
+    LinearArraySampler3<double> wSampler(flow->wView(), flow->gridSpacing(),
+                                         flow->wOrigin());
 
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Vector3UZ, 8> indices;
@@ -66,7 +67,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.y - hh.y);
         uPosClamped.z = clamp(uPosClamped.z, bbox.lowerCorner.z + hh.z,
                               bbox.upperCorner.z - hh.z);
-        uSampler.getCoordinatesAndWeights(uPosClamped, &indices, &weights);
+        uSampler.getCoordinatesAndWeights(uPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
             double apicTerm = _cX[i].dot(gridPos - uPosClamped);
@@ -80,7 +81,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.x - hh.x);
         vPosClamped.z = clamp(vPosClamped.z, bbox.lowerCorner.z + hh.z,
                               bbox.upperCorner.z - hh.z);
-        vSampler.getCoordinatesAndWeights(vPosClamped, &indices, &weights);
+        vSampler.getCoordinatesAndWeights(vPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
             double apicTerm = _cY[i].dot(gridPos - vPosClamped);
@@ -94,7 +95,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.x - hh.x);
         wPosClamped.y = clamp(wPosClamped.y, bbox.lowerCorner.y + hh.y,
                               bbox.upperCorner.y - hh.y);
-        wSampler.getCoordinatesAndWeights(wPosClamped, &indices, &weights);
+        wSampler.getCoordinatesAndWeights(wPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
             Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
             double apicTerm = _cZ[i].dot(gridPos - wPosClamped);
@@ -141,12 +142,12 @@ void ApicSolver3::transferFromGridsToParticles() {
     auto u = flow->uView();
     auto v = flow->vView();
     auto w = flow->wView();
-    LinearArraySampler3<double, double> uSampler(u, flow->gridSpacing(),
-                                                 flow->uOrigin());
-    LinearArraySampler3<double, double> vSampler(v, flow->gridSpacing(),
-                                                 flow->vOrigin());
-    LinearArraySampler3<double, double> wSampler(w, flow->gridSpacing(),
-                                                 flow->wOrigin());
+    LinearArraySampler3<double> uSampler(u, flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler3<double> vSampler(v, flow->gridSpacing(),
+                                         flow->vOrigin());
+    LinearArraySampler3<double> wSampler(w, flow->gridSpacing(),
+                                         flow->wOrigin());
 
     parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
         velocities[i] = flow->sample(positions[i]);
@@ -160,8 +161,8 @@ void ApicSolver3::transferFromGridsToParticles() {
                               bbox.upperCorner.y - hh.y);
         uPosClamped.z = clamp(uPosClamped.z, bbox.lowerCorner.z + hh.z,
                               bbox.upperCorner.z - hh.z);
-        uSampler.getCoordinatesAndGradientWeights(uPosClamped, &indices,
-                                                  &gradWeights);
+        uSampler.getCoordinatesAndGradientWeights(uPosClamped, indices,
+                                                  gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cX[i] += gradWeights[j] * u(indices[j]);
         }
@@ -172,8 +173,8 @@ void ApicSolver3::transferFromGridsToParticles() {
                               bbox.upperCorner.x - hh.x);
         vPosClamped.z = clamp(vPosClamped.z, bbox.lowerCorner.z + hh.z,
                               bbox.upperCorner.z - hh.z);
-        vSampler.getCoordinatesAndGradientWeights(vPosClamped, &indices,
-                                                  &gradWeights);
+        vSampler.getCoordinatesAndGradientWeights(vPosClamped, indices,
+                                                  gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cY[i] += gradWeights[j] * v(indices[j]);
         }
@@ -184,8 +185,8 @@ void ApicSolver3::transferFromGridsToParticles() {
                               bbox.upperCorner.x - hh.x);
         wPosClamped.y = clamp(wPosClamped.y, bbox.lowerCorner.y + hh.y,
                               bbox.upperCorner.y - hh.y);
-        wSampler.getCoordinatesAndGradientWeights(wPosClamped, &indices,
-                                                  &gradWeights);
+        wSampler.getCoordinatesAndGradientWeights(wPosClamped, indices,
+                                                  gradWeights);
         for (int j = 0; j < 8; ++j) {
             _cZ[i] += gradWeights[j] * w(indices[j]);
         }

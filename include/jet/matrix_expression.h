@@ -85,6 +85,8 @@ class MatrixExpression {
     ////////////////////////////////////////////////////////////////////////////
     // MARK: Simple getters
 
+    Matrix<T, Rows, Cols> eval() const;
+
     //! Returns true if this matrix is similar to the input matrix within the
     //! given tolerance.
     template <size_t R, size_t C, typename E>

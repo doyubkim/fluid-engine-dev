@@ -26,8 +26,8 @@
 using namespace jet;
 
 ScalarGrid3::ScalarGrid3()
-    : _linearSampler(LinearArraySampler3<double, double>(
-          _data, Vector3D(1, 1, 1), Vector3D())) {}
+    : _linearSampler(
+          LinearArraySampler3<double>(_data, Vector3D(1, 1, 1), Vector3D())) {}
 
 ScalarGrid3::~ScalarGrid3() {}
 
@@ -43,8 +43,9 @@ void ScalarGrid3::resize(size_t resolutionX, size_t resolutionY,
            Vector3D(originX, originY, originZ), initialValue);
 }
 
-void ScalarGrid3::resize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
-                         const Vector3D& origin, double initialValue) {
+void ScalarGrid3::resize(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing, const Vector3D& origin,
+                         double initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
     _data.resize(dataSize(), initialValue);
@@ -87,7 +88,7 @@ std::function<double(const Vector3D&)> ScalarGrid3::sampler() const {
 Vector3D ScalarGrid3::gradient(const Vector3D& x) const {
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     Vector3D result;
 
@@ -102,7 +103,7 @@ Vector3D ScalarGrid3::gradient(const Vector3D& x) const {
 double ScalarGrid3::laplacian(const Vector3D& x) const {
     std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -211,7 +212,7 @@ void ScalarGrid3::setScalarGrid(const ScalarGrid3& other) {
 
 void ScalarGrid3::resetSampler() {
     _linearSampler =
-        LinearArraySampler3<double, double>(_data, gridSpacing(), dataOrigin());
+        LinearArraySampler3<double>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 

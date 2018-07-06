@@ -8,7 +8,7 @@
 #define INCLUDE_JET_FACE_CENTERED_GRID2_H_
 
 #include <jet/array.h>
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/vector_grid2.h>
 
@@ -220,8 +220,8 @@ class FaceCenteredGrid2 final : public VectorGrid2 {
     Array2<double> _dataV;
     Vector2D _dataOriginU;
     Vector2D _dataOriginV;
-    LinearArraySampler2<double, double> _uLinearSampler;
-    LinearArraySampler2<double, double> _vLinearSampler;
+    LinearArraySampler2<double> _uLinearSampler;
+    LinearArraySampler2<double> _vLinearSampler;
     std::function<Vector2D(const Vector2D&)> _sampler;
 
     void resetSampler();

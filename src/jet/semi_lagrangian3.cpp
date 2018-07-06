@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/semi_lagrangian3.h>
 #include <algorithm>

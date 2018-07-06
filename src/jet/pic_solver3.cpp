@@ -131,31 +131,31 @@ void PicSolver3::transferFromParticlesToGrids() {
     _uMarkers.fill(0);
     _vMarkers.fill(0);
     _wMarkers.fill(0);
-    LinearArraySampler3<double, double> uSampler(
-        flow->uView(), flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler3<double, double> vSampler(
-        flow->vView(), flow->gridSpacing(), flow->vOrigin());
-    LinearArraySampler3<double, double> wSampler(
-        flow->wView(), flow->gridSpacing(), flow->wOrigin());
+    LinearArraySampler3<double> uSampler(flow->uView(), flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler3<double> vSampler(flow->vView(), flow->gridSpacing(),
+                                         flow->vOrigin());
+    LinearArraySampler3<double> wSampler(flow->wView(), flow->gridSpacing(),
+                                         flow->wOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
         std::array<Vector3UZ, 8> indices;
         std::array<double, 8> weights;
 
-        uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        uSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             u(indices[j]) += velocities[i].x * weights[j];
             uWeight(indices[j]) += weights[j];
             _uMarkers(indices[j]) = 1;
         }
 
-        vSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        vSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             v(indices[j]) += velocities[i].y * weights[j];
             vWeight(indices[j]) += weights[j];
             _vMarkers(indices[j]) = 1;
         }
 
-        wSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        wSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             w(indices[j]) += velocities[i].z * weights[j];
             wWeight(indices[j]) += weights[j];

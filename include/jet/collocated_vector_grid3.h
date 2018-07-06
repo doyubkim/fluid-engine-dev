@@ -8,7 +8,7 @@
 #define INCLUDE_JET_COLLOCATED_VECTOR_GRID3_H_
 
 #include <jet/array.h>
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid3.h>
 
 #include <vector>
@@ -112,7 +112,7 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
 
  private:
     Array3<Vector3D> _data;
-    LinearArraySampler3<Vector3D, double> _linearSampler;
+    LinearArraySampler3<Vector3D> _linearSampler;
     std::function<Vector3D(const Vector3D&)> _sampler;
 
     void onResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,

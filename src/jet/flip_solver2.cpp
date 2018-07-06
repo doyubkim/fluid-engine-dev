@@ -11,7 +11,8 @@ using namespace jet;
 
 FlipSolver2::FlipSolver2() : FlipSolver2({1, 1}, {1, 1}, {0, 0}) {}
 
-FlipSolver2::FlipSolver2(const Vector2UZ& resolution, const Vector2D& gridSpacing,
+FlipSolver2::FlipSolver2(const Vector2UZ& resolution,
+                         const Vector2D& gridSpacing,
                          const Vector2D& gridOrigin)
     : PicSolver2(resolution, gridSpacing, gridOrigin) {}
 
@@ -56,12 +57,12 @@ void FlipSolver2::transferFromGridsToParticles() {
         _vDelta(i, j) = static_cast<float>(flow->v(i, j)) - _vDelta(i, j);
     });
 
-    LinearArraySampler2<float, float> uSampler(
-        _uDelta, flow->gridSpacing().castTo<float>(),
-        flow->uOrigin().castTo<float>());
-    LinearArraySampler2<float, float> vSampler(
-        _vDelta, flow->gridSpacing().castTo<float>(),
-        flow->vOrigin().castTo<float>());
+    LinearArraySampler2<float> uSampler(_uDelta,
+                                        flow->gridSpacing().castTo<float>(),
+                                        flow->uOrigin().castTo<float>());
+    LinearArraySampler2<float> vSampler(_vDelta,
+                                        flow->gridSpacing().castTo<float>(),
+                                        flow->vOrigin().castTo<float>());
 
     auto sampler = [uSampler, vSampler](const Vector2D& x) {
         const auto xf = x.castTo<float>();

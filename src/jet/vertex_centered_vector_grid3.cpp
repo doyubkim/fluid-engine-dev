@@ -6,7 +6,7 @@
 
 #include <pch.h>
 
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/vertex_centered_vector_grid3.h>
 

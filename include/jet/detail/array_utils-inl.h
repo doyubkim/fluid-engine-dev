@@ -90,7 +90,8 @@ void extrapolateToRegion(ArrayView2<T> input, ArrayView2<char> valid,
 
                 if (count > 0) {
                     output(i, j) =
-                        sum / static_cast<typename ScalarType<T>::value>(count);
+                        sum /
+                        static_cast<typename GetScalarType<T>::value>(count);
                     valid1(i, j) = 1;
                 }
             } else {
@@ -157,7 +158,8 @@ void extrapolateToRegion(ArrayView3<T> input, ArrayView3<char> valid,
 
                 if (count > 0) {
                     output(i, j, k) =
-                        sum / static_cast<typename ScalarType<T>::value>(count);
+                        sum /
+                        static_cast<typename GetScalarType<T>::value>(count);
                     valid1(i, j, k) = 1;
                 }
             } else {

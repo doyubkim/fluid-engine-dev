@@ -8,7 +8,7 @@
 #define INCLUDE_JET_FACE_CENTERED_GRID3_H_
 
 #include <jet/array.h>
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/vector_grid3.h>
 
@@ -274,9 +274,9 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
     Vector3D _dataOriginU;
     Vector3D _dataOriginV;
     Vector3D _dataOriginW;
-    LinearArraySampler3<double, double> _uLinearSampler;
-    LinearArraySampler3<double, double> _vLinearSampler;
-    LinearArraySampler3<double, double> _wLinearSampler;
+    LinearArraySampler3<double> _uLinearSampler;
+    LinearArraySampler3<double> _vLinearSampler;
+    LinearArraySampler3<double> _wLinearSampler;
     std::function<Vector3D(const Vector3D&)> _sampler;
 
     void resetSampler();
@@ -329,7 +329,8 @@ class FaceCenteredGrid3::Builder final : public VectorGridBuilder3 {
     //!
     //! This is an overriding function that implements VectorGridBuilder3.
     //!
-    VectorGrid3Ptr build(const Vector3UZ& resolution, const Vector3D& gridSpacing,
+    VectorGrid3Ptr build(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin,
                          const Vector3D& initialVal) const override;
 

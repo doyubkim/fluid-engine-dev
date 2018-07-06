@@ -8,7 +8,7 @@
 #define INCLUDE_JET_COLLOCATED_VECTOR_GRID2_H_
 
 #include <jet/array.h>
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid2.h>
 
 #include <vector>
@@ -112,7 +112,7 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
 
  private:
     Array2<Vector2D> _data;
-    LinearArraySampler2<Vector2D, double> _linearSampler;
+    LinearArraySampler2<Vector2D> _linearSampler;
     std::function<Vector2D(const Vector2D&)> _sampler;
 
     void onResize(const Vector2UZ& resolution, const Vector2D& gridSpacing,

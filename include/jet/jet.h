@@ -15,9 +15,6 @@
 #include <jet/apic_solver3.h>
 #include <jet/array.h>
 #include <jet/array_samplers.h>
-#include <jet/array_samplers1.h>
-#include <jet/array_samplers2.h>
-#include <jet/array_samplers3.h>
 #include <jet/array_utils.h>
 #include <jet/array_view.h>
 #include <jet/bcc_lattice_point_generator.h>
@@ -241,6 +238,7 @@
 #include <jet/spherical_points_to_implicit2.h>
 #include <jet/spherical_points_to_implicit3.h>
 #include <jet/static_matrix.h>
+#include <jet/std_utils.h>
 #include <jet/surface2.h>
 #include <jet/surface3.h>
 #include <jet/surface_set2.h>

@@ -30,6 +30,11 @@ T MatrixExpression<T, Rows, Cols, D>::eval(size_t i, size_t j) const {
     return (*this)()(i, j);
 }
 
+template <typename T, size_t Rows, size_t Cols, typename D>
+Matrix<T, Rows, Cols> MatrixExpression<T, Rows, Cols, D>::eval() const {
+    return Matrix<T, Rows, Cols>(*this);
+}
+
 // MARK: Simple Getters
 
 template <typename T, size_t Rows, size_t Cols, typename D>
