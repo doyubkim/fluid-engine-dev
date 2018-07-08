@@ -62,3 +62,14 @@ matrix:
       compiler: clang
       script:
         - sh scripts/travis_build.sh
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - if [ $TRAVIS_OS_NAME == linux ]; then 
+      sudo apt-get install -y --no-install-recommends lcov;
+    fi
+
+after_success:
+  - if [ $TRAVIS_OS_NAME == linux ]; then
+       bash <(curl -s https://codecov.io/bash);
+    fi
