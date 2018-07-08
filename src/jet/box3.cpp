@@ -105,7 +105,7 @@ bool Box3::intersectsLocal(const Ray3D& ray) const {
 
 SurfaceRayIntersection3 Box3::closestIntersectionLocal(const Ray3D& ray) const {
     SurfaceRayIntersection3 intersection;
-    BoundingBoxRayIntersection3D bbRayIntersection =
+    BoundingBoxRayIntersectionD bbRayIntersection =
         bound.closestIntersection(ray);
     intersection.isIntersecting = bbRayIntersection.isIntersecting;
     if (intersection.isIntersecting) {

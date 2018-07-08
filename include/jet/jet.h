@@ -21,8 +21,6 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/blas.h>
 #include <jet/bounding_box.h>
-#include <jet/bounding_box2.h>
-#include <jet/bounding_box3.h>
 #include <jet/box2.h>
 #include <jet/box3.h>
 #include <jet/bvh2.h>

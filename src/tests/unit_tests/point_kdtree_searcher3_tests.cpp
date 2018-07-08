@@ -7,7 +7,7 @@
 #include <jet/array.h>
 #include <jet/array.h>
 #include <jet/bcc_lattice_point_generator.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/point_kdtree_searcher3.h>
 
 #include <gtest/gtest.h>

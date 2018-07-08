@@ -8,7 +8,7 @@
 #define INCLUDE_JET_POINT_GENERATOR3_H_
 
 #include <jet/array.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 
 #include <functional>
 #include <memory>

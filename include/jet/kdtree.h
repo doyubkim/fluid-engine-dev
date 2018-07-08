@@ -8,8 +8,7 @@
 #define INCLUDE_JET_KDTREE_H
 
 #include <jet/array_view.h>
-#include <jet/bounding_box2.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/matrix.h>
 
 #include <vector>

@@ -115,6 +115,8 @@ PYBIND11_PLUGIN(pyjet) {
     addRay2F(m);
     addRay3D(m);
     addRay3F(m);
+    addBoundingBoxRayIntersectionF(m);
+    addBoundingBoxRayIntersectionD(m);
     addBoundingBox2D(m);
     addBoundingBox2F(m);
     addBoundingBox3D(m);

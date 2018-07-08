@@ -8,7 +8,7 @@
 #define INCLUDE_JET_VOLUME_PARTICLE_EMITTER2_H_
 
 #include <jet/constants.h>
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 #include <jet/implicit_surface2.h>
 #include <jet/particle_emitter2.h>
 #include <jet/point_generator2.h>

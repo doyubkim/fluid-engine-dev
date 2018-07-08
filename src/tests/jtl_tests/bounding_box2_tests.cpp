@@ -6,7 +6,7 @@
 
 #include <jtl_tests_utils.h>
 
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 
 using namespace jet;
 
@@ -121,13 +121,13 @@ TEST(BoundingBox2, ClosestIntersection) {
     BoundingBox2D box(Vector2D(-2.0, -2.0), Vector2D(1.0, 0.0));
 
     Ray2D ray1(Vector2D(-4, -3), Vector2D(1, 1).normalized());
-    BoundingBoxRayIntersection2D intersection1 = box.closestIntersection(ray1);
+    BoundingBoxRayIntersectionD intersection1 = box.closestIntersection(ray1);
     EXPECT_TRUE(intersection1.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 2).length(), intersection1.tNear);
     EXPECT_DOUBLE_EQ(Vector2D(3, 3).length(), intersection1.tFar);
 
     Ray2D ray2(Vector2D(0, -1), Vector2D(-2, 1).normalized());
-    BoundingBoxRayIntersection2D intersection2 = box.closestIntersection(ray2);
+    BoundingBoxRayIntersectionD intersection2 = box.closestIntersection(ray2);
     EXPECT_TRUE(intersection2.isIntersecting);
     EXPECT_DOUBLE_EQ(Vector2D(2, 1).length(), intersection2.tNear);
 }

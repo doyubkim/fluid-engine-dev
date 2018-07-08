@@ -8,8 +8,7 @@
 
 #include <jet/array.h>
 #include <jet/bcc_lattice_point_generator.h>
-#include <jet/bounding_box2.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>

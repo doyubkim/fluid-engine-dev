@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include <jet/array.h>
 #include <jet/array.h>
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/triangle_point_generator.h>

@@ -22,8 +22,7 @@
 #include <marching_squares_table.h>
 #include <pch.h>
 
-#include <jet/bounding_box2.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/level_set_utils.h>
 #include <jet/marching_cubes.h>
 

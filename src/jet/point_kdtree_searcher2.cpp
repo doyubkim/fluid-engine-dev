@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/point_kdtree_searcher2_generated.h>
 
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 #include <jet/point_kdtree_searcher2.h>
 
 #include <numeric>

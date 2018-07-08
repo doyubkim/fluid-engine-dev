@@ -41,7 +41,7 @@ Vector3D CustomImplicitSurface3::closestPointLocal(
 }
 
 bool CustomImplicitSurface3::intersectsLocal(const Ray3D& ray) const {
-    BoundingBoxRayIntersection3D intersection =
+    BoundingBoxRayIntersectionD intersection =
         _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
@@ -102,7 +102,7 @@ SurfaceRayIntersection3 CustomImplicitSurface3::closestIntersectionLocal(
     const Ray3D& ray) const {
     SurfaceRayIntersection3 result;
 
-    BoundingBoxRayIntersection3D intersection =
+    BoundingBoxRayIntersectionD intersection =
         _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {

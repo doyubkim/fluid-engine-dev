@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_GRID3_H_
 #define INCLUDE_JET_GRID3_H_
 
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/matrix.h>
 #include <jet/serialization.h>
 

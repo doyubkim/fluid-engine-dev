@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_SURFACE3_H_
 #define INCLUDE_JET_SURFACE3_H_
 
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/constants.h>
 #include <jet/ray.h>
 #include <jet/transform3.h>

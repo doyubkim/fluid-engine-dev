@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/bcc_lattice_point_generator.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/parallel.h>
