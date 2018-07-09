@@ -173,8 +173,8 @@ typename BoundingBox<T, N>::VectorType BoundingBox<T, N>::corner(
     size_t idx) const {
     VectorType ret;
     for (size_t i = 0; i < N; ++i) {
-        ret[i] = lowerCorner[i] +
-                (((1 << i) & idx) != 0) * (upperCorner[i] - lowerCorner[i]);
+        ret[i] = lowerCorner[i] + (((kOneSize << i) & idx) != 0) *
+                                      (upperCorner[i] - lowerCorner[i]);
     }
     return ret;
 }

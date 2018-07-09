@@ -98,7 +98,7 @@ TEST(ArrayUtils, Copy3) {
 
 TEST(ArrayUtils, ExtrapolateToRegion2) {
     Array2<double> data(10, 12, 0.0);
-    Array2<char> valid(10, 12, 0);
+    Array2<char> valid(10, 12, (char)0);
 
     for (size_t j = 3; j < 10; ++j) {
         for (size_t i = 2; i < 6; ++i) {
@@ -134,7 +134,7 @@ TEST(ArrayUtils, ExtrapolateToRegion3) {
     // TODO: Need better testing
 
     Array3<double> data(3, 4, 5, 0.0);
-    Array3<char> valid(3, 4, 5, 0);
+    Array3<char> valid(3, 4, 5, (char)0);
 
     for (size_t k = 1; k < 4; ++k) {
         for (size_t j = 2; j < 3; ++j) {

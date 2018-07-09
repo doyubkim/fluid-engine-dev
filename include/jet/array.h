@@ -10,20 +10,89 @@
 #include <jet/matrix.h>
 #include <jet/nested_initializer_list.h>
 
+#ifdef JET_USE_CUDA
+#include <thrust/device_vector.h>
+#endif
+
 #include <algorithm>
 #include <functional>
 #include <vector>
 
 namespace jet {
 
+template <typename T>
+struct CpuMemory {
+    using DevicePtrType = T*;
+    using ContainerType = std::vector<T>;
+
+    using reference = T&;
+    using const_reference = const T&;
+    using iterator = DevicePtrType;
+    using const_iterator = const DevicePtrType;
+
+    DevicePtrType ptr = nullptr;
+
+    CpuMemory() {}
+
+    CpuMemory(T* ptr_) { set(ptr_); }
+
+    T* data() { return ptr; }
+
+    const T* data() const { return ptr; }
+
+    void set(T* p) { ptr = p; }
+
+    static CpuMemory handleFromContainer(ContainerType& cnt) {
+        CpuMemory handle;
+        handle.ptr = cnt.data();
+        return handle;
+    }
+};
+
+#ifdef JET_USE_CUDA
+template <typename T>
+struct CudaMemory {
+    using DevicePtrType = thrust::device_ptr<T>;
+    using ContainerType = thrust::device_vector<T>;
+
+    using reference = typename ContainerType::reference;
+    using const_reference = typename ContainerType::const_reference;
+    using iterator = DevicePtrType;
+    using const_iterator = const DevicePtrType;
+
+    DevicePtrType ptr;
+
+    CudaMemory() {}
+
+    CudaMemory(T* ptr_) { set(ptr_); }
+
+    T* data() { return thrust::raw_pointer_cast(ptr); }
+
+    const T* data() const { return thrust::raw_pointer_cast(ptr); }
+
+    void set(T* p) { ptr = thrust::device_pointer_cast<T>(p); }
+
+    static CudaMemory handleFromContainer(ContainerType& cnt) {
+        CudaMemory handle;
+        handle.ptr = cnt.data();
+        return handle;
+    }
+};
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: ArrayBase
 
-template <typename T, size_t N, typename DerivedArray>
+template <typename T, size_t N, typename Handle, typename Derived>
 class ArrayBase {
  public:
-    using Derived = DerivedArray;
-    using Iterator = T*;
-    using ConstIterator = const T*;
+    using value_type = T;
+    using reference = typename Handle::reference;
+    using const_reference = typename Handle::const_reference;
+    using pointer = T*;
+    using const_pointer = const T*;
+    using iterator = typename Handle::iterator;
+    using const_iterator = typename Handle::const_iterator;
 
     virtual ~ArrayBase() = default;
 
@@ -52,44 +121,46 @@ class ArrayBase {
 
     size_t length() const;
 
-    Iterator begin();
+    iterator begin();
 
-    ConstIterator begin() const;
+    const_iterator begin() const;
 
-    Iterator end();
+    iterator end();
 
-    ConstIterator end() const;
+    const_iterator end() const;
 
-    T& at(size_t i);
+    Handle devicePtr() const;
 
-    const T& at(size_t i) const;
+    reference at(size_t i);
 
-    template <typename... Args>
-    T& at(size_t i, Args... args);
-
-    template <typename... Args>
-    const T& at(size_t i, Args... args) const;
-
-    T& at(const Vector<size_t, N>& idx);
-
-    const T& at(const Vector<size_t, N>& idx) const;
-
-    T& operator[](size_t i);
-
-    const T& operator[](size_t i) const;
+    const_reference at(size_t i) const;
 
     template <typename... Args>
-    T& operator()(size_t i, Args... args);
+    reference at(size_t i, Args... args);
 
     template <typename... Args>
-    const T& operator()(size_t i, Args... args) const;
+    const_reference at(size_t i, Args... args) const;
 
-    T& operator()(const Vector<size_t, N>& idx);
+    reference at(const Vector<size_t, N>& idx);
 
-    const T& operator()(const Vector<size_t, N>& idx) const;
+    const_reference at(const Vector<size_t, N>& idx) const;
+
+    reference operator[](size_t i);
+
+    const_reference operator[](size_t i) const;
+
+    template <typename... Args>
+    reference operator()(size_t i, Args... args);
+
+    template <typename... Args>
+    const_reference operator()(size_t i, Args... args) const;
+
+    reference operator()(const Vector<size_t, N>& idx);
+
+    const_reference operator()(const Vector<size_t, N>& idx) const;
 
  protected:
-    T* _ptr = nullptr;
+    Handle _handle;
     Vector<size_t, N> _size;
 
     ArrayBase();
@@ -99,13 +170,13 @@ class ArrayBase {
     ArrayBase(ArrayBase&& other);
 
     template <typename... Args>
-    void setPtrAndSize(T* ptr, size_t ni, Args... args);
+    void setHandleAndSize(Handle handle, size_t ni, Args... args);
 
-    void setPtrAndSize(T* data, Vector<size_t, N> size);
+    void setHandleAndSize(Handle handle, Vector<size_t, N> size);
+
+    void swapHandleAndSize(ArrayBase& other);
 
     void clear();
-
-    void swap(ArrayBase& other);
 
     ArrayBase& operator=(const ArrayBase& other);
 
@@ -122,21 +193,24 @@ class ArrayBase {
                   std::index_sequence<I...>) const;
 };
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Array
 
-template <typename T, size_t N>
+template <typename T, size_t N, typename Handle>
 class ArrayView;
 
-template <typename T, size_t N>
-class Array final : public ArrayBase<T, N, Array<T, N>> {
-    typedef ArrayBase<T, N, Array<T, N>> Base;
+template <typename T, size_t N, typename Handle>
+class Array final : public ArrayBase<T, N, Handle, Array<T, N, Handle>> {
+    typedef ArrayBase<T, N, Handle, Array<T, N, Handle>> Base;
     using Base::_size;
-    using Base::setPtrAndSize;
-    using Base::swap;
-    using Base::clear;
     using Base::at;
+    using Base::clear;
+    using Base::setHandleAndSize;
+    using Base::swapHandleAndSize;
 
  public:
+    using ContainerType = typename Handle::ContainerType;
+
     // CTOR
     Array();
 
@@ -147,12 +221,27 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
 
     Array(NestedInitializerListsT<T, N> lst);
 
-    Array(const Array& other);
+    template <size_t M = N>
+    Array(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
 
+#ifdef JET_USE_CUDA
+    template <size_t M = N>
+    Array(
+        const std::enable_if_t<(M == 1), thrust::device_vector<T>>& vec);
+
+    template <size_t M = N>
+    Array(const std::enable_if_t<(N == 1), thrust::host_vector<T>>& vec);
+#endif
+
+    template <typename OtherHandle, typename OtherDerived>
+    Array(const ArrayBase<T, N, OtherHandle, OtherDerived>& other);
+
+    Array(const Array& other);
+    
     Array(Array&& other);
 
-    template <typename D>
-    void copyFrom(const ArrayBase<T, N, D>& other);
+    template <typename OtherHandle, typename OtherDerived>
+    void copyFrom(const ArrayBase<T, N, OtherHandle, OtherDerived>& other);
 
     void fill(const T& val);
 
@@ -165,17 +254,18 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     template <size_t M = N>
     std::enable_if_t<(M == 1), void> append(const T& val);
 
-    template <size_t M = N>
-    std::enable_if_t<(M == 1), void> append(const Array& extra);
+    template <typename OtherHandle, typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> append(
+        const ArrayBase<T, N, OtherHandle, OtherDerived>& extra);
 
     void clear();
 
     void swap(Array& other);
 
     // Views
-    ArrayView<T, N> view();
+    ArrayView<T, N, Handle> view();
 
-    ArrayView<const T, N> view() const;
+    ArrayView<const T, N, Handle> view() const;
 
     // Assignment Operators
     Array& operator=(const Array& other);
@@ -183,20 +273,34 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     Array& operator=(Array&& other);
 
  private:
-    std::vector<T> _data;
+    ContainerType _data;
 };
 
 template <class T>
-using Array1 = Array<T, 1>;
+using Array1 = Array<T, 1, CpuMemory<T>>;
 
 template <class T>
-using Array2 = Array<T, 2>;
+using Array2 = Array<T, 2, CpuMemory<T>>;
 
 template <class T>
-using Array3 = Array<T, 3>;
+using Array3 = Array<T, 3, CpuMemory<T>>;
 
 template <class T>
-using Array4 = Array<T, 4>;
+using Array4 = Array<T, 4, CpuMemory<T>>;
+
+#ifdef JET_USE_CUDA
+template <class T>
+using NewCudaArray1 = Array<T, 1, CudaMemory<T>>;
+
+template <class T>
+using NewCudaArray2 = Array<T, 2, CudaMemory<T>>;
+
+template <class T>
+using NewCudaArray3 = Array<T, 3, CudaMemory<T>>;
+
+template <class T>
+using NewCudaArray4 = Array<T, 4, CudaMemory<T>>;
+#endif
 
 }  // namespace jet
 

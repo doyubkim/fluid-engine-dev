@@ -57,4 +57,28 @@
     EXPECT_VECTOR3_NEAR(expected.lowerCorner, actual.lowerCorner, eps); \
     EXPECT_VECTOR3_NEAR(expected.upperCorner, actual.upperCorner, eps);
 
+namespace jet {
+
+const Vector2D* getSamplePoints2();
+
+size_t getNumberOfSamplePoints2();
+
+const Vector3D* getSamplePoints3();
+
+size_t getNumberOfSamplePoints3();
+
+const Vector2D* getSampleDirs2();
+
+size_t getNumberOfSampleDirs2();
+
+const Vector3D* getSampleDirs3();
+
+size_t getNumberOfSampleDirs3();
+
+const char* getCubeTriMesh3x3x3Obj();
+
+const char* getSphereTriMesh5x5Obj();
+
+}  // namespace jet
+
 #endif  // SRC_TESTS_JTL_TESTS_JTL_TESTS_UTILS_H_

@@ -152,6 +152,11 @@ struct FoldWithAnd<T, Rows, Cols, BinaryOperation, 0> {
 // MARK: Matrix Class (Static)
 
 template <typename T, size_t Rows, size_t Cols>
+Matrix<T, Rows, Cols>::Matrix(const_reference value) {
+    fill(value);
+}
+
+template <typename T, size_t Rows, size_t Cols>
 template <size_t R, size_t C, typename E>
 Matrix<T, Rows, Cols>::Matrix(const MatrixExpression<T, R, C, E>& expression) {
     JET_ASSERT(expression.rows() == Rows && expression.cols() == Cols);
@@ -222,8 +227,7 @@ constexpr size_t Matrix<T, Rows, Cols>::cols() const {
 }
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr typename Matrix<T, Rows, Cols>::iterator
-Matrix<T, Rows, Cols>::begin() {
+typename Matrix<T, Rows, Cols>::iterator Matrix<T, Rows, Cols>::begin() {
     return &_elements[0];
 }
 
@@ -234,8 +238,7 @@ Matrix<T, Rows, Cols>::begin() const {
 }
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr typename Matrix<T, Rows, Cols>::iterator
-Matrix<T, Rows, Cols>::end() {
+typename Matrix<T, Rows, Cols>::iterator Matrix<T, Rows, Cols>::end() {
     return begin() + Rows * Cols;
 }
 
@@ -246,8 +249,7 @@ Matrix<T, Rows, Cols>::end() const {
 }
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr typename Matrix<T, Rows, Cols>::pointer
-Matrix<T, Rows, Cols>::data() {
+typename Matrix<T, Rows, Cols>::pointer Matrix<T, Rows, Cols>::data() {
     return &_elements[0];
 }
 
@@ -320,7 +322,7 @@ constexpr size_t Matrix<T, 1, 1>::cols() const {
 }
 
 template <typename T>
-constexpr typename Matrix<T, 1, 1>::iterator Matrix<T, 1, 1>::begin() {
+typename Matrix<T, 1, 1>::iterator Matrix<T, 1, 1>::begin() {
     return &x;
 }
 
@@ -331,7 +333,7 @@ constexpr typename Matrix<T, 1, 1>::const_iterator Matrix<T, 1, 1>::begin()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 1, 1>::iterator Matrix<T, 1, 1>::end() {
+typename Matrix<T, 1, 1>::iterator Matrix<T, 1, 1>::end() {
     return begin() + 1;
 }
 
@@ -342,7 +344,7 @@ constexpr typename Matrix<T, 1, 1>::const_iterator Matrix<T, 1, 1>::end()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 1, 1>::pointer Matrix<T, 1, 1>::data() {
+typename Matrix<T, 1, 1>::pointer Matrix<T, 1, 1>::data() {
     return &x;
 }
 
@@ -420,7 +422,7 @@ constexpr size_t Matrix<T, 2, 1>::cols() const {
 }
 
 template <typename T>
-constexpr typename Matrix<T, 2, 1>::iterator Matrix<T, 2, 1>::begin() {
+typename Matrix<T, 2, 1>::iterator Matrix<T, 2, 1>::begin() {
     return &x;
 }
 
@@ -431,7 +433,7 @@ constexpr typename Matrix<T, 2, 1>::const_iterator Matrix<T, 2, 1>::begin()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 2, 1>::iterator Matrix<T, 2, 1>::end() {
+typename Matrix<T, 2, 1>::iterator Matrix<T, 2, 1>::end() {
     return begin() + 2;
 }
 
@@ -442,7 +444,7 @@ constexpr typename Matrix<T, 2, 1>::const_iterator Matrix<T, 2, 1>::end()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 2, 1>::pointer Matrix<T, 2, 1>::data() {
+typename Matrix<T, 2, 1>::pointer Matrix<T, 2, 1>::data() {
     return &x;
 }
 
@@ -525,7 +527,7 @@ constexpr size_t Matrix<T, 3, 1>::cols() const {
 }
 
 template <typename T>
-constexpr typename Matrix<T, 3, 1>::iterator Matrix<T, 3, 1>::begin() {
+typename Matrix<T, 3, 1>::iterator Matrix<T, 3, 1>::begin() {
     return &x;
 }
 
@@ -536,7 +538,7 @@ constexpr typename Matrix<T, 3, 1>::const_iterator Matrix<T, 3, 1>::begin()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 3, 1>::iterator Matrix<T, 3, 1>::end() {
+typename Matrix<T, 3, 1>::iterator Matrix<T, 3, 1>::end() {
     return begin() + 3;
 }
 
@@ -547,7 +549,7 @@ constexpr typename Matrix<T, 3, 1>::const_iterator Matrix<T, 3, 1>::end()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 3, 1>::pointer Matrix<T, 3, 1>::data() {
+typename Matrix<T, 3, 1>::pointer Matrix<T, 3, 1>::data() {
     return &x;
 }
 
@@ -635,7 +637,7 @@ constexpr size_t Matrix<T, 4, 1>::cols() const {
 }
 
 template <typename T>
-constexpr typename Matrix<T, 4, 1>::iterator Matrix<T, 4, 1>::begin() {
+typename Matrix<T, 4, 1>::iterator Matrix<T, 4, 1>::begin() {
     return &x;
 }
 
@@ -646,7 +648,7 @@ constexpr typename Matrix<T, 4, 1>::const_iterator Matrix<T, 4, 1>::begin()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 4, 1>::iterator Matrix<T, 4, 1>::end() {
+typename Matrix<T, 4, 1>::iterator Matrix<T, 4, 1>::end() {
     return begin() + 4;
 }
 
@@ -657,7 +659,7 @@ constexpr typename Matrix<T, 4, 1>::const_iterator Matrix<T, 4, 1>::end()
 }
 
 template <typename T>
-constexpr typename Matrix<T, 4, 1>::pointer Matrix<T, 4, 1>::data() {
+typename Matrix<T, 4, 1>::pointer Matrix<T, 4, 1>::data() {
     return &x;
 }
 
@@ -710,6 +712,7 @@ Matrix<T, kMatrixSizeDynamic, kMatrixSizeDynamic>::Matrix(
     for (auto rows : lst) {
         size_t j = 0;
         for (auto col : rows) {
+            (void)col;
             ++j;
         }
         _cols = j;
@@ -1204,7 +1207,7 @@ bool operator!=(const MatrixExpression<T, R1, C1, M1>& a,
 
 template <typename T, size_t Rows, size_t Cols, typename M1,
           typename BinaryOperation>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
     BinaryOperation op) {
     return internal::Reduce<T, Rows, Cols, BinaryOperation, NoOp<T>,
@@ -1212,7 +1215,7 @@ constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a, const T& init) {
     return internal::Reduce<T, Rows, Cols, std::plus<T>, NoOp<T>,
                             Rows * Cols - 1>::call(a, init, std::plus<T>(),
@@ -1220,7 +1223,7 @@ constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a) {
     return internal::Reduce<T, Rows, Cols, std::plus<T>, NoOp<T>,
                             Rows * Cols - 1>::call(a, std::plus<T>(),
@@ -1231,21 +1234,21 @@ constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
 
 template <typename T, size_t Rows, size_t Cols, typename M1,
           typename BinaryOperation>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
-    BinaryOperation op) {
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+           BinaryOperation op) {
     return std::accumulate(a.begin(), a.end(), init, op);
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init) {
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init) {
     return std::accumulate(a.begin(), a.end(), init, std::plus<T>());
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a) {
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a) {
     return std::accumulate(a.begin(), a.end(), T{}, std::plus<T>());
 }
 

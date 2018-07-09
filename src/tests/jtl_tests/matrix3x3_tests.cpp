@@ -59,7 +59,7 @@ TEST(Matrix3x3, SetMethods) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.fill([](size_t i, size_t j) -> double { return i + j; });
+    mat.fill([](size_t i, size_t j) -> double { return (double)(i + j); });
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
             EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
@@ -306,7 +306,7 @@ TEST(Matrix3x3, GetterOperatorOverloadings) {
     EXPECT_TRUE(mat !=
                 Matrix3x3D(9.0, -8.0, 7.0, -6.0, 5.0, -4.0, 3.0, -2.0, 1.0));
 }
-/*
+
 TEST(Matrix3x3, Helpers) {
     Matrix3x3D mat = Matrix3x3D::makeZero();
     EXPECT_TRUE(mat.isSimilar(
@@ -335,9 +335,6 @@ TEST(Matrix3x3, Helpers) {
     EXPECT_TRUE(mat.isSimilar(Matrix3x3D(
         0.36, 0.48, -0.8,
         -0.8, 0.60, 0.0,
-        0.48, 0.64, 0.6), 0.05))
-        << mat(0, 0) << ' ' << mat(0, 1) << ' ' << mat(0, 2) << "\n"
-        << mat(1, 0) << ' ' << mat(1, 1) << ' ' << mat(1, 2) << "\n"
-        << mat(2, 0) << ' ' << mat(2, 1) << ' ' << mat(2, 2) << "\n";
+        0.48, 0.64, 0.6), 0.05));
 }
-*/
+

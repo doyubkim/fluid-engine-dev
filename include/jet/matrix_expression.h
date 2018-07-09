@@ -30,6 +30,21 @@ constexpr bool isMatrixStaticSquare() {
     return isMatrixSizeStatic<Rows, Cols>() && (Rows == Cols);
 }
 
+template <size_t Rows, size_t Cols>
+struct IsMatrixSizeDynamic {
+    static const bool value = isMatrixSizeDynamic<Rows, Cols>();
+};
+
+template <size_t Rows, size_t Cols>
+struct IsMatrixSizeStatic {
+    static const bool value = isMatrixSizeStatic<Rows, Cols>();
+};
+
+template <size_t Rows, size_t Cols>
+struct IsMatrixSizeSquare {
+    static const bool value = isMatrixStaticSquare<Rows, Cols>();
+};
+
 template <typename T, size_t Rows, size_t Cols>
 class Matrix;
 
@@ -96,13 +111,13 @@ class MatrixExpression {
     //! Returns true if this matrix is a square matrix.
     constexpr bool isSquare() const;
 
-    constexpr value_type sum() const;
+    value_type sum() const;
 
-    constexpr value_type avg() const;
+    value_type avg() const;
 
-    constexpr value_type min() const;
+    value_type min() const;
 
-    constexpr value_type max() const;
+    value_type max() const;
 
     value_type absmin() const;
 
@@ -174,42 +189,42 @@ class MatrixExpression {
     dot(const MatrixExpression<T, R, C, E>& expression) const;
 
     template <size_t R, size_t C, typename E, typename U = value_type>
-    constexpr std::enable_if_t<
-        (isMatrixSizeDynamic<Rows, Cols>() || (Rows == 2 && Cols == 1)) &&
-            (isMatrixSizeDynamic<R, C>() || (R == 2 && C == 1)),
-        U>
+    std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 2 && Cols == 1)) &&
+                         (isMatrixSizeDynamic<R, C>() || (R == 2 && C == 1)),
+                     U>
     cross(const MatrixExpression<T, R, C, E>& expression) const;
 
     template <size_t R, size_t C, typename E, typename U = value_type>
-    constexpr std::enable_if_t<
-        (isMatrixSizeDynamic<Rows, Cols>() || (Rows == 3 && Cols == 1)) &&
-            (isMatrixSizeDynamic<R, C>() || (R == 3 && C == 1)),
-        Matrix<U, 3, 1>>
+    std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 3 && Cols == 1)) &&
+                         (isMatrixSizeDynamic<R, C>() || (R == 3 && C == 1)),
+                     Matrix<U, 3, 1>>
     cross(const MatrixExpression<T, R, C, E>& expression) const;
 
     //! Returns the reflection vector to the surface with given surface normal.
     template <size_t R, size_t C, typename E, typename U = value_type>
-    constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                                ((Rows == 2 || Rows == 3) && Cols == 1)) &&
-                                   (isMatrixSizeDynamic<R, C>() ||
-                                    ((R == 2 || R == 3) && C == 1)),
-                               Matrix<U, Rows, 1>>
+    std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                      ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                         (isMatrixSizeDynamic<R, C>() ||
+                          ((R == 2 || R == 3) && C == 1)),
+                     Matrix<U, Rows, 1>>
     reflected(const MatrixExpression<T, R, C, E>& normal) const;
 
     //! Returns the projected vector to the surface with given surface normal.
     template <size_t R, size_t C, typename E, typename U = value_type>
-    constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                                ((Rows == 2 || Rows == 3) && Cols == 1)) &&
-                                   (isMatrixSizeDynamic<R, C>() ||
-                                    ((R == 2 || R == 3) && C == 1)),
-                               Matrix<U, Rows, 1>>
+    std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                      ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                         (isMatrixSizeDynamic<R, C>() ||
+                          ((R == 2 || R == 3) && C == 1)),
+                     Matrix<U, Rows, 1>>
     projected(const MatrixExpression<T, R, C, E>& normal) const;
 
     //! Returns the tangential vector for this vector.
     template <typename U = value_type>
-    constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                                (Rows == 2 && Cols == 1)),
-                               Matrix<U, 2, 1>>
+    std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                      (Rows == 2 && Cols == 1)),
+                     Matrix<U, 2, 1>>
     tangential() const;
 
     //! Returns the tangential vectors for this vector.
@@ -274,9 +289,9 @@ class MatrixConstant
     constexpr MatrixConstant(size_t r, size_t c, const T& val)
         : _rows(r), _cols(c), _val(val) {}
 
-    constexpr T rows() const;
+    constexpr size_t rows() const;
 
-    constexpr T cols() const;
+    constexpr size_t cols() const;
 
     constexpr T operator()(size_t, size_t) const;
 
@@ -653,9 +668,9 @@ using MatrixClamp = MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, Clamp<T>>;
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
           typename M3>
-constexpr auto clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
-                     const MatrixExpression<T, Rows, Cols, M2>& low,
-                     const MatrixExpression<T, Rows, Cols, M3>& high);
+auto clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
+           const MatrixExpression<T, Rows, Cols, M2>& low,
+           const MatrixExpression<T, Rows, Cols, M3>& high);
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: MatrixMul
@@ -679,8 +694,8 @@ class MatrixMul
 
 template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
           typename M2>
-constexpr auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
-                         const MatrixExpression<T, R2, C2, M2>& b);
+auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
+               const MatrixExpression<T, R2, C2, M2>& b);
 
 }  // namespace jet
 

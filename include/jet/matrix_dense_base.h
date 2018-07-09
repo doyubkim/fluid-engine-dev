@@ -132,11 +132,11 @@ class MatrixDenseBase {
 
     constexpr size_t cols() const;
 
-    constexpr auto begin();
+    auto begin();
 
     constexpr auto begin() const;
 
-    constexpr auto end();
+    auto end();
 
     constexpr auto end() const;
 
@@ -144,9 +144,9 @@ class MatrixDenseBase {
 
     const_reference operator[](size_t i) const;
 
-    Derived& operator()();
+    Derived& derived();
 
-    const Derived& operator()() const;
+    const Derived& derived() const;
 };
 
 }  // namespace jet

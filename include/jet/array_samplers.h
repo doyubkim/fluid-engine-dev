@@ -47,9 +47,9 @@ class NearestArraySampler final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit NearestArraySampler(const ArrayView<const T, N>& view,
-                                 const VectorType& gridSpacing,
-                                 const VectorType& gridOrigin);
+    explicit NearestArraySampler(
+        const ArrayView<const T, N, CpuMemory<T>>& view,
+        const VectorType& gridSpacing, const VectorType& gridOrigin);
 
     //! Copy constructor.
     NearestArraySampler(const NearestArraySampler& other);
@@ -64,7 +64,7 @@ class NearestArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N> _view;
+    ArrayView<const T, N, CpuMemory<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;
@@ -113,7 +113,7 @@ class LinearArraySampler final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(const ArrayView<const T, N>& view,
+    explicit LinearArraySampler(const ArrayView<const T, N, CpuMemory<T>>& view,
                                 const VectorType& gridSpacing,
                                 const VectorType& gridOrigin);
 
@@ -140,7 +140,7 @@ class LinearArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N> _view;
+    ArrayView<const T, N, CpuMemory<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;
@@ -187,7 +187,7 @@ class CubicArraySampler final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(const ArrayView<const T, N>& view,
+    explicit CubicArraySampler(const ArrayView<const T, N, CpuMemory<T>>& view,
                                const VectorType& gridSpacing,
                                const VectorType& gridOrigin);
 
@@ -201,7 +201,7 @@ class CubicArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N> _view;
+    ArrayView<const T, N, CpuMemory<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;
@@ -228,16 +228,13 @@ struct MonotonicCatmullRom {
 };
 
 template <typename T>
-using CatmullRomArraySampler1 =
-    CubicArraySampler<T, 1, CatmullRom<T>>;
+using CatmullRomArraySampler1 = CubicArraySampler<T, 1, CatmullRom<T>>;
 
 template <typename T>
-using CatmullRomArraySampler2 =
-    CubicArraySampler<T, 2, CatmullRom<T>>;
+using CatmullRomArraySampler2 = CubicArraySampler<T, 2, CatmullRom<T>>;
 
 template <typename T>
-using CatmullRomArraySampler3 =
-    CubicArraySampler<T, 3, CatmullRom<T>>;
+using CatmullRomArraySampler3 = CubicArraySampler<T, 3, CatmullRom<T>>;
 
 template <typename T>
 using MonotonicCatmullRomArraySampler1 =

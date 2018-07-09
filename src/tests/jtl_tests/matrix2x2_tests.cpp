@@ -56,7 +56,7 @@ TEST(Matrix2x2, SetMethods) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.fill([](size_t i, size_t j) -> double { return i + j; });
+    mat.fill([](size_t i, size_t j) -> double { return (double)(i + j); });
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 2; ++j) {
             EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
@@ -279,7 +279,7 @@ TEST(Matrix2x2, GetterOperatorOverloadings) {
     mat = {4.0, 3.0, 2.0, 1.0};
     EXPECT_TRUE(mat != Matrix2x2D(-4.0, 3.0, -2.0, 1.0));
 }
-/*
+
 TEST(Matrix2x2, Helpers) {
     Matrix2x2D mat = Matrix2x2D::makeZero();
     EXPECT_TRUE(mat.isSimilar(Matrix2x2D(0.0, 0.0, 0.0, 0.0)));
@@ -297,4 +297,4 @@ TEST(Matrix2x2, Helpers) {
     EXPECT_TRUE(mat.isSimilar(
         Matrix2x2D(0.5, -std::sqrt(3.0) / 2.0, std::sqrt(3.0) / 2.0, 0.5)));
 }
-*/
+

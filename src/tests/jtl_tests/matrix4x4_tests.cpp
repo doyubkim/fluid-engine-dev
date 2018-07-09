@@ -75,7 +75,7 @@ TEST(Matrix4x4, SetMethods) {
         EXPECT_DOUBLE_EQ(static_cast<double>(i + 1), mat[i]);
     }
 
-    mat.fill([](size_t i, size_t j) -> double { return i + j; });
+    mat.fill([](size_t i, size_t j) -> double { return (double)(i + j); });
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             EXPECT_DOUBLE_EQ(static_cast<double>(i + j), mat(i, j));
@@ -310,7 +310,7 @@ TEST(Matrix4x4, GetterOperatorOverloadings) {
     EXPECT_TRUE(mat != Matrix4x4D(-16, 15, -14, 13, -12, 11, -10, 9, -8, 7, -6,
                                   5, -4, 3, -2, 1));
 }
-/*
+
 TEST(Matrix4x4, Helpers) {
     Matrix4x4D mat = Matrix4x4D::makeZero();
     for (int i = 0; i < 16; ++i) {
@@ -339,14 +339,13 @@ TEST(Matrix4x4, Helpers) {
                                  0.0, 3.5, 0.0, 0.0, 0.0, 0.0, 1.0)));
 
     mat = Matrix4x4D::makeRotationMatrix(
-        Double3(-1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0), -74.0 / 180.0 * kPiD);
+        Vector3D(-1.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0), -74.0 / 180.0 * kPiD);
     EXPECT_TRUE(mat.isSimilar(Matrix4x4D(0.36, 0.48, -0.8, 0, -0.8, 0.60, 0.0,
                                          0, 0.48, 0.64, 0.6, 0, 0, 0, 0, 1),
                               0.05));
 
-    mat = Matrix4x4D::makeTranslationMatrix(Double3(-2.0, 5.0, 3.5));
+    mat = Matrix4x4D::makeTranslationMatrix(Vector3D(-2.0, 5.0, 3.5));
     EXPECT_TRUE(
         mat.isSimilar(Matrix4x4D(1.0, 0.0, 0.0, -2.0, 0.0, 1.0, 0.0, 5.0, 0.0,
                                  0.0, 1.0, 3.5, 0.0, 0.0, 0.0, 1.0)));
 }
-*/

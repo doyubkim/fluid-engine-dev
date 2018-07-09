@@ -30,6 +30,10 @@ class Matrix final
     static_assert(isMatrixSizeStatic<Rows, Cols>(),
                   "This class should be a static-sized matrix.");
 
+    using Base = MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>>;
+    using Base::copyFrom;
+    using Base::operator();
+
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -37,11 +41,10 @@ class Matrix final
     using const_pointer = const T*;
     using iterator = pointer;
     using const_iterator = const_pointer;
-    using MatrixDenseBase<T, Rows, Cols, Matrix<T, Rows, Cols>>::copyFrom;
 
     constexpr Matrix() : _elements{} {}
 
-    constexpr Matrix(const_reference value) { fill(value); }
+    Matrix(const_reference value);
 
     template <typename... Args>
     constexpr Matrix(const_reference first, Args... rest)
@@ -68,15 +71,15 @@ class Matrix final
 
     constexpr size_t cols() const;
 
-    constexpr iterator begin();
+    iterator begin();
 
     constexpr const_iterator begin() const;
 
-    constexpr iterator end();
+    iterator end();
 
     constexpr const_iterator end() const;
 
-    constexpr pointer data();
+    pointer data();
 
     constexpr const_pointer data() const;
 
@@ -94,6 +97,9 @@ template <typename T>
 class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
                               public MatrixDenseBase<T, 1, 1, Matrix<T, 1, 1>> {
  public:
+    using Base = MatrixDenseBase<T, 1, 1, Matrix<T, 1, 1>>;
+    using Base::operator();
+
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -131,15 +137,15 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
 
     constexpr size_t cols() const;
 
-    constexpr iterator begin();
+    iterator begin();
 
     constexpr const_iterator begin() const;
 
-    constexpr iterator end();
+    iterator end();
 
     constexpr const_iterator end() const;
 
-    constexpr pointer data();
+    pointer data();
 
     constexpr const_pointer data() const;
 
@@ -154,6 +160,9 @@ template <typename T>
 class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
                               public MatrixDenseBase<T, 2, 1, Matrix<T, 2, 1>> {
  public:
+    using Base = MatrixDenseBase<T, 2, 1, Matrix<T, 2, 1>>;
+    using Base::operator();
+
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -192,15 +201,15 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
 
     constexpr size_t cols() const;
 
-    constexpr iterator begin();
+    iterator begin();
 
     constexpr const_iterator begin() const;
 
-    constexpr iterator end();
+    iterator end();
 
     constexpr const_iterator end() const;
 
-    constexpr pointer data();
+    pointer data();
 
     constexpr const_pointer data() const;
 
@@ -215,6 +224,9 @@ template <typename T>
 class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
                               public MatrixDenseBase<T, 3, 1, Matrix<T, 3, 1>> {
  public:
+    using Base = MatrixDenseBase<T, 3, 1, Matrix<T, 3, 1>>;
+    using Base::operator();
+
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -259,15 +271,15 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
 
     constexpr size_t cols() const;
 
-    constexpr iterator begin();
+    iterator begin();
 
     constexpr const_iterator begin() const;
 
-    constexpr iterator end();
+    iterator end();
 
     constexpr const_iterator end() const;
 
-    constexpr pointer data();
+    pointer data();
 
     constexpr const_pointer data() const;
 
@@ -282,6 +294,9 @@ template <typename T>
 class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
                               public MatrixDenseBase<T, 4, 1, Matrix<T, 4, 1>> {
  public:
+    using Base = MatrixDenseBase<T, 4, 1, Matrix<T, 4, 1>>;
+    using Base::operator();
+
     using value_type = T;
     using reference = T&;
     using const_reference = const T&;
@@ -324,15 +339,15 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
 
     constexpr size_t cols() const;
 
-    constexpr iterator begin();
+    iterator begin();
 
     constexpr const_iterator begin() const;
 
-    constexpr iterator end();
+    iterator end();
 
     constexpr const_iterator end() const;
 
-    constexpr pointer data();
+    pointer data();
 
     constexpr const_pointer data() const;
 
@@ -745,33 +760,33 @@ bool operator!=(const MatrixExpression<T, R1, C1, M1>& a,
 
 template <typename T, size_t Rows, size_t Cols, typename M1,
           typename BinaryOperation>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
     BinaryOperation op);
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeStatic<Rows, Cols>(), T> accumulate(
+constexpr std::enable_if_t<IsMatrixSizeStatic<Rows, Cols>::value, T> accumulate(
     const MatrixExpression<T, Rows, Cols, M1>& a);
 
 // Dynamic Accumulate
 
 template <typename T, size_t Rows, size_t Cols, typename M1,
           typename BinaryOperation>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
-    BinaryOperation op);
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init,
+           BinaryOperation op);
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a, const T& init);
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
-constexpr std::enable_if_t<isMatrixSizeDynamic<Rows, Cols>(), T> accumulate(
-    const MatrixExpression<T, Rows, Cols, M1>& a);
+constexpr std::enable_if_t<IsMatrixSizeDynamic<Rows, Cols>::value, T>
+accumulate(const MatrixExpression<T, Rows, Cols, M1>& a);
 
 // Product
 

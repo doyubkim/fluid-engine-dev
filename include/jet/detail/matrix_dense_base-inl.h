@@ -66,18 +66,18 @@ void MatrixDenseBase<T, Rows, Cols, D>::setColumn(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 void MatrixDenseBase<T, Rows, Cols, D>::normalize() {
-    (*this)() /= (*this)().norm();
+    derived() /= derived().norm();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 void MatrixDenseBase<T, Rows, Cols, D>::transpose() {
-    D tmp = (*this)().transposed();
+    D tmp = derived().transposed();
     copyFrom(tmp);
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 void MatrixDenseBase<T, Rows, Cols, D>::invert() {
-    copyFrom((*this)().inverse());
+    copyFrom(derived().inverse());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,14 +87,14 @@ template <typename T, size_t Rows, size_t Cols, typename D>
 typename MatrixDenseBase<T, Rows, Cols, D>::reference
 MatrixDenseBase<T, Rows, Cols, D>::operator()(size_t i, size_t j) {
     JET_ASSERT(i < rows() && j < cols());
-    return (*this)()[j + i * cols()];
+    return derived()[j + i * cols()];
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 typename MatrixDenseBase<T, Rows, Cols, D>::const_reference
 MatrixDenseBase<T, Rows, Cols, D>::operator()(size_t i, size_t j) const {
     JET_ASSERT(i < rows() && j < cols());
-    return (*this)()[j + i * cols()];
+    return derived()[j + i * cols()];
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
@@ -198,23 +198,26 @@ MatrixDenseBase<T, Rows, Cols, Derived>::makeRotationMatrix(
 
     D result;
 
-    result(0, 0) = 1 + (1 - std::cos(rad)) * (axis(0, 0) * axis(0, 0) - 1);
-    result(0, 1) = -axis(2, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(0, 0) * axis(1, 0);
-    result(0, 2) = axis(1, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(0, 0) * axis(2, 0);
+    result(0, 0) =
+        1 + (1 - std::cos(rad)) * (axis.eval(0, 0) * axis.eval(0, 0) - 1);
+    result(0, 1) = -axis.eval(2, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(0, 0) * axis.eval(1, 0);
+    result(0, 2) = axis.eval(1, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(0, 0) * axis.eval(2, 0);
 
-    result(1, 0) = axis(2, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(0, 0) * axis(1, 0);
-    result(1, 1) = 1 + (1 - std::cos(rad)) * (axis(1, 0) * axis(1, 0) - 1);
-    result(1, 2) = -axis(0, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(1, 0) * axis(2, 0);
+    result(1, 0) = axis.eval(2, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(0, 0) * axis.eval(1, 0);
+    result(1, 1) =
+        1 + (1 - std::cos(rad)) * (axis.eval(1, 0) * axis.eval(1, 0) - 1);
+    result(1, 2) = -axis.eval(0, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(1, 0) * axis.eval(2, 0);
 
-    result(2, 0) = -axis(1, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(0, 0) * axis(2, 0);
-    result(2, 1) = axis(0, 0) * std::sin(rad) +
-                   (1 - std::cos(rad)) * axis(1, 0) * axis(2, 0);
-    result(2, 2) = 1 + (1 - std::cos(rad)) * (axis(2, 0) * axis(2, 0) - 1);
+    result(2, 0) = -axis.eval(1, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(0, 0) * axis.eval(2, 0);
+    result(2, 1) = axis.eval(0, 0) * std::sin(rad) +
+                   (1 - std::cos(rad)) * axis.eval(1, 0) * axis.eval(2, 0);
+    result(2, 2) =
+        1 + (1 - std::cos(rad)) * (axis.eval(2, 0) * axis.eval(2, 0) - 1);
 
     return result;
 }
@@ -248,46 +251,46 @@ constexpr size_t MatrixDenseBase<T, Rows, Cols, D>::cols() const {
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr auto MatrixDenseBase<T, Rows, Cols, D>::begin() {
-    return (*this)().begin();
+auto MatrixDenseBase<T, Rows, Cols, D>::begin() {
+    return derived().begin();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 constexpr auto MatrixDenseBase<T, Rows, Cols, D>::begin() const {
-    return (*this)().begin();
+    return derived().begin();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr auto MatrixDenseBase<T, Rows, Cols, D>::end() {
-    return (*this)().end();
+auto MatrixDenseBase<T, Rows, Cols, D>::end() {
+    return derived().end();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 constexpr auto MatrixDenseBase<T, Rows, Cols, D>::end() const {
-    return (*this)().end();
+    return derived().end();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 typename MatrixDenseBase<T, Rows, Cols, D>::reference
     MatrixDenseBase<T, Rows, Cols, D>::operator[](size_t i) {
     JET_ASSERT(i < rows() * cols());
-    return (*this)()[i];
+    return derived()[i];
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 typename MatrixDenseBase<T, Rows, Cols, D>::const_reference
     MatrixDenseBase<T, Rows, Cols, D>::operator[](size_t i) const {
     JET_ASSERT(i < rows() * cols());
-    return (*this)()[i];
+    return derived()[i];
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-D& MatrixDenseBase<T, Rows, Cols, D>::operator()() {
+D& MatrixDenseBase<T, Rows, Cols, D>::derived() {
     return static_cast<D&>(*this);
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-const D& MatrixDenseBase<T, Rows, Cols, D>::operator()() const {
+const D& MatrixDenseBase<T, Rows, Cols, D>::derived() const {
     return static_cast<const D&>(*this);
 }
 

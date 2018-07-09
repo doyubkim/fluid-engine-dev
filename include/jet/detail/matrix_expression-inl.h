@@ -62,7 +62,7 @@ constexpr bool MatrixExpression<T, Rows, Cols, D>::isSquare() const {
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr T MatrixExpression<T, Rows, Cols, D>::sum() const {
+T MatrixExpression<T, Rows, Cols, D>::sum() const {
     T s = 0;
     for (size_t i = 0; i < rows(); ++i) {
         for (size_t j = 0; j < cols(); ++j) {
@@ -73,12 +73,12 @@ constexpr T MatrixExpression<T, Rows, Cols, D>::sum() const {
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr T MatrixExpression<T, Rows, Cols, D>::avg() const {
+T MatrixExpression<T, Rows, Cols, D>::avg() const {
     return sum() / (rows() * cols());
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr T MatrixExpression<T, Rows, Cols, D>::min() const {
+T MatrixExpression<T, Rows, Cols, D>::min() const {
     T s = eval(0, 0);
     for (size_t j = 1; j < cols(); ++j) {
         s = std::min(s, eval(0, j));
@@ -92,7 +92,7 @@ constexpr T MatrixExpression<T, Rows, Cols, D>::min() const {
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-constexpr T MatrixExpression<T, Rows, Cols, D>::max() const {
+T MatrixExpression<T, Rows, Cols, D>::max() const {
     T s = eval(0, 0);
     for (size_t j = 1; j < cols(); ++j) {
         s = std::max(s, eval(0, j));
@@ -314,10 +314,10 @@ MatrixExpression<T, Rows, Cols, D>::dot(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <size_t R, size_t C, typename E, typename U>
-constexpr std::enable_if_t<
-    (isMatrixSizeDynamic<Rows, Cols>() || (Rows == 2 && Cols == 1)) &&
-        (isMatrixSizeDynamic<R, C>() || (R == 2 && C == 1)),
-    U>
+std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                  (Rows == 2 && Cols == 1)) &&
+                     (isMatrixSizeDynamic<R, C>() || (R == 2 && C == 1)),
+                 U>
 MatrixExpression<T, Rows, Cols, D>::cross(
     const MatrixExpression<T, R, C, E>& expression) const {
     JET_ASSERT(rows() == 2 && cols() == 1 && expression.rows() == 2 &&
@@ -329,10 +329,10 @@ MatrixExpression<T, Rows, Cols, D>::cross(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <size_t R, size_t C, typename E, typename U>
-constexpr std::enable_if_t<
-    (isMatrixSizeDynamic<Rows, Cols>() || (Rows == 3 && Cols == 1)) &&
-        (isMatrixSizeDynamic<R, C>() || (R == 3 && C == 1)),
-    Matrix<U, 3, 1>>
+std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                  (Rows == 3 && Cols == 1)) &&
+                     (isMatrixSizeDynamic<R, C>() || (R == 3 && C == 1)),
+                 Matrix<U, 3, 1>>
 MatrixExpression<T, Rows, Cols, D>::cross(
     const MatrixExpression<T, R, C, E>& exp) const {
     JET_ASSERT(rows() == 3 && cols() == 1 && exp.rows() == 3 &&
@@ -346,11 +346,11 @@ MatrixExpression<T, Rows, Cols, D>::cross(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <size_t R, size_t C, typename E, typename U>
-constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                            ((Rows == 2 || Rows == 3) && Cols == 1)) &&
-                               (isMatrixSizeDynamic<R, C>() ||
-                                ((R == 2 || R == 3) && C == 1)),
-                           Matrix<U, Rows, 1>>
+std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                  ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                     (isMatrixSizeDynamic<R, C>() ||
+                      ((R == 2 || R == 3) && C == 1)),
+                 Matrix<U, Rows, 1>>
 MatrixExpression<T, Rows, Cols, D>::reflected(
     const MatrixExpression<T, R, C, E>& normal) const {
     JET_ASSERT((rows() == 2 || rows() == 3) && cols() == 1 &&
@@ -362,11 +362,11 @@ MatrixExpression<T, Rows, Cols, D>::reflected(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <size_t R, size_t C, typename E, typename U>
-constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                            ((Rows == 2 || Rows == 3) && Cols == 1)) &&
-                               (isMatrixSizeDynamic<R, C>() ||
-                                ((R == 2 || R == 3) && C == 1)),
-                           Matrix<U, Rows, 1>>
+std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                  ((Rows == 2 || Rows == 3) && Cols == 1)) &&
+                     (isMatrixSizeDynamic<R, C>() ||
+                      ((R == 2 || R == 3) && C == 1)),
+                 Matrix<U, Rows, 1>>
 MatrixExpression<T, Rows, Cols, D>::projected(
     const MatrixExpression<T, R, C, E>& normal) const {
     JET_ASSERT((rows() == 2 || rows() == 3) && cols() == 1 &&
@@ -378,9 +378,9 @@ MatrixExpression<T, Rows, Cols, D>::projected(
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 template <typename U>
-constexpr std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
-                            (Rows == 2 && Cols == 1)),
-                           Matrix<U, 2, 1>>
+std::enable_if_t<(isMatrixSizeDynamic<Rows, Cols>() ||
+                  (Rows == 2 && Cols == 1)),
+                 Matrix<U, 2, 1>>
 MatrixExpression<T, Rows, Cols, D>::tangential() const {
     JET_ASSERT(rows() == 2 && cols() == 1);
 
@@ -745,12 +745,12 @@ void MatrixExpression<T, Rows, Cols, Derived>::inverse(
 // MARK: MatrixConstant
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr T MatrixConstant<T, Rows, Cols>::rows() const {
+constexpr size_t MatrixConstant<T, Rows, Cols>::rows() const {
     return _rows;
 }
 
 template <typename T, size_t Rows, size_t Cols>
-constexpr T MatrixConstant<T, Rows, Cols>::cols() const {
+constexpr size_t MatrixConstant<T, Rows, Cols>::cols() const {
     return _cols;
 }
 
@@ -1072,9 +1072,9 @@ constexpr T MatrixTernaryOp<T, Rows, Cols, M1, M2, M3, TOp>::operator()(
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2,
           typename M3>
-constexpr auto clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
-                     const MatrixExpression<T, Rows, Cols, M2>& low,
-                     const MatrixExpression<T, Rows, Cols, M3>& high) {
+auto clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
+           const MatrixExpression<T, Rows, Cols, M2>& low,
+           const MatrixExpression<T, Rows, Cols, M3>& high) {
     JET_ASSERT(a.rows() == low.rows() && a.rows() == high.rows());
     JET_ASSERT(a.cols() == low.cols() && a.cols() == high.cols());
     return MatrixClamp<T, Rows, Cols, const M1&, const M2&, const M3&>{
@@ -1107,8 +1107,8 @@ T MatrixMul<T, Rows, Cols, M1, M2>::operator()(size_t i, size_t j) const {
 
 template <typename T, size_t R1, size_t C1, size_t R2, size_t C2, typename M1,
           typename M2>
-constexpr auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
-                         const MatrixExpression<T, R2, C2, M2>& b) {
+auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
+               const MatrixExpression<T, R2, C2, M2>& b) {
     JET_ASSERT(a.cols() == b.rows());
 
     return MatrixMul<T, R1, C2, const M1&, const M2&>{a(), b()};

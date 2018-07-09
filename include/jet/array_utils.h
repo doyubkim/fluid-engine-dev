@@ -13,24 +13,27 @@
 namespace jet {
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N> a, const Vector<size_t, N>& begin,
+void fill(ArrayView<T, N, CpuMemory<T>> a,
+          const Vector<size_t, N>& begin,
           const Vector<size_t, N>& end, const T& val);
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N> a, const T& val);
+void fill(ArrayView<T, N, CpuMemory<T>> a, const T& val);
 
 template <typename T>
-void fill(ArrayView<T, 1> a, size_t begin, size_t end, const T& val);
+void fill(ArrayView<T, 1, CpuMemory<T>> a, size_t begin, size_t end,
+          const T& val);
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N> src, const Vector<size_t, N>& begin,
-          const Vector<size_t, N>& end, ArrayView<U, N> dst);
+void copy(ArrayView<T, N, CpuMemory<T>> src, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, ArrayView<U, N, CpuMemory<U>> dst);
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N> src, ArrayView<U, N> dst);
+void copy(ArrayView<T, N, CpuMemory<T>> src, ArrayView<U, N, CpuMemory<U>> dst);
 
 template <typename T, typename U>
-void copy(ArrayView<T, 1> src, size_t begin, size_t end, ArrayView<U, 1> dst);
+void copy(ArrayView<T, 1, CpuMemory<T>> src, size_t begin, size_t end,
+          ArrayView<U, 1, CpuMemory<U>> dst);
 
 //!
 //! \brief Extrapolates 2-D input data from 'valid' (1) to 'invalid' (0) region.
