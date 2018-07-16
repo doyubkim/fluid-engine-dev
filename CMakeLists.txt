@@ -117,6 +117,7 @@ if (USE_CUDA)
     find_package(CUDA)
 
     if (CUDA_FOUND)
+        set(CUDA_LINK_LIBRARIES_KEYWORD PUBLIC)
         list(APPEND CUDA_NVCC_FLAGS -Wno-deprecated-gpu-targets)
         add_definitions(-DJET_USE_CUDA)
         include_directories(${CUDA_INCLUDE_DIRS})
