@@ -12,25 +12,20 @@
 namespace jet {
 
 template <typename T>
-struct CpuMemory;
+struct CpuDevice;
 
-#ifdef JET_USE_CUDA
-template <typename T>
-struct CudaMemory;
-#endif
-
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 class ArrayBase;
 
-template <typename T, size_t N, typename Handle>
+template <typename T, size_t N, typename Device>
 class Array;
 
 // MARK: ArrayView
 
-template <typename T, size_t N, typename Handle>
+template <typename T, size_t N, typename Device>
 class ArrayView final
-    : public ArrayBase<T, N, Handle, ArrayView<T, N, Handle>> {
-    using Base = ArrayBase<T, N, Handle, ArrayView<T, N, Handle>>;
+    : public ArrayBase<T, N, Device, ArrayView<T, N, Device>> {
+    using Base = ArrayBase<T, N, Device, ArrayView<T, N, Device>>;
     using Base::_size;
     using Base::at;
     using Base::setHandleAndSize;
@@ -44,7 +39,7 @@ class ArrayView final
     template <size_t M = N>
     ArrayView(typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
 
-    ArrayView(Array<T, N, Handle>& other);
+    ArrayView(Array<T, N, Device>& other);
 
     ArrayView(const ArrayView& other);
 
@@ -52,7 +47,7 @@ class ArrayView final
 
     // set
 
-    void set(Array<T, N, Handle>& other);
+    void set(Array<T, N, Device>& other);
 
     void set(const ArrayView& other);
 
@@ -64,10 +59,10 @@ class ArrayView final
     ArrayView& operator=(ArrayView&& other) noexcept;
 };
 
-template <typename T, size_t N, typename Handle>
-class ArrayView<const T, N, Handle> final
-    : public ArrayBase<const T, N, Handle, ArrayView<const T, N, Handle>> {
-    using Base = ArrayBase<const T, N, Handle, ArrayView<const T, N, Handle>>;
+template <typename T, size_t N, typename Device>
+class ArrayView<const T, N, Device> final
+    : public ArrayBase<const T, N, Device, ArrayView<const T, N, Device>> {
+    using Base = ArrayBase<const T, N, Device, ArrayView<const T, N, Device>>;
     using Base::_size;
     using Base::setHandleAndSize;
 
@@ -81,9 +76,9 @@ class ArrayView<const T, N, Handle> final
     ArrayView(const typename std::enable_if<(M == 1), T>::type* ptr,
               size_t size_);
 
-    ArrayView(const Array<T, N, Handle>& other);
+    ArrayView(const Array<T, N, Device>& other);
 
-    ArrayView(const ArrayView<T, N, Handle>& other);
+    ArrayView(const ArrayView<T, N, Device>& other);
 
     ArrayView(const ArrayView& other);
 
@@ -91,14 +86,14 @@ class ArrayView<const T, N, Handle> final
 
     // set
 
-    void set(const Array<T, N, Handle>& other);
+    void set(const Array<T, N, Device>& other);
 
-    void set(const ArrayView<T, N, Handle>& other);
+    void set(const ArrayView<T, N, Device>& other);
 
     void set(const ArrayView& other);
 
     // Assignment Operators
-    ArrayView& operator=(const ArrayView<T, N, Handle>& other);
+    ArrayView& operator=(const ArrayView<T, N, Device>& other);
 
     ArrayView& operator=(const ArrayView& other);
 
@@ -106,56 +101,28 @@ class ArrayView<const T, N, Handle> final
 };
 
 template <class T>
-using ArrayView1 = ArrayView<T, 1, CpuMemory<T>>;
+using ArrayView1 = ArrayView<T, 1, CpuDevice<T>>;
 
 template <class T>
-using ArrayView2 = ArrayView<T, 2, CpuMemory<T>>;
+using ArrayView2 = ArrayView<T, 2, CpuDevice<T>>;
 
 template <class T>
-using ArrayView3 = ArrayView<T, 3, CpuMemory<T>>;
+using ArrayView3 = ArrayView<T, 3, CpuDevice<T>>;
 
 template <class T>
-using ArrayView4 = ArrayView<T, 4, CpuMemory<T>>;
+using ArrayView4 = ArrayView<T, 4, CpuDevice<T>>;
 
 template <class T>
-using ConstArrayView1 = ArrayView<const T, 1, CpuMemory<T>>;
+using ConstArrayView1 = ArrayView<const T, 1, CpuDevice<T>>;
 
 template <class T>
-using ConstArrayView2 = ArrayView<const T, 2, CpuMemory<T>>;
+using ConstArrayView2 = ArrayView<const T, 2, CpuDevice<T>>;
 
 template <class T>
-using ConstArrayView3 = ArrayView<const T, 3, CpuMemory<T>>;
+using ConstArrayView3 = ArrayView<const T, 3, CpuDevice<T>>;
 
 template <class T>
-using ConstArrayView4 = ArrayView<const T, 4, CpuMemory<T>>;
-
-#ifdef JET_USE_CUDA
-
-template <class T>
-using NewCudaArrayView1 = ArrayView<T, 1, CudaMemory<T>>;
-
-template <class T>
-using NewCudaArrayView2 = ArrayView<T, 2, CudaMemory<T>>;
-
-template <class T>
-using NewCudaArrayView3 = ArrayView<T, 3, CudaMemory<T>>;
-
-template <class T>
-using NewCudaArrayView4 = ArrayView<T, 4, CudaMemory<T>>;
-
-template <class T>
-using NewCudaConstArrayView1 = ArrayView<const T, 1, CudaMemory<T>>;
-
-template <class T>
-using NewCudaConstArrayView2 = ArrayView<const T, 2, CudaMemory<T>>;
-
-template <class T>
-using NewCudaConstArrayView3 = ArrayView<const T, 3, CudaMemory<T>>;
-
-template <class T>
-using NewCudaConstArrayView4 = ArrayView<const T, 4, CudaMemory<T>>;
-
-#endif
+using ConstArrayView4 = ArrayView<const T, 4, CpuDevice<T>>;
 
 }  // namespace jet
 

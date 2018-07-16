@@ -9,9 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_TEXTURE_H_
 #define INCLUDE_JET_CUDA_TEXTURE_H_
 
-#include <jet/cuda_array_view1.h>
-#include <jet/cuda_array_view2.h>
-#include <jet/cuda_array_view3.h>
+#include <jet/_cuda_array_view.h>
 
 #include <cuda_runtime.h>
 
@@ -27,9 +25,9 @@ class CudaTexture {
 
     void clear();
 
-    void set(const ConstArrayView<T, N>& view);
+    void set(const ArrayView<const T, N, CpuDevice<T>>& view);
 
-    void set(const ConstCudaArrayView<T, N>& view);
+    void set(const ArrayView<const T, N, CudaDevice<T>>& view);
 
     void set(const Derived& other);
 
@@ -42,9 +40,9 @@ class CudaTexture {
 
     CudaTexture();
 
-    CudaTexture(const ConstArrayView<T, N>& view);
+    CudaTexture(const ArrayView<const T, N, CpuDevice<T>>& view);
 
-    CudaTexture(const ConstCudaArrayView<T, N>& view);
+    CudaTexture(const ArrayView<const T, N, CudaDevice<T>>& view);
 
     CudaTexture(const CudaTexture& other);
 
@@ -69,9 +67,9 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     CudaTexture1();
 
-    CudaTexture1(const ConstArrayView<T, 1>& view);
+    CudaTexture1(const ConstArrayView1<T>& view);
 
-    CudaTexture1(const ConstCudaArrayView<T, 1>& view);
+    CudaTexture1(const NewConstCudaArrayView1<T>& view);
 
     CudaTexture1(const CudaTexture1& other);
 
@@ -101,9 +99,9 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     CudaTexture2();
 
-    CudaTexture2(const ConstArrayView<T, 2>& view);
+    CudaTexture2(const ConstArrayView2<T>& view);
 
-    CudaTexture2(const ConstCudaArrayView<T, 2>& view);
+    CudaTexture2(const NewConstCudaArrayView2<T>& view);
 
     CudaTexture2(const CudaTexture2& other);
 
@@ -137,9 +135,9 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     CudaTexture3();
 
-    CudaTexture3(const ConstArrayView<T, 3>& view);
+    CudaTexture3(const ConstArrayView3<T>& view);
 
-    CudaTexture3(const ConstCudaArrayView<T, 3>& view);
+    CudaTexture3(const NewConstCudaArrayView3<T>& view);
 
     CudaTexture3(const CudaTexture3& other);
 

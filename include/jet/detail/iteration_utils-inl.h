@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_DETAIL_ITERATION_UTILS_INL_H_
 #define INCLUDE_JET_DETAIL_ITERATION_UTILS_INL_H_
 
+#include <jet/iteration_utils.h>
 #include <jet/parallel.h>
 
 namespace jet {

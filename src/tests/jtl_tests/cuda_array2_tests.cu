@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cuda_array2.h>
-#include <jet/cuda_array_view2.h>
+#include <jet/array.h>
+#include <jet/array_view.h>
 
 #include <gtest/gtest.h>
 

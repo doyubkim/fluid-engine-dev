@@ -194,9 +194,9 @@ std::enable_if_t<isMatrixStaticSquare<Rows, Cols>() && (Rows == 3 || Rows == 4),
                  D>
 MatrixDenseBase<T, Rows, Cols, Derived>::makeRotationMatrix(
     const MatrixExpression<T, R, C, E>& axis, T rad) {
-    JET_ASSERT(axis.cols() == 3);
+    JET_ASSERT(axis.rows() == 3 && axis.cols() == 1);
 
-    D result;
+    D result = makeIdentity();
 
     result(0, 0) =
         1 + (1 - std::cos(rad)) * (axis.eval(0, 0) * axis.eval(0, 0) - 1);
@@ -227,7 +227,7 @@ template <size_t R, size_t C, typename E, typename D>
 std::enable_if_t<isMatrixStaticSquare<Rows, Cols>() && (Rows == 4), D>
 MatrixDenseBase<T, Rows, Cols, Derived>::makeTranslationMatrix(
     const MatrixExpression<T, R, C, E>& t) {
-    JET_ASSERT(t.cols() == 3);
+    JET_ASSERT(t.rows() == 3 && t.cols() == 1);
 
     D result = makeIdentity();
     result(0, 3) = t.eval(0, 0);

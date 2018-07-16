@@ -13,7 +13,7 @@
 
 namespace jet {
 
-template <typename T, size_t N, typename Handle>
+template <typename T, size_t N, typename Device>
 class Array;
 
 namespace internal {
@@ -72,35 +72,35 @@ struct GetSizeFromInitList<T, N, 1> {
     }
 };
 
-template <typename T, size_t N, typename Handle, size_t I>
+template <typename T, size_t N, typename Device, size_t I>
 struct SetArrayFromInitList {
-    static void call(Array<T, N, Handle>& arr,
+    static void call(Array<T, N, Device>& arr,
                      NestedInitializerListsT<T, I> lst) {
         size_t i = 0;
         for (auto subLst : lst) {
             JET_ASSERT(i < arr.size()[I - 1]);
-            SetArrayFromInitList<T, N, Handle, I - 1>::call(arr, subLst, i);
+            SetArrayFromInitList<T, N, Device, I - 1>::call(arr, subLst, i);
             ++i;
         }
     }
 
     template <typename... RemainingIndices>
-    static void call(Array<T, N, Handle>& arr,
+    static void call(Array<T, N, Device>& arr,
                      NestedInitializerListsT<T, I> lst,
                      RemainingIndices... indices) {
         size_t i = 0;
         for (auto subLst : lst) {
             JET_ASSERT(i < arr.size()[I - 1]);
-            SetArrayFromInitList<T, N, Handle, I - 1>::call(arr, subLst, i,
+            SetArrayFromInitList<T, N, Device, I - 1>::call(arr, subLst, i,
                                                             indices...);
             ++i;
         }
     }
 };
 
-template <typename T, size_t N, typename Handle>
-struct SetArrayFromInitList<T, N, Handle, 1> {
-    static void call(Array<T, N, Handle>& arr,
+template <typename T, size_t N, typename Device>
+struct SetArrayFromInitList<T, N, Device, 1> {
+    static void call(Array<T, N, Device>& arr,
                      NestedInitializerListsT<T, 1> lst) {
         size_t i = 0;
         for (auto val : lst) {
@@ -111,7 +111,7 @@ struct SetArrayFromInitList<T, N, Handle, 1> {
     }
 
     template <typename... RemainingIndices>
-    static void call(Array<T, N, Handle>& arr,
+    static void call(Array<T, N, Device>& arr,
                      NestedInitializerListsT<T, 1> lst,
                      RemainingIndices... indices) {
         size_t i = 0;
@@ -126,241 +126,242 @@ struct SetArrayFromInitList<T, N, Handle, 1> {
 }  // namespace internal
 
 // MARK: ArrayBase
-template <typename T, size_t N, typename Handle, typename Derived>
-size_t ArrayBase<T, N, Handle, Derived>::index(size_t i) const {
+template <typename T, size_t N, typename Device, typename Derived>
+size_t ArrayBase<T, N, Device, Derived>::index(size_t i) const {
     return i;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-size_t ArrayBase<T, N, Handle, Derived>::index(size_t i, Args... args) const {
+size_t ArrayBase<T, N, Device, Derived>::index(size_t i, Args... args) const {
     static_assert(sizeof...(args) == N - 1, "Invalid number of indices.");
     return i + _size[0] * _index(1, args...);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <size_t... I>
-size_t ArrayBase<T, N, Handle, Derived>::index(
+size_t ArrayBase<T, N, Device, Derived>::index(
     const Vector<size_t, N>& idx) const {
     return _index(idx, std::make_index_sequence<N>{});
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-T* ArrayBase<T, N, Handle, Derived>::data() {
+template <typename T, size_t N, typename Device, typename Derived>
+T* ArrayBase<T, N, Device, Derived>::data() {
     return _handle.data();
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-const T* ArrayBase<T, N, Handle, Derived>::data() const {
+template <typename T, size_t N, typename Device, typename Derived>
+const T* ArrayBase<T, N, Device, Derived>::data() const {
     return _handle.data();
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-const Vector<size_t, N>& ArrayBase<T, N, Handle, Derived>::size() const {
+template <typename T, size_t N, typename Device, typename Derived>
+const Vector<size_t, N>& ArrayBase<T, N, Device, Derived>::size() const {
     return _size;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <size_t M>
-std::enable_if_t<(M > 0), size_t> ArrayBase<T, N, Handle, Derived>::width()
+std::enable_if_t<(M > 0), size_t> ArrayBase<T, N, Device, Derived>::width()
     const {
     return _size[0];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <size_t M>
-std::enable_if_t<(M > 1), size_t> ArrayBase<T, N, Handle, Derived>::height()
+std::enable_if_t<(M > 1), size_t> ArrayBase<T, N, Device, Derived>::height()
     const {
     return _size[1];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <size_t M>
-std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, Handle, Derived>::depth()
+std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, Device, Derived>::depth()
     const {
     return _size[2];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-size_t ArrayBase<T, N, Handle, Derived>::length() const {
+template <typename T, size_t N, typename Device, typename Derived>
+size_t ArrayBase<T, N, Device, Derived>::length() const {
     return product<size_t, N>(_size, 1);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::iterator
-ArrayBase<T, N, Handle, Derived>::begin() {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::iterator
+ArrayBase<T, N, Device, Derived>::begin() {
     return _handle.ptr;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_iterator
-ArrayBase<T, N, Handle, Derived>::begin() const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_iterator
+ArrayBase<T, N, Device, Derived>::begin() const {
     return _handle.ptr;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::iterator
-ArrayBase<T, N, Handle, Derived>::end() {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::iterator
+ArrayBase<T, N, Device, Derived>::end() {
     return begin() + length();
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_iterator
-ArrayBase<T, N, Handle, Derived>::end() const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_iterator
+ArrayBase<T, N, Device, Derived>::end() const {
     return begin() + length();
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-Handle ArrayBase<T, N, Handle, Derived>::devicePtr() const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::MemoryHandle
+ArrayBase<T, N, Device, Derived>::handle() const {
     return _handle;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::reference
-ArrayBase<T, N, Handle, Derived>::at(size_t i) {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::reference
+ArrayBase<T, N, Device, Derived>::at(size_t i) {
     return _handle.ptr[i];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-ArrayBase<T, N, Handle, Derived>::at(size_t i) const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_reference
+ArrayBase<T, N, Device, Derived>::at(size_t i) const {
     return _handle.ptr[i];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-typename ArrayBase<T, N, Handle, Derived>::reference
-ArrayBase<T, N, Handle, Derived>::at(size_t i, Args... args) {
+typename ArrayBase<T, N, Device, Derived>::reference
+ArrayBase<T, N, Device, Derived>::at(size_t i, Args... args) {
     return _handle.ptr[index(i, args...)];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-ArrayBase<T, N, Handle, Derived>::at(size_t i, Args... args) const {
+typename ArrayBase<T, N, Device, Derived>::const_reference
+ArrayBase<T, N, Device, Derived>::at(size_t i, Args... args) const {
     return _handle.ptr[index(i, args...)];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::reference
-ArrayBase<T, N, Handle, Derived>::at(const Vector<size_t, N>& idx) {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::reference
+ArrayBase<T, N, Device, Derived>::at(const Vector<size_t, N>& idx) {
     return _handle.ptr[index(idx)];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-ArrayBase<T, N, Handle, Derived>::at(const Vector<size_t, N>& idx) const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_reference
+ArrayBase<T, N, Device, Derived>::at(const Vector<size_t, N>& idx) const {
     return _handle.ptr[index(idx)];
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::reference
-    ArrayBase<T, N, Handle, Derived>::operator[](size_t i) {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::reference
+    ArrayBase<T, N, Device, Derived>::operator[](size_t i) {
     return at(i);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-    ArrayBase<T, N, Handle, Derived>::operator[](size_t i) const {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_reference
+    ArrayBase<T, N, Device, Derived>::operator[](size_t i) const {
     return at(i);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-typename ArrayBase<T, N, Handle, Derived>::reference
-ArrayBase<T, N, Handle, Derived>::operator()(size_t i, Args... args) {
+typename ArrayBase<T, N, Device, Derived>::reference
+ArrayBase<T, N, Device, Derived>::operator()(size_t i, Args... args) {
     return at(i, args...);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-ArrayBase<T, N, Handle, Derived>::operator()(size_t i, Args... args) const {
+typename ArrayBase<T, N, Device, Derived>::const_reference
+ArrayBase<T, N, Device, Derived>::operator()(size_t i, Args... args) const {
     return at(i, args...);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::reference
-ArrayBase<T, N, Handle, Derived>::operator()(const Vector<size_t, N>& idx) {
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::reference
+ArrayBase<T, N, Device, Derived>::operator()(const Vector<size_t, N>& idx) {
     return at(idx);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-typename ArrayBase<T, N, Handle, Derived>::const_reference
-ArrayBase<T, N, Handle, Derived>::operator()(
+template <typename T, size_t N, typename Device, typename Derived>
+typename ArrayBase<T, N, Device, Derived>::const_reference
+ArrayBase<T, N, Device, Derived>::operator()(
     const Vector<size_t, N>& idx) const {
     return at(idx);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-ArrayBase<T, N, Handle, Derived>::ArrayBase() : _size{} {}
+template <typename T, size_t N, typename Device, typename Derived>
+ArrayBase<T, N, Device, Derived>::ArrayBase() : _size{} {}
 
-template <typename T, size_t N, typename Handle, typename Derived>
-ArrayBase<T, N, Handle, Derived>::ArrayBase(const ArrayBase& other) {
+template <typename T, size_t N, typename Device, typename Derived>
+ArrayBase<T, N, Device, Derived>::ArrayBase(const ArrayBase& other) {
     setHandleAndSize(other._handle, other._size);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-ArrayBase<T, N, Handle, Derived>::ArrayBase(ArrayBase&& other) {
+template <typename T, size_t N, typename Device, typename Derived>
+ArrayBase<T, N, Device, Derived>::ArrayBase(ArrayBase&& other) {
     *this = std::move(other);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-void ArrayBase<T, N, Handle, Derived>::setHandleAndSize(Handle handle,
+void ArrayBase<T, N, Device, Derived>::setHandleAndSize(MemoryHandle handle,
                                                         size_t ni,
                                                         Args... args) {
     setHandleAndSize(handle, Vector<size_t, N>{ni, args...});
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-void ArrayBase<T, N, Handle, Derived>::setHandleAndSize(
-    Handle handle, Vector<size_t, N> size) {
+template <typename T, size_t N, typename Device, typename Derived>
+void ArrayBase<T, N, Device, Derived>::setHandleAndSize(
+    MemoryHandle handle, Vector<size_t, N> size) {
     _handle = handle;
     _size = size;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-void ArrayBase<T, N, Handle, Derived>::swapHandleAndSize(ArrayBase& other) {
+template <typename T, size_t N, typename Device, typename Derived>
+void ArrayBase<T, N, Device, Derived>::swapHandleAndSize(ArrayBase& other) {
     std::swap(_handle, other._handle);
     std::swap(_size, other._size);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-void ArrayBase<T, N, Handle, Derived>::clear() {
-    setHandleAndSize(Handle(), Vector<size_t, N>{});
+template <typename T, size_t N, typename Device, typename Derived>
+void ArrayBase<T, N, Device, Derived>::clear() {
+    setHandleAndSize(MemoryHandle(), Vector<size_t, N>{});
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-ArrayBase<T, N, Handle, Derived>& ArrayBase<T, N, Handle, Derived>::operator=(
+template <typename T, size_t N, typename Device, typename Derived>
+ArrayBase<T, N, Device, Derived>& ArrayBase<T, N, Device, Derived>::operator=(
     const ArrayBase& other) {
     setHandleAndSize(other._handle, other._size);
     return *this;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-ArrayBase<T, N, Handle, Derived>& ArrayBase<T, N, Handle, Derived>::operator=(
+template <typename T, size_t N, typename Device, typename Derived>
+ArrayBase<T, N, Device, Derived>& ArrayBase<T, N, Device, Derived>::operator=(
     ArrayBase&& other) {
     setHandleAndSize(other._handle, other._size);
-    other.setHandleAndSize(Handle(), Vector<size_t, N>{});
+    other.setHandleAndSize(MemoryHandle(), Vector<size_t, N>{});
     return *this;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <typename... Args>
-size_t ArrayBase<T, N, Handle, Derived>::_index(size_t d, size_t i,
+size_t ArrayBase<T, N, Device, Derived>::_index(size_t d, size_t i,
                                                 Args... args) const {
     return i + _size[d] * _index(d + 1, args...);
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
-size_t ArrayBase<T, N, Handle, Derived>::_index(size_t, size_t i) const {
+template <typename T, size_t N, typename Device, typename Derived>
+size_t ArrayBase<T, N, Device, Derived>::_index(size_t, size_t i) const {
     return i;
 }
 
-template <typename T, size_t N, typename Handle, typename Derived>
+template <typename T, size_t N, typename Device, typename Derived>
 template <size_t... I>
-size_t ArrayBase<T, N, Handle, Derived>::_index(
+size_t ArrayBase<T, N, Device, Derived>::_index(
     const Vector<size_t, N>& idx, std::index_sequence<I...>) const {
     return index(idx[I]...);
 }
@@ -368,176 +369,146 @@ size_t ArrayBase<T, N, Handle, Derived>::_index(
 // MARK: Array
 
 // CTOR
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>::Array() : Base() {}
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>::Array() : Base() {}
 
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>::Array(const Vector<size_t, N>& size_, const T& initVal)
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>::Array(const Vector<size_t, N>& size_, const T& initVal)
     : Array() {
     _data.resize(product<size_t, N>(size_, 1), initVal);
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), size_);
+    Base::setHandleAndSize(Device::handleFromContainer(_data), size_);
 }
 
-template <typename T, size_t N, typename Handle>
+template <typename T, size_t N, typename Device>
 template <typename... Args>
-Array<T, N, Handle>::Array(size_t nx, Args... args) {
-    Vector<size_t, N> size_;
+Array<T, N, Device>::Array(size_t nx, Args... args) {
+    Vector<size_t, N> newSize;
     T initVal;
-    internal::GetSizeAndInitVal<T, N, N - 1>::call(size_, initVal, nx, args...);
-    _data.resize(product<size_t, N>(size_, 1), initVal);
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), size_);
-}
+    internal::GetSizeAndInitVal<T, N, N - 1>::call(newSize, initVal, nx,
+                                                   args...);
 
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>::Array(NestedInitializerListsT<T, N> lst) {
-    Vector<size_t, N> newSize{};
-    internal::GetSizeFromInitList<T, N, N>::call(newSize, lst);
-    _data.resize(product<size_t, N>(newSize, 1));
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), newSize);
-    internal::SetArrayFromInitList<T, N, Handle, N>::call(*this, lst);
-}
-
-template <typename T, size_t N, typename Handle>
-template <size_t M>
-Array<T, N, Handle>::Array(
-    const std::enable_if_t<(M == 1), std::vector<T>>& vec) {
-    _data.resize(vec.size());
-#ifdef JET_USE_CUDA
-    thrust::copy(vec.begin(), vec.end(), begin());
-#else
-    std::copy(vec.begin(), vec.end(), begin());
-#endif
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), {vec.size()});
-}
-
-#ifdef JET_USE_CUDA
-template <typename T, size_t N, typename Handle>
-template <size_t M>
-Array<T, N, Handle>::Array(
-    const std::enable_if_t<(M == 1), thrust::device_vector<T>>& vec) {
-    _data.resize(vec.size());
-    thrust::copy(vec.begin(), vec.end(), begin());
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), {vec.size()});
-}
-
-template <typename T, size_t N, typename Handle>
-template <size_t M>
-Array<T, N, Handle>::Array(
-    const std::enable_if_t<(N == 1), thrust::host_vector<T>>& vec) {
-    _data.resize(vec.size());
-    thrust::copy(vec.begin(), vec.end(), begin());
-    Base::setHandleAndSize(Handle::handleFromContainer(_data), {vec.size()});
-}
-#endif
-
-template <typename T, size_t N, typename Handle>
-template <typename OtherHandle, typename OtherDerived>
-Array<T, N, Handle>::Array(
-    const ArrayBase<T, N, OtherHandle, OtherDerived>& other)
-    : Array() {
-    copyFrom(other);
-}
-
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>::Array(const Array& other) : Array() {
-    copyFrom(other);
-}
-
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>::Array(Array&& other) : Array() {
-    *this = std::move(other);
-}
-
-template <typename T, size_t N, typename Handle>
-template <typename OtherHandle, typename OtherDerived>
-void Array<T, N, Handle>::copyFrom(
-    const ArrayBase<T, N, OtherHandle, OtherDerived>& other) {
-    resize(other.size());
-#ifdef JET_USE_CUDA
-    thrust::copy(other.begin(), other.end(), begin());
-#else
-    std::copy(other.begin(), other.end(), begin());
-#endif
-}
-
-template <typename T, size_t N, typename Handle>
-void Array<T, N, Handle>::fill(const T& val) {
-#ifdef JET_USE_CUDA
-    thrust::fill(_data.begin(), _data.end(), val);
-#else
-    std::fill(_data.begin(), _data.end(), val);
-#endif
-}
-
-template <typename T, size_t N, typename Handle>
-void Array<T, N, Handle>::resize(Vector<size_t, N> size_, const T& initVal) {
-    Array newArray(size_, initVal);
-    Vector<size_t, N> minSize = min(_size, newArray._size);
-    // TODO: Better copy from CUDA
-    forEachIndex(minSize,
-                 [&](auto... idx) { newArray(idx...) = (*this)(idx...); });
+    Array newArray(newSize, initVal);
     *this = std::move(newArray);
 }
 
-template <typename T, size_t N, typename Handle>
-template <typename... Args>
-void Array<T, N, Handle>::resize(size_t nx, Args... args) {
-    Vector<size_t, N> size_;
-    T initVal;
-    internal::GetSizeAndInitVal<T, N, N - 1>::call(size_, initVal, nx, args...);
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>::Array(NestedInitializerListsT<T, N> lst) {
+    Vector<size_t, N> newSize;
+    internal::GetSizeFromInitList<T, N, N>::call(newSize, lst);
 
-    resize(size_, initVal);
+    Array<T, N, CpuDevice<T>> newCpuArray(newSize);
+    internal::SetArrayFromInitList<T, N, CpuDevice<T>, N>::call(newCpuArray,
+                                                                lst);
+    copyFrom(newCpuArray);
 }
 
-template <typename T, size_t N, typename Handle>
+template <typename T, size_t N, typename Device>
 template <size_t M>
-std::enable_if_t<(M == 1), void> Array<T, N, Handle>::append(const T& val) {
+Array<T, N, Device>::Array(
+    const std::enable_if_t<(M == 1), std::vector<T>>& vec) {
+    Array newArray(vec.size());
+    Device::copy(vec, newArray);
+    *this = std::move(newArray);
+}
+
+template <typename T, size_t N, typename Device>
+template <typename OtherDevice, typename OtherDerived>
+Array<T, N, Device>::Array(
+    const ArrayBase<T, N, OtherDevice, OtherDerived>& other)
+    : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>::Array(const Array& other) : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>::Array(Array&& other) : Array() {
+    *this = std::move(other);
+}
+
+template <typename T, size_t N, typename Device>
+template <typename OtherDevice, typename OtherDerived>
+void Array<T, N, Device>::copyFrom(
+    const ArrayBase<T, N, OtherDevice, OtherDerived>& other) {
+    resize(other.size());
+    Device::copy(other, *this);
+}
+
+template <typename T, size_t N, typename Device>
+void Array<T, N, Device>::fill(const T& val) {
+    Device::fill(*this, val);
+}
+
+template <typename T, size_t N, typename Device>
+void Array<T, N, Device>::resize(Vector<size_t, N> newSize, const T& initVal) {
+    Array newArray(newSize, initVal);
+    Vector<size_t, N> minSize = min(_size, newArray._size);
+    Device::copy(*this, minSize, newArray);
+    *this = std::move(newArray);
+}
+
+template <typename T, size_t N, typename Device>
+template <typename... Args>
+void Array<T, N, Device>::resize(size_t nx, Args... args) {
+    Vector<size_t, N> newSize;
+    T initVal;
+    internal::GetSizeAndInitVal<T, N, N - 1>::call(newSize, initVal, nx,
+                                                   args...);
+
+    resize(newSize, initVal);
+}
+
+template <typename T, size_t N, typename Device>
+template <size_t M>
+std::enable_if_t<(M == 1), void> Array<T, N, Device>::append(const T& val) {
     _data.push_back(val);
     Base::setHandleAndSize(_data.data(), _data.size());
 }
 
-template <typename T, size_t N, typename Handle>
-template <typename OtherHandle, typename OtherDerived, size_t M>
-std::enable_if_t<(M == 1), void> Array<T, N, Handle>::append(
-    const ArrayBase<T, N, OtherHandle, OtherDerived>& extra) {
-    _data.insert(_data.end(), extra._data.begin(), extra._data.end());
-    Base::setHandleAndSize(_data.data(), _data.size());
+template <typename T, size_t N, typename Device>
+template <typename OtherDevice, typename OtherDerived, size_t M>
+std::enable_if_t<(M == 1), void> Array<T, N, Device>::append(
+    const ArrayBase<T, N, OtherDevice, OtherDerived>& extra) {
+    size_t oldSize = length();
+    resize(oldSize + extra.length());
+    Device::copy(extra, 0, *this, oldSize);
 }
 
-template <typename T, size_t N, typename Handle>
-void Array<T, N, Handle>::clear() {
+template <typename T, size_t N, typename Device>
+void Array<T, N, Device>::clear() {
     Base::clear();
     _data.clear();
 }
 
-template <typename T, size_t N, typename Handle>
-void Array<T, N, Handle>::swap(Array& other) {
+template <typename T, size_t N, typename Device>
+void Array<T, N, Device>::swap(Array& other) {
     Base::swapHandleAndSize(other);
-    std::swap(_data, other._data);
+    _data.swap(other._data);
 }
 
-template <typename T, size_t N, typename Handle>
-ArrayView<T, N, Handle> Array<T, N, Handle>::view() {
-    return ArrayView<T, N, Handle>(*this);
+template <typename T, size_t N, typename Device>
+ArrayView<T, N, Device> Array<T, N, Device>::view() {
+    return ArrayView<T, N, Device>(*this);
 };
 
-template <typename T, size_t N, typename Handle>
-ArrayView<const T, N, Handle> Array<T, N, Handle>::view() const {
-    return ArrayView<const T, N, Handle>(*this);
+template <typename T, size_t N, typename Device>
+ArrayView<const T, N, Device> Array<T, N, Device>::view() const {
+    return ArrayView<const T, N, Device>(*this);
 };
 
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>& Array<T, N, Handle>::operator=(const Array& other) {
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>& Array<T, N, Device>::operator=(const Array& other) {
     copyFrom(other);
     return *this;
 }
 
-template <typename T, size_t N, typename Handle>
-Array<T, N, Handle>& Array<T, N, Handle>::operator=(Array&& other) {
-    _data = std::move(other._data);
-    Base::setHandleAndSize(other.devicePtr(), other.size());
-    other.setHandleAndSize(Handle(), Vector<size_t, N>{});
-
+template <typename T, size_t N, typename Device>
+Array<T, N, Device>& Array<T, N, Device>::operator=(Array&& other) {
+    swap(other);
+    other.clear();
     return *this;
 }
 

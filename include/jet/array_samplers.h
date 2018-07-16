@@ -48,7 +48,7 @@ class NearestArraySampler final {
     //! \param[in]  gridOrigin  The grid origin.
     //!
     explicit NearestArraySampler(
-        const ArrayView<const T, N, CpuMemory<T>>& view,
+        const ArrayView<const T, N, CpuDevice<T>>& view,
         const VectorType& gridSpacing, const VectorType& gridOrigin);
 
     //! Copy constructor.
@@ -64,7 +64,7 @@ class NearestArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N, CpuMemory<T>> _view;
+    ArrayView<const T, N, CpuDevice<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;
@@ -113,7 +113,7 @@ class LinearArraySampler final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit LinearArraySampler(const ArrayView<const T, N, CpuMemory<T>>& view,
+    explicit LinearArraySampler(const ArrayView<const T, N, CpuDevice<T>>& view,
                                 const VectorType& gridSpacing,
                                 const VectorType& gridOrigin);
 
@@ -140,7 +140,7 @@ class LinearArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N, CpuMemory<T>> _view;
+    ArrayView<const T, N, CpuDevice<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;
@@ -187,7 +187,7 @@ class CubicArraySampler final {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  gridOrigin  The grid origin.
     //!
-    explicit CubicArraySampler(const ArrayView<const T, N, CpuMemory<T>>& view,
+    explicit CubicArraySampler(const ArrayView<const T, N, CpuDevice<T>>& view,
                                const VectorType& gridSpacing,
                                const VectorType& gridOrigin);
 
@@ -201,7 +201,7 @@ class CubicArraySampler final {
     std::function<T(const VectorType&)> functor() const;
 
  private:
-    ArrayView<const T, N, CpuMemory<T>> _view;
+    ArrayView<const T, N, CpuDevice<T>> _view;
     VectorType _gridSpacing;
     VectorType _invGridSpacing;
     VectorType _gridOrigin;

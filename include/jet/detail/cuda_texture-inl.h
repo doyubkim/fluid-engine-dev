@@ -18,12 +18,14 @@ template <typename T, size_t N, typename Derived>
 CudaTexture<T, N, Derived>::CudaTexture() {}
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(const ConstArrayView<T, N>& view) {
+CudaTexture<T, N, Derived>::CudaTexture(
+    const ArrayView<const T, N, CpuDevice<T>>& view) {
     set(view);
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(const ConstCudaArrayView<T, N>& view) {
+CudaTexture<T, N, Derived>::CudaTexture(
+    const ArrayView<const T, N, CudaDevice<T>>& view) {
     set(view);
 }
 
@@ -58,12 +60,12 @@ void CudaTexture<T, N, Derived>::clear() {
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const ConstArrayView<T, N>& view) {
+void CudaTexture<T, N, Derived>::set(const ArrayView<const T, N, CpuDevice<T>>& view) {
     static_cast<Derived*>(this)->_set(view, cudaMemcpyHostToDevice);
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const ConstCudaArrayView<T, N>& view) {
+void CudaTexture<T, N, Derived>::set(const ArrayView<const T, N, CudaDevice<T>>& view) {
     static_cast<Derived*>(this)->_set(view, cudaMemcpyDeviceToDevice);
 }
 
@@ -117,10 +119,10 @@ template <typename T>
 CudaTexture1<T>::CudaTexture1() : Base() {}
 
 template <typename T>
-CudaTexture1<T>::CudaTexture1(const ConstArrayView<T, 1>& view) : Base(view) {}
+CudaTexture1<T>::CudaTexture1(const ConstArrayView1<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture1<T>::CudaTexture1(const ConstCudaArrayView<T, 1>& view)
+CudaTexture1<T>::CudaTexture1(const NewConstCudaArrayView1<T>& view)
     : Base(view) {}
 
 template <typename T>
@@ -168,13 +170,13 @@ template <typename View>
 void CudaTexture1<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
     resize(Vector1UZ(view.size()));
 
-    if (view.size() == 0) {
+    if (view.length() == 0) {
         return;
     }
 
     // Copy to device memory to CUDA array
     checkResult(cudaMemcpyToArray(_array, 0, 0, view.data(),
-                                  sizeof(T) * view.size(), memcpyKind));
+                                  sizeof(T) * view.length(), memcpyKind));
 
     // Create texture
     _tex = createTexture(_array, cudaFilterModeLinear, false);
@@ -203,10 +205,10 @@ template <typename T>
 CudaTexture2<T>::CudaTexture2() : Base() {}
 
 template <typename T>
-CudaTexture2<T>::CudaTexture2(const ConstArrayView<T, 2>& view) : Base(view) {}
+CudaTexture2<T>::CudaTexture2(const ConstArrayView2<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture2<T>::CudaTexture2(const ConstCudaArrayView<T, 2>& view)
+CudaTexture2<T>::CudaTexture2(const NewConstCudaArrayView2<T>& view)
     : Base(view) {}
 
 template <typename T>
@@ -308,10 +310,10 @@ template <typename T>
 CudaTexture3<T>::CudaTexture3() : Base() {}
 
 template <typename T>
-CudaTexture3<T>::CudaTexture3(const ConstArrayView<T, 3>& view) : Base(view) {}
+CudaTexture3<T>::CudaTexture3(const ConstArrayView3<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture3<T>::CudaTexture3(const ConstCudaArrayView<T, 3>& view)
+CudaTexture3<T>::CudaTexture3(const NewConstCudaArrayView3<T>& view)
     : Base(view) {}
 
 template <typename T>

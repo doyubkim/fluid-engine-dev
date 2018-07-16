@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array.h>
-#include <jet/array_view.h>
+#include <jet/_cuda_array.h>
+#include <jet/_cuda_array_view.h>
 
 #include <gtest/gtest.h>
 
@@ -64,7 +64,7 @@ TEST(NewCudaArray1, Constructors) {
     for (size_t i = 0; i < arr8.length(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr8[i]);
     }
-
+/*
     NewCudaArray1<float> arr4(makeVector({1.0f, 2.0f, 3.0f}));
     EXPECT_EQ(3u, arr4.length());
     for (size_t i = 0; i < arr4.length(); ++i) {
@@ -77,11 +77,11 @@ TEST(NewCudaArray1, Constructors) {
     for (size_t i = 0; i < arr5.length(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr5[i]);
     }
-
-    NewCudaArray1<float> arr6(arr5);
+*/
+    NewCudaArray1<float> arr6(arr8);
     EXPECT_EQ(3u, arr6.length());
-    for (size_t i = 0; i < arr5.length(); ++i) {
-        EXPECT_FLOAT_EQ(arr5[i], arr6[i]);
+    for (size_t i = 0; i < arr8.length(); ++i) {
+        EXPECT_FLOAT_EQ(arr8[i], arr6[i]);
     }
 
     NewCudaArray1<float> arr7 = std::move(arr6);
@@ -92,12 +92,39 @@ TEST(NewCudaArray1, Constructors) {
     }
 }
 
+TEST(NewCudaArray1, Append) {
+    // Cuda + Cuda
+    {
+        NewCudaArray1<float> arr1({ 1.0f, 2.0f, 3.0f });
+        NewCudaArray1<float> arr2({ 4.0f, 5.0f });
+        arr1.append(arr2);
+        EXPECT_EQ(5u, arr1.length());
+        for (size_t i = 0; i < arr1.length(); ++i) {
+            float a = arr1[i];
+            EXPECT_FLOAT_EQ(1.0f + i, arr1[i]);
+        }
+    }
+
+    // Cuda + Cpu
+    {
+        NewCudaArray1<float> arr1({ 1.0f, 2.0f, 3.0f });
+        Array1<float> arr2({ 4.0f, 5.0f });
+        arr1.append(arr2);
+        EXPECT_EQ(5u, arr1.length());
+        for (size_t i = 0; i < arr1.length(); ++i) {
+            float a = arr1[i];
+            EXPECT_FLOAT_EQ(1.0f + i, arr1[i]);
+        }
+    }
+}
+
 TEST(NewCudaArray1, View) {
     NewCudaArray1<float> arr(15, 3.14f);
     NewCudaArrayView1<float> view = arr.view();
     EXPECT_EQ(15u, view.length());
     EXPECT_EQ(arr.data(), view.data());
     for (size_t i = 0; i < 15; ++i) {
-        EXPECT_FLOAT_EQ(3.14f, view[i]);
+        float val = arr.handle().ptr[i];
+        EXPECT_FLOAT_EQ(3.14f, val);
     }
 }
