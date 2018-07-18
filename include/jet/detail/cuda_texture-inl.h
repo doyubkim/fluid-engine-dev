@@ -60,18 +60,20 @@ void CudaTexture<T, N, Derived>::clear() {
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const ArrayView<const T, N, CpuDevice<T>>& view) {
-    static_cast<Derived*>(this)->_set(view, cudaMemcpyHostToDevice);
+void CudaTexture<T, N, Derived>::set(
+    const ArrayView<const T, N, CpuDevice<T>>& view) {
+    static_cast<Derived*>(this)->set(view, cudaMemcpyHostToDevice);
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const ArrayView<const T, N, CudaDevice<T>>& view) {
-    static_cast<Derived*>(this)->_set(view, cudaMemcpyDeviceToDevice);
+void CudaTexture<T, N, Derived>::set(
+    const ArrayView<const T, N, CudaDevice<T>>& view) {
+    static_cast<Derived*>(this)->set(view, cudaMemcpyDeviceToDevice);
 }
 
 template <typename T, size_t N, typename Derived>
 void CudaTexture<T, N, Derived>::set(const Derived& other) {
-    static_cast<Derived*>(this)->_set(other);
+    static_cast<Derived*>(this)->set(other);
 }
 
 template <typename T, size_t N, typename Derived>
@@ -167,7 +169,7 @@ void CudaTexture1<T>::resize(const Vector1UZ& size) {
 
 template <typename T>
 template <typename View>
-void CudaTexture1<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
+void CudaTexture1<T>::set(const View& view, cudaMemcpyKind memcpyKind) {
     resize(Vector1UZ(view.size()));
 
     if (view.length() == 0) {
@@ -183,7 +185,7 @@ void CudaTexture1<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
 }
 
 template <typename T>
-void CudaTexture1<T>::_set(const CudaTexture1& other) {
+void CudaTexture1<T>::set(const CudaTexture1& other) {
     resize(other._size);
 
     if (other._size[0] == 0) {
@@ -264,7 +266,7 @@ void CudaTexture2<T>::resize(const Vector2UZ& size) {
 
 template <typename T>
 template <typename View>
-void CudaTexture2<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
+void CudaTexture2<T>::set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
     resize(Vector2UZ{view.width(), view.height()});
 
@@ -282,7 +284,7 @@ void CudaTexture2<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
 }
 
 template <typename T>
-void CudaTexture2<T>::_set(const CudaTexture2& other) {
+void CudaTexture2<T>::set(const CudaTexture2& other) {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
     resize(other._size);
 
@@ -377,7 +379,7 @@ void CudaTexture3<T>::resize(const Vector3UZ& size) {
 
 template <typename T>
 template <typename View>
-void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
+void CudaTexture3<T>::set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
     Vector3UZ size{view.width(), view.height(), view.depth()};
     resize(size);
@@ -401,7 +403,7 @@ void CudaTexture3<T>::_set(const View& view, cudaMemcpyKind memcpyKind) {
 }
 
 template <typename T>
-void CudaTexture3<T>::_set(const CudaTexture3& other) {
+void CudaTexture3<T>::set(const CudaTexture3& other) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
     Vector3UZ size{other.width(), other.height(), other.depth()};
     resize(size);

@@ -155,6 +155,8 @@ struct CudaDevice {
 template <typename T, size_t N, typename Derived>
 class ArrayBase<T, N, CudaDevice<T>, Derived> {
  public:
+    using Device = CudaDevice<T>;
+
     using value_type = T;
     using reference = typename Device::reference;
     using const_reference = typename Device::const_reference;
@@ -165,15 +167,15 @@ class ArrayBase<T, N, CudaDevice<T>, Derived> {
 
     using MemoryHandle = typename Device::MemoryHandle;
 
-    __host__ virtual ~ArrayBase() = default;
+    virtual ~ArrayBase() = default;
 
     __host__ __device__ size_t index(size_t i) const;
 
-    __host__ __device__ template <typename... Args>
-    size_t index(size_t i, Args... args) const;
+    template <typename... Args>
+    __host__ __device__ size_t index(size_t i, Args... args) const;
 
-    __host__ __device__ template <size_t... I>
-    size_t index(const thrust::array<size_t, N>& idx) const;
+    template <size_t... I>
+    __host__ __device__ size_t index(const thrust::array<size_t, N>& idx) const;
 
     __host__ __device__ T* data();
 
@@ -273,90 +275,76 @@ class ArrayBase<T, N, CudaDevice<T>, Derived> {
 // MARK: Array Specialized for CUDA
 
 template <typename T, size_t N>
-class Array<T, N, CudaDevice<T>> final : public ArrayBase<T, N, CudaDevice<T>>,
-                                         Array<T, N, CudaDevice<T>>>> {
-    using Base = ArrayBase<T, N, CudaDevice<T>>, Array<T, N, CudaDevice<T>>>> ;
+class Array<T, N, CudaDevice<T>> final
+    : public ArrayBase<T, N, CudaDevice<T>, Array<T, N, CudaDevice<T>>> {
+    using Device = CudaDevice<T>;
+    using Base = ArrayBase<T, N, Device, Array<T, N, Device>>;
 
     using Base::_size;
-    using Base::at;
-    using Base::clear;
     using Base::setHandleAndSize;
     using Base::swapHandleAndSize;
 
  public:
     using BufferType = typename Device::BufferType;
 
-    // CTOR
-    __host__
-    Array();
+    using Base::at;
+    using Base::clear;
+    using Base::length;
 
-    __host__
-    Array(const thrust::array<size_t, N>& size_, const T& initVal = T{});
+    // CTOR
+    __host__ Array();
+
+    __host__ Array(const thrust::array<size_t, N>& size_,
+                   const T& initVal = T{});
 
     template <typename... Args>
-    __host__
-    Array(size_t nx, Args... args);
+    __host__ Array(size_t nx, Args... args);
 
-    __host__
-    Array(NestedInitializerListsT<T, N> lst);
+    __host__ Array(NestedInitializerListsT<T, N> lst);
 
     template <size_t M = N>
-    __host__
-    Array(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
+    __host__ Array(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
 
     template <typename OtherDevice, typename OtherDerived>
-    __host__
-    Array(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    __host__ Array(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
 
-    __host__
-    Array(const Array& other);
+    __host__ Array(const Array& other);
 
-    __host__
-    Array(Array&& other);
+    __host__ Array(Array&& other);
 
     template <typename OtherDevice, typename OtherDerived>
-    __host__
-    void copyFrom(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    __host__ void copyFrom(
+        const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
 
-    __host__
-    void fill(const T& val);
+    __host__ void fill(const T& val);
 
     // resize
-    __host__
-    void resize(thrust::array<size_t, N> size_, const T& initVal = T{});
+    __host__ void resize(thrust::array<size_t, N> size_,
+                         const T& initVal = T{});
 
     template <typename... Args>
-    __host__
-    void resize(size_t nx, Args... args);
+    __host__ void resize(size_t nx, Args... args);
 
     template <size_t M = N>
-    __host__
-    std::enable_if_t<(M == 1), void> append(const T& val);
+    __host__ std::enable_if_t<(M == 1), void> append(const T& val);
 
     template <typename OtherDevice, typename OtherDerived, size_t M = N>
-    __host__
-    std::enable_if_t<(M == 1), void> append(
+    __host__ std::enable_if_t<(M == 1), void> append(
         const ArrayBase<T, N, OtherDevice, OtherDerived>& extra);
 
-    __host__
-    void clear();
+    __host__ void clear();
 
-    __host__
-    void swap(Array& other);
+    __host__ void swap(Array& other);
 
     // Views
-    __host__
-    ArrayView<T, N, Device> view();
+    __host__ ArrayView<T, N, Device> view();
 
-    __host__
-    ArrayView<const T, N, Device> view() const;
+    __host__ ArrayView<const T, N, Device> view() const;
 
     // Assignment Operators
-    __host__
-    Array& operator=(const Array& other);
+    __host__ Array& operator=(const Array& other);
 
-    __host__
-    Array& operator=(Array&& other);
+    __host__ Array& operator=(Array&& other);
 
  private:
     BufferType _data;

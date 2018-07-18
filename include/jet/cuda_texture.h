@@ -60,8 +60,15 @@ class CudaTexture {
 
 template <typename T>
 class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
+    using Base = CudaTexture<T, 1, CudaTexture1<T>>;
+
+    using Base::_size;
+    using Base::_array;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 1, CudaTexture1<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
@@ -77,23 +84,27 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     size_t size() const;
 
-    CudaTexture1& operator=(CudaTexture1&& other);
-
- private:
-    friend class Base;
-
     void resize(const Vector1UZ& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture1& other);
+    void set(const CudaTexture1& other);
+
+    CudaTexture1& operator=(CudaTexture1&& other);
 };
 
 template <typename T>
 class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
+    using Base = CudaTexture<T, 2, CudaTexture2<T>>;
+
+    using Base::_size;
+    using Base::_array;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 2, CudaTexture2<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
@@ -113,23 +124,27 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     size_t height() const;
 
-    CudaTexture2& operator=(CudaTexture2&& other);
-
- private:
-    friend class Base;
-
     void resize(const Vector2UZ& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture2& other);
+    void set(const CudaTexture2& other);
+
+    CudaTexture2& operator=(CudaTexture2&& other);
 };
 
 template <typename T>
 class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
+    using Base = CudaTexture<T, 3, CudaTexture3<T>>;
+
+    using Base::_size;
+    using Base::_array;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 3, CudaTexture3<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
@@ -151,17 +166,14 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     size_t depth() const;
 
-    CudaTexture3& operator=(CudaTexture3&& other);
-
- private:
-    friend class Base;
-
     void resize(const Vector3UZ& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture3& other);
+    void set(const CudaTexture3& other);
+
+    CudaTexture3& operator=(CudaTexture3&& other);
 };
 
 }  // namespace jet

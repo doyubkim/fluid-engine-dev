@@ -72,7 +72,7 @@ inline void Quaternion<T>::set(T newW, T newX, T newY, T newZ) {
 
 template <typename T>
 inline void Quaternion<T>::set(const std::initializer_list<T>& lst) {
-    assert(lst.size() == 4);
+    JET_ASSERT(lst.size() == 4);
 
     auto inputElem = lst.begin();
     w = *inputElem;

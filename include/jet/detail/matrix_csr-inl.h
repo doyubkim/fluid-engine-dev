@@ -159,7 +159,7 @@ void MatrixCsr<T>::compress(const MatrixExpression<T, R, C, E>& other,
     _nonZeros.clear();
     _columnIndices.clear();
 
-    const E& expression = other();
+    const E& expression = other.derived();
 
     for (size_t i = 0; i < numRows; ++i) {
         _rowPointers.push_back(_nonZeros.size());
@@ -470,7 +470,7 @@ template <typename T>
 template <size_t R, size_t C, typename ME>
 MatrixCsrMatrixMul<T, ME> MatrixCsr<T>::mul(
     const MatrixExpression<T, R, C, ME>& m) const {
-    return MatrixCsrMatrixMul<T, ME>(*this, m());
+    return MatrixCsrMatrixMul<T, ME>(*this, m.derived());
 }
 
 template <typename T>

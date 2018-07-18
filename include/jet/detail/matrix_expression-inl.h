@@ -27,7 +27,7 @@ constexpr size_t MatrixExpression<T, Rows, Cols, D>::cols() const {
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 T MatrixExpression<T, Rows, Cols, D>::eval(size_t i, size_t j) const {
-    return (*this)()(i, j);
+    return derived()(i, j);
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
@@ -229,55 +229,55 @@ template <size_t R, size_t C, typename E>
 T MatrixExpression<T, Rows, Cols, D>::distanceSquaredTo(
     const MatrixExpression<T, R, C, E>& other) const {
     JET_ASSERT(cols() == 1);
-    return D((*this)() - other()).normSquared();
+    return D(derived() - other.derived()).normSquared();
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixScalarElemWiseDiv<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::normalized() const {
-    return MatrixScalarElemWiseDiv<T, Rows, Cols, const D&>{(*this)(), norm()};
+    return MatrixScalarElemWiseDiv<T, Rows, Cols, const D&>{derived(), norm()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixDiagonal<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::diagonal() const {
-    return MatrixDiagonal<T, Rows, Cols, const D&>{(*this)()};
+    return MatrixDiagonal<T, Rows, Cols, const D&>{derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixOffDiagonal<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::offDiagonal() const {
-    return MatrixOffDiagonal<T, Rows, Cols, const D&>{(*this)()};
+    return MatrixOffDiagonal<T, Rows, Cols, const D&>{derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixTri<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::strictLowerTri() const {
-    return MatrixTri<T, Rows, Cols, const D&>{(*this)(), false, true};
+    return MatrixTri<T, Rows, Cols, const D&>{derived(), false, true};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixTri<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::strictUpperTri() const {
-    return MatrixTri<T, Rows, Cols, const D&>{(*this)(), true, true};
+    return MatrixTri<T, Rows, Cols, const D&>{derived(), true, true};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixTri<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::lowerTri() const {
-    return MatrixTri<T, Rows, Cols, const D&>{(*this)(), false, false};
+    return MatrixTri<T, Rows, Cols, const D&>{derived(), false, false};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixTri<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::upperTri() const {
-    return MatrixTri<T, Rows, Cols, const D&>{(*this)(), true, false};
+    return MatrixTri<T, Rows, Cols, const D&>{derived(), true, false};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
 MatrixTranspose<T, Rows, Cols, const D&>
 MatrixExpression<T, Rows, Cols, D>::transposed() const {
-    return MatrixTranspose<T, Rows, Cols, const D&>{(*this)()};
+    return MatrixTranspose<T, Rows, Cols, const D&>{derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
@@ -291,7 +291,7 @@ template <typename T, size_t Rows, size_t Cols, typename D>
 template <typename U>
 MatrixTypeCast<T, Rows, Cols, U, const D&>
 MatrixExpression<T, Rows, Cols, D>::castTo() const {
-    return MatrixTypeCast<T, Rows, Cols, U, const D&>{(*this)()};
+    return MatrixTypeCast<T, Rows, Cols, U, const D&>{derived()};
 }
 
 //
@@ -408,12 +408,12 @@ MatrixExpression<T, Rows, Cols, D>::tangentials() const {
 //
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-D& MatrixExpression<T, Rows, Cols, D>::operator()() {
+D& MatrixExpression<T, Rows, Cols, D>::derived() {
     return static_cast<D&>(*this);
 }
 
 template <typename T, size_t Rows, size_t Cols, typename D>
-const D& MatrixExpression<T, Rows, Cols, D>::operator()() const {
+const D& MatrixExpression<T, Rows, Cols, D>::derived() const {
     return static_cast<const D&>(*this);
 }
 
@@ -477,7 +477,7 @@ std::enable_if_t<(Rows > 4 && Cols > 4) || isMatrixSizeDynamic<Rows, Cols>(), U>
 MatrixExpression<T, Rows, Cols, D>::determinant(const MatrixExpression& m) {
     // Computes inverse matrix using Gaussian elimination method.
     // https://martin-thoma.com/solving-linear-equations-with-gaussian-elimination/
-    Matrix<T, Rows, Cols> a{m()};
+    Matrix<T, Rows, Cols> a{m.derived()};
 
     T result = 1;
     for (size_t i = 0; i < m.rows(); ++i) {
@@ -686,7 +686,7 @@ void MatrixExpression<T, Rows, Cols, Derived>::inverse(
                      M>& result) {
     // Computes inverse matrix using Gaussian elimination method.
     // https://martin-thoma.com/solving-linear-equations-with-gaussian-elimination/
-    Matrix<T, Rows, Cols> a{m()};
+    Matrix<T, Rows, Cols> a{m.derived()};
 
     using ConstType = MatrixConstant<T, Rows, Cols>;
     result = MatrixDiagonal<T, Rows, Cols, ConstType>{
@@ -875,19 +875,19 @@ constexpr T MatrixUnaryOp<T, Rows, Cols, M1, UOp>::operator()(size_t i,
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto ceil(const MatrixExpression<T, Rows, Cols, M1>& a) {
-    return MatrixCeil<T, Rows, Cols, const M1&>{a()};
+    return MatrixCeil<T, Rows, Cols, const M1&>{a.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto floor(const MatrixExpression<T, Rows, Cols, M1>& a) {
-    return MatrixFloor<T, Rows, Cols, const M1&>{a()};
+    return MatrixFloor<T, Rows, Cols, const M1&>{a.derived()};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& m) {
-    return MatrixNegate<T, Rows, Cols, const M1&>{m()};
+    return MatrixNegate<T, Rows, Cols, const M1&>{m.derived()};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -919,37 +919,37 @@ constexpr T MatrixElemWiseBinaryOp<T, Rows, Cols, E1, E2, BOp>::operator()(
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseAdd<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseAdd<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseSub<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseSub<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto elemMul(const MatrixExpression<T, Rows, Cols, M1>& a,
                        const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseMul<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseMul<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto elemDiv(const MatrixExpression<T, Rows, Cols, M1>& a,
                        const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseDiv<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseDiv<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto min(const MatrixExpression<T, Rows, Cols, M1>& a,
                    const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseMin<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseMin<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1, typename M2>
 constexpr auto max(const MatrixExpression<T, Rows, Cols, M1>& a,
                    const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return MatrixElemWiseMax<T, Rows, Cols, const M1&, const M2&>{a(), b()};
+    return MatrixElemWiseMax<T, Rows, Cols, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -978,25 +978,25 @@ constexpr T MatrixScalarElemWiseBinaryOp<T, Rows, Cols, M1, BOp>::operator()(
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator+(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const T& b) {
-    return MatrixScalarElemWiseAdd<T, Rows, Cols, const M1&>{a(), b};
+    return MatrixScalarElemWiseAdd<T, Rows, Cols, const M1&>{a.derived(), b};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator-(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const T& b) {
-    return MatrixScalarElemWiseSub<T, Rows, Cols, const M1&>{a(), b};
+    return MatrixScalarElemWiseSub<T, Rows, Cols, const M1&>{a.derived(), b};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator*(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const T& b) {
-    return MatrixScalarElemWiseMul<T, Rows, Cols, const M1&>{a(), b};
+    return MatrixScalarElemWiseMul<T, Rows, Cols, const M1&>{a.derived(), b};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M1>
 constexpr auto operator/(const MatrixExpression<T, Rows, Cols, M1>& a,
                          const T& b) {
-    return MatrixScalarElemWiseDiv<T, Rows, Cols, const M1&>{a(), b};
+    return MatrixScalarElemWiseDiv<T, Rows, Cols, const M1&>{a.derived(), b};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1025,25 +1025,25 @@ constexpr T ScalarMatrixElemWiseBinaryOp<T, Rows, Cols, M2, BOp>::operator()(
 template <typename T, size_t Rows, size_t Cols, typename M2>
 constexpr auto operator+(const T& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return ScalarMatrixElemWiseAdd<T, Rows, Cols, const M2&>{a, b()};
+    return ScalarMatrixElemWiseAdd<T, Rows, Cols, const M2&>{a, b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M2>
 constexpr auto operator-(const T& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return ScalarMatrixElemWiseSub<T, Rows, Cols, const M2&>{a, b()};
+    return ScalarMatrixElemWiseSub<T, Rows, Cols, const M2&>{a, b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M2>
 constexpr auto operator*(const T& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return ScalarMatrixElemWiseMul<T, Rows, Cols, const M2&>{a, b()};
+    return ScalarMatrixElemWiseMul<T, Rows, Cols, const M2&>{a, b.derived()};
 }
 
 template <typename T, size_t Rows, size_t Cols, typename M2>
 constexpr auto operator/(const T& a,
                          const MatrixExpression<T, Rows, Cols, M2>& b) {
-    return ScalarMatrixElemWiseDiv<T, Rows, Cols, const M2&>{a, b()};
+    return ScalarMatrixElemWiseDiv<T, Rows, Cols, const M2&>{a, b.derived()};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1078,7 +1078,7 @@ auto clamp(const MatrixExpression<T, Rows, Cols, M1>& a,
     JET_ASSERT(a.rows() == low.rows() && a.rows() == high.rows());
     JET_ASSERT(a.cols() == low.cols() && a.cols() == high.cols());
     return MatrixClamp<T, Rows, Cols, const M1&, const M2&, const M3&>{
-        a(), low(), high()};
+        a.derived(), low.derived(), high.derived()};
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1111,7 +1111,7 @@ auto operator*(const MatrixExpression<T, R1, C1, M1>& a,
                const MatrixExpression<T, R2, C2, M2>& b) {
     JET_ASSERT(a.cols() == b.rows());
 
-    return MatrixMul<T, R1, C2, const M1&, const M2&>{a(), b()};
+    return MatrixMul<T, R1, C2, const M1&, const M2&>{a.derived(), b.derived()};
 }
 
 }  // namespace jet

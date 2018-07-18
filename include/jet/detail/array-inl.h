@@ -125,7 +125,9 @@ struct SetArrayFromInitList<T, N, Device, 1> {
 
 }  // namespace internal
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: ArrayBase
+
 template <typename T, size_t N, typename Device, typename Derived>
 size_t ArrayBase<T, N, Device, Derived>::index(size_t i) const {
     return i;
@@ -366,9 +368,9 @@ size_t ArrayBase<T, N, Device, Derived>::_index(
     return index(idx[I]...);
 }
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Array
 
-// CTOR
 template <typename T, size_t N, typename Device>
 Array<T, N, Device>::Array() : Base() {}
 

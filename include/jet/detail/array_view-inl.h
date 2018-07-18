@@ -12,6 +12,7 @@
 
 namespace jet {
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: ArrayView
 
 template <typename T, size_t N, typename Device>
@@ -74,6 +75,7 @@ ArrayView<T, N, Device>& ArrayView<T, N, Device>::operator=(
     return *this;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 // MARK: ConstArrayView
 
 template <typename T, size_t N, typename Device>

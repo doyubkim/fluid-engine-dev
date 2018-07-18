@@ -236,13 +236,15 @@ class Array final : public ArrayBase<T, N, Device, Array<T, N, Device>> {
     using Base = ArrayBase<T, N, Device, Array<T, N, Device>>;
 
     using Base::_size;
-    using Base::at;
-    using Base::clear;
     using Base::setHandleAndSize;
     using Base::swapHandleAndSize;
 
  public:
     using BufferType = typename Device::BufferType;
+
+    using Base::at;
+    using Base::clear;
+    using Base::length;
 
     // CTOR
     Array();

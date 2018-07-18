@@ -26,6 +26,7 @@ template <typename T, size_t N, typename Device>
 class ArrayView final
     : public ArrayBase<T, N, Device, ArrayView<T, N, Device>> {
     using Base = ArrayBase<T, N, Device, ArrayView<T, N, Device>>;
+    using MemoryHandle = typename Base::MemoryHandle;
     using Base::_size;
     using Base::at;
     using Base::setHandleAndSize;
@@ -63,6 +64,7 @@ template <typename T, size_t N, typename Device>
 class ArrayView<const T, N, Device> final
     : public ArrayBase<const T, N, Device, ArrayView<const T, N, Device>> {
     using Base = ArrayBase<const T, N, Device, ArrayView<const T, N, Device>>;
+    using MemoryHandle = typename Base::MemoryHandle;
     using Base::_size;
     using Base::setHandleAndSize;
 

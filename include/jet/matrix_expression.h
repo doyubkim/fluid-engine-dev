@@ -235,13 +235,13 @@ class MatrixExpression {
     tangentials() const;
 
     ////////////////////////////////////////////////////////////////////////////
-    // MARK: Operator Overloadings
+    // MARK: Other Helpers
 
     //! Returns actual implementation (the subclass).
-    Derived& operator()();
+    Derived& derived();
 
     //! Returns actual implementation (the subclass).
-    const Derived& operator()() const;
+    const Derived& derived() const;
 
  protected:
     // Prohibits constructing this class instance.

@@ -102,7 +102,7 @@ BoundingBoxRayIntersection<T> BoundingBox<T, N>::closestIntersection(
     T tMax = std::numeric_limits<T>::max();
     const VectorType& rayInvDir = T(1) / ray.direction;
 
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         T tNear = (lowerCorner[i] - ray.origin[i]) * rayInvDir[i];
         T tFar = (upperCorner[i] - ray.origin[i]) * rayInvDir[i];
 

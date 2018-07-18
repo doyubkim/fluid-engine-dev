@@ -61,7 +61,7 @@ class ArrayView<T, N, CudaDevice<T>> final
 
 template <typename T, size_t N>
 class ArrayView<const T, N, CudaDevice<T>> final
-    : public ArrayBase<const T, N, Device,
+    : public ArrayBase<const T, N, CudaDevice<T>,
                        ArrayView<const T, N, CudaDevice<T>>> {
     using Device = CudaDevice<T>;
     using Base = ArrayBase<const T, N, Device, ArrayView<const T, N, Device>>;

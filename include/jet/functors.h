@@ -8,6 +8,7 @@
 #define INCLUDE_JET_FUNCTORS_H_
 
 #include <functional>
+#include <limits>
 
 namespace jet {
 
