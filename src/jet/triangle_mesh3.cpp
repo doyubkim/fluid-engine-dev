@@ -9,7 +9,9 @@
 #include <jet/parallel.h>
 #include <jet/triangle_mesh3.h>
 
-#include <obj/obj_parser.hpp>
+#define TINYOBJLOADER_IMPLEMENTATION
+#define TINYOBJLOADER_USE_DOUBLE
+#include <tiny_obj_loader.h>
 
 #include <fstream>
 
@@ -250,10 +252,30 @@ void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
     invalidateBvh();
 }
 
+void TriangleMesh3::addNormalTriangle(const Point3UI& newNormalIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+
+    _normalIndices.append(newNormalIndices);
+
+    invalidateBvh();
+}
+
+void TriangleMesh3::addUvTriangle(const Point3UI& newUvIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+
+    _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
+}
+
 void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
                                            const Point3UI& newNormalIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
 
     _pointIndices.append(newPointIndices);
@@ -265,8 +287,8 @@ void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
 void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
                                              const Point3UI& newUvIndices,
                                              const Point3UI& newNormalIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _normalIndices.size());
     JET_ASSERT(_pointIndices.size() == _uvIndices.size());
     _pointIndices.append(newPointIndices);
@@ -278,8 +300,8 @@ void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
 
 void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
                                        const Point3UI& newUvIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
     JET_ASSERT(_pointIndices.size() == _uvs.size());
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
@@ -467,120 +489,89 @@ bool TriangleMesh3::writeObj(const std::string& filename) const {
 }
 
 bool TriangleMesh3::readObj(std::istream* strm) {
-    obj::obj_parser parser(obj::obj_parser::triangulate_faces |
-                           obj::obj_parser::translate_negative_indices);
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string err;
 
-    parser.info_callback([](size_t lineNumber, const std::string& message) {
-        std::cout << lineNumber << " " << message << std::endl;
-    });
-    parser.warning_callback([](size_t lineNumber, const std::string& message) {
-        std::cerr << lineNumber << " " << message << std::endl;
-    });
-    parser.error_callback([](size_t lineNumber, const std::string& message) {
-        std::cerr << lineNumber << " " << message << std::endl;
-    });
+    const bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, strm);
 
-    parser.geometric_vertex_callback(
-        [this](obj::float_type x, obj::float_type y, obj::float_type z) {
-            addPoint({x, y, z});
-        });
+    // `err` may contain warning message.
+    if (!err.empty()) {
+        JET_ERROR << err;
+        return false;
+    }
 
-    parser.texture_vertex_callback(
-        [this](obj::float_type u, obj::float_type v) {
-            addUv({u, v});
-        });
-
-    parser.vertex_normal_callback(
-        [this](obj::float_type nx, obj::float_type ny, obj::float_type nz) {
-            addNormal({nx, ny, nz});
-        });
-
-    parser.face_callbacks(
-        // triangular_face_geometric_vertices_callback_type
-        [this](obj::index_type v0, obj::index_type v1, obj::index_type v2) {
-            addPointTriangle({v0 - 1, v1 - 1, v2 - 1});
-        },
-        // triangular_face_geometric_vertices_texture_vertices_callback_type
-        [this](const obj::index_2_tuple_type& v0_vt0,
-               const obj::index_2_tuple_type& v1_vt1,
-               const obj::index_2_tuple_type& v2_vt2) {
-            addPointUvTriangle(
-                {std::get<0>(v0_vt0) - 1, std::get<0>(v1_vt1) - 1,
-                 std::get<0>(v2_vt2) - 1},
-                {std::get<1>(v0_vt0) - 1, std::get<1>(v1_vt1) - 1,
-                 std::get<1>(v2_vt2) - 1});
-        },
-        // triangular_face_geometric_vertices_vertex_normals_callback_type
-        [this](const obj::index_2_tuple_type& v0_vn0,
-               const obj::index_2_tuple_type& v1_vn1,
-               const obj::index_2_tuple_type& v2_vn2) {
-            addPointNormalTriangle(
-                {std::get<0>(v0_vn0) - 1, std::get<0>(v1_vn1) - 1,
-                 std::get<0>(v2_vn2) - 1},
-                {std::get<1>(v0_vn0) - 1, std::get<1>(v1_vn1) - 1,
-                 std::get<1>(v2_vn2) - 1});
-        },
-        // triangular_face_geometric_vertices_texture_vertices_vertex_normals...
-        [this](const obj::index_3_tuple_type& v0_vt0_vn0,
-               const obj::index_3_tuple_type& v1_vt1_vn1,
-               const obj::index_3_tuple_type& v2_vt2_vn2) {
-            addPointUvNormalTriangle(
-                {std::get<0>(v0_vt0_vn0) - 1, std::get<0>(v1_vt1_vn1) - 1,
-                 std::get<0>(v2_vt2_vn2) - 1},
-                {std::get<1>(v0_vt0_vn0) - 1, std::get<1>(v1_vt1_vn1) - 1,
-                 std::get<1>(v2_vt2_vn2) - 1},
-                {std::get<2>(v0_vt0_vn0) - 1, std::get<2>(v1_vt1_vn1) - 1,
-                 std::get<2>(v2_vt2_vn2) - 1});
-        },
-        // quadrilateral_face_geometric_vertices_callback_type
-        [](obj::index_type, obj::index_type, obj::index_type, obj::index_type) {
-        },
-        // quadrilateral_face_geometric_vertices_texture_vertices_callback_type
-        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&, const obj::index_2_tuple_type&) {},
-        // quadrilateral_face_geometric_vertices_vertex_normals_callback_type
-        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&, const obj::index_2_tuple_type&) {},
-        // quadrilateral_face_geometric_vertices_texture_vertices_vertex_norm...
-        [](const obj::index_3_tuple_type&, const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&, const obj::index_3_tuple_type&) {},
-        // polygonal_face_geometric_vertices_begin_callback_type
-        [](obj::index_type, obj::index_type, obj::index_type) {},
-        // polygonal_face_geometric_vertices_vertex_callback_type
-        [](obj::index_type) {},
-        // polygonal_face_geometric_vertices_end_callback_type
-        []() {},
-        // polygonal_face_geometric_vertices_texture_vertices_begin_callback_...
-        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&) {},
-        // polygonal_face_geometric_vertices_texture_vertices_vertex_callback...
-        [](const obj::index_2_tuple_type&) {},
-        // polygonal_face_geometric_vertices_texture_vertices_end_callback_type
-        []() {},
-        // polygonal_face_geometric_vertices_vertex_normals_begin_callback_type
-        [](const obj::index_2_tuple_type&, const obj::index_2_tuple_type&,
-           const obj::index_2_tuple_type&) {},
-        // polygonal_face_geometric_vertices_vertex_normals_vertex_callback_type
-        [](const obj::index_2_tuple_type&) {},
-        // polygonal_face_geometric_vertices_vertex_normals_end_callback_type
-        []() {},
-        // polygonal_face_geometric_vertices_texture_vertices_vertex_normals_...
-        [](const obj::index_3_tuple_type&, const obj::index_3_tuple_type&,
-           const obj::index_3_tuple_type&) {},
-        // polygonal_face_geometric_vertices_texture_vertices_vertex_normals_...
-        [](const obj::index_3_tuple_type&) {},
-        // polygonal_face_geometric_vertices_texture_vertices_vertex_normals_...
-        []() {});
-    parser.group_name_callback([](const std::string&) {});
-    parser.smoothing_group_callback([](obj::size_type) {});
-    parser.object_name_callback([](const std::string&) {});
-    parser.material_library_callback([](const std::string&) {});
-    parser.material_name_callback([](const std::string&) {});
-    parser.comment_callback([](const std::string&) {});
+    // Failed to load obj.
+    if (!ret) {
+        return false;
+    }
 
     invalidateBvh();
 
-    return parser.parse(*strm);
+    // Read vertices
+    for (size_t idx = 0; idx < attrib.vertices.size() / 3; ++idx) {
+        // Access to vertex
+        tinyobj::real_t vx = attrib.vertices[3 * idx + 0];
+        tinyobj::real_t vy = attrib.vertices[3 * idx + 1];
+        tinyobj::real_t vz = attrib.vertices[3 * idx + 2];
+
+        addPoint({vx, vy, vz});
+    }
+
+    // Read normals
+    for (size_t idx = 0; idx < attrib.normals.size() / 3; ++idx) {
+        // Access to normal
+        tinyobj::real_t vx = attrib.normals[3 * idx + 0];
+        tinyobj::real_t vy = attrib.normals[3 * idx + 1];
+        tinyobj::real_t vz = attrib.normals[3 * idx + 2];
+
+        addNormal({vx, vy, vz});
+    }
+
+    // Read UVs
+    for (size_t idx = 0; idx < attrib.texcoords.size() / 2; ++idx) {
+        // Access to UV
+        tinyobj::real_t tu = attrib.texcoords[2 * idx + 0];
+        tinyobj::real_t tv = attrib.texcoords[2 * idx + 1];
+
+        addUv({tu, tv});
+    }
+
+    // Read faces
+    for (auto& shape : shapes) {
+        size_t idx = 0;
+
+        for (size_t f = 0; f < shape.mesh.num_face_vertices.size(); ++f) {
+            const size_t fv = shape.mesh.num_face_vertices[f];
+
+            if (fv == 3) {
+                if (!attrib.vertices.empty()) {
+                    addPointTriangle(
+                        {shape.mesh.indices[idx].vertex_index,
+                         shape.mesh.indices[idx + 1].vertex_index,
+                         shape.mesh.indices[idx + 2].vertex_index});
+                }
+
+                if (!attrib.normals.empty()) {
+                    addNormalTriangle(
+                        {shape.mesh.indices[idx].normal_index,
+                         shape.mesh.indices[idx + 1].normal_index,
+                         shape.mesh.indices[idx + 2].normal_index});
+                }
+
+                if (!attrib.texcoords.empty()) {
+                    addUvTriangle({shape.mesh.indices[idx].texcoord_index,
+                                   shape.mesh.indices[idx + 1].texcoord_index,
+                                   shape.mesh.indices[idx + 2].texcoord_index});
+                }
+            }
+
+            idx += fv;
+        }
+    }
+
+    return true;
 }
 
 bool TriangleMesh3::readObj(const std::string& filename) {

@@ -17,12 +17,12 @@ RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 WORKDIR /app/ENV2
 RUN pip2 install -r ../requirements.txt && \
     pip2 install .. && \
-    python2 ../src/tests/python_tests/main.py
+    python2 -m pytest ../src/tests/python_tests/
 
 
 WORKDIR /app/ENV3
 RUN pip3 install -r ../requirements.txt && \
     pip3 install .. && \
-    python3 ../src/tests/python_tests/main.py
+    python3 -m pytest ../src/tests/python_tests/
 
 WORKDIR /

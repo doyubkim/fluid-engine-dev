@@ -8,7 +8,6 @@ third parties.
 
 import math
 import pyjet
-import unittest
 
 
 class MyPhysicsAnimation(pyjet.PhysicsAnimation):
@@ -27,21 +26,11 @@ class MyPhysicsAnimation(pyjet.PhysicsAnimation):
         self.init_data = 1
 
 
-class PhysicsAnimationTests(unittest.TestCase):
-    def testInheritance(self):
-        anim = MyPhysicsAnimation()
+def test_inheritance():
+    anim = MyPhysicsAnimation()
 
-        anim.isUsingFixedSubTimeSteps = False
-        f = pyjet.Frame(index=3, timeIntervalInSeconds=0.1)
-        anim.update(f)
-        self.assertEqual(anim.init_data, 1)
-        self.assertEqual(anim.adv_data, 20)
-
-
-def main():
-    pyjet.Logging.mute()
-    unittest.main()
-
-
-if __name__ == '__main__':
-    main()
+    anim.isUsingFixedSubTimeSteps = False
+    f = pyjet.Frame(index=3, timeIntervalInSeconds=0.1)
+    anim.update(f)
+    assert anim.init_data == 1
+    assert anim.adv_data == 20

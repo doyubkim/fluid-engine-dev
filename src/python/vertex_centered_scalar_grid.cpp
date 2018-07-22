@@ -18,9 +18,9 @@ namespace py = pybind11;
 using namespace jet;
 
 void addVertexCenteredScalarGrid2(py::module& m) {
-    py::class_<VertexCenteredScalarGrid2, VertexCenteredScalarGrid2Ptr>(
-        m, "VertexCenteredScalarGrid2",
-        R"pbdoc(
+    py::class_<VertexCenteredScalarGrid2, VertexCenteredScalarGrid2Ptr,
+               ScalarGrid2>(m, "VertexCenteredScalarGrid2",
+                            R"pbdoc(
         2-D Cell-centered scalar grid structure.
 
         This class represents 2-D cell-centered scalar grid which extends
@@ -54,7 +54,8 @@ void addVertexCenteredScalarGrid2(py::module& m) {
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid2::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &VertexCenteredScalarGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -73,9 +74,9 @@ void addVertexCenteredScalarGrid2(py::module& m) {
 }
 
 void addVertexCenteredScalarGrid3(py::module& m) {
-    py::class_<VertexCenteredScalarGrid3, VertexCenteredScalarGrid3Ptr>(
-        m, "VertexCenteredScalarGrid3",
-        R"pbdoc(
+    py::class_<VertexCenteredScalarGrid3, VertexCenteredScalarGrid3Ptr,
+               ScalarGrid3>(m, "VertexCenteredScalarGrid3",
+                            R"pbdoc(
         3-D Cell-centered scalar grid structure.
 
         This class represents 3-D cell-centered scalar grid which extends
@@ -109,7 +110,8 @@ void addVertexCenteredScalarGrid3(py::module& m) {
         .def_property_readonly(
             "dataSize", &VertexCenteredScalarGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &VertexCenteredScalarGrid3::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &VertexCenteredScalarGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 
