@@ -21,13 +21,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
-# Includes
-include_directories(include)
-include_directories(external)
-include_directories(external/pybind11/include)
-include_directories(external/googletest/googletest/include)
-include_directories(external/Clara/include)
-include_directories(src/examples)
+# Build type - Release by default
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
 
 # Configure tasking system backend
 include(cmake/TaskingSystemOptions.cmake)
@@ -35,13 +32,23 @@ include(cmake/TaskingSystemOptions.cmake)
 # Compile options
 include(cmake/CompileOptions.cmake)
 
-# Build type - Release by default
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+# Code coverage - Debug only
+# NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
+if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage unit_tests coverage)
 endif()
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
+
+# Includes
+include_directories(include)
+include_directories(external)
+include_directories(external/pybind11/include)
+include_directories(external/googletest/googletest/include)
+include_directories(external/Clara/include)
+include_directories(src/examples)
 
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)

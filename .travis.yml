@@ -68,3 +68,15 @@ before_install:
   - if [ $TRAVIS_OS_NAME == linux ]; then 
       sudo apt-get install -y --no-install-recommends lcov;
     fi
+
+after_success:
+  # Creating report - Linux and debug build only
+  - if [ $TRAVIS_OS_NAME == linux ] && [ ${BUILD_TYPE} == Debug ]; then 
+       cd ${TRAVIS_BUILD_DIR};
+       sudo ln -sf /usr/bin/gcov-7 /usr/bin/gcov;
+       lcov --directory . --capture --output-file coverage.info;
+       lcov --remove coverage.info '/usr/*' --output-file coverage.info;
+       lcov --remove coverage.info '*/external/*' --output-file coverage.info;
+       lcov --remove coverage.info '*/src/tests/*' --output-file coverage.info;
+       lcov --list coverage.info;
+    fi    
