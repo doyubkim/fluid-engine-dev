@@ -79,4 +79,4 @@ after_success:
        lcov --remove coverage.info '*/external/*' --output-file coverage.info;
        lcov --remove coverage.info '*/src/tests/*' --output-file coverage.info;
        lcov --list coverage.info;
-    fi    
+    fi
