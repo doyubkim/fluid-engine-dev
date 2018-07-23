@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#if 0
 #include <jet/array.h>
 #include <jet/array_view.h>
 
@@ -12,3 +13,4 @@
 using namespace jet;
 
 TEST(CudaArray2, Constructors) {}
+#endif

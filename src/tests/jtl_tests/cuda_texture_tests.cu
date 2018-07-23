@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#if 0
 #include <jet/_cuda_array.h>
 #include <jet/cuda_texture.h>
 
@@ -78,7 +79,7 @@ TEST(CudaTexture1, Constructors) {
 
     // Ctor with view
     NewCudaArray1<float> cudaArr1 = {1.0f, 2.0f, 3.0f, 4.0f};
-    CudaTexture1<float> cudaTex1(cudaArr1);
+    CudaTexture1<float> cudaTex1(cudaArr1.view());
     EXPECT_EQ(4u, cudaTex1.size());
     ASSERT_NE(0, cudaTex1.textureObject());
 
@@ -325,3 +326,4 @@ TEST(CudaTexture3, Constructors) {
         }
     }
 }
+#endif

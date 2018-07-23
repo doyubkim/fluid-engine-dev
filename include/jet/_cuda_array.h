@@ -62,27 +62,21 @@ struct CudaDevice {
     static void copy(const std::vector<T1, A1>& src,
                      ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
         JET_ASSERT(src.size() == dst.length());
-        thrust::copy(thrust::host_device_ptr<const T1>(src.data()),
-                     thrust::host_device_ptr<const T1>(src.data() + src.size()),
-                     dst.begin());
+        thrust::copy(src.data(), src.data() + src.size(), dst.begin());
     }
 
     template <typename T1, typename T2, size_t N, typename D1, typename D2>
     static void copy(const ArrayBase<T1, N, CpuDevice<T1>, D1>& src,
                      ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
         JET_ASSERT(src.length() == dst.length());
-        thrust::copy(
-            thrust::host_device_ptr<const T1>(src.data()),
-            thrust::host_device_ptr<const T1>(src.data() + src.length()),
-            dst.begin());
+        thrust::copy(src.data(), src.data() + src.length(), dst.begin());
     }
 
     template <typename T1, typename T2, size_t N, typename D1, typename D2>
     static void copy(const ArrayBase<T1, N, CudaDevice<T1>, D1>& src,
                      ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
         JET_ASSERT(src.length() == dst.length());
-        thrust::copy(src.begin(), src.end(),
-                     thrust::host_device_ptr<T2>(dst.data()));
+        thrust::copy(src.begin(), src.end(), dst.data());
     }
 
     template <typename T1, typename T2, size_t N, typename D1, typename D2>
@@ -123,10 +117,8 @@ struct CudaDevice {
                      ArrayBase<T2, 1, CudaDevice<T2>, D2>& dst,
                      size_t dstOffset) {
         JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
-        thrust::copy(
-            thrust::host_device_ptr<const T1>(src.data() + srcOffset),
-            thrust::host_device_ptr<const T1>(src.data() + src.length()),
-            dst.begin() + dstOffset);
+        thrust::copy(src.data() + srcOffset, src.data() + src.length(),
+                     dst.begin() + dstOffset);
     }
 
     template <typename T1, typename T2, typename D1, typename D2>
@@ -135,7 +127,7 @@ struct CudaDevice {
                      size_t dstOffset) {
         JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
         thrust::copy(src.begin() + srcOffset, src.end(),
-                     thrust::host_device_ptr<T2>(dst.data() + dstOffset));
+                     dst.data() + dstOffset);
     }
 
     template <typename T1, typename T2, typename D1, typename D2>
@@ -342,6 +334,9 @@ class Array<T, N, CudaDevice<T>> final
     __host__ ArrayView<const T, N, Device> view() const;
 
     // Assignment Operators
+    template <typename OtherDevice, typename OtherDerived>
+    __host__ Array& operator=(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+
     __host__ Array& operator=(const Array& other);
 
     __host__ Array& operator=(Array&& other);

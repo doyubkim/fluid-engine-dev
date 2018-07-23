@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#if 0
 #include <jet/_cuda_array.h>
 #include <jet/_cuda_array_view.h>
 
@@ -64,20 +65,20 @@ TEST(NewCudaArray1, Constructors) {
     for (size_t i = 0; i < arr8.length(); ++i) {
         EXPECT_FLOAT_EQ(1.0f + i, arr8[i]);
     }
-/*
-    NewCudaArray1<float> arr4(makeVector({1.0f, 2.0f, 3.0f}));
-    EXPECT_EQ(3u, arr4.length());
-    for (size_t i = 0; i < arr4.length(); ++i) {
-        EXPECT_FLOAT_EQ(1.0f + i, arr4[i]);
-    }
+    /*
+        NewCudaArray1<float> arr4(makeVector({1.0f, 2.0f, 3.0f}));
+        EXPECT_EQ(3u, arr4.length());
+        for (size_t i = 0; i < arr4.length(); ++i) {
+            EXPECT_FLOAT_EQ(1.0f + i, arr4[i]);
+        }
 
-    NewCudaArray1<float> arr5(
-        thrust::device_vector<float>(makeVector({1.0f, 2.0f, 3.0f})));
-    EXPECT_EQ(3u, arr5.length());
-    for (size_t i = 0; i < arr5.length(); ++i) {
-        EXPECT_FLOAT_EQ(1.0f + i, arr5[i]);
-    }
-*/
+        NewCudaArray1<float> arr5(
+            thrust::device_vector<float>(makeVector({1.0f, 2.0f, 3.0f})));
+        EXPECT_EQ(3u, arr5.length());
+        for (size_t i = 0; i < arr5.length(); ++i) {
+            EXPECT_FLOAT_EQ(1.0f + i, arr5[i]);
+        }
+    */
     NewCudaArray1<float> arr6(arr8);
     EXPECT_EQ(3u, arr6.length());
     for (size_t i = 0; i < arr8.length(); ++i) {
@@ -93,10 +94,22 @@ TEST(NewCudaArray1, Constructors) {
 }
 
 TEST(NewCudaArray1, Append) {
+    // Cuda + scalar
+    {
+        NewCudaArray1<float> arr1({1.0f, 2.0f, 3.0f});
+        arr1.append(4.0f);
+        arr1.append(5.0f);
+        EXPECT_EQ(5u, arr1.length());
+        for (size_t i = 0; i < arr1.length(); ++i) {
+            float a = arr1[i];
+            EXPECT_FLOAT_EQ(1.0f + i, arr1[i]);
+        }
+    }
+
     // Cuda + Cuda
     {
-        NewCudaArray1<float> arr1({ 1.0f, 2.0f, 3.0f });
-        NewCudaArray1<float> arr2({ 4.0f, 5.0f });
+        NewCudaArray1<float> arr1({1.0f, 2.0f, 3.0f});
+        NewCudaArray1<float> arr2({4.0f, 5.0f});
         arr1.append(arr2);
         EXPECT_EQ(5u, arr1.length());
         for (size_t i = 0; i < arr1.length(); ++i) {
@@ -107,8 +120,8 @@ TEST(NewCudaArray1, Append) {
 
     // Cuda + Cpu
     {
-        NewCudaArray1<float> arr1({ 1.0f, 2.0f, 3.0f });
-        Array1<float> arr2({ 4.0f, 5.0f });
+        NewCudaArray1<float> arr1({1.0f, 2.0f, 3.0f});
+        Array1<float> arr2({4.0f, 5.0f});
         arr1.append(arr2);
         EXPECT_EQ(5u, arr1.length());
         for (size_t i = 0; i < arr1.length(); ++i) {
@@ -128,3 +141,4 @@ TEST(NewCudaArray1, View) {
         EXPECT_FLOAT_EQ(3.14f, val);
     }
 }
+#endif

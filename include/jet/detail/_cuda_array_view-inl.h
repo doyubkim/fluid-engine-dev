@@ -22,7 +22,7 @@ ArrayView<T, N, CudaDevice<T>>::ArrayView() : Base() {}
 
 template <typename T, size_t N>
 ArrayView<T, N, CudaDevice<T>>::ArrayView(T* ptr,
-                                          const Vector<size_t, N>& size_)
+                                          const thrust::array<size_t, N>& size_)
     : ArrayView() {
     Base::setHandleAndSize(MemoryHandle(ptr), size_);
 }
@@ -31,7 +31,7 @@ template <typename T, size_t N>
 template <size_t M>
 ArrayView<T, N, CudaDevice<T>>::ArrayView(
     typename std::enable_if<(M == 1), T>::type* ptr, size_t size_)
-    : ArrayView(ptr, Vector<size_t, N>{size_}) {}
+    : ArrayView(ptr, thrust::array<size_t, N>{size_}) {}
 
 template <typename T, size_t N>
 ArrayView<T, N, CudaDevice<T>>::ArrayView(Array<T, N, CudaDevice<T>>& other)
@@ -76,7 +76,7 @@ template <typename T, size_t N>
 ArrayView<T, N, CudaDevice<T>>& ArrayView<T, N, CudaDevice<T>>::operator=(
     ArrayView&& other) noexcept {
     Base::setHandleAndSize(other.data(), other.size());
-    other.setHandleAndSize(MemoryHandle(), Vector<size_t, N>{});
+    other.setHandleAndSize(MemoryHandle(), thrust::array<size_t, N>{});
     return *this;
 }
 
@@ -87,8 +87,8 @@ template <typename T, size_t N>
 ArrayView<const T, N, CudaDevice<T>>::ArrayView() : Base() {}
 
 template <typename T, size_t N>
-ArrayView<const T, N, CudaDevice<T>>::ArrayView(const T* ptr,
-                                                const Vector<size_t, N>& size_)
+ArrayView<const T, N, CudaDevice<T>>::ArrayView(
+    const T* ptr, const thrust::array<size_t, N>& size_)
     : ArrayView() {
     Base::setHandleAndSize(MemoryHandle(ptr), size_);
 }
@@ -97,7 +97,7 @@ template <typename T, size_t N>
 template <size_t M>
 ArrayView<const T, N, CudaDevice<T>>::ArrayView(
     const typename std::enable_if<(M == 1), T>::type* ptr, size_t size_)
-    : ArrayView(ptr, Vector<size_t, N>{size_}) {}
+    : ArrayView(ptr, thrust::array<size_t, N>{size_}) {}
 
 template <typename T, size_t N>
 ArrayView<const T, N, CudaDevice<T>>::ArrayView(
@@ -158,7 +158,7 @@ template <typename T, size_t N>
 ArrayView<const T, N, CudaDevice<T>>& ArrayView<const T, N, CudaDevice<T>>::
 operator=(ArrayView&& other) noexcept {
     Base::setHandleAndSize(other.data(), other.size());
-    other.setHandleAndSize(MemoryHandle(), Vector<size_t, N>{});
+    other.setHandleAndSize(MemoryHandle(), thrust::array<size_t, N>{});
     return *this;
 }
 

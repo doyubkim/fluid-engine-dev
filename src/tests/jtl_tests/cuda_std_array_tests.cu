@@ -4,22 +4,22 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cuda_thrust_utils.h>
+#include <jet/cuda_std_array.h>
 
 #include <gtest/gtest.h>
 
-using namespace thrust;
+using namespace jet;
 
-TEST(ThrustArray, Constructors) {
+TEST(CudaStdArray, Constructors) {
     {
-        array<int, 3> a;
+        CudaStdArray<int, 3> a;
         EXPECT_EQ(a[0], 0);
         EXPECT_EQ(a[1], 0);
         EXPECT_EQ(a[2], 0);
     }
 
     {
-        array<int, 3> a(1, 2, 3);
+        CudaStdArray<int, 3> a(1, 2, 3);
         EXPECT_EQ(a[0], 1);
         EXPECT_EQ(a[1], 2);
         EXPECT_EQ(a[2], 3);
@@ -27,7 +27,7 @@ TEST(ThrustArray, Constructors) {
 
     {
         std::array<int, 3> a = {1, 2, 3};
-        array<int, 3> b(a);
+        CudaStdArray<int, 3> b(a);
         EXPECT_EQ(b[0], 1);
         EXPECT_EQ(b[1], 2);
         EXPECT_EQ(b[2], 3);
@@ -35,15 +35,15 @@ TEST(ThrustArray, Constructors) {
 
     {
         jet::Vector<int, 3> a(1, 2, 3);
-        array<int, 3> b(a);
+        CudaStdArray<int, 3> b(a);
         EXPECT_EQ(b[0], 1);
         EXPECT_EQ(b[1], 2);
         EXPECT_EQ(b[2], 3);
     }
 }
 
-TEST(ThrustArray, Fill) {
-    array<int, 3> a;
+TEST(CudaStdArray, Fill) {
+    CudaStdArray<int, 3> a;
     a.fill(5);
     EXPECT_EQ(a[0], 5);
     EXPECT_EQ(a[1], 5);

@@ -130,6 +130,8 @@ using NewConstCudaArrayView4 = ArrayView<const T, 4, CudaDevice<T>>;
 
 }  // namespace jet
 
+#include <jet/detail/_cuda_array_view-inl.h>
+
 #endif  // JET_USE_CUDA
 
 #endif  // INCLUDE_JET_CUDA_ARRAY_VIEW_H_
