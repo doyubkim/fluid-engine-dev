@@ -34,7 +34,7 @@ include(cmake/CompileOptions.cmake)
 
 # Code coverage - Debug only
 # NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
-if(CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX)
     include(CodeCoverage)
     setup_target_for_coverage(${PROJECT_NAME}_coverage unit_tests coverage)
 endif()
