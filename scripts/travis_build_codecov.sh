@@ -4,6 +4,8 @@ set -e
 
 export NUM_JOBS=1
 
+sudo apt-get install -yq lcov
+
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug
