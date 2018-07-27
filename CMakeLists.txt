@@ -21,6 +21,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
+# Includes
+include_directories(include)
+include_directories(external)
+include_directories(external/pybind11/include)
+include_directories(external/googletest/googletest/include)
+include_directories(external/Clara/include)
+include_directories(external/tinyobj)
+include_directories(src/examples)
+
 # Build type - Release by default
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -41,15 +50,6 @@ endif()
 
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
-
-# Includes
-include_directories(include)
-include_directories(external)
-include_directories(external/pybind11/include)
-include_directories(external/googletest/googletest/include)
-include_directories(external/Clara/include)
-include_directories(external/tinyobj)
-include_directories(src/examples)
 
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
