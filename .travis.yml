@@ -9,6 +9,13 @@ matrix:
       compiler: gcc
       script:
         - sh scripts/travis_build.sh
+    # Test Ubuntu 14.04 + gcc + codecov
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      script:
+        - sh scripts/travis_build_codecov.sh
     # Test Docker based on Ubuntu 14.04 LTS + gcc
     - os: linux
       dist: trusty
