@@ -68,6 +68,22 @@ typename CudaStdArray<T, N>::const_reference CudaStdArray<T, N>::operator[](
 }
 
 template <typename T, size_t N>
+bool CudaStdArray<T, N>::operator==(const CudaStdArray& other) const {
+    for (size_t i = 0; i < N; ++i) {
+        if (_elements[i] != other._elements[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T, size_t N>
+bool CudaStdArray<T, N>::operator!=(const CudaStdArray& other) const {
+    return !(*this == other);
+}
+
+template <typename T, size_t N>
 template <typename... Args>
 void CudaStdArray<T, N>::setAt(size_t i, const_reference first, Args... rest) {
     _elements[i] = first;

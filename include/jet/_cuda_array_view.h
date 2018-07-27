@@ -14,119 +14,116 @@
 namespace jet {
 
 ////////////////////////////////////////////////////////////////////////////////
-// MARK: ArrayView Specialization for CUDA
+// MARK: CudaArrayView
 
 template <typename T, size_t N>
-class ArrayView<T, N, CudaDevice<T>> final
-    : public ArrayBase<T, N, CudaDevice<T>, ArrayView<T, N, CudaDevice<T>>> {
-    using Device = CudaDevice<T>;
-    using Base = ArrayBase<T, N, Device, ArrayView<T, N, Device>>;
+class CudaArrayView final : public CudaArrayBase<T, N, CudaArrayView<T, N>> {
+    using Base = CudaArrayBase<T, N, CudaArrayView<T, N>>;
     using Base::_size;
     using Base::at;
-    using Base::setHandleAndSize;
+    using Base::setPtrAndSize;
 
  public:
-    // CTOR
-    __host__ __device__ ArrayView();
+    using Base::data;
 
-    __host__ __device__ ArrayView(T* ptr,
-                                  const thrust::array<size_t, N>& size_);
+    // CTOR
+    CudaArrayView();
+
+    CudaArrayView(T* ptr, const CudaStdArray<size_t, N>& size_);
 
     template <size_t M = N>
-    __host__ __device__
-    ArrayView(typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
+    CudaArrayView(typename std::enable_if<(M == 1), T>::type* ptr,
+                  size_t size_);
 
-    __host__ __device__ ArrayView(Array<T, N, Device>& other);
+    CudaArrayView(CudaArray<T, N>& other);
 
-    __host__ __device__ ArrayView(const ArrayView& other);
+    CudaArrayView(const CudaArrayView& other);
 
-    __host__ __device__ ArrayView(ArrayView&& other) noexcept;
+    CudaArrayView(CudaArrayView&& other) noexcept;
 
     // set
 
-    __host__ __device__ void set(Array<T, N, Device>& other);
+    void set(CudaArray<T, N>& other);
 
-    __host__ __device__ void set(const ArrayView& other);
+    void set(const CudaArrayView& other);
 
-    __host__ void fill(const T& val);
+    void fill(const T& val);
 
     // Assignment Operators
-    __host__ __device__ ArrayView& operator=(const ArrayView& other);
+    CudaArrayView& operator=(const CudaArrayView& other);
 
-    __host__ __device__ ArrayView& operator=(ArrayView&& other) noexcept;
+    CudaArrayView& operator=(CudaArrayView&& other) noexcept;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// MARK: Immutable ArrayView Specialization for CUDA
+// MARK: Immutable CudaArrayView Specialization for CUDA
 
 template <typename T, size_t N>
-class ArrayView<const T, N, CudaDevice<T>> final
-    : public ArrayBase<const T, N, CudaDevice<T>,
-                       ArrayView<const T, N, CudaDevice<T>>> {
-    using Device = CudaDevice<T>;
-    using Base = ArrayBase<const T, N, Device, ArrayView<const T, N, Device>>;
+class CudaArrayView<const T, N> final
+    : public CudaArrayBase<const T, N, CudaArrayView<const T, N>> {
+    using Base = CudaArrayBase<const T, N, CudaArrayView<const T, N>>;
     using Base::_size;
-    using Base::setHandleAndSize;
+    using Base::setPtrAndSize;
 
  public:
-    // CTOR
-    __host__ __device__ ArrayView();
+    using Base::data;
 
-    __host__ __device__ ArrayView(const T* ptr,
-                                  const thrust::array<size_t, N>& size_);
+    // CTOR
+    CudaArrayView();
+
+    CudaArrayView(const T* ptr, const CudaStdArray<size_t, N>& size_);
 
     template <size_t M = N>
-    __host__ __device__ ArrayView(
-        const typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
+    CudaArrayView(const typename std::enable_if<(M == 1), T>::type* ptr,
+                  size_t size_);
 
-    __host__ __device__ ArrayView(const Array<T, N, Device>& other);
+    CudaArrayView(const CudaArray<T, N>& other);
 
-    __host__ __device__ ArrayView(const ArrayView<T, N, Device>& other);
+    CudaArrayView(const CudaArrayView<T, N>& other);
 
-    __host__ __device__ ArrayView(const ArrayView& other);
+    CudaArrayView(const CudaArrayView& other);
 
-    __host__ __device__ ArrayView(ArrayView&&) noexcept;
+    CudaArrayView(CudaArrayView&&) noexcept;
 
     // set
 
-    __host__ __device__ void set(const Array<T, N, Device>& other);
+    void set(const CudaArray<T, N>& other);
 
-    __host__ __device__ void set(const ArrayView<T, N, Device>& other);
+    void set(const CudaArrayView<T, N>& other);
 
-    __host__ __device__ void set(const ArrayView& other);
+    void set(const CudaArrayView& other);
 
     // Assignment Operators
-    __host__ __device__ ArrayView& operator=(
-        const ArrayView<T, N, Device>& other);
+    CudaArrayView& operator=(const CudaArrayView<T, N>& other);
 
-    __host__ __device__ ArrayView& operator=(const ArrayView& other);
+    CudaArrayView& operator=(const CudaArrayView& other);
 
-    __host__ __device__ ArrayView& operator=(ArrayView&& other) noexcept;
+    CudaArrayView& operator=(CudaArrayView&& other) noexcept;
 };
 
 template <class T>
-using NewCudaArrayView1 = ArrayView<T, 1, CudaDevice<T>>;
+using NewCudaArrayView1 = CudaArrayView<T, 1>;
 
 template <class T>
-using NewCudaArrayView2 = ArrayView<T, 2, CudaDevice<T>>;
+using NewCudaArrayView2 = CudaArrayView<T, 2>;
 
 template <class T>
-using NewCudaArrayView3 = ArrayView<T, 3, CudaDevice<T>>;
+using NewCudaArrayView3 = CudaArrayView<T, 3>;
 
 template <class T>
-using NewCudaArrayView4 = ArrayView<T, 4, CudaDevice<T>>;
+using NewCudaArrayView4 = CudaArrayView<T, 4>;
 
 template <class T>
-using NewConstCudaArrayView1 = ArrayView<const T, 1, CudaDevice<T>>;
+using NewConstCudaArrayView1 = CudaArrayView<const T, 1>;
 
 template <class T>
-using NewConstCudaArrayView2 = ArrayView<const T, 2, CudaDevice<T>>;
+using NewConstCudaArrayView2 = CudaArrayView<const T, 2>;
 
 template <class T>
-using NewConstCudaArrayView3 = ArrayView<const T, 3, CudaDevice<T>>;
+using NewConstCudaArrayView3 = CudaArrayView<const T, 3>;
 
 template <class T>
-using NewConstCudaArrayView4 = ArrayView<const T, 4, CudaDevice<T>>;
+using NewConstCudaArrayView4 = CudaArrayView<const T, 4>;
 
 }  // namespace jet
 

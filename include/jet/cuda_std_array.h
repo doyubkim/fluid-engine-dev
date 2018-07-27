@@ -43,6 +43,10 @@ class CudaStdArray {
 
     __host__ __device__ const_reference operator[](size_t i) const;
 
+    __host__ __device__ bool operator==(const CudaStdArray& other) const;
+
+    __host__ __device__ bool operator!=(const CudaStdArray& other) const;
+
  private:
     T _elements[N];
 

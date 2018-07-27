@@ -11,25 +11,20 @@
 
 namespace jet {
 
-template <typename T>
-struct CpuDevice;
-
-template <typename T, size_t N, typename Device, typename Derived>
+template <typename T, size_t N, typename Derived>
 class ArrayBase;
 
-template <typename T, size_t N, typename Device>
+template <typename T, size_t N>
 class Array;
 
 // MARK: ArrayView
 
-template <typename T, size_t N, typename Device>
-class ArrayView final
-    : public ArrayBase<T, N, Device, ArrayView<T, N, Device>> {
-    using Base = ArrayBase<T, N, Device, ArrayView<T, N, Device>>;
-    using MemoryHandle = typename Base::MemoryHandle;
+template <typename T, size_t N>
+class ArrayView final : public ArrayBase<T, N, ArrayView<T, N>> {
+    using Base = ArrayBase<T, N, ArrayView<T, N>>;
     using Base::_size;
+    using Base::setPtrAndSize;
     using Base::at;
-    using Base::setHandleAndSize;
 
  public:
     // CTOR
@@ -40,7 +35,7 @@ class ArrayView final
     template <size_t M = N>
     ArrayView(typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
 
-    ArrayView(Array<T, N, Device>& other);
+    ArrayView(Array<T, N>& other);
 
     ArrayView(const ArrayView& other);
 
@@ -48,7 +43,7 @@ class ArrayView final
 
     // set
 
-    void set(Array<T, N, Device>& other);
+    void set(Array<T, N>& other);
 
     void set(const ArrayView& other);
 
@@ -60,13 +55,12 @@ class ArrayView final
     ArrayView& operator=(ArrayView&& other) noexcept;
 };
 
-template <typename T, size_t N, typename Device>
-class ArrayView<const T, N, Device> final
-    : public ArrayBase<const T, N, Device, ArrayView<const T, N, Device>> {
-    using Base = ArrayBase<const T, N, Device, ArrayView<const T, N, Device>>;
-    using MemoryHandle = typename Base::MemoryHandle;
+template <typename T, size_t N>
+class ArrayView<const T, N> final
+    : public ArrayBase<const T, N, ArrayView<const T, N>> {
+    using Base = ArrayBase<const T, N, ArrayView<const T, N>>;
     using Base::_size;
-    using Base::setHandleAndSize;
+    using Base::setPtrAndSize;
 
  public:
     // CTOR
@@ -78,53 +72,53 @@ class ArrayView<const T, N, Device> final
     ArrayView(const typename std::enable_if<(M == 1), T>::type* ptr,
               size_t size_);
 
-    ArrayView(const Array<T, N, Device>& other);
+    ArrayView(const Array<T, N>& other);
 
-    ArrayView(const ArrayView<T, N, Device>& other);
+    ArrayView(const ArrayView<T, N>& other);
 
-    ArrayView(const ArrayView& other);
+    ArrayView(const ArrayView<const T, N>& other);
 
-    ArrayView(ArrayView&&) noexcept;
+    ArrayView(ArrayView<const T, N>&&) noexcept;
 
     // set
 
-    void set(const Array<T, N, Device>& other);
+    void set(const Array<T, N>& other);
 
-    void set(const ArrayView<T, N, Device>& other);
+    void set(const ArrayView<T, N>& other);
 
-    void set(const ArrayView& other);
+    void set(const ArrayView<const T, N>& other);
 
     // Assignment Operators
-    ArrayView& operator=(const ArrayView<T, N, Device>& other);
+    ArrayView& operator=(const ArrayView<T, N>& other);
 
-    ArrayView& operator=(const ArrayView& other);
+    ArrayView& operator=(const ArrayView<const T, N>& other);
 
-    ArrayView& operator=(ArrayView&& other) noexcept;
+    ArrayView& operator=(ArrayView<const T, N>&& other) noexcept;
 };
 
 template <class T>
-using ArrayView1 = ArrayView<T, 1, CpuDevice<T>>;
+using ArrayView1 = ArrayView<T, 1>;
 
 template <class T>
-using ArrayView2 = ArrayView<T, 2, CpuDevice<T>>;
+using ArrayView2 = ArrayView<T, 2>;
 
 template <class T>
-using ArrayView3 = ArrayView<T, 3, CpuDevice<T>>;
+using ArrayView3 = ArrayView<T, 3>;
 
 template <class T>
-using ArrayView4 = ArrayView<T, 4, CpuDevice<T>>;
+using ArrayView4 = ArrayView<T, 4>;
 
 template <class T>
-using ConstArrayView1 = ArrayView<const T, 1, CpuDevice<T>>;
+using ConstArrayView1 = ArrayView<const T, 1>;
 
 template <class T>
-using ConstArrayView2 = ArrayView<const T, 2, CpuDevice<T>>;
+using ConstArrayView2 = ArrayView<const T, 2>;
 
 template <class T>
-using ConstArrayView3 = ArrayView<const T, 3, CpuDevice<T>>;
+using ConstArrayView3 = ArrayView<const T, 3>;
 
 template <class T>
-using ConstArrayView4 = ArrayView<const T, 4, CpuDevice<T>>;
+using ConstArrayView4 = ArrayView<const T, 4>;
 
 }  // namespace jet
 

@@ -14,37 +14,34 @@
 namespace jet {
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N, CpuDevice<T>> a, const Vector<size_t, N>& begin,
+void fill(ArrayView<T, N> a, const Vector<size_t, N>& begin,
           const Vector<size_t, N>& end, const T& val) {
     forEachIndex(begin, end, [&](auto... idx) { a(idx...) = val; });
 }
 
 template <typename T, size_t N>
-void fill(ArrayView<T, N, CpuDevice<T>> a, const T& val) {
+void fill(ArrayView<T, N> a, const T& val) {
     fill(a, Vector<size_t, N>{}, Vector<size_t, N>{a.size()}, val);
 }
 
 template <typename T>
-void fill(ArrayView<T, 1, CpuDevice<T>> a, size_t begin, size_t end,
-          const T& val) {
+void fill(ArrayView<T, 1> a, size_t begin, size_t end, const T& val) {
     fill(a, Vector1UZ{begin}, Vector1UZ{end}, val);
 }
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N, CpuDevice<T>> src, const Vector<size_t, N>& begin,
-          const Vector<size_t, N>& end, ArrayView<U, N, CpuDevice<U>> dst) {
+void copy(ArrayView<T, N> src, const Vector<size_t, N>& begin,
+          const Vector<size_t, N>& end, ArrayView<U, N> dst) {
     forEachIndex(begin, end, [&](auto... idx) { dst(idx...) = src(idx...); });
 }
 
 template <typename T, typename U, size_t N>
-void copy(ArrayView<T, N, CpuDevice<T>> src,
-          ArrayView<U, N, CpuDevice<U>> dst) {
+void copy(ArrayView<T, N> src, ArrayView<U, N> dst) {
     copy(src, Vector<size_t, N>{}, Vector<size_t, N>{src.size()}, dst);
 }
 
 template <typename T, typename U>
-void copy(ArrayView<T, 1, CpuDevice<T>> src, size_t begin, size_t end,
-          ArrayView<U, 1, CpuDevice<U>> dst) {
+void copy(ArrayView<T, 1> src, size_t begin, size_t end, ArrayView<U, 1> dst) {
     copy(src, Vector1UZ{begin}, Vector1UZ{end}, dst);
 }
 

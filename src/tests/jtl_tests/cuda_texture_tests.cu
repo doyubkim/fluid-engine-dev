@@ -4,7 +4,6 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#if 0
 #include <jet/_cuda_array.h>
 #include <jet/cuda_texture.h>
 
@@ -326,4 +325,3 @@ TEST(CudaTexture3, Constructors) {
         }
     }
 }
-#endif

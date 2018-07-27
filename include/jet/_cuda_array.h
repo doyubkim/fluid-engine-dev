@@ -10,352 +10,211 @@
 #ifdef JET_USE_CUDA
 
 #include <jet/array.h>
-#include <jet/cuda_thrust_utils.h>
-
-#include <thrust/device_vector.h>
+#include <jet/cuda_std_array.h>
+#include <jet/cuda_std_vector.h>
 
 namespace jet {
 
-template <typename T>
-struct CudaMemoryHandle {
-    thrust::device_ptr<T> ptr;
-
-    __host__ __device__ CudaMemoryHandle() {}
-
-    __host__ __device__ CudaMemoryHandle(T* ptr_) { set(ptr_); }
-
-    __host__ __device__ T* data() { return thrust::raw_pointer_cast(ptr); }
-
-    __host__ __device__ const T* data() const {
-        return thrust::raw_pointer_cast(ptr);
-    }
-
-    __host__ __device__ void set(T* p) {
-        ptr = thrust::device_pointer_cast<T>(p);
-    }
-};
-
-template <typename T>
-struct CudaDevice {
-    using BufferType = thrust::device_vector<T>;
-    using MemoryHandle = CudaMemoryHandle<T>;
-
-    using reference = typename BufferType::reference;
-    using const_reference = typename BufferType::const_reference;
-    using iterator = thrust::device_ptr<T>;
-    using const_iterator = const thrust::device_ptr<T>;
-
-    static auto handleFromContainer(BufferType& cnt) {
-        CudaMemoryHandle<T> handle;
-        handle.ptr = cnt.data();
-        return handle;
-    }
-
-    template <typename T1, size_t N, typename D>
-    static void fill(ArrayBase<T1, N, CudaDevice<T>, D>& dst, const T1& value) {
-        thrust::fill(dst.begin(), dst.end(), value);
-    }
-
-    // Simple copy
-
-    template <typename T1, typename T2, typename A1, size_t N, typename D2>
-    static void copy(const std::vector<T1, A1>& src,
-                     ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.size() == dst.length());
-        thrust::copy(src.data(), src.data() + src.size(), dst.begin());
-    }
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CpuDevice<T1>, D1>& src,
-                     ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.length() == dst.length());
-        thrust::copy(src.data(), src.data() + src.length(), dst.begin());
-    }
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CudaDevice<T1>, D1>& src,
-                     ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.length() == dst.length());
-        thrust::copy(src.begin(), src.end(), dst.data());
-    }
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CudaDevice<T1>, D1>& src,
-                     ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.length() == dst.length());
-        thrust::copy(src.begin(), src.end(), dst.begin());
-    }
-
-    // Block copy
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CpuDevice<T1>, D1>& src,
-                     const thrust::array<size_t, N>& size,
-                     ArrayBase<T2, N, CudaDevice<T2>, D2>& dst) {
-        Array<T1, N, CudaDevice<T1>> cudaSrc(src);
-        copy(cudaSrc, size, dst);
-    }
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CudaDevice<T1>, D1>& src,
-                     const thrust::array<size_t, N>& size,
-                     ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
-        Array<T1, N, CpuDevice<T1>> cpuSrc(src);
-        CpuDevice<T>::copy(cpuSrc, size, dst);
-    }
-
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CudaDevice<T1>, D1>& src,
-                     const thrust::array<size_t, N>& size,
-                     ArrayBase<T2, N, CudaDevice<T2>, D2>& dst);
-
-    // Offset copy
-
-    template <typename T1, typename T2, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, 1, CpuDevice<T1>, D1>& src,
-                     size_t srcOffset,
-                     ArrayBase<T2, 1, CudaDevice<T2>, D2>& dst,
-                     size_t dstOffset) {
-        JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
-        thrust::copy(src.data() + srcOffset, src.data() + src.length(),
-                     dst.begin() + dstOffset);
-    }
-
-    template <typename T1, typename T2, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, 1, CudaDevice<T1>, D1>& src,
-                     size_t srcOffset, ArrayBase<T2, 1, CpuDevice<T2>, D2>& dst,
-                     size_t dstOffset) {
-        JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
-        thrust::copy(src.begin() + srcOffset, src.end(),
-                     dst.data() + dstOffset);
-    }
-
-    template <typename T1, typename T2, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, 1, CudaDevice<T1>, D1>& src,
-                     size_t srcOffset,
-                     ArrayBase<T2, 1, CudaDevice<T2>, D2>& dst,
-                     size_t dstOffset) {
-        JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
-        thrust::copy(src.begin() + srcOffset, src.end(),
-                     dst.begin() + dstOffset);
-    }
-};
-
 ////////////////////////////////////////////////////////////////////////////////
-// MARK: ArrayBase Specialized for CUDA
+// MARK: CudaArrayBase
 
-template <typename T, size_t N, typename Derived>
-class ArrayBase<T, N, CudaDevice<T>, Derived> {
+template <typename T, size_t N, typename DerivedArray>
+class CudaArrayBase {
  public:
-    using Device = CudaDevice<T>;
-
+    using Derived = DerivedArray;
     using value_type = T;
-    using reference = typename Device::reference;
-    using const_reference = typename Device::const_reference;
+    using reference = typename CudaStdVector<T>::Reference;
+    using const_reference = const reference;
     using pointer = T*;
     using const_pointer = const T*;
-    using iterator = typename Device::iterator;
-    using const_iterator = typename Device::const_iterator;
 
-    using MemoryHandle = typename Device::MemoryHandle;
+    virtual ~CudaArrayBase() = default;
 
-    virtual ~ArrayBase() = default;
-
-    __host__ __device__ size_t index(size_t i) const;
+    size_t index(size_t i) const;
 
     template <typename... Args>
-    __host__ __device__ size_t index(size_t i, Args... args) const;
+    size_t index(size_t i, Args... args) const;
 
     template <size_t... I>
-    __host__ __device__ size_t index(const thrust::array<size_t, N>& idx) const;
+    size_t index(const CudaStdArray<size_t, N>& idx) const;
 
-    __host__ __device__ T* data();
+    T* data();
 
-    __host__ __device__ const T* data() const;
+    const T* data() const;
 
-    __host__ __device__ const thrust::array<size_t, N>& size() const;
-
-    template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 0), size_t> width() const;
+    const CudaStdArray<size_t, N>& size() const;
 
     template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 1), size_t> height() const;
+    std::enable_if_t<(M > 0), size_t> width() const;
 
     template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 2), size_t> depth() const;
+    std::enable_if_t<(M > 1), size_t> height() const;
 
-    __host__ __device__ size_t length() const;
+    template <size_t M = N>
+    std::enable_if_t<(M > 2), size_t> depth() const;
 
-    __host__ __device__ iterator begin();
+    size_t length() const;
 
-    __host__ __device__ const_iterator begin() const;
+    reference at(size_t i);
 
-    __host__ __device__ iterator end();
-
-    __host__ __device__ const_iterator end() const;
-
-    __host__ __device__ MemoryHandle handle() const;
-
-    __host__ __device__ reference at(size_t i);
-
-    __host__ __device__ value_type at(size_t i) const;
+    value_type at(size_t i) const;
 
     template <typename... Args>
-    __host__ __device__ reference at(size_t i, Args... args);
+    reference at(size_t i, Args... args);
 
     template <typename... Args>
-    __host__ __device__ value_type at(size_t i, Args... args) const;
+    value_type at(size_t i, Args... args) const;
 
-    __host__ __device__ reference at(const thrust::array<size_t, N>& idx);
+    reference at(const CudaStdArray<size_t, N>& idx);
 
-    __host__ __device__ value_type
-    at(const thrust::array<size_t, N>& idx) const;
+    value_type at(const CudaStdArray<size_t, N>& idx) const;
 
-    __host__ __device__ reference operator[](size_t i);
+    reference operator[](size_t i);
 
-    __host__ __device__ value_type operator[](size_t i) const;
-
-    template <typename... Args>
-    __host__ __device__ reference operator()(size_t i, Args... args);
+    value_type operator[](size_t i) const;
 
     template <typename... Args>
-    __host__ __device__ value_type operator()(size_t i, Args... args) const;
+    reference operator()(size_t i, Args... args);
 
-    __host__ __device__ reference
-    operator()(const thrust::array<size_t, N>& idx);
+    template <typename... Args>
+    value_type operator()(size_t i, Args... args) const;
 
-    __host__ __device__ value_type
-    operator()(const thrust::array<size_t, N>& idx) const;
+    reference operator()(const CudaStdArray<size_t, N>& idx);
+
+    value_type operator()(const CudaStdArray<size_t, N>& idx) const;
 
  protected:
-    MemoryHandle _handle;
-    thrust::array<size_t, N> _size;
+    pointer _ptr = nullptr;
+    CudaStdArray<size_t, N> _size;
 
-    __host__ __device__ ArrayBase();
+    CudaArrayBase();
 
-    __host__ __device__ ArrayBase(const ArrayBase& other);
+    CudaArrayBase(const CudaArrayBase& other);
 
-    __host__ __device__ ArrayBase(ArrayBase&& other);
+    CudaArrayBase(CudaArrayBase&& other);
 
     template <typename... Args>
-    __host__ __device__ void setHandleAndSize(MemoryHandle handle, size_t ni,
-                                              Args... args);
+    void setPtrAndSize(pointer ptr, size_t ni, Args... args);
 
-    __host__ __device__ void setHandleAndSize(MemoryHandle handle,
-                                              thrust::array<size_t, N> size);
+    void setPtrAndSize(pointer data, CudaStdArray<size_t, N> size);
 
-    __host__ __device__ void swapHandleAndSize(ArrayBase& other);
+    void swapPtrAndSize(CudaArrayBase& other);
 
-    __host__ __device__ void clear();
+    void clearPtrAndSize();
 
-    __host__ __device__ ArrayBase& operator=(const ArrayBase& other);
+    CudaArrayBase& operator=(const CudaArrayBase& other);
 
-    __host__ __device__ ArrayBase& operator=(ArrayBase&& other);
+    CudaArrayBase& operator=(CudaArrayBase&& other);
 
  private:
     template <typename... Args>
-    __host__ __device__ size_t _index(size_t d, size_t i, Args... args) const;
+    size_t _index(size_t d, size_t i, Args... args) const;
 
-    __host__ __device__ size_t _index(size_t, size_t i) const;
+    size_t _index(size_t, size_t i) const;
 
     template <size_t... I>
-    __host__ __device__ size_t _index(const thrust::array<size_t, N>& idx,
-                                      std::index_sequence<I...>) const;
+    size_t _index(const CudaStdArray<size_t, N>& idx,
+                  std::index_sequence<I...>) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// MARK: Array Specialized for CUDA
+// MARK: CudaArray
 
 template <typename T, size_t N>
-class Array<T, N, CudaDevice<T>> final
-    : public ArrayBase<T, N, CudaDevice<T>, Array<T, N, CudaDevice<T>>> {
-    using Device = CudaDevice<T>;
-    using Base = ArrayBase<T, N, Device, Array<T, N, Device>>;
+class CudaArrayView;
 
+template <typename T, size_t N>
+class CudaArray final : public CudaArrayBase<T, N, Array<T, N>> {
+    using Base = CudaArrayBase<T, N, Array<T, N>>;
     using Base::_size;
-    using Base::setHandleAndSize;
-    using Base::swapHandleAndSize;
+    using Base::setPtrAndSize;
+    using Base::swapPtrAndSize;
 
  public:
-    using BufferType = typename Device::BufferType;
-
     using Base::at;
-    using Base::clear;
+    using Base::clearPtrAndSize;
     using Base::length;
+    using Base::data;
 
     // CTOR
-    __host__ Array();
+    CudaArray();
 
-    __host__ Array(const thrust::array<size_t, N>& size_,
-                   const T& initVal = T{});
+    CudaArray(const CudaStdArray<size_t, N>& size_, const T& initVal = T{});
 
     template <typename... Args>
-    __host__ Array(size_t nx, Args... args);
+    CudaArray(size_t nx, Args... args);
 
-    __host__ Array(NestedInitializerListsT<T, N> lst);
+    CudaArray(NestedInitializerListsT<T, N> lst);
 
     template <size_t M = N>
-    __host__ Array(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
+    CudaArray(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
 
-    template <typename OtherDevice, typename OtherDerived>
-    __host__ Array(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    template <typename OtherDerived>
+    CudaArray(const ArrayBase<T, N, OtherDerived>& other);
 
-    __host__ Array(const Array& other);
+    template <typename OtherDerived>
+    CudaArray(const CudaArrayBase<T, N, OtherDerived>& other);
 
-    __host__ Array(Array&& other);
+    CudaArray(const CudaArray& other);
 
-    template <typename OtherDevice, typename OtherDerived>
-    __host__ void copyFrom(
-        const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    CudaArray(CudaArray&& other);
 
-    __host__ void fill(const T& val);
+    template <size_t M = N>
+    void copyFrom(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
+
+    template <typename OtherDerived>
+    void copyFrom(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    void copyFrom(const CudaArrayBase<T, N, OtherDerived>& other);
+
+    void fill(const T& val);
 
     // resize
-    __host__ void resize(thrust::array<size_t, N> size_,
-                         const T& initVal = T{});
+    void resize(CudaStdArray<size_t, N> size_, const T& initVal = T{});
 
     template <typename... Args>
-    __host__ void resize(size_t nx, Args... args);
+    void resize(size_t nx, Args... args);
 
     template <size_t M = N>
-    __host__ std::enable_if_t<(M == 1), void> append(const T& val);
+    std::enable_if_t<(M == 1), void> append(const T& val);
 
-    template <typename OtherDevice, typename OtherDerived, size_t M = N>
-    __host__ std::enable_if_t<(M == 1), void> append(
-        const ArrayBase<T, N, OtherDevice, OtherDerived>& extra);
+    template <typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> append(
+        const CudaArrayBase<T, N, OtherDerived>& extra);
 
-    __host__ void clear();
+    void clear();
 
-    __host__ void swap(Array& other);
+    void swap(CudaArray& other);
 
     // Views
-    __host__ ArrayView<T, N, Device> view();
+    CudaArrayView<T, N> view();
 
-    __host__ ArrayView<const T, N, Device> view() const;
+    CudaArrayView<const T, N> view() const;
 
     // Assignment Operators
-    template <typename OtherDevice, typename OtherDerived>
-    __host__ Array& operator=(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    template <typename OtherDerived>
+    CudaArray& operator=(const CudaArrayBase<T, N, OtherDerived>& other);
 
-    __host__ Array& operator=(const Array& other);
+    CudaArray& operator=(const CudaArray& other);
 
-    __host__ Array& operator=(Array&& other);
+    CudaArray& operator=(CudaArray&& other);
 
  private:
-    BufferType _data;
+    CudaStdVector<T> _data;
 };
 
 template <class T>
-using NewCudaArray1 = Array<T, 1, CudaDevice<T>>;
+using NewCudaArray1 = CudaArray<T, 1>;
 
 template <class T>
-using NewCudaArray2 = Array<T, 2, CudaDevice<T>>;
+using NewCudaArray2 = CudaArray<T, 2>;
 
 template <class T>
-using NewCudaArray3 = Array<T, 3, CudaDevice<T>>;
+using NewCudaArray3 = CudaArray<T, 3>;
 
 template <class T>
-using NewCudaArray4 = Array<T, 4, CudaDevice<T>>;
+using NewCudaArray4 = CudaArray<T, 4>;
 
 }  // namespace jet
 

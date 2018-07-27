@@ -16,115 +16,19 @@
 
 namespace jet {
 
-template <typename T>
-struct CpuMemoryHandle {
-    T* ptr = nullptr;
-
-    CpuMemoryHandle() {}
-
-    CpuMemoryHandle(T* ptr_) { set(ptr_); }
-
-    T* data() { return ptr; }
-
-    const T* data() const { return ptr; }
-
-    void set(T* p) { ptr = p; }
-};
-
-template <typename T, size_t N, typename Device, typename Derived>
-class ArrayBase;
-
-template <typename T>
-struct CpuDevice {
-    using BufferType = std::vector<T>;
-    using MemoryHandle = CpuMemoryHandle<T>;
-
-    using reference = T&;
-    using const_reference = const T&;
-    using iterator = T*;
-    using const_iterator = const T*;
-
-    static auto handleFromContainer(BufferType& cnt) {
-        CpuMemoryHandle<T> handle;
-        handle.ptr = cnt.data();
-        return handle;
-    }
-
-    //! \brief Fills given array with single value.
-    template <typename T1, size_t N, typename D>
-    static void fill(ArrayBase<T1, N, CpuDevice<T1>, D>& dst, const T1& value) {
-        std::fill(dst.begin(), dst.end(), value);
-    }
-
-    //! \brief Copies contents from src vector to dst array.
-    template <typename T1, typename T2, typename A1, size_t N, typename D2>
-    static void copy(const std::vector<T1, A1>& src,
-                     ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.size() == dst.length());
-        for (size_t i = 0; i < dst.length(); ++i) {
-            dst[i] = src[i];
-        }
-    }
-
-    //! \brief Copies contents from src array to dst array.
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CpuDevice<T1>, D1>& src,
-                     ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
-        JET_ASSERT(src.length() == dst.length());
-        for (size_t i = 0; i < dst.length(); ++i) {
-            dst[i] = src[i];
-        }
-    }
-
-    //!
-    //! \brief Copies contents from \p src array to \p dst array for given \p
-    //! size.
-    //!
-    //! This function performs array copy for specified size range.
-    //!
-    template <typename T1, typename T2, size_t N, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, N, CpuDevice<T1>, D1>& src,
-                     const Vector<size_t, N>& size,
-                     ArrayBase<T2, N, CpuDevice<T2>, D2>& dst) {
-        forEachIndex(size, [&](auto... idx) { dst(idx...) = src(idx...); });
-    }
-
-    //! \brief Copies contents from \p src array to \p dst array with offsets.
-    //!
-    //! This function performs offset copy such that
-    //!
-    //! \code
-    //! dst[i + dstOffset] = src[i + srcOffset]
-    //! \endcode
-    //!
-    template <typename T1, typename T2, typename D1, typename D2>
-    static void copy(const ArrayBase<T1, 1, CpuDevice<T1>, D1>& src,
-                     size_t srcOffset, ArrayBase<T2, 1, CpuDevice<T2>, D2>& dst,
-                     size_t dstOffset) {
-        JET_ASSERT(src.length() + dstOffset == dst.length() + srcOffset);
-        auto dstIter = dst.begin() + dstOffset;
-        auto srcIter = src.begin() + srcOffset;
-        for (size_t i = 0; i + srcOffset < src.length(); ++i) {
-            dstIter[i] = srcIter[i];
-        }
-    }
-};
-
-////////////////////////////////////////////////////////////////////////////////
 // MARK: ArrayBase
 
-template <typename T, size_t N, typename Device, typename Derived>
+template <typename T, size_t N, typename DerivedArray>
 class ArrayBase {
  public:
+    using Derived = DerivedArray;
     using value_type = T;
-    using reference = typename Device::reference;
-    using const_reference = typename Device::const_reference;
+    using reference = T&;
+    using const_reference = const T&;
     using pointer = T*;
     using const_pointer = const T*;
-    using iterator = typename Device::iterator;
-    using const_iterator = typename Device::const_iterator;
-
-    using MemoryHandle = typename Device::MemoryHandle;
+    using iterator = T*;
+    using const_iterator = const T*;
 
     virtual ~ArrayBase() = default;
 
@@ -136,9 +40,9 @@ class ArrayBase {
     template <size_t... I>
     size_t index(const Vector<size_t, N>& idx) const;
 
-    T* data();
+    pointer data();
 
-    const T* data() const;
+    const_pointer data() const;
 
     const Vector<size_t, N>& size() const;
 
@@ -160,8 +64,6 @@ class ArrayBase {
     iterator end();
 
     const_iterator end() const;
-
-    MemoryHandle handle() const;
 
     reference at(size_t i);
 
@@ -192,7 +94,7 @@ class ArrayBase {
     const_reference operator()(const Vector<size_t, N>& idx) const;
 
  protected:
-    MemoryHandle _handle;
+    pointer _ptr = nullptr;
     Vector<size_t, N> _size;
 
     ArrayBase();
@@ -202,13 +104,13 @@ class ArrayBase {
     ArrayBase(ArrayBase&& other);
 
     template <typename... Args>
-    void setHandleAndSize(MemoryHandle handle, size_t ni, Args... args);
+    void setPtrAndSize(pointer ptr, size_t ni, Args... args);
 
-    void setHandleAndSize(MemoryHandle handle, Vector<size_t, N> size);
+    void setPtrAndSize(pointer data, Vector<size_t, N> size);
 
-    void swapHandleAndSize(ArrayBase& other);
+    void swapPtrAndSize(ArrayBase& other);
 
-    void clear();
+    void clearPtrAndSize();
 
     ArrayBase& operator=(const ArrayBase& other);
 
@@ -225,27 +127,21 @@ class ArrayBase {
                   std::index_sequence<I...>) const;
 };
 
-////////////////////////////////////////////////////////////////////////////////
 // MARK: Array
 
-template <typename T, size_t N, typename Device>
+template <typename T, size_t N>
 class ArrayView;
 
-template <typename T, size_t N, typename Device = CpuDevice<T>>
-class Array final : public ArrayBase<T, N, Device, Array<T, N, Device>> {
-    using Base = ArrayBase<T, N, Device, Array<T, N, Device>>;
-
+template <typename T, size_t N>
+class Array final : public ArrayBase<T, N, Array<T, N>> {
+    using Base = ArrayBase<T, N, Array<T, N>>;
     using Base::_size;
-    using Base::setHandleAndSize;
-    using Base::swapHandleAndSize;
+    using Base::setPtrAndSize;
+    using Base::swapPtrAndSize;
+    using Base::clearPtrAndSize;
+    using Base::at;
 
  public:
-    using BufferType = typename Device::BufferType;
-
-    using Base::at;
-    using Base::clear;
-    using Base::length;
-
     // CTOR
     Array();
 
@@ -256,18 +152,12 @@ class Array final : public ArrayBase<T, N, Device, Array<T, N, Device>> {
 
     Array(NestedInitializerListsT<T, N> lst);
 
-    template <size_t M = N>
-    Array(const std::enable_if_t<(M == 1), std::vector<T>>& vec);
-
-    template <typename OtherDevice, typename OtherDerived>
-    Array(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
-
     Array(const Array& other);
 
     Array(Array&& other);
 
-    template <typename OtherDevice, typename OtherDerived>
-    void copyFrom(const ArrayBase<T, N, OtherDevice, OtherDerived>& other);
+    template <typename D>
+    void copyFrom(const ArrayBase<T, N, D>& other);
 
     void fill(const T& val);
 
@@ -280,39 +170,42 @@ class Array final : public ArrayBase<T, N, Device, Array<T, N, Device>> {
     template <size_t M = N>
     std::enable_if_t<(M == 1), void> append(const T& val);
 
-    template <typename OtherDevice, typename OtherDerived, size_t M = N>
+    template <typename OtherDerived, size_t M = N>
     std::enable_if_t<(M == 1), void> append(
-        const ArrayBase<T, N, OtherDevice, OtherDerived>& extra);
+        const ArrayBase<T, N, OtherDerived>& extra);
 
     void clear();
 
     void swap(Array& other);
 
     // Views
-    ArrayView<T, N, Device> view();
+    ArrayView<T, N> view();
 
-    ArrayView<const T, N, Device> view() const;
+    ArrayView<const T, N> view() const;
 
     // Assignment Operators
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<T, N, OtherDerived>& other);
+
     Array& operator=(const Array& other);
 
     Array& operator=(Array&& other);
 
  private:
-    BufferType _data;
+    std::vector<T> _data;
 };
 
 template <class T>
-using Array1 = Array<T, 1, CpuDevice<T>>;
+using Array1 = Array<T, 1>;
 
 template <class T>
-using Array2 = Array<T, 2, CpuDevice<T>>;
+using Array2 = Array<T, 2>;
 
 template <class T>
-using Array3 = Array<T, 3, CpuDevice<T>>;
+using Array3 = Array<T, 3>;
 
 template <class T>
-using Array4 = Array<T, 4, CpuDevice<T>>;
+using Array4 = Array<T, 4>;
 
 }  // namespace jet
 

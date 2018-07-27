@@ -25,24 +25,24 @@ class CudaTexture {
 
     void clear();
 
-    void set(const ArrayView<const T, N, CpuDevice<T>>& view);
+    void set(const ArrayView<const T, N>& view);
 
-    void set(const ArrayView<const T, N, CudaDevice<T>>& view);
+    void set(const CudaArrayView<const T, N>& view);
 
     void set(const Derived& other);
 
     cudaTextureObject_t textureObject() const;
 
  protected:
-    Vector<size_t, N> _size;
+    CudaStdArray<size_t, N> _size;
     cudaArray_t _array = nullptr;
     cudaTextureObject_t _tex = 0;
 
     CudaTexture();
 
-    CudaTexture(const ArrayView<const T, N, CpuDevice<T>>& view);
+    CudaTexture(const ArrayView<const T, N>& view);
 
-    CudaTexture(const ArrayView<const T, N, CudaDevice<T>>& view);
+    CudaTexture(const CudaArrayView<const T, N>& view);
 
     CudaTexture(const CudaTexture& other);
 
@@ -84,7 +84,7 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     size_t size() const;
 
-    void resize(const Vector1UZ& size);
+    void resize(const CudaStdArray<size_t, 1>& size);
 
     template <typename View>
     void set(const View& view, cudaMemcpyKind memcpyKind);
@@ -118,13 +118,13 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     CudaTexture2(CudaTexture2&& other);
 
-    Vector2UZ size() const;
+    CudaStdArray<size_t, 2> size() const;
 
     size_t width() const;
 
     size_t height() const;
 
-    void resize(const Vector2UZ& size);
+    void resize(const CudaStdArray<size_t, 2>& size);
 
     template <typename View>
     void set(const View& view, cudaMemcpyKind memcpyKind);
@@ -158,7 +158,7 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     CudaTexture3(CudaTexture3&& other);
 
-    Vector3UZ size() const;
+    CudaStdArray<size_t, 3> size() const;
 
     size_t width() const;
 
@@ -166,7 +166,7 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     size_t depth() const;
 
-    void resize(const Vector3UZ& size);
+    void resize(const CudaStdArray<size_t, 3>& size);
 
     template <typename View>
     void set(const View& view, cudaMemcpyKind memcpyKind);

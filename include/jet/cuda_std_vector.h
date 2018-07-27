@@ -9,6 +9,8 @@
 
 #ifdef JET_USE_CUDA
 
+#include <jet/cuda_algorithms.h>
+
 #include <vector>
 
 namespace jet {

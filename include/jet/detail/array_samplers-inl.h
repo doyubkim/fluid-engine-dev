@@ -146,8 +146,8 @@ struct GetCoordinatesAndGradientWeights<T, N, 1> {
 
 template <typename T, size_t N>
 NearestArraySampler<T, N>::NearestArraySampler(
-    const ArrayView<const T, N, CpuDevice<T>>& view,
-    const VectorType& gridSpacing, const VectorType& gridOrigin)
+    const ArrayView<const T, N>& view, const VectorType& gridSpacing,
+    const VectorType& gridOrigin)
     : _view(view),
       _gridSpacing(gridSpacing),
       _invGridSpacing(ScalarType{1} / gridSpacing),
@@ -193,9 +193,9 @@ NearestArraySampler<T, N>::functor() const {
 // MARK: LinearArraySampler
 
 template <typename T, size_t N>
-LinearArraySampler<T, N>::LinearArraySampler(
-    const ArrayView<const T, N, CpuDevice<T>>& view,
-    const VectorType& gridSpacing, const VectorType& gridOrigin)
+LinearArraySampler<T, N>::LinearArraySampler(const ArrayView<const T, N>& view,
+                                             const VectorType& gridSpacing,
+                                             const VectorType& gridOrigin)
     : _view(view),
       _gridSpacing(gridSpacing),
       _invGridSpacing(ScalarType{1} / gridSpacing),
@@ -236,10 +236,8 @@ void LinearArraySampler<T, N>::getCoordinatesAndWeights(
     }
 
     Vector<size_t, N> viewSize = Vector<size_t, N>::makeConstant(2);
-    ArrayView<CoordIndexType, N, CpuDevice<CoordIndexType>> indexView(
-        indices.data(), viewSize);
-    ArrayView<ScalarType, N, CpuDevice<ScalarType>> weightView(weights.data(),
-                                                               viewSize);
+    ArrayView<CoordIndexType, N> indexView(indices.data(), viewSize);
+    ArrayView<ScalarType, N> weightView(weights.data(), viewSize);
 
     internal::GetCoordinatesAndWeights<ScalarType, N, N>::call(
         indexView, weightView, is.template castTo<size_t>(), ts, 1);
@@ -259,8 +257,8 @@ void LinearArraySampler<T, N>::getCoordinatesAndGradientWeights(
     }
 
     Vector<size_t, N> viewSize = Vector<size_t, N>::makeConstant(2);
-    ArrayView<CoordIndexType, N, CpuDevice<CoordIndexType>> indexView(indices.data(), viewSize);
-    ArrayView<VectorType, N, CpuDevice<VectorType>> weightView(weights.data(), viewSize);
+    ArrayView<CoordIndexType, N> indexView(indices.data(), viewSize);
+    ArrayView<VectorType, N> weightView(weights.data(), viewSize);
 
     internal::GetCoordinatesAndGradientWeights<ScalarType, N, N>::call(
         indexView, weightView, is.template castTo<size_t>(), ts,
@@ -279,8 +277,8 @@ LinearArraySampler<T, N>::functor() const {
 
 template <typename T, size_t N, typename CIOp>
 CubicArraySampler<T, N, CIOp>::CubicArraySampler(
-    const ArrayView<const T, N, CpuDevice<T>>& view,
-    const VectorType& gridSpacing, const VectorType& gridOrigin)
+    const ArrayView<const T, N>& view, const VectorType& gridSpacing,
+    const VectorType& gridOrigin)
     : _view(view),
       _gridSpacing(gridSpacing),
       _invGridSpacing(ScalarType{1} / gridSpacing),
