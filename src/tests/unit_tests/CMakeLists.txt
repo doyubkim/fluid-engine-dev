@@ -20,6 +20,9 @@ file(GLOB sources
 add_executable(${target}
     ${sources})
 
+# Dependencies
+add_dependencies(${target} unzip_py)
+
 # Project options
 set_target_properties(${target}
     PROPERTIES
