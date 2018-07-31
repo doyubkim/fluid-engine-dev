@@ -9,8 +9,8 @@
 
 #ifdef JET_USE_CUDA
 
-#include <jet/_cuda_array.h>
-#include <jet/_cuda_array_view.h>
+#include <jet/cuda_array.h>
+#include <jet/cuda_array_view.h>
 
 namespace jet {
 
@@ -55,7 +55,7 @@ void CudaArrayView<T, N>::set(CudaArray<T, N>& other) {
 
 template <typename T, size_t N>
 void CudaArrayView<T, N>::set(const CudaArrayView& other) {
-    Base::setPtrAndSize(other.data(), other.size());
+    Base::setPtrAndSize(const_cast<T*>(other.data()), other.size());
 }
 
 template <typename T, size_t N>

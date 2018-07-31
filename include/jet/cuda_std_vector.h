@@ -19,26 +19,37 @@ template <typename T>
 class CudaStdVector final {
  public:
     using value_type = T;
+    using reference = T&;
+    using const_reference = const T&;
     using pointer = value_type*;
     using const_pointer = const value_type*;
 
     class Reference {
      public:
-        Reference(pointer p) : _ptr(p) {}
+        __host__ __device__ Reference(pointer p) : _ptr(p) {}
 
-        Reference(const Reference& other) : _ptr(other._ptr) {}
+        __host__ __device__ Reference(const Reference& other)
+            : _ptr(other._ptr) {}
 
-        Reference& operator=(const value_type& val) {
+#ifdef __CUDA_ARCH__
+        __device__ Reference& operator=(const value_type& val) {
+            *ptr = val;
+            return *this;
+        }
+
+        __device__ operator value_type() const { return *ptr; }
+#else
+        __host__ Reference& operator=(const value_type& val) {
             cudaCopyHostToDevice(&val, 1, _ptr);
             return *this;
         }
 
-        operator value_type() const {
-            value_type tmp[1];
-            cudaCopyDeviceToHost(_ptr, 1, tmp);
-            return tmp[0];
+        __host__ operator value_type() const {
+            std::remove_const_t<value_type> tmp{};
+            cudaCopyDeviceToHost(_ptr, 1, &tmp);
+            return tmp;
         }
-
+#endif
      private:
         pointer _ptr;
     };
@@ -62,9 +73,15 @@ class CudaStdVector final {
 
     size_t size() const;
 
-    Reference at(size_t i);
+#ifdef __CUDA_ARCH__
+    __device__ reference at(size_t i);
 
-    T at(size_t i) const;
+    __device__ const_reference at(size_t i) const;
+#else
+    __host__ Reference at(size_t i);
+
+    __host__ T at(size_t i) const;
+#endif
 
     void clear();
 
@@ -97,9 +114,15 @@ class CudaStdVector final {
 
     CudaStdVector& operator=(CudaStdVector&& other);
 
+#ifdef __CUDA_ARCH__
+    reference operator[](size_t i);
+
+    const_reference operator[](size_t i) const;
+#else
     Reference operator[](size_t i);
 
     T operator[](size_t i) const;
+#endif
 
  private:
     pointer _ptr = nullptr;

@@ -9,7 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_TEXTURE_H_
 #define INCLUDE_JET_CUDA_TEXTURE_H_
 
-#include <jet/_cuda_array_view.h>
+#include <jet/cuda_array_view.h>
 
 #include <cuda_runtime.h>
 
@@ -76,7 +76,7 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     CudaTexture1(const ConstArrayView1<T>& view);
 
-    CudaTexture1(const NewConstCudaArrayView1<T>& view);
+    CudaTexture1(const ConstCudaArrayView1<T>& view);
 
     CudaTexture1(const CudaTexture1& other);
 
@@ -112,7 +112,7 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 
     CudaTexture2(const ConstArrayView2<T>& view);
 
-    CudaTexture2(const NewConstCudaArrayView2<T>& view);
+    CudaTexture2(const ConstCudaArrayView2<T>& view);
 
     CudaTexture2(const CudaTexture2& other);
 
@@ -152,7 +152,7 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     CudaTexture3(const ConstArrayView3<T>& view);
 
-    CudaTexture3(const NewConstCudaArrayView3<T>& view);
+    CudaTexture3(const ConstCudaArrayView3<T>& view);
 
     CudaTexture3(const CudaTexture3& other);
 

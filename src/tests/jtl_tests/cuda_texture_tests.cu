@@ -4,10 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/_cuda_array.h>
+#include <jet/cuda_array.h>
 #include <jet/cuda_texture.h>
 
 #include <thrust/for_each.h>
+#include <thrust/iterator/counting_iterator.h>
 
 #include <gtest/gtest.h>
 
@@ -77,12 +78,12 @@ TEST(CudaTexture1, Constructors) {
     EXPECT_EQ(0, cudaTex0.textureObject());
 
     // Ctor with view
-    NewCudaArray1<float> cudaArr1 = {1.0f, 2.0f, 3.0f, 4.0f};
+    CudaArray1<float> cudaArr1 = {1.0f, 2.0f, 3.0f, 4.0f};
     CudaTexture1<float> cudaTex1(cudaArr1.view());
     EXPECT_EQ(4u, cudaTex1.size());
     ASSERT_NE(0, cudaTex1.textureObject());
 
-    NewCudaArray1<float> cudaArr1_2(cudaArr1.size());
+    CudaArray1<float> cudaArr1_2(cudaArr1.size());
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(cudaArr1.length()),
@@ -144,14 +145,14 @@ TEST(CudaTexture2, Constructors) {
     EXPECT_EQ(0, cudaTex0.textureObject());
 
     // Ctor with view
-    NewCudaArray2<float> cudaArr1 = {{1.0f, 2.0f, 3.0f, 4.0f},
+    CudaArray2<float> cudaArr1 = {{1.0f, 2.0f, 3.0f, 4.0f},
                                   {5.0f, 6.0f, 7.0f, 8.0f}};
     CudaTexture2<float> cudaTex1(cudaArr1);
     EXPECT_EQ(4u, cudaTex1.width());
     EXPECT_EQ(2u, cudaTex1.height());
     ASSERT_NE(0, cudaTex1.textureObject());
 
-    NewCudaArray2<float> cudaArr1_2(cudaArr1.size());
+    CudaArray2<float> cudaArr1_2(cudaArr1.size());
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(cudaArr1.height()),
@@ -229,7 +230,7 @@ TEST(CudaTexture3, Constructors) {
     EXPECT_EQ(0, cudaTex0.textureObject());
 
     // Ctor with view
-    NewCudaArray3<float> cudaArr1 = {
+    CudaArray3<float> cudaArr1 = {
         {{1.f, 2.f, 3.f, 4.f}, {5.f, 6.f, 7.f, 8.f}, {9.f, 10.f, 11.f, 12.f}},
         {{13.f, 14.f, 15.f, 16.f},
          {17.f, 18.f, 19.f, 20.f},
@@ -241,7 +242,7 @@ TEST(CudaTexture3, Constructors) {
     EXPECT_EQ(2u, cudaTex1.depth());
     ASSERT_NE(0, cudaTex1.textureObject());
 
-    NewCudaArray3<float> cudaArr1_2(cudaArr1.size());
+    CudaArray3<float> cudaArr1_2(cudaArr1.size());
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(cudaArr1.depth()),

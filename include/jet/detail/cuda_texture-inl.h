@@ -120,7 +120,7 @@ template <typename T>
 CudaTexture1<T>::CudaTexture1(const ConstArrayView1<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture1<T>::CudaTexture1(const NewConstCudaArrayView1<T>& view)
+CudaTexture1<T>::CudaTexture1(const ConstCudaArrayView1<T>& view)
     : Base(view) {}
 
 template <typename T>
@@ -206,7 +206,7 @@ template <typename T>
 CudaTexture2<T>::CudaTexture2(const ConstArrayView2<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture2<T>::CudaTexture2(const NewConstCudaArrayView2<T>& view)
+CudaTexture2<T>::CudaTexture2(const ConstCudaArrayView2<T>& view)
     : Base(view) {}
 
 template <typename T>
@@ -265,7 +265,7 @@ template <typename T>
 template <typename View>
 void CudaTexture2<T>::set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size2 should be specialization (or alias) of Size<N=2>
-    resize(CudaStdArray<size_t, 2>{view.width(), view.height()});
+    resize(CudaStdArray<size_t, 2>(view.width(), view.height()));
 
     if (view.width() * view.height() == 0) {
         return;
@@ -312,7 +312,7 @@ template <typename T>
 CudaTexture3<T>::CudaTexture3(const ConstArrayView3<T>& view) : Base(view) {}
 
 template <typename T>
-CudaTexture3<T>::CudaTexture3(const NewConstCudaArrayView3<T>& view)
+CudaTexture3<T>::CudaTexture3(const ConstCudaArrayView3<T>& view)
     : Base(view) {}
 
 template <typename T>
@@ -378,7 +378,7 @@ template <typename T>
 template <typename View>
 void CudaTexture3<T>::set(const View& view, cudaMemcpyKind memcpyKind) {
     // TODO: Size3 should be specialization (or alias) of Size<N=3>
-    CudaStdArray<size_t, 3> size{view.width(), view.height(), view.depth()};
+    CudaStdArray<size_t, 3> size(view.width(), view.height(), view.depth());
     resize(size);
 
     if (view.width() * view.height() * view.depth() == 0) {

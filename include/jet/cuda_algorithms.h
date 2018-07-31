@@ -25,6 +25,10 @@ __global__ void cudaFillKernel(T* dst, size_t n, T val) {
 
 template <typename T>
 void cudaFill(T* dst, size_t n, const T& val) {
+    if (n == 0) {
+        return;
+    }
+
     unsigned int numBlocks, numThreads;
     cudaComputeGridSize((unsigned int)n, 256, numBlocks, numThreads);
     cudaFillKernel<<<numBlocks, numThreads>>>(dst, n, val);
@@ -32,6 +36,13 @@ void cudaFill(T* dst, size_t n, const T& val) {
 }
 
 #endif  // __CUDACC__
+
+template <typename T>
+__host__ __device__ inline void cudaSwap(T& a, T& b) {
+    T tmp = std::move(a);
+    a = std::move(b);
+    b = std::move(tmp);
+}
 
 template <typename T>
 void cudaCopy(const T* src, size_t n, T* dst,

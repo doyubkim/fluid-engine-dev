@@ -63,6 +63,18 @@ size_t CudaStdVector<T>::size() const {
     return _size;
 }
 
+#ifdef __CUDA_ARCH__
+template <typename T>
+__device__ typename CudaStdVector<T>::reference CudaStdVector<T>::at(size_t i) {
+    return _ptr[i];
+}
+
+template <typename T>
+__device__ typename CudaStdVector<T>::const_reference CudaStdVector<T>::at(
+    size_t i) const {
+    return _ptr[i];
+}
+#else
 template <typename T>
 CudaStdVector<T>::Reference CudaStdVector<T>::at(size_t i) {
     Reference r(_ptr + i);
@@ -75,11 +87,12 @@ T CudaStdVector<T>::at(size_t i) const {
     cudaCopyDeviceToHost(_ptr + i, 1, &tmp);
     return tmp;
 }
+#endif
 
 template <typename T>
 void CudaStdVector<T>::clear() {
     if (_ptr != nullptr) {
-        cudaFree(_ptr);
+        JET_CUDA_CHECK(cudaFree(_ptr));
     }
     _ptr = nullptr;
     _size = 0;
@@ -136,14 +149,22 @@ void CudaStdVector<T>::append(const CudaStdVector& other) {
 template <typename T>
 template <typename A>
 void CudaStdVector<T>::copyFrom(const std::vector<T, A>& other) {
-    CudaStdVector newBuffer(other);
-    swap(newBuffer);
+    if (_size == other.size()) {
+        cudaCopyHostToDevice(other.data(), _size, _ptr);
+    } else {
+        CudaStdVector newBuffer(other);
+        swap(newBuffer);
+    }
 }
 
 template <typename T>
 void CudaStdVector<T>::copyFrom(const CudaStdVector& other) {
-    CudaStdVector newBuffer(other);
-    swap(newBuffer);
+    if (_size == other.size()) {
+        cudaCopyDeviceToDevice(other.data(), _size, _ptr);
+    } else {
+        CudaStdVector newBuffer(other);
+        swap(newBuffer);
+    }
 }
 
 template <typename T>
@@ -173,6 +194,18 @@ CudaStdVector<T>& CudaStdVector<T>::operator=(CudaStdVector&& other) {
     return *this;
 }
 
+#ifdef __CUDA_ARCH__
+template <typename T>
+typename CudaStdVector<T>::reference CudaStdVector<T>::operator[](size_t i) {
+    return at(i);
+}
+
+template <typename T>
+typename CudaStdVector<T>::const_reference CudaStdVector<T>::operator[](
+    size_t i) const {
+    return at(i);
+}
+#else
 template <typename T>
 CudaStdVector<T>::Reference CudaStdVector<T>::operator[](size_t i) {
     return at(i);
@@ -182,6 +215,7 @@ template <typename T>
 T CudaStdVector<T>::operator[](size_t i) const {
     return at(i);
 }
+#endif  // __CUDA_ARCH__
 
 }  // namespace jet
 

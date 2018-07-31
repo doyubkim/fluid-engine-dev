@@ -39,6 +39,8 @@ class CudaStdArray {
 
     __host__ __device__ void fill(const_reference val);
 
+    __host__ Vector<T, N> toVector() const;
+
     __host__ __device__ reference operator[](size_t i);
 
     __host__ __device__ const_reference operator[](size_t i) const;
