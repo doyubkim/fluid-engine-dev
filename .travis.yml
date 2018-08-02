@@ -17,7 +17,7 @@ matrix:
       env:
         - BUILD_TYPE=Debug
       script:
-        - sh scripts/travis_build_codecov.sh
+        - bash scripts/travis_build_codecov.sh
     - name: Test Docker based on Ubuntu 14.04 LTS + gcc
       os: linux
       dist: trusty
