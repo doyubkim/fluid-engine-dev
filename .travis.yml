@@ -71,9 +71,3 @@ matrix:
       compiler: clang
       script:
         - sh scripts/travis_build.sh
-
-after_success:
-  - if [ $TRAVIS_OS_NAME == linux ] && [ ${BUILD_TYPE} == Debug ]; then
-      cd ${TRAVIS_BUILD_DIR}
-      bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
-    fi
