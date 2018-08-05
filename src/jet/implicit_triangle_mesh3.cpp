@@ -4,9 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <pch.h>
+
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>
-#include <pch.h>
 
 using namespace jet;
 
@@ -15,31 +16,40 @@ ImplicitTriangleMesh3::ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh,
                                              const Transform3& transform,
                                              bool isNormalFlipped)
     : ImplicitSurface3(transform, isNormalFlipped), _mesh(mesh) {
-    BoundingBox3D box = _mesh->boundingBox();
-    Vector3D scale(box.width(), box.height(), box.depth());
-    box.lowerCorner -= margin * scale;
-    box.upperCorner += margin * scale;
+    if (mesh->numberOfTriangles() > 0 && mesh->numberOfPoints() > 0) {
+        BoundingBox3D box = _mesh->boundingBox();
+        Vector3D scale(box.width(), box.height(), box.depth());
+        box.lowerCorner -= margin * scale;
+        box.upperCorner += margin * scale;
+        size_t resolutionY = static_cast<size_t>(
+            std::ceil(resolutionX * box.height() / box.width()));
+        size_t resolutionZ = static_cast<size_t>(
+            std::ceil(resolutionX * box.depth() / box.width()));
 
-    size_t resolutionY = static_cast<size_t>(
-        std::ceil(resolutionX * box.height() / box.width()));
-    size_t resolutionZ =
-        static_cast<size_t>(std::ceil(resolutionX * box.depth() / box.width()));
+        double dx = box.width() / resolutionX;
 
-    double dx = box.width() / resolutionX;
+        _grid = std::make_shared<VertexCenteredScalarGrid3>();
+        _grid->resize(resolutionX, resolutionY, resolutionZ, dx, dx, dx,
+                      box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
 
-    _grid = std::make_shared<VertexCenteredScalarGrid3>();
-    _grid->resize(resolutionX, resolutionY, resolutionZ, dx, dx, dx,
-                  box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+        triangleMeshToSdf(*_mesh, _grid.get());
 
-    triangleMeshToSdf(*_mesh, _grid.get());
-
-    _customImplicitSurface =
-        CustomImplicitSurface3::builder()
-            .withSignedDistanceFunction(
-                [&](const Vector3D& pt) -> double { return _grid->sample(pt); })
-            .withDomain(_grid->boundingBox())
-            .withResolution(dx)
-            .makeShared();
+        _customImplicitSurface =
+            CustomImplicitSurface3::builder()
+                .withSignedDistanceFunction([&](const Vector3D& pt) -> double {
+                    return _grid->sample(pt);
+                })
+                .withDomain(_grid->boundingBox())
+                .withResolution(dx)
+                .makeShared();
+    } else {
+        // Empty mesh -- return big/uniform number
+        _customImplicitSurface =
+            CustomImplicitSurface3::builder()
+                .withSignedDistanceFunction(
+                    [&](const Vector3D&) -> double { return kMaxD; })
+                .makeShared();
+    }
 }
 
 ImplicitTriangleMesh3::~ImplicitTriangleMesh3() {}
