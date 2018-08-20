@@ -139,12 +139,12 @@ void TriangleMesh3::clear() {
 }
 
 void TriangleMesh3::set(const TriangleMesh3& other) {
-    _points.set(other._points);
-    _normals.set(other._normals);
-    _uvs.set(other._uvs);
-    _pointIndices.set(other._pointIndices);
-    _normalIndices.set(other._normalIndices);
-    _uvIndices.set(other._uvIndices);
+    _points.copyFrom(other._points);
+    _normals.copyFrom(other._normals);
+    _uvs.copyFrom(other._uvs);
+    _pointIndices.copyFrom(other._pointIndices);
+    _normalIndices.copyFrom(other._normalIndices);
+    _uvIndices.copyFrom(other._uvIndices);
 
     invalidateBvh();
 }
@@ -191,21 +191,21 @@ const Vector2D& TriangleMesh3::uv(size_t i) const { return _uvs[i]; }
 
 Vector2D& TriangleMesh3::uv(size_t i) { return _uvs[i]; }
 
-const Size3& TriangleMesh3::pointIndex(size_t i) const {
+const Vector3UZ& TriangleMesh3::pointIndex(size_t i) const {
     return _pointIndices[i];
 }
 
-Size3& TriangleMesh3::pointIndex(size_t i) { return _pointIndices[i]; }
+Vector3UZ& TriangleMesh3::pointIndex(size_t i) { return _pointIndices[i]; }
 
-const Size3& TriangleMesh3::normalIndex(size_t i) const {
+const Vector3UZ& TriangleMesh3::normalIndex(size_t i) const {
     return _normalIndices[i];
 }
 
-Size3& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
+Vector3UZ& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
 
-const Size3& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
+const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
 
-Size3& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
+Vector3UZ& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
 
 Triangle3 TriangleMesh3::triangle(size_t i) const {
     Triangle3 tri;
@@ -229,17 +229,17 @@ Triangle3 TriangleMesh3::triangle(size_t i) const {
     return tri;
 }
 
-size_t TriangleMesh3::numberOfPoints() const { return _points.size(); }
+size_t TriangleMesh3::numberOfPoints() const { return _points.length(); }
 
-size_t TriangleMesh3::numberOfNormals() const { return _normals.size(); }
+size_t TriangleMesh3::numberOfNormals() const { return _normals.length(); }
 
-size_t TriangleMesh3::numberOfUvs() const { return _uvs.size(); }
+size_t TriangleMesh3::numberOfUvs() const { return _uvs.length(); }
 
-size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.size(); }
+size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.length(); }
 
-bool TriangleMesh3::hasNormals() const { return _normals.size() > 0; }
+bool TriangleMesh3::hasNormals() const { return _normals.length() > 0; }
 
-bool TriangleMesh3::hasUvs() const { return _uvs.size() > 0; }
+bool TriangleMesh3::hasUvs() const { return _uvs.length() > 0; }
 
 void TriangleMesh3::addPoint(const Vector3D& pt) { _points.append(pt); }
 
@@ -247,16 +247,16 @@ void TriangleMesh3::addNormal(const Vector3D& n) { _normals.append(n); }
 
 void TriangleMesh3::addUv(const Vector2D& t) { _uvs.append(t); }
 
-void TriangleMesh3::addPointTriangle(const Size3& newPointIndices) {
+void TriangleMesh3::addPointTriangle(const Vector3UZ& newPointIndices) {
     _pointIndices.append(newPointIndices);
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointNormalTriangle(const Size3& newPointIndices,
-                                           const Size3& newNormalIndices) {
+void TriangleMesh3::addPointNormalTriangle(const Vector3UZ& newPointIndices,
+                                           const Vector3UZ& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+    JET_ASSERT(_pointIndices.length() == _normalIndices.length());
 
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
@@ -264,13 +264,13 @@ void TriangleMesh3::addPointNormalTriangle(const Size3& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvNormalTriangle(const Size3& newPointIndices,
-                                             const Size3& newUvIndices,
-                                             const Size3& newNormalIndices) {
+void TriangleMesh3::addPointUvNormalTriangle(const Vector3UZ& newPointIndices,
+                                             const Vector3UZ& newUvIndices,
+                                             const Vector3UZ& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
-    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+    JET_ASSERT(_pointIndices.length() == _normalIndices.length());
+    JET_ASSERT(_pointIndices.length() == _uvIndices.length());
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
@@ -278,11 +278,11 @@ void TriangleMesh3::addPointUvNormalTriangle(const Size3& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvTriangle(const Size3& newPointIndices,
-                                       const Size3& newUvIndices) {
+void TriangleMesh3::addPointUvTriangle(const Vector3UZ& newPointIndices,
+                                       const Vector3UZ& newUvIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.size() == _uvs.size());
+    JET_ASSERT(_pointIndices.length() == _uvs.length());
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
 
@@ -290,12 +290,12 @@ void TriangleMesh3::addPointUvTriangle(const Size3& newPointIndices,
 }
 
 void TriangleMesh3::addTriangle(const Triangle3& tri) {
-    size_t vStart = _points.size();
-    size_t nStart = _normals.size();
-    size_t tStart = _uvs.size();
-    Size3 newPointIndices;
-    Size3 newNormalIndices;
-    Size3 newUvIndices;
+    size_t vStart = _points.length();
+    size_t nStart = _normals.length();
+    size_t tStart = _uvs.length();
+    Vector3UZ newPointIndices;
+    Vector3UZ newNormalIndices;
+    Vector3UZ newUvIndices;
     for (size_t i = 0; i < 3; i++) {
         _points.append(tri.points[i]);
         _normals.append(tri.normals[i]);
@@ -312,13 +312,13 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
 }
 
 void TriangleMesh3::setFaceNormal() {
-    _normals.resize(_points.size());
-    _normalIndices.set(_pointIndices);
+    _normals.resize(_points.length());
+    _normalIndices.copyFrom(_pointIndices);
 
     for (size_t i = 0; i < numberOfTriangles(); ++i) {
         Triangle3 tri = triangle(i);
         Vector3D n = tri.faceNormal();
-        Size3 f = _pointIndices[i];
+        Vector3UZ f = _pointIndices[i];
         _normals[f.x] = n;
         _normals[f.y] = n;
         _normals[f.z] = n;
@@ -329,10 +329,10 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
     _normals.clear();
     _normalIndices.clear();
 
-    Array1<double> angleWeights(_points.size());
-    Vector3DArray pseudoNormals(_points.size());
+    Array1<double> angleWeights(_points.length());
+    Vector3DArray pseudoNormals(_points.length());
 
-    for (size_t i = 0; i < _points.size(); ++i) {
+    for (size_t i = 0; i < _points.length(); ++i) {
         angleWeights[i] = 0;
         pseudoNormals[i] = Vector3D();
     }
@@ -386,14 +386,14 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
         pseudoNormals[idx[2]] += angle * normal;
     }
 
-    for (size_t i = 0; i < _points.size(); ++i) {
+    for (size_t i = 0; i < _points.length(); ++i) {
         if (angleWeights[i] > 0) {
             pseudoNormals[i] /= angleWeights[i];
         }
     }
 
     std::swap(pseudoNormals, _normals);
-    _normalIndices.set(_pointIndices);
+    _normalIndices.copyFrom(_pointIndices);
 }
 
 void TriangleMesh3::scale(double factor) {

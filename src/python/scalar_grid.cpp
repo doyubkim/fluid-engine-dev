@@ -19,7 +19,7 @@ void addScalarGrid2(py::module& m) {
         R"pbdoc(Abstract base class for 2-D scalar grid structure.)pbdoc")
         .def("resize",
              [](ScalarGrid2& instance, py::args args, py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -125,7 +125,7 @@ void addScalarGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("dataAccessor", &ScalarGrid2::dataAccessor,
+        .def("dataView", (ArrayView2<double>(ScalarGrid2::*)()) &ScalarGrid2::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &ScalarGrid2::dataPosition,
@@ -186,7 +186,7 @@ void addScalarGrid3(py::module& m) {
         R"pbdoc(Abstract base class for 3-D scalar grid structure.)pbdoc")
         .def("resize",
              [](ScalarGrid3& instance, py::args args, py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -297,7 +297,7 @@ void addScalarGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("dataAccessor", &ScalarGrid3::dataAccessor,
+        .def("dataView", (ArrayView3<double>(ScalarGrid3::*)()) &ScalarGrid3::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &ScalarGrid3::dataPosition,

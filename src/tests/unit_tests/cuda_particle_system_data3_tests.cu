@@ -127,9 +127,11 @@ TEST(CudaParticleSystemData3, AddParticles) {
 
     particleSystem.addParticles(
         Array1<Vector4F>({Vector4F(1.0f, 2.0f, 3.0f, 4.0f),
-                          Vector4F(4.0f, 5.0f, 6.0f, 7.0f)}).view(),
+                          Vector4F(4.0f, 5.0f, 6.0f, 7.0f)})
+            .view(),
         Array1<Vector4F>({Vector4F(7.0f, 8.0f, 9.0f, 10.0f),
-                          Vector4F(8.0f, 7.0f, 6.0f, 5.0f)}).view());
+                          Vector4F(8.0f, 7.0f, 6.0f, 5.0f)})
+            .view());
 
     EXPECT_EQ(14u, particleSystem.numberOfParticles());
     auto p = particleSystem.positions();
@@ -195,12 +197,12 @@ TEST(CudaParticleSystemData3, BuildNeighborLists) {
     particleSystem.buildNeighborSearcher(radius);
     particleSystem.buildNeighborLists(radius);
 
-    Array1<size_t> ansNeighborStarts(positions.size());
-    Array1<size_t> ansNeighborEnds(positions.size());
+    Array1<size_t> ansNeighborStarts(positions.length());
+    Array1<size_t> ansNeighborEnds(positions.length());
 
-    for (size_t i = 0; i < positions.size(); ++i) {
+    for (size_t i = 0; i < positions.length(); ++i) {
         size_t cnt = 0;
-        for (size_t j = 0; j < positions.size(); ++j) {
+        for (size_t j = 0; j < positions.length(); ++j) {
             if (i != j && (positions[i] - positions[j]).length() <= radius) {
                 ++cnt;
             }
@@ -209,23 +211,23 @@ TEST(CudaParticleSystemData3, BuildNeighborLists) {
     }
 
     ansNeighborEnds[0] = ansNeighborStarts[0];
-    for (size_t i = 1; i < ansNeighborStarts.size(); ++i) {
+    for (size_t i = 1; i < ansNeighborStarts.length(); ++i) {
         ansNeighborEnds[i] = ansNeighborEnds[i - 1] + ansNeighborStarts[i];
     }
-    std::transform(ansNeighborEnds.begin(), ansNeighborEnds.end(),
-                   ansNeighborStarts.begin(), ansNeighborStarts.begin(),
-                   std::minus<size_t>());
+    for (size_t i = 0; i < ansNeighborStarts.length(); ++i) {
+        ansNeighborStarts[i] = ansNeighborEnds[i] - ansNeighborStarts[i];
+    }
 
     auto cuNeighborStarts = particleSystem.neighborStarts();
     auto cuNeighborEnds = particleSystem.neighborEnds();
 
-    for (size_t i = 0; i < ansNeighborStarts.size(); ++i) {
+    for (size_t i = 0; i < ansNeighborStarts.length(); ++i) {
         EXPECT_EQ(ansNeighborStarts[i], cuNeighborStarts[i]) << i;
         EXPECT_EQ(ansNeighborEnds[i], cuNeighborEnds[i]) << i;
     }
 
     auto cuNeighborLists = particleSystem.neighborLists();
-    for (size_t i = 0; i < ansNeighborStarts.size(); ++i) {
+    for (size_t i = 0; i < ansNeighborStarts.length(); ++i) {
         size_t start = ansNeighborStarts[i];
         size_t end = ansNeighborEnds[i];
         for (size_t jj = start; jj < end; ++jj) {

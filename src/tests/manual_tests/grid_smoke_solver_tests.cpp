@@ -56,7 +56,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, Rising) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -97,7 +97,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -144,7 +144,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, MovingEmitterWithCollider) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -188,7 +188,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderNonVariational) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -234,7 +234,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderAndDiffusion) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData(solver->smokeDensity()->constDataAccessor(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -282,7 +282,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
         });
 
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];
@@ -290,7 +290,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        output.set(0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);
@@ -300,7 +300,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData(output.constAccessor(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -350,7 +350,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
 
     solver->setCollider(collider);
 
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];
@@ -358,7 +358,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        output.set(0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);
@@ -368,7 +368,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData(output.constAccessor(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -418,7 +418,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
 
     solver->setCollider(collider);
 
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     Array2<double> output(resolution.x, resolution.y);
     auto density = solver->smokeDensity();
     char filename[256];
@@ -426,7 +426,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; ++frame) {
         solver->update(frame);
 
-        output.set(0.0);
+        output.fill(0.0);
         density->forEachDataPointIndex(
             [&] (size_t i, size_t j, size_t k) {
                 output(i, j) += (*density)(i, j, k);
@@ -436,7 +436,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData(output.constAccessor(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F

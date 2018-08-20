@@ -7,9 +7,9 @@
 #ifndef INCLUDE_JET_TRANSFORM2_H_
 #define INCLUDE_JET_TRANSFORM2_H_
 
-#include <jet/bounding_box2.h>
-#include <jet/ray2.h>
-#include <jet/vector2.h>
+#include <jet/bounding_box.h>
+#include <jet/matrix.h>
+#include <jet/ray.h>
 
 namespace jet {
 

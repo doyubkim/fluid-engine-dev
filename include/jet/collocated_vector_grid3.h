@@ -7,9 +7,10 @@
 #ifndef INCLUDE_JET_COLLOCATED_VECTOR_GRID3_H_
 #define INCLUDE_JET_COLLOCATED_VECTOR_GRID3_H_
 
-#include <jet/array3.h>
-#include <jet/array_samplers3.h>
+#include <jet/array.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid3.h>
+
 #include <vector>
 
 namespace jet {
@@ -24,7 +25,7 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     virtual ~CollocatedVectorGrid3();
 
     //! Returns the actual data point size.
-    virtual Size3 dataSize() const = 0;
+    virtual Vector3UZ dataSize() const = 0;
 
     //!
     //! \brief Returns data position for the grid point at (0, 0, 0).
@@ -46,11 +47,11 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
     //! Returns curl at data point location.
     Vector3D curlAtDataPoint(size_t i, size_t j, size_t k) const;
 
-    //! Returns the read-write data array accessor.
-    VectorDataAccessor dataAccessor();
+    //! Returns the read-write data array view.
+    VectorDataView dataView();
 
-    //! Returns the read-only data array accessor.
-    ConstVectorDataAccessor constDataAccessor() const;
+    //! Returns the read-only data array view.
+    ConstVectorDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
@@ -111,14 +112,11 @@ class CollocatedVectorGrid3 : public VectorGrid3 {
 
  private:
     Array3<Vector3D> _data;
-    LinearArraySampler3<Vector3D, double> _linearSampler;
+    LinearArraySampler3<Vector3D> _linearSampler;
     std::function<Vector3D(const Vector3D&)> _sampler;
 
-    void onResize(
-        const Size3& resolution,
-        const Vector3D& gridSpacing,
-        const Vector3D& origin,
-        const Vector3D& initialValue) final;
+    void onResize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
+                  const Vector3D& origin, const Vector3D& initialValue) final;
 
     void resetSampler();
 };

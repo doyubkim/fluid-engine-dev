@@ -48,7 +48,7 @@ class GridBoundaryConditionSolver3 {
     //!
     void updateCollider(
         const Collider3Ptr& newCollider,
-        const Size3& gridSize,
+        const Vector3UZ& gridSize,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin);
 
@@ -78,12 +78,12 @@ class GridBoundaryConditionSolver3 {
  protected:
     //! Invoked when a new collider is set.
     virtual void onColliderUpdated(
-        const Size3& gridSize,
+        const Vector3UZ& gridSize,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin) = 0;
 
     //! Returns the size of the velocity grid to be constrained.
-    const Size3& gridSize() const;
+    const Vector3UZ& gridSize() const;
 
     //! Returns the spacing of the velocity grid to be constrained.
     const Vector3D& gridSpacing() const;
@@ -93,7 +93,7 @@ class GridBoundaryConditionSolver3 {
 
  private:
     Collider3Ptr _collider;
-    Size3 _gridSize;
+    Vector3UZ _gridSize;
     Vector3D _gridSpacing;
     Vector3D _gridOrigin;
     int _closedDomainBoundaryFlag = kDirectionAll;

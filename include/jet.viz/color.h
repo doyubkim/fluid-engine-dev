@@ -7,7 +7,8 @@
 #ifndef INCLUDE_JET_VIZ_COLOR_H_
 #define INCLUDE_JET_VIZ_COLOR_H_
 
-#include <jet/vector4.h>
+#include <jet/matrix.h>
+
 #include <cstdint>
 
 namespace jet {

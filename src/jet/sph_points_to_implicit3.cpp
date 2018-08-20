@@ -19,7 +19,7 @@ SphPointsToImplicit3::SphPointsToImplicit3(double kernelRadius,
       _cutOffDensity(cutOffDensity),
       _isOutputSdf(isOutputSdf) {}
 
-void SphPointsToImplicit3::convert(const ConstArrayAccessor1<Vector3D>& points,
+void SphPointsToImplicit3::convert(const ConstArrayView1<Vector3D>& points,
                                    ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";

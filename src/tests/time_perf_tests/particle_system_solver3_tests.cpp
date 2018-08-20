@@ -38,7 +38,7 @@ class ParticleSystemSolver3 : public benchmark::Fixture {
             points.append(makeVec());
         }
         particles->resize(0);
-        particles->addParticles(points.constAccessor());
+        particles->addParticles(points);
     }
 
     void SetUp(const benchmark::State&) override {}

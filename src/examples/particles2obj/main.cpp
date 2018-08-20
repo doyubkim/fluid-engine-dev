@@ -29,7 +29,7 @@ double sAnisoCutOffDensity = 0.5;
 double sAnisoPositionSmoothingFactor = 0.5;
 size_t sAnisoMinNumNeighbors = 25;
 
-void printInfo(const Size3& resolution, const BoundingBox3D& domain,
+void printInfo(const Vector3UZ& resolution, const BoundingBox3D& domain,
                const Vector3D& gridSpacing, size_t numberOfParticles,
                const std::string& method) {
     printf("Resolution: %zu x %zu x %zu\n", resolution.x, resolution.y,
@@ -46,8 +46,8 @@ void printInfo(const Size3& resolution, const BoundingBox3D& domain,
 void triangulateAndSave(const ScalarGrid3& sdf,
                         const std::string& objFilename) {
     TriangleMesh3 mesh;
-    marchingCubes(sdf.constDataAccessor(), sdf.gridSpacing(), sdf.dataOrigin(),
-                  &mesh, 0.0, kDirectionAll);
+    marchingCubes(sdf.dataView(), sdf.gridSpacing(), sdf.dataOrigin(), &mesh,
+                  0.0, kDirectionAll);
 
     std::ofstream file(objFilename.c_str());
     if (file) {
@@ -60,7 +60,7 @@ void triangulateAndSave(const ScalarGrid3& sdf,
     }
 }
 
-void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
+void particlesToObj(const Array1<Vector3D>& positions, const Vector3UZ& resolution,
                     const Vector3D& gridSpacing, const Vector3D& origin,
                     double kernelRadius, const std::string& method,
                     const std::string& objFilename) {
@@ -81,7 +81,7 @@ void particlesToObj(const Array1<Vector3D>& positions, const Size3& resolution,
     }
 
     VertexCenteredScalarGrid3 sdf(resolution, gridSpacing, origin);
-    printInfo(resolution, sdf.boundingBox(), gridSpacing, positions.size(),
+    printInfo(resolution, sdf.boundingBox(), gridSpacing, positions.length(),
               method);
 
     converter->convert(positions, &sdf);
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
     bool showHelp = false;
     std::string inputFilename;
     std::string outputFilename;
-    Size3 resolution(100, 100, 100);
+    Vector3UZ resolution(100, 100, 100);
     Vector3D gridSpacing(0.01, 0.01, 0.01);
     Vector3D origin;
     std::string method = "anisotropic";

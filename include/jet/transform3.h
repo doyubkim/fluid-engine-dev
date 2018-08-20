@@ -7,10 +7,10 @@
 #ifndef INCLUDE_JET_TRANSFORM3_H_
 #define INCLUDE_JET_TRANSFORM3_H_
 
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
+#include <jet/matrix.h>
 #include <jet/quaternion.h>
-#include <jet/ray3.h>
-#include <jet/vector3.h>
+#include <jet/ray.h>
 
 namespace jet {
 
@@ -64,8 +64,8 @@ class Transform3 {
  private:
     Vector3D _translation;
     QuaternionD _orientation;
-    Matrix3x3D _orientationMat3;
-    Matrix3x3D _inverseOrientationMat3;
+    Matrix3x3D _orientationMat3 = Matrix3x3D::makeIdentity();
+    Matrix3x3D _inverseOrientationMat3 = Matrix3x3D::makeIdentity();
 };
 
 }  // namespace jet

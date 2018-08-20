@@ -28,10 +28,7 @@ namespace jet {
 //!
 class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
  public:
-    enum BoundaryType {
-        Dirichlet,
-        Neumann
-    };
+    enum BoundaryType { Dirichlet, Neumann };
 
     //! Constructs the solver with given boundary type.
     explicit GridBackwardEulerDiffusionSolver3(
@@ -48,14 +45,10 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
     //! \param boundarySdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
-        const ScalarGrid3& source,
-        double diffusionCoefficient,
-        double timeIntervalInSeconds,
-        ScalarGrid3* dest,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) override;
+        const ScalarGrid3& source, double diffusionCoefficient,
+        double timeIntervalInSeconds, ScalarGrid3* dest,
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
 
     //!
     //! Solves diffusion equation for a collocated vector field.
@@ -68,14 +61,10 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
     //! \param boundarySdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
-        const CollocatedVectorGrid3& source,
-        double diffusionCoefficient,
-        double timeIntervalInSeconds,
-        CollocatedVectorGrid3* dest,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) override;
+        const CollocatedVectorGrid3& source, double diffusionCoefficient,
+        double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
 
     //!
     //! Solves diffusion equation for a face-centered vector field.
@@ -88,14 +77,10 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
     //! \param boundarySdf Shape of the fluid boundary that is full by default.
     //!
     void solve(
-        const FaceCenteredGrid3& source,
-        double diffusionCoefficient,
-        double timeIntervalInSeconds,
-        FaceCenteredGrid3* dest,
-        const ScalarField3& boundarySdf
-            = ConstantScalarField3(kMaxD),
-        const ScalarField3& fluidSdf
-            = ConstantScalarField3(-kMaxD)) override;
+        const FaceCenteredGrid3& source, double diffusionCoefficient,
+        double timeIntervalInSeconds, FaceCenteredGrid3* dest,
+        const ScalarField3& boundarySdf = ConstantScalarField3(kMaxD),
+        const ScalarField3& fluidSdf = ConstantScalarField3(-kMaxD)) override;
 
     //! Sets the linear system solver for this diffusion solver.
     void setLinearSystemSolver(const FdmLinearSystemSolver3Ptr& solver);
@@ -107,23 +92,16 @@ class GridBackwardEulerDiffusionSolver3 final : public GridDiffusionSolver3 {
     Array3<char> _markers;
 
     void buildMarkers(
-        const Size3& size,
+        const Vector3UZ& size,
         const std::function<Vector3D(size_t, size_t, size_t)>& pos,
-        const ScalarField3& boundarySdf,
-        const ScalarField3& fluidSdf);
+        const ScalarField3& boundarySdf, const ScalarField3& fluidSdf);
 
-    void buildMatrix(
-        const Size3& size,
-        const Vector3D& c);
+    void buildMatrix(const Vector3UZ& size, const Vector3D& c);
 
-    void buildVectors(
-        const ConstArrayAccessor3<double>& f,
-        const Vector3D& c);
+    void buildVectors(const ConstArrayView3<double>& f, const Vector3D& c);
 
-    void buildVectors(
-        const ConstArrayAccessor3<Vector3D>& f,
-        const Vector3D& c,
-        size_t component);
+    void buildVectors(const ConstArrayView3<Vector3D>& f, const Vector3D& c,
+                      size_t component);
 };
 
 //! Shared pointer type for the GridBackwardEulerDiffusionSolver3.

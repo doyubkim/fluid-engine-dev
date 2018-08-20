@@ -27,7 +27,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <jet/array3.h>
+#include <jet/array.h>
 #include <jet/array_utils.h>
 #include <jet/triangle_mesh_to_sdf.h>
 #include <pch.h>
@@ -57,7 +57,7 @@ static void checkNeighbor(const TriangleMesh3& mesh, const Vector3D& gx,
 
 static void sweep(const TriangleMesh3& mesh, int di, int dj, int dk,
                   ScalarGrid3* sdf, Array3<size_t>* closestTri) {
-    Size3 size = sdf->dataSize();
+    Vector3UZ size = sdf->dataSize();
     Vector3D h = sdf->gridSpacing();
     Vector3D origin = sdf->dataOrigin();
 
@@ -95,8 +95,8 @@ static void sweep(const TriangleMesh3& mesh, int di, int dj, int dk,
     for (ssize_t k = k0; k != k1; k += dk) {
         for (ssize_t j = j0; j != j1; j += dj) {
             for (ssize_t i = i0; i != i1; i += di) {
-                Vector3D gx({i, j, k});
-                gx *= h;
+                Vector3D gx((double)i, (double)j, (double)k);
+                elemIMul(gx, h);
                 gx += origin;
 
                 checkNeighbor(mesh, gx, i, j, k, i - di, j, k, sdf, closestTri);
@@ -181,7 +181,7 @@ static bool pointInTriangle2D(double x0, double y0, double x1, double y1,
 
 void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
                        const unsigned int exactBand) {
-    Size3 size = sdf->dataSize();
+    Vector3UZ size = sdf->dataSize();
     if (size.x * size.y * size.z == 0) {
         return;
     }
@@ -207,7 +207,7 @@ void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
     ssize_t maxSizeY = static_cast<ssize_t>(size.y);
     ssize_t maxSizeZ = static_cast<ssize_t>(size.z);
     for (size_t t = 0; t < nTri; ++t) {
-        Size3 indices = mesh.pointIndex(t);
+        Vector3UZ indices = mesh.pointIndex(t);
 
         Triangle3 tri = mesh.triangle(t);
 
@@ -216,9 +216,9 @@ void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
         Vector3D pt3 = mesh.point(indices.z);
 
         // Normalize coordinates
-        Vector3D f1 = (pt1 - origin) / h;
-        Vector3D f2 = (pt2 - origin) / h;
-        Vector3D f3 = (pt3 - origin) / h;
+        Vector3D f1 = elemDiv((pt1 - origin), h);
+        Vector3D f2 = elemDiv((pt2 - origin), h);
+        Vector3D f3 = elemDiv((pt3 - origin), h);
 
         // Do distances nearby
         ssize_t i0 = static_cast<ssize_t>(min3<double>(f1.x, f2.x, f3.x));

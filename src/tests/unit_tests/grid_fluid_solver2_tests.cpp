@@ -35,7 +35,7 @@ TEST(GridFluidSolver2, Constructor) {
 TEST(GridFluidSolver2, ResizeGridSystemData) {
     GridFluidSolver2 solver;
 
-    solver.resizeGrid(Size2(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
+    solver.resizeGrid(Vector2UZ(1, 2), Vector2D(3.0, 4.0), Vector2D(5.0, 6.0));
 
     EXPECT_EQ(1u, solver.resolution().x);
     EXPECT_EQ(2u, solver.resolution().y);
@@ -48,7 +48,7 @@ TEST(GridFluidSolver2, ResizeGridSystemData) {
 TEST(GridFluidSolver2, MinimumResolution) {
     GridFluidSolver2 solver;
 
-    solver.resizeGrid(Size2(1, 1), Vector2D(1.0, 1.0), Vector2D());
+    solver.resizeGrid(Vector2UZ(1, 1), Vector2D(1.0, 1.0), Vector2D());
     solver.velocity()->fill(Vector2D());
 
     Frame frame(0, 1.0 / 60.0);
@@ -63,7 +63,7 @@ TEST(GridFluidSolver2, GravityOnly) {
     solver.setDiffusionSolver(nullptr);
     solver.setPressureSolver(nullptr);
 
-    solver.resizeGrid(Size2(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
+    solver.resizeGrid(Vector2UZ(3, 3), Vector2D(1.0 / 3.0, 1.0 / 3.0), Vector2D());
     solver.velocity()->fill(Vector2D());
 
     Frame frame(0, 0.01);

@@ -107,7 +107,9 @@ void addCollocatedVectorGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("dataAccessor", &CollocatedVectorGrid2::dataAccessor,
+        .def("dataView",
+             (ArrayView2<Vector2D>(CollocatedVectorGrid2::*)()) &
+                 CollocatedVectorGrid2::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &CollocatedVectorGrid2::dataPosition,
@@ -252,7 +254,7 @@ void addCollocatedVectorGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("dataAccessor", &CollocatedVectorGrid3::dataAccessor,
+        .def("dataView", (ArrayView3<Vector3D>(CollocatedVectorGrid3::*)()) &CollocatedVectorGrid3::dataView,
              R"pbdoc(Returns the data array accessor.)pbdoc")
         .def(
             "dataPosition", &CollocatedVectorGrid3::dataPosition,

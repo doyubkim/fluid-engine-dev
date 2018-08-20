@@ -25,8 +25,8 @@ void addPointsToImplicit2(pybind11::module& m) {
                  for (size_t i = 0; i < points.size(); ++i) {
                      points_.push_back(objectToVector2D(points[i]));
                  }
-                 ConstArrayAccessor1<Vector2D> pointsAcc(points_.size(),
-                                                         points_.data());
+                 ConstArrayView1<Vector2D> pointsAcc(points_.data(),
+                                                     points_.size());
                  instance.convert(pointsAcc, output.get());
              },
              R"pbdoc(
@@ -52,8 +52,8 @@ void addPointsToImplicit3(pybind11::module& m) {
                  for (size_t i = 0; i < points.size(); ++i) {
                      points_.push_back(objectToVector3D(points[i]));
                  }
-                 ConstArrayAccessor1<Vector3D> pointsAcc(points_.size(),
-                                                         points_.data());
+                 ConstArrayView1<Vector3D> pointsAcc(points_.data(),
+                                                     points_.size());
                  instance.convert(pointsAcc, output.get());
              },
              R"pbdoc(

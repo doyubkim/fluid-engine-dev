@@ -9,7 +9,7 @@
 
 #include <jet.viz/render_parameters.h>
 #include <jet.viz/vertex.h>
-#include <jet/matrix4x4.h>
+#include <jet/matrix.h>
 
 #include <map>
 #include <memory>

@@ -27,16 +27,12 @@ set_target_properties(${target}
 
 # Compile options
 target_compile_options(${target}
-        PRIVATE
-
         PUBLIC
-        ${DEFAULT_COMPILE_OPTIONS}
-
-        INTERFACE)
+        ${DEFAULT_COMPILE_OPTIONS})
 
 # Link libraries
 target_link_libraries(${target}
-        PRIVATE
+        PUBLIC
         ${DEFAULT_LINKER_OPTIONS}
         jet
         jet.viz

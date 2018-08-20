@@ -22,14 +22,14 @@ static const char kTrial = 2;
 
 // Find geometric solution near the boundary
 inline double solveQuadNearBoundary(const Array3<char>& markers,
-                                    ConstArrayAccessor3<double> output,
+                                    ConstArrayView3<double> output,
                                     const Vector3D& gridSpacing,
                                     const Vector3D& invGridSpacingSqr,
                                     double sign, size_t i, size_t j, size_t k) {
     UNUSED_VARIABLE(markers);
     UNUSED_VARIABLE(invGridSpacingSqr);
 
-    Size3 size = output.size();
+    Vector3UZ size = output.size();
 
     bool hasX = false;
     double phiX = kMaxD;
@@ -113,12 +113,11 @@ inline double solveQuadNearBoundary(const Array3<char>& markers,
     return sign * solution;
 }
 
-inline double solveQuad(const Array3<char>& markers,
-                        ArrayAccessor3<double> output,
+inline double solveQuad(const Array3<char>& markers, ArrayView3<double> output,
                         const Vector3D& gridSpacing,
                         const Vector3D& invGridSpacingSqr, size_t i, size_t j,
                         size_t k) {
-    Size3 size = output.size();
+    Vector3UZ size = output.size();
 
     bool hasX = false;
     double phiX = kMaxD;
@@ -223,20 +222,20 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                                       ScalarGrid3* outputSdf) {
     JET_THROW_INVALID_ARG_IF(!inputSdf.hasSameShape(*outputSdf));
 
-    Size3 size = inputSdf.dataSize();
+    Vector3UZ size = inputSdf.dataSize();
     Vector3D gridSpacing = inputSdf.gridSpacing();
     Vector3D invGridSpacing = 1.0 / gridSpacing;
-    Vector3D invGridSpacingSqr = invGridSpacing * invGridSpacing;
+    Vector3D invGridSpacingSqr = elemMul(invGridSpacing, invGridSpacing);
     Array3<char> markers(size);
 
-    auto output = outputSdf->dataAccessor();
+    auto output = outputSdf->dataView();
 
-    markers.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
         output(i, j, k) = inputSdf(i, j, k);
     });
 
     // Solve geometrically near the boundary
-    markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(output(i, j, k)) &&
             ((i > 0 && !isInsideSdf(output(i - 1, j, k))) ||
              (i + 1 < size.x && !isInsideSdf(output(i + 1, j, k))) ||
@@ -244,12 +243,12 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
              (j + 1 < size.y && !isInsideSdf(output(i, j + 1, k))) ||
              (k > 0 && !isInsideSdf(output(i, j, k - 1))) ||
              (k + 1 < size.z && !isInsideSdf(output(i, j, k + 1))))) {
-            output(i, j, k) = solveQuadNearBoundary(
-                markers, inputSdf.constDataAccessor(), gridSpacing,
-                invGridSpacingSqr, -1.0, i, j, k);
+            output(i, j, k) =
+                solveQuadNearBoundary(markers, inputSdf.dataView(), gridSpacing,
+                                      invGridSpacingSqr, -1.0, i, j, k);
         }
     });
-    markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
         if (!isInsideSdf(output(i, j, k)) &&
             ((i > 0 && isInsideSdf(output(i - 1, j, k))) ||
              (i + 1 < size.x && isInsideSdf(output(i + 1, j, k))) ||
@@ -257,15 +256,15 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
              (j + 1 < size.y && isInsideSdf(output(i, j + 1, k))) ||
              (k > 0 && isInsideSdf(output(i, j, k - 1))) ||
              (k + 1 < size.z && isInsideSdf(output(i, j, k + 1))))) {
-            output(i, j, k) = solveQuadNearBoundary(
-                markers, inputSdf.constDataAccessor(), gridSpacing,
-                invGridSpacingSqr, 1.0, i, j, k);
+            output(i, j, k) =
+                solveQuadNearBoundary(markers, inputSdf.dataView(), gridSpacing,
+                                      invGridSpacingSqr, 1.0, i, j, k);
         }
     });
 
     for (int sign = 0; sign < 2; ++sign) {
         // Build markers
-        markers.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        parallelForEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
             if (isInsideSdf(output(i, j, k))) {
                 markers(i, j, k) = kKnown;
             } else {
@@ -273,14 +272,14 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
             }
         });
 
-        auto compare = [&](const Size3& a, const Size3& b) {
+        auto compare = [&](const Vector3UZ& a, const Vector3UZ& b) {
             return output(a.x, a.y, a.z) > output(b.x, b.y, b.z);
         };
 
         // Enqueue initial candidates
-        std::priority_queue<Size3, std::vector<Size3>, decltype(compare)> trial(
+        std::priority_queue<Vector3UZ, std::vector<Vector3UZ>, decltype(compare)> trial(
             compare);
-        markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
             if (markers(i, j, k) != kKnown &&
                 ((i > 0 && markers(i - 1, j, k) == kKnown) ||
                  (i + 1 < size.x && markers(i + 1, j, k) == kKnown) ||
@@ -288,14 +287,14 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                  (j + 1 < size.y && markers(i, j + 1, k) == kKnown) ||
                  (k > 0 && markers(i, j, k - 1) == kKnown) ||
                  (k + 1 < size.z && markers(i, j, k + 1) == kKnown))) {
-                trial.push(Size3(i, j, k));
+                trial.push(Vector3UZ(i, j, k));
                 markers(i, j, k) = kTrial;
             }
         });
 
         // Propagate
         while (!trial.empty()) {
-            Size3 idx = trial.top();
+            Vector3UZ idx = trial.top();
             trial.pop();
 
             size_t i = idx.x;
@@ -316,7 +315,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i - 1, j, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i - 1, j, k);
-                    trial.push(Size3(i - 1, j, k));
+                    trial.push(Vector3UZ(i - 1, j, k));
                 }
             }
 
@@ -326,7 +325,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i + 1, j, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i + 1, j, k);
-                    trial.push(Size3(i + 1, j, k));
+                    trial.push(Vector3UZ(i + 1, j, k));
                 }
             }
 
@@ -336,7 +335,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j - 1, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j - 1, k);
-                    trial.push(Size3(i, j - 1, k));
+                    trial.push(Vector3UZ(i, j - 1, k));
                 }
             }
 
@@ -346,7 +345,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j + 1, k) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j + 1, k);
-                    trial.push(Size3(i, j + 1, k));
+                    trial.push(Vector3UZ(i, j + 1, k));
                 }
             }
 
@@ -356,7 +355,7 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j, k - 1) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k - 1);
-                    trial.push(Size3(i, j, k - 1));
+                    trial.push(Vector3UZ(i, j, k - 1));
                 }
             }
 
@@ -366,13 +365,13 @@ void FmmLevelSetSolver3::reinitialize(const ScalarGrid3& inputSdf,
                     output(i, j, k + 1) =
                         solveQuad(markers, output, gridSpacing,
                                   invGridSpacingSqr, i, j, k + 1);
-                    trial.push(Size3(i, j, k + 1));
+                    trial.push(Vector3UZ(i, j, k + 1));
                 }
             }
         }
 
         // Flip the sign
-        markers.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+        parallelForEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
             output(i, j, k) = -output(i, j, k);
         });
     }
@@ -385,12 +384,12 @@ void FmmLevelSetSolver3::extrapolate(const ScalarGrid3& input,
 
     Array3<double> sdfGrid(input.dataSize());
     auto pos = input.dataPosition();
-    sdfGrid.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });
 
-    extrapolate(input.constDataAccessor(), sdfGrid.constAccessor(),
-                input.gridSpacing(), maxDistance, output->dataAccessor());
+    extrapolate(input.dataView(), sdfGrid, input.gridSpacing(), maxDistance,
+                output->dataView());
 }
 
 void FmmLevelSetSolver3::extrapolate(const CollocatedVectorGrid3& input,
@@ -401,7 +400,7 @@ void FmmLevelSetSolver3::extrapolate(const CollocatedVectorGrid3& input,
 
     Array3<double> sdfGrid(input.dataSize());
     auto pos = input.dataPosition();
-    sdfGrid.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });
 
@@ -420,11 +419,11 @@ void FmmLevelSetSolver3::extrapolate(const CollocatedVectorGrid3& input,
         w(i, j, k) = input(i, j, k).z;
     });
 
-    extrapolate(u, sdfGrid.constAccessor(), gridSpacing, maxDistance, u0);
+    extrapolate(u, sdfGrid, gridSpacing, maxDistance, u0);
 
-    extrapolate(v, sdfGrid.constAccessor(), gridSpacing, maxDistance, v0);
+    extrapolate(v, sdfGrid, gridSpacing, maxDistance, v0);
 
-    extrapolate(w, sdfGrid.constAccessor(), gridSpacing, maxDistance, w0);
+    extrapolate(w, sdfGrid, gridSpacing, maxDistance, w0);
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         (*output)(i, j, k).x = u(i, j, k);
@@ -441,95 +440,95 @@ void FmmLevelSetSolver3::extrapolate(const FaceCenteredGrid3& input,
 
     const Vector3D gridSpacing = input.gridSpacing();
 
-    auto u = input.uConstAccessor();
+    auto u = input.uView();
     auto uPos = input.uPosition();
     Array3<double> sdfAtU(u.size());
     input.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         sdfAtU(i, j, k) = sdf.sample(uPos(i, j, k));
     });
 
-    extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uAccessor());
+    extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
-    auto v = input.vConstAccessor();
+    auto v = input.vView();
     auto vPos = input.vPosition();
     Array3<double> sdfAtV(v.size());
     input.parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         sdfAtV(i, j, k) = sdf.sample(vPos(i, j, k));
     });
 
-    extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vAccessor());
+    extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 
-    auto w = input.wConstAccessor();
+    auto w = input.wView();
     auto wPos = input.wPosition();
     Array3<double> sdfAtW(w.size());
     input.parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         sdfAtW(i, j, k) = sdf.sample(wPos(i, j, k));
     });
 
-    extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->wAccessor());
+    extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->wView());
 }
 
-void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
-                                     const ConstArrayAccessor3<double>& sdf,
+void FmmLevelSetSolver3::extrapolate(const ConstArrayView3<double>& input,
+                                     const ConstArrayView3<double>& sdf,
                                      const Vector3D& gridSpacing,
                                      double maxDistance,
-                                     ArrayAccessor3<double> output) {
-    Size3 size = input.size();
+                                     ArrayView3<double> output) {
+    Vector3UZ size = input.size();
     Vector3D invGridSpacing = 1.0 / gridSpacing;
 
     // Build markers
     Array3<char> markers(size, kUnknown);
-    markers.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(sdf(i, j, k))) {
             markers(i, j, k) = kKnown;
         }
         output(i, j, k) = input(i, j, k);
     });
 
-    auto compare = [&](const Size3& a, const Size3& b) {
+    auto compare = [&](const Vector3UZ& a, const Vector3UZ& b) {
         return sdf(a.x, a.y, a.z) > sdf(b.x, b.y, b.z);
     };
 
     // Enqueue initial candidates
-    std::priority_queue<Size3, std::vector<Size3>, decltype(compare)> trial(
+    std::priority_queue<Vector3UZ, std::vector<Vector3UZ>, decltype(compare)> trial(
         compare);
-    markers.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j, size_t k) {
         if (markers(i, j, k) == kKnown) {
             return;
         }
 
         if (i > 0 && markers(i - 1, j, k) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (i + 1 < size.x && markers(i + 1, j, k) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (j > 0 && markers(i, j - 1, k) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (j + 1 < size.y && markers(i, j + 1, k) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (k > 0 && markers(i, j, k - 1) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
 
         if (k + 1 < size.z && markers(i, j, k + 1) == kKnown) {
-            trial.push(Size3(i, j, k));
+            trial.push(Vector3UZ(i, j, k));
             markers(i, j, k) = kTrial;
             return;
         }
@@ -537,7 +536,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
 
     // Propagate
     while (!trial.empty()) {
-        Size3 idx = trial.top();
+        Vector3UZ idx = trial.top();
         trial.pop();
 
         size_t i = idx.x;
@@ -566,7 +565,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i - 1, j, k) == kUnknown) {
                 markers(i - 1, j, k) = kTrial;
-                trial.push(Size3(i - 1, j, k));
+                trial.push(Vector3UZ(i - 1, j, k));
             }
         }
 
@@ -583,7 +582,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i + 1, j, k) == kUnknown) {
                 markers(i + 1, j, k) = kTrial;
-                trial.push(Size3(i + 1, j, k));
+                trial.push(Vector3UZ(i + 1, j, k));
             }
         }
 
@@ -600,7 +599,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j - 1, k) == kUnknown) {
                 markers(i, j - 1, k) = kTrial;
-                trial.push(Size3(i, j - 1, k));
+                trial.push(Vector3UZ(i, j - 1, k));
             }
         }
 
@@ -617,7 +616,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j + 1, k) == kUnknown) {
                 markers(i, j + 1, k) = kTrial;
-                trial.push(Size3(i, j + 1, k));
+                trial.push(Vector3UZ(i, j + 1, k));
             }
         }
 
@@ -634,7 +633,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j, k - 1) == kUnknown) {
                 markers(i, j, k - 1) = kTrial;
-                trial.push(Size3(i, j, k - 1));
+                trial.push(Vector3UZ(i, j, k - 1));
             }
         }
 
@@ -651,7 +650,7 @@ void FmmLevelSetSolver3::extrapolate(const ConstArrayAccessor3<double>& input,
                 count += weight;
             } else if (markers(i, j, k + 1) == kUnknown) {
                 markers(i, j, k + 1) = kTrial;
-                trial.push(Size3(i, j, k + 1));
+                trial.push(Vector3UZ(i, j, k + 1));
             }
         }
 

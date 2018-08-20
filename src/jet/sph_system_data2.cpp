@@ -49,19 +49,19 @@ void SphSystemData2::setMass(double newMass) {
     ParticleSystemData2::setMass(newMass);
 }
 
-ConstArrayAccessor1<double> SphSystemData2::densities() const {
+ConstArrayView1<double> SphSystemData2::densities() const {
     return scalarDataAt(_densityIdx);
 }
 
-ArrayAccessor1<double> SphSystemData2::densities() {
+ArrayView1<double> SphSystemData2::densities() {
     return scalarDataAt(_densityIdx);
 }
 
-ConstArrayAccessor1<double> SphSystemData2::pressures() const {
+ConstArrayView1<double> SphSystemData2::pressures() const {
     return scalarDataAt(_pressureIdx);
 }
 
-ArrayAccessor1<double> SphSystemData2::pressures() {
+ArrayView1<double> SphSystemData2::pressures() {
     return scalarDataAt(_pressureIdx);
 }
 
@@ -127,7 +127,7 @@ double SphSystemData2::sumOfKernelNearby(const Vector2D& origin) const {
 }
 
 double SphSystemData2::interpolate(
-    const Vector2D& origin, const ConstArrayAccessor1<double>& values) const {
+    const Vector2D& origin, const ConstArrayView1<double>& values) const {
     double sum = 0.0;
     auto d = densities();
     SphStdKernel2 kernel(_kernelRadius);
@@ -144,7 +144,7 @@ double SphSystemData2::interpolate(
 }
 
 Vector2D SphSystemData2::interpolate(
-    const Vector2D& origin, const ConstArrayAccessor1<Vector2D>& values) const {
+    const Vector2D& origin, const ConstArrayView1<Vector2D>& values) const {
     Vector2D sum;
     auto d = densities();
     SphStdKernel2 kernel(_kernelRadius);
@@ -161,7 +161,7 @@ Vector2D SphSystemData2::interpolate(
 }
 
 Vector2D SphSystemData2::gradientAt(
-    size_t i, const ConstArrayAccessor1<double>& values) const {
+    size_t i, const ConstArrayView1<double>& values) const {
     Vector2D sum;
     auto p = positions();
     auto d = densities();
@@ -185,7 +185,7 @@ Vector2D SphSystemData2::gradientAt(
 }
 
 double SphSystemData2::laplacianAt(
-    size_t i, const ConstArrayAccessor1<double>& values) const {
+    size_t i, const ConstArrayView1<double>& values) const {
     double sum = 0.0;
     auto p = positions();
     auto d = densities();
@@ -205,7 +205,7 @@ double SphSystemData2::laplacianAt(
 }
 
 Vector2D SphSystemData2::laplacianAt(
-    size_t i, const ConstArrayAccessor1<Vector2D>& values) const {
+    size_t i, const ConstArrayView1<Vector2D>& values) const {
     Vector2D sum;
     auto p = positions();
     auto d = densities();
@@ -244,11 +244,11 @@ void SphSystemData2::computeMass() {
     double maxNumberDensity = 0.0;
     SphStdKernel2 kernel(_kernelRadius);
 
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         const Vector2D& point = points[i];
         double sum = 0.0;
 
-        for (size_t j = 0; j < points.size(); ++j) {
+        for (size_t j = 0; j < points.length(); ++j) {
             const Vector2D& neighborPoint = points[j];
             sum += kernel(neighborPoint.distanceTo(point));
         }

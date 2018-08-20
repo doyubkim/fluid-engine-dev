@@ -37,7 +37,7 @@ TEST(GridFluidSolver3, ResizeGridSystemData) {
     GridFluidSolver3 solver;
 
     solver.resizeGrid(
-        Size3(1, 2, 3),
+        Vector3UZ(1, 2, 3),
         Vector3D(4.0, 5.0, 6.0),
         Vector3D(7.0, 8.0, 9.0));
 
@@ -55,7 +55,7 @@ TEST(GridFluidSolver3, ResizeGridSystemData) {
 TEST(GridFluidSolver3, MinimumResolution) {
     GridFluidSolver3 solver;
 
-    solver.resizeGrid(Size3(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
+    solver.resizeGrid(Vector3UZ(1, 1, 1), Vector3D(1.0, 1.0, 1.0), Vector3D());
     solver.velocity()->fill(Vector3D());
 
     Frame frame(0, 1.0 / 60.0);
@@ -71,7 +71,7 @@ TEST(GridFluidSolver3, GravityOnly) {
     solver.setPressureSolver(nullptr);
 
     solver.resizeGrid(
-        Size3(3, 3, 3),
+        Vector3UZ(3, 3, 3),
         Vector3D(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0),
         Vector3D());
     solver.velocity()->fill(Vector3D());

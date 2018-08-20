@@ -7,9 +7,9 @@
 #ifndef INCLUDE_JET_POINTS_TO_IMPLICIT3_H_
 #define INCLUDE_JET_POINTS_TO_IMPLICIT3_H_
 
-#include <jet/array_accessor1.h>
+#include <jet/array_view.h>
+#include <jet/matrix.h>
 #include <jet/scalar_grid3.h>
-#include <jet/vector3.h>
 
 #include <memory>
 
@@ -25,7 +25,7 @@ class PointsToImplicit3 {
     virtual ~PointsToImplicit3();
 
     //! Converts the given points to implicit surface scalar field.
-    virtual void convert(const ConstArrayAccessor1<Vector3D>& points,
+    virtual void convert(const ConstArrayView1<Vector3D>& points,
                          ScalarGrid3* output) const = 0;
 };
 

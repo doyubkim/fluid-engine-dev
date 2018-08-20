@@ -7,8 +7,7 @@
 #ifndef INCLUDE_JET_SAMPLERS_H_
 #define INCLUDE_JET_SAMPLERS_H_
 
-#include <jet/vector2.h>
-#include <jet/vector3.h>
+#include <jet/matrix.h>
 
 namespace jet {
 
@@ -28,8 +27,8 @@ namespace jet {
 //! \return     Sampled direction vector.
 //!
 template <typename T>
-inline Vector3<T> uniformSampleCone(
-    T u1, T u2, const Vector3<T>& axis, T angle);
+inline Vector3<T> uniformSampleCone(T u1, T u2, const Vector3<T>& axis,
+                                    T angle);
 
 //!
 //! \brief      Returns randomly sampled point within a unit hemisphere.
@@ -46,8 +45,7 @@ inline Vector3<T> uniformSampleCone(
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector3<T> uniformSampleHemisphere(
-    T u1, T u2, const Vector3<T>& normal);
+inline Vector3<T> uniformSampleHemisphere(T u1, T u2, const Vector3<T>& normal);
 
 //!
 //! \brief      Returns weighted sampled point on a hemisphere.
@@ -65,8 +63,8 @@ inline Vector3<T> uniformSampleHemisphere(
 //! \return     Sampled point.
 //!
 template <typename T>
-inline Vector3<T> cosineWeightedSampleHemisphere(
-    T u1, T u2, const Vector3<T>& normal);
+inline Vector3<T> cosineWeightedSampleHemisphere(T u1, T u2,
+                                                 const Vector3<T>& normal);
 
 //!
 //! \brief      Returns randomly a point on a sphere.

@@ -9,7 +9,7 @@
 #ifndef INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 #define INCLUDE_JET_CUDA_SPH_SOLVER_BASE2_H_
 
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 #include <jet/cuda_particle_system_solver_base2.h>
 #include <jet/cuda_sph_system_data2.h>
 

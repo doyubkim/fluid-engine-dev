@@ -32,13 +32,13 @@ class GLTexture3 : public Texture3, public GLTexture {
     void update(const ByteColor* data) override;
 
  private:
-    Size3 _size;
+    Vector3UZ _size;
 
     void onClear() override;
 
-    void onSetTexture(const ConstArrayAccessor3<Color>& data) override;
+    void onSetTexture(const ConstArrayView3<Color>& data) override;
 
-    void onSetTexture(const ConstArrayAccessor3<ByteColor>& data) override;
+    void onSetTexture(const ConstArrayView3<ByteColor>& data) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 

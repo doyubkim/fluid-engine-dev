@@ -5,16 +5,14 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/fdm_utils.h>
 
 namespace jet {
 
-Vector2D gradient2(
-    const ConstArrayAccessor2<double>& data,
-    const Vector2D& gridSpacing,
-    size_t i,
-    size_t j) {
-    const Size2 ds = data.size();
+Vector2D gradient2(const ConstArrayView2<double>& data,
+                   const Vector2D& gridSpacing, size_t i, size_t j) {
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -23,15 +21,13 @@ Vector2D gradient2(
     double down = data(i, (j > 0) ? j - 1 : j);
     double up = data(i, (j + 1 < ds.y) ? j + 1 : j);
 
-    return 0.5 * Vector2D(right - left, up - down) / gridSpacing;
+    return 0.5 * elemDiv(Vector2D(right - left, up - down), gridSpacing);
 }
 
-std::array<Vector2D, 2> gradient2(
-    const ConstArrayAccessor2<Vector2D>& data,
-    const Vector2D& gridSpacing,
-    size_t i,
-    size_t j) {
-    const Size2 ds = data.size();
+std::array<Vector2D, 2> gradient2(const ConstArrayView2<Vector2D>& data,
+                                  const Vector2D& gridSpacing, size_t i,
+                                  size_t j) {
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -41,18 +37,16 @@ std::array<Vector2D, 2> gradient2(
     Vector2D up = data(i, (j + 1 < ds.y) ? j + 1 : j);
 
     std::array<Vector2D, 2> result;
-    result[0] = 0.5 * Vector2D(right.x - left.x, up.x - down.x) / gridSpacing;
-    result[1] = 0.5 * Vector2D(right.y - left.y, up.y - down.y) / gridSpacing;
+    result[0] =
+        0.5 * elemDiv(Vector2D(right.x - left.x, up.x - down.x), gridSpacing);
+    result[1] =
+        0.5 * elemDiv(Vector2D(right.y - left.y, up.y - down.y), gridSpacing);
     return result;
 }
 
-Vector3D gradient3(
-    const ConstArrayAccessor3<double>& data,
-    const Vector3D& gridSpacing,
-    size_t i,
-    size_t j,
-    size_t k) {
-    const Size3 ds = data.size();
+Vector3D gradient3(const ConstArrayView3<double>& data,
+                   const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -63,16 +57,14 @@ Vector3D gradient3(
     double back = data(i, j, (k > 0) ? k - 1 : k);
     double front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
 
-    return 0.5 * Vector3D(right - left, up - down, front - back) / gridSpacing;
+    return 0.5 * elemDiv(Vector3D(right - left, up - down, front - back),
+                         gridSpacing);
 }
 
-std::array<Vector3D, 3> gradient3(
-    const ConstArrayAccessor3<Vector3D>& data,
-    const Vector3D& gridSpacing,
-    size_t i,
-    size_t j,
-    size_t k) {
-    const Size3 ds = data.size();
+std::array<Vector3D, 3> gradient3(const ConstArrayView3<Vector3D>& data,
+                                  const Vector3D& gridSpacing, size_t i,
+                                  size_t j, size_t k) {
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -84,22 +76,22 @@ std::array<Vector3D, 3> gradient3(
     Vector3D front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
 
     std::array<Vector3D, 3> result;
-    result[0] = 0.5 * Vector3D(
-        right.x - left.x, up.x - down.x, front.x - back.x) / gridSpacing;
-    result[1] = 0.5 * Vector3D(
-        right.y - left.y, up.y - down.y, front.y - back.y) / gridSpacing;
-    result[2] = 0.5 * Vector3D(
-        right.z - left.z, up.z - down.z, front.z - back.z) / gridSpacing;
+    result[0] = 0.5 * elemDiv(Vector3D(right.x - left.x, up.x - down.x,
+                                       front.x - back.x),
+                              gridSpacing);
+    result[1] = 0.5 * elemDiv(Vector3D(right.y - left.y, up.y - down.y,
+                                       front.y - back.y),
+                              gridSpacing);
+    result[2] = 0.5 * elemDiv(Vector3D(right.z - left.z, up.z - down.z,
+                                       front.z - back.z),
+                              gridSpacing);
     return result;
 }
 
-double laplacian2(
-    const ConstArrayAccessor2<double>& data,
-    const Vector2D& gridSpacing,
-    size_t i,
-    size_t j) {
+double laplacian2(const ConstArrayView2<double>& data,
+                  const Vector2D& gridSpacing, size_t i, size_t j) {
     const double center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -122,17 +114,14 @@ double laplacian2(
         dup = data(i, j + 1) - center;
     }
 
-    return (dright - dleft) / square(gridSpacing.x)
-        + (dup - ddown) / square(gridSpacing.y);
+    return (dright - dleft) / square(gridSpacing.x) +
+           (dup - ddown) / square(gridSpacing.y);
 }
 
-Vector2D laplacian2(
-    const ConstArrayAccessor2<Vector2D>& data,
-    const Vector2D& gridSpacing,
-    size_t i,
-    size_t j) {
+Vector2D laplacian2(const ConstArrayView2<Vector2D>& data,
+                    const Vector2D& gridSpacing, size_t i, size_t j) {
     const Vector2D center = data(i, j);
-    const Size2 ds = data.size();
+    const Vector2UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y);
 
@@ -155,18 +144,14 @@ Vector2D laplacian2(
         dup = data(i, j + 1) - center;
     }
 
-    return (dright - dleft) / square(gridSpacing.x)
-        + (dup - ddown) / square(gridSpacing.y);
+    return (dright - dleft) / square(gridSpacing.x) +
+           (dup - ddown) / square(gridSpacing.y);
 }
 
-double laplacian3(
-    const ConstArrayAccessor3<double>& data,
-    const Vector3D& gridSpacing,
-    size_t i,
-    size_t j,
-    size_t k) {
+double laplacian3(const ConstArrayView3<double>& data,
+                  const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
     const double center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -198,19 +183,15 @@ double laplacian3(
         dfront = data(i, j, k + 1) - center;
     }
 
-    return (dright - dleft) / square(gridSpacing.x)
-        + (dup - ddown) / square(gridSpacing.y)
-        + (dfront - dback) / square(gridSpacing.z);
+    return (dright - dleft) / square(gridSpacing.x) +
+           (dup - ddown) / square(gridSpacing.y) +
+           (dfront - dback) / square(gridSpacing.z);
 }
 
-Vector3D laplacian3(
-    const ConstArrayAccessor3<Vector3D>& data,
-    const Vector3D& gridSpacing,
-    size_t i,
-    size_t j,
-    size_t k) {
+Vector3D laplacian3(const ConstArrayView3<Vector3D>& data,
+                    const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
     const Vector3D center = data(i, j, k);
-    const Size3 ds = data.size();
+    const Vector3UZ ds = data.size();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
 
@@ -242,9 +223,9 @@ Vector3D laplacian3(
         dfront = data(i, j, k + 1) - center;
     }
 
-    return (dright - dleft) / square(gridSpacing.x)
-        + (dup - ddown) / square(gridSpacing.y)
-        + (dfront - dback) / square(gridSpacing.z);
+    return (dright - dleft) / square(gridSpacing.x) +
+           (dup - ddown) / square(gridSpacing.y) +
+           (dfront - dback) / square(gridSpacing.z);
 }
 
 }  // namespace jet

@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_INTERSECTION_QUERY_ENGINE3_H_
 #define INCLUDE_JET_INTERSECTION_QUERY_ENGINE3_H_
 
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/constants.h>
 
 #include <functional>

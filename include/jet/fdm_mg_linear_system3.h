@@ -37,7 +37,7 @@ struct FdmMgLinearSystem3 {
     size_t numberOfLevels() const;
 
     //! Resizes the system with the coarsest resolution and number of levels.
-    void resizeWithCoarsest(const Size3 &coarsestResolution,
+    void resizeWithCoarsest(const Vector3UZ &coarsestResolution,
                             size_t numberOfLevels);
 
     //!
@@ -50,7 +50,7 @@ struct FdmMgLinearSystem3 {
     //! \param finestResolution - The finest grid resolution.
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
     //!
-    void resizeWithFinest(const Size3 &finestResolution,
+    void resizeWithFinest(const Vector3UZ &finestResolution,
                           size_t maxNumberOfLevels);
 };
 
@@ -65,7 +65,7 @@ class FdmMgUtils3 {
 
     //! Resizes the array with the coarsest resolution and number of levels.
     template <typename T>
-    static void resizeArrayWithCoarsest(const Size3 &coarsestResolution,
+    static void resizeArrayWithCoarsest(const Vector3UZ &coarsestResolution,
                                         size_t numberOfLevels,
                                         std::vector<Array3<T>> *levels);
 
@@ -80,7 +80,7 @@ class FdmMgUtils3 {
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
     //!
     template <typename T>
-    static void resizeArrayWithFinest(const Size3 &finestResolution,
+    static void resizeArrayWithFinest(const Vector3UZ &finestResolution,
                                       size_t maxNumberOfLevels,
                                       std::vector<Array3<T>> *levels);
 };

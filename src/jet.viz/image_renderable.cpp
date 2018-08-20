@@ -57,7 +57,7 @@ void ImageRenderable::setImage(const ByteImage& image) {
         _texture->update(image.data());
     } else {
         _texture = _renderer->createTexture2(
-            ConstArrayAccessor2<ByteColor>(image.size(), image.data()));
+            ConstArrayView2<ByteColor>(image.data(), image.size()));
     }
 }
 
@@ -67,7 +67,7 @@ void ImageRenderable::setTextureSamplingMode(const TextureSamplingMode& mode) {
 
 void ImageRenderable::render(Renderer* renderer) {
     if (_shader != nullptr && _texture != nullptr &&
-        _texture->size() != Size2()) {
+        _texture->size() != Vector2UZ()) {
         renderer->bindShader(_shader);
         renderer->bindVertexBuffer(_vertexBuffer);
         renderer->bindTexture(_texture, 0);

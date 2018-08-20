@@ -9,10 +9,10 @@
 #ifndef INCLUDE_JET_CUDA_PARTICLE_SYSTEM_DATA2_H_
 #define INCLUDE_JET_CUDA_PARTICLE_SYSTEM_DATA2_H_
 
-#include <jet/array_view1.h>
-#include <jet/cuda_array1.h>
+#include <jet/array_view.h>
+#include <jet/cuda_array.h>
 #include <jet/cuda_point_hash_grid_searcher2.h>
-#include <jet/vector4.h>
+#include <jet/matrix.h>
 
 #include <cuda_runtime.h>
 

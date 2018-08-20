@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
 
     TriangleMesh3 triMesh2;
     marchingCubes(
-        grid.constDataAccessor(),
+        grid.dataView(),
         grid.gridSpacing(),
         grid.origin(),
         &triMesh2,

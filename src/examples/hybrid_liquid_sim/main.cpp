@@ -29,8 +29,8 @@ using namespace jet;
 void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
-    copyRange1(particles->positions(), particles->numberOfParticles(),
-               &positions);
+    copy(particles->positions(), positions.view());
+
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.pos", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -38,7 +38,7 @@ void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
     if (file) {
         printf("Writing %s...\n", filename.c_str());
         std::vector<uint8_t> buffer;
-        serialize(positions.constAccessor(), &buffer);
+        serialize<Vector3D>(positions.view(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
@@ -47,8 +47,8 @@ void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
 void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
-    copyRange1(particles->positions(), particles->numberOfParticles(),
-               &positions);
+    copy(particles->positions(), positions.view());
+
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.xyz", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -64,7 +64,7 @@ void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
 
 void printInfo(const PicSolver3Ptr& solver) {
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 
@@ -211,7 +211,7 @@ void runExample2(const std::string& rootDir, size_t resolutionX,
 void runExample3(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = FlipSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -289,7 +289,7 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
 void runExample4(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = PicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -367,7 +367,7 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
 void runExample5(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = ApicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)

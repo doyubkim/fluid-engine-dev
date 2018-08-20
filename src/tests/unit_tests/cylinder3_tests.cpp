@@ -78,13 +78,14 @@ TEST(Cylinder3, ClosestDistance) {
     Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0);
 
     double result1 = cyl.closestDistance({7, 2, 3});
-    EXPECT_DOUBLE_EQ(Vector3D(5, 2, 3).distanceTo({7, 2, 3}), result1);
+    EXPECT_DOUBLE_EQ(Vector3D(5, 2, 3).distanceTo(Vector3D{7, 2, 3}), result1);
 
     double result2 = cyl.closestDistance({1, 6, 2});
-    EXPECT_DOUBLE_EQ(Vector3D(1, 5, 2).distanceTo({1, 6, 2}), result2);
+    EXPECT_DOUBLE_EQ(Vector3D(1, 5, 2).distanceTo(Vector3D{1, 6, 2}), result2);
 
     double result3 = cyl.closestDistance({6, -5, 3});
-    EXPECT_DOUBLE_EQ(Vector3D(5, -1, 3).distanceTo({6, -5, 3}), result3);
+    EXPECT_DOUBLE_EQ(Vector3D(5, -1, 3).distanceTo(Vector3D{6, -5, 3}),
+                     result3);
 }
 
 TEST(Cylinder3, Intersects) {

@@ -8,7 +8,7 @@
 #include "animation.h"
 #include "anisotropic_points_to_implicit.h"
 #include "apic_solver.h"
-#include "array_accessor.h"
+#include "array_view.h"
 #include "bounding_box.h"
 #include "box.h"
 #include "cell_centered_scalar_grid.h"
@@ -71,7 +71,6 @@
 #include "scalar_grid.h"
 #include "semi_lagrangian.h"
 #include "serializable.h"
-#include "size.h"
 #include "sph_points_to_implicit.h"
 #include "sph_solver.h"
 #include "sph_system_data.h"
@@ -111,14 +110,13 @@ PYBIND11_PLUGIN(pyjet) {
     addSerializable(m);
 
     // Trivial basic types
-    addVector2D(m);
-    addVector2F(m);
-    addVector3D(m);
-    addVector3F(m);
+    addVectors(m);
     addRay2D(m);
     addRay2F(m);
     addRay3D(m);
     addRay3F(m);
+    addBoundingBoxRayIntersectionF(m);
+    addBoundingBoxRayIntersectionD(m);
     addBoundingBox2D(m);
     addBoundingBox2F(m);
     addBoundingBox3D(m);
@@ -126,15 +124,13 @@ PYBIND11_PLUGIN(pyjet) {
     addFrame(m);
     addQuaternionD(m);
     addQuaternionF(m);
-    addSize2(m);
-    addSize3(m);
     addTransform2(m);
     addTransform3(m);
 
     // Containers/helpers
-    addArrayAccessor1(m);
-    addArrayAccessor2(m);
-    addArrayAccessor3(m);
+    addArrayView1(m);
+    addArrayView2(m);
+    addArrayView3(m);
 
     // Trivial APIs
     addLogging(m);

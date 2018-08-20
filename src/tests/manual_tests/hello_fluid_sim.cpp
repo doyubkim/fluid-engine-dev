@@ -97,9 +97,9 @@ JET_BEGIN_TEST_F(HelloFluidSim, Run) {
         accumulateWaveToHeightField(y, waveLengthY, maxHeightY, &heightField);
 
         snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy", i);
-        saveData(gridPoints.constAccessor(), filename);
+        saveData(gridPoints.view(), filename);
         snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy", i);
-        saveData(heightField.constAccessor(), filename);
+        saveData(heightField.view(), filename);
     }
 }
 JET_END_TEST_F

@@ -34,7 +34,7 @@ CellCenteredScalarGrid2::CellCenteredScalarGrid2(
 }
 
 CellCenteredScalarGrid2::CellCenteredScalarGrid2(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin,
     double initialValue) {
@@ -46,7 +46,7 @@ CellCenteredScalarGrid2::CellCenteredScalarGrid2(
     set(other);
 }
 
-Size2 CellCenteredScalarGrid2::dataSize() const {
+Vector2UZ CellCenteredScalarGrid2::dataSize() const {
     // The size of the data should be the same as the grid resolution.
     return resolution();
 }
@@ -83,7 +83,7 @@ CellCenteredScalarGrid2::Builder CellCenteredScalarGrid2::builder() {
 
 
 CellCenteredScalarGrid2::Builder&
-CellCenteredScalarGrid2::Builder::withResolution(const Size2& resolution) {
+CellCenteredScalarGrid2::Builder::withResolution(const Vector2UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -139,7 +139,7 @@ CellCenteredScalarGrid2 CellCenteredScalarGrid2::Builder::build() const {
 }
 
 ScalarGrid2Ptr CellCenteredScalarGrid2::Builder::build(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& gridOrigin,
     double initialVal) const {

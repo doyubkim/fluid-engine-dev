@@ -8,7 +8,7 @@
 #define INCLUDE_JET_VIZ_IMAGE_H_
 
 #include <jet.viz/color.h>
-#include <jet/array2.h>
+#include <jet/array.h>
 
 #include <memory>
 
@@ -52,7 +52,7 @@ class ByteImage final {
                 const ByteColor& initialValue = ByteColor());
 
     //! Returns the size of the image.
-    Size2 size() const;
+    Vector2UZ size() const;
 
     //! Returns mutable raw pointer of the image data.
     ByteColor* data();

@@ -28,6 +28,6 @@ set_target_properties(${target}
 
 # Link libraries
 target_link_libraries(${target}
-        PRIVATE
+        PUBLIC
         ${DEFAULT_LINKER_OPTIONS}
         jet)

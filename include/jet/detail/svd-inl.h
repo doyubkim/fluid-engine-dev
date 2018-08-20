@@ -60,7 +60,7 @@ void svd(const MatrixMxN<T>& a, MatrixMxN<T>& u, VectorN<T>& w,
                                           "columns.");
 
     // Prepare workspace
-    VectorN<T> rv1(n, 0);
+    VectorN<T> rv1(n, T{});
     u = a;
     w.resize(n, 0);
     v.resize(n, n, 0);

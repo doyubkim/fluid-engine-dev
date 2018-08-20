@@ -39,15 +39,16 @@ set_target_properties(${target}
 
 # Compile options
 target_compile_options(${target}
-        PRIVATE
+        PUBLIC
         ${DEFAULT_COMPILE_OPTIONS})
 
 target_compile_definitions(${target}
-        PRIVATE
+        PUBLIC
         RESOURCES_DIR="${RESOURCES_DIR}")
 
 # Link libraries
 target_link_libraries(${target}
+        PUBLIC
         ${DEFAULT_LINKER_OPTIONS}
         jet.viz
         jet

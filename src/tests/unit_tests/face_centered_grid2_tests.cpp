@@ -184,11 +184,11 @@ TEST(FaceCenteredGrid2, Builder) {
         auto builder = FaceCenteredGrid2::builder();
 
         auto grid = builder.build(
-            Size2(5, 2),
+            Vector2UZ(5, 2),
             Vector2D(2.0, 4.0),
             Vector2D(-1.0, 2.0),
             Vector2D(3.0, 5.0));
-        EXPECT_EQ(Size2(5, 2), grid->resolution());
+        EXPECT_EQ(Vector2UZ(5, 2), grid->resolution());
         EXPECT_EQ(Vector2D(2.0, 4.0), grid->gridSpacing());
         EXPECT_EQ(Vector2D(-1.0, 2.0), grid->origin());
 
@@ -214,7 +214,7 @@ TEST(FaceCenteredGrid2, Builder) {
             .withInitialValue(3, 5)
             .build();
 
-        EXPECT_EQ(Size2(5, 2), grid.resolution());
+        EXPECT_EQ(Vector2UZ(5, 2), grid.resolution());
         EXPECT_EQ(Vector2D(2.0, 4.0), grid.gridSpacing());
         EXPECT_EQ(Vector2D(-1.0, 2.0), grid.origin());
 

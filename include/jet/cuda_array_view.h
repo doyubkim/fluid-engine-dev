@@ -4,53 +4,136 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifdef JET_USE_CUDA
-
 #ifndef INCLUDE_JET_CUDA_ARRAY_VIEW_H_
 #define INCLUDE_JET_CUDA_ARRAY_VIEW_H_
 
-#include <jet/tuple.h>
+#ifdef JET_USE_CUDA
+
+#include <jet/cuda_array.h>
 
 namespace jet {
 
-//!
-//! \brief Generic N-dimensional CUDA array view class interface.
-//!
-//! This class provides generic template class for N-dimensional array view
-//! where N must be either 1, 2 or 3. This particular class exists to provide
-//! generic interface for 1, 2 or 3 dimensional array views using template
-//! specialization only, but it cannot create any instance by itself.
-//!
-//! \tparam T - Real number type.
-//! \tparam N - Dimension.
-//!
+////////////////////////////////////////////////////////////////////////////////
+// MARK: CudaArrayView
+
 template <typename T, size_t N>
-class CudaArrayView final {
+class CudaArrayView final : public CudaArrayBase<T, N, CudaArrayView<T, N>> {
+    using Base = CudaArrayBase<T, N, CudaArrayView<T, N>>;
+    using Base::_size;
+    using Base::at;
+    using Base::setPtrAndSize;
+
  public:
-    static_assert(N < 1 || N > 3,
-                  "Not implemented - N should be either 1, 2 or 3.");
+    using Base::data;
+
+    // CTOR
+    __host__ __device__ CudaArrayView();
+
+    __host__ __device__ CudaArrayView(T* ptr,
+                                      const CudaStdArray<size_t, N>& size_);
+
+    template <size_t M = N>
+    __host__ __device__ CudaArrayView(
+        typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
+
+    __host__ __device__ CudaArrayView(CudaArray<T, N>& other);
+
+    __host__ __device__ CudaArrayView(const CudaArrayView& other);
+
+    __host__ __device__ CudaArrayView(CudaArrayView&& other) noexcept;
+
+    // set
+
+    __host__ __device__ void set(CudaArray<T, N>& other);
+
+    __host__ __device__ void set(const CudaArrayView& other);
+
+    __host__ void fill(const T& val);
+
+    // Assignment Operators
+    __host__ __device__ CudaArrayView& operator=(const CudaArrayView& other);
+
+    __host__ __device__ CudaArrayView& operator=(
+        CudaArrayView&& other) noexcept;
 };
 
-//!
-//! \brief Generic N-dimensional const CUDA array view class interface.
-//!
-//! This class provides generic template class for N-dimensional const array
-//! view where N must be either 1, 2 or 3. This particular class exists to
-//! provide generic interface for 1, 2 or 3 dimensional array views using
-//! template specialization only, but it cannot create any instance by itself.
-//!
-//! \tparam T - Real number type.
-//! \tparam N - Dimension.
-//!
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Immutable CudaArrayView Specialization for CUDA
+
 template <typename T, size_t N>
-class ConstCudaArrayView final {
+class CudaArrayView<const T, N> final
+    : public CudaArrayBase<const T, N, CudaArrayView<const T, N>> {
+    using Base = CudaArrayBase<const T, N, CudaArrayView<const T, N>>;
+    using Base::_size;
+    using Base::setPtrAndSize;
+
  public:
-    static_assert(N < 1 || N > 3,
-                  "Not implemented - N should be either 1, 2 or 3.");
+    using Base::data;
+
+    // CTOR
+    __host__ __device__ CudaArrayView();
+
+    __host__ __device__ CudaArrayView(const T* ptr,
+                                      const CudaStdArray<size_t, N>& size_);
+
+    template <size_t M = N>
+    __host__ __device__ CudaArrayView(
+        const typename std::enable_if<(M == 1), T>::type* ptr, size_t size_);
+
+    __host__ __device__ CudaArrayView(const CudaArray<T, N>& other);
+
+    __host__ __device__ CudaArrayView(const CudaArrayView<T, N>& other);
+
+    __host__ __device__ CudaArrayView(const CudaArrayView& other);
+
+    __host__ __device__ CudaArrayView(CudaArrayView&&) noexcept;
+
+    // set
+
+    __host__ __device__ void set(const CudaArray<T, N>& other);
+
+    __host__ __device__ void set(const CudaArrayView<T, N>& other);
+
+    __host__ __device__ void set(const CudaArrayView& other);
+
+    // Assignment Operators
+    __host__ __device__ CudaArrayView& operator=(
+        const CudaArrayView<T, N>& other);
+
+    __host__ __device__ CudaArrayView& operator=(const CudaArrayView& other);
+
+    __host__ __device__ CudaArrayView& operator=(
+        CudaArrayView&& other) noexcept;
 };
+
+template <class T>
+using CudaArrayView1 = CudaArrayView<T, 1>;
+
+template <class T>
+using CudaArrayView2 = CudaArrayView<T, 2>;
+
+template <class T>
+using CudaArrayView3 = CudaArrayView<T, 3>;
+
+template <class T>
+using CudaArrayView4 = CudaArrayView<T, 4>;
+
+template <class T>
+using ConstCudaArrayView1 = CudaArrayView<const T, 1>;
+
+template <class T>
+using ConstCudaArrayView2 = CudaArrayView<const T, 2>;
+
+template <class T>
+using ConstCudaArrayView3 = CudaArrayView<const T, 3>;
+
+template <class T>
+using ConstCudaArrayView4 = CudaArrayView<const T, 4>;
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_CUDA_ARRAY_VIEW_H_
+#include <jet/detail/cuda_array_view-inl.h>
 
 #endif  // JET_USE_CUDA
+
+#endif  // INCLUDE_JET_CUDA_ARRAY_VIEW_H_

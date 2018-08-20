@@ -153,7 +153,7 @@ TEST(CellCenteredScalarGrid2, Clone) {
 TEST(CellCenteredScalarGrid2, Builder) {
     {
         auto grid1 = CellCenteredScalarGrid2::builder().build(
-            Size2(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
+            Vector2UZ(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
 
         auto grid2 = std::dynamic_pointer_cast<CellCenteredScalarGrid2>(grid1);
         EXPECT_TRUE(grid2 != nullptr);

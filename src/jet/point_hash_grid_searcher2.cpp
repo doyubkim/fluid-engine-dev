@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher2_generated.h>
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_hash_grid_searcher2.h>
 
 #include <algorithm>
@@ -21,7 +21,7 @@
 
 using namespace jet;
 
-PointHashGridSearcher2::PointHashGridSearcher2(const Size2& resolution,
+PointHashGridSearcher2::PointHashGridSearcher2(const Vector2UZ& resolution,
                                                double gridSpacing)
     : PointHashGridSearcher2(resolution.x, resolution.y, gridSpacing) {}
 
@@ -39,20 +39,20 @@ PointHashGridSearcher2::PointHashGridSearcher2(
 }
 
 void PointHashGridSearcher2::build(
-    const ConstArrayAccessor1<Vector2D>& points) {
+    const ConstArrayView1<Vector2D>& points) {
     _buckets.clear();
     _points.clear();
 
     // Allocate memory chuncks
     _buckets.resize(_resolution.x * _resolution.y);
-    _points.resize(points.size());
+    _points.resize(points.length());
 
-    if (points.size() == 0) {
+    if (points.length() == 0) {
         return;
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         _points[i] = points[i];
         size_t key = getHashKeyFromPosition(points[i]);
         _buckets[key].push_back(i);
@@ -129,8 +129,8 @@ const std::vector<std::vector<size_t>>& PointHashGridSearcher2::buckets()
     return _buckets;
 }
 
-SSize2 PointHashGridSearcher2::getBucketIndex(const Vector2D& position) const {
-    SSize2 bucketIndex;
+Vector2Z PointHashGridSearcher2::getBucketIndex(const Vector2D& position) const {
+    Vector2Z bucketIndex;
     bucketIndex.x = static_cast<ssize_t>(std::floor(position.x / _gridSpacing));
     bucketIndex.y = static_cast<ssize_t>(std::floor(position.y / _gridSpacing));
     return bucketIndex;
@@ -138,14 +138,14 @@ SSize2 PointHashGridSearcher2::getBucketIndex(const Vector2D& position) const {
 
 size_t PointHashGridSearcher2::getHashKeyFromPosition(
     const Vector2D& position) const {
-    SSize2 bucketIndex = getBucketIndex(position);
+    Vector2Z bucketIndex = getBucketIndex(position);
 
     return getHashKeyFromBucketIndex(bucketIndex);
 }
 
 size_t PointHashGridSearcher2::getHashKeyFromBucketIndex(
-    const SSize2& bucketIndex) const {
-    SSize2 wrappedIndex = bucketIndex;
+    const Vector2Z& bucketIndex) const {
+    Vector2Z wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     if (wrappedIndex.x < 0) {
@@ -159,7 +159,7 @@ size_t PointHashGridSearcher2::getHashKeyFromBucketIndex(
 
 void PointHashGridSearcher2::getNearbyKeys(const Vector2D& position,
                                            size_t* nearbyKeys) const {
-    SSize2 originIndex = getBucketIndex(position), nearbyBucketIndices[4];
+    Vector2Z originIndex = getBucketIndex(position), nearbyBucketIndices[4];
 
     for (int i = 0; i < 4; i++) {
         nearbyBucketIndices[i] = originIndex;
@@ -207,7 +207,7 @@ void PointHashGridSearcher2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
 
     // Copy simple data
-    auto fbsResolution = fbs::Size2(_resolution.x, _resolution.y);
+    auto fbsResolution = fbs::Vector2UZ(_resolution.x, _resolution.y);
 
     // Copy points
     std::vector<fbs::Vector2D> points;
@@ -276,7 +276,7 @@ PointHashGridSearcher2::Builder PointHashGridSearcher2::builder() {
 }
 
 PointHashGridSearcher2::Builder&
-PointHashGridSearcher2::Builder::withResolution(const Size2& resolution) {
+PointHashGridSearcher2::Builder::withResolution(const Vector2UZ& resolution) {
     _resolution = resolution;
     return *this;
 }

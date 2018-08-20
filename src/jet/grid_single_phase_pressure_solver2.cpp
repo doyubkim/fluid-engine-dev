@@ -25,11 +25,11 @@ namespace {
 void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     Vector2D invH = 1.0 / input.gridSpacing();
-    Vector2D invHSqr = invH * invH;
+    Vector2D invHSqr = elemMul(invH, invH);
 
-    A->parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(A->size(), [&](size_t i, size_t j) {
         auto& row = (*A)(i, j);
 
         // initialize
@@ -69,18 +69,18 @@ void buildSingleSystem(FdmMatrix2* A, FdmVector2* b,
 void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const Array2<char>& markers,
                        const FaceCenteredGrid2& input) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     Vector2D invH = 1.0 / input.gridSpacing();
-    Vector2D invHSqr = invH * invH;
+    Vector2D invHSqr = elemMul(invH, invH);
 
-    const auto markerAcc = markers.constAccessor();
+    ConstArrayView2<char> markerAcc(markers);
 
     A->clear();
     b->clear();
 
     size_t numRows = 0;
     Array2<size_t> coordToIndex(size);
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
 
         if (markerAcc[cIdx] == kFluid) {
@@ -88,11 +88,11 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    markers.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(markers.size(), [&](size_t i, size_t j) {
         const size_t cIdx = markerAcc.index(i, j);
 
         if (markerAcc[cIdx] == kFluid) {
-            b->append(input.divergenceAtCellCenter(i, j));
+            b->addElement(input.divergenceAtCellCenter(i, j));
 
             std::vector<double> row(1, 0.0);
             std::vector<size_t> colIdx(1, coordToIndex[cIdx]);
@@ -137,7 +137,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    x->resize(b->size(), 0.0);
+    x->resize(b->rows(), 0.0);
 }
 
 }  // namespace
@@ -216,7 +216,7 @@ const FdmVector2& GridSinglePhasePressureSolver2::pressure() const {
 }
 
 void GridSinglePhasePressureSolver2::buildMarkers(
-    const Size2& size, const std::function<Vector2D(size_t, size_t)>& pos,
+    const Vector2UZ& size, const std::function<Vector2D(size_t, size_t)>& pos,
     const ScalarField2& boundarySdf, const ScalarField2& fluidSdf) {
     // Build levels
     size_t maxLevels = 1;
@@ -226,7 +226,7 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     FdmMgUtils2::resizeArrayWithFinest(size, maxLevels, &_markers);
 
     // Build top-level markers
-    _markers[0].parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_markers[0].size(), [&](size_t i, size_t j) {
         Vector2D pt = pos(i, j);
         if (isInsideSdf(boundarySdf.sample(pt))) {
             _markers[0](i, j) = kBoundary;
@@ -241,7 +241,7 @@ void GridSinglePhasePressureSolver2::buildMarkers(
     for (size_t l = 1; l < _markers.size(); ++l) {
         const auto& finer = _markers[l - 1];
         auto& coarser = _markers[l];
-        const Size2 n = coarser.size();
+        const Vector2UZ n = coarser.size();
 
         parallelRangeFor(
             kZeroSize, n.x, kZeroSize, n.y,
@@ -284,11 +284,11 @@ void GridSinglePhasePressureSolver2::buildMarkers(
 }
 
 void GridSinglePhasePressureSolver2::decompressSolution() {
-    const auto acc = _markers[0].constAccessor();
+    ConstArrayView2<char> acc(_markers[0]);
     _system.x.resize(acc.size());
 
     size_t row = 0;
-    _markers[0].forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(_markers[0].size(), [&](size_t i, size_t j) {
         if (acc(i, j) == kFluid) {
             _system.x(i, j) = _compSystem.x[row];
             ++row;
@@ -298,7 +298,7 @@ void GridSinglePhasePressureSolver2::decompressSolution() {
 
 void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
                                                  bool useCompressed) {
-    Size2 size = input.resolution();
+    Vector2UZ size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
@@ -355,17 +355,17 @@ void GridSinglePhasePressureSolver2::buildSystem(const FaceCenteredGrid2& input,
 
 void GridSinglePhasePressureSolver2::applyPressureGradient(
     const FaceCenteredGrid2& input, FaceCenteredGrid2* output) {
-    Size2 size = input.resolution();
-    auto u = input.uConstAccessor();
-    auto v = input.vConstAccessor();
-    auto u0 = output->uAccessor();
-    auto v0 = output->vAccessor();
+    Vector2UZ size = input.resolution();
+    auto u = input.uView();
+    auto v = input.vView();
+    auto u0 = output->uView();
+    auto v0 = output->vView();
 
     const auto& x = pressure();
 
     Vector2D invH = 1.0 / input.gridSpacing();
 
-    x.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(x.size(), [&](size_t i, size_t j) {
         if (_markers[0](i, j) == kFluid) {
             if (i + 1 < size.x && _markers[0](i + 1, j) != kBoundary) {
                 u0(i + 1, j) = u(i + 1, j) + invH.x * (x(i + 1, j) - x(i, j));

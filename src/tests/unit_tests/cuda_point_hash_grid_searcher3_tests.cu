@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include <jet/array1.h>
-#include <jet/cuda_array1.h>
+#include <jet/array.h>
+#include <jet/cuda_array.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
 
@@ -49,7 +49,7 @@ TEST(CudaPointHashGridSearcher3, Build) {
                                Vector3D(-1, 3, 0)};
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     // GPU
     CudaArray1<float4> pointsD(3);
@@ -61,13 +61,13 @@ TEST(CudaPointHashGridSearcher3, Build) {
     searcherD.build(pointsD.view());
 
     // Compare
-    EXPECT_EQ(searcher.keys().size(), searcherD.keys().size());
+    EXPECT_EQ(searcher.keys().size(), searcherD.keys().length());
     EXPECT_EQ(searcher.startIndexTable().size(),
-              searcherD.startIndexTable().size());
+              searcherD.startIndexTable().length());
     EXPECT_EQ(searcher.endIndexTable().size(),
-              searcherD.endIndexTable().size());
+              searcherD.endIndexTable().length());
     EXPECT_EQ(searcher.sortedIndices().size(),
-              searcherD.sortedIndices().size());
+              searcherD.sortedIndices().length());
 
     for (size_t i = 0; i < searcher.keys().size(); ++i) {
         uint32_t valD = searcherD.keys()[i];

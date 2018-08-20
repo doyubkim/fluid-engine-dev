@@ -8,8 +8,8 @@
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER3_H
 
 #include <jet/kdtree.h>
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher3.h>
-#include <jet/tuple.h>
 
 #include <vector>
 
@@ -34,7 +34,7 @@ class PointKdTreeSearcher3 final : public PointNeighborSearcher3 {
     PointKdTreeSearcher3(const PointKdTreeSearcher3& other);
 
     //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayAccessor1<Vector3D>& points) override;
+    void build(const ConstArrayView1<Vector3D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

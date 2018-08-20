@@ -32,16 +32,12 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif ()
 
 target_compile_options(${target}
-    PRIVATE
-
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-
-    INTERFACE
 )
 
 # Link libraries
 target_link_libraries(${target}
-    PRIVATE
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
     jet)

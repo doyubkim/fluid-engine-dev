@@ -8,7 +8,7 @@
 #define INCLUDE_JET_SCALAR_FIELD2_H_
 
 #include <jet/field2.h>
-#include <jet/vector2.h>
+#include <jet/matrix.h>
 #include <functional>
 #include <memory>
 

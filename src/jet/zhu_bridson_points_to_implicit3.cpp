@@ -22,7 +22,7 @@ ZhuBridsonPointsToImplicit3::ZhuBridsonPointsToImplicit3(double kernelRadius,
       _isOutputSdf(isOutputSdf) {}
 
 void ZhuBridsonPointsToImplicit3::convert(
-    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
+    const ConstArrayView1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;

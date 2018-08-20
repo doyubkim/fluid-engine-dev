@@ -7,9 +7,10 @@
 #ifndef INCLUDE_JET_VIZ_VIEWPORT_H_
 #define INCLUDE_JET_VIZ_VIEWPORT_H_
 
-#include <jet/vector2.h>
+#include <jet/matrix.h>
 
-namespace jet { namespace viz {
+namespace jet {
+namespace viz {
 
 struct Viewport {
     double x;
@@ -25,6 +26,7 @@ struct Viewport {
     Vector2D center() const;
 };
 
-} }  // namespace jet::viz
+}  // namespace viz
+}  // namespace jet
 
 #endif  // INCLUDE_JET_VIZ_VIEWPORT_H_

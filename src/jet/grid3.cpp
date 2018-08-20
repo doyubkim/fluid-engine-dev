@@ -8,12 +8,10 @@
 
 #include <jet/grid3.h>
 #include <jet/parallel.h>
-#include <jet/serial.h>
 
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
@@ -21,7 +19,7 @@ Grid3::Grid3() {}
 
 Grid3::~Grid3() {}
 
-const Size3& Grid3::resolution() const { return _resolution; }
+const Vector3UZ& Grid3::resolution() const { return _resolution; }
 
 const Vector3D& Grid3::origin() const { return _origin; }
 
@@ -32,16 +30,15 @@ const BoundingBox3D& Grid3::boundingBox() const { return _boundingBox; }
 Grid3::DataPositionFunc Grid3::cellCenterPosition() const {
     Vector3D h = _gridSpacing;
     Vector3D o = _origin;
-    return [h, o](size_t i, size_t j, size_t k) {
-        return o + h * Vector3D(i + 0.5, j + 0.5, k + 0.5);
+    return [h, o](size_t i, size_t j, size_t k) -> Vector3D {
+        return o + elemMul(h, Vector3D(i + 0.5, j + 0.5, k + 0.5));
     };
 }
 
 void Grid3::forEachCellIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const {
-    serialFor(kZeroSize, _resolution.x, kZeroSize, _resolution.y, kZeroSize,
-              _resolution.z,
-              [&func](size_t i, size_t j, size_t k) { func(i, j, k); });
+    forEachIndex(_resolution,
+                 [&func](size_t i, size_t j, size_t k) { func(i, j, k); });
 }
 
 void Grid3::parallelForEachCellIndex(
@@ -63,7 +60,7 @@ bool Grid3::hasSameShape(const Grid3& other) const {
            similar(_origin.z, other._origin.z);
 }
 
-void Grid3::setSizeParameters(const Size3& resolution,
+void Grid3::setSizeParameters(const Vector3UZ& resolution,
                               const Vector3D& gridSpacing,
                               const Vector3D& origin) {
     _resolution = resolution;
@@ -74,7 +71,7 @@ void Grid3::setSizeParameters(const Size3& resolution,
                                     static_cast<double>(resolution.y),
                                     static_cast<double>(resolution.z));
 
-    _boundingBox = BoundingBox3D(origin, origin + gridSpacing * resolutionD);
+    _boundingBox = BoundingBox3D(origin, origin + elemMul(gridSpacing, resolutionD));
 }
 
 void Grid3::swapGrid(Grid3* other) {

@@ -6,7 +6,8 @@
 
 #include <pch.h>
 
-#include <jet/matrix2x2.h>
+#include <jet/array_utils.h>
+#include <jet/matrix.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/samplers.h>
 #include <jet/surface_to_implicit2.h>
@@ -91,7 +92,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
     } else {
         // Use serial hash grid searcher for continuous update.
         PointHashGridSearcher2 neighborSearcher(
-            Size2(kDefaultHashGridResolution, kDefaultHashGridResolution),
+            Vector2UZ(kDefaultHashGridResolution, kDefaultHashGridResolution),
             2.0 * _spacing);
         if (!_allowOverlapping) {
             neighborSearcher.build(particles->positions());
@@ -121,7 +122,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    newVelocities->set(_initialVel);
+    newVelocities->fill(_initialVel);
 }
 
 void VolumeParticleEmitter2::setPointGenerator(

@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <gtest/gtest.h>
 
@@ -18,7 +18,7 @@ TEST(PointParallelHashGridSearcher2, ForEachNearbyPoint) {
     };
 
     PointParallelHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(
         Vector2D(0, 0),
@@ -38,7 +38,7 @@ TEST(PointParallelHashGridSearcher2, ForEachNearbyPointEmpty) {
     Array1<Vector2D> points;
 
     PointParallelHashGridSearcher2 searcher(4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(
         Vector2D(0, 0),

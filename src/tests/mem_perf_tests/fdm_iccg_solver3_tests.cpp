@@ -19,9 +19,9 @@ TEST(FdmIccgSolver3, Memory) {
     const size_t mem0 = getCurrentRSS();
 
     FdmLinearSystem3 system;
-    system.A.resize(n, n, n);
-    system.x.resize(n, n, n);
-    system.b.resize(n, n, n);
+    system.A.resize({n, n, n});
+    system.x.resize({n, n, n});
+    system.b.resize({n, n, n});
 
     FdmIccgSolver3 solver(1, 0.0);
     solver.solve(&system);

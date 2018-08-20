@@ -51,7 +51,7 @@ TEST(ParticleSystemSolver2, Update) {
 
     ParticleSystemData2Ptr data = solver.particleSystemData();
     ParticleSystemData2::VectorData positions(10);
-    data->addParticles(positions.accessor());
+    data->addParticles(positions);
 
     Frame frame(0, 1.0 / 60.0);
     solver.update(frame);
@@ -107,7 +107,7 @@ TEST(ParticleSystemSolver3, Update) {
 
     ParticleSystemData3Ptr data = solver.particleSystemData();
     ParticleSystemData3::VectorData positions(10);
-    data->addParticles(positions.accessor());
+    data->addParticles(positions);
 
     Frame frame(0, 1.0 / 60.0);
     solver.update(frame);

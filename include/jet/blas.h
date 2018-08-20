@@ -7,8 +7,7 @@
 #ifndef INCLUDE_JET_BLAS_H_
 #define INCLUDE_JET_BLAS_H_
 
-#include <jet/vector4.h>
-#include <jet/matrix4x4.h>
+#include <jet/matrix.h>
 
 namespace jet {
 
@@ -46,24 +45,16 @@ struct Blas {
 
     //! Performs ax + y operation where \p a is a matrix and \p x and \p y are
     //! vectors.
-    static void axpy(
-        ScalarType a,
-        const VectorType& x,
-        const VectorType& y,
-        VectorType* result);
+    static void axpy(ScalarType a, const VectorType& x, const VectorType& y,
+                     VectorType* result);
 
     //! Performs matrix-vector multiplication.
-    static void mvm(
-        const MatrixType& m,
-        const VectorType& v,
-        VectorType* result);
+    static void mvm(const MatrixType& m, const VectorType& v,
+                    VectorType* result);
 
     //! Computes residual vector (b - ax).
-    static void residual(
-        const MatrixType& a,
-        const VectorType& x,
-        const VectorType& b,
-        VectorType* result);
+    static void residual(const MatrixType& a, const VectorType& x,
+                         const VectorType& b, VectorType* result);
 
     //! Returns L2-norm of the given vector \p v.
     static ScalarType l2Norm(const VectorType& v);

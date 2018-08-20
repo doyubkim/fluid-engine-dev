@@ -16,43 +16,6 @@
 
 namespace jet {
 
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE>::MatrixCsrVectorMul(const MatrixCsr<T>& m,
-                                              const VE& v)
-    : _m(m), _v(v) {
-    JET_ASSERT(_m.cols() == _v.size());
-}
-
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE>::MatrixCsrVectorMul(const MatrixCsrVectorMul& other)
-    : _m(other._m), _v(other._v) {}
-
-template <typename T, typename VE>
-size_t MatrixCsrVectorMul<T, VE>::size() const {
-    return _m.rows();
-}
-
-template <typename T, typename VE>
-T MatrixCsrVectorMul<T, VE>::operator[](size_t i) const {
-    auto rp = _m.rowPointersBegin();
-    auto ci = _m.columnIndicesBegin();
-    auto nnz = _m.nonZeroBegin();
-
-    size_t colBegin = rp[i];
-    size_t colEnd = rp[i + 1];
-
-    T sum = 0;
-
-    for (size_t jj = colBegin; jj < colEnd; ++jj) {
-        size_t j = ci[jj];
-        sum += nnz[jj] * _v[j];
-    }
-
-    return sum;
-}
-
-//
-
 template <typename T, typename ME>
 MatrixCsrMatrixMul<T, ME>::MatrixCsrMatrixMul(const MatrixCsr<T>& m1,
                                               const ME& m2)
@@ -61,11 +24,6 @@ MatrixCsrMatrixMul<T, ME>::MatrixCsrMatrixMul(const MatrixCsr<T>& m1,
       _nnz(m1.nonZeroData()),
       _rp(m1.rowPointersData()),
       _ci(m1.columnIndicesData()) {}
-
-template <typename T, typename ME>
-Size2 MatrixCsrMatrixMul<T, ME>::size() const {
-    return {rows(), cols()};
-}
 
 template <typename T, typename ME>
 size_t MatrixCsrMatrixMul<T, ME>::rows() const {
@@ -114,8 +72,8 @@ MatrixCsr<T>::MatrixCsr(
 }
 
 template <typename T>
-template <typename E>
-MatrixCsr<T>::MatrixCsr(const MatrixExpression<T, E>& other, T epsilon) {
+template <size_t R, size_t C, typename ME>
+MatrixCsr<T>::MatrixCsr(const MatrixExpression<T, R, C, ME>& other, T epsilon) {
     compress(other, epsilon);
 }
 
@@ -153,7 +111,7 @@ void MatrixCsr<T>::set(const MatrixCsr& other) {
 
 template <typename T>
 void MatrixCsr<T>::reserve(size_t rows, size_t cols, size_t numNonZeros) {
-    _size = Size2(rows, cols);
+    _size = Vector2UZ(rows, cols);
     _rowPointers.resize(_size.x + 1);
     _nonZeros.resize(numNonZeros);
     _columnIndices.resize(numNonZeros);
@@ -191,8 +149,9 @@ void MatrixCsr<T>::compress(
 }
 
 template <typename T>
-template <typename E>
-void MatrixCsr<T>::compress(const MatrixExpression<T, E>& other, T epsilon) {
+template <size_t R, size_t C, typename E>
+void MatrixCsr<T>::compress(const MatrixExpression<T, R, C, E>& other,
+                            T epsilon) {
     size_t numRows = other.rows();
     size_t numCols = other.cols();
 
@@ -200,7 +159,7 @@ void MatrixCsr<T>::compress(const MatrixExpression<T, E>& other, T epsilon) {
     _nonZeros.clear();
     _columnIndices.clear();
 
-    const E& expression = other();
+    const E& expression = other.derived();
 
     for (size_t i = 0; i < numRows; ++i) {
         _rowPointers.push_back(_nonZeros.size());
@@ -351,7 +310,7 @@ bool MatrixCsr<T>::isSquare() const {
 }
 
 template <typename T>
-Size2 MatrixCsr<T>::size() const {
+Vector2UZ MatrixCsr<T>::size() const {
     return _size;
 }
 
@@ -508,17 +467,10 @@ MatrixCsr<T> MatrixCsr<T>::mul(const T& s) const {
 }
 
 template <typename T>
-template <typename VE>
-MatrixCsrVectorMul<T, VE> MatrixCsr<T>::mul(
-    const VectorExpression<T, VE>& v) const {
-    return MatrixCsrVectorMul<T, VE>(*this, v());
-};
-
-template <typename T>
-template <typename ME>
+template <size_t R, size_t C, typename ME>
 MatrixCsrMatrixMul<T, ME> MatrixCsr<T>::mul(
-    const MatrixExpression<T, ME>& m) const {
-    return MatrixCsrMatrixMul<T, ME>(*this, m());
+    const MatrixExpression<T, R, C, ME>& m) const {
+    return MatrixCsrMatrixMul<T, ME>(*this, m.derived());
 }
 
 template <typename T>
@@ -594,8 +546,8 @@ void MatrixCsr<T>::imul(const T& s) {
 }
 
 template <typename T>
-template <typename ME>
-void MatrixCsr<T>::imul(const MatrixExpression<T, ME>& m) {
+template <size_t R, size_t C, typename ME>
+void MatrixCsr<T>::imul(const MatrixExpression<T, R, C, ME>& m) {
     MatrixCsrD result = mul(m);
     *this = std::move(result);
 }
@@ -717,8 +669,8 @@ MatrixCsr<U> MatrixCsr<T>::castTo() const {
 }
 
 template <typename T>
-template <typename E>
-MatrixCsr<T>& MatrixCsr<T>::operator=(const E& m) {
+template <size_t R, size_t C, typename E>
+MatrixCsr<T>& MatrixCsr<T>::operator=(const MatrixExpression<T, R, C, E>& m) {
     set(m);
     return *this;
 }
@@ -732,7 +684,7 @@ MatrixCsr<T>& MatrixCsr<T>::operator=(const MatrixCsr& other) {
 template <typename T>
 MatrixCsr<T>& MatrixCsr<T>::operator=(MatrixCsr&& other) {
     _size = other._size;
-    other._size = Size2();
+    other._size = Vector2UZ();
     _nonZeros = std::move(other._nonZeros);
     _rowPointers = std::move(other._rowPointers);
     _columnIndices = std::move(other._columnIndices);
@@ -770,8 +722,8 @@ MatrixCsr<T>& MatrixCsr<T>::operator*=(const T& s) {
 }
 
 template <typename T>
-template <typename ME>
-MatrixCsr<T>& MatrixCsr<T>::operator*=(const MatrixExpression<T, ME>& m) {
+template <size_t R, size_t C, typename ME>
+MatrixCsr<T>& MatrixCsr<T>::operator*=(const MatrixExpression<T, R, C, ME>& m) {
     imul(m);
     return *this;
 }
@@ -805,7 +757,7 @@ bool MatrixCsr<T>::operator!=(const MatrixCsr& m) const {
 template <typename T>
 MatrixCsr<T> MatrixCsr<T>::makeIdentity(size_t m) {
     MatrixCsr ret;
-    ret._size = Size2(m, m);
+    ret._size = Vector2UZ(m, m);
     ret._nonZeros.resize(m, 1.0);
     ret._columnIndices.resize(m);
     std::iota(ret._columnIndices.begin(), ret._columnIndices.end(), kZeroSize);
@@ -925,15 +877,9 @@ MatrixCsr<T> operator*(T a, const MatrixCsr<T>& b) {
     return b.rmul(a);
 }
 
-template <typename T, typename VE>
-MatrixCsrVectorMul<T, VE> operator*(const MatrixCsr<T>& a,
-                                    const VectorExpression<T, VE>& b) {
-    return a.mul(b);
-}
-
-template <typename T, typename ME>
+template <typename T, size_t R, size_t C, typename ME>
 MatrixCsrMatrixMul<T, ME> operator*(const MatrixCsr<T>& a,
-                                    const MatrixExpression<T, ME>& b) {
+                                    const MatrixExpression<T, R, C, ME>& b) {
     return a.mul(b);
 }
 

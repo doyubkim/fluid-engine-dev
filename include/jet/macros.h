@@ -7,7 +7,8 @@
 #ifndef INCLUDE_JET_MACROS_H_
 #define INCLUDE_JET_MACROS_H_
 
-// Platforms
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Platforms
 #if defined(_WIN32) || defined(_WIN64)
 #define JET_WINDOWS
 #elif defined(__APPLE__)
@@ -19,7 +20,8 @@
 #define JET_LINUX
 #endif
 
-// Debug mode
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Debug mode
 #if defined(DEBUG) || defined(_DEBUG)
 #define JET_DEBUG_MODE
 #include <cassert>
@@ -28,14 +30,16 @@
 #define JET_ASSERT(x)
 #endif
 
-// C++ shortcuts
+////////////////////////////////////////////////////////////////////////////////
+// MARK: C++ shortcuts
 #ifdef __cplusplus
 #define JET_NON_COPYABLE(ClassName)       \
     ClassName(const ClassName&) = delete; \
     ClassName& operator=(const ClassName&) = delete;
 #endif
 
-// C++ exceptions
+////////////////////////////////////////////////////////////////////////////////
+// MARK: C++ exceptions
 #ifdef __cplusplus
 #include <stdexcept>
 #define JET_THROW_INVALID_ARG_IF(expression)      \
@@ -48,34 +52,58 @@
     }
 #endif
 
-// Windows specific
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Windows specific
 #ifdef JET_WINDOWS
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif
 
-// CUDA specific
-#if defined(JET_USE_CUDA) && defined(__CUDACC__)
+////////////////////////////////////////////////////////////////////////////////
+// MARK: CUDA specific
+#ifdef JET_USE_CUDA
+
+// Host vs. device
+#ifdef __CUDACC__
 #define JET_CUDA_DEVICE __device__
 #define JET_CUDA_HOST __host__
 #else
 #define JET_CUDA_DEVICE
 #define JET_CUDA_HOST
-#endif
+#endif  // __CUDACC__
 #define JET_CUDA_HOST_DEVICE JET_CUDA_HOST JET_CUDA_DEVICE
 
 // Alignment
-#if defined(__CUDACC__) // NVCC
-#define JET_ALIGN(n) __align__(n)
-#elif defined(__GNUC__) // GCC
-#define JET_ALIGN(n) __attribute__((aligned(n)))
-#elif defined(_MSC_VER) // MSVC
-#define JET_ALIGN(n) __declspec(align(n))
+#ifdef __CUDACC__  // NVCC
+#define JET_CUDA_ALIGN(n) __align__(n)
+#elif defined(__GNUC__)  // GCC
+#define JET_CUDA_ALIGN(n) __attribute__((aligned(n)))
+#elif defined(_MSC_VER)  // MSVC
+#define JET_CUDA_ALIGN(n) __declspec(align(n))
 #else
-#error "Don't know how to handle JET_ALIGN"
-#endif
+#error "Don't know how to handle JET_CUDA_ALIGN"
+#endif  // __CUDACC__
 
-// Compiler-specific warning toggle
+// Exception
+#define _JET_CUDA_CHECK(result, msg, file, line)                            \
+    if (result != cudaSuccess) {                                            \
+        fprintf(stderr, "CUDA error at %s:%d code=%d (%s) \"%s\" \n", file, \
+                line, static_cast<unsigned int>(result),                    \
+                cudaGetErrorString(result), msg);                           \
+        cudaDeviceReset();                                                  \
+        exit(EXIT_FAILURE);                                                 \
+    }
+
+#define JET_CUDA_CHECK(expression) \
+    _JET_CUDA_CHECK((expression), #expression, __FILE__, __LINE__)
+
+#define JET_CUDA_CHECK_LAST_ERROR(msg) \
+    _JET_CUDA_CHECK(cudaGetLastError(), msg, __FILE__, __LINE__)
+
+#endif  // JET_USE_CUDA
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Compiler-specific warning toggle
 #define JET_DIAG_STR(s) #s
 #define JET_DIAG_JOINSTR(x, y) JET_DIAG_STR(x##y)
 #ifdef _MSC_VER

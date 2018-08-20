@@ -7,8 +7,10 @@
 #ifndef INCLUDE_JET_DETAIL_PARALLEL_INL_H_
 #define INCLUDE_JET_DETAIL_PARALLEL_INL_H_
 
+#include <jet/array_utils.h>
 #include <jet/constants.h>
 #include <jet/macros.h>
+#include <jet/detail/array_utils-inl.h>
 
 #include <algorithm>
 #include <functional>
@@ -20,6 +22,7 @@
 #include <tbb/parallel_reduce.h>
 #include <tbb/parallel_sort.h>
 #include <tbb/task.h>
+
 #elif defined(JET_TASKING_CPP11THREADS)
 #include <thread>
 #endif

@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 #define INCLUDE_JET_POINT_HASH_GRID_SEARCHER3_H_
 
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher3.h>
-#include <jet/tuple.h>
 
 #include <vector>
 
@@ -37,7 +37,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointHashGridSearcher3(const Size3& resolution, double gridSpacing);
+    PointHashGridSearcher3(const Vector3UZ& resolution, double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -58,7 +58,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     PointHashGridSearcher3(const PointHashGridSearcher3& other);
 
     //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayAccessor1<Vector3D>& points) override;
+    void build(const ConstArrayView1<Vector3D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
@@ -111,7 +111,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t getHashKeyFromBucketIndex(const SSize3& bucketIndex) const;
+    size_t getHashKeyFromBucketIndex(const Vector3Z& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -120,7 +120,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
     //!
     //! \return     The bucket index.
     //!
-    SSize3 getBucketIndex(const Vector3D& position) const;
+    Vector3Z getBucketIndex(const Vector3D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -147,7 +147,7 @@ class PointHashGridSearcher3 final : public PointNeighborSearcher3 {
 
  private:
     double _gridSpacing = 1.0;
-    SSize3 _resolution = SSize3(1, 1, 1);
+    Vector3Z _resolution = Vector3Z(1, 1, 1);
     std::vector<Vector3D> _points;
     std::vector<std::vector<size_t>> _buckets;
 
@@ -166,7 +166,7 @@ class PointHashGridSearcher3::Builder final
     : public PointNeighborSearcherBuilder3 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size3& resolution);
+    Builder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(double gridSpacing);
@@ -181,7 +181,7 @@ class PointHashGridSearcher3::Builder final
     PointNeighborSearcher3Ptr buildPointNeighborSearcher() const override;
 
  private:
-    Size3 _resolution{64, 64, 64};
+    Vector3UZ _resolution{64, 64, 64};
     double _gridSpacing = 1.0;
 };
 

@@ -8,12 +8,10 @@
 
 #include <jet/grid2.h>
 #include <jet/parallel.h>
-#include <jet/serial.h>
 
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
@@ -21,7 +19,7 @@ Grid2::Grid2() {}
 
 Grid2::~Grid2() {}
 
-const Size2& Grid2::resolution() const { return _resolution; }
+const Vector2UZ& Grid2::resolution() const { return _resolution; }
 
 const Vector2D& Grid2::origin() const { return _origin; }
 
@@ -32,15 +30,14 @@ const BoundingBox2D& Grid2::boundingBox() const { return _boundingBox; }
 Grid2::DataPositionFunc Grid2::cellCenterPosition() const {
     Vector2D h = _gridSpacing;
     Vector2D o = _origin;
-    return [h, o](size_t i, size_t j) {
-        return o + h * Vector2D(i + 0.5, j + 0.5);
+    return [h, o](size_t i, size_t j) -> Vector2D {
+        return o + elemMul(h, Vector2D(i + 0.5, j + 0.5));
     };
 }
 
 void Grid2::forEachCellIndex(
     const std::function<void(size_t, size_t)>& func) const {
-    serialFor(kZeroSize, _resolution.x, kZeroSize, _resolution.y,
-              [&func](size_t i, size_t j) { func(i, j); });
+    forEachIndex(_resolution, [&func](size_t i, size_t j) { func(i, j); });
 }
 
 void Grid2::parallelForEachCellIndex(
@@ -58,7 +55,7 @@ bool Grid2::hasSameShape(const Grid2& other) const {
            similar(_origin.y, other._origin.y);
 }
 
-void Grid2::setSizeParameters(const Size2& resolution,
+void Grid2::setSizeParameters(const Vector2UZ& resolution,
                               const Vector2D& gridSpacing,
                               const Vector2D& origin) {
     _resolution = resolution;
@@ -68,7 +65,7 @@ void Grid2::setSizeParameters(const Size2& resolution,
     Vector2D resolutionD = Vector2D(static_cast<double>(resolution.x),
                                     static_cast<double>(resolution.y));
 
-    _boundingBox = BoundingBox2D(origin, origin + gridSpacing * resolutionD);
+    _boundingBox = BoundingBox2D(origin, origin + elemMul(gridSpacing, resolutionD));
 }
 
 void Grid2::swapGrid(Grid2* other) {
