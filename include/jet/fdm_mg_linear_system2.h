@@ -37,7 +37,7 @@ struct FdmMgLinearSystem2 {
     size_t numberOfLevels() const;
 
     //! Resizes the system with the coarsest resolution and number of levels.
-    void resizeWithCoarsest(const Size2 &coarsestResolution,
+    void resizeWithCoarsest(const Vector2UZ &coarsestResolution,
                             size_t numberOfLevels);
 
     //!
@@ -50,7 +50,7 @@ struct FdmMgLinearSystem2 {
     //! \param finestResolution - The finest grid resolution.
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
     //!
-    void resizeWithFinest(const Size2 &finestResolution,
+    void resizeWithFinest(const Vector2UZ &finestResolution,
                           size_t maxNumberOfLevels);
 };
 
@@ -65,7 +65,7 @@ class FdmMgUtils2 {
 
     //! Resizes the array with the coarsest resolution and number of levels.
     template <typename T>
-    static void resizeArrayWithCoarsest(const Size2 &coarsestResolution,
+    static void resizeArrayWithCoarsest(const Vector2UZ &coarsestResolution,
                                         size_t numberOfLevels,
                                         std::vector<Array2<T>> *levels);
 
@@ -80,7 +80,7 @@ class FdmMgUtils2 {
     //! \param maxNumberOfLevels - Maximum number of multigrid levels.
     //!
     template <typename T>
-    static void resizeArrayWithFinest(const Size2 &finestResolution,
+    static void resizeArrayWithFinest(const Vector2UZ &finestResolution,
                                       size_t maxNumberOfLevels,
                                       std::vector<Array2<T>> *levels);
 };

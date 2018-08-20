@@ -11,12 +11,12 @@ namespace jet {
 class FdmLinearSystemSolverTestHelper3 {
  public:
     static void buildTestLinearSystem(FdmLinearSystem3* system,
-                                      const Size3& size) {
+                                      const Vector3UZ& size) {
         system->A.resize(size);
         system->x.resize(size);
         system->b.resize(size);
 
-        system->A.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(system->A.size(), [&](size_t i, size_t j, size_t k) {
             if (i > 0) {
                 system->A(i, j, k).center += 1.0;
             }
@@ -49,14 +49,14 @@ class FdmLinearSystemSolverTestHelper3 {
     }
 
     static void buildTestCompressedLinearSystem(
-        FdmCompressedLinearSystem3* system, const Size3& size) {
+        FdmCompressedLinearSystem3* system, const Vector3UZ& size) {
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.constAccessor();
+        const auto acc = coordToIndex.view();
 
-        coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(coordToIndex.size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.rows();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -112,10 +112,10 @@ class FdmLinearSystemSolverTestHelper3 {
             }
 
             system->A.addRow(row, colIdx);
-            system->b.append(bijk);
+            system->b.addElement(bijk);
         });
 
-        system->x.resize(system->b.size(), 0.0);
+        system->x.resize(system->b.rows(), 0.0);
     }
 };
 

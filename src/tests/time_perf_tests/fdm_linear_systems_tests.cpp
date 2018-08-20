@@ -17,7 +17,7 @@ using jet::FdmVector2;
 using jet::FdmMatrix3;
 using jet::FdmVector3;
 using jet::FdmCompressedLinearSystem3;
-using jet::Size3;
+using jet::Vector3UZ;
 
 class FdmBlas2 : public ::benchmark::Fixture {
  public:
@@ -28,14 +28,14 @@ class FdmBlas2 : public ::benchmark::Fixture {
     void SetUp(const ::benchmark::State& state) {
         const auto dim = static_cast<size_t>(state.range(0));
 
-        m.resize(dim, dim);
-        a.resize(dim, dim);
-        b.resize(dim, dim);
+        m.resize({dim, dim});
+        a.resize({dim, dim});
+        b.resize({dim, dim});
 
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.forEachIndex([&](size_t i, size_t j) {
+        forEachIndex(m.size(), [&](size_t i, size_t j) {
             m(i, j).center = d(rng);
             m(i, j).right = d(rng);
             m(i, j).up = d(rng);
@@ -53,14 +53,14 @@ class FdmBlas3 : public ::benchmark::Fixture {
     void SetUp(const ::benchmark::State& state) {
         const auto dim = static_cast<size_t>(state.range(0));
 
-        m.resize(dim, dim, dim);
-        a.resize(dim, dim, dim);
-        b.resize(dim, dim, dim);
+        m.resize({dim, dim, dim});
+        a.resize({dim, dim, dim});
+        b.resize({dim, dim, dim});
 
         std::mt19937 rng;
         std::uniform_real_distribution<> d(0.0, 1.0);
 
-        m.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(m.size(), [&](size_t i, size_t j, size_t k) {
             m(i, j, k).center = d(rng);
             m(i, j, k).right = d(rng);
             m(i, j, k).up = d(rng);
@@ -81,13 +81,13 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
     }
 
     static void buildSystem(FdmCompressedLinearSystem3* system,
-                            const Size3& size) {
+                            const Vector3UZ& size) {
         system->clear();
 
         Array3<size_t> coordToIndex(size);
-        const auto acc = coordToIndex.constAccessor();
+        const auto acc = coordToIndex.view();
 
-        coordToIndex.forEachIndex([&](size_t i, size_t j, size_t k) {
+        forEachIndex(coordToIndex.size(), [&](size_t i, size_t j, size_t k) {
             const size_t cIdx = acc.index(i, j, k);
             const size_t lIdx = acc.index(i - 1, j, k);
             const size_t rIdx = acc.index(i + 1, j, k);
@@ -96,7 +96,7 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
             const size_t bIdx = acc.index(i, j, k - 1);
             const size_t fIdx = acc.index(i, j, k + 1);
 
-            coordToIndex[cIdx] = system->b.size();
+            coordToIndex[cIdx] = system->b.rows();
             double bijk = 0.0;
 
             std::vector<double> row(1, 0.0);
@@ -146,10 +146,10 @@ class FdmCompressedBlas3 : public ::benchmark::Fixture {
             }
 
             system->A.addRow(row, colIdx);
-            system->b.append(bijk);
+            system->b.addElement(bijk);
         });
 
-        system->x.resize(system->b.size(), 0.0);
+        system->x.resize(system->b.rows(), 0.0);
     }
 };
 

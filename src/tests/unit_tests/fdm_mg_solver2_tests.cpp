@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <jet/array_utils.h>
 #include <jet/fdm_mg_solver2.h>
 
 #include <gtest/gtest.h>
@@ -21,9 +22,9 @@ TEST(FdmMgSolver2, Solve) {
         FdmMatrix2& A = system.A[l];
         FdmVector2& b = system.b[l];
 
-        system.x[l].set(0);
+        system.x[l].fill(0.0);
 
-        A.forEachIndex([&](size_t i, size_t j) {
+        forEachIndex(A.size(), [&](size_t i, size_t j) {
             if (i > 0) {
                 A(i, j).center += invdx * invdx;
             }

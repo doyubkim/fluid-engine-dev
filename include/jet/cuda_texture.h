@@ -9,50 +9,48 @@
 #ifndef INCLUDE_JET_CUDA_TEXTURE_H_
 #define INCLUDE_JET_CUDA_TEXTURE_H_
 
-#include <jet/cuda_array_view1.h>
-#include <jet/cuda_array_view2.h>
-#include <jet/cuda_array_view3.h>
+#include <jet/cuda_array_view.h>
 
 #include <cuda_runtime.h>
 
 namespace jet {
 
 template <typename T, size_t N, typename Derived>
-class CudaTexture {
+class CudaTextureBase {
  public:
     static_assert(N >= 1 || N <= 3,
                   "Not implemented - N should be either 1, 2 or 3.");
 
-    virtual ~CudaTexture();
+    virtual ~CudaTextureBase();
 
     void clear();
 
-    void set(const ConstArrayView<T, N>& view);
+    void set(const ArrayView<const T, N>& view);
 
-    void set(const ConstCudaArrayView<T, N>& view);
+    void set(const CudaArrayView<const T, N>& view);
 
     void set(const Derived& other);
 
     cudaTextureObject_t textureObject() const;
 
  protected:
-    SizeN<N> _size;
+    CudaStdArray<size_t, N> _size;
     cudaArray_t _array = nullptr;
     cudaTextureObject_t _tex = 0;
 
-    CudaTexture();
+    CudaTextureBase();
 
-    CudaTexture(const ConstArrayView<T, N>& view);
+    CudaTextureBase(const ArrayView<const T, N>& view);
 
-    CudaTexture(const ConstCudaArrayView<T, N>& view);
+    CudaTextureBase(const CudaArrayView<const T, N>& view);
 
-    CudaTexture(const CudaTexture& other);
+    CudaTextureBase(const CudaTextureBase& other);
 
-    CudaTexture(CudaTexture&& other);
+    CudaTextureBase(CudaTextureBase&& other);
 
-    CudaTexture& operator=(const CudaTexture& other);
+    CudaTextureBase& operator=(const CudaTextureBase& other);
 
-    CudaTexture& operator=(CudaTexture&& other) = delete;
+    CudaTextureBase& operator=(CudaTextureBase&& other) = delete;
 
     static cudaTextureObject_t createTexture(
         cudaArray_t array,
@@ -61,17 +59,24 @@ class CudaTexture {
 };
 
 template <typename T>
-class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
+class CudaTexture1 final : public CudaTextureBase<T, 1, CudaTexture1<T>> {
+    using Base = CudaTextureBase<T, 1, CudaTexture1<T>>;
+
+    using Base::_array;
+    using Base::_size;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 1, CudaTexture1<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
     CudaTexture1();
 
-    CudaTexture1(const ConstArrayView<T, 1>& view);
+    CudaTexture1(const ConstArrayView1<T>& view);
 
-    CudaTexture1(const ConstCudaArrayView<T, 1>& view);
+    CudaTexture1(const ConstCudaArrayView1<T>& view);
 
     CudaTexture1(const CudaTexture1& other);
 
@@ -79,73 +84,81 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 
     size_t size() const;
 
-    CudaTexture1& operator=(CudaTexture1&& other);
-
- private:
-    friend class Base;
-
-    void resize(const Size1& size);
+    void resize(const CudaStdArray<size_t, 1>& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture1& other);
+    void set(const CudaTexture1& other);
+
+    CudaTexture1& operator=(CudaTexture1&& other);
 };
 
 template <typename T>
-class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
+class CudaTexture2 final : public CudaTextureBase<T, 2, CudaTexture2<T>> {
+    using Base = CudaTextureBase<T, 2, CudaTexture2<T>>;
+
+    using Base::_array;
+    using Base::_size;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 2, CudaTexture2<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
     CudaTexture2();
 
-    CudaTexture2(const ConstArrayView<T, 2>& view);
+    CudaTexture2(const ConstArrayView2<T>& view);
 
-    CudaTexture2(const ConstCudaArrayView<T, 2>& view);
+    CudaTexture2(const ConstCudaArrayView2<T>& view);
 
     CudaTexture2(const CudaTexture2& other);
 
     CudaTexture2(CudaTexture2&& other);
 
-    Size2 size() const;
+    CudaStdArray<size_t, 2> size() const;
 
     size_t width() const;
 
     size_t height() const;
 
-    CudaTexture2& operator=(CudaTexture2&& other);
-
- private:
-    friend class Base;
-
-    void resize(const Size2& size);
+    void resize(const CudaStdArray<size_t, 2>& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture2& other);
+    void set(const CudaTexture2& other);
+
+    CudaTexture2& operator=(CudaTexture2&& other);
 };
 
 template <typename T>
-class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
+class CudaTexture3 final : public CudaTextureBase<T, 3, CudaTexture3<T>> {
+    using Base = CudaTextureBase<T, 3, CudaTexture3<T>>;
+
+    using Base::_array;
+    using Base::_size;
+    using Base::_tex;
+    using Base::createTexture;
+
  public:
-    typedef CudaTexture<T, 3, CudaTexture3<T>> Base;
+    using Base::clear;
     using Base::textureObject;
     using Base::operator=;
 
     CudaTexture3();
 
-    CudaTexture3(const ConstArrayView<T, 3>& view);
+    CudaTexture3(const ConstArrayView3<T>& view);
 
-    CudaTexture3(const ConstCudaArrayView<T, 3>& view);
+    CudaTexture3(const ConstCudaArrayView3<T>& view);
 
     CudaTexture3(const CudaTexture3& other);
 
     CudaTexture3(CudaTexture3&& other);
 
-    Size3 size() const;
+    CudaStdArray<size_t, 3> size() const;
 
     size_t width() const;
 
@@ -153,17 +166,14 @@ class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
 
     size_t depth() const;
 
-    CudaTexture3& operator=(CudaTexture3&& other);
-
- private:
-    friend class Base;
-
-    void resize(const Size3& size);
+    void resize(const CudaStdArray<size_t, 3>& size);
 
     template <typename View>
-    void _set(const View& view, cudaMemcpyKind memcpyKind);
+    void set(const View& view, cudaMemcpyKind memcpyKind);
 
-    void _set(const CudaTexture3& other);
+    void set(const CudaTexture3& other);
+
+    CudaTexture3& operator=(CudaTexture3&& other);
 };
 
 }  // namespace jet

@@ -17,20 +17,16 @@
 namespace jet {
 
 ParticleSystemSolver2::ParticleSystemSolver2()
-: ParticleSystemSolver2(1e-3, 1e-3) {
-}
+    : ParticleSystemSolver2(1e-3, 1e-3) {}
 
-ParticleSystemSolver2::ParticleSystemSolver2(
-    double radius,
-    double mass) {
+ParticleSystemSolver2::ParticleSystemSolver2(double radius, double mass) {
     _particleSystemData = std::make_shared<ParticleSystemData2>();
     _particleSystemData->setRadius(radius);
     _particleSystemData->setMass(mass);
     _wind = std::make_shared<ConstantVectorField2>(Vector2D());
 }
 
-ParticleSystemSolver2::~ParticleSystemSolver2() {
-}
+ParticleSystemSolver2::~ParticleSystemSolver2() {}
 
 double ParticleSystemSolver2::dragCoefficient() const {
     return _dragCoefficient;
@@ -49,16 +45,14 @@ void ParticleSystemSolver2::setRestitutionCoefficient(
     _restitutionCoefficient = clamp(newRestitutionCoefficient, 0.0, 1.0);
 }
 
-const Vector2D& ParticleSystemSolver2::gravity() const {
-    return _gravity;
-}
+const Vector2D& ParticleSystemSolver2::gravity() const { return _gravity; }
 
 void ParticleSystemSolver2::setGravity(const Vector2D& newGravity) {
     _gravity = newGravity;
 }
 
-const ParticleSystemData2Ptr&
-ParticleSystemSolver2::particleSystemData() const {
+const ParticleSystemData2Ptr& ParticleSystemSolver2::particleSystemData()
+    const {
     return _particleSystemData;
 }
 
@@ -66,8 +60,7 @@ const Collider2Ptr& ParticleSystemSolver2::collider() const {
     return _collider;
 }
 
-void ParticleSystemSolver2::setCollider(
-    const Collider2Ptr& newCollider) {
+void ParticleSystemSolver2::setCollider(const Collider2Ptr& newCollider) {
     _collider = newCollider;
 }
 
@@ -75,15 +68,12 @@ const ParticleEmitter2Ptr& ParticleSystemSolver2::emitter() const {
     return _emitter;
 }
 
-void ParticleSystemSolver2::setEmitter(
-    const ParticleEmitter2Ptr& newEmitter) {
+void ParticleSystemSolver2::setEmitter(const ParticleEmitter2Ptr& newEmitter) {
     _emitter = newEmitter;
     newEmitter->setTarget(_particleSystemData);
 }
 
-const VectorField2Ptr& ParticleSystemSolver2::wind() const {
-    return _wind;
-}
+const VectorField2Ptr& ParticleSystemSolver2::wind() const { return _wind; }
 
 void ParticleSystemSolver2::setWind(const VectorField2Ptr& newWind) {
     _wind = newWind;
@@ -94,13 +84,13 @@ void ParticleSystemSolver2::onInitialize() {
     // well since they also affects the initial condition of the simulation.
     Timer timer;
     updateCollider(0.0);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update collider took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     updateEmitter(0.0);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update emitter took " << timer.durationInSeconds()
+             << " seconds";
 }
 
 void ParticleSystemSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
@@ -108,18 +98,18 @@ void ParticleSystemSolver2::onAdvanceTimeStep(double timeStepInSeconds) {
 
     Timer timer;
     accumulateForces(timeStepInSeconds);
-    JET_INFO << "Accumulating forces took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Accumulating forces took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     timeIntegration(timeStepInSeconds);
-    JET_INFO << "Time integration took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Time integration took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     resolveCollision();
-    JET_INFO << "Resolving collision took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Resolving collision took " << timer.durationInSeconds()
+             << " seconds";
 
     endAdvanceTimeStep(timeStepInSeconds);
 }
@@ -134,18 +124,18 @@ void ParticleSystemSolver2::accumulateForces(double timeStepInSeconds) {
 void ParticleSystemSolver2::beginAdvanceTimeStep(double timeStepInSeconds) {
     // Clear forces
     auto forces = _particleSystemData->forces();
-    setRange1(forces.size(), Vector2D(), &forces);
+    forces.fill(Vector2D{});
 
     // Update collider and emitter
     Timer timer;
     updateCollider(timeStepInSeconds);
-    JET_INFO << "Update collider took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update collider took " << timer.durationInSeconds()
+             << " seconds";
 
     timer.reset();
     updateEmitter(timeStepInSeconds);
-    JET_INFO << "Update emitter took "
-             << timer.durationInSeconds() << " seconds";
+    JET_INFO << "Update emitter took " << timer.durationInSeconds()
+             << " seconds";
 
     // Allocate buffers
     size_t n = _particleSystemData->numberOfParticles();
@@ -160,13 +150,10 @@ void ParticleSystemSolver2::endAdvanceTimeStep(double timeStepInSeconds) {
     size_t n = _particleSystemData->numberOfParticles();
     auto positions = _particleSystemData->positions();
     auto velocities = _particleSystemData->velocities();
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            positions[i] = _newPositions[i];
-            velocities[i] = _newVelocities[i];
-        });
+    parallelFor(kZeroSize, n, [&](size_t i) {
+        positions[i] = _newPositions[i];
+        velocities[i] = _newVelocities[i];
+    });
 
     onEndAdvanceTimeStep(timeStepInSeconds);
 }
@@ -180,28 +167,19 @@ void ParticleSystemSolver2::onEndAdvanceTimeStep(double timeStepInSeconds) {
 }
 
 void ParticleSystemSolver2::resolveCollision() {
-    resolveCollision(
-        _newPositions.accessor(),
-        _newVelocities.accessor());
+    resolveCollision(_newPositions, _newVelocities);
 }
 
 void ParticleSystemSolver2::resolveCollision(
-    ArrayAccessor1<Vector2D> newPositions,
-    ArrayAccessor1<Vector2D> newVelocities) {
+    ArrayView1<Vector2D> newPositions, ArrayView1<Vector2D> newVelocities) {
     if (_collider != nullptr) {
         size_t numberOfParticles = _particleSystemData->numberOfParticles();
         const double radius = _particleSystemData->radius();
 
-        parallelFor(
-            kZeroSize,
-            numberOfParticles,
-            [&] (size_t i) {
-                _collider->resolveCollision(
-                    radius,
-                    _restitutionCoefficient,
-                    &newPositions[i],
-                    &newVelocities[i]);
-            });
+        parallelFor(kZeroSize, numberOfParticles, [&](size_t i) {
+            _collider->resolveCollision(radius, _restitutionCoefficient,
+                                        &newPositions[i], &newVelocities[i]);
+        });
     }
 }
 
@@ -217,19 +195,16 @@ void ParticleSystemSolver2::accumulateExternalForces() {
     auto positions = _particleSystemData->positions();
     const double mass = _particleSystemData->mass();
 
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            // Gravity
-            Vector2D force = mass * _gravity;
+    parallelFor(kZeroSize, n, [&](size_t i) {
+        // Gravity
+        Vector2D force = mass * _gravity;
 
-            // Wind forces
-            Vector2D relativeVel = velocities[i] - _wind->sample(positions[i]);
-            force += -_dragCoefficient * relativeVel;
+        // Wind forces
+        Vector2D relativeVel = velocities[i] - _wind->sample(positions[i]);
+        force += -_dragCoefficient * relativeVel;
 
-            forces[i] += force;
-        });
+        forces[i] += force;
+    });
 }
 
 void ParticleSystemSolver2::timeIntegration(double timeStepInSeconds) {
@@ -239,19 +214,15 @@ void ParticleSystemSolver2::timeIntegration(double timeStepInSeconds) {
     auto positions = _particleSystemData->positions();
     const double mass = _particleSystemData->mass();
 
-    parallelFor(
-        kZeroSize,
-        n,
-        [&] (size_t i) {
-            // Integrate velocity first
-            Vector2D& newVelocity = _newVelocities[i];
-            newVelocity = velocities[i]
-                + timeStepInSeconds * forces[i] / mass;
+    parallelFor(kZeroSize, n, [&](size_t i) {
+        // Integrate velocity first
+        Vector2D& newVelocity = _newVelocities[i];
+        newVelocity = velocities[i] + timeStepInSeconds * forces[i] / mass;
 
-            // Integrate position.
-            Vector2D& newPosition = _newPositions[i];
-            newPosition = positions[i] + timeStepInSeconds * newVelocity;
-        });
+        // Integrate position.
+        Vector2D& newPosition = _newPositions[i];
+        newPosition = positions[i] + timeStepInSeconds * newVelocity;
+    });
 }
 
 void ParticleSystemSolver2::updateCollider(double timeStepInSeconds) {
@@ -270,7 +241,6 @@ ParticleSystemSolver2::Builder ParticleSystemSolver2::builder() {
     return Builder();
 }
 
-
 ParticleSystemSolver2 ParticleSystemSolver2::Builder::build() const {
     return ParticleSystemSolver2(_radius, _mass);
 }
@@ -278,9 +248,7 @@ ParticleSystemSolver2 ParticleSystemSolver2::Builder::build() const {
 ParticleSystemSolver2Ptr ParticleSystemSolver2::Builder::makeShared() const {
     return std::shared_ptr<ParticleSystemSolver2>(
         new ParticleSystemSolver2(_radius, _mass),
-        [] (ParticleSystemSolver2* obj) {
-            delete obj;
-        });
+        [](ParticleSystemSolver2* obj) { delete obj; });
 }
 
 }  // namespace jet

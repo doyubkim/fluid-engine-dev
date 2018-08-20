@@ -16,14 +16,14 @@ EnoLevelSetSolver2::EnoLevelSetSolver2() {
 }
 
 void EnoLevelSetSolver2::getDerivatives(
-    ConstArrayAccessor2<double> grid,
+    ConstArrayView2<double> grid,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j,
     std::array<double, 2>* dx,
     std::array<double, 2>* dy) const {
     double D0[7];
-    Size2 size = grid.size();
+    Vector2UZ size = grid.size();
 
     const size_t im3 = (i < 3) ? 0 : i - 3;
     const size_t im2 = (i < 2) ? 0 : i - 2;

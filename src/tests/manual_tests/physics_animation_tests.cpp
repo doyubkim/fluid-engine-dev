@@ -6,24 +6,21 @@
 
 #include "manual_tests.h"
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/constant_vector_field3.h>
+#include <jet/matrix.h>
 #include <jet/physics_animation.h>
-#include <jet/vector3.h>
 
 using namespace jet;
 
-class SimpleMassSpringAnimation : public PhysicsAnimation
-{
-public:
-    struct Edge
-    {
+class SimpleMassSpringAnimation : public PhysicsAnimation {
+ public:
+    struct Edge {
         size_t first;
         size_t second;
     };
 
-    struct Constraint
-    {
+    struct Constraint {
         size_t pointIndex;
         Vector3D fixedPosition;
         Vector3D fixedVelocity;
@@ -50,10 +47,8 @@ public:
 
     SimpleMassSpringAnimation() {}
 
-    void makeChain(size_t numberOfPoints)
-    {
-        if (numberOfPoints == 0)
-        {
+    void makeChain(size_t numberOfPoints) {
+        if (numberOfPoints == 0) {
             return;
         }
 
@@ -64,52 +59,44 @@ public:
         forces.resize(numberOfPoints);
         edges.resize(numberOfEdges);
 
-        for (size_t i = 0; i < numberOfPoints; ++i)
-        {
+        for (size_t i = 0; i < numberOfPoints; ++i) {
             positions[i].x = -static_cast<double>(i);
         }
 
-        for (size_t i = 0; i < numberOfEdges; ++i)
-        {
+        for (size_t i = 0; i < numberOfEdges; ++i) {
             edges[i] = Edge{i, i + 1};
         }
     }
 
-    void exportStates(Array1<double>& x, Array1<double>& y) const
-    {
+    void exportStates(Array1<double>& x, Array1<double>& y) const {
         x.resize(positions.size());
         y.resize(positions.size());
 
-        for (size_t i = 0; i < positions.size(); ++i)
-        {
+        for (size_t i = 0; i < positions.size(); ++i) {
             x[i] = positions[i].x;
             y[i] = positions[i].y;
         }
     }
 
-protected:
-    void onAdvanceTimeStep(double timeIntervalInSeconds) override
-    {
+ protected:
+    void onAdvanceTimeStep(double timeIntervalInSeconds) override {
         size_t numberOfPoints = positions.size();
         size_t numberOfEdges = edges.size();
 
         // Compute forces
-        for (size_t i = 0; i < numberOfPoints; ++i)
-        {
+        for (size_t i = 0; i < numberOfPoints; ++i) {
             // Gravity force
             forces[i] = mass * gravity;
 
             // Air drag force
             Vector3D relativeVel = velocities[i];
-            if (wind != nullptr)
-            {
+            if (wind != nullptr) {
                 relativeVel -= wind->sample(positions[i]);
             }
             forces[i] += -dragCoefficient * relativeVel;
         }
 
-        for (size_t i = 0; i < numberOfEdges; ++i)
-        {
+        for (size_t i = 0; i < numberOfEdges; ++i) {
             size_t pointIndex0 = edges[i].first;
             size_t pointIndex1 = edges[i].second;
 
@@ -118,9 +105,9 @@ protected:
             Vector3D pos1 = positions[pointIndex1];
             Vector3D r = pos0 - pos1;
             double distance = r.length();
-            if (distance > 0.0)
-            {
-                Vector3D force = -stiffness * (distance - restLength) * r.normalized();
+            if (distance > 0.0) {
+                Vector3D force =
+                    -stiffness * (distance - restLength) * r.normalized();
                 forces[pointIndex0] += force;
                 forces[pointIndex1] -= force;
             }
@@ -135,20 +122,19 @@ protected:
         }
 
         // Update states
-        for (size_t i = 0; i < numberOfPoints; ++i)
-        {
+        for (size_t i = 0; i < numberOfPoints; ++i) {
             // Compute new states
             Vector3D newAcceleration = forces[i] / mass;
-            Vector3D newVelocity = velocities[i] + timeIntervalInSeconds * newAcceleration;
-            Vector3D newPosition = positions[i] + timeIntervalInSeconds * newVelocity;
+            Vector3D newVelocity =
+                velocities[i] + timeIntervalInSeconds * newAcceleration;
+            Vector3D newPosition =
+                positions[i] + timeIntervalInSeconds * newVelocity;
 
             // Collision
-            if (newPosition.y < floorPositionY)
-            {
+            if (newPosition.y < floorPositionY) {
                 newPosition.y = floorPositionY;
 
-                if (newVelocity.y < 0.0)
-                {
+                if (newVelocity.y < 0.0) {
                     newVelocity.y *= -restitutionCoefficient;
                     newPosition.y += timeIntervalInSeconds * newVelocity.y;
                 }
@@ -160,8 +146,7 @@ protected:
         }
 
         // Apply constraints
-        for (size_t i = 0; i < constraints.size(); ++i)
-        {
+        for (size_t i = 0; i < constraints.size(); ++i) {
             size_t pointIndex = constraints[i].pointIndex;
             positions[pointIndex] = constraints[i].fixedPosition;
             velocities[pointIndex] = constraints[i].fixedVelocity;
@@ -171,32 +156,34 @@ protected:
 
 JET_TESTS(PhysicsAnimation);
 
-JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation)
-{
+JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation) {
     Array1<double> x;
     Array1<double> y;
 
     SimpleMassSpringAnimation anim;
     anim.makeChain(10);
-    anim.wind = std::make_shared<ConstantVectorField3>(Vector3D(30.0, 0.0, 0.0));
-    anim.constraints.push_back(SimpleMassSpringAnimation::Constraint{0, Vector3D(), Vector3D()});
+    anim.wind =
+        std::make_shared<ConstantVectorField3>(Vector3D(30.0, 0.0, 0.0));
+    anim.constraints.push_back(
+        SimpleMassSpringAnimation::Constraint{0, Vector3D(), Vector3D()});
     anim.exportStates(x, y);
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData(x.constAccessor(), filename);
+    saveData(x.view(), filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData(y.constAccessor(), filename);
+    saveData(y.view(), filename);
 
-    for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.advance())
-    {
+    for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.advance()) {
         anim.update(frame);
         anim.exportStates(x, y);
 
-        snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy", frame.index);
-        saveData(x.constAccessor(), filename);
-        snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy", frame.index);
-        saveData(y.constAccessor(), filename);
+        snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy",
+                 frame.index);
+        saveData(x.view(), filename);
+        snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy",
+                 frame.index);
+        saveData(y.view(), filename);
     }
 }
 JET_END_TEST_F

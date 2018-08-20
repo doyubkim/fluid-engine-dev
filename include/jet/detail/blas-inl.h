@@ -12,25 +12,25 @@ namespace jet {
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void Blas<ScalarType, VectorType, MatrixType>::set(
     ScalarType s, VectorType* result) {
-    result->set(s);
+    result->fill(s);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void Blas<ScalarType, VectorType, MatrixType>::set(
     const VectorType& v, VectorType* result) {
-    result->set(v);
+    result->copyFrom(v);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void Blas<ScalarType, VectorType, MatrixType>::set(
     ScalarType s, MatrixType* result) {
-    result->set(s);
+    result->fill(s);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>
 void Blas<ScalarType, VectorType, MatrixType>::set(
     const MatrixType& m, MatrixType* result) {
-    result->set(m);
+    result->copyFrom(m);
 }
 
 template <typename ScalarType, typename VectorType, typename MatrixType>

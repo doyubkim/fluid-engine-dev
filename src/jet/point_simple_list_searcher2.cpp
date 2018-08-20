@@ -24,9 +24,9 @@ PointSimpleListSearcher2::PointSimpleListSearcher2(
 }
 
 void PointSimpleListSearcher2::build(
-    const ConstArrayAccessor1<Vector2D>& points) {
-    _points.resize(points.size());
-    std::copy(points.data(), points.data() + points.size(), _points.begin());
+    const ConstArrayView1<Vector2D>& points) {
+    _points.resize(points.length());
+    std::copy(points.data(), points.data() + points.length(), _points.begin());
 }
 
 void PointSimpleListSearcher2::forEachNearbyPoint(

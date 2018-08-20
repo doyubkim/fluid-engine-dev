@@ -41,7 +41,7 @@ Vector2D CustomImplicitSurface2::closestPointLocal(
 }
 
 bool CustomImplicitSurface2::intersectsLocal(const Ray2D& ray) const {
-    BoundingBoxRayIntersection2D intersection =
+    BoundingBoxRayIntersectionD intersection =
         _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {
@@ -102,7 +102,7 @@ SurfaceRayIntersection2 CustomImplicitSurface2::closestIntersectionLocal(
     const Ray2D& ray) const {
     SurfaceRayIntersection2 result;
 
-    BoundingBoxRayIntersection2D intersection =
+    BoundingBoxRayIntersectionD intersection =
         _domain.closestIntersection(ray);
 
     if (intersection.isIntersecting) {

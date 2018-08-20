@@ -4,7 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/matrix_mxn.h>
+#include <jet/iteration_utils.h>
+#include <jet/matrix.h>
 #include <jet/mg.h>
 
 #include <gtest/gtest.h>
@@ -25,7 +26,7 @@ void relax(const typename BlasType::MatrixType& a,
 
     size_t n = a.rows();
     for (unsigned int iter = 0; iter < numberOfIterations; ++iter) {
-        x->forEachIndex([&](size_t i) {
+        forEachIndex(x->rows(), [&](size_t i) {
             double sum = 0.0;
             for (size_t j = 0; j < n; ++j) {
                 if (i != j) {
@@ -39,8 +40,8 @@ void relax(const typename BlasType::MatrixType& a,
 
 void rest(const typename BlasType::VectorType& finer,
           typename BlasType::VectorType* coarser) {
-    size_t n = coarser->size();
-    coarser->parallelForEachIndex([&](size_t i) {
+    size_t n = coarser->rows();
+    parallelForEachIndex(coarser->rows(), [&](size_t i) {
         // --*--|--*--|--*--|--*--
         //  1/8   3/8   3/8   1/8
         //           to
@@ -54,8 +55,8 @@ void rest(const typename BlasType::VectorType& finer,
 
 void corr(const typename BlasType::VectorType& coarser,
           typename BlasType::VectorType* finer) {
-    size_t n = coarser.size();
-    coarser.forEachIndex([&](size_t i) {
+    size_t n = coarser.rows();
+    forEachIndex(coarser.rows(), [&](size_t i) {
         // -----|-----*-----|-----
         //           to
         //  1/4   3/4   3/4   1/4
@@ -68,7 +69,7 @@ void corr(const typename BlasType::VectorType& coarser,
         (*finer)[_2ip2] += 0.25 * coarser[i];
     });
 }
-}
+}  // namespace
 
 TEST(Mg, Solve) {
     MgMatrix<BlasType> A;
@@ -124,7 +125,7 @@ TEST(Mg, Solve) {
     EXPECT_GT(r0, r1);
 
     // Reset solution
-    x[0].set(0.0);
+    x[0].fill(0.0);
 
     // Now Mg
     params.maxNumberOfLevels = levels;

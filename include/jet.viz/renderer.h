@@ -18,8 +18,8 @@
 #include <jet.viz/vertex_buffer.h>
 #include <jet.viz/viewport.h>
 
-#include <jet/array_accessor2.h>
-#include <jet/array_accessor3.h>
+#include <jet/array_view.h>
+#include <jet/array_view.h>
 
 #include <map>
 #include <string>
@@ -76,7 +76,7 @@ class Renderer {
     //! \return New 2-D texture.
     //!
     virtual Texture2Ptr createTexture2(
-        const ConstArrayAccessor2<ByteColor>& data) = 0;
+        const ConstArrayView2<ByteColor>& data) = 0;
 
     //!
     //! Creates a 2-D texture with 32-bit image and given parameters.
@@ -86,7 +86,7 @@ class Renderer {
     //! \return New 2-D texture.
     //!
     virtual Texture2Ptr createTexture2(
-        const ConstArrayAccessor2<Color>& data) = 0;
+        const ConstArrayView2<Color>& data) = 0;
 
     //!
     //! Creates a 3-D texture with 8-bit image and given parameters.
@@ -96,7 +96,7 @@ class Renderer {
     //! \return New 3-D texture.
     //!
     virtual Texture3Ptr createTexture3(
-        const ConstArrayAccessor3<ByteColor>& data) = 0;
+        const ConstArrayView3<ByteColor>& data) = 0;
 
     //!
     //! Creates a 3-D texture with 32-bit image and given parameters.
@@ -106,7 +106,7 @@ class Renderer {
     //! \return New 3-D texture.
     //!
     virtual Texture3Ptr createTexture3(
-        const ConstArrayAccessor3<Color>& data) = 0;
+        const ConstArrayView3<Color>& data) = 0;
 
     //!
     //! Creates a shader object with given preset shader name.

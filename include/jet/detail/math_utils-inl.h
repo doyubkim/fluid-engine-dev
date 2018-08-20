@@ -15,13 +15,13 @@
 namespace jet {
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, bool>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, bool>  //
 similar(T x, T y, T eps) {
     return (std::abs(x - y) <= eps);
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 sign(T x) {
     if (x >= 0) {
         return 1;
@@ -31,19 +31,19 @@ sign(T x) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 min3(T x, T y, T z) {
     return std::min(std::min(x, y), z);
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 max3(T x, T y, T z) {
     return std::max(std::max(x, y), z);
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 minn(const T* x, size_t n) {
     T m = x[0];
     for (size_t i = 1; i < n; i++) {
@@ -53,7 +53,7 @@ minn(const T* x, size_t n) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 maxn(const T* x, size_t n) {
     T m = x[0];
     for (size_t i = 1; i < n; i++) {
@@ -63,19 +63,19 @@ maxn(const T* x, size_t n) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 absmin(T x, T y) {
     return (x * x < y * y) ? x : y;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 absmax(T x, T y) {
     return (x * x > y * y) ? x : y;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 absminn(const T* x, size_t n) {
     T m = x[0];
     for (size_t i = 1; i < n; i++) {
@@ -85,7 +85,7 @@ absminn(const T* x, size_t n) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 absmaxn(const T* x, size_t n) {
     T m = x[0];
     for (size_t i = 1; i < n; i++) {
@@ -95,19 +95,19 @@ absmaxn(const T* x, size_t n) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, size_t>  //
 argmin2(T x, T y) {
     return (x < y) ? 0 : 1;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, size_t>  //
 argmax2(T x, T y) {
     return (x > y) ? 0 : 1;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, size_t>  //
 argmin3(T x, T y, T z) {
     if (x < y) {
         return (x < z) ? 0 : 2;
@@ -117,7 +117,7 @@ argmin3(T x, T y, T z) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, size_t>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, size_t>  //
 argmax3(T x, T y, T z) {
     if (x > y) {
         return (x > z) ? 0 : 2;
@@ -127,19 +127,19 @@ argmax3(T x, T y, T z) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 square(T x) {
     return x * x;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 cubic(T x) {
     return x * x * x;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 clamp(T val, T low, T high) {
     if (val < low) {
         return low;
@@ -151,57 +151,69 @@ clamp(T val, T low, T high) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 degreesToRadians(T angleInDegrees) {
     return angleInDegrees * pi<T>() / 180;
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 radiansToDegrees(T angleInRadians) {
     return angleInRadians * 180 / pi<T>();
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value>::type  //
-getBarycentric(T x, ssize_t iLow, ssize_t iHigh, ssize_t* i, T* f) {
+std::enable_if_t<std::is_arithmetic<T>::value>  //
+getBarycentric(T x, ssize_t iBegin, ssize_t iEnd, ssize_t& i, T& f) {
+    JET_ASSERT(iEnd > iBegin);
+
     T s = std::floor(x);
-    *i = static_cast<ssize_t>(s);
+    i = static_cast<ssize_t>(s);
+    ssize_t size = iEnd - iBegin;
 
-    ssize_t offset = -iLow;
-    iLow += offset;
-    iHigh += offset;
-
-    if (iLow == iHigh) {
-        *i = iLow;
-        *f = 0;
-    } else if (*i < iLow) {
-        *i = iLow;
-        *f = 0;
-    } else if (*i > iHigh - 1) {
-        *i = iHigh - 1;
-        *f = 1;
+    if (size == 1 || i < 0) {
+        i = iBegin;
+        f = 0;
+    } else if (i > iEnd - 2) {
+        i = iEnd - 2;
+        f = 1;
     } else {
-        *f = static_cast<T>(x - s);
+        f = static_cast<T>(x - s);
     }
+}
 
-    *i -= offset;
+template <typename T>
+std::enable_if_t<std::is_arithmetic<T>::value>  //
+getBarycentric(T x, ssize_t iEnd, ssize_t& i, T& f) {
+    JET_ASSERT(iEnd > 0);
+
+    T s = std::floor(x);
+    i = static_cast<ssize_t>(s);
+    f = x - s;
+
+    if (iEnd == 1 || i < 0) {
+        i = 0;
+        f = 0;
+    } else if (i > iEnd - 2) {
+        i = iEnd - 2;
+        f = 1;
+    }
 }
 
 template <typename S, typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, S>  //
 lerp(const S& value0, const S& value1, T f) {
     return (1 - f) * value0 + f * value1;
 }
 
 template <typename S, typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, S>  //
 bilerp(const S& f00, const S& f10, const S& f01, const S& f11, T tx, T ty) {
     return lerp(lerp(f00, f10, tx), lerp(f01, f11, tx), ty);
 }
 
 template <typename S, typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, S>  //
 trilerp(const S& f000, const S& f100, const S& f010, const S& f110,
         const S& f001, const S& f101, const S& f011, const S& f111, T tx, T ty,
         T fz) {
@@ -210,7 +222,7 @@ trilerp(const S& f000, const S& f100, const S& f010, const S& f110,
 }
 
 template <typename S, typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, S>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, S>  //
 catmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T f) {
     S d1 = (f2 - f0) / 2;
     S d2 = (f3 - f1) / 2;
@@ -225,7 +237,7 @@ catmullRom(const S& f0, const S& f1, const S& f2, const S& f3, T f) {
 }
 
 template <typename T>
-typename std::enable_if<std::is_arithmetic<T>::value, T>::type  //
+std::enable_if_t<std::is_arithmetic<T>::value, T>  //
 monotonicCatmullRom(const T& f0, const T& f1, const T& f2, const T& f3, T f) {
     T d1 = (f2 - f0) / 2;
     T d2 = (f3 - f1) / 2;

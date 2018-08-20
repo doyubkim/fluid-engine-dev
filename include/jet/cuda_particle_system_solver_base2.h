@@ -11,8 +11,8 @@
 
 #include <jet/constants.h>
 #include <jet/cuda_particle_system_data2.h>
+#include <jet/matrix.h>
 #include <jet/physics_animation.h>
-#include <jet/vector2.h>
 
 namespace jet {
 

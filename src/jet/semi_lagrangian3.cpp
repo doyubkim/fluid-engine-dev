@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/semi_lagrangian3.h>
 #include <algorithm>
@@ -25,7 +25,7 @@ void SemiLagrangian3::advect(
     ScalarGrid3* output,
     const ScalarField3& boundarySdf) {
     auto outputDataPos = output->dataPosition();
-    auto outputDataAcc = output->dataAccessor();
+    auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
     auto inputDataPos = input.dataPosition();
 
@@ -57,7 +57,7 @@ void SemiLagrangian3::advect(
         output->gridSpacing().z);
 
     auto outputDataPos = output->dataPosition();
-    auto outputDataAcc = output->dataAccessor();
+    auto outputDataAcc = output->dataView();
     auto inputDataPos = input.dataPosition();
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
@@ -83,7 +83,7 @@ void SemiLagrangian3::advect(
         output->gridSpacing().z);
 
     auto uTargetDataPos = output->uPosition();
-    auto uTargetDataAcc = output->uAccessor();
+    auto uTargetDataAcc = output->uView();
     auto uSourceDataPos = input.uPosition();
 
     output->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
@@ -95,7 +95,7 @@ void SemiLagrangian3::advect(
     });
 
     auto vTargetDataPos = output->vPosition();
-    auto vTargetDataAcc = output->vAccessor();
+    auto vTargetDataAcc = output->vView();
     auto vSourceDataPos = input.vPosition();
 
     output->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
@@ -107,7 +107,7 @@ void SemiLagrangian3::advect(
     });
 
     auto wTargetDataPos = output->wPosition();
-    auto wTargetDataAcc = output->wAccessor();
+    auto wTargetDataAcc = output->wView();
     auto wSourceDataPos = input.wPosition();
 
     output->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {

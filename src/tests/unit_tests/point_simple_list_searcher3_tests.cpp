@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_simple_list_searcher3.h>
 #include <gtest/gtest.h>
 #include <vector>
@@ -19,7 +19,7 @@ TEST(PointSimpleListSearcher3, ForEachNearbyPoint) {
     };
 
     PointSimpleListSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     int cnt = 0;
     searcher.forEachNearbyPoint(
@@ -48,7 +48,7 @@ TEST(PointSimpleListSearcher3, CopyConstructor) {
     };
 
     PointSimpleListSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     PointSimpleListSearcher3 searcher2(searcher);
     int cnt = 0;
@@ -78,7 +78,7 @@ TEST(PointSimpleListSearcher3, Serialization) {
     };
 
     PointSimpleListSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     std::vector<uint8_t> buffer;
     searcher.serialize(&buffer);

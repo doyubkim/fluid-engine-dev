@@ -50,7 +50,7 @@ void restrict(const Array3<float>& finer, Array3<float>* coarser) {
     kernels[1] = (kernelSize[1] == 3) ? staggeredKernel : centeredKernel;
     kernels[2] = (kernelSize[2] == 3) ? staggeredKernel : centeredKernel;
 
-    const Size3 n = coarser->size();
+    const Vector3UZ n = coarser->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y, kZeroSize, n.z,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd,
@@ -121,16 +121,16 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
                        const Array3<float>& wWeights,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
-    const Size3 size = input.resolution();
+    const Vector3UZ size = input.resolution();
     const auto uPos = input.uPosition();
     const auto vPos = input.vPosition();
     const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
-    const Vector3D invHSqr = invH * invH;
+    const Vector3D invHSqr = elemMul(invH, invH);
 
     // Build linear system
-    A->parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(A->size(), [&](size_t i, size_t j, size_t k) {
         auto& row = (*A)(i, j, k);
 
         // initialize
@@ -273,22 +273,22 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        const Array3<float>& wWeights,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
-    const Size3 size = input.resolution();
+    const Vector3UZ size = input.resolution();
     const auto uPos = input.uPosition();
     const auto vPos = input.vPosition();
     const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
-    const Vector3D invHSqr = invH * invH;
+    const Vector3D invHSqr = elemMul(invH, invH);
 
-    const auto fluidSdfAcc = fluidSdf.constAccessor();
+    ConstArrayView3<float> fluidSdfAcc(fluidSdf);
 
     A->clear();
     b->clear();
 
     size_t numRows = 0;
     Array3<size_t> coordToIndex(size);
-    fluidSdf.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(fluidSdf.size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = fluidSdfAcc.index(i, j, k);
         const double centerPhi = fluidSdf[cIdx];
 
@@ -297,7 +297,7 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
         }
     });
 
-    fluidSdf.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(fluidSdf.size(), [&](size_t i, size_t j, size_t k) {
         const size_t cIdx = fluidSdfAcc.index(i, j, k);
 
         const double centerPhi = fluidSdf[cIdx];
@@ -436,11 +436,11 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
             }
 
             A->addRow(row, colIdx);
-            b->append(bijk);
+            b->addElement(bijk);
         }
     });
 
-    x->resize(b->size(), 0.0);
+    x->resize(b->rows(), 0.0);
 }
 
 }  // namespace
@@ -532,9 +532,9 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
     _vWeights.resize(_fluidSdf.size());
     _wWeights.resize(_fluidSdf.size());
     for (size_t l = 0; l < _fluidSdf.size(); ++l) {
-        _uWeights[l].resize(_fluidSdf[l].size() + Size3(1, 0, 0));
-        _vWeights[l].resize(_fluidSdf[l].size() + Size3(0, 1, 0));
-        _wWeights[l].resize(_fluidSdf[l].size() + Size3(0, 0, 1));
+        _uWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(1, 0, 0));
+        _vWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(0, 1, 0));
+        _wWeights[l].resize(_fluidSdf[l].size() + Vector3UZ(0, 0, 1));
     }
 
     // Build top-level grids
@@ -545,12 +545,12 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
     _boundaryVel = boundaryVelocity.sampler();
     Vector3D h = input.gridSpacing();
 
-    _fluidSdf[0].parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(_fluidSdf[0].size(), [&](size_t i, size_t j, size_t k) {
         _fluidSdf[0](i, j, k) =
             static_cast<float>(fluidSdf.sample(cellPos(i, j, k)));
     });
 
-    _uWeights[0].parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(_uWeights[0].size(), [&](size_t i, size_t j, size_t k) {
         Vector3D pt = uPos(i, j, k);
         double phi0 =
             boundarySdf.sample(pt + Vector3D(0.0, -0.5 * h.y, -0.5 * h.z));
@@ -572,7 +572,7 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
         _uWeights[0](i, j, k) = static_cast<float>(weight);
     });
 
-    _vWeights[0].parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(_vWeights[0].size(), [&](size_t i, size_t j, size_t k) {
         Vector3D pt = vPos(i, j, k);
         double phi0 =
             boundarySdf.sample(pt + Vector3D(-0.5 * h.x, 0.0, -0.5 * h.z));
@@ -594,7 +594,7 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
         _vWeights[0](i, j, k) = static_cast<float>(weight);
     });
 
-    _wWeights[0].parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(_wWeights[0].size(), [&](size_t i, size_t j, size_t k) {
         Vector3D pt = wPos(i, j, k);
         double phi0 =
             boundarySdf.sample(pt + Vector3D(-0.5 * h.x, -0.5 * h.y, 0.0));
@@ -636,11 +636,11 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
 }
 
 void GridFractionalSinglePhasePressureSolver3::decompressSolution() {
-    const auto acc = _fluidSdf[0].constAccessor();
+    ConstArrayView3<float> acc(_fluidSdf[0]);
     _system.x.resize(acc.size());
 
     size_t row = 0;
-    _fluidSdf[0].forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(_fluidSdf[0].size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(acc(i, j, k))) {
             _system.x(i, j, k) = _compSystem.x[row];
             ++row;
@@ -650,7 +650,7 @@ void GridFractionalSinglePhasePressureSolver3::decompressSolution() {
 
 void GridFractionalSinglePhasePressureSolver3::buildSystem(
     const FaceCenteredGrid3& input, bool useCompressed) {
-    Size3 size = input.resolution();
+    Vector3UZ size = input.resolution();
     size_t numLevels = 1;
 
     if (_mgSystemSolver == nullptr) {
@@ -714,19 +714,19 @@ void GridFractionalSinglePhasePressureSolver3::buildSystem(
 
 void GridFractionalSinglePhasePressureSolver3::applyPressureGradient(
     const FaceCenteredGrid3& input, FaceCenteredGrid3* output) {
-    Size3 size = input.resolution();
-    auto u = input.uConstAccessor();
-    auto v = input.vConstAccessor();
-    auto w = input.wConstAccessor();
-    auto u0 = output->uAccessor();
-    auto v0 = output->vAccessor();
-    auto w0 = output->wAccessor();
+    Vector3UZ size = input.resolution();
+    auto u = input.uView();
+    auto v = input.vView();
+    auto w = input.wView();
+    auto u0 = output->uView();
+    auto v0 = output->vView();
+    auto w0 = output->wView();
 
     const auto& x = pressure();
 
     Vector3D invH = 1.0 / input.gridSpacing();
 
-    x.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(x.size(), [&](size_t i, size_t j, size_t k) {
         double centerPhi = _fluidSdf[0](i, j, k);
 
         if (i + 1 < size.x && _uWeights[0](i + 1, j, k) > 0.0 &&

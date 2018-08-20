@@ -273,11 +273,11 @@ TEST(FaceCenteredGrid3, Builder) {
         auto builder = FaceCenteredGrid3::builder();
 
         auto grid = builder.build(
-            Size3(5, 2, 7),
+            Vector3UZ(5, 2, 7),
             Vector3D(2.0, 4.0, 1.5),
             Vector3D(-1.0, 2.0, 7.0),
             Vector3D(3.0, 5.0, -2.0));
-        EXPECT_EQ(Size3(5, 2, 7), grid->resolution());
+        EXPECT_EQ(Vector3UZ(5, 2, 7), grid->resolution());
         EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid->gridSpacing());
         EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid->origin());
 
@@ -304,7 +304,7 @@ TEST(FaceCenteredGrid3, Builder) {
             .withOrigin(-1.0, 2.0, 7.0)
             .withInitialValue(3.0, 5.0, -2.0)
             .build();
-        EXPECT_EQ(Size3(5, 2, 7), grid.resolution());
+        EXPECT_EQ(Vector3UZ(5, 2, 7), grid.resolution());
         EXPECT_EQ(Vector3D(2.0, 4.0, 1.5), grid.gridSpacing());
         EXPECT_EQ(Vector3D(-1.0, 2.0, 7.0), grid.origin());
 

@@ -7,10 +7,7 @@
 #ifndef INCLUDE_JET_SVD_H_
 #define INCLUDE_JET_SVD_H_
 
-#include <jet/matrix2x2.h>
-#include <jet/matrix3x3.h>
-#include <jet/matrix4x4.h>
-#include <jet/matrix_mxn.h>
+#include <jet/matrix.h>
 
 namespace jet {
 

@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_POINT_GENERATOR3_H_
 #define INCLUDE_JET_POINT_GENERATOR3_H_
 
-#include <jet/array1.h>
-#include <jet/bounding_box3.h>
+#include <jet/array.h>
+#include <jet/bounding_box.h>
 
 #include <functional>
 #include <memory>
@@ -30,10 +30,8 @@ class PointGenerator3 {
 
     //! Generates points to output array \p points inside given \p boundingBox
     //! with target point \p spacing.
-    void generate(
-        const BoundingBox3D& boundingBox,
-        double spacing,
-        Array1<Vector3D>* points) const;
+    void generate(const BoundingBox3D& boundingBox, double spacing,
+                  Array1<Vector3D>* points) const;
 
     //!
     //! \brief Iterates every point within the bounding box with specified
@@ -47,8 +45,7 @@ class PointGenerator3 {
     //! iteration should stop or not.
     //!
     virtual void forEachPoint(
-        const BoundingBox3D& boundingBox,
-        double spacing,
+        const BoundingBox3D& boundingBox, double spacing,
         const std::function<bool(const Vector3D&)>& callback) const = 0;
 };
 

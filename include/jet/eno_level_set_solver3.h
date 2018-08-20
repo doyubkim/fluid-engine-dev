@@ -19,7 +19,7 @@ class EnoLevelSetSolver3 final : public IterativeLevelSetSolver3 {
 
  protected:
     //! Computes the derivatives for given grid point.
-    void getDerivatives(ConstArrayAccessor3<double> grid,
+    void getDerivatives(ConstArrayView3<double> grid,
                         const Vector3D& gridSpacing, size_t i, size_t j,
                         size_t k, std::array<double, 2>* dx,
                         std::array<double, 2>* dy,

@@ -94,7 +94,7 @@ float CudaPciSphSolver3::computeDelta(float timeStepInSeconds) {
     Vector3D denom1;
     double denom2 = 0;
 
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         const Vector3D& point = points[i];
         double distanceSquared = point.lengthSquared();
 

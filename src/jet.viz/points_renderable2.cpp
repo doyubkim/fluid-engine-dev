@@ -48,7 +48,7 @@ void PointsRenderable2::setPositions(const Vector2F* positions,
 }
 
 void PointsRenderable2::setPositions(ConstArrayView1<Vector2F> positions) {
-    setPositions(positions.data(), positions.size());
+    setPositions(positions.data(), positions.length());
 }
 
 void PointsRenderable2::setPositionsAndColors(const Vector2F* positions,
@@ -71,7 +71,7 @@ void PointsRenderable2::setPositionsAndColors(const Vector2F* positions,
 
 void PointsRenderable2::setPositionsAndColors(
     ConstArrayView1<Vector2F> positions, ConstArrayView1<Color> colors) {
-    setPositionsAndColors(positions.data(), colors.data(), positions.size());
+    setPositionsAndColors(positions.data(), colors.data(), positions.length());
 }
 
 void PointsRenderable2::setPositionsAndColors(
@@ -87,7 +87,7 @@ void PointsRenderable2::setPositionsAndColors(
 
 void PointsRenderable2::setPositionsAndColors(
     ConstArrayView1<VertexPosition3Color4> vertices) {
-    setPositionsAndColors(vertices.data(), vertices.size());
+    setPositionsAndColors(vertices.data(), vertices.length());
 }
 
 VertexBuffer* PointsRenderable2::vertexBuffer() const {

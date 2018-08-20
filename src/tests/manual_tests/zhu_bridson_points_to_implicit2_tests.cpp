@@ -21,16 +21,16 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertTwo) {
     std::mt19937 rng{0};
     std::uniform_real_distribution<> dist(0.2, 0.8);
     for (size_t i = 0; i < 2; ++i) {
-        points.append({dist(rng), dist(rng)});
+        points.append(Vector2D{dist(rng), dist(rng)});
     }
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
     ZhuBridsonPointsToImplicit2 converter(0.1);
-    converter.convert(points.constAccessor(), &grid);
+    converter.convert(points.view(), &grid);
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
-    saveData(grid.constDataAccessor(), "data_#grid2,iso.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -40,15 +40,15 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit2, ConvertMany) {
     std::mt19937 rng{0};
     std::uniform_real_distribution<> dist(0.2, 0.8);
     for (size_t i = 0; i < 200; ++i) {
-        points.append({dist(rng), dist(rng)});
+        points.append(Vector2D{dist(rng), dist(rng)});
     }
 
     CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
 
     ZhuBridsonPointsToImplicit2 converter(0.1);
-    converter.convert(points.constAccessor(), &grid);
+    converter.convert(points.view(), &grid);
 
-    saveData(grid.constDataAccessor(), "data_#grid2.npy");
-    saveData(grid.constDataAccessor(), "data_#grid2,iso.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F

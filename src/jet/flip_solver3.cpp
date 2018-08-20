@@ -11,10 +11,9 @@ using namespace jet;
 
 FlipSolver3::FlipSolver3() : FlipSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-FlipSolver3::FlipSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+FlipSolver3::FlipSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                          const Vector3D& gridOrigin)
-    : PicSolver3(resolution, gridSpacing, gridOrigin) {
-}
+    : PicSolver3(resolution, gridSpacing, gridOrigin) {}
 
 FlipSolver3::~FlipSolver3() {}
 
@@ -29,9 +28,9 @@ void FlipSolver3::transferFromParticlesToGrids() {
 
     // Store snapshot
     auto vel = gridSystemData()->velocity();
-    auto u = gridSystemData()->velocity()->uConstAccessor();
-    auto v = gridSystemData()->velocity()->vConstAccessor();
-    auto w = gridSystemData()->velocity()->wConstAccessor();
+    auto u = gridSystemData()->velocity()->uView();
+    auto v = gridSystemData()->velocity()->vView();
+    auto w = gridSystemData()->velocity()->wView();
     _uDelta.resize(u.size());
     _vDelta.resize(v.size());
     _wDelta.resize(w.size());
@@ -69,14 +68,14 @@ void FlipSolver3::transferFromGridsToParticles() {
             static_cast<float>(flow->w(i, j, k)) - _wDelta(i, j, k);
     });
 
-    LinearArraySampler3<float, float> uSampler(
-        _uDelta.constAccessor(), flow->gridSpacing().castTo<float>(),
+    LinearArraySampler3<float> uSampler(
+        _uDelta, flow->gridSpacing().castTo<float>(),
         flow->uOrigin().castTo<float>());
-    LinearArraySampler3<float, float> vSampler(
-        _vDelta.constAccessor(), flow->gridSpacing().castTo<float>(),
+    LinearArraySampler3<float> vSampler(
+        _vDelta, flow->gridSpacing().castTo<float>(),
         flow->vOrigin().castTo<float>());
-    LinearArraySampler3<float, float> wSampler(
-        _wDelta.constAccessor(), flow->gridSpacing().castTo<float>(),
+    LinearArraySampler3<float> wSampler(
+        _wDelta, flow->gridSpacing().castTo<float>(),
         flow->wOrigin().castTo<float>());
 
     auto sampler = [uSampler, vSampler, wSampler](const Vector3D& x) {

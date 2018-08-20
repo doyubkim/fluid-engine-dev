@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher3_generated.h>
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_hash_grid_searcher3.h>
 
 #include <algorithm>
@@ -21,7 +21,7 @@
 
 using namespace jet;
 
-PointHashGridSearcher3::PointHashGridSearcher3(const Size3& resolution,
+PointHashGridSearcher3::PointHashGridSearcher3(const Vector3UZ& resolution,
                                                double gridSpacing)
     : PointHashGridSearcher3(resolution.x, resolution.y, resolution.z,
                              gridSpacing) {}
@@ -42,20 +42,20 @@ PointHashGridSearcher3::PointHashGridSearcher3(
 }
 
 void PointHashGridSearcher3::build(
-    const ConstArrayAccessor1<Vector3D>& points) {
+    const ConstArrayView1<Vector3D>& points) {
     _buckets.clear();
     _points.clear();
 
     // Allocate memory chuncks
     _buckets.resize(_resolution.x * _resolution.y * _resolution.z);
-    _points.resize(points.size());
+    _points.resize(points.length());
 
-    if (points.size() == 0) {
+    if (points.length() == 0) {
         return;
     }
 
     // Put points into buckets
-    for (size_t i = 0; i < points.size(); ++i) {
+    for (size_t i = 0; i < points.length(); ++i) {
         _points[i] = points[i];
         size_t key = getHashKeyFromPosition(points[i]);
         _buckets[key].push_back(i);
@@ -132,8 +132,8 @@ const std::vector<std::vector<size_t>>& PointHashGridSearcher3::buckets()
     return _buckets;
 }
 
-SSize3 PointHashGridSearcher3::getBucketIndex(const Vector3D& position) const {
-    SSize3 bucketIndex;
+Vector3Z PointHashGridSearcher3::getBucketIndex(const Vector3D& position) const {
+    Vector3Z bucketIndex;
     bucketIndex.x = static_cast<ssize_t>(std::floor(position.x / _gridSpacing));
     bucketIndex.y = static_cast<ssize_t>(std::floor(position.y / _gridSpacing));
     bucketIndex.z = static_cast<ssize_t>(std::floor(position.z / _gridSpacing));
@@ -142,13 +142,13 @@ SSize3 PointHashGridSearcher3::getBucketIndex(const Vector3D& position) const {
 
 size_t PointHashGridSearcher3::getHashKeyFromPosition(
     const Vector3D& position) const {
-    SSize3 bucketIndex = getBucketIndex(position);
+    Vector3Z bucketIndex = getBucketIndex(position);
     return getHashKeyFromBucketIndex(bucketIndex);
 }
 
 size_t PointHashGridSearcher3::getHashKeyFromBucketIndex(
-    const SSize3& bucketIndex) const {
-    SSize3 wrappedIndex = bucketIndex;
+    const Vector3Z& bucketIndex) const {
+    Vector3Z wrappedIndex = bucketIndex;
     wrappedIndex.x = bucketIndex.x % _resolution.x;
     wrappedIndex.y = bucketIndex.y % _resolution.y;
     wrappedIndex.z = bucketIndex.z % _resolution.z;
@@ -168,7 +168,7 @@ size_t PointHashGridSearcher3::getHashKeyFromBucketIndex(
 
 void PointHashGridSearcher3::getNearbyKeys(const Vector3D& position,
                                            size_t* nearbyKeys) const {
-    SSize3 originIndex = getBucketIndex(position), nearbyBucketIndices[8];
+    Vector3Z originIndex = getBucketIndex(position), nearbyBucketIndices[8];
 
     for (int i = 0; i < 8; i++) {
         nearbyBucketIndices[i] = originIndex;
@@ -237,7 +237,7 @@ void PointHashGridSearcher3::serialize(std::vector<uint8_t>* buffer) const {
 
     // Copy simple data
     auto fbsResolution =
-        fbs::Size3(_resolution.x, _resolution.y, _resolution.z);
+        fbs::Vector3UZ(_resolution.x, _resolution.y, _resolution.z);
 
     // Copy points
     std::vector<fbs::Vector3D> points;
@@ -306,7 +306,7 @@ PointHashGridSearcher3::Builder PointHashGridSearcher3::builder() {
 }
 
 PointHashGridSearcher3::Builder&
-PointHashGridSearcher3::Builder::withResolution(const Size3& resolution) {
+PointHashGridSearcher3::Builder::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }

@@ -200,11 +200,11 @@ TEST(TriangleMesh3, Builder) {
 
     TriangleMesh3::UvArray uvs = {Vector2D(13, 14), Vector2D(15, 16)};
 
-    TriangleMesh3::IndexArray pointIndices = {Size3(0, 1, 2), Size3(0, 1, 3)};
+    TriangleMesh3::IndexArray pointIndices = {Vector3UZ(0, 1, 2), Vector3UZ(0, 1, 3)};
 
-    TriangleMesh3::IndexArray normalIndices = {Size3(1, 2, 3), Size3(2, 1, 0)};
+    TriangleMesh3::IndexArray normalIndices = {Vector3UZ(1, 2, 3), Vector3UZ(2, 1, 0)};
 
-    TriangleMesh3::IndexArray uvIndices = {Size3(1, 0, 2), Size3(3, 1, 0)};
+    TriangleMesh3::IndexArray uvIndices = {Vector3UZ(1, 0, 2), Vector3UZ(3, 1, 0)};
 
     TriangleMesh3 mesh = TriangleMesh3::builder()
                              .withPoints(points)

@@ -22,7 +22,7 @@ TEST(LevelSetLiquidSolver2, ComputeVolume) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(32, 64), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(32, 64), Vector2D(dx, dx), Vector2D());
 
     // Source setting
     const double radius = 0.15;
@@ -49,7 +49,7 @@ TEST(LevelSetLiquidSolver3, ComputeVolume) {
 
     auto data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size3(32, 64, 32), Vector3D(dx, dx, dx), Vector3D());
+    data->resize(Vector3UZ(32, 64, 32), Vector3D(dx, dx, dx), Vector3D());
 
     // Source setting
     const double radius = 0.15;

@@ -22,7 +22,7 @@ void FdmMgLinearSystem2::clear() {
 
 size_t FdmMgLinearSystem2::numberOfLevels() const { return A.levels.size(); }
 
-void FdmMgLinearSystem2::resizeWithCoarsest(const Size2 &coarsestResolution,
+void FdmMgLinearSystem2::resizeWithCoarsest(const Vector2UZ &coarsestResolution,
                                             size_t numberOfLevels) {
     FdmMgUtils2::resizeArrayWithCoarsest(coarsestResolution, numberOfLevels,
                                          &A.levels);
@@ -32,7 +32,7 @@ void FdmMgLinearSystem2::resizeWithCoarsest(const Size2 &coarsestResolution,
                                          &b.levels);
 }
 
-void FdmMgLinearSystem2::resizeWithFinest(const Size2 &finestResolution,
+void FdmMgLinearSystem2::resizeWithFinest(const Vector2UZ &finestResolution,
                                           size_t maxNumberOfLevels) {
     FdmMgUtils2::resizeArrayWithFinest(finestResolution, maxNumberOfLevels,
                                        &A.levels);
@@ -52,7 +52,7 @@ void FdmMgUtils2::restrict(const FdmVector2 &finer, FdmVector2 *coarser) {
     // -----|-----*-----|-----
     static const std::array<double, 4> kernel = {{0.125, 0.375, 0.375, 0.125}};
 
-    const Size2 n = coarser->size();
+    const Vector2UZ n = coarser->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {
@@ -92,7 +92,7 @@ void FdmMgUtils2::correct(const FdmVector2 &coarser, FdmVector2 *finer) {
     //           to
     //  1/4   3/4   3/4   1/4
     // --*--|--*--|--*--|--*--
-    const Size2 n = finer->size();
+    const Vector2UZ n = finer->size();
     parallelRangeFor(
         kZeroSize, n.x, kZeroSize, n.y,
         [&](size_t iBegin, size_t iEnd, size_t jBegin, size_t jEnd) {

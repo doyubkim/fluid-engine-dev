@@ -52,20 +52,17 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif ()
 
 target_compile_options(${target}
-    PRIVATE
-
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-
-    INTERFACE
 )
 target_compile_definitions(${target}
-    PRIVATE
+    PUBLIC
     RESOURCES_DIR="${RESOURCES_DIR}"
 )
 
 # Link libraries
 target_link_libraries(${target}
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
     jet
     cnpy

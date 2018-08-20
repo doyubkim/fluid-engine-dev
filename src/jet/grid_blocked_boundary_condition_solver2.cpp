@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
-#include <physics_helpers.h>
 #include <jet/array_utils.h>
 #include <jet/grid_blocked_boundary_condition_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit2.h>
+#include <pch.h>
+#include <physics_helpers.h>
 #include <algorithm>
 
 using namespace jet;
@@ -17,23 +17,21 @@ using namespace jet;
 static const char kFluid = 1;
 static const char kCollider = 0;
 
-GridBlockedBoundaryConditionSolver2::GridBlockedBoundaryConditionSolver2() {
-}
+GridBlockedBoundaryConditionSolver2::GridBlockedBoundaryConditionSolver2() {}
 
 void GridBlockedBoundaryConditionSolver2::constrainVelocity(
-    FaceCenteredGrid2* velocity,
-    unsigned int extrapolationDepth) {
+    FaceCenteredGrid2* velocity, unsigned int extrapolationDepth) {
     GridFractionalBoundaryConditionSolver2::constrainVelocity(
         velocity, extrapolationDepth);
 
     // No-flux: project the velocity at the marker interface
-    Size2 size = velocity->resolution();
-    auto u = velocity->uAccessor();
-    auto v = velocity->vAccessor();
+    Vector2UZ size = velocity->resolution();
+    auto u = velocity->uView();
+    auto v = velocity->vView();
     auto uPos = velocity->uPosition();
     auto vPos = velocity->vPosition();
 
-    _marker.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(_marker.size(), [&](size_t i, size_t j) {
         if (_marker(i, j) == kCollider) {
             if (i > 0 && _marker(i - 1, j) == kFluid) {
                 Vector2D colliderVel = collider()->velocityAt(uPos(i, j));
@@ -60,17 +58,16 @@ const Array2<char>& GridBlockedBoundaryConditionSolver2::marker() const {
 }
 
 void GridBlockedBoundaryConditionSolver2::onColliderUpdated(
-    const Size2& gridSize,
-    const Vector2D& gridSpacing,
+    const Vector2UZ& gridSize, const Vector2D& gridSpacing,
     const Vector2D& gridOrigin) {
     GridFractionalBoundaryConditionSolver2::onColliderUpdated(
         gridSize, gridSpacing, gridOrigin);
 
-    const auto sdf
-        = std::dynamic_pointer_cast<CellCenteredScalarGrid2>(colliderSdf());
+    const auto sdf =
+        std::dynamic_pointer_cast<CellCenteredScalarGrid2>(colliderSdf());
 
     _marker.resize(gridSize);
-    _marker.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(_marker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf((*sdf)(i, j))) {
             _marker(i, j) = kCollider;
         } else {

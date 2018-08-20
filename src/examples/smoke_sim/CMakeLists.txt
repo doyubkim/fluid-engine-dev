@@ -28,30 +28,17 @@ set_target_properties(${target}
 
 # Compile options
 target_compile_options(${target}
-    PRIVATE
-
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-
-    INTERFACE
 )
 target_compile_definitions(${target}
-    PRIVATE
+    PUBLIC
     RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../../resources/"
 )
 
 # Link libraries
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_link_libraries(${target}
-        PRIVATE
-        ${DEFAULT_LINKER_OPTIONS}
-        jet
-        pystring)
-else()
-    target_link_libraries(${target}
-        PRIVATE
-        ${DEFAULT_LINKER_OPTIONS}
-        jet
-        pystring)
-endif()
-
+target_link_libraries(${target}
+    PUBLIC
+    ${DEFAULT_LINKER_OPTIONS}
+    jet
+    pystring)

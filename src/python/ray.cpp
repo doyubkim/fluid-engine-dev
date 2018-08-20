@@ -7,8 +7,7 @@
 #include "ray.h"
 #include "pybind11_utils.h"
 
-#include <jet/ray2.h>
-#include <jet/ray3.h>
+#include <jet/ray.h>
 
 namespace py = pybind11;
 using namespace jet;

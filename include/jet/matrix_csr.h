@@ -7,44 +7,15 @@
 #ifndef INCLUDE_JET_MATRIX_CSR_H_
 #define INCLUDE_JET_MATRIX_CSR_H_
 
-#include <jet/matrix_expression.h>
-#include <jet/tuple.h>
-#include <jet/vector_n.h>
+#include <jet/matrix.h>
 
 #include <tuple>
+#include <vector>
 
 namespace jet {
 
 template <typename T>
 class MatrixCsr;
-
-//!
-//! \brief Vector expression for CSR matrix-vector multiplication.
-//!
-//! This vector expression represents a CSR matrix-vector operation that
-//! takes one CSR input matrix expression and one vector expression.
-//!
-//! \tparam T   Element value type.
-//! \tparam VE  Vector expression.
-//!
-template <typename T, typename VE>
-class MatrixCsrVectorMul
-    : public VectorExpression<T, MatrixCsrVectorMul<T, VE>> {
- public:
-    MatrixCsrVectorMul(const MatrixCsr<T>& m, const VE& v);
-    MatrixCsrVectorMul(const MatrixCsrVectorMul&);
-
-    //! Size of the vector.
-    size_t size() const;
-
-    //! Returns vector element at i.
-    T operator[](size_t i) const;
-
- private:
-    const MatrixCsr<T>& _m;
-    const VE& _v;
-    const VE* _v2;
-};
 
 //!
 //! \brief Matrix expression for CSR matrix-matrix multiplication.
@@ -58,12 +29,10 @@ class MatrixCsrVectorMul
 //!
 template <typename T, typename ME>
 class MatrixCsrMatrixMul
-    : public MatrixExpression<T, MatrixCsrMatrixMul<T, ME>> {
+    : public MatrixExpression<T, kMatrixSizeDynamic, kMatrixSizeDynamic,
+                              MatrixCsrMatrixMul<T, ME>> {
  public:
     MatrixCsrMatrixMul(const MatrixCsr<T>& m1, const ME& m2);
-
-    //! Size of the matrix.
-    Size2 size() const;
 
     //! Number of rows.
     size_t rows() const;
@@ -93,7 +62,9 @@ class MatrixCsrMatrixMul
 //! \tparam T Type of the element.
 //!
 template <typename T>
-class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
+class MatrixCsr final
+    : public MatrixExpression<T, kMatrixSizeDynamic, kMatrixSizeDynamic,
+                              MatrixCsr<T>> {
  public:
     static_assert(
         std::is_floating_point<T>::value,
@@ -152,8 +123,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    MatrixCsr(const MatrixExpression<T, E>& other,
+    template <size_t R, size_t C, typename E>
+    MatrixCsr(const MatrixExpression<T, R, C, E>& other,
               T epsilon = std::numeric_limits<T>::epsilon());
 
     //! Copy constructor.
@@ -207,8 +178,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    void compress(const MatrixExpression<T, E>& other,
+    template <size_t R, size_t C, typename E>
+    void compress(const MatrixExpression<T, R, C, E>& other,
                   T epsilon = std::numeric_limits<T>::epsilon());
 
     //! Adds non-zero element to (i, j).
@@ -244,7 +215,7 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     bool isSquare() const;
 
     //! Returns the size of this matrix.
-    Size2 size() const;
+    Vector2UZ size() const;
 
     //! Returns number of rows of this matrix.
     size_t rows() const;
@@ -332,13 +303,9 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! Returns this matrix * input scalar.
     MatrixCsr mul(const T& s) const;
 
-    //! Returns this matrix * input vector.
-    template <typename VE>
-    MatrixCsrVectorMul<T, VE> mul(const VectorExpression<T, VE>& v) const;
-
     //! Returns this matrix * input matrix.
-    template <typename ME>
-    MatrixCsrMatrixMul<T, ME> mul(const MatrixExpression<T, ME>& m) const;
+    template <size_t R, size_t C, typename ME>
+    MatrixCsrMatrixMul<T, ME> mul(const MatrixExpression<T, R, C, ME>& m) const;
 
     //! Returns this matrix / input scalar.
     MatrixCsr div(const T& s) const;
@@ -381,8 +348,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     void imul(const T& s);
 
     //! Multiplies input matrix to this matrix.
-    template <typename ME>
-    void imul(const MatrixExpression<T, ME>& m);
+    template <size_t R, size_t C, typename ME>
+    void imul(const MatrixExpression<T, R, C, ME>& m);
 
     //! Divides this matrix with input scalar.
     void idiv(const T& s);
@@ -424,8 +391,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     //! During the process, zero elements (less than \p epsilon) will not be
     //! stored.
     //!
-    template <typename E>
-    MatrixCsr& operator=(const E& m);
+    template <size_t R, size_t C, typename ME>
+    MatrixCsr& operator=(const MatrixExpression<T, R, C, ME>& m);
 
     //! Copies to this matrix.
     MatrixCsr& operator=(const MatrixCsr& other);
@@ -449,8 +416,8 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     MatrixCsr& operator*=(const T& s);
 
     //! Multiplication assignment with input matrix.
-    template <typename ME>
-    MatrixCsr& operator*=(const MatrixExpression<T, ME>& m);
+    template <size_t R, size_t C, typename ME>
+    MatrixCsr& operator*=(const MatrixExpression<T, R, C, ME>& m);
 
     //! Division assignment with input scalar.
     MatrixCsr& operator/=(const T& s);
@@ -472,7 +439,7 @@ class MatrixCsr final : public MatrixExpression<T, MatrixCsr<T>> {
     static MatrixCsr<T> makeIdentity(size_t m);
 
  private:
-    Size2 _size;
+    Vector2UZ _size;
     NonZeroContainerType _nonZeros;
     IndexContainerType _rowPointers;
     IndexContainerType _columnIndices;

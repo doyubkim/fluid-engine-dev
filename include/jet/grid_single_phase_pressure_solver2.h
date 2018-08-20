@@ -100,7 +100,7 @@ class GridSinglePhasePressureSolver2 : public GridPressureSolver2 {
 
     std::vector<Array2<char>> _markers;
 
-    void buildMarkers(const Size2& size,
+    void buildMarkers(const Vector2UZ& size,
                       const std::function<Vector2D(size_t, size_t)>& pos,
                       const ScalarField2& boundarySdf,
                       const ScalarField2& fluidSdf);

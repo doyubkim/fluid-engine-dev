@@ -7,10 +7,10 @@
 #ifndef INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 #define INCLUDE_JET_FDM_LINEAR_SYSTEM2_H_
 
-#include <jet/array1.h>
-#include <jet/array2.h>
+#include <jet/array.h>
+#include <jet/array.h>
 #include <jet/matrix_csr.h>
-#include <jet/vector_n.h>
+#include <jet/matrix.h>
 
 namespace jet {
 
@@ -47,7 +47,7 @@ struct FdmLinearSystem2 {
     void clear();
 
     //! Resizes the arrays with given grid size.
-    void resize(const Size2& size);
+    void resize(const Vector2UZ& size);
 };
 
 //! Compressed linear system (Ax=b) for 2-D finite differencing.

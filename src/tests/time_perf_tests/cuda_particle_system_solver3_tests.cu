@@ -10,15 +10,15 @@
 
 #include <benchmark/benchmark.h>
 
+#include <thrust/device_ptr.h>
 #include <thrust/random.h>
+#include <thrust/transform.h>
 
 namespace {
 
 struct Rng {
-    template <typename Tuple>
-    __device__ void operator()(Tuple t) {
-        size_t idx = thrust::get<0>(t);
-
+    template <typename Index>
+    __device__ float4 operator()(Index idx) {
         thrust::default_random_engine randEng;
         thrust::uniform_real_distribution<float> uniDist(0.0f, 1.0f);
 
@@ -31,7 +31,7 @@ struct Rng {
         result.z = uniDist(randEng);
         result.w = 0.0f;
 
-        thrust::get<1>(t) = result;
+        return result;
     }
 };
 
@@ -49,12 +49,10 @@ class CudaParticleSystemSolver3 : public benchmark::Fixture {
         size_t numParticles = static_cast<size_t>(state.range(0));
         auto particles = solver.particleSystemData();
 
-        thrust::device_vector<float4> pos(numParticles);
-        thrust::for_each(
-            thrust::make_zip_iterator(thrust::make_tuple(
-                thrust::make_counting_iterator(jet::kZeroSize), pos.begin())),
-            thrust::make_zip_iterator(thrust::make_tuple(
-                thrust::make_counting_iterator(numParticles), pos.end())),
+        jet::CudaArray1<float4> pos(numParticles);
+        thrust::transform(thrust::make_counting_iterator(jet::kZeroSize),
+            thrust::make_counting_iterator(numParticles),
+            thrust::device_ptr<float4>(pos.data()),
             Rng());
         particles->addParticles(jet::CudaArrayView1<float4>(pos));
     }

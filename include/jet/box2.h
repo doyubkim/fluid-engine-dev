@@ -8,7 +8,7 @@
 #define INCLUDE_JET_BOX2_H_
 
 #include <jet/surface2.h>
-#include <jet/bounding_box2.h>
+#include <jet/bounding_box.h>
 
 namespace jet {
 

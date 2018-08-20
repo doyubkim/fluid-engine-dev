@@ -9,9 +9,8 @@
 
 #ifdef JET_USE_CUDA
 
-#include <jet/cuda_array_view1.h>
-#include <jet/tuple.h>
-#include <jet/vector2.h>
+#include <jet/cuda_array_view.h>
+#include <jet/matrix.h>
 
 #include <cuda_runtime.h>
 
@@ -139,7 +138,7 @@ class CudaPointHashGridSearcher2 final {
 
     float gridSpacing() const;
 
-    Size2 resolution() const;
+    Vector2UZ resolution() const;
 
     ConstCudaArrayView1<float2> sortedPoints() const;
 
@@ -255,7 +254,7 @@ typedef std::shared_ptr<CudaPointHashGridSearcher2>
 class CudaPointHashGridSearcher2::Builder final {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size2& resolution);
+    Builder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(float gridSpacing);
@@ -267,7 +266,7 @@ class CudaPointHashGridSearcher2::Builder final {
     CudaPointHashGridSearcher2Ptr makeShared() const;
 
  private:
-    Size2 _resolution{64, 64};
+    Vector2UZ _resolution{64, 64};
     float _gridSpacing = 1.0f;
 };
 

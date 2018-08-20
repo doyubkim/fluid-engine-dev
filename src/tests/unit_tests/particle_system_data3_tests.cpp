@@ -99,12 +99,9 @@ TEST(ParticleSystemData3, AddParticles) {
     particleSystem.resize(12);
 
     particleSystem.addParticles(
-        Array1<Vector3D>({Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)})
-            .accessor(),
-        Array1<Vector3D>({Vector3D(7.0, 8.0, 9.0), Vector3D(8.0, 7.0, 6.0)})
-            .accessor(),
-        Array1<Vector3D>({Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0)})
-            .accessor());
+        Array1<Vector3D>({Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)}),
+        Array1<Vector3D>({Vector3D(7.0, 8.0, 9.0), Vector3D(8.0, 7.0, 6.0)}),
+        Array1<Vector3D>({Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0)}));
 
     EXPECT_EQ(14u, particleSystem.numberOfParticles());
     auto p = particleSystem.positions();
@@ -125,11 +122,11 @@ TEST(ParticleSystemData3, AddParticlesException) {
 
     try {
         particleSystem.addParticles(
-            Array1<Vector3D>({Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)})
-                .accessor(),
-            Array1<Vector3D>({Vector3D(7.0, 8.0, 9.0)}).accessor(),
-            Array1<Vector3D>({Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0)})
-                .accessor());
+            Array1<Vector3D>(
+                {Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)}),
+            Array1<Vector3D>({Vector3D(7.0, 8.0, 9.0)}),
+            Array1<Vector3D>(
+                {Vector3D(5.0, 4.0, 3.0), Vector3D(2.0, 1.0, 3.0)}));
 
         EXPECT_FALSE(true) << "Invalid argument shoudl throw exception.";
     } catch (std::invalid_argument&) {
@@ -140,11 +137,11 @@ TEST(ParticleSystemData3, AddParticlesException) {
 
     try {
         particleSystem.addParticles(
-            Array1<Vector3D>({Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)})
-                .accessor(),
-            Array1<Vector3D>({Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0)})
-                .accessor(),
-            Array1<Vector3D>({Vector3D(5.0, 4.0, 3.0)}).accessor());
+            Array1<Vector3D>(
+                {Vector3D(1.0, 2.0, 3.0), Vector3D(4.0, 5.0, 6.0)}),
+            Array1<Vector3D>(
+                {Vector3D(7.0, 8.0, 9.0), Vector3D(2.0, 1.0, 3.0)}),
+            Array1<Vector3D>({Vector3D(5.0, 4.0, 3.0)}));
 
         EXPECT_FALSE(true) << "Invalid argument shoudl throw exception.";
     } catch (std::invalid_argument&) {
@@ -174,7 +171,7 @@ TEST(ParticleSystemData3, BuildNeighborSearcher) {
         searchOrigin, radius,
         [&](size_t i, const Vector3D&) { found.push_back(i); });
 
-    for (size_t ii = 0; ii < positions.size(); ++ii) {
+    for (size_t ii = 0; ii < positions.length(); ++ii) {
         if (searchOrigin.distanceTo(positions[ii]) <= radius) {
             EXPECT_TRUE(found.end() !=
                         std::find(found.begin(), found.end(), ii));
@@ -197,11 +194,11 @@ TEST(ParticleSystemData3, BuildNeighborLists) {
     particleSystem.buildNeighborLists(radius);
 
     const auto& neighborLists = particleSystem.neighborLists();
-    EXPECT_EQ(positions.size(), neighborLists.size());
+    EXPECT_EQ(positions.length(), neighborLists.size());
 
     for (size_t i = 0; i < neighborLists.size(); ++i) {
         const auto& neighbors = neighborLists[i];
-        for (size_t ii = 0; ii < positions.size(); ++ii) {
+        for (size_t ii = 0; ii < positions.length(); ++ii) {
             if (ii != i && positions[ii].distanceTo(positions[i]) <= radius) {
                 EXPECT_TRUE(neighbors.end() !=
                             std::find(neighbors.begin(), neighbors.end(), ii));
@@ -235,19 +232,19 @@ TEST(ParticleSystemData3, Serialization) {
     ParticleSystemData3 particleSystem2;
     particleSystem2.deserialize(buffer);
 
-    EXPECT_EQ(positions.size(), particleSystem2.numberOfParticles());
+    EXPECT_EQ(positions.length(), particleSystem2.numberOfParticles());
     auto as0 = particleSystem2.scalarDataAt(a0);
-    for (size_t i = 0; i < positions.size(); ++i) {
+    for (size_t i = 0; i < positions.length(); ++i) {
         EXPECT_DOUBLE_EQ(2.0, as0[i]);
     }
 
     auto as1 = particleSystem2.scalarDataAt(a1);
-    for (size_t i = 0; i < positions.size(); ++i) {
+    for (size_t i = 0; i < positions.length(); ++i) {
         EXPECT_DOUBLE_EQ(9.0, as1[i]);
     }
 
     auto as2 = particleSystem2.vectorDataAt(a2);
-    for (size_t i = 0; i < positions.size(); ++i) {
+    for (size_t i = 0; i < positions.length(); ++i) {
         EXPECT_DOUBLE_EQ(1.0, as2[i].x);
         EXPECT_DOUBLE_EQ(-3.0, as2[i].y);
         EXPECT_DOUBLE_EQ(5.0, as2[i].z);

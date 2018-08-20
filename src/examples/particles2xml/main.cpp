@@ -24,7 +24,7 @@ void printInfo(size_t numberOfParticles) {
 
 void particlesToXml(const Array1<Vector3D>& positions,
                     const std::string& xmlFilename) {
-    printInfo(positions.size());
+    printInfo(positions.length());
 
     std::ofstream file(xmlFilename.c_str());
     if (file) {

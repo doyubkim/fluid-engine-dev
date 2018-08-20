@@ -8,7 +8,8 @@
 #define INCLUDE_JET_VECTOR_FIELD3_H_
 
 #include <jet/field3.h>
-#include <jet/vector3.h>
+#include <jet/matrix.h>
+
 #include <functional>
 #include <memory>
 

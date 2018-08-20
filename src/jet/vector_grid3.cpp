@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/vector_grid3_generated.h>
 
-#include <jet/array_samplers3.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid3.h>
 
 #include <flatbuffers/flatbuffers.h>
@@ -29,7 +29,7 @@ VectorGrid3::VectorGrid3() {}
 VectorGrid3::~VectorGrid3() {}
 
 void VectorGrid3::clear() {
-    resize(Size3(), gridSpacing(), origin(), Vector3D());
+    resize(Vector3UZ(), gridSpacing(), origin(), Vector3D());
 }
 
 void VectorGrid3::resize(size_t resolutionX, size_t resolutionY,
@@ -38,13 +38,13 @@ void VectorGrid3::resize(size_t resolutionX, size_t resolutionY,
                          double originX, double originY, double originZ,
                          double initialValueX, double initialValueY,
                          double initialValueZ) {
-    resize(Size3(resolutionX, resolutionY, resolutionZ),
+    resize(Vector3UZ(resolutionX, resolutionY, resolutionZ),
            Vector3D(gridSpacingX, gridSpacingY, gridSpacingZ),
            Vector3D(originX, originY, originZ),
            Vector3D(initialValueX, initialValueY, initialValueZ));
 }
 
-void VectorGrid3::resize(const Size3& resolution, const Vector3D& gridSpacing,
+void VectorGrid3::resize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                          const Vector3D& origin, const Vector3D& initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 

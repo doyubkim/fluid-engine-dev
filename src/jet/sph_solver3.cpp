@@ -203,10 +203,10 @@ void SphSolver3::computePressure() {
 }
 
 void SphSolver3::accumulatePressureForce(
-    const ConstArrayAccessor1<Vector3D>& positions,
-    const ConstArrayAccessor1<double>& densities,
-    const ConstArrayAccessor1<double>& pressures,
-    ArrayAccessor1<Vector3D> pressureForces) {
+    const ConstArrayView1<Vector3D>& positions,
+    const ConstArrayView1<double>& densities,
+    const ConstArrayView1<double>& pressures,
+    ArrayView1<Vector3D> pressureForces) {
     auto particles = sphSystemData();
     size_t numberOfParticles = particles->numberOfParticles();
 

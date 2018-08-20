@@ -10,7 +10,7 @@
 #ifdef JET_USE_GL
 
 #include <jet.viz/gl_common.h>
-#include <jet/tuple.h>
+#include <jet/matrix.h>
 
 namespace jet {
 namespace viz {

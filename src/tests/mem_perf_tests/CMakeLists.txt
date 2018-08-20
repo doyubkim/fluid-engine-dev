@@ -29,21 +29,17 @@ set_target_properties(${target}
 # Compile options
 
 target_compile_options(${target}
-    PRIVATE
-
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
-
-    INTERFACE
 )
 target_compile_definitions(${target}
-    PRIVATE
+    PUBLIC
     RESOURCES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/../../../resources/"
 )
 
 # Link libraries
 target_link_libraries(${target}
-    PRIVATE
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
     jet
     gtest)

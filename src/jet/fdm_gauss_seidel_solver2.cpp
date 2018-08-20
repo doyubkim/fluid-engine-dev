@@ -57,7 +57,7 @@ bool FdmGaussSeidelSolver2::solveCompressed(
     FdmCompressedLinearSystem2* system) {
     clearUncompressedVectors();
 
-    _residualComp.resize(system->x.size());
+    _residualComp.resize(system->x.rows());
 
     _lastNumberOfIterations = _maxNumberOfIterations;
 
@@ -102,10 +102,10 @@ bool FdmGaussSeidelSolver2::useRedBlackOrdering() const {
 
 void FdmGaussSeidelSolver2::relax(const FdmMatrix2& A, const FdmVector2& b,
                                   double sorFactor, FdmVector2* x_) {
-    Size2 size = A.size();
+    Vector2UZ size = A.size();
     FdmVector2& x = *x_;
 
-    A.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(size, [&](size_t i, size_t j) {
         double r = ((i > 0) ? A(i - 1, j).right * x(i - 1, j) : 0.0) +
                    ((i + 1 < size.x) ? A(i, j).right * x(i + 1, j) : 0.0) +
                    ((j > 0) ? A(i, j - 1).up * x(i, j - 1) : 0.0) +
@@ -124,7 +124,7 @@ void FdmGaussSeidelSolver2::relax(const MatrixCsrD& A, const VectorND& b,
 
     VectorND& x = *x_;
 
-    b.forEachIndex([&](size_t i) {
+    forEachIndex(b.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -147,7 +147,7 @@ void FdmGaussSeidelSolver2::relax(const MatrixCsrD& A, const VectorND& b,
 void FdmGaussSeidelSolver2::relaxRedBlack(const FdmMatrix2& A,
                                           const FdmVector2& b, double sorFactor,
                                           FdmVector2* x_) {
-    Size2 size = A.size();
+    Vector2UZ size = A.size();
     FdmVector2& x = *x_;
 
     // Red update

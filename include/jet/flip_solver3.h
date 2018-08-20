@@ -31,7 +31,7 @@ class FlipSolver3 : public PicSolver3 {
 
     //! Constructs solver with initial grid size.
     FlipSolver3(
-        const Size3& resolution,
+        const Vector3UZ& resolution,
         const Vector3D& gridSpacing,
         const Vector3D& gridOrigin);
 

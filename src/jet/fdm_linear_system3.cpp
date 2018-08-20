@@ -6,6 +6,7 @@
 
 #include <pch.h>
 
+#include <jet/array_utils.h>
 #include <jet/fdm_linear_system3.h>
 #include <jet/math_utils.h>
 #include <jet/parallel.h>
@@ -18,7 +19,7 @@ void FdmLinearSystem3::clear() {
     b.clear();
 }
 
-void FdmLinearSystem3::resize(const Size3& size) {
+void FdmLinearSystem3::resize(const Vector3UZ& size) {
     A.resize(size);
     x.resize(size);
     b.resize(size);
@@ -34,20 +35,22 @@ void FdmCompressedLinearSystem3::clear() {
 
 //
 
-void FdmBlas3::set(double s, FdmVector3* result) { result->set(s); }
+void FdmBlas3::set(double s, FdmVector3* result) {
+    result->fill(s);
+}
 
-void FdmBlas3::set(const FdmVector3& v, FdmVector3* result) { result->set(v); }
+void FdmBlas3::set(const FdmVector3& v, FdmVector3* result) { result->copyFrom(v); }
 
 void FdmBlas3::set(double s, FdmMatrix3* result) {
     FdmMatrixRow3 row;
     row.center = row.right = row.up = row.front = s;
-    result->set(row);
+    result->fill(row);
 }
 
-void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->set(m); }
+void FdmBlas3::set(const FdmMatrix3& m, FdmMatrix3* result) { result->copyFrom(m); }
 
 double FdmBlas3::dot(const FdmVector3& a, const FdmVector3& b) {
-    Size3 size = a.size();
+    Vector3UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != b.size());
 
@@ -66,24 +69,24 @@ double FdmBlas3::dot(const FdmVector3& a, const FdmVector3& b) {
 
 void FdmBlas3::axpy(double a, const FdmVector3& x, const FdmVector3& y,
                     FdmVector3* result) {
-    Size3 size = x.size();
+    Vector3UZ size = x.size();
 
     JET_THROW_INVALID_ARG_IF(size != y.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    x.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) = a * x(i, j, k) + y(i, j, k);
     });
 }
 
 void FdmBlas3::mvm(const FdmMatrix3& m, const FdmVector3& v,
                    FdmVector3* result) {
-    Size3 size = m.size();
+    Vector3UZ size = m.size();
 
     JET_THROW_INVALID_ARG_IF(size != v.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    m.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             m(i, j, k).center * v(i, j, k) +
             ((i > 0) ? m(i - 1, j, k).right * v(i - 1, j, k) : 0.0) +
@@ -97,13 +100,13 @@ void FdmBlas3::mvm(const FdmMatrix3& m, const FdmVector3& v,
 
 void FdmBlas3::residual(const FdmMatrix3& a, const FdmVector3& x,
                         const FdmVector3& b, FdmVector3* result) {
-    Size3 size = a.size();
+    Vector3UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != x.size());
     JET_THROW_INVALID_ARG_IF(size != b.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    a.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(size, [&](size_t i, size_t j, size_t k) {
         (*result)(i, j, k) =
             b(i, j, k) - a(i, j, k).center * x(i, j, k) -
             ((i > 0) ? a(i - 1, j, k).right * x(i - 1, j, k) : 0.0) -
@@ -118,7 +121,7 @@ void FdmBlas3::residual(const FdmMatrix3& a, const FdmVector3& x,
 double FdmBlas3::l2Norm(const FdmVector3& v) { return std::sqrt(dot(v, v)); }
 
 double FdmBlas3::lInfNorm(const FdmVector3& v) {
-    Size3 size = v.size();
+    Vector3UZ size = v.size();
 
     double result = 0.0;
 
@@ -135,10 +138,10 @@ double FdmBlas3::lInfNorm(const FdmVector3& v) {
 
 //
 
-void FdmCompressedBlas3::set(double s, VectorND* result) { result->set(s); }
+void FdmCompressedBlas3::set(double s, VectorND* result) { result->fill(s); }
 
 void FdmCompressedBlas3::set(const VectorND& v, VectorND* result) {
-    result->set(v);
+    result->copyFrom(v);
 }
 
 void FdmCompressedBlas3::set(double s, MatrixCsrD* result) { result->set(s); }
@@ -162,7 +165,7 @@ void FdmCompressedBlas3::mvm(const MatrixCsrD& m, const VectorND& v,
     const auto ci = m.columnIndicesBegin();
     const auto nnz = m.nonZeroBegin();
 
-    v.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(v.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -183,7 +186,7 @@ void FdmCompressedBlas3::residual(const MatrixCsrD& a, const VectorND& x,
     const auto ci = a.columnIndicesBegin();
     const auto nnz = a.nonZeroBegin();
 
-    x.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(x.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

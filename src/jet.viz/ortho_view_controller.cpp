@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet.viz/ortho_view_controller.h>
-#include <jet/matrix2x2.h>
+#include <jet/matrix.h>
 
 using namespace jet;
 using namespace viz;

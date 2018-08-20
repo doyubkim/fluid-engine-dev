@@ -15,9 +15,9 @@
 namespace jet {
 
 template <typename T>
-void serialize(const ConstArrayAccessor1<T>& array,
+void serialize(const ConstArrayView1<T>& array,
                std::vector<uint8_t>* buffer) {
-    size_t size = sizeof(T) * array.size();
+    size_t size = sizeof(T) * array.length();
     serialize(reinterpret_cast<const uint8_t*>(array.data()), size, buffer);
 }
 

@@ -19,7 +19,7 @@ using namespace jet;
 
 PicSolver3::PicSolver3() : PicSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-PicSolver3::PicSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+PicSolver3::PicSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                        const Vector3D& gridOrigin)
     : GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
     auto grids = gridSystemData();
@@ -119,43 +119,43 @@ void PicSolver3::transferFromParticlesToGrids() {
     flow->fill(Vector3D());
 
     // Weighted-average velocity
-    auto u = flow->uAccessor();
-    auto v = flow->vAccessor();
-    auto w = flow->wAccessor();
+    auto u = flow->uView();
+    auto v = flow->vView();
+    auto w = flow->wView();
     Array3<double> uWeight(u.size());
     Array3<double> vWeight(v.size());
     Array3<double> wWeight(w.size());
     _uMarkers.resize(u.size());
     _vMarkers.resize(v.size());
     _wMarkers.resize(w.size());
-    _uMarkers.set(0);
-    _vMarkers.set(0);
-    _wMarkers.set(0);
-    LinearArraySampler3<double, double> uSampler(
-        flow->uConstAccessor(), flow->gridSpacing(), flow->uOrigin());
-    LinearArraySampler3<double, double> vSampler(
-        flow->vConstAccessor(), flow->gridSpacing(), flow->vOrigin());
-    LinearArraySampler3<double, double> wSampler(
-        flow->wConstAccessor(), flow->gridSpacing(), flow->wOrigin());
+    _uMarkers.fill(0);
+    _vMarkers.fill(0);
+    _wMarkers.fill(0);
+    LinearArraySampler3<double> uSampler(flow->uView(), flow->gridSpacing(),
+                                         flow->uOrigin());
+    LinearArraySampler3<double> vSampler(flow->vView(), flow->gridSpacing(),
+                                         flow->vOrigin());
+    LinearArraySampler3<double> wSampler(flow->wView(), flow->gridSpacing(),
+                                         flow->wOrigin());
     for (size_t i = 0; i < numberOfParticles; ++i) {
-        std::array<Size3, 8> indices;
+        std::array<Vector3UZ, 8> indices;
         std::array<double, 8> weights;
 
-        uSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        uSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             u(indices[j]) += velocities[i].x * weights[j];
             uWeight(indices[j]) += weights[j];
             _uMarkers(indices[j]) = 1;
         }
 
-        vSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        vSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             v(indices[j]) += velocities[i].y * weights[j];
             vWeight(indices[j]) += weights[j];
             _vMarkers(indices[j]) = 1;
         }
 
-        wSampler.getCoordinatesAndWeights(positions[i], &indices, &weights);
+        wSampler.getCoordinatesAndWeights(positions[i], indices, weights);
         for (int j = 0; j < 8; ++j) {
             w(indices[j]) += velocities[i].z * weights[j];
             wWeight(indices[j]) += weights[j];
@@ -163,17 +163,17 @@ void PicSolver3::transferFromParticlesToGrids() {
         }
     }
 
-    uWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(uWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (uWeight(i, j, k) > 0.0) {
             u(i, j, k) /= uWeight(i, j, k);
         }
     });
-    vWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(vWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (vWeight(i, j, k) > 0.0) {
             v(i, j, k) /= vWeight(i, j, k);
         }
     });
-    wWeight.parallelForEachIndex([&](size_t i, size_t j, size_t k) {
+    parallelForEachIndex(wWeight.size(), [&](size_t i, size_t j, size_t k) {
         if (wWeight(i, j, k) > 0.0) {
             w(i, j, k) /= wWeight(i, j, k);
         }
@@ -263,14 +263,14 @@ void PicSolver3::moveParticles(double timeIntervalInSeconds) {
 
 void PicSolver3::extrapolateVelocityToAir() {
     auto vel = gridSystemData()->velocity();
-    auto u = vel->uAccessor();
-    auto v = vel->vAccessor();
-    auto w = vel->wAccessor();
+    auto u = vel->uView();
+    auto v = vel->vView();
+    auto w = vel->wView();
 
     unsigned int depth = static_cast<unsigned int>(std::ceil(maxCfl()));
-    extrapolateToRegion(vel->uConstAccessor(), _uMarkers, depth, u);
-    extrapolateToRegion(vel->vConstAccessor(), _vMarkers, depth, v);
-    extrapolateToRegion(vel->wConstAccessor(), _wMarkers, depth, w);
+    extrapolateToRegion(vel->uView(), _uMarkers, depth, u);
+    extrapolateToRegion(vel->vView(), _vMarkers, depth, v);
+    extrapolateToRegion(vel->wView(), _wMarkers, depth, w);
 }
 
 void PicSolver3::buildSignedDistanceField() {

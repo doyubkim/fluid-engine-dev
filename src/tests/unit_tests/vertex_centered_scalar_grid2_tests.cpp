@@ -153,7 +153,7 @@ TEST(VertexCenteredScalarGrid2, Clone) {
 TEST(VertexCenteredScalarGrid2, Builder) {
     {
         auto grid1 = VertexCenteredScalarGrid2::builder().build(
-            Size2(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
+            Vector2UZ(3, 8), Vector2D(2.0, 3.0), Vector2D(1.0, 5.0), 4.0);
 
         auto grid2 = std::dynamic_pointer_cast<VertexCenteredScalarGrid2>(grid1);
         EXPECT_TRUE(grid2 != nullptr);

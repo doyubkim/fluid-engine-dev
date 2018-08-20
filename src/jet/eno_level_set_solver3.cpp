@@ -16,7 +16,7 @@ EnoLevelSetSolver3::EnoLevelSetSolver3() {
 }
 
 void EnoLevelSetSolver3::getDerivatives(
-    ConstArrayAccessor3<double> grid,
+    ConstArrayView3<double> grid,
     const Vector3D& gridSpacing,
     size_t i,
     size_t j,
@@ -25,7 +25,7 @@ void EnoLevelSetSolver3::getDerivatives(
     std::array<double, 2>* dy,
     std::array<double, 2>* dz) const {
     double D0[7];
-    Size3 size = grid.size();
+    Vector3UZ size = grid.size();
 
     const size_t im3 = (i < 3) ? 0 : i - 3;
     const size_t im2 = (i < 2) ? 0 : i - 2;

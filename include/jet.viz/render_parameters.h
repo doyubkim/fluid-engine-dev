@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VIZ_RENDER_PARAMETERS_H_
 #define INCLUDE_JET_VIZ_RENDER_PARAMETERS_H_
 
-#include <jet/matrix4x4.h>
+#include <jet/matrix.h>
 #include <cstdint>
 #include <string>
 #include <unordered_map>

@@ -32,13 +32,13 @@ class GLTexture2 final : public Texture2, public GLTexture {
     void update(const ByteColor* data) override;
 
  private:
-    Size2 _size;
+    Vector2UZ _size;
 
     void onClear() override;
 
-    void onSetTexture(const ConstArrayAccessor2<Color>& data) override;
+    void onSetTexture(const ConstArrayView2<Color>& data) override;
 
-    void onSetTexture(const ConstArrayAccessor2<ByteColor>& data) override;
+    void onSetTexture(const ConstArrayView2<ByteColor>& data) override;
 
     void onBind(Renderer* renderer, unsigned int slotId) override;
 

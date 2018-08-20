@@ -74,8 +74,8 @@ struct PointHashGridSearcher3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
   double gridSpacing() const {
     return GetField<double>(VT_GRIDSPACING, 0.0);
   }
-  const jet::fbs::Size3 *resolution() const {
-    return GetStruct<const jet::fbs::Size3 *>(VT_RESOLUTION);
+  const jet::fbs::Vector3UZ *resolution() const {
+    return GetStruct<const jet::fbs::Vector3UZ *>(VT_RESOLUTION);
   }
   const flatbuffers::Vector<const jet::fbs::Vector3D *> *points() const {
     return GetPointer<const flatbuffers::Vector<const jet::fbs::Vector3D *> *>(VT_POINTS);
@@ -86,7 +86,7 @@ struct PointHashGridSearcher3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<double>(verifier, VT_GRIDSPACING) &&
-           VerifyField<jet::fbs::Size3>(verifier, VT_RESOLUTION) &&
+           VerifyField<jet::fbs::Vector3UZ>(verifier, VT_RESOLUTION) &&
            VerifyOffset(verifier, VT_POINTS) &&
            verifier.Verify(points()) &&
            VerifyOffset(verifier, VT_BUCKETS) &&
@@ -102,7 +102,7 @@ struct PointHashGridSearcher3Builder {
   void add_gridSpacing(double gridSpacing) {
     fbb_.AddElement<double>(PointHashGridSearcher3::VT_GRIDSPACING, gridSpacing, 0.0);
   }
-  void add_resolution(const jet::fbs::Size3 *resolution) {
+  void add_resolution(const jet::fbs::Vector3UZ *resolution) {
     fbb_.AddStruct(PointHashGridSearcher3::VT_RESOLUTION, resolution);
   }
   void add_points(flatbuffers::Offset<flatbuffers::Vector<const jet::fbs::Vector3D *>> points) {
@@ -126,7 +126,7 @@ struct PointHashGridSearcher3Builder {
 inline flatbuffers::Offset<PointHashGridSearcher3> CreatePointHashGridSearcher3(
     flatbuffers::FlatBufferBuilder &_fbb,
     double gridSpacing = 0.0,
-    const jet::fbs::Size3 *resolution = 0,
+    const jet::fbs::Vector3UZ *resolution = 0,
     flatbuffers::Offset<flatbuffers::Vector<const jet::fbs::Vector3D *>> points = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<PointHashGridSearcherBucket3>>> buckets = 0) {
   PointHashGridSearcher3Builder builder_(_fbb);
@@ -140,7 +140,7 @@ inline flatbuffers::Offset<PointHashGridSearcher3> CreatePointHashGridSearcher3(
 inline flatbuffers::Offset<PointHashGridSearcher3> CreatePointHashGridSearcher3Direct(
     flatbuffers::FlatBufferBuilder &_fbb,
     double gridSpacing = 0.0,
-    const jet::fbs::Size3 *resolution = 0,
+    const jet::fbs::Vector3UZ *resolution = 0,
     const std::vector<const jet::fbs::Vector3D *> *points = nullptr,
     const std::vector<flatbuffers::Offset<PointHashGridSearcherBucket3>> *buckets = nullptr) {
   return jet::fbs::CreatePointHashGridSearcher3(

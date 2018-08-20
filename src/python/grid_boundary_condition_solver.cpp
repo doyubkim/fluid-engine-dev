@@ -29,7 +29,7 @@ void addGridBoundaryConditionSolver2(py::module& m) {
              [](GridBoundaryConditionSolver2& instance,
                 const Collider2Ptr& collider, py::object gridSize,
                 py::object gridSpacing, py::object gridOrigin) {
-                 instance.updateCollider(collider, objectToSize2(gridSize),
+                 instance.updateCollider(collider, objectToVector2UZ(gridSize),
                                          objectToVector2D(gridSpacing),
                                          objectToVector2D(gridOrigin));
              },
@@ -72,7 +72,7 @@ void addGridBoundaryConditionSolver3(py::module& m) {
              [](GridBoundaryConditionSolver3& instance,
                 const Collider3Ptr& collider, py::object gridSize,
                 py::object gridSpacing, py::object gridOrigin) {
-                 instance.updateCollider(collider, objectToSize3(gridSize),
+                 instance.updateCollider(collider, objectToVector3UZ(gridSize),
                                          objectToVector3D(gridSpacing),
                                          objectToVector3D(gridOrigin));
              },
