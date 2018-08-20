@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_SERIALIZATION_H_
 #define INCLUDE_JET_SERIALIZATION_H_
 
-#include <jet/array1.h>
+#include <jet/array_view.h>
 
 #include <vector>
 
@@ -35,7 +35,7 @@ void serialize(const uint8_t* data, size_t size, std::vector<uint8_t>* buffer);
 
 //! Serializes data chunk using common schema.
 template <typename T>
-void serialize(const ConstArrayAccessor1<T>& array,
+void serialize(const ConstArrayView1<T>& array,
                std::vector<uint8_t>* buffer);
 
 //! Deserializes buffer to serializable object.

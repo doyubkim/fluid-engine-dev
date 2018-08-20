@@ -13,7 +13,7 @@ using namespace jet;
 
 TEST(GridFractionalBoundaryConditionSolver3, ClosedDomain) {
     GridFractionalBoundaryConditionSolver3 bndSolver;
-    Size3 gridSize(10, 10, 10);
+    Vector3UZ gridSize(10, 10, 10);
     Vector3D gridSpacing(1.0, 1.0, 1.0);
     Vector3D gridOrigin(-5.0, -5.0, -5.0);
 
@@ -51,7 +51,7 @@ TEST(GridFractionalBoundaryConditionSolver3, ClosedDomain) {
 
 TEST(GridFractionalBoundaryConditionSolver3, OpenDomain) {
     GridFractionalBoundaryConditionSolver3 bndSolver;
-    Size3 gridSize(10, 10, 10);
+    Vector3UZ gridSize(10, 10, 10);
     Vector3D gridSpacing(1.0, 1.0, 1.0);
     Vector3D gridOrigin(-5.0, -5.0, -5.0);
 

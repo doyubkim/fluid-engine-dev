@@ -15,7 +15,7 @@ using namespace jet;
 GridSmokeSolver3::GridSmokeSolver3()
     : GridSmokeSolver3({1, 1, 1}, {1, 1, 1}, {0, 0, 0}) {}
 
-GridSmokeSolver3::GridSmokeSolver3(const Size3& resolution,
+GridSmokeSolver3::GridSmokeSolver3(const Vector3UZ& resolution,
                                    const Vector3D& gridSpacing,
                                    const Vector3D& gridOrigin)
     : GridFluidSolver3(resolution, gridSpacing, gridOrigin) {
@@ -145,9 +145,9 @@ void GridSmokeSolver3::computeBuoyancyForce(double timeIntervalInSeconds) {
         tAmb /= static_cast<double>(
             temp->resolution().x * temp->resolution().y * temp->resolution().z);
 
-        auto u = vel->uAccessor();
-        auto v = vel->vAccessor();
-        auto w = vel->wAccessor();
+        auto u = vel->uView();
+        auto v = vel->vView();
+        auto w = vel->wView();
         auto uPos = vel->uPosition();
         auto vPos = vel->vPosition();
         auto wPos = vel->wPosition();

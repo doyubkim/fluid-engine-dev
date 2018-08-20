@@ -7,11 +7,8 @@
 #ifndef SRC_PYTHON_PYBIND11_UTILS_H_
 #define SRC_PYTHON_PYBIND11_UTILS_H_
 
+#include <jet/matrix.h>
 #include <jet/quaternion.h>
-#include <jet/tuple.h>
-#include <jet/vector2.h>
-#include <jet/vector3.h>
-#include <jet/vector4.h>
 
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
@@ -19,8 +16,8 @@
 
 namespace jet {
 
-inline Size2 tupleToSize2(pybind11::tuple tpl) {
-    Size2 ret;
+inline Vector2UZ tupleToVector2UZ(pybind11::tuple tpl) {
+    Vector2UZ ret;
 
     if (tpl.size() == 2) {
         for (size_t i = 0; i < 2; ++i) {
@@ -32,8 +29,8 @@ inline Size2 tupleToSize2(pybind11::tuple tpl) {
     return ret;
 }
 
-inline Size2 tupleToSize2(pybind11::list lst) {
-    Size2 ret;
+inline Vector2UZ tupleToVector2UZ(pybind11::list lst) {
+    Vector2UZ ret;
 
     if (lst.size() == 2) {
         for (size_t i = 0; i < 2; ++i) {
@@ -45,8 +42,8 @@ inline Size2 tupleToSize2(pybind11::list lst) {
     return ret;
 }
 
-inline Size3 tupleToSize3(pybind11::tuple tpl) {
-    Size3 ret;
+inline Vector3UZ tupleToVector3UZ(pybind11::tuple tpl) {
+    Vector3UZ ret;
 
     if (tpl.size() == 3) {
         for (size_t i = 0; i < 3; ++i) {
@@ -58,8 +55,8 @@ inline Size3 tupleToSize3(pybind11::tuple tpl) {
     return ret;
 }
 
-inline Size3 tupleToSize3(pybind11::list lst) {
-    Size3 ret;
+inline Vector3UZ tupleToVector3UZ(pybind11::list lst) {
+    Vector3UZ ret;
 
     if (lst.size() == 3) {
         for (size_t i = 0; i < 3; ++i) {
@@ -71,11 +68,11 @@ inline Size3 tupleToSize3(pybind11::list lst) {
     return ret;
 }
 
-inline pybind11::tuple size2ToTuple(const Size2& sz) {
+inline pybind11::tuple size2ToTuple(const Vector2UZ& sz) {
     return pybind11::make_tuple(sz.x, sz.y);
 };
 
-inline pybind11::tuple size3ToTuple(const Size3& sz) {
+inline pybind11::tuple size3ToTuple(const Vector3UZ& sz) {
     return pybind11::make_tuple(sz.x, sz.y, sz.z);
 };
 
@@ -214,25 +211,25 @@ inline QuaternionD tupleToQuaternionD(pybind11::list tpl) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-inline Size2 objectToSize2(const pybind11::object& obj) {
-    if (pybind11::isinstance<Size2>(obj)) {
-        return obj.cast<Size2>();
+inline Vector2UZ objectToVector2UZ(const pybind11::object& obj) {
+    if (pybind11::isinstance<Vector2UZ>(obj)) {
+        return obj.cast<Vector2UZ>();
     } else if (pybind11::isinstance<pybind11::tuple>(obj)) {
-        return tupleToSize2(pybind11::tuple(obj));
+        return tupleToVector2UZ(pybind11::tuple(obj));
     } else if (pybind11::isinstance<pybind11::list>(obj)) {
-        return tupleToSize2(pybind11::list(obj));
+        return tupleToVector2UZ(pybind11::list(obj));
     } else {
         throw std::invalid_argument("Cannot convert to Size2.");
     }
 }
 
-inline Size3 objectToSize3(const pybind11::object& obj) {
-    if (pybind11::isinstance<Size3>(obj)) {
-        return obj.cast<Size3>();
+inline Vector3UZ objectToVector3UZ(const pybind11::object& obj) {
+    if (pybind11::isinstance<Vector3UZ>(obj)) {
+        return obj.cast<Vector3UZ>();
     } else if (pybind11::isinstance<pybind11::tuple>(obj)) {
-        return tupleToSize3(pybind11::tuple(obj));
+        return tupleToVector3UZ(pybind11::tuple(obj));
     } else if (pybind11::isinstance<pybind11::list>(obj)) {
-        return tupleToSize3(pybind11::list(obj));
+        return tupleToVector3UZ(pybind11::list(obj));
     } else {
         throw std::invalid_argument("Cannot convert to Size3.");
     }
@@ -341,12 +338,12 @@ inline QuaternionD objectToQuaternionD(const pybind11::object& obj) {
 ////////////////////////////////////////////////////////////////////////////////
 
 inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
-                                  Size2& resolution, Vector2D& gridSpacing,
+                                  Vector2UZ& resolution, Vector2D& gridSpacing,
                                   Vector2D& gridOrigin) {
     // See if we have list of parameters
     if (args.size() <= 3) {
         if (args.size() > 0) {
-            resolution = objectToSize2(pybind11::object(args[0]));
+            resolution = objectToVector2UZ(pybind11::object(args[0]));
         }
         if (args.size() > 1) {
             gridSpacing = objectToVector2D(pybind11::object(args[1]));
@@ -360,7 +357,7 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
 
     // Parse out keyword args
     if (kwargs.contains("resolution")) {
-        resolution = objectToSize2(pybind11::object(kwargs["resolution"]));
+        resolution = objectToVector2UZ(pybind11::object(kwargs["resolution"]));
     }
     if (kwargs.contains("gridSpacing")) {
         gridSpacing = objectToVector2D(pybind11::object(kwargs["gridSpacing"]));
@@ -370,17 +367,17 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     }
     if (kwargs.contains("domainSizeX")) {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 
 inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
-                                  Size3& resolution, Vector3D& gridSpacing,
+                                  Vector3UZ& resolution, Vector3D& gridSpacing,
                                   Vector3D& gridOrigin) {
     // See if we have list of parameters
     if (args.size() <= 3) {
         if (args.size() > 0) {
-            resolution = objectToSize3(pybind11::object(args[0]));
+            resolution = objectToVector3UZ(pybind11::object(args[0]));
         }
         if (args.size() > 1) {
             gridSpacing = objectToVector3D(pybind11::object(args[1]));
@@ -394,7 +391,7 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
 
     // Parse out keyword args
     if (kwargs.contains("resolution")) {
-        resolution = objectToSize3(pybind11::object(kwargs["resolution"]));
+        resolution = objectToVector3UZ(pybind11::object(kwargs["resolution"]));
     }
     if (kwargs.contains("gridSpacing")) {
         gridSpacing = objectToVector3D(pybind11::object(kwargs["gridSpacing"]));
@@ -404,7 +401,7 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
     }
     if (kwargs.contains("domainSizeX")) {
         double domainSizeX = kwargs["domainSizeX"].cast<double>();
-        gridSpacing.set(domainSizeX / static_cast<double>(resolution.x));
+        gridSpacing.fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
 }  // namespace jet

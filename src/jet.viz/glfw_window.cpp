@@ -126,16 +126,16 @@ Event<GlfwWindow*, const PointerEvent&>& GlfwWindow::onMouseWheelEvent() {
     return _onMouseWheelEvent;
 }
 
-Size2 GlfwWindow::framebufferSize() const {
+Vector2UZ GlfwWindow::framebufferSize() const {
     int w, h;
     glfwGetFramebufferSize(_window, &w, &h);
-    return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
+    return Vector2UZ{static_cast<size_t>(w), static_cast<size_t>(h)};
 }
 
-Size2 GlfwWindow::windowSize() const {
+Vector2UZ GlfwWindow::windowSize() const {
     int w, h;
     glfwGetWindowSize(_window, &w, &h);
-    return Size2{static_cast<size_t>(w), static_cast<size_t>(h)};
+    return Vector2UZ{static_cast<size_t>(w), static_cast<size_t>(h)};
 }
 
 void GlfwWindow::render() {

@@ -4,10 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
-#include <jet/array3.h>
+#include <jet/array.h>
+#include <jet/array.h>
 #include <jet/bcc_lattice_point_generator.h>
-#include <jet/bounding_box3.h>
+#include <jet/bounding_box.h>
 #include <jet/point_kdtree_searcher3.h>
 
 #include <gtest/gtest.h>
@@ -21,7 +21,7 @@ TEST(PointKdTreeSearcher3, ForEachNearbyPoint) {
                                Vector3D(-1, 3, 0)};
 
     PointKdTreeSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     int cnt = 0;
     searcher.forEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
@@ -43,7 +43,7 @@ TEST(PointKdTreeSearcher3, ForEachNearbyPointEmpty) {
     Array1<Vector3D> points;
 
     PointKdTreeSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector3D(0, 0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector3D&) {});
@@ -54,7 +54,7 @@ TEST(PointKdTreeSearcher3, CopyConstructor) {
                                Vector3D(-1, 3, 0)};
 
     PointKdTreeSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     PointKdTreeSearcher3 searcher2(searcher);
     int cnt = 0;
@@ -78,7 +78,7 @@ TEST(PointKdTreeSearcher3, Serialize) {
                                Vector3D(-1, 3, 0)};
 
     PointKdTreeSearcher3 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     std::vector<uint8_t> buffer;
     searcher.serialize(&buffer);

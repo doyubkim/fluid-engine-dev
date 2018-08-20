@@ -6,6 +6,7 @@
 
 #include <pch.h>
 
+#include <jet/array_utils.h>
 #include <jet/fdm_linear_system2.h>
 #include <jet/math_utils.h>
 #include <jet/parallel.h>
@@ -18,7 +19,7 @@ void FdmLinearSystem2::clear() {
     b.clear();
 }
 
-void FdmLinearSystem2::resize(const Size2& size) {
+void FdmLinearSystem2::resize(const Vector2UZ& size) {
     A.resize(size);
     x.resize(size);
     b.resize(size);
@@ -34,20 +35,20 @@ void FdmCompressedLinearSystem2::clear() {
 
 //
 
-void FdmBlas2::set(double s, FdmVector2* result) { result->set(s); }
+void FdmBlas2::set(double s, FdmVector2* result) { result->fill(s); }
 
-void FdmBlas2::set(const FdmVector2& v, FdmVector2* result) { result->set(v); }
+void FdmBlas2::set(const FdmVector2& v, FdmVector2* result) { result->copyFrom(v); }
 
 void FdmBlas2::set(double s, FdmMatrix2* result) {
     FdmMatrixRow2 row;
     row.center = row.right = row.up = s;
-    result->set(row);
+    result->fill(row);
 }
 
-void FdmBlas2::set(const FdmMatrix2& m, FdmMatrix2* result) { result->set(m); }
+void FdmBlas2::set(const FdmMatrix2& m, FdmMatrix2* result) { result->copyFrom(m); }
 
 double FdmBlas2::dot(const FdmVector2& a, const FdmVector2& b) {
-    Size2 size = a.size();
+    Vector2UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != b.size());
 
@@ -64,23 +65,24 @@ double FdmBlas2::dot(const FdmVector2& a, const FdmVector2& b) {
 
 void FdmBlas2::axpy(double a, const FdmVector2& x, const FdmVector2& y,
                     FdmVector2* result) {
-    Size2 size = x.size();
+    Vector2UZ size = x.size();
 
     JET_THROW_INVALID_ARG_IF(size != y.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    x.parallelForEachIndex(
-        [&](size_t i, size_t j) { (*result)(i, j) = a * x(i, j) + y(i, j); });
+    parallelForEachIndex(size, [&](size_t i, size_t j) {
+        (*result)(i, j) = a * x(i, j) + y(i, j);
+    });
 }
 
 void FdmBlas2::mvm(const FdmMatrix2& m, const FdmVector2& v,
                    FdmVector2* result) {
-    Size2 size = m.size();
+    Vector2UZ size = m.size();
 
     JET_THROW_INVALID_ARG_IF(size != v.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    m.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(size, [&](size_t i, size_t j) {
         (*result)(i, j) =
             m(i, j).center * v(i, j) +
             ((i > 0) ? m(i - 1, j).right * v(i - 1, j) : 0.0) +
@@ -92,13 +94,13 @@ void FdmBlas2::mvm(const FdmMatrix2& m, const FdmVector2& v,
 
 void FdmBlas2::residual(const FdmMatrix2& a, const FdmVector2& x,
                         const FdmVector2& b, FdmVector2* result) {
-    Size2 size = a.size();
+    Vector2UZ size = a.size();
 
     JET_THROW_INVALID_ARG_IF(size != x.size());
     JET_THROW_INVALID_ARG_IF(size != b.size());
     JET_THROW_INVALID_ARG_IF(size != result->size());
 
-    a.parallelForEachIndex([&](size_t i, size_t j) {
+    parallelForEachIndex(size, [&](size_t i, size_t j) {
         (*result)(i, j) =
             b(i, j) - a(i, j).center * x(i, j) -
             ((i > 0) ? a(i - 1, j).right * x(i - 1, j) : 0.0) -
@@ -111,7 +113,7 @@ void FdmBlas2::residual(const FdmMatrix2& a, const FdmVector2& x,
 double FdmBlas2::l2Norm(const FdmVector2& v) { return std::sqrt(dot(v, v)); }
 
 double FdmBlas2::lInfNorm(const FdmVector2& v) {
-    Size2 size = v.size();
+    Vector2UZ size = v.size();
 
     double result = 0.0;
 
@@ -126,10 +128,10 @@ double FdmBlas2::lInfNorm(const FdmVector2& v) {
 
 //
 
-void FdmCompressedBlas2::set(double s, VectorND* result) { result->set(s); }
+void FdmCompressedBlas2::set(double s, VectorND* result) { result->fill(s); }
 
 void FdmCompressedBlas2::set(const VectorND& v, VectorND* result) {
-    result->set(v);
+    result->copyFrom(v);
 }
 
 void FdmCompressedBlas2::set(double s, MatrixCsrD* result) { result->set(s); }
@@ -153,7 +155,7 @@ void FdmCompressedBlas2::mvm(const MatrixCsrD& m, const VectorND& v,
     const auto ci = m.columnIndicesBegin();
     const auto nnz = m.nonZeroBegin();
 
-    v.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(v.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 
@@ -174,7 +176,7 @@ void FdmCompressedBlas2::residual(const MatrixCsrD& a, const VectorND& x,
     const auto ci = a.columnIndicesBegin();
     const auto nnz = a.nonZeroBegin();
 
-    x.parallelForEachIndex([&](size_t i) {
+    parallelForEachIndex(x.rows(), [&](size_t i) {
         const size_t rowBegin = rp[i];
         const size_t rowEnd = rp[i + 1];
 

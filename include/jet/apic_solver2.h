@@ -29,7 +29,7 @@ class ApicSolver2 : public PicSolver2 {
 
     //! Constructs solver with initial grid size.
     ApicSolver2(
-        const Size2& resolution,
+        const Vector2UZ& resolution,
         const Vector2D& gridSpacing,
         const Vector2D& gridOrigin);
 

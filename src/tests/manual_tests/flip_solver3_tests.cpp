@@ -154,7 +154,7 @@ JET_BEGIN_TEST_F(FlipSolver3, DamBreakingWithCollider) {
     //
 
     // Build solver
-    Size3 resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
     auto solver = FlipSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)

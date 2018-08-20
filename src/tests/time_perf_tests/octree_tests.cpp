@@ -9,6 +9,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include <fstream>
 #include <random>
 
 using jet::TriangleMesh3;

@@ -51,17 +51,17 @@ class SphSystemData3 : public ParticleSystemData3 {
     //!
     void setMass(double newMass) override;
 
-    //! Returns the density array accessor (immutable).
-    ConstArrayAccessor1<double> densities() const;
+    //! Returns the density array view (immutable).
+    ConstArrayView1<double> densities() const;
 
-    //! Returns the density array accessor (mutable).
-    ArrayAccessor1<double> densities();
+    //! Returns the density array view (mutable).
+    ArrayView1<double> densities();
 
-    //! Returns the pressure array accessor (immutable).
-    ConstArrayAccessor1<double> pressures() const;
+    //! Returns the pressure array view (immutable).
+    ConstArrayView1<double> pressures() const;
 
-    //! Returns the pressure array accessor (mutable).
-    ArrayAccessor1<double> pressures();
+    //! Returns the pressure array view (mutable).
+    ArrayView1<double> pressures();
 
     //! Updates the density array with the latest particle positions.
     void updateDensities();
@@ -126,7 +126,7 @@ class SphSystemData3 : public ParticleSystemData3 {
     //! used.
     //!
     double interpolate(const Vector3D& origin,
-                       const ConstArrayAccessor1<double>& values) const;
+                       const ConstArrayView1<double>& values) const;
 
     //!
     //! \brief Returns interpolated vector value at given origin point.
@@ -137,19 +137,19 @@ class SphSystemData3 : public ParticleSystemData3 {
     //! used.
     //!
     Vector3D interpolate(const Vector3D& origin,
-                         const ConstArrayAccessor1<Vector3D>& values) const;
+                         const ConstArrayView1<Vector3D>& values) const;
 
     //! Returns the gradient of the given values at i-th particle.
     Vector3D gradientAt(size_t i,
-                        const ConstArrayAccessor1<double>& values) const;
+                        const ConstArrayView1<double>& values) const;
 
     //! Returns the laplacian of the given values at i-th particle.
     double laplacianAt(size_t i,
-                       const ConstArrayAccessor1<double>& values) const;
+                       const ConstArrayView1<double>& values) const;
 
     //! Returns the laplacian of the given values at i-th particle.
     Vector3D laplacianAt(size_t i,
-                         const ConstArrayAccessor1<Vector3D>& values) const;
+                         const ConstArrayView1<Vector3D>& values) const;
 
     //! Builds neighbor searcher with kernel radius.
     void buildNeighborSearcher();

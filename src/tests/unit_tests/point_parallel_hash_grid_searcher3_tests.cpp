@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
 #include <gtest/gtest.h>
 #include <vector>
@@ -19,7 +19,7 @@ TEST(PointParallelHashGridSearcher3, ForEachNearbyPoint) {
     };
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     int cnt = 0;
     searcher.forEachNearbyPoint(
@@ -43,7 +43,7 @@ TEST(PointParallelHashGridSearcher3, ForEachNearbyPointEmpty) {
     Array1<Vector3D> points;
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(
         Vector3D(0, 0, 0),
@@ -60,7 +60,7 @@ TEST(PointParallelHashGridSearcher3, CopyConstructor) {
     };
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     PointParallelHashGridSearcher3 searcher2(searcher);
     int cnt = 0;
@@ -89,7 +89,7 @@ TEST(PointParallelHashGridSearcher3, Serialization) {
     };
 
     PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     std::vector<uint8_t> buffer;
     searcher.serialize(&buffer);

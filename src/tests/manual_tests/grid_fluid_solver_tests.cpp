@@ -29,7 +29,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();
@@ -48,7 +48,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -56,10 +56,10 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -76,7 +76,7 @@ JET_BEGIN_TEST_F(
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();
@@ -95,7 +95,7 @@ JET_BEGIN_TEST_F(
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -103,10 +103,10 @@ JET_BEGIN_TEST_F(
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -125,7 +125,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
 
     GridSystemData2Ptr data = solver.gridSystemData();
     double dx = 1.0 / 32.0;
-    data->resize(Size2(64, 32), Vector2D(dx, dx), Vector2D());
+    data->resize(Vector2UZ(64, 32), Vector2D(dx, dx), Vector2D());
     data->velocity()->fill(Vector2D(1.0, 0.0));
 
     BoundingBox2D domain = data->boundingBox();
@@ -144,7 +144,7 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
     Array2<double> div(64, 32);
     Array2<double> pressure(64, 32);
 
-    dataU.forEachIndex([&](size_t i, size_t j) {
+    forEachIndex(dataU.size(), [&](size_t i, size_t j) {
         Vector2D vel = data->velocity()->valueAtCellCenter(i, j);
         dataU(i, j) = vel.x;
         dataV(i, j) = vel.y;
@@ -152,9 +152,9 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData(dataU.constAccessor(), "data_#grid2,x.npy");
-    saveData(dataV.constAccessor(), "data_#grid2,y.npy");
-    saveData(div.constAccessor(), "div_#grid2.npy");
-    saveData(pressure.constAccessor(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F

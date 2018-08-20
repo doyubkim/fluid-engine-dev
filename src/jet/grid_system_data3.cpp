@@ -28,7 +28,7 @@ GridSystemData3::GridSystemData3()
 }
 
 GridSystemData3::GridSystemData3(
-    const Size3& resolution,
+    const Vector3UZ& resolution,
     const Vector3D& gridSpacing,
     const Vector3D& origin) {
     _velocity = std::make_shared<FaceCenteredGrid3>();
@@ -67,7 +67,7 @@ GridSystemData3::~GridSystemData3() {
 }
 
 void GridSystemData3::resize(
-    const Size3& resolution,
+    const Vector3UZ& resolution,
     const Vector3D& gridSpacing,
     const Vector3D& origin) {
     _resolution = resolution;
@@ -88,7 +88,7 @@ void GridSystemData3::resize(
     }
 }
 
-Size3 GridSystemData3::resolution() const {
+Vector3UZ GridSystemData3::resolution() const {
     return _resolution;
 }
 

@@ -9,9 +9,9 @@
 
 #include <jet.viz/color.h>
 #include <jet.viz/texture.h>
-#include <jet/array_accessor2.h>
+#include <jet/array_view.h>
 #include <jet/macros.h>
-#include <jet/tuple.h>
+#include <jet/matrix.h>
 
 #include <cstdint>
 #include <memory>
@@ -40,16 +40,16 @@ class Texture2 {
     void clear();
 
     //! Sets the texture with given 32-bit color data and size.
-    void setTexture(const ConstArrayAccessor2<Color>& data);
+    void setTexture(const ConstArrayView2<Color>& data);
 
     //! Sets the texture with given 8-bit color data and size.
-    void setTexture(const ConstArrayAccessor2<ByteColor>& data);
+    void setTexture(const ConstArrayView2<ByteColor>& data);
 
     //! Binds the texture to given renderer with slot ID.
     void bind(Renderer* renderer, unsigned int slotId);
 
     //! Returns the size of the texture.
-    const Size2& size() const;
+    const Vector2UZ& size() const;
 
     //! Returns the sampling mode of the texture.
     const TextureSamplingMode& samplingMode() const;
@@ -62,10 +62,10 @@ class Texture2 {
     virtual void onClear() = 0;
 
     //! Called when setTexture(...) is invoked.
-    virtual void onSetTexture(const ConstArrayAccessor2<Color>& data) = 0;
+    virtual void onSetTexture(const ConstArrayView2<Color>& data) = 0;
 
     //! Called when setTexture(...) is invoked.
-    virtual void onSetTexture(const ConstArrayAccessor2<ByteColor>& data) = 0;
+    virtual void onSetTexture(const ConstArrayView2<ByteColor>& data) = 0;
 
     //! Called when bind(...) is invoked.
     virtual void onBind(Renderer* renderer, unsigned int slotId) = 0;
@@ -74,7 +74,7 @@ class Texture2 {
     virtual void onSamplingModeChanged(const TextureSamplingMode& mode) = 0;
 
  private:
-    Size2 _size;
+    Vector2UZ _size;
     TextureSamplingMode _samplingMode = TextureSamplingMode::kNearest;
 };
 

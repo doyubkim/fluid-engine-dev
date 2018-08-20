@@ -12,222 +12,154 @@
 #include <jet/cuda_wc_sph_solver3.h>
 #include <jet/timer.h>
 
-#include <thrust/fill.h>
-#include <thrust/for_each.h>
-#include <thrust/tuple.h>
-
-#include <algorithm>
-
 using namespace jet;
-using thrust::get;
-using thrust::make_tuple;
-using thrust::make_zip_iterator;
 
 namespace {
 
-class ComputePressureFunc {
- public:
-    inline ComputePressureFunc(float targetDensity, float eosScale,
-                               float eosExponent, float negativePressureScale)
-        : _targetDensity(targetDensity),
-          _eosScale(eosScale),
-          _eosExponent(eosExponent),
-          _negativePressureScale(negativePressureScale) {}
+inline __device__ float computePressureFromEos(float density,
+                                               float targetDensity,
+                                               float eosScale,
+                                               float eosExponent,
+                                               float negativePressureScale) {
+    // Equation of state
+    // (http://www.ifi.uzh.ch/vmml/publications/pcisph/pcisph.pdf)
+    float p = eosScale / eosExponent *
+              (powf((density / targetDensity), eosExponent) - 1.0f);
 
-    template <typename Float>
-    inline JET_CUDA_HOST_DEVICE float operator()(Float d) {
-        return computePressureFromEos(d, _targetDensity, _eosScale,
-                                      _eosExponent, _negativePressureScale);
+    // Negative pressure scaling
+    if (p < 0) {
+        p *= negativePressureScale;
     }
 
-    template <typename Float>
-    inline JET_CUDA_HOST_DEVICE float computePressureFromEos(
-        Float density, float targetDensity, float eosScale, float eosExponent,
-        float negativePressureScale) {
-        // Equation of state
-        // (http://www.ifi.uzh.ch/vmml/publications/pcisph/pcisph.pdf)
-        float p = eosScale / eosExponent *
-                  (powf((density / targetDensity), eosExponent) - 1.0f);
+    return p;
+}
 
-        // Negative pressure scaling
-        if (p < 0) {
-            p *= negativePressureScale;
-        }
-
-        return p;
+__global__ void computePressureKernel(float targetDensity, float eosScale,
+                                      float eosExponent,
+                                      float negativePressureScale,
+                                      const float* densities, size_t n,
+                                      float* pressures) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        pressures[i] =
+            computePressureFromEos(densities[i], targetDensity, eosScale,
+                                   eosExponent, negativePressureScale);
     }
+}
 
- private:
-    float _targetDensity;
-    float _eosScale;
-    float _eosExponent;
-    float _negativePressureScale;
-};
+__global__ void computeForcesKernel(
+    float mass, float4 gravity, float viscosity,
+    CudaSphSpikyKernel3 spikyKernel, const uint32_t* neighborStarts,
+    const uint32_t* neighborEnds, const uint32_t* neighborLists,
+    const float4* positions, const float4* velocities, const float* densities,
+    const float* pressures, size_t n, float4* smoothedVelocities,
+    float4* forces) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        uint32_t ns = neighborStarts[i];
+        uint32_t ne = neighborEnds[i];
 
-class ComputeForces {
- public:
-    inline ComputeForces(float m, float h, float4 gravity, float viscosity,
-                         const uint32_t* neighborStarts,
-                         const uint32_t* neighborEnds,
-                         const uint32_t* neighborLists, const float4* positions,
-                         const float4* velocities, float4* smoothedVelocities,
-                         float4* forces, const float* densities,
-                         const float* pressures)
-        : _mass(m),
-          _massSquared(m * m),
-          _gravity(gravity),
-          _viscosity(viscosity),
-          _spikyKernel(h),
-          _neighborStarts(neighborStarts),
-          _neighborEnds(neighborEnds),
-          _neighborLists(neighborLists),
-          _positions(positions),
-          _velocities(velocities),
-          _smoothedVelocities(smoothedVelocities),
-          _forces(forces),
-          _densities(densities),
-          _pressures(pressures) {}
+        float4 x_i = positions[i];
+        float4 v_i = velocities[i];
+        float d_i = densities[i];
+        float p_i = pressures[i];
+        float4 f = gravity;
 
-    template <typename Index>
-    inline JET_CUDA_HOST_DEVICE void operator()(Index i) {
-        uint32_t ns = _neighborStarts[i];
-        uint32_t ne = _neighborEnds[i];
+        float massSquared = mass * mass;
 
-        float4 x_i = _positions[i];
-        float4 v_i = _velocities[i];
-        float d_i = _densities[i];
-        float p_i = _pressures[i];
-        float4 f = _gravity;
-
-        float w_i = _mass / d_i * _spikyKernel(0.0f);
+        float w_i = mass / d_i * spikyKernel(0.0f);
         float weightSum = w_i;
         float4 smoothedVelocity = w_i * v_i;
 
         for (uint32_t jj = ns; jj < ne; ++jj) {
-            uint32_t j = _neighborLists[jj];
+            uint32_t j = neighborLists[jj];
 
-            float4 r = _positions[j] - x_i;
+            float4 r = positions[j] - x_i;
             float dist = length(r);
 
             if (dist > 0.0f) {
                 float4 dir = r / dist;
 
-                float4 v_j = _velocities[j];
-                float d_j = _densities[j];
-                float p_j = _pressures[j];
+                float4 v_j = velocities[j];
+                float d_j = densities[j];
+                float p_j = pressures[j];
 
                 // Pressure force
-                f -= _massSquared * (p_i / (d_i * d_i) + p_j / (d_j * d_j)) *
-                     _spikyKernel.gradient(dist, dir);
+                f -= massSquared * (p_i / (d_i * d_i) + p_j / (d_j * d_j)) *
+                     spikyKernel.gradient(dist, dir);
 
                 // Viscosity force
-                f += _viscosity * _massSquared * (v_j - v_i) / d_j *
-                     _spikyKernel.secondDerivative(dist);
+                f += viscosity * massSquared * (v_j - v_i) / d_j *
+                     spikyKernel.secondDerivative(dist);
 
                 // Pseudo viscosity
-                float w_j = _mass / d_j * _spikyKernel(dist);
+                float w_j = mass / d_j * spikyKernel(dist);
                 weightSum += w_j;
                 smoothedVelocity += w_j * v_j;
             }
         }
 
-        _forces[i] = f;
+        forces[i] = f;
 
         smoothedVelocity /= weightSum;
-        _smoothedVelocities[i] = smoothedVelocity;
+        smoothedVelocities[i] = smoothedVelocity;
     }
-
- private:
-    float _mass;
-    float _massSquared;
-    float4 _gravity;
-    float _viscosity;
-    CudaSphSpikyKernel3 _spikyKernel;
-    const uint32_t* _neighborStarts;
-    const uint32_t* _neighborEnds;
-    const uint32_t* _neighborLists;
-    const float4* _positions;
-    const float4* _velocities;
-    float4* _smoothedVelocities;
-    float4* _forces;
-    const float* _densities;
-    const float* _pressures;
-};
+}
 
 #define BND_R 0.0f
 
-class TimeIntegration {
- public:
-    TimeIntegration(float dt, float m, float smoothFactor, float3 lower,
-                    float3 upper, float4* positions, float4* velocities,
-                    float4* smoothedVelocities, float4* forces)
-        : _dt(dt),
-          _mass(m),
-          _smoothFactor(smoothFactor),
-          _lower(lower),
-          _upper(upper),
-          _positions(positions),
-          _velocities(velocities),
-          _smoothedVelocities(smoothedVelocities),
-          _forces(forces) {}
+__global__ void timeIntegrationKernel(float dt, float mass, float smoothFactor,
+                                      float3 lower, float3 upper,
+                                      const float4* smoothedVelocities,
+                                      const float4* forces, size_t n,
+                                      float4* positions, float4* velocities) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        float4 x = positions[i];
+        float4 v = velocities[i];
+        float4 s = smoothedVelocities[i];
+        float4 f = forces[i];
 
-    template <typename Index>
-    inline JET_CUDA_HOST_DEVICE void operator()(Index i) {
-        float4 x = _positions[i];
-        float4 v = _velocities[i];
-        float4 s = _smoothedVelocities[i];
-        float4 f = _forces[i];
-
-        v = (1.0f - _smoothFactor) * v + _smoothFactor * s;
-        v += _dt * f / _mass;
-        x += _dt * v;
+        v = (1.0f - smoothFactor) * v + smoothFactor * s;
+        v += dt * f / mass;
+        x += dt * v;
 
         // TODO: Add proper collider support
-        if (x.x > _upper.x) {
-            x.x = _upper.x;
+        if (x.x > upper.x) {
+            x.x = upper.x;
             v.x *= BND_R;
         }
-        if (x.x < _lower.x) {
-            x.x = _lower.x;
+        if (x.x < lower.x) {
+            x.x = lower.x;
             v.x *= BND_R;
         }
-        if (x.y > _upper.y) {
-            x.y = _upper.y;
+        if (x.y > upper.y) {
+            x.y = upper.y;
             v.y *= BND_R;
         }
-        if (x.y < _lower.y) {
-            x.y = _lower.y;
+        if (x.y < lower.y) {
+            x.y = lower.y;
             v.y *= BND_R;
         }
-        if (x.z > _upper.z) {
-            x.z = _upper.z;
+        if (x.z > upper.z) {
+            x.z = upper.z;
             v.z *= BND_R;
         }
-        if (x.z < _lower.z) {
-            x.z = _lower.z;
+        if (x.z < lower.z) {
+            x.z = lower.z;
             v.z *= BND_R;
         }
 
-        _positions[i] = x;
-        _velocities[i] = v;
+        positions[i] = x;
+        velocities[i] = v;
     }
-
- private:
-    float _dt;
-    float _mass;
-    float _smoothFactor;
-    float3 _lower;
-    float3 _upper;
-    float4* _positions;
-    float4* _velocities;
-    float4* _smoothedVelocities;
-    float4* _forces;
-};
+}
 
 }  // namespace
 
 void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto sph = sphSystemData();
+    size_t n = sph->numberOfParticles();
 
     // Build neighbor searcher
     sph->buildNeighborSearcher();
@@ -239,13 +171,15 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     const float targetDensity = sph->targetDensity();
     const float eosScale =
         targetDensity * square(speedOfSound()) / _eosExponent;
-    thrust::transform(
-        d.begin(), d.end(), p.begin(),
-        ComputePressureFunc(targetDensity, eosScale, eosExponent(),
-                            negativePressureScale()));
+
+    unsigned int numBlocks, numThreads;
+    cudaComputeGridSize((unsigned int)n, 256, numBlocks, numThreads);
+
+    computePressureKernel<<<numBlocks, numThreads>>>(
+        targetDensity, eosScale, _eosExponent, negativePressureScale(),
+        d.data(), n, p.data());
 
     // Compute pressure / viscosity forces and smoothed velocity
-    size_t n = sph->numberOfParticles();
     float mass = sph->mass();
     float h = sph->kernelRadius();
     auto ns = sph->neighborStarts();
@@ -256,13 +190,10 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto s = smoothedVelocities();
     auto f = forces();
 
-    thrust::for_each(thrust::counting_iterator<size_t>(0),
-                     thrust::counting_iterator<size_t>(n),
-
-                     ComputeForces(mass, h, toFloat4(gravity(), 0.0f),
-                                   viscosityCoefficient(), ns.data(), ne.data(),
-                                   nl.data(), x.data(), v.data(), s.data(),
-                                   f.data(), d.data(), p.data()));
+    computeForcesKernel<<<numBlocks, numThreads>>>(
+        mass, toFloat4(gravity(), 0.0f), viscosityCoefficient(),
+        CudaSphSpikyKernel3(h), ns.data(), ne.data(), nl.data(), x.data(),
+        v.data(), d.data(), p.data(), n, s.data(), f.data());
 
     // Time-integration
     float dt = static_cast<float>(timeStepInSeconds);
@@ -271,9 +202,7 @@ void CudaWcSphSolver3::onAdvanceTimeStep(double timeStepInSeconds) {
     auto lower = toFloat3(container().lowerCorner);
     auto upper = toFloat3(container().upperCorner);
 
-    thrust::for_each(thrust::counting_iterator<size_t>(0),
-                     thrust::counting_iterator<size_t>(n),
-
-                     TimeIntegration(dt, mass, factor, lower, upper, x.data(),
-                                     v.data(), s.data(), f.data()));
+    timeIntegrationKernel<<<numBlocks, numThreads>>>(dt, mass, factor, lower,
+                                                     upper, s.data(), f.data(),
+                                                     n, x.data(), v.data());
 }

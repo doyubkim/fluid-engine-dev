@@ -40,7 +40,7 @@ class FdmIccgSolver2 final : public FdmLinearSystemSolver2 {
 
  private:
     struct Preconditioner final {
-        ConstArrayAccessor2<FdmMatrixRow2> A;
+        ConstArrayView2<FdmMatrixRow2> A;
         FdmVector2 d;
         FdmVector2 y;
 

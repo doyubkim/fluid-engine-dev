@@ -39,7 +39,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     GridFluidSolver3();
 
     //! Constructs solver with initial grid size.
-    GridFluidSolver3(const Size3& resolution, const Vector3D& gridSpacing,
+    GridFluidSolver3(const Vector3UZ& resolution, const Vector3D& gridSpacing,
                      const Vector3D& gridOrigin);
 
     //! Default destructor.
@@ -131,7 +131,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! \param[in] newGridSpacing The new grid spacing.
     //! \param[in] newGridOrigin  The new grid origin.
     //!
-    void resizeGrid(const Size3& newSize, const Vector3D& newGridSpacing,
+    void resizeGrid(const Vector3UZ& newSize, const Vector3D& newGridSpacing,
                     const Vector3D& newGridOrigin);
 
     //!
@@ -141,7 +141,7 @@ class GridFluidSolver3 : public PhysicsAnimation {
     //! equivalent to calling gridSystemData()->resolution(), but provides a
     //! shortcut.
     //!
-    Size3 resolution() const;
+    Vector3UZ resolution() const;
 
     //!
     //! \brief Returns the grid spacing of the grid system data.
@@ -300,7 +300,7 @@ template <typename DerivedBuilder>
 class GridFluidSolverBuilderBase3 {
  public:
     //! Returns builder with grid resolution.
-    DerivedBuilder& withResolution(const Size3& resolution);
+    DerivedBuilder& withResolution(const Vector3UZ& resolution);
 
     //! Returns builder with grid spacing.
     DerivedBuilder& withGridSpacing(const Vector3D& gridSpacing);
@@ -320,7 +320,7 @@ class GridFluidSolverBuilderBase3 {
     DerivedBuilder& withOrigin(const Vector3D& gridOrigin);
 
  protected:
-    Size3 _resolution{1, 1, 1};
+    Vector3UZ _resolution{1, 1, 1};
     Vector3D _gridSpacing{1, 1, 1};
     Vector3D _gridOrigin{0, 0, 0};
     double _domainSizeX = 1.0;
@@ -330,7 +330,7 @@ class GridFluidSolverBuilderBase3 {
 };
 
 template <typename T>
-T& GridFluidSolverBuilderBase3<T>::withResolution(const Size3& resolution) {
+T& GridFluidSolverBuilderBase3<T>::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
     return static_cast<T&>(*this);
 }
@@ -369,7 +369,7 @@ template <typename T>
 Vector3D GridFluidSolverBuilderBase3<T>::getGridSpacing() const {
     Vector3D gridSpacing = _gridSpacing;
     if (_useDomainSize) {
-        gridSpacing.set(_domainSizeX / static_cast<double>(_resolution.x));
+        gridSpacing.fill(_domainSizeX / static_cast<double>(_resolution.x));
     }
     return gridSpacing;
 }

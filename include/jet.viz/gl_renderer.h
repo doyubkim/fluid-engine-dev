@@ -54,7 +54,7 @@ class GLRenderer final : public Renderer {
     //! \param size Size of the data.
     //! \return New 2-D texture.
     //!
-    Texture2Ptr createTexture2(const ConstArrayAccessor2<ByteColor>& data) override;
+    Texture2Ptr createTexture2(const ConstArrayView2<ByteColor>& data) override;
 
     //!
     //! Creates a 2-D texture with 32-bit image and given parameters.
@@ -63,7 +63,7 @@ class GLRenderer final : public Renderer {
     //! \param size Size of the data.
     //! \return New 2-D texture.
     //!
-    Texture2Ptr createTexture2(const ConstArrayAccessor2<Color>& data) override;
+    Texture2Ptr createTexture2(const ConstArrayView2<Color>& data) override;
 
     //!
     //! Creates a 3-D texture with 8-bit image and given parameters.
@@ -72,7 +72,7 @@ class GLRenderer final : public Renderer {
     //! \param size Size of the data.
     //! \return New 3-D texture.
     //!
-    Texture3Ptr createTexture3(const ConstArrayAccessor3<ByteColor>& data) override;
+    Texture3Ptr createTexture3(const ConstArrayView3<ByteColor>& data) override;
 
     //!
     //! Creates a 3-D texture with 32-bit image and given parameters.
@@ -81,7 +81,7 @@ class GLRenderer final : public Renderer {
     //! \param size Size of the data.
     //! \return New 3-D texture.
     //!
-    Texture3Ptr createTexture3(const ConstArrayAccessor3<Color>& data) override;
+    Texture3Ptr createTexture3(const ConstArrayView3<Color>& data) override;
 
     //!
     //! Creates a shader object with given preset shader name.

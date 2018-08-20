@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/logging.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
 

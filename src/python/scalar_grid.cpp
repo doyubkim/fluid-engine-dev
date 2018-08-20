@@ -38,7 +38,7 @@ void addScalarGrid2(py::module& m) {
              R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def("resize",
              [](ScalarGrid2& instance, py::args args, py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -144,15 +144,12 @@ void addScalarGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("dataAccessor", &ScalarGrid2::dataAccessor,
-             R"pbdoc(The data array accessor.)pbdoc")
-        .def("dataPosition", &ScalarGrid2::dataPosition,
-             R"pbdoc(The function that maps data point to its position.)pbdoc")
-        .def("fill",
-             [](ScalarGrid2& instance, double value) {
-                 instance.fill(value, ExecutionPolicy::kSerial);
-             },
-             R"pbdoc(Fills the grid with given value.)pbdoc")
+        .def("dataView",
+             (ArrayView2<double>(ScalarGrid2::*)()) & ScalarGrid2::dataView,
+             R"pbdoc(Returns the data array accessor.)pbdoc")
+        .def(
+            "dataPosition", &ScalarGrid2::dataPosition,
+            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
         .def("fill",
              [](ScalarGrid2& instance, py::object obj) {
                  if (py::isinstance<py::function>(obj)) {
@@ -226,7 +223,7 @@ void addScalarGrid3(py::module& m) {
              R"pbdoc(Clears the contents of the grid.)pbdoc")
         .def("resize",
              [](ScalarGrid3& instance, py::args args, py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -337,15 +334,12 @@ void addScalarGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("dataAccessor", &ScalarGrid3::dataAccessor,
-             R"pbdoc(The data array accessor.)pbdoc")
-        .def("dataPosition", &ScalarGrid3::dataPosition,
-             R"pbdoc(The function that maps data point to its position.)pbdoc")
-        .def("fill",
-             [](ScalarGrid3& instance, double value) {
-                 instance.fill(value, ExecutionPolicy::kSerial);
-             },
-             R"pbdoc(Fills the grid with given value.)pbdoc")
+        .def("dataView",
+             (ArrayView3<double>(ScalarGrid3::*)()) & ScalarGrid3::dataView,
+             R"pbdoc(Returns the data array accessor.)pbdoc")
+        .def(
+            "dataPosition", &ScalarGrid3::dataPosition,
+            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
         .def("fill",
              [](ScalarGrid3& instance, py::object obj) {
                  if (py::isinstance<py::function>(obj)) {

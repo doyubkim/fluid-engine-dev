@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
 #define INCLUDE_JET_PARTICLE_SYSTEM_DATA3_H_
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/serialization.h>
 #include <jet/point_neighbor_searcher3.h>
 
@@ -111,34 +111,34 @@ class ParticleSystemData3 : public Serializable {
     virtual void setMass(double newMass);
 
     //! Returns the position array (immutable).
-    ConstArrayAccessor1<Vector3D> positions() const;
+    ConstArrayView1<Vector3D> positions() const;
 
     //! Returns the position array (mutable).
-    ArrayAccessor1<Vector3D> positions();
+    ArrayView1<Vector3D> positions();
 
     //! Returns the velocity array (immutable).
-    ConstArrayAccessor1<Vector3D> velocities() const;
+    ConstArrayView1<Vector3D> velocities() const;
 
     //! Returns the velocity array (mutable).
-    ArrayAccessor1<Vector3D> velocities();
+    ArrayView1<Vector3D> velocities();
 
     //! Returns the force array (immutable).
-    ConstArrayAccessor1<Vector3D> forces() const;
+    ConstArrayView1<Vector3D> forces() const;
 
     //! Returns the force array (mutable).
-    ArrayAccessor1<Vector3D> forces();
+    ArrayView1<Vector3D> forces();
 
     //! Returns custom scalar data layer at given index (immutable).
-    ConstArrayAccessor1<double> scalarDataAt(size_t idx) const;
+    ConstArrayView1<double> scalarDataAt(size_t idx) const;
 
     //! Returns custom scalar data layer at given index (mutable).
-    ArrayAccessor1<double> scalarDataAt(size_t idx);
+    ArrayView1<double> scalarDataAt(size_t idx);
 
     //! Returns custom vector data layer at given index (immutable).
-    ConstArrayAccessor1<Vector3D> vectorDataAt(size_t idx) const;
+    ConstArrayView1<Vector3D> vectorDataAt(size_t idx) const;
 
     //! Returns custom vector data layer at given index (mutable).
-    ArrayAccessor1<Vector3D> vectorDataAt(size_t idx);
+    ArrayView1<Vector3D> vectorDataAt(size_t idx);
 
     //!
     //! \brief      Adds a particle to the data structure.
@@ -173,11 +173,11 @@ class ParticleSystemData3 : public Serializable {
     //! \param[in]  newForces     The new forces.
     //!
     void addParticles(
-        const ConstArrayAccessor1<Vector3D>& newPositions,
-        const ConstArrayAccessor1<Vector3D>& newVelocities
-            = ConstArrayAccessor1<Vector3D>(),
-        const ConstArrayAccessor1<Vector3D>& newForces
-            = ConstArrayAccessor1<Vector3D>());
+        const ConstArrayView1<Vector3D>& newPositions,
+        const ConstArrayView1<Vector3D>& newVelocities
+            = ConstArrayView1<Vector3D>(),
+        const ConstArrayView1<Vector3D>& newForces
+            = ConstArrayView1<Vector3D>());
 
     //!
     //! \brief      Returns neighbor searcher.

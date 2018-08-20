@@ -13,7 +13,7 @@
 #include <fbs_helpers.h>
 #include <generated/vector_grid2_generated.h>
 
-#include <jet/array_samplers2.h>
+#include <jet/array_samplers.h>
 #include <jet/vector_grid2.h>
 
 #include <flatbuffers/flatbuffers.h>
@@ -31,7 +31,7 @@ VectorGrid2::~VectorGrid2() {
 }
 
 void VectorGrid2::clear() {
-    resize(Size2(), gridSpacing(), origin(), Vector2D());
+    resize(Vector2UZ(), gridSpacing(), origin(), Vector2D());
 }
 
 void VectorGrid2::resize(
@@ -44,14 +44,14 @@ void VectorGrid2::resize(
     double initialValueX,
     double initialValueY) {
     resize(
-        Size2(resolutionX, resolutionY),
+        Vector2UZ(resolutionX, resolutionY),
         Vector2D(gridSpacingX, gridSpacingY),
         Vector2D(originX, originY),
         Vector2D(initialValueX, initialValueY));
 }
 
 void VectorGrid2::resize(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin,
     const Vector2D& initialValue) {

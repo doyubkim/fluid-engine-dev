@@ -29,7 +29,7 @@ void addFaceCenteredGrid2(py::module& m) {
         )pbdoc")
         .def("__init__",
              [](FaceCenteredGrid2& instance, py::args args, py::kwargs kwargs) {
-                 Size2 resolution{1, 1};
+                 Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -143,10 +143,14 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("uAccessor", &FaceCenteredGrid2::uAccessor,
-             R"pbdoc(U data accessor.)pbdoc")
-        .def("vAccessor", &FaceCenteredGrid2::vAccessor,
-             R"pbdoc(V data accessor.)pbdoc")
+        .def("uView",
+             (ArrayView2<double>(FaceCenteredGrid2::*)()) &
+                 FaceCenteredGrid2::uView,
+             R"pbdoc(Returns u data accessor.)pbdoc")
+        .def("vView",
+             (ArrayView2<double>(FaceCenteredGrid2::*)()) &
+                 FaceCenteredGrid2::vView,
+             R"pbdoc(Returns v data accessor.)pbdoc")
         .def("uPosition", &FaceCenteredGrid2::uPosition,
              R"pbdoc(
             The function object that maps u data point to its actual position.
@@ -255,7 +259,7 @@ void addFaceCenteredGrid3(py::module& m) {
         )pbdoc")
         .def("__init__",
              [](FaceCenteredGrid3& instance, py::args args, py::kwargs kwargs) {
-                 Size3 resolution{1, 1, 1};
+                 Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
@@ -401,12 +405,18 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("uAccessor", &FaceCenteredGrid3::uAccessor,
-             R"pbdoc(U data accessor.)pbdoc")
-        .def("vAccessor", &FaceCenteredGrid3::vAccessor,
-             R"pbdoc(V data accessor.)pbdoc")
-        .def("wAccessor", &FaceCenteredGrid3::wAccessor,
-             R"pbdoc(W data accessor.)pbdoc")
+        .def("uView",
+             (ArrayView3<double>(FaceCenteredGrid3::*)()) &
+                 FaceCenteredGrid3::uView,
+             R"pbdoc(Returns u data accessor.)pbdoc")
+        .def("vView",
+             (ArrayView3<double>(FaceCenteredGrid3::*)()) &
+                 FaceCenteredGrid3::vView,
+             R"pbdoc(Returns v data accessor.)pbdoc")
+        .def("wView",
+             (ArrayView3<double>(FaceCenteredGrid3::*)()) &
+                 FaceCenteredGrid3::wView,
+             R"pbdoc(Returns w data accessor.)pbdoc")
         .def("uPosition", &FaceCenteredGrid3::uPosition,
              R"pbdoc(
             The function object that maps u data point to its actual position.

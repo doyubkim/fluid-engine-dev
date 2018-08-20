@@ -29,8 +29,8 @@ using namespace jet;
 void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
-    copyRange1(particles->positions(), particles->numberOfParticles(),
-               &positions);
+    copy(particles->positions(), positions.view());
+
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.pos", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);
@@ -38,7 +38,7 @@ void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
     if (file) {
         printf("Writing %s...\n", filename.c_str());
         std::vector<uint8_t> buffer;
-        serialize(positions.constAccessor(), &buffer);
+        serialize<Vector3D>(positions.view(), &buffer);
         file.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
         file.close();
     }
@@ -47,8 +47,8 @@ void saveParticleAsPos(const ParticleSystemData3Ptr& particles,
 void saveParticleAsXyz(const ParticleSystemData3Ptr& particles,
                        const std::string& rootDir, int frameCnt) {
     Array1<Vector3D> positions(particles->numberOfParticles());
-    copyRange1(particles->positions(), particles->numberOfParticles(),
-               &positions);
+    copy(particles->positions(), positions.view());
+
     char basename[256];
     snprintf(basename, sizeof(basename), "frame_%06d.xyz", frameCnt);
     std::string filename = pystring::os::path::join(rootDir, basename);

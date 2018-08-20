@@ -74,8 +74,8 @@ struct PointHashGridSearcher2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
   double gridSpacing() const {
     return GetField<double>(VT_GRIDSPACING, 0.0);
   }
-  const jet::fbs::Size2 *resolution() const {
-    return GetStruct<const jet::fbs::Size2 *>(VT_RESOLUTION);
+  const jet::fbs::Vector2UZ *resolution() const {
+    return GetStruct<const jet::fbs::Vector2UZ *>(VT_RESOLUTION);
   }
   const flatbuffers::Vector<const jet::fbs::Vector2D *> *points() const {
     return GetPointer<const flatbuffers::Vector<const jet::fbs::Vector2D *> *>(VT_POINTS);
@@ -86,7 +86,7 @@ struct PointHashGridSearcher2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<double>(verifier, VT_GRIDSPACING) &&
-           VerifyField<jet::fbs::Size2>(verifier, VT_RESOLUTION) &&
+           VerifyField<jet::fbs::Vector2UZ>(verifier, VT_RESOLUTION) &&
            VerifyOffset(verifier, VT_POINTS) &&
            verifier.Verify(points()) &&
            VerifyOffset(verifier, VT_BUCKETS) &&
@@ -102,7 +102,7 @@ struct PointHashGridSearcher2Builder {
   void add_gridSpacing(double gridSpacing) {
     fbb_.AddElement<double>(PointHashGridSearcher2::VT_GRIDSPACING, gridSpacing, 0.0);
   }
-  void add_resolution(const jet::fbs::Size2 *resolution) {
+  void add_resolution(const jet::fbs::Vector2UZ *resolution) {
     fbb_.AddStruct(PointHashGridSearcher2::VT_RESOLUTION, resolution);
   }
   void add_points(flatbuffers::Offset<flatbuffers::Vector<const jet::fbs::Vector2D *>> points) {
@@ -126,7 +126,7 @@ struct PointHashGridSearcher2Builder {
 inline flatbuffers::Offset<PointHashGridSearcher2> CreatePointHashGridSearcher2(
     flatbuffers::FlatBufferBuilder &_fbb,
     double gridSpacing = 0.0,
-    const jet::fbs::Size2 *resolution = 0,
+    const jet::fbs::Vector2UZ *resolution = 0,
     flatbuffers::Offset<flatbuffers::Vector<const jet::fbs::Vector2D *>> points = 0,
     flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<PointHashGridSearcherBucket2>>> buckets = 0) {
   PointHashGridSearcher2Builder builder_(_fbb);
@@ -140,7 +140,7 @@ inline flatbuffers::Offset<PointHashGridSearcher2> CreatePointHashGridSearcher2(
 inline flatbuffers::Offset<PointHashGridSearcher2> CreatePointHashGridSearcher2Direct(
     flatbuffers::FlatBufferBuilder &_fbb,
     double gridSpacing = 0.0,
-    const jet::fbs::Size2 *resolution = 0,
+    const jet::fbs::Vector2UZ *resolution = 0,
     const std::vector<const jet::fbs::Vector2D *> *points = nullptr,
     const std::vector<flatbuffers::Offset<PointHashGridSearcherBucket2>> *buckets = nullptr) {
   return jet::fbs::CreatePointHashGridSearcher2(

@@ -42,14 +42,14 @@ void triangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
                         int frameCnt) {
     TriangleMesh3 mesh;
     int flag = kDirectionAll & ~kDirectionDown;
-    marchingCubes(sdf->constDataAccessor(), sdf->gridSpacing(),
+    marchingCubes(sdf->dataView(), sdf->gridSpacing(),
                   sdf->dataOrigin(), &mesh, 0.0, flag);
     saveTriangleMesh(mesh, rootDir, frameCnt);
 }
 
 void printInfo(const LevelSetLiquidSolver3Ptr& solver) {
     auto grids = solver->gridSystemData();
-    Size3 resolution = grids->resolution();
+    Vector3UZ resolution = grids->resolution();
     BoundingBox3D domain = grids->boundingBox();
     Vector3D gridSpacing = grids->gridSpacing();
 

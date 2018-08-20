@@ -47,7 +47,7 @@ void CudaPciSphSolver2Example::onSetup(GlfwWindow* window) {
     _renderable->setRadius(5.0f * (float)window->framebufferSize().x /
                            window->windowSize().x);
     _renderable->setPositionsAndColors(
-        nullptr, _solver->particleSystemData()->positions().size());
+        nullptr, _solver->particleSystemData()->positions().length());
     renderer->addRenderable(_renderable);
 
     advanceSim();
@@ -100,7 +100,7 @@ void CudaPciSphSolver2Example::setupSim() {
     TrianglePointGenerator generator;
     generator.generate(vol, targetSpacing, &pointsD);
     Array1<Vector2F> pointsF(pointsD.size());
-    for (size_t i = 0; i < pointsF.size(); ++i) {
+    for (size_t i = 0; i < pointsF.length(); ++i) {
         pointsF[i] = pointsD[i].castTo<float>();
     }
     particles->addParticles(pointsF.view());

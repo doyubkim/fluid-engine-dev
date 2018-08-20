@@ -7,11 +7,13 @@
 #ifndef INCLUDE_JET_SCALAR_GRID2_H_
 #define INCLUDE_JET_SCALAR_GRID2_H_
 
-#include <jet/array2.h>
-#include <jet/array_accessor2.h>
-#include <jet/array_samplers2.h>
+#include <jet/array.h>
+#include <jet/array_view.h>
+#include <jet/array_samplers.h>
 #include <jet/grid2.h>
+#include <jet/parallel.h>
 #include <jet/scalar_field2.h>
+
 #include <memory>
 #include <vector>
 
@@ -20,11 +22,11 @@ namespace jet {
 //! Abstract base class for 2-D scalar grid structure.
 class ScalarGrid2 : public ScalarField2, public Grid2 {
  public:
-    //! Read-write array accessor type.
-    typedef ArrayAccessor2<double> ScalarDataAccessor;
+    //! Read-write array view type.
+    typedef ArrayView2<double> ScalarDataView;
 
-    //! Read-only array accessor type.
-    typedef ConstArrayAccessor2<double> ConstScalarDataAccessor;
+    //! Read-only array view type.
+    typedef ConstArrayView2<double> ConstScalarDataView;
 
     //! Constructs an empty grid.
     ScalarGrid2();
@@ -38,7 +40,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Size2 dataSize() const = 0;
+    virtual Vector2UZ dataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -56,28 +58,19 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     void clear();
 
     //! Resizes the grid using given parameters.
-    void resize(
-        size_t resolutionX,
-        size_t resolutionY,
-        double gridSpacingX = 1.0,
-        double gridSpacingY = 1.0,
-        double originX = 0.0,
-        double originY = 0.0,
-        double initialValue = 0.0);
+    void resize(size_t resolutionX, size_t resolutionY,
+                double gridSpacingX = 1.0, double gridSpacingY = 1.0,
+                double originX = 0.0, double originY = 0.0,
+                double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(
-        const Size2& resolution,
-        const Vector2D& gridSpacing = Vector2D(1, 1),
-        const Vector2D& origin = Vector2D(),
-        double initialValue = 0.0);
+    void resize(const Vector2UZ& resolution,
+                const Vector2D& gridSpacing = Vector2D(1, 1),
+                const Vector2D& origin = Vector2D(), double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(
-        double gridSpacingX,
-        double gridSpacingY,
-        double originX,
-        double originY);
+    void resize(double gridSpacingX, double gridSpacingY, double originX,
+                double originY);
 
     //! Resizes the grid using given parameters.
     void resize(const Vector2D& gridSpacing, const Vector2D& origin);
@@ -95,10 +88,10 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
     double laplacianAtDataPoint(size_t i, size_t j) const;
 
     //! Returns the read-write data array accessor.
-    ScalarDataAccessor dataAccessor();
+    ScalarDataView dataView();
 
     //! Returns the read-only data array accessor.
-    ConstScalarDataAccessor constDataAccessor() const;
+    ConstScalarDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
@@ -178,7 +171,7 @@ class ScalarGrid2 : public ScalarField2, public Grid2 {
 
  private:
     Array2<double> _data;
-    LinearArraySampler2<double, double> _linearSampler;
+    LinearArraySampler2<double> _linearSampler;
     std::function<double(const Vector2D&)> _sampler;
 
     void resetSampler();
@@ -197,11 +190,10 @@ class ScalarGridBuilder2 {
     virtual ~ScalarGridBuilder2();
 
     //! Returns 2-D scalar grid with given parameters.
-    virtual ScalarGrid2Ptr build(
-        const Size2& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& gridOrigin,
-        double initialVal) const = 0;
+    virtual ScalarGrid2Ptr build(const Vector2UZ& resolution,
+                                 const Vector2D& gridSpacing,
+                                 const Vector2D& gridOrigin,
+                                 double initialVal) const = 0;
 };
 
 //! Shared pointer for the ScalarGridBuilder2 type.

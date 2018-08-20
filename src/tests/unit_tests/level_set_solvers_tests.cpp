@@ -14,6 +14,7 @@
 #include <jet/fmm_level_set_solver3.h>
 #include <jet/upwind_level_set_solver2.h>
 #include <jet/upwind_level_set_solver3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;

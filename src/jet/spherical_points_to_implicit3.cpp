@@ -17,7 +17,7 @@ SphericalPointsToImplicit3::SphericalPointsToImplicit3(double radius,
     : _radius(radius), _isOutputSdf(isOutputSdf) {}
 
 void SphericalPointsToImplicit3::convert(
-    const ConstArrayAccessor1<Vector3D>& points, ScalarGrid3* output) const {
+    const ConstArrayView1<Vector3D>& points, ScalarGrid3* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;

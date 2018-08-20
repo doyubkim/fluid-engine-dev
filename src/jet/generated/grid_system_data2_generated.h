@@ -152,8 +152,8 @@ struct GridSystemData2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ADVECTABLESCALARDATA = 16,
     VT_ADVECTABLEVECTORDATA = 18
   };
-  const jet::fbs::Size2 *resolution() const {
-    return GetStruct<const jet::fbs::Size2 *>(VT_RESOLUTION);
+  const jet::fbs::Vector2UZ *resolution() const {
+    return GetStruct<const jet::fbs::Vector2UZ *>(VT_RESOLUTION);
   }
   const jet::fbs::Vector2D *gridSpacing() const {
     return GetStruct<const jet::fbs::Vector2D *>(VT_GRIDSPACING);
@@ -178,7 +178,7 @@ struct GridSystemData2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<jet::fbs::Size2>(verifier, VT_RESOLUTION) &&
+           VerifyField<jet::fbs::Vector2UZ>(verifier, VT_RESOLUTION) &&
            VerifyField<jet::fbs::Vector2D>(verifier, VT_GRIDSPACING) &&
            VerifyField<jet::fbs::Vector2D>(verifier, VT_ORIGIN) &&
            VerifyField<uint64_t>(verifier, VT_VELOCITYIDX) &&
@@ -201,7 +201,7 @@ struct GridSystemData2 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 struct GridSystemData2Builder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_resolution(const jet::fbs::Size2 *resolution) {
+  void add_resolution(const jet::fbs::Vector2UZ *resolution) {
     fbb_.AddStruct(GridSystemData2::VT_RESOLUTION, resolution);
   }
   void add_gridSpacing(const jet::fbs::Vector2D *gridSpacing) {
@@ -239,7 +239,7 @@ struct GridSystemData2Builder {
 
 inline flatbuffers::Offset<GridSystemData2> CreateGridSystemData2(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const jet::fbs::Size2 *resolution = 0,
+    const jet::fbs::Vector2UZ *resolution = 0,
     const jet::fbs::Vector2D *gridSpacing = 0,
     const jet::fbs::Vector2D *origin = 0,
     uint64_t velocityIdx = 0,
@@ -261,7 +261,7 @@ inline flatbuffers::Offset<GridSystemData2> CreateGridSystemData2(
 
 inline flatbuffers::Offset<GridSystemData2> CreateGridSystemData2Direct(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const jet::fbs::Size2 *resolution = 0,
+    const jet::fbs::Vector2UZ *resolution = 0,
     const jet::fbs::Vector2D *gridSpacing = 0,
     const jet::fbs::Vector2D *origin = 0,
     uint64_t velocityIdx = 0,

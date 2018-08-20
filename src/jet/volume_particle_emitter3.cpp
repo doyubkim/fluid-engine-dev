@@ -6,6 +6,7 @@
 
 #include <pch.h>
 
+#include <jet/array_utils.h>
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/samplers.h>
@@ -96,7 +97,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     } else {
         // Use serial hash grid searcher for continuous update.
         PointHashGridSearcher3 neighborSearcher(
-            Size3(kDefaultHashGridResolution, kDefaultHashGridResolution,
+            Vector3UZ(kDefaultHashGridResolution, kDefaultHashGridResolution,
                   kDefaultHashGridResolution),
             2.0 * _spacing);
         if (!_allowOverlapping) {

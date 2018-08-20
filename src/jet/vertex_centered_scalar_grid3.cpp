@@ -38,7 +38,7 @@ VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
 }
 
 VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
-    const Size3& resolution,
+    const Vector3UZ& resolution,
     const Vector3D& gridSpacing,
     const Vector3D& origin,
     double initialValue) {
@@ -50,11 +50,11 @@ VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
     set(other);
 }
 
-Size3 VertexCenteredScalarGrid3::dataSize() const {
-    if (resolution() != Size3(0, 0, 0)) {
-        return resolution() + Size3(1, 1, 1);
+Vector3UZ VertexCenteredScalarGrid3::dataSize() const {
+    if (resolution() != Vector3UZ(0, 0, 0)) {
+        return resolution() + Vector3UZ(1, 1, 1);
     } else {
-        return Size3(0, 0, 0);
+        return Vector3UZ(0, 0, 0);
     }
 }
 
@@ -90,7 +90,7 @@ VertexCenteredScalarGrid3::Builder VertexCenteredScalarGrid3::builder() {
 
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withResolution(const Size3& resolution) {
+VertexCenteredScalarGrid3::Builder::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -163,7 +163,7 @@ VertexCenteredScalarGrid3::Builder::makeShared() const {
 }
 
 ScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::build(
-    const Size3& resolution,
+    const Vector3UZ& resolution,
     const Vector3D& gridSpacing,
     const Vector3D& gridOrigin,
     double initialVal) const {

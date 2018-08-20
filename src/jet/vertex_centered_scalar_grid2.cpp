@@ -32,7 +32,7 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
 }
 
 VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& origin,
     double initialValue) {
@@ -44,11 +44,11 @@ VertexCenteredScalarGrid2::VertexCenteredScalarGrid2(
     set(other);
 }
 
-Size2 VertexCenteredScalarGrid2::dataSize() const {
-    if (resolution() != Size2(0, 0)) {
-        return resolution() + Size2(1, 1);
+Vector2UZ VertexCenteredScalarGrid2::dataSize() const {
+    if (resolution() != Vector2UZ(0, 0)) {
+        return resolution() + Vector2UZ(1, 1);
     } else {
-        return Size2(0, 0);
+        return Vector2UZ(0, 0);
     }
 }
 
@@ -84,7 +84,7 @@ VertexCenteredScalarGrid2::Builder VertexCenteredScalarGrid2::builder() {
 
 
 VertexCenteredScalarGrid2::Builder&
-VertexCenteredScalarGrid2::Builder::withResolution(const Size2& resolution) {
+VertexCenteredScalarGrid2::Builder::withResolution(const Vector2UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
@@ -154,7 +154,7 @@ VertexCenteredScalarGrid2::Builder::makeShared() const {
 }
 
 ScalarGrid2Ptr VertexCenteredScalarGrid2::Builder::build(
-    const Size2& resolution,
+    const Vector2UZ& resolution,
     const Vector2D& gridSpacing,
     const Vector2D& gridOrigin,
     double initialVal) const {

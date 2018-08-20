@@ -5,11 +5,15 @@
 // property of any third parties.
 
 #include <unit_tests_utils.h>
+
 #include <jet/box3.h>
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit3.h>
+
 #include <gtest/gtest.h>
+
+#include <fstream>
 
 using namespace jet;
 

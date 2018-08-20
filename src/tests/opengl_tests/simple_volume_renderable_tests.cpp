@@ -24,7 +24,7 @@ void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
 
     // Generate sphere
     Array3<Color> data(64, 64, 64);
-    data.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(data.size(), [&](size_t i, size_t j, size_t k) {
         const Vector3F grid((float)i, (float)j, (float)k);
         const float phi0 = (grid - Vector3F(32, 32, 32)).length() - 12.0f;
         const float phi1 = (grid - Vector3F(20, 40, 30)).length() - 8.0f;
@@ -41,7 +41,7 @@ void SimpleVolumeRenderableTests::setup(GlfwWindow* window) {
     });
 
     _renderable = std::make_shared<SimpleVolumeRenderable>(renderer);
-    _renderable->setVolume(data.constAccessor());
+    _renderable->setVolume(data.view());
     renderer->addRenderable(_renderable);
 }
 

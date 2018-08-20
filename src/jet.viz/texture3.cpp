@@ -16,13 +16,13 @@ Texture3::Texture3() {}
 Texture3::~Texture3() {}
 
 void Texture3::clear() {
-    _size = Size3();
+    _size = Vector3UZ();
 
     onClear();
 }
 
-void Texture3::setTexture(const ConstArrayAccessor3<ByteColor> &data) {
-    if (data.size() == Size3()) {
+void Texture3::setTexture(const ConstArrayView3<ByteColor> &data) {
+    if (data.size() == Vector3UZ()) {
         clear();
     } else if (data.size() == _size) {
         update(data.data());
@@ -35,8 +35,8 @@ void Texture3::setTexture(const ConstArrayAccessor3<ByteColor> &data) {
     }
 }
 
-void Texture3::setTexture(const ConstArrayAccessor3<Color>& data) {
-    if (data.size() == Size3()) {
+void Texture3::setTexture(const ConstArrayView3<Color>& data) {
+    if (data.size() == Vector3UZ()) {
         clear();
     } else if (data.size() == _size) {
         update(data.data());
@@ -53,7 +53,7 @@ void Texture3::bind(Renderer* renderer, unsigned int slotId) {
     onBind(renderer, slotId);
 }
 
-const Size3& Texture3::size() const { return _size; }
+const Vector3UZ& Texture3::size() const { return _size; }
 
 const TextureSamplingMode& Texture3::samplingMode() const {
     return _samplingMode;

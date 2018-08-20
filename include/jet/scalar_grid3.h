@@ -7,11 +7,13 @@
 #ifndef INCLUDE_JET_SCALAR_GRID3_H_
 #define INCLUDE_JET_SCALAR_GRID3_H_
 
-#include <jet/array3.h>
-#include <jet/array_accessor3.h>
-#include <jet/array_samplers3.h>
+#include <jet/array.h>
+#include <jet/array_samplers.h>
+#include <jet/array_view.h>
 #include <jet/grid3.h>
+#include <jet/parallel.h>
 #include <jet/scalar_field3.h>
+
 #include <memory>
 #include <vector>
 
@@ -20,11 +22,11 @@ namespace jet {
 //! Abstract base class for 3-D scalar grid structure.
 class ScalarGrid3 : public ScalarField3, public Grid3 {
  public:
-    //! Read-write array accessor type.
-    typedef ArrayAccessor3<double> ScalarDataAccessor;
+    //! Read-write array view type.
+    typedef ArrayView3<double> ScalarDataView;
 
-    //! Read-only array accessor type.
-    typedef ConstArrayAccessor3<double> ConstScalarDataAccessor;
+    //! Read-only array view type.
+    typedef ConstArrayView3<double> ConstScalarDataView;
 
     //! Constructs an empty grid.
     ScalarGrid3();
@@ -38,7 +40,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     //! This function returns the size of the grid data which is not necessarily
     //! equal to the grid resolution if the data is not stored at cell-center.
     //!
-    virtual Size3 dataSize() const = 0;
+    virtual Vector3UZ dataSize() const = 0;
 
     //!
     //! \brief Returns the origin of the grid data.
@@ -56,33 +58,20 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     void clear();
 
     //! Resizes the grid using given parameters.
-    void resize(
-        size_t resolutionX,
-        size_t resolutionY,
-        size_t resolutionZ,
-        double gridSpacingX = 1.0,
-        double gridSpacingY = 1.0,
-        double gridSpacingZ = 1.0,
-        double originX = 0.0,
-        double originY = 0.0,
-        double originZ = 0.0,
-        double initialValue = 0.0);
+    void resize(size_t resolutionX, size_t resolutionY, size_t resolutionZ,
+                double gridSpacingX = 1.0, double gridSpacingY = 1.0,
+                double gridSpacingZ = 1.0, double originX = 0.0,
+                double originY = 0.0, double originZ = 0.0,
+                double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(
-        const Size3& resolution,
-        const Vector3D& gridSpacing = Vector3D(1, 1, 1),
-        const Vector3D& origin = Vector3D(),
-        double initialValue = 0.0);
+    void resize(const Vector3UZ& resolution,
+                const Vector3D& gridSpacing = Vector3D(1, 1, 1),
+                const Vector3D& origin = Vector3D(), double initialValue = 0.0);
 
     //! Resizes the grid using given parameters.
-    void resize(
-        double gridSpacingX,
-        double gridSpacingY,
-        double gridSpacingZ,
-        double originX,
-        double originY,
-        double originZ);
+    void resize(double gridSpacingX, double gridSpacingY, double gridSpacingZ,
+                double originX, double originY, double originZ);
 
     //! Resizes the grid using given parameters.
     void resize(const Vector3D& gridSpacing, const Vector3D& origin);
@@ -100,10 +89,10 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
     double laplacianAtDataPoint(size_t i, size_t j, size_t k) const;
 
     //! Returns the read-write data array accessor.
-    ScalarDataAccessor dataAccessor();
+    ScalarDataView dataView();
 
     //! Returns the read-only data array accessor.
-    ConstScalarDataAccessor constDataAccessor() const;
+    ConstScalarDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
     DataPositionFunc dataPosition() const;
@@ -183,7 +172,7 @@ class ScalarGrid3 : public ScalarField3, public Grid3 {
 
  private:
     Array3<double> _data;
-    LinearArraySampler3<double, double> _linearSampler;
+    LinearArraySampler3<double> _linearSampler;
     std::function<double(const Vector3D&)> _sampler;
 
     void resetSampler();
@@ -202,11 +191,10 @@ class ScalarGridBuilder3 {
     virtual ~ScalarGridBuilder3();
 
     //! Returns 3-D scalar grid with given parameters.
-    virtual ScalarGrid3Ptr build(
-        const Size3& resolution,
-        const Vector3D& gridSpacing,
-        const Vector3D& gridOrigin,
-        double initialVal) const = 0;
+    virtual ScalarGrid3Ptr build(const Vector3UZ& resolution,
+                                 const Vector3D& gridSpacing,
+                                 const Vector3D& gridOrigin,
+                                 double initialVal) const = 0;
 };
 
 //! Shared pointer for the ScalarGridBuilder3 type.

@@ -38,11 +38,17 @@ void CudaWcSphSolver2Example::particlesToVertices() {
 
     {
         std::lock_guard<std::mutex> lock(_verticesMutex);
-        _vertices.resize(pos.size());
+        _vertices.resize(pos.length());
+
+        thrust::device_ptr<const float2> posBegin(pos.data());
+        thrust::device_ptr<const float2> posEnd = posBegin + pos.length();
+
+        thrust::device_ptr<const float> denBegin(den.data());
+        thrust::device_ptr<const float> denEnd = denBegin + den.length();
+
         thrust::transform(
-            thrust::make_zip_iterator(
-                thrust::make_tuple(pos.begin(), den.begin())),
-            thrust::make_zip_iterator(thrust::make_tuple(pos.end(), den.end())),
+            thrust::make_zip_iterator(thrust::make_tuple(posBegin, denBegin)),
+            thrust::make_zip_iterator(thrust::make_tuple(posEnd, denEnd)),
             _vertices.begin(), PosToVertex());
         _areVerticesDirty = true;
     }

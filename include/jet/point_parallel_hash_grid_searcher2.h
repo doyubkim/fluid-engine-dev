@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
 #define INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
 
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher2.h>
-#include <jet/tuple.h>
 #include <vector>
 
 class PointParallelHashGridSearcher2Tests;
@@ -38,7 +38,8 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher2(const Size2& resolution, double gridSpacing);
+    PointParallelHashGridSearcher2(const Vector2UZ& resolution,
+                                   double gridSpacing);
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -64,7 +65,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \param[in]  points The points to be added.
     //!
-    void build(const ConstArrayAccessor1<Vector2D>& points) override;
+    void build(const ConstArrayView1<Vector2D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
@@ -168,7 +169,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The hash key from bucket index.
     //!
-    size_t getHashKeyFromBucketIndex(const SSize2& bucketIndex) const;
+    size_t getHashKeyFromBucketIndex(const Vector2Z& bucketIndex) const;
 
     //!
     //! Gets the bucket index from a point.
@@ -177,7 +178,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The bucket index.
     //!
-    SSize2 getBucketIndex(const Vector2D& position) const;
+    Vector2Z getBucketIndex(const Vector2D& position) const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -207,7 +208,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     friend class PointParallelHashGridSearcher2Tests;
 
     double _gridSpacing = 1.0;
-    SSize2 _resolution = SSize2(1, 1);
+    Vector2Z _resolution = Vector2Z(1, 1);
     std::vector<Vector2D> _points;
     std::vector<size_t> _keys;
     std::vector<size_t> _startIndexTable;
@@ -231,7 +232,7 @@ class PointParallelHashGridSearcher2::Builder final
     : public PointNeighborSearcherBuilder2 {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Size2& resolution);
+    Builder& withResolution(const Vector2UZ& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(double gridSpacing);
@@ -246,7 +247,7 @@ class PointParallelHashGridSearcher2::Builder final
     PointNeighborSearcher2Ptr buildPointNeighborSearcher() const override;
 
  private:
-    Size2 _resolution{64, 64};
+    Vector2UZ _resolution{64, 64};
     double _gridSpacing = 1.0;
 };
 

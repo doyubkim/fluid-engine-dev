@@ -72,7 +72,7 @@ inline void Quaternion<T>::set(T newW, T newX, T newY, T newZ) {
 
 template <typename T>
 inline void Quaternion<T>::set(const std::initializer_list<T>& lst) {
-    assert(lst.size() == 4);
+    JET_ASSERT(lst.size() == 4);
 
     auto inputElem = lst.begin();
     w = *inputElem;
@@ -118,7 +118,7 @@ inline void Quaternion<T>::set(const Vector3<T>& from, const Vector3<T>& to) {
         // In case two vectors are exactly the opposite, pick orthogonal vector
         // for axis.
         if (axisLengthSquared < eps) {
-            axis = std::get<0>(from.tangential());
+            axis = std::get<0>(from.tangentials());
         }
 
         set(from.dot(to), axis.x, axis.y, axis.z);
@@ -305,7 +305,7 @@ inline T Quaternion<T>::angle() const {
 
 template <typename T>
 inline void Quaternion<T>::getAxisAngle(Vector3<T>* axis, T* angle) const {
-    axis->set(x, y, z);
+    *axis = Vector3<T>(x, y, z);
     axis->normalize();
     *angle = 2 * std::acos(w);
 

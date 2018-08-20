@@ -20,8 +20,8 @@ struct ScalarGrid3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ORIGIN = 8,
     VT_DATA = 10
   };
-  const jet::fbs::Size3 *resolution() const {
-    return GetStruct<const jet::fbs::Size3 *>(VT_RESOLUTION);
+  const jet::fbs::Vector3UZ *resolution() const {
+    return GetStruct<const jet::fbs::Vector3UZ *>(VT_RESOLUTION);
   }
   const jet::fbs::Vector3D *gridSpacing() const {
     return GetStruct<const jet::fbs::Vector3D *>(VT_GRIDSPACING);
@@ -34,7 +34,7 @@ struct ScalarGrid3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<jet::fbs::Size3>(verifier, VT_RESOLUTION) &&
+           VerifyField<jet::fbs::Vector3UZ>(verifier, VT_RESOLUTION) &&
            VerifyField<jet::fbs::Vector3D>(verifier, VT_GRIDSPACING) &&
            VerifyField<jet::fbs::Vector3D>(verifier, VT_ORIGIN) &&
            VerifyOffset(verifier, VT_DATA) &&
@@ -46,7 +46,7 @@ struct ScalarGrid3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
 struct ScalarGrid3Builder {
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_resolution(const jet::fbs::Size3 *resolution) {
+  void add_resolution(const jet::fbs::Vector3UZ *resolution) {
     fbb_.AddStruct(ScalarGrid3::VT_RESOLUTION, resolution);
   }
   void add_gridSpacing(const jet::fbs::Vector3D *gridSpacing) {
@@ -72,7 +72,7 @@ struct ScalarGrid3Builder {
 
 inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const jet::fbs::Size3 *resolution = 0,
+    const jet::fbs::Vector3UZ *resolution = 0,
     const jet::fbs::Vector3D *gridSpacing = 0,
     const jet::fbs::Vector3D *origin = 0,
     flatbuffers::Offset<flatbuffers::Vector<double>> data = 0) {
@@ -86,7 +86,7 @@ inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3(
 
 inline flatbuffers::Offset<ScalarGrid3> CreateScalarGrid3Direct(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const jet::fbs::Size3 *resolution = 0,
+    const jet::fbs::Vector3UZ *resolution = 0,
     const jet::fbs::Vector3D *gridSpacing = 0,
     const jet::fbs::Vector3D *origin = 0,
     const std::vector<double> *data = nullptr) {

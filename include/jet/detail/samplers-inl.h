@@ -45,7 +45,7 @@ inline Vector3<T> uniformSampleCone(
     T phi = twoPi<T>() * u2;
     T x = r * std::cos(phi);
     T z = r * std::sin(phi);
-    auto ts = axis.tangential();
+    auto ts = axis.tangentials();
     return std::get<0>(ts) * x + axis * y + std::get<1>(ts) * z;
 }
 
@@ -57,7 +57,7 @@ inline Vector3<T> uniformSampleHemisphere(
     T phi = twoPi<T>() * u2;
     T x = r * std::cos(phi);
     T z = r * std::sin(phi);
-    auto ts = normal.tangential();
+    auto ts = normal.tangentials();
     return std::get<0>(ts) * x + normal * y + std::get<1>(ts) * z;
 }
 
@@ -70,7 +70,7 @@ inline Vector3<T> cosineWeightedSampleHemisphere(
     T x = std::cos(phi) * std::sin(theta);
     T z = std::sin(phi) * std::sin(theta);
     Vector3<T> t = tangential(normal);
-    auto ts = normal.tangential();
+    auto ts = normal.tangentials();
     return std::get<0>(ts) * x + normal * y + std::get<1>(ts) * z;
 }
 

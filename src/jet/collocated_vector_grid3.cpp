@@ -4,19 +4,18 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/collocated_vector_grid3.h>
-#include <jet/parallel.h>
-#include <jet/serial.h>
 #include <pch.h>
 
+#include <jet/collocated_vector_grid3.h>
+#include <jet/parallel.h>
+
 #include <algorithm>
-#include <utility>  // just make cpplint happy..
 #include <vector>
 
 using namespace jet;
 
 CollocatedVectorGrid3::CollocatedVectorGrid3()
-    : _linearSampler(_data.constAccessor(), Vector3D(1, 1, 1), Vector3D()) {}
+    : _linearSampler(_data, Vector3D(1, 1, 1), Vector3D()) {}
 
 CollocatedVectorGrid3::~CollocatedVectorGrid3() {}
 
@@ -31,7 +30,7 @@ Vector3D& CollocatedVectorGrid3::operator()(size_t i, size_t j, size_t k) {
 
 double CollocatedVectorGrid3::divergenceAtDataPoint(size_t i, size_t j,
                                                     size_t k) const {
-    const Size3 ds = _data.size();
+    const Vector3UZ ds = _data.size();
     const Vector3D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
@@ -49,7 +48,7 @@ double CollocatedVectorGrid3::divergenceAtDataPoint(size_t i, size_t j,
 
 Vector3D CollocatedVectorGrid3::curlAtDataPoint(size_t i, size_t j,
                                                 size_t k) const {
-    const Size3 ds = _data.size();
+    const Vector3UZ ds = _data.size();
     const Vector3D& gs = gridSpacing();
 
     JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
@@ -87,9 +86,9 @@ Vector3D CollocatedVectorGrid3::sample(const Vector3D& x) const {
 }
 
 double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     double result = 0.0;
 
@@ -102,9 +101,9 @@ double CollocatedVectorGrid3::divergence(const Vector3D& x) const {
 }
 
 Vector3D CollocatedVectorGrid3::curl(const Vector3D& x) const {
-    std::array<Size3, 8> indices;
+    std::array<Vector3UZ, 8> indices;
     std::array<double, 8> weights;
-    _linearSampler.getCoordinatesAndWeights(x, &indices, &weights);
+    _linearSampler.getCoordinatesAndWeights(x, indices, weights);
 
     Vector3D result;
 
@@ -121,30 +120,30 @@ std::function<Vector3D(const Vector3D&)> CollocatedVectorGrid3::sampler()
     return _sampler;
 }
 
-VectorGrid3::VectorDataAccessor CollocatedVectorGrid3::dataAccessor() {
-    return _data.accessor();
+VectorGrid3::VectorDataView CollocatedVectorGrid3::dataView() {
+    return _data.view();
 }
 
-VectorGrid3::ConstVectorDataAccessor CollocatedVectorGrid3::constDataAccessor()
-    const {
-    return _data.constAccessor();
+VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::dataView() const {
+    return _data.view();
 }
 
 VectorGrid3::DataPositionFunc CollocatedVectorGrid3::dataPosition() const {
     Vector3D dataOrigin_ = dataOrigin();
     return [this, dataOrigin_](size_t i, size_t j, size_t k) -> Vector3D {
-        return dataOrigin_ + gridSpacing() * Vector3D({i, j, k});
+        return dataOrigin_ + elemMul(gridSpacing(),
+                                     Vector3D((double)i, (double)j, (double)k));
     };
 }
 
 void CollocatedVectorGrid3::forEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const {
-    _data.forEachIndex(func);
+    forEachIndex(_data.size(), func);
 }
 
 void CollocatedVectorGrid3::parallelForEachDataPointIndex(
     const std::function<void(size_t, size_t, size_t)>& func) const {
-    _data.parallelForEachIndex(func);
+    parallelForEachIndex(_data.size(), func);
 }
 
 void CollocatedVectorGrid3::swapCollocatedVectorGrid(
@@ -160,11 +159,11 @@ void CollocatedVectorGrid3::setCollocatedVectorGrid(
     const CollocatedVectorGrid3& other) {
     setGrid(other);
 
-    _data.set(other._data);
+    _data.copyFrom(other._data);
     resetSampler();
 }
 
-void CollocatedVectorGrid3::onResize(const Size3& resolution,
+void CollocatedVectorGrid3::onResize(const Vector3UZ& resolution,
                                      const Vector3D& gridSpacing,
                                      const Vector3D& origin,
                                      const Vector3D& initialValue) {
@@ -177,8 +176,8 @@ void CollocatedVectorGrid3::onResize(const Size3& resolution,
 }
 
 void CollocatedVectorGrid3::resetSampler() {
-    _linearSampler = LinearArraySampler3<Vector3D, double>(
-        _data.constAccessor(), gridSpacing(), dataOrigin());
+    _linearSampler =
+        LinearArraySampler3<Vector3D>(_data, gridSpacing(), dataOrigin());
     _sampler = _linearSampler.functor();
 }
 
@@ -186,7 +185,8 @@ void CollocatedVectorGrid3::getData(std::vector<double>* data) const {
     size_t size = 3 * dataSize().x * dataSize().y * dataSize().z;
     data->resize(size);
     size_t cnt = 0;
-    _data.forEach([&](const Vector3D& value) {
+    forEachIndex(_data.size(), [&](size_t i, size_t j, size_t k) {
+        const Vector3D& value = _data(i, j, k);
         (*data)[cnt++] = value.x;
         (*data)[cnt++] = value.y;
         (*data)[cnt++] = value.z;
@@ -197,7 +197,7 @@ void CollocatedVectorGrid3::setData(const std::vector<double>& data) {
     JET_ASSERT(3 * dataSize().x * dataSize().y * dataSize().z == data.size());
 
     size_t cnt = 0;
-    _data.forEachIndex([&](size_t i, size_t j, size_t k) {
+    forEachIndex(_data.size(), [&](size_t i, size_t j, size_t k) {
         _data(i, j, k).x = data[cnt++];
         _data(i, j, k).y = data[cnt++];
         _data(i, j, k).z = data[cnt++];

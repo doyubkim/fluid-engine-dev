@@ -5,9 +5,9 @@
 // property of any third parties.
 
 #include <gtest/gtest.h>
-#include <jet/array1.h>
-#include <jet/array2.h>
-#include <jet/bounding_box2.h>
+#include <jet/array.h>
+#include <jet/array.h>
+#include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/triangle_point_generator.h>
@@ -18,7 +18,7 @@ TEST(PointHashGridSearcher2, ForEachNearbyPoint) {
     Array1<Vector2D> points = {Vector2D(1, 3), Vector2D(2, 5), Vector2D(-1, 3)};
 
     PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [&points](size_t i, const Vector2D& pt) {
@@ -36,7 +36,7 @@ TEST(PointHashGridSearcher2, ForEachNearbyPointEmpty) {
     Array1<Vector2D> points;
 
     PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
                                 [](size_t, const Vector2D&) {});
@@ -58,7 +58,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                SSize2(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t value = pointSearcher.buckets()[key].size();
             grid(i, j) = value;
         }
@@ -70,7 +70,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = parallelSearcher.getHashKeyFromBucketIndex(
-                SSize2(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
             size_t start = parallelSearcher.startIndexTable()[key];
             size_t end = parallelSearcher.endIndexTable()[key];
             size_t value = end - start;

@@ -65,7 +65,7 @@ double SurfaceToImplicit3::signedDistanceLocal(
     const Vector3D& otherPoint) const {
     Vector3D x = _surface->closestPoint(otherPoint);
     Vector3D n = _surface->closestNormal(otherPoint);
-    n = (isNormalFlipped) ? -n : n;
+    n = (isNormalFlipped) ? Vector3D{-n} : n;
     if (n.dot(otherPoint - x) < 0.0) {
         return -x.distanceTo(otherPoint);
     } else {

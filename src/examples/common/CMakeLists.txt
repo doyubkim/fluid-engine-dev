@@ -30,12 +30,9 @@ target_compile_options(${target}
         PUBLIC
         ${DEFAULT_COMPILE_OPTIONS})
 
-target_link_libraries(${target}
-        PUBLIC
-        ${DEFAULT_LINKER_OPTIONS})
-
 # Link libraries
 target_link_libraries(${target}
+        PUBLIC
         ${DEFAULT_LINKER_OPTIONS}
         jet.viz
         jet

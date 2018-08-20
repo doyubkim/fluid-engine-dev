@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/array1.h>
+#include <jet/array.h>
 #include <jet/point_simple_list_searcher2.h>
 #include <gtest/gtest.h>
 
@@ -18,7 +18,7 @@ TEST(PointSimpleListSearcher2, ForEachNearbyPoint) {
     };
 
     PointSimpleListSearcher2 searcher;
-    searcher.build(points.accessor());
+    searcher.build(points);
 
     searcher.forEachNearbyPoint(
         Vector2D(0, 0),

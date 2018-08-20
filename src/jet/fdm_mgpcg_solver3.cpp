@@ -26,13 +26,13 @@ void FdmMgpcgSolver3::Preconditioner::solve(const FdmVector3& b,
     FdmMgVector3 mgBuffer = system->x;
 
     // Copy input to the top
-    mgX.levels.front().set(*x);
-    mgB.levels.front().set(b);
+    mgX.levels.front().copyFrom(*x);
+    mgB.levels.front().copyFrom(b);
 
     mgVCycle(system->A, mgParams, &mgX, &mgB, &mgBuffer);
 
     // Copy result to the output
-    x->set(mgX.levels.front());
+    x->copyFrom(mgX.levels.front());
 }
 
 //
@@ -52,17 +52,17 @@ FdmMgpcgSolver3::FdmMgpcgSolver3(
       _lastResidualNorm(kMaxD) {}
 
 bool FdmMgpcgSolver3::solve(FdmMgLinearSystem3* system) {
-    Size3 size = system->A.levels.front().size();
+    Vector3UZ size = system->A.levels.front().size();
     _r.resize(size);
     _d.resize(size);
     _q.resize(size);
     _s.resize(size);
 
-    system->x.levels.front().set(0.0);
-    _r.set(0.0);
-    _d.set(0.0);
-    _q.set(0.0);
-    _s.set(0.0);
+    system->x.levels.front().fill(0.0);
+    _r.fill(0.0);
+    _d.fill(0.0);
+    _q.fill(0.0);
+    _s.fill(0.0);
 
     _precond.build(system, params());
 

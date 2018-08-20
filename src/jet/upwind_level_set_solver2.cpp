@@ -17,14 +17,14 @@ UpwindLevelSetSolver2::UpwindLevelSetSolver2() {
 }
 
 void UpwindLevelSetSolver2::getDerivatives(
-    ConstArrayAccessor2<double> grid,
+    ConstArrayView2<double> grid,
     const Vector2D& gridSpacing,
     size_t i,
     size_t j,
     std::array<double, 2>* dx,
     std::array<double, 2>* dy) const {
     double D0[3];
-    Size2 size = grid.size();
+    Vector2UZ size = grid.size();
 
     const size_t im1 = (i < 1) ? 0 : i - 1;
     const size_t ip1 = std::min(i + 1, size.x - 1);

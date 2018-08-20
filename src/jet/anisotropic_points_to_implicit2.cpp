@@ -55,7 +55,7 @@ AnisotropicPointsToImplicit2::AnisotropicPointsToImplicit2(
       _isOutputSdf(isOutputSdf) {}
 
 void AnisotropicPointsToImplicit2::convert(
-    const ConstArrayAccessor1<Vector2D>& points, ScalarGrid2* output) const {
+    const ConstArrayView1<Vector2D>& points, ScalarGrid2* output) const {
     if (output == nullptr) {
         JET_WARN << "Null scalar grid output pointer provided.";
         return;
@@ -90,10 +90,10 @@ void AnisotropicPointsToImplicit2::convert(
     meanParticles.setKernelRadius(r);
 
     // Compute G and xMean
-    std::vector<Matrix2x2D> gs(points.size());
+    std::vector<Matrix2x2D> gs(points.length());
     Array1<Vector2D> xMeans(points.size());
 
-    parallelFor(kZeroSize, points.size(), [&](size_t i) {
+    parallelFor(kZeroSize, points.length(), [&](size_t i) {
         const auto& x = points[i];
 
         // Compute xMean

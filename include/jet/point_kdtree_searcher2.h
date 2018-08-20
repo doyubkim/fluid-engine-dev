@@ -8,8 +8,8 @@
 #define INCLUDE_JET_POINT_KDTREE_SEARCHER2_H
 
 #include <jet/kdtree.h>
+#include <jet/matrix.h>
 #include <jet/point_neighbor_searcher2.h>
-#include <jet/tuple.h>
 
 #include <vector>
 
@@ -34,7 +34,7 @@ class PointKdTreeSearcher2 final : public PointNeighborSearcher2 {
     PointKdTreeSearcher2(const PointKdTreeSearcher2& other);
 
     //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayAccessor1<Vector2D>& points) override;
+    void build(const ConstArrayView1<Vector2D>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

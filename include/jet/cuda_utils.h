@@ -13,14 +13,21 @@
 
 #include <cuda_runtime.h>
 
+#include <algorithm>
+
 namespace jet {
 
-inline JET_CUDA_HOST void checkResult(cudaError_t err) {
-    if (err != cudaSuccess) {
-        std::string msg("CUDA error: ");
-        msg += cudaGetErrorString(err);
-        throw std::runtime_error(msg.c_str());
-    }
+inline JET_CUDA_HOST_DEVICE unsigned int cudaDivRoundUp(unsigned int a,
+                                                        unsigned int b) {
+    return (a % b != 0) ? (a / b + 1) : (a / b);
+}
+
+inline JET_CUDA_HOST void cudaComputeGridSize(unsigned int n,
+                                              unsigned int blockSize,
+                                              unsigned int& numBlocks,
+                                              unsigned int& numThreads) {
+    numThreads = std::min(blockSize, n);
+    numBlocks = cudaDivRoundUp(n, numThreads);
 }
 
 inline JET_CUDA_HOST_DEVICE float2 operator+(float2 a, float2 b) {

@@ -11,7 +11,7 @@ namespace jet {
 
 //! Returns the type of the value itself.
 template <typename T>
-struct ScalarType {
+struct GetScalarType {
     typedef T value;
 };
 
