@@ -6,7 +6,6 @@
 
 #ifndef INCLUDE_JET_JET_H_
 #define INCLUDE_JET_JET_H_
-#include <jet/_bounding_box.h>
 #include <jet/advection_solver2.h>
 #include <jet/advection_solver3.h>
 #include <jet/animation.h>
@@ -44,14 +43,9 @@
 #include <jet/cpp_utils.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/cubic_semi_lagrangian3.h>
+#include <jet/cuda_algorithms.h>
 #include <jet/cuda_array.h>
-#include <jet/cuda_array1.h>
-#include <jet/cuda_array2.h>
-#include <jet/cuda_array3.h>
 #include <jet/cuda_array_view.h>
-#include <jet/cuda_array_view1.h>
-#include <jet/cuda_array_view2.h>
-#include <jet/cuda_array_view3.h>
 #include <jet/cuda_particle_system_data2.h>
 #include <jet/cuda_particle_system_data3.h>
 #include <jet/cuda_particle_system_solver2.h>
@@ -68,6 +62,8 @@
 #include <jet/cuda_sph_solver_base3.h>
 #include <jet/cuda_sph_system_data2.h>
 #include <jet/cuda_sph_system_data3.h>
+#include <jet/cuda_std_array.h>
+#include <jet/cuda_std_vector.h>
 #include <jet/cuda_texture.h>
 #include <jet/cuda_utils.h>
 #include <jet/cuda_wc_sph_solver2.h>

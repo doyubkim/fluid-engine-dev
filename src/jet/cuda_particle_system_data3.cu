@@ -6,8 +6,10 @@
 
 #include "cuda_particle_system_data3_func.h"
 
+#include <jet/cuda_algorithms.h>
 #include <jet/cuda_particle_system_data3.h>
 #include <jet/cuda_utils.h>
+#include <jet/thrust_utils.h>
 #include <jet/macros.h>
 
 #include <thrust/copy.h>
@@ -43,7 +45,7 @@ void CudaParticleSystemData3::resize(size_t newNumberOfParticles) {
     }
 
     for (auto& attr : _floatDataList) {
-        attr.resize(newNumberOfParticles, 0.0);
+        attr.resize(newNumberOfParticles, 0.0f);
     }
 
     for (auto& attr : _vectorDataList) {
@@ -129,8 +131,8 @@ ConstCudaArrayView1<float4> CudaParticleSystemData3::vectorDataAt(
 
 void CudaParticleSystemData3::addParticle(const Vector4F& newPosition,
                                           const Vector4F& newVelocity) {
-    thrust::host_vector<float4> hostPos;
-    thrust::host_vector<float4> hostVel;
+    std::vector<float4> hostPos;
+    std::vector<float4> hostVel;
     hostPos.push_back(toFloat4(newPosition));
     hostVel.push_back(toFloat4(newVelocity));
     CudaArray1<float4> devicePos{hostPos};
@@ -142,12 +144,12 @@ void CudaParticleSystemData3::addParticle(const Vector4F& newPosition,
 void CudaParticleSystemData3::addParticles(
     ConstArrayView1<Vector4F> newPositions,
     ConstArrayView1<Vector4F> newVelocities) {
-    thrust::host_vector<float4> hostPos(newPositions.size());
-    thrust::host_vector<float4> hostVel(newVelocities.size());
-    for (size_t i = 0; i < newPositions.size(); ++i) {
+    std::vector<float4> hostPos(newPositions.length());
+    std::vector<float4> hostVel(newVelocities.length());
+    for (size_t i = 0; i < newPositions.length(); ++i) {
         hostPos[i] = toFloat4(newPositions[i]);
     }
-    for (size_t i = 0; i < newVelocities.size(); ++i) {
+    for (size_t i = 0; i < newVelocities.length(); ++i) {
         hostVel[i] = toFloat4(newVelocities[i]);
     }
 
@@ -160,23 +162,23 @@ void CudaParticleSystemData3::addParticles(
 void CudaParticleSystemData3::addParticles(
     ConstCudaArrayView1<float4> newPositions,
     ConstCudaArrayView1<float4> newVelocities) {
-    JET_THROW_INVALID_ARG_IF(newVelocities.size() > 0 &&
-                             newVelocities.size() != newPositions.size());
+    JET_THROW_INVALID_ARG_IF(newVelocities.length() > 0 &&
+                             newVelocities.length() != newPositions.length());
 
     size_t oldNumberOfParticles = numberOfParticles();
-    size_t newNumberOfParticles = oldNumberOfParticles + newPositions.size();
 
-    resize(newNumberOfParticles);
+    resize(oldNumberOfParticles + newPositions.length());
 
     auto pos = positions();
 
-    thrust::copy(newPositions.begin(), newPositions.end(),
-                 pos.begin() + oldNumberOfParticles);
+    cudaCopy(newPositions.data(), newPositions.length(),
+             pos.data() + oldNumberOfParticles);
 
-    if (newVelocities.size() > 0) {
+    if (newVelocities.length() > 0) {
         auto vel = velocities();
-        thrust::copy(newVelocities.begin(), newVelocities.end(),
-                     vel.begin() + oldNumberOfParticles);
+
+        cudaCopy(newVelocities.data(), newVelocities.length(),
+                 vel.data() + oldNumberOfParticles);
     }
 }
 
@@ -212,7 +214,7 @@ void CudaParticleSystemData3::buildNeighborLists(float maxSearchRadius) {
 
     auto neighborStarts = _neighborStarts.view();
 
-    // Count nearby points
+     // Count nearby points
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
         thrust::counting_iterator<size_t>(0) + numberOfParticles(),
@@ -221,12 +223,15 @@ void CudaParticleSystemData3::buildNeighborLists(float maxSearchRadius) {
             CountNearbyPointsFunc(_neighborStarts.data())));
 
     // Make start/end point of neighbor list, and allocate neighbor list.
-    thrust::inclusive_scan(_neighborStarts.begin(), _neighborStarts.end(),
-                           _neighborEnds.begin());
-    thrust::transform(_neighborEnds.begin(), _neighborEnds.end(),
-                      _neighborStarts.begin(), _neighborStarts.begin(),
+    thrust::inclusive_scan(thrustCBegin(_neighborStarts),
+                           thrustCEnd(_neighborStarts),
+                           thrustBegin(_neighborEnds));
+    thrust::transform(thrustCBegin(_neighborEnds), thrustCEnd(_neighborEnds),
+                      thrustCBegin(_neighborStarts),
+                      thrustBegin(_neighborStarts),
                       thrust::minus<unsigned int>());
-    size_t rbeginIdx = _neighborEnds.size() > 0 ? _neighborEnds.size() - 1 : 0;
+    size_t rbeginIdx =
+        _neighborEnds.length() > 0 ? _neighborEnds.length() - 1 : 0;
     uint32_t m = _neighborEnds[rbeginIdx];
     _neighborLists.resize(m, 0);
 

@@ -153,7 +153,7 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::uPosition() const {
     Vector2D h = gridSpacing();
 
     return [this, h](size_t i, size_t j) -> Vector2D {
-        return _dataOriginU + elemMul(h, Vector2D(i, j));
+        return _dataOriginU + elemMul(h, Vector2D((double)i, (double)j));
     };
 }
 
@@ -161,7 +161,7 @@ VectorGrid2::DataPositionFunc FaceCenteredGrid2::vPosition() const {
     Vector2D h = gridSpacing();
 
     return [this, h](size_t i, size_t j) -> Vector2D {
-        return _dataOriginV + elemMul(h, Vector2D(i, j));
+        return _dataOriginV + elemMul(h, Vector2D((double)i, (double)j));
     };
 }
 

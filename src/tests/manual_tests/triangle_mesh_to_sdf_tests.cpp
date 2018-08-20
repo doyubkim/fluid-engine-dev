@@ -63,7 +63,7 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
         }
     }
 
-    saveData<double>(temp.view(), "sdf_#grid2.npy");
+    saveData(temp.view(), "sdf_#grid2.npy");
 
     TriangleMesh3 triMesh2;
     marchingCubes(

@@ -45,9 +45,9 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocitySmall) {
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(dataM.view(), "marker_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -94,9 +94,9 @@ JET_BEGIN_TEST_F(GridBlockedBoundaryConditionSolver2, ConstrainVelocity) {
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(dataM.view(), "marker_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -145,9 +145,9 @@ JET_BEGIN_TEST_F(
         dataM(i, j) = static_cast<double>(solver.marker()(i, j));
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(dataM.view(), "marker_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataM.view(), "marker_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -196,7 +196,7 @@ JET_BEGIN_TEST_F(
         dataV(i, j) = vel.y;
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F

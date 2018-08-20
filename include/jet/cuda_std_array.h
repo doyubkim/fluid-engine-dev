@@ -26,38 +26,38 @@ class CudaStdArray {
     using iterator = pointer;
     using const_iterator = const_pointer;
 
-    __host__ __device__ CudaStdArray();
+    JET_CUDA_HOST_DEVICE CudaStdArray();
 
     template <typename... Args>
-    __host__ __device__ CudaStdArray(const_reference first, Args... rest);
+    JET_CUDA_HOST_DEVICE CudaStdArray(const_reference first, Args... rest);
 
-    __host__ CudaStdArray(const std::array<T, N>& other);
+    JET_CUDA_HOST CudaStdArray(const std::array<T, N>& other);
 
-    __host__ CudaStdArray(const Vector<T, N>& other);
+    JET_CUDA_HOST CudaStdArray(const Vector<T, N>& other);
 
-    __host__ __device__ CudaStdArray(const CudaStdArray& other);
+    JET_CUDA_HOST_DEVICE CudaStdArray(const CudaStdArray& other);
 
-    __host__ __device__ void fill(const_reference val);
+    JET_CUDA_HOST_DEVICE void fill(const_reference val);
 
-    __host__ Vector<T, N> toVector() const;
+    JET_CUDA_HOST Vector<T, N> toVector() const;
 
-    __host__ __device__ reference operator[](size_t i);
+    JET_CUDA_HOST_DEVICE reference operator[](size_t i);
 
-    __host__ __device__ const_reference operator[](size_t i) const;
+    JET_CUDA_HOST_DEVICE const_reference operator[](size_t i) const;
 
-    __host__ __device__ bool operator==(const CudaStdArray& other) const;
+    JET_CUDA_HOST_DEVICE bool operator==(const CudaStdArray& other) const;
 
-    __host__ __device__ bool operator!=(const CudaStdArray& other) const;
+    JET_CUDA_HOST_DEVICE bool operator!=(const CudaStdArray& other) const;
 
  private:
     T _elements[N];
 
     template <typename... Args>
-    __host__ __device__ void setAt(size_t i, const_reference first,
-                                   Args... rest);
+    JET_CUDA_HOST_DEVICE void setAt(size_t i, const_reference first,
+                                    Args... rest);
 
     template <typename... Args>
-    __host__ __device__ void setAt(size_t i, const_reference first);
+    JET_CUDA_HOST_DEVICE void setAt(size_t i, const_reference first);
 };
 
 }  // namespace jet

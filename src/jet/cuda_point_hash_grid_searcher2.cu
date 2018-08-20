@@ -4,6 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <jet/cuda_algorithms.h>
 #include <jet/cuda_point_hash_grid_searcher2.h>
 
 #include <thrust/for_each.h>
@@ -13,36 +14,30 @@ using namespace jet;
 
 namespace {
 
-struct InitializeIndexPointAndKeys {
-    CudaPointHashGridSearcher2::HashUtils hashUtils;
-
-    inline JET_CUDA_HOST_DEVICE InitializeIndexPointAndKeys(float gridSpacing,
-                                                            uint2 resolution)
-        : hashUtils(gridSpacing, resolution) {}
-
-    template <typename Tuple>
-    inline JET_CUDA_DEVICE void operator()(Tuple t) {
-        // 0: i [in]
-        // 1: sortedIndices[out]
-        // 2: points[in]
-        // 3: keys[out]
-        uint32_t i = thrust::get<0>(t);
-        thrust::get<1>(t) = i;
-        thrust::get<3>(t) = hashUtils.getHashKeyFromPosition(thrust::get<2>(t));
+__global__ void initializeIndexTables(uint32_t* startIndexTable,
+                                      uint32_t* endIndexTable, size_t n) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        startIndexTable[i] = 0xffffffff;
+        endIndexTable[i] = 0xffffffff;
     }
-};
+}
 
-struct BuildTables {
-    uint32_t* keys;
-    uint32_t* startIndexTable;
-    uint32_t* endIndexTable;
+__global__ void initializePointAndKeys(
+    CudaPointHashGridSearcher2::HashUtils hashUtils, const float2* points,
+    size_t n, uint32_t* sortedIndices, uint32_t* keys) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) {
+        sortedIndices[i] = i;
+        keys[i] = hashUtils.getHashKeyFromPosition(points[i]);
+    }
+}
 
-    inline JET_CUDA_HOST_DEVICE BuildTables(uint32_t* k, uint32_t* sit,
-                                            uint32_t* eit)
-        : keys(k), startIndexTable(sit), endIndexTable(eit) {}
-
-    template <typename Index>
-    inline JET_CUDA_DEVICE void operator()(Index i) {
+__global__ void buildTables(const uint32_t* keys, size_t n,
+                            uint32_t* startIndexTable,
+                            uint32_t* endIndexTable) {
+    size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n && i > 0) {
         uint32_t k = keys[i];
         uint32_t kLeft = keys[i - 1];
         if (k > kLeft) {
@@ -50,13 +45,9 @@ struct BuildTables {
             endIndexTable[kLeft] = i;
         }
     }
-};
+}
 
 }  // namespace
-
-CudaPointHashGridSearcher2::CudaPointHashGridSearcher2(const uint2& resolution,
-                                                       float gridSpacing)
-    : CudaPointHashGridSearcher2(resolution.x, resolution.y, gridSpacing) {}
 
 CudaPointHashGridSearcher2::CudaPointHashGridSearcher2(uint32_t resolutionX,
                                                        uint32_t resolutionY,
@@ -69,42 +60,47 @@ CudaPointHashGridSearcher2::CudaPointHashGridSearcher2(uint32_t resolutionX,
     _endIndexTable.resize(_resolution.x * _resolution.y, 0xffffffff);
 }
 
-CudaPointHashGridSearcher2::CudaPointHashGridSearcher2(
-    const CudaPointHashGridSearcher2& other) {
-    set(other);
-}
-
-void CudaPointHashGridSearcher2::build(const ConstCudaArrayView1<float2>& points) {
+void CudaPointHashGridSearcher2::build(
+    const ConstCudaArrayView1<float2>& points) {
     // Allocate/reset memory chuncks
-    size_t numberOfPoints = points.size();
+    size_t numberOfPoints = points.length();
     if (numberOfPoints == 0) {
         return;
     }
 
     _points = points;
-    thrust::fill(thrust::make_zip_iterator(thrust::make_tuple(
-                     _startIndexTable.begin(), _endIndexTable.begin())),
-                 thrust::make_zip_iterator(thrust::make_tuple(
-                     _startIndexTable.end(), _endIndexTable.end())),
-                 thrust::make_tuple(0xffffffff, 0xffffffff));
+
+    // Initialize index tables
+    size_t numberOfGrids = _startIndexTable.length();
+    unsigned int numBlocks, numThreads;
+    cudaComputeGridSize((unsigned int)numberOfGrids, 256, numBlocks,
+                        numThreads);
+
+    initializeIndexTables<<<numBlocks, numThreads>>>(_startIndexTable.data(),
+                                                     _endIndexTable.data(),
+                                                     _startIndexTable.length());
+
+    // Initialize indices array and generate hash key for each point
     _keys.resize(numberOfPoints);
     _sortedIndices.resize(numberOfPoints);
 
-    // Initialize indices array and generate hash key for each point
-    auto countingBegin = thrust::counting_iterator<size_t>(0);
-    auto countingEnd = countingBegin + numberOfPoints;
-    thrust::for_each(
-        thrust::make_zip_iterator(
-            thrust::make_tuple(countingBegin, _sortedIndices.begin(),
-                               _points.begin(), _keys.begin())),
-        thrust::make_zip_iterator(thrust::make_tuple(
-            countingEnd, _sortedIndices.end(), _points.begin(), _keys.end())),
-        InitializeIndexPointAndKeys(_gridSpacing, _resolution));
+    cudaComputeGridSize((unsigned int)numberOfPoints, 256, numBlocks,
+                        numThreads);
+
+    CudaPointHashGridSearcher2::HashUtils hashUtils(_gridSpacing, _resolution);
+
+    initializePointAndKeys<<<numBlocks, numThreads>>>(
+        hashUtils, _points.data(), _points.length(), _sortedIndices.data(),
+        _keys.data());
 
     // Sort indices/points/key based on hash key
-    thrust::sort_by_key(_keys.begin(), _keys.end(),
+    thrust::device_ptr<uint32_t> keysBegin(_keys.data());
+    thrust::device_ptr<uint32_t> keysEnd = keysBegin + _keys.length();
+    thrust::device_ptr<float2> pointsBegin(_points.data());
+    thrust::device_ptr<uint32_t> sortedIndicesBegin(_sortedIndices.data());
+    thrust::sort_by_key(keysBegin, keysEnd,
                         thrust::make_zip_iterator(thrust::make_tuple(
-                            _points.begin(), _sortedIndices.begin())));
+                            pointsBegin, sortedIndicesBegin)));
 
     // Now _points and _keys are sorted by points' hash key values.
     // Let's fill in start/end index table with _keys.
@@ -120,45 +116,12 @@ void CudaPointHashGridSearcher2::build(const ConstCudaArrayView1<float2>& points
     _startIndexTable[_keys[0]] = 0;
     _endIndexTable[_keys[numberOfPoints - 1]] = (uint32_t)numberOfPoints;
 
-    thrust::for_each(countingBegin + 1, countingEnd,
-                     BuildTables(_keys.data(), _startIndexTable.data(),
-                                 _endIndexTable.data()));
-}
+    cudaComputeGridSize((unsigned int)numberOfPoints, 256, numBlocks,
+                        numThreads);
 
-float CudaPointHashGridSearcher2::gridSpacing() const { return _gridSpacing; }
-
-Size2 CudaPointHashGridSearcher2::resolution() const {
-    return Size2{static_cast<uint32_t>(_resolution.x),
-                 static_cast<uint32_t>(_resolution.y)};
-}
-
-ConstCudaArrayView1<float2> CudaPointHashGridSearcher2::sortedPoints() const {
-    return _points;
-}
-
-ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::keys() const {
-    return _keys.view();
-}
-
-ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::startIndexTable()
-    const {
-    return _startIndexTable.view();
-}
-
-ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::endIndexTable()
-    const {
-    return _endIndexTable.view();
-}
-
-ConstCudaArrayView1<uint32_t> CudaPointHashGridSearcher2::sortedIndices()
-    const {
-    return _sortedIndices.view();
-}
-
-CudaPointHashGridSearcher2& CudaPointHashGridSearcher2::operator=(
-    const CudaPointHashGridSearcher2& other) {
-    set(other);
-    return (*this);
+    buildTables<<<numBlocks, numThreads>>>(_keys.data(), numberOfPoints,
+                                           _startIndexTable.data(),
+                                           _endIndexTable.data());
 }
 
 void CudaPointHashGridSearcher2::set(const CudaPointHashGridSearcher2& other) {

@@ -26,9 +26,9 @@ class CudaStdVector final {
 
     class Reference {
      public:
-        __host__ __device__ Reference(pointer p) : _ptr(p) {}
+        JET_CUDA_HOST_DEVICE Reference(pointer p) : _ptr(p) {}
 
-        __host__ __device__ Reference(const Reference& other)
+        JET_CUDA_HOST_DEVICE Reference(const Reference& other)
             : _ptr(other._ptr) {}
 
 #ifdef __CUDA_ARCH__
@@ -39,12 +39,12 @@ class CudaStdVector final {
 
         __device__ operator value_type() const { return *ptr; }
 #else
-        __host__ Reference& operator=(const value_type& val) {
+        JET_CUDA_HOST Reference& operator=(const value_type& val) {
             cudaCopyHostToDevice(&val, 1, _ptr);
             return *this;
         }
 
-        __host__ operator value_type() const {
+        JET_CUDA_HOST operator value_type() const {
             std::remove_const_t<value_type> tmp{};
             cudaCopyDeviceToHost(_ptr, 1, &tmp);
             return tmp;
@@ -78,9 +78,9 @@ class CudaStdVector final {
 
     __device__ const_reference at(size_t i) const;
 #else
-    __host__ Reference at(size_t i);
+    JET_CUDA_HOST Reference at(size_t i);
 
-    __host__ T at(size_t i) const;
+    JET_CUDA_HOST T at(size_t i) const;
 #endif
 
     void clear();

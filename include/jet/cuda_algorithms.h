@@ -39,9 +39,9 @@ void cudaFill(T* dst, size_t n, const T& val) {
 
 template <typename T>
 __host__ __device__ inline void cudaSwap(T& a, T& b) {
-    T tmp = std::move(a);
-    a = std::move(b);
-    b = std::move(tmp);
+    T tmp = a;
+    a = b;
+    b = tmp;
 }
 
 template <typename T>

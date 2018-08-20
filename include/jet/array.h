@@ -136,10 +136,10 @@ template <typename T, size_t N>
 class Array final : public ArrayBase<T, N, Array<T, N>> {
     using Base = ArrayBase<T, N, Array<T, N>>;
     using Base::_size;
+    using Base::at;
+    using Base::clearPtrAndSize;
     using Base::setPtrAndSize;
     using Base::swapPtrAndSize;
-    using Base::clearPtrAndSize;
-    using Base::at;
 
  public:
     // CTOR
@@ -158,6 +158,9 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
 
     template <typename D>
     void copyFrom(const ArrayBase<T, N, D>& other);
+
+    template <typename D>
+    void copyFrom(const ArrayBase<const T, N, D>& other);
 
     void fill(const T& val);
 
@@ -186,6 +189,9 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     // Assignment Operators
     template <typename OtherDerived>
     Array& operator=(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    Array& operator=(const ArrayBase<const T, N, OtherDerived>& other);
 
     Array& operator=(const Array& other);
 

@@ -48,7 +48,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -58,7 +58,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, Drop) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -112,7 +112,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo) {
 
             snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                      frame.index);
-            saveData<double>(output.view(), filename);
+            saveData(output.view(), filename);
         }
 
         grids->serialize(&dump);
@@ -138,7 +138,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo) {
 
             snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                      frame.index);
-            saveData<double>(output.view(), filename);
+            saveData(output.view(), filename);
         }
     }
 }
@@ -169,7 +169,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -179,7 +179,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropHighRes) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -214,7 +214,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
@@ -228,7 +228,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithCollider) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -260,7 +260,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -270,7 +270,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropVariational) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -307,7 +307,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 240; frame.advance()) {
         double t = frame.timeInSeconds();
@@ -321,7 +321,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithColliderVariational) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -354,7 +354,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -364,7 +364,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, ViscousDropVariational) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -393,7 +393,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -403,7 +403,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithoutGlobalComp) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -432,7 +432,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 120; frame.advance()) {
         solver.update(frame);
@@ -442,7 +442,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropWithGlobalComp) {
         });
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -499,7 +499,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, RisingFloor) {
         });
         snprintf(filename, sizeof(filename), "output.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F

@@ -56,7 +56,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, Rising) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData<double>(solver->smokeDensity()->dataView(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -97,7 +97,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithCollider) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData<double>(solver->smokeDensity()->dataView(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -144,7 +144,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, MovingEmitterWithCollider) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData<double>(solver->smokeDensity()->dataView(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -188,7 +188,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderNonVariational) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData<double>(solver->smokeDensity()->dataView(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -234,7 +234,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver2, RisingWithColliderAndDiffusion) {
     for (Frame frame; frame.index < 240; ++frame) {
         solver->update(frame);
 
-        saveData<double>(solver->smokeDensity()->dataView(), frame.index);
+        saveData(solver->smokeDensity()->dataView(), frame.index);
     }
 }
 JET_END_TEST_F
@@ -300,7 +300,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, Rising) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -368,7 +368,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithCollider) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F
@@ -436,7 +436,7 @@ JET_BEGIN_TEST_F(GridSmokeSolver3, RisingWithColliderLinear) {
             sizeof(filename),
             "data.#grid2,%04d.npy",
             frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
     }
 }
 JET_END_TEST_F

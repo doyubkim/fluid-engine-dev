@@ -205,8 +205,8 @@ CudaArrayBase<T, N, Derived>::at(const CudaStdArray<size_t, N>& idx) const {
 }
 
 template <typename T, size_t N, typename Derived>
-__device__ typename CudaArrayBase<T, N, Derived>::reference CudaArrayBase<T, N, Derived>::
-operator[](size_t i) {
+__device__ typename CudaArrayBase<T, N, Derived>::reference
+    CudaArrayBase<T, N, Derived>::operator[](size_t i) {
     return at(i);
 }
 
@@ -218,8 +218,8 @@ __device__ typename CudaArrayBase<T, N, Derived>::const_reference
 
 template <typename T, size_t N, typename Derived>
 template <typename... Args>
-__device__ typename CudaArrayBase<T, N, Derived>::reference CudaArrayBase<T, N, Derived>::
-operator()(size_t i, Args... args) {
+__device__ typename CudaArrayBase<T, N, Derived>::reference
+CudaArrayBase<T, N, Derived>::operator()(size_t i, Args... args) {
     return at(i, args...);
 }
 
@@ -231,8 +231,8 @@ CudaArrayBase<T, N, Derived>::operator()(size_t i, Args... args) const {
 }
 
 template <typename T, size_t N, typename Derived>
-__device__ typename CudaArrayBase<T, N, Derived>::reference CudaArrayBase<T, N, Derived>::
-operator()(const CudaStdArray<size_t, N>& idx) {
+__device__ typename CudaArrayBase<T, N, Derived>::reference
+CudaArrayBase<T, N, Derived>::operator()(const CudaStdArray<size_t, N>& idx) {
     return at(idx);
 }
 
@@ -483,7 +483,25 @@ void CudaArray<T, N>::copyFrom(const ArrayBase<T, N, OtherDerived>& other) {
 
 template <typename T, size_t N>
 template <typename OtherDerived>
+void CudaArray<T, N>::copyFrom(
+    const ArrayBase<const T, N, OtherDerived>& other) {
+    CudaArray newArray(other.size());
+    cudaCopyHostToDevice(other.data(), other.length(), newArray.data());
+    *this = std::move(newArray);
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
 void CudaArray<T, N>::copyFrom(const CudaArrayBase<T, N, OtherDerived>& other) {
+    CudaArray newArray(other.size());
+    cudaCopyDeviceToDevice(other.data(), other.length(), newArray.data());
+    *this = std::move(newArray);
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+void CudaArray<T, N>::copyFrom(
+    const CudaArrayBase<const T, N, OtherDerived>& other) {
     CudaArray newArray(other.size());
     cudaCopyDeviceToDevice(other.data(), other.length(), newArray.data());
     *this = std::move(newArray);
@@ -631,7 +649,23 @@ CudaArray<T, N>& CudaArray<T, N>::operator=(
 template <typename T, size_t N>
 template <typename OtherDerived>
 CudaArray<T, N>& CudaArray<T, N>::operator=(
+    const ArrayBase<const T, N, OtherDerived>& other) {
+    copyFrom(other);
+    return *this;
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+CudaArray<T, N>& CudaArray<T, N>::operator=(
     const CudaArrayBase<T, N, OtherDerived>& other) {
+    copyFrom(other);
+    return *this;
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+CudaArray<T, N>& CudaArray<T, N>::operator=(
+    const CudaArrayBase<const T, N, OtherDerived>& other) {
     copyFrom(other);
     return *this;
 }

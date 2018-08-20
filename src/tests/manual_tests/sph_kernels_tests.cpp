@@ -26,8 +26,8 @@ JET_BEGIN_TEST_F(SphStdKernel3, Operator) {
         y[i] = kernel1(x[i]);
     }
 
-    saveData<double>(x.view(), "kernel1.#line2,x.npy");
-    saveData<double>(y.view(), "kernel1.#line2,y.npy");
+    saveData(x.view(), "kernel1.#line2,x.npy");
+    saveData(y.view(), "kernel1.#line2,y.npy");
 
     double r2 = 1.2;
     SphStdKernel3 kernel2(r2);
@@ -38,8 +38,8 @@ JET_BEGIN_TEST_F(SphStdKernel3, Operator) {
         y[i] = kernel2(x[i]);
     }
 
-    saveData<double>(x.view(), "kernel2.#line2,x.npy");
-    saveData<double>(y.view(), "kernel2.#line2,y.npy");
+    saveData(x.view(), "kernel2.#line2,x.npy");
+    saveData(y.view(), "kernel2.#line2,y.npy");
 
     double r3 = 1.5;
     SphStdKernel3 kernel3(r3);
@@ -50,8 +50,8 @@ JET_BEGIN_TEST_F(SphStdKernel3, Operator) {
         y[i] = kernel3(x[i]);
     }
 
-    saveData<double>(x.view(), "kernel3.#line2,x.npy");
-    saveData<double>(y.view(), "kernel3.#line2,y.npy");
+    saveData(x.view(), "kernel3.#line2,x.npy");
+    saveData(y.view(), "kernel3.#line2,y.npy");
 }
 JET_END_TEST_F
 
@@ -74,12 +74,12 @@ JET_BEGIN_TEST_F(SphSpikyKernel3, Derivatives) {
         y2[i] = spiky.secondDerivative(std::abs(x[i]));
     }
 
-    saveData<double>(x.view(), "spiky.#line2,x.npy");
-    saveData<double>(y0.view(), "spiky.#line2,y.npy");
-    saveData<double>(x.view(), "spiky_1st.#line2,x.npy");
-    saveData<double>(y1.view(), "spiky_1st.#line2,y.npy");
-    saveData<double>(x.view(), "spiky_2nd.#line2,x.npy");
-    saveData<double>(y2.view(), "spiky_2nd.#line2,y.npy");
+    saveData(x.view(), "spiky.#line2,x.npy");
+    saveData(y0.view(), "spiky.#line2,y.npy");
+    saveData(x.view(), "spiky_1st.#line2,x.npy");
+    saveData(y1.view(), "spiky_1st.#line2,y.npy");
+    saveData(x.view(), "spiky_2nd.#line2,x.npy");
+    saveData(y2.view(), "spiky_2nd.#line2,y.npy");
 
     SphStdKernel3 stdKernel(r);
 
@@ -91,11 +91,11 @@ JET_BEGIN_TEST_F(SphSpikyKernel3, Derivatives) {
         y2[i] = stdKernel.secondDerivative(std::abs(x[i]));
     }
 
-    saveData<double>(x.view(), "std.#line2,x.npy");
-    saveData<double>(y0.view(), "std.#line2,y.npy");
-    saveData<double>(x.view(), "std_1st.#line2,x.npy");
-    saveData<double>(y1.view(), "std_1st.#line2,y.npy");
-    saveData<double>(x.view(), "std_2nd.#line2,x.npy");
-    saveData<double>(y2.view(), "std_2nd.#line2,y.npy");
+    saveData(x.view(), "std.#line2,x.npy");
+    saveData(y0.view(), "std.#line2,y.npy");
+    saveData(x.view(), "std_1st.#line2,x.npy");
+    saveData(y1.view(), "std_1st.#line2,y.npy");
+    saveData(x.view(), "std_2nd.#line2,x.npy");
+    saveData(y2.view(), "std_2nd.#line2,y.npy");
 }
 JET_END_TEST_F

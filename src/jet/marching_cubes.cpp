@@ -48,8 +48,8 @@ inline bool queryVertexId(const MarchingCubeVertexMap& vertexMap,
     }
 }
 
-inline Vector3D grad(const ConstArrayView3<double>& grid, ssize_t i,
-                     ssize_t j, ssize_t k, const Vector3D& invGridSize) {
+inline Vector3D grad(const ConstArrayView3<double>& grid, ssize_t i, ssize_t j,
+                     ssize_t k, const Vector3D& invGridSize) {
     Vector3D ret;
     ssize_t ip = i + 1;
     ssize_t im = i - 1;
@@ -343,7 +343,8 @@ void marchingCubes(const ConstArrayView3<double>& grid,
     const Vector3D invGridSize = 1.0 / gridSize;
 
     auto pos = [origin, gridSize](ssize_t i, ssize_t j, ssize_t k) {
-        return origin + elemMul(gridSize, Vector3D(i, j, k));
+        return origin +
+               elemMul(gridSize, Vector3D((double)i, (double)j, (double)k));
     };
 
     ssize_t dimx = static_cast<ssize_t>(dim.x);

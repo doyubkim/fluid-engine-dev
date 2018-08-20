@@ -32,7 +32,6 @@ void addVector(PyBindClass& cls, const std::string& name) {
     using VectorType = Matrix<T, R, 1>;
 
     cls.def("fill", (void (VectorType::*)(const T&)) & VectorType::fill)
-        .def("normalize", &VectorType::normalize)
         .def("dot",
              [name](const VectorType& instance, py::object other) {
                  return instance.dot(obj2vec<T, R>(other, name));
@@ -49,24 +48,10 @@ void addVector(PyBindClass& cls, const std::string& name) {
         .def("absmax", &VectorType::absmax)
         .def("dominantAxis", &VectorType::dominantAxis)
         .def("subminantAxis", &VectorType::subminantAxis)
-        .def("normalized", &VectorType::normalized)
-        .def("length", &VectorType::length)
         .def("lengthSquared", &VectorType::lengthSquared)
-        .def("distanceTo",
-             [name](const VectorType& instance, py::object other) {
-                 return instance.distanceTo(obj2vec<T, R>(other, name));
-             })
         .def("distanceSquaredTo",
              [name](const VectorType& instance, py::object other) {
                  return instance.distanceSquaredTo(obj2vec<T, R>(other, name));
-             })
-        .def("reflected",
-             [name](const VectorType& instance, py::object other) {
-                 return instance.reflected(obj2vec<T, R>(other, name));
-             })
-        .def("projected",
-             [name](const VectorType& instance, py::object other) {
-                 return instance.projected(obj2vec<T, R>(other, name));
              })
         .def("__getitem__",
              [name](const VectorType& instance, size_t i) -> T {
@@ -147,21 +132,46 @@ void addVector(PyBindClass& cls, const std::string& name) {
         });
 }
 
-#define ADD_VECTOR2(NAME, SCALAR)                      \
-    py::class_<NAME> cls(m, #NAME);                    \
-    cls.def("__init__",                                \
-            [](NAME& instance, SCALAR x, SCALAR y) {   \
-                new (&instance) NAME(x, y);            \
-            },                                         \
-            "Constructs " #NAME                        \
-            ".\n\n"                                    \
-            "This method constructs " #SCALAR          \
-            "-type 2-D vector with x and y.\n",        \
-            py::arg("x") = 0, py::arg("y") = 0)        \
-        .def_readwrite("x", &NAME::x)                  \
-        .def_readwrite("y", &NAME::y)                  \
-        .def("tangential", &NAME::tangential<SCALAR>); \
+template <typename PyBindClass, typename T, size_t R>
+void addFloatVector(PyBindClass& cls, const std::string& name) {
+    using VectorType = Matrix<T, R, 1>;
+
+    cls.def("normalize", &VectorType::normalize)
+        .def("avg", &VectorType::avg)
+        .def("normalized", &VectorType::normalized)
+        .def("length", &VectorType::length)
+        .def("distanceTo",
+             [name](const VectorType& instance, py::object other) {
+                 return instance.distanceTo(obj2vec<T, R>(other, name));
+             })
+        .def("reflected",
+             [name](const VectorType& instance, py::object other) {
+                 return instance.reflected(obj2vec<T, R>(other, name));
+             })
+        .def("projected", [name](const VectorType& instance, py::object other) {
+            return instance.projected(obj2vec<T, R>(other, name));
+        });
+}
+
+#define ADD_VECTOR2(NAME, SCALAR)                    \
+    py::class_<NAME> cls(m, #NAME);                  \
+    cls.def("__init__",                              \
+            [](NAME& instance, SCALAR x, SCALAR y) { \
+                new (&instance) NAME(x, y);          \
+            },                                       \
+            "Constructs " #NAME                      \
+            ".\n\n"                                  \
+            "This method constructs " #SCALAR        \
+            "-type 2-D vector with x and y.\n",      \
+            py::arg("x") = 0, py::arg("y") = 0)      \
+        .def_readwrite("x", &NAME::x)                \
+        .def_readwrite("y", &NAME::y);               \
     addVector<py::class_<NAME>, SCALAR, 2>(cls, #NAME);
+
+#define ADD_FLOAT_VECTOR2(NAME, SCALAR)               \
+    ADD_VECTOR2(NAME, SCALAR);                        \
+    cls.def("tangential", &NAME::tangential<SCALAR>); \
+    addFloatVector<py::class_<NAME>, SCALAR, 2>(cls, #NAME);
 
 #define ADD_VECTOR3(NAME, SCALAR)                                 \
     py::class_<NAME> cls(m, #NAME);                               \
@@ -176,16 +186,20 @@ void addVector(PyBindClass& cls, const std::string& name) {
             py::arg("x") = 0, py::arg("y") = 0, py::arg("z") = 0) \
         .def_readwrite("x", &NAME::x)                             \
         .def_readwrite("y", &NAME::y)                             \
-        .def_readwrite("z", &NAME::z)                             \
-        .def("tangentials", &NAME::tangentials<SCALAR>);          \
+        .def_readwrite("z", &NAME::z);                            \
     addVector<py::class_<NAME>, SCALAR, 3>(cls, #NAME);
 
-void addVector2F(pybind11::module& m) { ADD_VECTOR2(Vector2F, float); }
-void addVector2D(pybind11::module& m) { ADD_VECTOR2(Vector2D, double); }
+#define ADD_FLOAT_VECTOR3(NAME, SCALAR)                 \
+    ADD_VECTOR3(NAME, SCALAR);                          \
+    cls.def("tangentials", &NAME::tangentials<SCALAR>); \
+    addFloatVector<py::class_<NAME>, SCALAR, 3>(cls, #NAME);
+
+void addVector2F(pybind11::module& m) { ADD_FLOAT_VECTOR2(Vector2F, float); }
+void addVector2D(pybind11::module& m) { ADD_FLOAT_VECTOR2(Vector2D, double); }
 void addVector2Z(pybind11::module& m) { ADD_VECTOR2(Vector2Z, ssize_t); }
 void addVector2UZ(pybind11::module& m) { ADD_VECTOR2(Vector2UZ, size_t); }
-void addVector3F(pybind11::module& m) { ADD_VECTOR3(Vector3F, float); }
-void addVector3D(pybind11::module& m) { ADD_VECTOR3(Vector3D, double); }
+void addVector3F(pybind11::module& m) { ADD_FLOAT_VECTOR3(Vector3F, float); }
+void addVector3D(pybind11::module& m) { ADD_FLOAT_VECTOR3(Vector3D, double); }
 void addVector3Z(pybind11::module& m) { ADD_VECTOR3(Vector3Z, ssize_t); }
 void addVector3UZ(pybind11::module& m) { ADD_VECTOR3(Vector3UZ, size_t); }
 

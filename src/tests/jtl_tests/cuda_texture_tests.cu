@@ -93,9 +93,7 @@ TEST(CudaTexture1, Constructors) {
     }
 
     Array1<float> arr1 = {4.0f, 3.0f, 2.0f, 1.0f};
-    ConstArrayView1<float> arrView1(arr1);
-    // TODO: Array1 should have CTOR for ConstArrayView1
-    CudaTexture1<float> cudaTex1_1(arrView1);
+    CudaTexture1<float> cudaTex1_1(arr1);
     EXPECT_EQ(4u, cudaTex1_1.size());
     ASSERT_NE(0, cudaTex1_1.textureObject());
 

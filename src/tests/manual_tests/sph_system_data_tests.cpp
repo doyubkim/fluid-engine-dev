@@ -49,7 +49,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Interpolate) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -97,7 +97,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -107,8 +107,8 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
         grid2(i, j) = sphSystem.interpolate(p, gradY);
     });
 
-    saveData<double>(grid.dataView(), "gradient_#grid2,x.npy");
-    saveData<double>(grid2.dataView(), "gradient_#grid2,y.npy");
+    saveData(grid.dataView(), "gradient_#grid2,x.npy");
+    saveData(grid2.dataView(), "gradient_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -152,7 +152,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -161,7 +161,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, laplacian);
     });
 
-    saveData<double>(grid.dataView(), "laplacian_#grid2.npy");
+    saveData(grid.dataView(), "laplacian_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -198,7 +198,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Interpolate) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -250,7 +250,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
             grid(i, j) = sphSystem.interpolate(p, data);
         });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -260,8 +260,8 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
         grid2(i, j) = sphSystem.interpolate(p, gradY);
     });
 
-    saveData<double>(grid.dataView(), "gradient_#grid2,x.npy");
-    saveData<double>(grid2.dataView(), "gradient_#grid2,y.npy");
+    saveData(grid.dataView(), "gradient_#grid2,x.npy");
+    saveData(grid2.dataView(), "gradient_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -305,7 +305,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, data);
     });
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
 
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
     [&](size_t i, size_t j) {
@@ -314,6 +314,6 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
         grid(i, j) = sphSystem.interpolate(p, laplacian);
     });
 
-    saveData<double>(grid.dataView(), "laplacian_#grid2.npy");
+    saveData(grid.dataView(), "laplacian_#grid2.npy");
 }
 JET_END_TEST_F

@@ -95,7 +95,7 @@ static void sweep(const TriangleMesh3& mesh, int di, int dj, int dk,
     for (ssize_t k = k0; k != k1; k += dk) {
         for (ssize_t j = j0; j != j1; j += dj) {
             for (ssize_t i = i0; i != i1; i += di) {
-                Vector3D gx(i, j, k);
+                Vector3D gx((double)i, (double)j, (double)k);
                 elemIMul(gx, h);
                 gx += origin;
 

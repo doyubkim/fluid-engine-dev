@@ -29,8 +29,8 @@ JET_BEGIN_TEST_F(SphericalPointsToImplicit2, ConvertTwo) {
     SphericalPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
-    saveData<double>(grid.dataView(), "data_#grid2,iso.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F
 
@@ -48,7 +48,7 @@ JET_BEGIN_TEST_F(SphericalPointsToImplicit2, ConvertMany) {
     SphericalPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);
 
-    saveData<double>(grid.dataView(), "data_#grid2.npy");
-    saveData<double>(grid.dataView(), "data_#grid2,iso.npy");
+    saveData(grid.dataView(), "data_#grid2.npy");
+    saveData(grid.dataView(), "data_#grid2,iso.npy");
 }
 JET_END_TEST_F

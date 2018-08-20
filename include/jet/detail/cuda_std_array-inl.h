@@ -56,7 +56,7 @@ void CudaStdArray<T, N>::fill(const_reference val) {
 }
 
 template <typename T, size_t N>
-__host__ Vector<T, N> CudaStdArray<T, N>::toVector() const {
+JET_CUDA_HOST Vector<T, N> CudaStdArray<T, N>::toVector() const {
     Vector<T, N> vec;
     for (size_t i = 0; i < N; ++i) {
         vec[i] = _elements[i];

@@ -47,7 +47,7 @@ JET_BEGIN_TEST_F(ScalarField3, Sample) {
         }
     }
 
-    saveData<double>(data.view(), "data_#grid2.npy");
+    saveData(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -65,8 +65,8 @@ JET_BEGIN_TEST_F(ScalarField3, Gradient) {
         }
     }
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -81,7 +81,7 @@ JET_BEGIN_TEST_F(ScalarField3, Laplacian) {
         }
     }
 
-    saveData<double>(data.view(), "data_#grid2.npy");
+    saveData(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -127,8 +127,8 @@ JET_BEGIN_TEST_F(VectorField3, Sample) {
         }
     }
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -143,7 +143,7 @@ JET_BEGIN_TEST_F(VectorField3, Divergence) {
         }
     }
 
-    saveData<double>(data.view(), "data_#grid2.npy");
+    saveData(data.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -160,8 +160,8 @@ JET_BEGIN_TEST_F(VectorField3, Curl) {
         }
     }
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F
 
@@ -178,7 +178,7 @@ JET_BEGIN_TEST_F(VectorField3, Sample2) {
         }
     }
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
 }
 JET_END_TEST_F

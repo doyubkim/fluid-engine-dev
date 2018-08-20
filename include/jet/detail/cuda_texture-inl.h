@@ -15,35 +15,37 @@
 namespace jet {
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture() {}
+CudaTextureBase<T, N, Derived>::CudaTextureBase() {}
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(const ArrayView<const T, N>& view) {
+CudaTextureBase<T, N, Derived>::CudaTextureBase(
+    const ArrayView<const T, N>& view) {
     set(view);
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(const CudaArrayView<const T, N>& view) {
+CudaTextureBase<T, N, Derived>::CudaTextureBase(
+    const CudaArrayView<const T, N>& view) {
     set(view);
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(const CudaTexture& other) {
+CudaTextureBase<T, N, Derived>::CudaTextureBase(const CudaTextureBase& other) {
     set(static_cast<const Derived&>(other));
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::CudaTexture(CudaTexture&& other) {
+CudaTextureBase<T, N, Derived>::CudaTextureBase(CudaTextureBase&& other) {
     *this = std::move(other);
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>::~CudaTexture() {
+CudaTextureBase<T, N, Derived>::~CudaTextureBase() {
     clear();
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::clear() {
+void CudaTextureBase<T, N, Derived>::clear() {
     if (_array != nullptr) {
         cudaFreeArray(_array);
         _array = nullptr;
@@ -58,34 +60,35 @@ void CudaTexture<T, N, Derived>::clear() {
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const ArrayView<const T, N>& view) {
+void CudaTextureBase<T, N, Derived>::set(const ArrayView<const T, N>& view) {
     static_cast<Derived*>(this)->set(view, cudaMemcpyHostToDevice);
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const CudaArrayView<const T, N>& view) {
+void CudaTextureBase<T, N, Derived>::set(
+    const CudaArrayView<const T, N>& view) {
     static_cast<Derived*>(this)->set(view, cudaMemcpyDeviceToDevice);
 }
 
 template <typename T, size_t N, typename Derived>
-void CudaTexture<T, N, Derived>::set(const Derived& other) {
+void CudaTextureBase<T, N, Derived>::set(const Derived& other) {
     static_cast<Derived*>(this)->set(other);
 }
 
 template <typename T, size_t N, typename Derived>
-cudaTextureObject_t CudaTexture<T, N, Derived>::textureObject() const {
+cudaTextureObject_t CudaTextureBase<T, N, Derived>::textureObject() const {
     return _tex;
 }
 
 template <typename T, size_t N, typename Derived>
-CudaTexture<T, N, Derived>& CudaTexture<T, N, Derived>::operator=(
-    const CudaTexture& other) {
+CudaTextureBase<T, N, Derived>& CudaTextureBase<T, N, Derived>::operator=(
+    const CudaTextureBase& other) {
     set(other);
     return *this;
 }
 
 template <typename T, size_t N, typename Derived>
-cudaTextureObject_t CudaTexture<T, N, Derived>::createTexture(
+cudaTextureObject_t CudaTextureBase<T, N, Derived>::createTexture(
     cudaArray_t array, cudaTextureFilterMode filterMode,
     bool shouldNormalizeCoords) {
     // Specify texture

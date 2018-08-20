@@ -170,9 +170,9 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData<double>(x.view(), filename);
+    saveData(x.view(), filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData<double>(y.view(), filename);
+    saveData(y.view(), filename);
 
     for (Frame frame(0, 1.0 / 60.0); frame.index < 360; frame.advance()) {
         anim.update(frame);
@@ -180,10 +180,10 @@ JET_BEGIN_TEST_F(PhysicsAnimation, SimpleMassSpringAnimation) {
 
         snprintf(filename, sizeof(filename), "data.#line2,%04d,x.npy",
                  frame.index);
-        saveData<double>(x.view(), filename);
+        saveData(x.view(), filename);
         snprintf(filename, sizeof(filename), "data.#line2,%04d,y.npy",
                  frame.index);
-        saveData<double>(y.view(), filename);
+        saveData(y.view(), filename);
     }
 }
 JET_END_TEST_F

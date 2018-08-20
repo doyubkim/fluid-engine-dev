@@ -206,7 +206,8 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::uPosition() const {
     Vector3D h = gridSpacing();
 
     return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginU + elemMul(h, Vector3D(i, j, k));
+        return _dataOriginU +
+               elemMul(h, Vector3D((double)i, (double)j, (double)k));
     };
 }
 
@@ -214,7 +215,8 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::vPosition() const {
     Vector3D h = gridSpacing();
 
     return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginV + elemMul(h, Vector3D(i, j, k));
+        return _dataOriginV +
+               elemMul(h, Vector3D((double)i, (double)j, (double)k));
     };
 }
 
@@ -222,7 +224,8 @@ VectorGrid3::DataPositionFunc FaceCenteredGrid3::wPosition() const {
     Vector3D h = gridSpacing();
 
     return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginW + elemMul(h, Vector3D(i, j, k));
+        return _dataOriginW +
+               elemMul(h, Vector3D((double)i, (double)j, (double)k));
     };
 }
 

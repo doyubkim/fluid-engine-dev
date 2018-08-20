@@ -12,6 +12,9 @@
 #include <jet/cuda_point_hash_grid_searcher2.h>
 #include <jet/cuda_utils.h>
 
+#include <thrust/for_each.h>
+#include <thrust/iterator/counting_iterator.h>
+
 namespace jet {
 
 JET_CUDA_HOST_DEVICE CudaPointHashGridSearcher2::HashUtils::HashUtils() {}
@@ -139,7 +142,7 @@ void CudaPointHashGridSearcher2::forEachNearbyPoint(
     Callback callback) const {
     thrust::for_each(
         thrust::counting_iterator<size_t>(0),
-        thrust::counting_iterator<size_t>(0) + origins.size(),
+        thrust::counting_iterator<size_t>(0) + origins.length(),
         ForEachNearbyPointFunc<Callback>(
             radius, _gridSpacing, _resolution, _startIndexTable.data(),
             _endIndexTable.data(), _sortedIndices.data(), _points.data(),

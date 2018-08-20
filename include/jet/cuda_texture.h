@@ -16,12 +16,12 @@
 namespace jet {
 
 template <typename T, size_t N, typename Derived>
-class CudaTexture {
+class CudaTextureBase {
  public:
     static_assert(N >= 1 || N <= 3,
                   "Not implemented - N should be either 1, 2 or 3.");
 
-    virtual ~CudaTexture();
+    virtual ~CudaTextureBase();
 
     void clear();
 
@@ -38,19 +38,19 @@ class CudaTexture {
     cudaArray_t _array = nullptr;
     cudaTextureObject_t _tex = 0;
 
-    CudaTexture();
+    CudaTextureBase();
 
-    CudaTexture(const ArrayView<const T, N>& view);
+    CudaTextureBase(const ArrayView<const T, N>& view);
 
-    CudaTexture(const CudaArrayView<const T, N>& view);
+    CudaTextureBase(const CudaArrayView<const T, N>& view);
 
-    CudaTexture(const CudaTexture& other);
+    CudaTextureBase(const CudaTextureBase& other);
 
-    CudaTexture(CudaTexture&& other);
+    CudaTextureBase(CudaTextureBase&& other);
 
-    CudaTexture& operator=(const CudaTexture& other);
+    CudaTextureBase& operator=(const CudaTextureBase& other);
 
-    CudaTexture& operator=(CudaTexture&& other) = delete;
+    CudaTextureBase& operator=(CudaTextureBase&& other) = delete;
 
     static cudaTextureObject_t createTexture(
         cudaArray_t array,
@@ -59,11 +59,11 @@ class CudaTexture {
 };
 
 template <typename T>
-class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
-    using Base = CudaTexture<T, 1, CudaTexture1<T>>;
+class CudaTexture1 final : public CudaTextureBase<T, 1, CudaTexture1<T>> {
+    using Base = CudaTextureBase<T, 1, CudaTexture1<T>>;
 
-    using Base::_size;
     using Base::_array;
+    using Base::_size;
     using Base::_tex;
     using Base::createTexture;
 
@@ -95,11 +95,11 @@ class CudaTexture1 final : public CudaTexture<T, 1, CudaTexture1<T>> {
 };
 
 template <typename T>
-class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
-    using Base = CudaTexture<T, 2, CudaTexture2<T>>;
+class CudaTexture2 final : public CudaTextureBase<T, 2, CudaTexture2<T>> {
+    using Base = CudaTextureBase<T, 2, CudaTexture2<T>>;
 
-    using Base::_size;
     using Base::_array;
+    using Base::_size;
     using Base::_tex;
     using Base::createTexture;
 
@@ -135,11 +135,11 @@ class CudaTexture2 final : public CudaTexture<T, 2, CudaTexture2<T>> {
 };
 
 template <typename T>
-class CudaTexture3 final : public CudaTexture<T, 3, CudaTexture3<T>> {
-    using Base = CudaTexture<T, 3, CudaTexture3<T>>;
+class CudaTexture3 final : public CudaTextureBase<T, 3, CudaTexture3<T>> {
+    using Base = CudaTextureBase<T, 3, CudaTexture3<T>>;
 
-    using Base::_size;
     using Base::_array;
+    using Base::_size;
     using Base::_tex;
     using Base::createTexture;
 

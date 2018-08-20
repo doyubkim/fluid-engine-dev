@@ -33,12 +33,12 @@ JET_BEGIN_TEST_F(ArrayUtils, ExtralateToRegion2) {
         }
     }
 
-    saveData<double>(data.view(), "data0.npy");
+    saveData(data.view(), "data0.npy");
     saveData<char>(valid.view(), "valid0.npy");
 
     extrapolateToRegion(data.view(), valid.view(), 10, data.view());
 
-    saveData<double>(data.view(), "data10.npy");
+    saveData(data.view(), "data10.npy");
     saveData<char>(valid.view(), "valid10.npy");
 }
 JET_END_TEST_F

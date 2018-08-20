@@ -42,7 +42,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher2, Build) {
         }
     }
 
-    saveData<double>(grid.view(), "data_#grid2.npy");
+    saveData(grid.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -70,7 +70,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher3, Build) {
         }
     }
 
-    saveData<double>(grid.view(), "data_#grid2.npy");
+    saveData(grid.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -100,7 +100,7 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher2, Build) {
         }
     }
 
-    saveData<double>(grid.view(), "data_#grid2.npy");
+    saveData(grid.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -130,6 +130,6 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher3, Build) {
         }
     }
 
-    saveData<double>(grid.view(), "data_#grid2.npy");
+    saveData(grid.view(), "data_#grid2.npy");
 }
 JET_END_TEST_F

@@ -76,7 +76,7 @@ __device__ typename CudaStdVector<T>::const_reference CudaStdVector<T>::at(
 }
 #else
 template <typename T>
-CudaStdVector<T>::Reference CudaStdVector<T>::at(size_t i) {
+typename CudaStdVector<T>::Reference CudaStdVector<T>::at(size_t i) {
     Reference r(_ptr + i);
     return r;
 }
@@ -207,7 +207,7 @@ typename CudaStdVector<T>::const_reference CudaStdVector<T>::operator[](
 }
 #else
 template <typename T>
-CudaStdVector<T>::Reference CudaStdVector<T>::operator[](size_t i) {
+typename CudaStdVector<T>::Reference CudaStdVector<T>::operator[](size_t i) {
     return at(i);
 }
 

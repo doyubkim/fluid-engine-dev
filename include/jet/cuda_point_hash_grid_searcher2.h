@@ -9,7 +9,7 @@
 
 #ifdef JET_USE_CUDA
 
-#include <jet/cuda_array_view1.h>
+#include <jet/cuda_array_view.h>
 #include <jet/matrix.h>
 
 #include <cuda_runtime.h>

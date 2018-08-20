@@ -8,8 +8,6 @@
 #define SRC_TESTS_MANUAL_TESTS_MANUAL_TESTS_H_
 
 #include <jet/array_view.h>
-#include <jet/array_view.h>
-#include <jet/array_view.h>
 #include <jet/triangle_mesh3.h>
 
 #include <cnpy/cnpy.h>
@@ -68,7 +66,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView1<T>& data, \
+            const ArrayView1<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[1] = { \
@@ -78,7 +76,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView1<T>& data, \
+            const ArrayView1<T>& data, \
             size_t size, const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[1] = { \
@@ -88,7 +86,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView2<T>& data, \
+            const ArrayView2<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[2] = { \
@@ -99,7 +97,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView2<T>& data, \
+            const ArrayView2<T>& data, \
             unsigned int frameNum) { \
             char filename[256]; \
             snprintf( \
@@ -111,7 +109,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView3<T>& data, \
+            const ArrayView3<T>& data, \
             const std::string& name) { \
             std::string filename = getFullFilePath(name); \
             unsigned int dim[3] = { \
@@ -123,7 +121,7 @@ inline void createDirectory(const std::string& dirname) {
         } \
         template <typename T> \
         void saveData( \
-            const ConstArrayView3<T>& data, \
+            const ArrayView3<T>& data, \
             unsigned int frameNum) { \
             char filename[256]; \
             snprintf( \

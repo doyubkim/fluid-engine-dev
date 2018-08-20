@@ -64,7 +64,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing) {
 
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#grid2,0000.npy");
-    saveData<double>(output.view(), filename);
+    saveData(output.view(), filename);
 
     snprintf(filename, sizeof(filename), "data.#grid2,0000.obj");
     triangulateAndSave(sdf, getFullFilePath(filename));
@@ -75,7 +75,7 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver3, SubtleSloshing) {
         forEachIndex(output.size(), sdfToBinary);
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.npy",
                  frame.index);
-        saveData<double>(output.view(), filename);
+        saveData(output.view(), filename);
 
         snprintf(filename, sizeof(filename), "data.#grid2,%04d.obj",
                  frame.index);

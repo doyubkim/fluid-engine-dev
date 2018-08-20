@@ -44,13 +44,13 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Solve) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -82,13 +82,13 @@ JET_BEGIN_TEST_F(GridForwardEulerDiffusionSolver3, Unstable) {
         &dst);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -128,13 +128,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver2, Solve) {
         }));
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -165,13 +165,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Solve) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -203,13 +203,13 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, Stable) {
         &dst);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, 75);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -247,13 +247,13 @@ JET_BEGIN_TEST_F(
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst, boundarySdf);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -289,12 +289,12 @@ JET_BEGIN_TEST_F(GridBackwardEulerDiffusionSolver3, SolveWithBoundaryNeumann) {
     diffusionSolver.solve(src, diffusionCoeff, timeStep, &dst, boundarySdf);
     dst.swap(&src);
 
-    saveData<double>(data.view(), "src_#grid2.npy");
+    saveData(data.view(), "src_#grid2.npy");
 
     forEachIndex(data.size(), [&](size_t i, size_t j) {
         data(i, j) = src(i, j, size.z / 2);
     });
 
-    saveData<double>(data.view(), "dst_#grid2.npy");
+    saveData(data.view(), "dst_#grid2.npy");
 }
 JET_END_TEST_F

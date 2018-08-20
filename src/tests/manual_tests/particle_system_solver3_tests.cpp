@@ -33,9 +33,9 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, PerfectBounce) {
     Array1<double> y(1000);
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData<double>(x.view(), 0, filename);
+    saveData(x.view(), 0, filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData<double>(y.view(), 0, filename);
+    saveData(y.view(), 0, filename);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -49,13 +49,13 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, PerfectBounce) {
             sizeof(filename),
             "data.#line2,%04d,x.npy",
             frame.index);
-        saveData<double>(x.view(), frame.index, filename);
+        saveData(x.view(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
             frame.index);
-        saveData<double>(y.view(), frame.index, filename);
+        saveData(y.view(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -77,9 +77,9 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounce) {
     Array1<double> y(1000);
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData<double>(x.view(), 0, filename);
+    saveData(x.view(), 0, filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData<double>(y.view(), 0, filename);
+    saveData(y.view(), 0, filename);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -93,13 +93,13 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounce) {
             sizeof(filename),
             "data.#line2,%04d,x.npy",
             frame.index);
-        saveData<double>(x.view(), frame.index, filename);
+        saveData(x.view(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
             frame.index);
-        saveData<double>(y.view(), frame.index, filename);
+        saveData(y.view(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -122,9 +122,9 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounceWithFriction) {
     Array1<double> y(1000);
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData<double>(x.view(), 0, filename);
+    saveData(x.view(), 0, filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData<double>(y.view(), 0, filename);
+    saveData(y.view(), 0, filename);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -138,13 +138,13 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, HalfBounceWithFriction) {
             sizeof(filename),
             "data.#line2,%04d,x.npy",
             frame.index);
-        saveData<double>(x.view(), frame.index, filename);
+        saveData(x.view(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
             frame.index);
-        saveData<double>(y.view(), frame.index, filename);
+        saveData(y.view(), frame.index, filename);
     }
 }
 JET_END_TEST_F
@@ -166,9 +166,9 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce) {
     Array1<double> y(1000);
     char filename[256];
     snprintf(filename, sizeof(filename), "data.#line2,0000,x.npy");
-    saveData<double>(x.view(), 0, filename);
+    saveData(x.view(), 0, filename);
     snprintf(filename, sizeof(filename), "data.#line2,0000,y.npy");
-    saveData<double>(y.view(), 0, filename);
+    saveData(y.view(), 0, filename);
 
     Frame frame;
     frame.timeIntervalInSeconds = 1.0 / 300.0;
@@ -182,13 +182,13 @@ JET_BEGIN_TEST_F(ParticleSystemSolver3, NoBounce) {
             sizeof(filename),
             "data.#line2,%04d,x.npy",
             frame.index);
-        saveData<double>(x.view(), frame.index, filename);
+        saveData(x.view(), frame.index, filename);
         snprintf(
             filename,
             sizeof(filename),
             "data.#line2,%04d,y.npy",
             frame.index);
-        saveData<double>(y.view(), frame.index, filename);
+        saveData(y.view(), frame.index, filename);
     }
 }
 JET_END_TEST_F

@@ -56,10 +56,10 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressure) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(div.view(), "div_#grid2.npy");
-    saveData<double>(pressure.view(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -103,10 +103,10 @@ JET_BEGIN_TEST_F(
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(div.view(), "div_#grid2.npy");
-    saveData<double>(pressure.view(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F
 
@@ -152,9 +152,9 @@ JET_BEGIN_TEST_F(GridFluidSolver2, ApplyBoundaryConditionWithPressureOpen) {
         pressure(i, j) = ppe->pressure()(i, j);
     });
 
-    saveData<double>(dataU.view(), "data_#grid2,x.npy");
-    saveData<double>(dataV.view(), "data_#grid2,y.npy");
-    saveData<double>(div.view(), "div_#grid2.npy");
-    saveData<double>(pressure.view(), "pressure_#grid2.npy");
+    saveData(dataU.view(), "data_#grid2,x.npy");
+    saveData(dataV.view(), "data_#grid2,y.npy");
+    saveData(div.view(), "div_#grid2.npy");
+    saveData(pressure.view(), "pressure_#grid2.npy");
 }
 JET_END_TEST_F

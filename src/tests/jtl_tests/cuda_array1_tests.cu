@@ -67,6 +67,78 @@ TEST(CudaArray1, Constructors) {
     }
 }
 
+TEST(CudaArray1, CopyFrom) {
+    // Copy from std::vector
+    CudaArray1<float> arr1;
+    std::vector<float> vec({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    arr1.copyFrom(vec);
+
+    EXPECT_EQ(vec.size(), arr1.length());
+    for (size_t i = 0; i < arr1.length(); ++i) {
+        EXPECT_FLOAT_EQ(vec[i], arr1[i]);
+    }
+
+    // Copy from CPU Array
+    CudaArray1<float> arr2;
+    Array1<float> cpuArr({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    arr2.copyFrom(cpuArr);
+
+    EXPECT_EQ(cpuArr.length(), arr2.length());
+    for (size_t i = 0; i < arr2.length(); ++i) {
+        EXPECT_FLOAT_EQ(cpuArr[i], arr2[i]);
+    }
+
+    // Copy from CPU ArrayView
+    CudaArray1<float> arr3;
+    ArrayView1<float> cpuArrView = cpuArr.view();
+    arr3.copyFrom(cpuArrView);
+
+    EXPECT_EQ(cpuArrView.length(), arr3.length());
+    for (size_t i = 0; i < arr3.length(); ++i) {
+        EXPECT_FLOAT_EQ(cpuArrView[i], arr3[i]);
+    }
+
+    // Copy from CPU ConstArrayView
+    CudaArray1<float> arr4;
+    ConstArrayView1<float> constCpuArrView = cpuArr.view();
+    arr4.copyFrom(constCpuArrView);
+
+    EXPECT_EQ(constCpuArrView.length(), arr4.length());
+    for (size_t i = 0; i < arr4.length(); ++i) {
+        EXPECT_FLOAT_EQ(constCpuArrView[i], arr4[i]);
+    }
+
+    // Copy from CudaArray
+    CudaArray1<float> arr5;
+    CudaArray1<float> cudaArr({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    arr5.copyFrom(cudaArr);
+
+    EXPECT_EQ(cudaArr.length(), arr5.length());
+    for (size_t i = 0; i < arr5.length(); ++i) {
+        EXPECT_FLOAT_EQ(cudaArr[i], arr5[i]);
+    }
+
+    // Copy from CudaArrayView
+    CudaArray1<float> arr6;
+    CudaArrayView1<float> cudaArrView = arr6.view();
+    arr6.copyFrom(cudaArrView);
+
+    EXPECT_EQ(cudaArrView.length(), arr6.length());
+    for (size_t i = 0; i < arr6.length(); ++i) {
+        EXPECT_FLOAT_EQ(cudaArrView[i], arr6[i]);
+    }
+
+    // Copy from ConstCudaArrayView
+    CudaArray1<float> arr7;
+    ConstCudaArrayView1<float> constCudaArrView = arr7.view();
+    arr7.copyFrom(constCudaArrView);
+
+    EXPECT_EQ(constCudaArrView.length(), arr7.length());
+    for (size_t i = 0; i < arr7.length(); ++i) {
+        EXPECT_FLOAT_EQ(constCudaArrView[i], arr7[i]);
+    }
+}
+
 TEST(CudaArray1, Append) {
     // Cuda + scalar
     {

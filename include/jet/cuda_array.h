@@ -29,30 +29,30 @@ class CudaArrayBase {
     using pointer = T*;
     using const_pointer = const T*;
 
-    __host__ __device__ size_t index(size_t i) const;
+    JET_CUDA_HOST_DEVICE size_t index(size_t i) const;
 
     template <typename... Args>
-    __host__ __device__ size_t index(size_t i, Args... args) const;
+    JET_CUDA_HOST_DEVICE size_t index(size_t i, Args... args) const;
 
     template <size_t... I>
-    __host__ __device__ size_t index(const CudaStdArray<size_t, N>& idx) const;
+    JET_CUDA_HOST_DEVICE size_t index(const CudaStdArray<size_t, N>& idx) const;
 
-    __host__ __device__ T* data();
+    JET_CUDA_HOST_DEVICE T* data();
 
-    __host__ __device__ const T* data() const;
+    JET_CUDA_HOST_DEVICE const T* data() const;
 
-    __host__ __device__ const CudaStdArray<size_t, N>& size() const;
-
-    template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 0), size_t> width() const;
+    JET_CUDA_HOST_DEVICE const CudaStdArray<size_t, N>& size() const;
 
     template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 1), size_t> height() const;
+    JET_CUDA_HOST_DEVICE std::enable_if_t<(M > 0), size_t> width() const;
 
     template <size_t M = N>
-    __host__ __device__ std::enable_if_t<(M > 2), size_t> depth() const;
+    JET_CUDA_HOST_DEVICE std::enable_if_t<(M > 1), size_t> height() const;
 
-    __host__ __device__ size_t length() const;
+    template <size_t M = N>
+    JET_CUDA_HOST_DEVICE std::enable_if_t<(M > 2), size_t> depth() const;
+
+    JET_CUDA_HOST_DEVICE size_t length() const;
 
 #ifdef __CUDA_ARCH__
     __device__ reference at(size_t i);
@@ -84,69 +84,70 @@ class CudaArrayBase {
     __device__ const_reference
     operator()(const CudaStdArray<size_t, N>& idx) const;
 #else
-    __host__ host_reference at(size_t i);
+    JET_CUDA_HOST host_reference at(size_t i);
 
-    __host__ value_type at(size_t i) const;
-
-    template <typename... Args>
-    __host__ host_reference at(size_t i, Args... args);
+    JET_CUDA_HOST value_type at(size_t i) const;
 
     template <typename... Args>
-    __host__ value_type at(size_t i, Args... args) const;
-
-    __host__ host_reference at(const CudaStdArray<size_t, N>& idx);
-
-    __host__ value_type at(const CudaStdArray<size_t, N>& idx) const;
-
-    __host__ host_reference operator[](size_t i);
-
-    __host__ value_type operator[](size_t i) const;
+    JET_CUDA_HOST host_reference at(size_t i, Args... args);
 
     template <typename... Args>
-    __host__ host_reference operator()(size_t i, Args... args);
+    JET_CUDA_HOST value_type at(size_t i, Args... args) const;
+
+    JET_CUDA_HOST host_reference at(const CudaStdArray<size_t, N>& idx);
+
+    JET_CUDA_HOST value_type at(const CudaStdArray<size_t, N>& idx) const;
+
+    JET_CUDA_HOST host_reference operator[](size_t i);
+
+    JET_CUDA_HOST value_type operator[](size_t i) const;
 
     template <typename... Args>
-    __host__ value_type operator()(size_t i, Args... args) const;
+    JET_CUDA_HOST host_reference operator()(size_t i, Args... args);
 
-    __host__ host_reference operator()(const CudaStdArray<size_t, N>& idx);
+    template <typename... Args>
+    JET_CUDA_HOST value_type operator()(size_t i, Args... args) const;
 
-    __host__ value_type operator()(const CudaStdArray<size_t, N>& idx) const;
+    JET_CUDA_HOST host_reference operator()(const CudaStdArray<size_t, N>& idx);
+
+    JET_CUDA_HOST value_type
+    operator()(const CudaStdArray<size_t, N>& idx) const;
 #endif  // __CUDA_ARCH__
 
  protected:
     pointer _ptr = nullptr;
     CudaStdArray<size_t, N> _size;
 
-    __host__ __device__ CudaArrayBase();
+    JET_CUDA_HOST_DEVICE CudaArrayBase();
 
-    __host__ __device__ CudaArrayBase(const CudaArrayBase& other);
+    JET_CUDA_HOST_DEVICE CudaArrayBase(const CudaArrayBase& other);
 
-    __host__ __device__ CudaArrayBase(CudaArrayBase&& other);
+    JET_CUDA_HOST_DEVICE CudaArrayBase(CudaArrayBase&& other);
 
     template <typename... Args>
-    __host__ __device__ void setPtrAndSize(pointer ptr, size_t ni,
-                                           Args... args);
+    JET_CUDA_HOST_DEVICE void setPtrAndSize(pointer ptr, size_t ni,
+                                            Args... args);
 
-    __host__ __device__ void setPtrAndSize(pointer data,
-                                           CudaStdArray<size_t, N> size);
+    JET_CUDA_HOST_DEVICE void setPtrAndSize(pointer data,
+                                            CudaStdArray<size_t, N> size);
 
-    __host__ __device__ void swapPtrAndSize(CudaArrayBase& other);
+    JET_CUDA_HOST_DEVICE void swapPtrAndSize(CudaArrayBase& other);
 
-    __host__ __device__ void clearPtrAndSize();
+    JET_CUDA_HOST_DEVICE void clearPtrAndSize();
 
-    __host__ __device__ CudaArrayBase& operator=(const CudaArrayBase& other);
+    JET_CUDA_HOST_DEVICE CudaArrayBase& operator=(const CudaArrayBase& other);
 
-    __host__ __device__ CudaArrayBase& operator=(CudaArrayBase&& other);
+    JET_CUDA_HOST_DEVICE CudaArrayBase& operator=(CudaArrayBase&& other);
 
  private:
     template <typename... Args>
-    __host__ __device__ size_t _index(size_t d, size_t i, Args... args) const;
+    JET_CUDA_HOST_DEVICE size_t _index(size_t d, size_t i, Args... args) const;
 
-    __host__ __device__ size_t _index(size_t, size_t i) const;
+    JET_CUDA_HOST_DEVICE size_t _index(size_t, size_t i) const;
 
     template <size_t... I>
-    __host__ __device__ size_t _index(const CudaStdArray<size_t, N>& idx,
-                                      std::index_sequence<I...>) const;
+    JET_CUDA_HOST_DEVICE size_t _index(const CudaStdArray<size_t, N>& idx,
+                                       std::index_sequence<I...>) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +199,13 @@ class CudaArray final : public CudaArrayBase<T, N, Array<T, N>> {
     void copyFrom(const ArrayBase<T, N, OtherDerived>& other);
 
     template <typename OtherDerived>
+    void copyFrom(const ArrayBase<const T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
     void copyFrom(const CudaArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    void copyFrom(const CudaArrayBase<const T, N, OtherDerived>& other);
 
     template <typename A, size_t M = N>
     std::enable_if_t<(M == 1), void> copyTo(std::vector<T, A>& vec);
@@ -250,7 +257,13 @@ class CudaArray final : public CudaArrayBase<T, N, Array<T, N>> {
     CudaArray& operator=(const ArrayBase<T, N, OtherDerived>& other);
 
     template <typename OtherDerived>
+    CudaArray& operator=(const ArrayBase<const T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
     CudaArray& operator=(const CudaArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    CudaArray& operator=(const CudaArrayBase<const T, N, OtherDerived>& other);
 
     CudaArray& operator=(const CudaArray& other);
 

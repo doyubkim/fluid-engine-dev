@@ -378,6 +378,14 @@ void Array<T, N>::copyFrom(const ArrayBase<T, N, D>& other) {
 }
 
 template <typename T, size_t N>
+template <typename D>
+void Array<T, N>::copyFrom(const ArrayBase<const T, N, D>& other) {
+    resize(other.size());
+    forEachIndex(Vector<size_t, N>{}, other.size(),
+                 [&](auto... idx) { at(idx...) = other(idx...); });
+}
+
+template <typename T, size_t N>
 void Array<T, N>::fill(const T& val) {
     std::fill(_data.begin(), _data.end(), val);
 }
@@ -412,7 +420,7 @@ template <typename T, size_t N>
 template <typename OtherDerived, size_t M>
 std::enable_if_t<(M == 1), void> Array<T, N>::append(
     const ArrayBase<T, N, OtherDerived>& extra) {
-    _data.insert(_data.end(), extra._data.begin(), extra._data.end());
+    _data.insert(_data.end(), extra.begin(), extra.end());
     Base::setPtrAndSize(_data.data(), _data.size());
 }
 
@@ -440,7 +448,16 @@ ArrayView<const T, N> Array<T, N>::view() const {
 
 template <typename T, size_t N>
 template <typename OtherDerived>
-Array<T, N>& Array<T, N>::operator=(const ArrayBase<T, N, OtherDerived>& other) {
+Array<T, N>& Array<T, N>::operator=(
+    const ArrayBase<T, N, OtherDerived>& other) {
+    copyFrom(other);
+    return *this;
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>& Array<T, N>::operator=(
+    const ArrayBase<const T, N, OtherDerived>& other) {
     copyFrom(other);
     return *this;
 }
