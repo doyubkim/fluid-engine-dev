@@ -265,8 +265,8 @@ class CudaPointHashGridSearcher3::Builder final {
     CudaPointHashGridSearcher3Ptr makeShared() const;
 
  private:
-    Vector3UZ _resolution{64, 64, 64};
     float _gridSpacing = 1.0f;
+    Vector3UZ _resolution{64, 64, 64};
 };
 
 }  // namespace jet

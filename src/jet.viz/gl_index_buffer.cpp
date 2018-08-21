@@ -39,7 +39,7 @@ void GLIndexBuffer::onResize(const VertexBufferPtr& vertexBuffer,
                              size_t numberOfIndices) {
     const auto& glVertexBuffer =
         std::dynamic_pointer_cast<GLVertexBuffer>(vertexBuffer);
-    assert(glVertexBuffer != nullptr);
+    JET_ASSERT(glVertexBuffer != nullptr);
 
     GLuint vertexArrayId = glVertexBuffer->vertexArrayId();
     glBindVertexArray(vertexArrayId);
