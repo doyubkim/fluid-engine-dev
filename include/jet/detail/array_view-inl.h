@@ -57,7 +57,7 @@ void ArrayView<T, N>::set(const ArrayView& other) {
 template <typename T, size_t N>
 void ArrayView<T, N>::fill(const T& val) {
     forEachIndex(Vector<size_t, N>{}, _size,
-                 [&](auto... idx) { at(idx...) = val; });
+                 [&](auto... idx) { this->at(idx...) = val; });
 }
 
 template <typename T, size_t N>
