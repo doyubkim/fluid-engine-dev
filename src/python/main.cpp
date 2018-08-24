@@ -100,10 +100,8 @@
 
 namespace py = pybind11;
 
-PYBIND11_PLUGIN(pyjet) {
-    py::module m("pyjet", R"pbdoc(
-        Fluid simulation engine for computer graphics applications
-    )pbdoc");
+PYBIND11_MODULE(pyjet, m) {
+    m.doc() = "Fluid simulation engine for computer graphics applications";
 
     // Constants
     addConstants(m);
@@ -312,6 +310,4 @@ PYBIND11_PLUGIN(pyjet) {
 #else
     m.attr("__version__") = py::str("dev");
 #endif
-
-    return m.ptr();
 }
