@@ -149,7 +149,7 @@ void GLVertexBuffer::onClear() {
 void GLVertexBuffer::onResize(const ShaderPtr& shader, const float* vertices,
                               size_t numberOfVertices) {
     GLShader* glShader = dynamic_cast<GLShader*>(shader.get());
-    assert(glShader != nullptr);
+    JET_ASSERT(glShader != nullptr);
 
     VertexFormat vertexFormat = glShader->vertexFormat();
 

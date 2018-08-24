@@ -374,7 +374,7 @@ template <typename D>
 void Array<T, N>::copyFrom(const ArrayBase<T, N, D>& other) {
     resize(other.size());
     forEachIndex(Vector<size_t, N>{}, other.size(),
-                 [&](auto... idx) { at(idx...) = other(idx...); });
+                 [&](auto... idx) { this->at(idx...) = other(idx...); });
 }
 
 template <typename T, size_t N>
@@ -382,7 +382,7 @@ template <typename D>
 void Array<T, N>::copyFrom(const ArrayBase<const T, N, D>& other) {
     resize(other.size());
     forEachIndex(Vector<size_t, N>{}, other.size(),
-                 [&](auto... idx) { at(idx...) = other(idx...); });
+                 [&](auto... idx) { this->at(idx...) = other(idx...); });
 }
 
 template <typename T, size_t N>

@@ -21,7 +21,9 @@ JET_CUDA_HOST_DEVICE CudaPointHashGridSearcher2::HashUtils::HashUtils() {}
 
 JET_CUDA_HOST_DEVICE CudaPointHashGridSearcher2::HashUtils::HashUtils(
     float gridSpacing, uint2 resolution)
-    : _gridSpacing(gridSpacing), _resolution(resolution) {}
+    : _gridSpacing(gridSpacing), _resolution(resolution) {
+    (void)_dummy;
+}
 
 inline JET_CUDA_HOST_DEVICE void
 CudaPointHashGridSearcher2::HashUtils::getNearbyKeys(

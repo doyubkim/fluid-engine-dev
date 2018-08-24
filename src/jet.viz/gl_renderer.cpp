@@ -45,7 +45,7 @@ static GLenum convertBlendFactor(RenderStates::BlendFactor blendFactor) {
         case RenderStates::BlendFactor::OneMinusDestColor:
             return GL_ONE_MINUS_DST_COLOR;
         default:
-            assert(false);
+            JET_ASSERT(false);
             return GL_ZERO;
     }
 }
@@ -62,7 +62,7 @@ static GLenum convertPrimitiveType(PrimitiveType type) {
     } else if (type == PrimitiveType::TriangleStrip) {
         return GL_TRIANGLE_STRIP;
     } else {
-        assert(false);
+        JET_ASSERT(false);
         return 0;
     }
 }
