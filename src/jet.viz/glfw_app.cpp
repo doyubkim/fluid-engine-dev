@@ -153,7 +153,7 @@ Event<GLFWwindow*, int, const char**>& GlfwApp::onGlfwDropEvent() {
 }
 
 void GlfwApp::onSetCurrentWindow(const GlfwWindowPtr& window) {
-    assert(std::find(sWindows.begin(), sWindows.end(), window) !=
+    JET_ASSERT(std::find(sWindows.begin(), sWindows.end(), window) !=
            sWindows.end());
 
     sCurrentWindow = window;
@@ -175,7 +175,7 @@ void GlfwApp::onCloseCurrentWindow(const GlfwWindowPtr& window) {
 void GlfwApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
                     int mods) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled =
@@ -190,7 +190,7 @@ void GlfwApp::onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
 void GlfwApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
                             int mods) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled =
@@ -204,7 +204,7 @@ void GlfwApp::onMouseButton(GLFWwindow* glfwWindow, int button, int action,
 
 void GlfwApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled = sOnGlfwMouseCursorEnterEvent(glfwWindow, entered);
@@ -217,7 +217,7 @@ void GlfwApp::onMouseCursorEnter(GLFWwindow* glfwWindow, int entered) {
 
 void GlfwApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled = sOnGlfwMouseCursorPosEvent(glfwWindow, x, y);
@@ -231,7 +231,7 @@ void GlfwApp::onMouseCursorPos(GLFWwindow* glfwWindow, double x, double y) {
 void GlfwApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
                             double deltaY) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled = sOnGlfwMouseScrollEvent(glfwWindow, deltaX, deltaY);
@@ -244,7 +244,7 @@ void GlfwApp::onMouseScroll(GLFWwindow* glfwWindow, double deltaX,
 
 void GlfwApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled = sOnGlfwCharEvent(glfwWindow, code);
@@ -255,7 +255,7 @@ void GlfwApp::onChar(GLFWwindow* glfwWindow, unsigned int code) {
 
 void GlfwApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled = sOnGlfwCharModsEvent(glfwWindow, code, mods);
@@ -267,7 +267,7 @@ void GlfwApp::onCharMods(GLFWwindow* glfwWindow, unsigned int code, int mods) {
 void GlfwApp::onDrop(GLFWwindow* glfwWindow, int numDroppedFiles,
                      const char** pathNames) {
     GlfwWindowPtr window = findWindow(glfwWindow);
-    assert(window != nullptr);
+    JET_ASSERT(window != nullptr);
     window->requestRender();
 
     bool handled =

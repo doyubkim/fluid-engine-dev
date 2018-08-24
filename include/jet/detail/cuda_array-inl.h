@@ -14,6 +14,8 @@
 
 namespace jet {
 
+#ifdef __CUDACC__
+
 namespace internal {
 
 template <typename T, size_t N, size_t I>
@@ -97,6 +99,8 @@ struct CudaBlockCopy<T, 1> {
 };
 
 }  // namespace internal
+
+#endif  // __CUDACC__
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: CudaArrayBase
@@ -408,6 +412,8 @@ CudaArray<T, N>::CudaArray(const CudaStdArray<size_t, N>& size_,
     Base::setPtrAndSize(_data.data(), size_);
 }
 
+#ifdef __CUDACC__
+
 template <typename T, size_t N>
 template <typename... Args>
 CudaArray<T, N>::CudaArray(size_t nx, Args... args) : CudaArray() {
@@ -430,6 +436,8 @@ CudaArray<T, N>::CudaArray(NestedInitializerListsT<T, N> lst) : CudaArray() {
     internal::SetArrayFromInitList<T, N, N>::call(newCpuArray, lst);
     copyFrom(newCpuArray);
 }
+
+#endif  // __CUDACC__
 
 template <typename T, size_t N>
 template <size_t M>
@@ -517,19 +525,19 @@ std::enable_if_t<(M == 1), void> CudaArray<T, N>::copyTo(
 
 template <typename T, size_t N>
 void CudaArray<T, N>::copyTo(Array<T, N>& other) {
-    other.resize(size().toVector());
+    other.resize(_size.toVector());
     cudaCopyDeviceToHost(data(), length(), other.data());
 }
 
 template <typename T, size_t N>
 void CudaArray<T, N>::copyTo(ArrayView<T, N>& other) {
-    JET_ASSERT(size().toVector() == other.size());
+    JET_ASSERT(_size.toVector() == other.size());
     cudaCopyDeviceToHost(data(), length(), other.data());
 }
 
 template <typename T, size_t N>
 void CudaArray<T, N>::copyTo(CudaArray<T, N>& other) {
-    other.resize(size().toVector());
+    other.resize(_size.toVector());
     cudaCopyDeviceToDevice(data(), length(), other.data());
 }
 
@@ -543,6 +551,8 @@ template <typename T, size_t N>
 void CudaArray<T, N>::fill(const T& val) {
     _data.fill(val);
 }
+
+#ifdef __CUDACC__
 
 template <typename T, size_t N>
 void CudaArray<T, N>::resize(CudaStdArray<size_t, N> newSize,
@@ -571,6 +581,8 @@ void CudaArray<T, N>::resize(size_t nx, Args... args) {
     CudaStdArray<size_t, N> newSize(newSizeV);
     resize(newSize, initVal);
 }
+
+#endif  // __CUDACC__
 
 template <typename T, size_t N>
 template <size_t M>

@@ -239,6 +239,7 @@
 #include <jet/surface_to_implicit2.h>
 #include <jet/surface_to_implicit3.h>
 #include <jet/svd.h>
+#include <jet/thrust_utils.h>
 #include <jet/timer.h>
 #include <jet/transform2.h>
 #include <jet/transform3.h>

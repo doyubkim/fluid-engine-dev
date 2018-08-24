@@ -12,7 +12,7 @@ using namespace jet;
 using namespace viz;
 
 ViewController::ViewController(const CameraPtr& camera) : _camera(camera) {
-    assert(_camera != nullptr);
+    JET_ASSERT(_camera != nullptr);
 }
 
 ViewController::~ViewController() {}

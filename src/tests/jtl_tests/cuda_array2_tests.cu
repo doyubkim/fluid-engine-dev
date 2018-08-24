@@ -203,8 +203,9 @@ TEST(CudaArray2, CopyTo) {
                                {5.f, 6.f, 7.f, 8.f},
                                {9.f, 10.f, 11.f, 12.f}});
         Array2<float> arr2(4, 3);
+        ArrayView2<float> arrView2 = arr2.view();
 
-        arr.copyTo(arr2.view());
+        arr.copyTo(arrView2);
         EXPECT_EQ(4u, arr2.width());
         EXPECT_EQ(3u, arr2.height());
         for (size_t i = 0; i < 12; ++i) {
@@ -233,8 +234,9 @@ TEST(CudaArray2, CopyTo) {
                                {5.f, 6.f, 7.f, 8.f},
                                {9.f, 10.f, 11.f, 12.f}});
         CudaArray2<float> arr2(4, 3);
+        CudaArrayView2<float> arrView2 = arr2.view();
 
-        arr.copyTo(arr2.view());
+        arr.copyTo(arrView2);
         EXPECT_EQ(4u, arr2.width());
         EXPECT_EQ(3u, arr2.height());
         for (size_t i = 0; i < 12; ++i) {

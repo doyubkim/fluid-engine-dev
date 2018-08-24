@@ -11,7 +11,9 @@
 
 #include <jet/cuda_array.h>
 
+JET_DISABLE_CLANG_WARNING(unneeded-internal-declaration)
 #include <thrust/device_ptr.h>
+JET_ENABLE_CLANG_WARNING(unneeded-internal-declaration)
 
 #include <cuda_runtime.h>
 

@@ -33,7 +33,7 @@ inline size_t getNumberOfElements(RenderParameters::Type type) {
         case RenderParameters::Type::kMatrix:
             return 16;
         default:
-            assert(false);
+            JET_ASSERT(false);
     }
 
     return 0;
@@ -145,7 +145,7 @@ RenderParameters::Metadata RenderParameters::metadata(
 void RenderParameters::add(const std::string& name,
                            const int32_t* defaultValue, Type type) {
     // Can't add with exiting name
-    assert(_metadata.find(name) == _metadata.end());
+    JET_ASSERT(_metadata.find(name) == _metadata.end());
 
     Metadata metadata = {_lastParameterOffset, type};
     _metadata[name] = metadata;
@@ -163,7 +163,7 @@ void RenderParameters::add(const std::string& name,
 
 void RenderParameters::set(const std::string& name, const int32_t* value) {
     auto iter = _metadata.find(name);
-    assert(iter != _metadata.end());
+    JET_ASSERT(iter != _metadata.end());
 
     size_t offset = iter->second.offset;
     size_t numberOfElements = getNumberOfElements(iter->second.type);
