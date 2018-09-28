@@ -126,6 +126,21 @@ void addVector(PyBindClass& cls, const std::string& name) {
                      return elemDiv(instance, obj2vec<T, R>(object, name));
                  }
              })
+        .def("__len__", [](const VectorType&) { return R; })
+        .def("__iter__",
+             [](const VectorType& instance) {
+                 return py::make_iterator(&instance.x, &instance.x + R);
+             })
+        .def("__str__",
+             [](const VectorType& instance) {
+                 std::string result;
+                 for (size_t i = 0; i < R; ++i) {
+                     result += std::to_string(instance.x);
+                     if (i < R - 1) {
+                         result += ", ";
+                     }
+                 }
+             })
         .def("__eq__", [name](const VectorType& instance, py::object obj) {
             VectorType other = obj2vec<T, R>(obj, name);
             return instance == other;

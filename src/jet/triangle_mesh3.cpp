@@ -205,7 +205,9 @@ const Vector3UZ& TriangleMesh3::normalIndex(size_t i) const {
 
 Vector3UZ& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
 
-const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
+const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const {
+    return _uvIndices[i];
+}
 
 Vector3UZ& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
 
@@ -237,7 +239,9 @@ size_t TriangleMesh3::numberOfNormals() const { return _normals.length(); }
 
 size_t TriangleMesh3::numberOfUvs() const { return _uvs.length(); }
 
-size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.length(); }
+size_t TriangleMesh3::numberOfTriangles() const {
+    return _pointIndices.length();
+}
 
 bool TriangleMesh3::hasNormals() const { return _normals.length() > 0; }
 
@@ -254,11 +258,31 @@ void TriangleMesh3::addPointTriangle(const Vector3UZ& newPointIndices) {
     invalidateBvh();
 }
 
+void TriangleMesh3::addNormalTriangle(const Vector3UZ& newNormalIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
+
+    _normalIndices.append(newNormalIndices);
+
+    invalidateBvh();
+}
+
+void TriangleMesh3::addUvTriangle(const Vector3UZ& newUvIndices) {
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _uvIndices.size());
+
+    _uvIndices.append(newUvIndices);
+
+    invalidateBvh();
+}
+
 void TriangleMesh3::addPointNormalTriangle(const Vector3UZ& newPointIndices,
                                            const Vector3UZ& newNormalIndices) {
-    // Number of normal indicies must match with number of point indices once
-    // you decided to add normal indicies. Same for the uvs as well.
-    JET_ASSERT(_pointIndices.length() == _normalIndices.length());
+    // Number of normal indices must match with number of point indices once
+    // you decided to add normal indices. Same for the uvs as well.
+    JET_ASSERT(_pointIndices.size() == _normalIndices.size());
 
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
@@ -266,9 +290,9 @@ void TriangleMesh3::addPointNormalTriangle(const Vector3UZ& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvNormalTriangle(const Vector3UZ& newPointIndices,
-                                             const Vector3UZ& newUvIndices,
-                                             const Vector3UZ& newNormalIndices) {
+void TriangleMesh3::addPointUvNormalTriangle(
+    const Vector3UZ& newPointIndices, const Vector3UZ& newUvIndices,
+    const Vector3UZ& newNormalIndices) {
     // Number of normal indicies must match with number of point indices once
     // you decided to add normal indicies. Same for the uvs as well.
     JET_ASSERT(_pointIndices.length() == _normalIndices.length());
@@ -530,22 +554,23 @@ bool TriangleMesh3::readObj(std::istream* strm) {
             if (fv == 3) {
                 if (!attrib.vertices.empty()) {
                     addPointTriangle(
-                        {shape.mesh.indices[idx].vertex_index,
-                         shape.mesh.indices[idx + 1].vertex_index,
-                         shape.mesh.indices[idx + 2].vertex_index});
+                        {(size_t)shape.mesh.indices[idx].vertex_index,
+                         (size_t)shape.mesh.indices[idx + 1].vertex_index,
+                         (size_t)shape.mesh.indices[idx + 2].vertex_index});
                 }
 
                 if (!attrib.normals.empty()) {
                     addNormalTriangle(
-                        {shape.mesh.indices[idx].normal_index,
-                         shape.mesh.indices[idx + 1].normal_index,
-                         shape.mesh.indices[idx + 2].normal_index});
+                        {(size_t)shape.mesh.indices[idx].normal_index,
+                         (size_t)shape.mesh.indices[idx + 1].normal_index,
+                         (size_t)shape.mesh.indices[idx + 2].normal_index});
                 }
 
                 if (!attrib.texcoords.empty()) {
-                    addUvTriangle({shape.mesh.indices[idx].texcoord_index,
-                                   shape.mesh.indices[idx + 1].texcoord_index,
-                                   shape.mesh.indices[idx + 2].texcoord_index});
+                    addUvTriangle(
+                        {(size_t)shape.mesh.indices[idx].texcoord_index,
+                         (size_t)shape.mesh.indices[idx + 1].texcoord_index,
+                         (size_t)shape.mesh.indices[idx + 2].texcoord_index});
                 }
             }
 

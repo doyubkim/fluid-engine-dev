@@ -75,7 +75,7 @@ def test_scalar_grid2():
 
     a.fill(func)
     pos = a.dataPosition()
-    acc = np.array(a.dataAccessor(), copy=False)
+    acc = np.array(a.dataView(), copy=False)
     for j in range(a.resolution.y):
         for i in range(a.resolution.x):
             pt = pos(i, j)
@@ -245,7 +245,7 @@ def test_scalar_grid3():
 
     a.fill(func)
     pos = a.dataPosition()
-    acc = np.array(a.dataAccessor(), copy=False)
+    acc = np.array(a.dataView(), copy=False)
     for k in range(a.resolution.z):
         for j in range(a.resolution.y):
             for i in range(a.resolution.x):
