@@ -146,10 +146,14 @@ void addScalarGrid2(py::module& m) {
              py::arg("i"), py::arg("j"))
         .def("dataView",
              (ArrayView2<double>(ScalarGrid2::*)()) & ScalarGrid2::dataView,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &ScalarGrid2::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array view.)pbdoc")
+        .def("dataPosition", &ScalarGrid2::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid2& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid2& instance, py::object obj) {
                  if (py::isinstance<py::function>(obj)) {
@@ -336,10 +340,14 @@ void addScalarGrid3(py::module& m) {
              py::arg("i"), py::arg("j"), py::arg("k"))
         .def("dataView",
              (ArrayView3<double>(ScalarGrid3::*)()) & ScalarGrid3::dataView,
-             R"pbdoc(Returns the data array accessor.)pbdoc")
-        .def(
-            "dataPosition", &ScalarGrid3::dataPosition,
-            R"pbdoc(Returns the function that maps data point to its position.)pbdoc")
+             R"pbdoc(The data array view.)pbdoc")
+        .def("dataPosition", &ScalarGrid3::dataPosition,
+             R"pbdoc(The function that maps data point to its position.)pbdoc")
+        .def("fill",
+             [](ScalarGrid3& instance, double value) {
+                 instance.fill(value, ExecutionPolicy::kSerial);
+             },
+             R"pbdoc(Fills the grid with given value.)pbdoc")
         .def("fill",
              [](ScalarGrid3& instance, py::object obj) {
                  if (py::isinstance<py::function>(obj)) {

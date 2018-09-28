@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#if JET_USE_CUDA
+
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/cuda_sph_system_data3.h>
 #include <jet/sph_kernels3.h>
@@ -132,3 +134,5 @@ void CudaSphSystemData3::computeMass() {
 
     _mass = static_cast<float>(_targetDensity / maxNumberDensity);
 }
+
+#endif  // JET_USE_CUDA

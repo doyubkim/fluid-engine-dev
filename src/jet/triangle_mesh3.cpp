@@ -205,7 +205,9 @@ const Vector3UZ& TriangleMesh3::normalIndex(size_t i) const {
 
 Vector3UZ& TriangleMesh3::normalIndex(size_t i) { return _normalIndices[i]; }
 
-const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const { return _uvIndices[i]; }
+const Vector3UZ& TriangleMesh3::uvIndex(size_t i) const {
+    return _uvIndices[i];
+}
 
 Vector3UZ& TriangleMesh3::uvIndex(size_t i) { return _uvIndices[i]; }
 
@@ -237,7 +239,9 @@ size_t TriangleMesh3::numberOfNormals() const { return _normals.length(); }
 
 size_t TriangleMesh3::numberOfUvs() const { return _uvs.length(); }
 
-size_t TriangleMesh3::numberOfTriangles() const { return _pointIndices.length(); }
+size_t TriangleMesh3::numberOfTriangles() const {
+    return _pointIndices.length();
+}
 
 bool TriangleMesh3::hasNormals() const { return _normals.length() > 0; }
 
@@ -531,22 +535,23 @@ bool TriangleMesh3::readObj(std::istream* strm) {
             if (fv == 3) {
                 if (!attrib.vertices.empty()) {
                     addPointTriangle(
-                        {shape.mesh.indices[idx].vertex_index,
-                         shape.mesh.indices[idx + 1].vertex_index,
-                         shape.mesh.indices[idx + 2].vertex_index});
+                        {(size_t)shape.mesh.indices[idx].vertex_index,
+                         (size_t)shape.mesh.indices[idx + 1].vertex_index,
+                         (size_t)shape.mesh.indices[idx + 2].vertex_index});
                 }
 
                 if (!attrib.normals.empty()) {
                     addNormalTriangle(
-                        {shape.mesh.indices[idx].normal_index,
-                         shape.mesh.indices[idx + 1].normal_index,
-                         shape.mesh.indices[idx + 2].normal_index});
+                        {(size_t)shape.mesh.indices[idx].normal_index,
+                         (size_t)shape.mesh.indices[idx + 1].normal_index,
+                         (size_t)shape.mesh.indices[idx + 2].normal_index});
                 }
 
                 if (!attrib.texcoords.empty()) {
-                    addUvTriangle({shape.mesh.indices[idx].texcoord_index,
-                                   shape.mesh.indices[idx + 1].texcoord_index,
-                                   shape.mesh.indices[idx + 2].texcoord_index});
+                    addUvTriangle(
+                        {(size_t)shape.mesh.indices[idx].texcoord_index,
+                         (size_t)shape.mesh.indices[idx + 1].texcoord_index,
+                         (size_t)shape.mesh.indices[idx + 2].texcoord_index});
                 }
             }
 

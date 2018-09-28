@@ -143,14 +143,14 @@ void addFaceCenteredGrid2(py::module& m) {
              - j : Data point index j.
              )pbdoc",
              py::arg("i"), py::arg("j"))
-        .def("uView",
-             (ArrayView2<double>(FaceCenteredGrid2::*)()) &
-                 FaceCenteredGrid2::uView,
-             R"pbdoc(Returns u data accessor.)pbdoc")
         .def("vView",
              (ArrayView2<double>(FaceCenteredGrid2::*)()) &
                  FaceCenteredGrid2::vView,
-             R"pbdoc(Returns v data accessor.)pbdoc")
+             R"pbdoc(U data view.)pbdoc")
+        .def("vView",
+             (ArrayView2<double>(FaceCenteredGrid2::*)()) &
+                 FaceCenteredGrid2::vView,
+             R"pbdoc(V data view.)pbdoc")
         .def("uPosition", &FaceCenteredGrid2::uPosition,
              R"pbdoc(
             The function object that maps u data point to its actual position.
@@ -405,18 +405,18 @@ void addFaceCenteredGrid3(py::module& m) {
              - k : Data point index k.
              )pbdoc",
              py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("uView",
-             (ArrayView3<double>(FaceCenteredGrid3::*)()) &
-                 FaceCenteredGrid3::uView,
-             R"pbdoc(Returns u data accessor.)pbdoc")
         .def("vView",
              (ArrayView3<double>(FaceCenteredGrid3::*)()) &
                  FaceCenteredGrid3::vView,
-             R"pbdoc(Returns v data accessor.)pbdoc")
+             R"pbdoc(U data view.)pbdoc")
+        .def("vView",
+             (ArrayView3<double>(FaceCenteredGrid3::*)()) &
+                 FaceCenteredGrid3::vView,
+             R"pbdoc(V data view.)pbdoc")
         .def("wView",
              (ArrayView3<double>(FaceCenteredGrid3::*)()) &
                  FaceCenteredGrid3::wView,
-             R"pbdoc(Returns w data accessor.)pbdoc")
+             R"pbdoc(W data view.)pbdoc")
         .def("uPosition", &FaceCenteredGrid3::uPosition,
              R"pbdoc(
             The function object that maps u data point to its actual position.
