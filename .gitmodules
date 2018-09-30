@@ -13,6 +13,3 @@
 [submodule "external/tinyobj"]
 	path = external/tinyobj
 	url = https://github.com/syoyo/tinyobjloader
-[submodule "external/glfw"]
-	path = external/glfw
-	url = https://github.com/glfw/glfw.git
