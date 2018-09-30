@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Code</title>
+  <title>Errata</title>
   <meta name="description" content="This site is for the book, &quot;Fluid Engine Development&quot;, and its source code.">
 
   <link rel="stylesheet" href="/assets/main.css">
-  <link rel="canonical" href="http://fluidenginedevelopment.org/code/">
+  <link rel="canonical" href="http://fluidenginedevelopment.org/errata/">
   <link rel="alternate" type="application/rss+xml" title="Fluid Engine Development" href="/feed.xml">
 
   <!-- Place this tag in your head or just before your close body tag. -->
@@ -76,37 +76,37 @@
         <article class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Code</h1>
+    <h1 class="post-title">Errata</h1>
   </header>
 
   <div class="post-content">
-    <h2 id="download">Download</h2>
+    <h2 id="errata-for-the-first-edition">Errata for the First Edition</h2>
 
-<p>The source code can be cloned or downloaded from the <a href="https://github.com/doyubkim/fluid-engine-dev">Github repository</a>.</p>
+<p>There are some errors/typos/bugs found from the 1st edition of the book. Below are the list of such errors either found by myself or fellow readers.</p>
 
-<hr />
+<p><strong>Page 26</strong></p>
 
-<h2 id="the-book-and-the-code">The Book and the Code</h2>
+<p>Reporter: <a href="http://foks-lab.fr">Marc Le Renard</a></p>
 
-<h3 id="branching">Branching</h3>
+<p>The description length(a*)=a.b is only true if vector b is unit-sized, else a.b = length(a*) x length(b).</p>
 
-<p>The first edition of the book corresponds to the code version 1.0.0. After the release of v1.0.0, the code will evolve, and the book-version of the code will be maintained as a separate branch <a href="https://github.com/doyubkim/fluid-engine-dev/tree/book-1st-edition"><code class="highlighter-rouge">book-1st-edition</code></a> in the GitHub repository. It will take bug fixes only, but no feature addition or API changes to keep in sync with the book.</p>
+<p><strong>Page 44</strong></p>
 
-<h3 id="diff-between-the-book-and-v100">Diff between The Book and v1.0.0</h3>
+<p>Reporter: <a href="http://foks-lab.fr">Marc Le Renard</a></p>
 
-<p>Although I tried not to diverge from the code in the book, several important enhancement and bug fixes were applied to the code after finishing the manuscript for the book. Below is the list of the notable differences between the book and v1.0.0.</p>
+<p>There should be <code class="highlighter-rouge">x.</code> before <code class="highlighter-rouge">x</code> , <code class="highlighter-rouge">y</code> , <code class="highlighter-rouge">z</code> in the <code class="highlighter-rouge">std::sin</code> formula.</p>
 
-<p><strong>Page 63~67</strong></p>
+<p><strong>Page 90</strong></p>
 
-<p>The <code class="highlighter-rouge">Surface3</code> interface has changed. The main idea of this update is to separate the world and local coordinates, and let the deriving classes to override the local version only. For example, the book shows <code class="highlighter-rouge">closestPoint</code> is virtual. The new code adds <code class="highlighter-rouge">closestPointLocal</code> as a new virtual function to be overriden and make <code class="highlighter-rouge">closestPoint</code> to be non-virtual.</p>
+<p>Reporter: <a href="http://foks-lab.fr">Marc Le Renard</a></p>
 
-<p><strong>Page 69</strong></p>
+<p>The y-position is clamped to 0 but in the code the y-position is clamped to -7.0.</p>
 
-<p>The <code class="highlighter-rouge">ImplicitSurface3</code> interface has changed. Similar to the update above, this modification also let the sub-classes to override the function in local frame (<code class="highlighter-rouge">signedDistanceLocal</code>), but keep the world frame version as a non-virtual function.</p>
+<p><strong>Page 94</strong></p>
 
-<p><strong>Page 120~</strong></p>
+<p>Reporter: <a href="http://foks-lab.fr">Marc Le Renard</a></p>
 
-<p>The member variable <code class="highlighter-rouge">_mass</code> in <code class="highlighter-rouge">SphSystemData3</code> is removed. The new code uses <code class="highlighter-rouge">mass()</code> instead.</p>
+<p>From Figure 1.51, the formula should be p = \rho g h + p_{atm} instead of p = p g h + p_{atm}</p>
 
 <p><strong>Page 184</strong></p>
 
@@ -140,23 +140,6 @@
 <span class="n">u</span><span class="p">.</span><span class="n">parallelForEachIndex</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">size_t</span> <span class="n">i</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">j</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">u</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">uTemp</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
 <span class="p">});</span>
-</code></pre>
-</div>
-
-<p><strong>Page 213~</strong></p>
-
-<p>The interface <code class="highlighter-rouge">GridPressureSolver3::solve</code> has changed to:</p>
-
-<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">virtual</span> <span class="kt">void</span> <span class="n">solve</span><span class="p">(</span>
-    <span class="k">const</span> <span class="n">FaceCenteredGrid3</span><span class="o">&amp;</span> <span class="n">input</span><span class="p">,</span>
-    <span class="kt">double</span> <span class="n">timeIntervalInSeconds</span><span class="p">,</span>
-    <span class="n">FaceCenteredGrid3</span><span class="o">*</span> <span class="n">output</span><span class="p">,</span>
-    <span class="k">const</span> <span class="n">ScalarField3</span><span class="o">&amp;</span> <span class="n">boundarySdf</span>
-        <span class="o">=</span> <span class="n">ConstantScalarField3</span><span class="p">(</span><span class="n">kMaxD</span><span class="p">),</span>
-    <span class="k">const</span> <span class="n">VectorField3</span><span class="o">&amp;</span> <span class="n">boundaryVelocity</span>
-        <span class="o">=</span> <span class="n">ConstantVectorField3</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}),</span>
-    <span class="k">const</span> <span class="n">ScalarField3</span><span class="o">&amp;</span> <span class="n">fluidSdf</span>
-        <span class="o">=</span> <span class="n">ConstantScalarField3</span><span class="p">(</span><span class="o">-</span><span class="n">kMaxD</span><span class="p">))</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 </code></pre>
 </div>
 
