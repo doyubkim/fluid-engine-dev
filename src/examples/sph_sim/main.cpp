@@ -113,7 +113,7 @@ void runExample1(const std::string& rootDir, double targetSpacing,
                           .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
-                       .withSurface(surfaceSet)
+                       .withImplicitSurface(surfaceSet)
                        .withSpacing(targetSpacing)
                        .withMaxRegion(sourceBound)
                        .withIsOneShot(true)
@@ -170,7 +170,7 @@ void runExample2(const std::string& rootDir, double targetSpacing,
                           .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
-                       .withSurface(surfaceSet)
+                       .withImplicitSurface(surfaceSet)
                        .withSpacing(targetSpacing)
                        .withMaxRegion(sourceBound)
                        .withIsOneShot(true)
