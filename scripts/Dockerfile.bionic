@@ -15,19 +15,14 @@ RUN cmake .. && \
 RUN apt-get install -yq pkg-config libfreetype6-dev libpng-dev
 
 WORKDIR /app/ENV2
-RUN pip2 install -U virtualenv && virtualenv .
-RUN source bin/activate
-RUN pip install -r ../requirements.txt && \
-    pip install .. && \
-    pytest ../src/tests/python_tests/
-RUN deactivate
+RUN pip2 install -r ../requirements.txt && \
+    pip2 install .. && \
+    python2 -m pytest ../src/tests/python_tests/
+
 
 WORKDIR /app/ENV3
-RUN pip3 install -U virtualenv && virtualenv .
-RUN source bin/activate
-RUN pip install -r ../requirements.txt && \
-    pip install .. && \
-    pytest ../src/tests/python_tests/
-RUN deactivate
+RUN pip3 install -r ../requirements.txt && \
+    pip3 install .. && \
+    python3 -m pytest ../src/tests/python_tests/
 
 WORKDIR /
