@@ -1,4 +1,5 @@
-matplotlib
+matplotlib<3; python_version<'3.5'
+matplotlib>2; python_version>='3.5'
 numpy
 pytest
 wheel
