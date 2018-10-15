@@ -6,6 +6,7 @@
 
 #include <unit_tests_utils.h>
 
+#include <jet/plane3.h>
 #include <jet/sphere3.h>
 #include <jet/surface_set3.h>
 
@@ -371,4 +372,27 @@ TEST(SurfaceSet3, BoundingBox) {
 
     EXPECT_BOUNDING_BOX3_NEAR(answer, debug, 1e-9);
     EXPECT_BOUNDING_BOX3_NEAR(answer, sset2.boundingBox(), 1e-9);
+}
+
+TEST(SurfaceSet3, MixedBoundTypes) {
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+
+    auto plane = Plane3::builder()
+            .withNormal({0, 1, 0})
+            .withPoint({0, 0.25 * domain.height(), 0})
+            .makeShared();
+
+    auto sphere = Sphere3::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet = SurfaceSet3::builder()
+            .withSurfaces({plane, sphere})
+            .makeShared();
+
+    auto cp = surfaceSet->closestPoint(Vector3D(0.5, 0.4, 0.5));
+    Vector3D answer(0.5, 0.5, 0.5);
+
+    EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }

@@ -16,7 +16,14 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3() {}
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     const std::vector<ImplicitSurface3Ptr>& surfaces,
     const Transform3& transform, bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped), _surfaces(surfaces) {}
+    : ImplicitSurface3(transform, isNormalFlipped), _surfaces(surfaces) {
+    for (auto surface : _surfaces) {
+        if (!surface->isBounded()) {
+            _unboundedSurfaces.push_back(surface);
+        }
+    }
+    invalidateBvh();
+}
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(
     const std::vector<Surface3Ptr>& surfaces, const Transform3& transform,
@@ -28,7 +35,9 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(
 }
 
 ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
-    : ImplicitSurface3(other), _surfaces(other._surfaces) {}
+    : ImplicitSurface3(other),
+      _surfaces(other._surfaces),
+      _unboundedSurfaces(other._unboundedSurfaces) {}
 
 void ImplicitSurfaceSet3::updateQueryEngine() { buildBvh(); }
 
@@ -46,6 +55,9 @@ void ImplicitSurfaceSet3::addExplicitSurface(const Surface3Ptr& surface) {
 
 void ImplicitSurfaceSet3::addSurface(const ImplicitSurface3Ptr& surface) {
     _surfaces.push_back(surface);
+    if (!surface->isBounded()) {
+        _unboundedSurfaces.push_back(surface);
+    }
     invalidateBvh();
 }
 
@@ -58,12 +70,23 @@ Vector3D ImplicitSurfaceSet3::closestPointLocal(
         return surface->closestDistance(pt);
     };
 
+    Vector3D result{kMaxD, kMaxD, kMaxD};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
-        return (*queryResult.item)->closestPoint(otherPoint);
-    } else {
-        return Vector3D{kMaxD, kMaxD, kMaxD};
+        result = (*queryResult.item)->closestPoint(otherPoint);
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestPoint(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double ImplicitSurfaceSet3::closestDistanceLocal(
@@ -76,7 +99,17 @@ double ImplicitSurfaceSet3::closestDistanceLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return queryResult.distance;
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
 }
 
 Vector3D ImplicitSurfaceSet3::closestNormalLocal(
@@ -88,12 +121,23 @@ Vector3D ImplicitSurfaceSet3::closestNormalLocal(
         return surface->closestDistance(pt);
     };
 
+    Vector3D result{1.0, 0.0, 0.0};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
-        return (*queryResult.item)->closestNormal(otherPoint);
-    } else {
-        return Vector3D{1.0, 0.0, 0.0};
+        result = (*queryResult.item)->closestNormal(otherPoint);
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 bool ImplicitSurfaceSet3::intersectsLocal(const Ray3D& ray) const {
@@ -103,7 +147,12 @@ bool ImplicitSurfaceSet3::intersectsLocal(const Ray3D& ray) const {
         return surface->intersects(ray);
     };
 
-    return _bvh.intersects(ray, testFunc);
+    bool result = _bvh.intersects(ray, testFunc);
+    for (auto surface : _unboundedSurfaces) {
+        result |= surface->intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersectionLocal(
@@ -123,6 +172,14 @@ SurfaceRayIntersection3 ImplicitSurfaceSet3::closestIntersectionLocal(
         result.point = ray.pointAt(queryResult.distance);
         result.normal = (*queryResult.item)->closestNormal(result.point);
     }
+
+    for (auto surface : _unboundedSurfaces) {
+        SurfaceRayIntersection3 localResult = surface->closestIntersection(ray);
+        if (localResult.distance < result.distance) {
+            result = localResult;
+        }
+    }
+
     return result;
 }
 
@@ -146,9 +203,11 @@ void ImplicitSurfaceSet3::invalidateBvh() { _bvhInvalidated = true; }
 
 void ImplicitSurfaceSet3::buildBvh() const {
     if (_bvhInvalidated) {
-        std::vector<BoundingBox3D> bounds(_surfaces.size());
+        std::vector<BoundingBox3D> bounds;
         for (size_t i = 0; i < _surfaces.size(); ++i) {
-            bounds[i] = _surfaces[i]->boundingBox();
+            if (_surfaces[i]->isBounded()) {
+                bounds.push_back(_surfaces[i]->boundingBox());
+            }
         }
         _bvh.build(_surfaces, bounds);
         _bvhInvalidated = false;
