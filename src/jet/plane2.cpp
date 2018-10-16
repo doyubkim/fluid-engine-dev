@@ -20,6 +20,10 @@ Plane2::Plane2(const Vector2D& normal_, const Vector2D& point_,
 Plane2::Plane2(const Plane2& other)
     : Surface2(other), normal(other.normal), point(other.point) {}
 
+bool Plane2::isBounded() const {
+    return false;
+}
+
 Vector2D Plane2::closestPointLocal(const Vector2D& otherPoint) const {
     Vector2D r = otherPoint - point;
     return r - normal.dot(r) * normal + point;

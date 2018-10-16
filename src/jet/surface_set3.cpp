@@ -15,11 +15,18 @@ SurfaceSet3::SurfaceSet3() {}
 SurfaceSet3::SurfaceSet3(const std::vector<Surface3Ptr>& others,
                          const Transform3& transform, bool isNormalFlipped)
     : Surface3(transform, isNormalFlipped), _surfaces(others) {
+    for (auto surface : _surfaces) {
+        if (!surface->isBounded()) {
+            _unboundedSurfaces.push_back(surface);
+        }
+    }
     invalidateBvh();
 }
 
 SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
-    : Surface3(other), _surfaces(other._surfaces) {
+    : Surface3(other),
+      _surfaces(other._surfaces),
+      _unboundedSurfaces(other._unboundedSurfaces) {
     invalidateBvh();
 }
 
@@ -33,6 +40,9 @@ const Surface3Ptr& SurfaceSet3::surfaceAt(size_t i) const {
 
 void SurfaceSet3::addSurface(const Surface3Ptr& surface) {
     _surfaces.push_back(surface);
+    if (!surface->isBounded()) {
+        _unboundedSurfaces.push_back(surface);
+    }
     invalidateBvh();
 }
 
@@ -44,12 +54,23 @@ Vector3D SurfaceSet3::closestPointLocal(const Vector3D& otherPoint) const {
         return surface->closestDistance(pt);
     };
 
+    Vector3D result{kMaxD, kMaxD, kMaxD};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
-        return (*queryResult.item)->closestPoint(otherPoint);
-    } else {
-        return Vector3D{kMaxD, kMaxD, kMaxD};
+        result = (*queryResult.item)->closestPoint(otherPoint);
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestPoint(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 Vector3D SurfaceSet3::closestNormalLocal(const Vector3D& otherPoint) const {
@@ -60,12 +81,23 @@ Vector3D SurfaceSet3::closestNormalLocal(const Vector3D& otherPoint) const {
         return surface->closestDistance(pt);
     };
 
+    Vector3D result{1.0, 0.0, 0.0};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
         return (*queryResult.item)->closestNormal(otherPoint);
-    } else {
-        return Vector3D{1.0, 0.0, 0.0};
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double SurfaceSet3::closestDistanceLocal(const Vector3D& otherPoint) const {
@@ -77,7 +109,17 @@ double SurfaceSet3::closestDistanceLocal(const Vector3D& otherPoint) const {
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return queryResult.distance;
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
 }
 
 bool SurfaceSet3::intersectsLocal(const Ray3D& ray) const {
@@ -87,7 +129,12 @@ bool SurfaceSet3::intersectsLocal(const Ray3D& ray) const {
         return surface->intersects(ray);
     };
 
-    return _bvh.intersects(ray, testFunc);
+    bool result = _bvh.intersects(ray, testFunc);
+    for (auto surface : _unboundedSurfaces) {
+        result |= surface->intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection3 SurfaceSet3::closestIntersectionLocal(
@@ -107,6 +154,14 @@ SurfaceRayIntersection3 SurfaceSet3::closestIntersectionLocal(
         result.point = ray.pointAt(queryResult.distance);
         result.normal = (*queryResult.item)->closestNormal(result.point);
     }
+
+    for (auto surface : _unboundedSurfaces) {
+        SurfaceRayIntersection3 localResult = surface->closestIntersection(ray);
+        if (localResult.distance < result.distance) {
+            result = localResult;
+        }
+    }
+
     return result;
 }
 
@@ -120,9 +175,11 @@ void SurfaceSet3::invalidateBvh() { _bvhInvalidated = true; }
 
 void SurfaceSet3::buildBvh() const {
     if (_bvhInvalidated) {
-        std::vector<BoundingBox3D> bounds(_surfaces.size());
+        std::vector<BoundingBox3D> bounds;
         for (size_t i = 0; i < _surfaces.size(); ++i) {
-            bounds[i] = _surfaces[i]->boundingBox();
+            if (_surfaces[i]->isBounded()) {
+                bounds.push_back(_surfaces[i]->boundingBox());
+            }
         }
         _bvh.build(_surfaces, bounds);
         _bvhInvalidated = false;

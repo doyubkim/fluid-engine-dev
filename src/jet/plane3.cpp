@@ -28,6 +28,10 @@ Plane3::Plane3(const Vector3D& point0, const Vector3D& point1,
 Plane3::Plane3(const Plane3& other)
     : Surface3(other), normal(other.normal), point(other.point) {}
 
+bool Plane3::isBounded() const {
+    return false;
+}
+
 Vector3D Plane3::closestPointLocal(const Vector3D& otherPoint) const {
     Vector3D r = otherPoint - point;
     return r - normal.dot(r) * normal + point;

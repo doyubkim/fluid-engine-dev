@@ -16,7 +16,14 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2() {}
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
     const std::vector<ImplicitSurface2Ptr>& surfaces,
     const Transform2& transform, bool isNormalFlipped)
-    : ImplicitSurface2(transform, isNormalFlipped), _surfaces(surfaces) {}
+    : ImplicitSurface2(transform, isNormalFlipped), _surfaces(surfaces) {
+    for (auto surface : _surfaces) {
+        if (!surface->isBounded()) {
+            _unboundedSurfaces.push_back(surface);
+        }
+    }
+    invalidateBvh();
+}
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
     const std::vector<Surface2Ptr>& surfaces, const Transform2& transform,
@@ -28,7 +35,9 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
-    : ImplicitSurface2(other), _surfaces(other._surfaces) {}
+    : ImplicitSurface2(other),
+      _surfaces(other._surfaces),
+      _unboundedSurfaces(other._unboundedSurfaces) {}
 
 void ImplicitSurfaceSet2::updateQueryEngine() { buildBvh(); }
 
@@ -46,6 +55,9 @@ void ImplicitSurfaceSet2::addExplicitSurface(const Surface2Ptr& surface) {
 
 void ImplicitSurfaceSet2::addSurface(const ImplicitSurface2Ptr& surface) {
     _surfaces.push_back(surface);
+    if (!surface->isBounded()) {
+        _unboundedSurfaces.push_back(surface);
+    }
     invalidateBvh();
 }
 
@@ -58,12 +70,23 @@ Vector2D ImplicitSurfaceSet2::closestPointLocal(
         return surface->closestDistance(pt);
     };
 
+    Vector2D result{kMaxD, kMaxD};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
-        return (*queryResult.item)->closestPoint(otherPoint);
-    } else {
-        return Vector2D{kMaxD, kMaxD};
+        result = (*queryResult.item)->closestPoint(otherPoint);
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestPoint(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 double ImplicitSurfaceSet2::closestDistanceLocal(
@@ -76,7 +99,17 @@ double ImplicitSurfaceSet2::closestDistanceLocal(
     };
 
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-    return queryResult.distance;
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
 }
 
 Vector2D ImplicitSurfaceSet2::closestNormalLocal(
@@ -88,12 +121,23 @@ Vector2D ImplicitSurfaceSet2::closestNormalLocal(
         return surface->closestDistance(pt);
     };
 
+    Vector2D result{1.0, 0.0};
     const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
     if (queryResult.item != nullptr) {
-        return (*queryResult.item)->closestNormal(otherPoint);
-    } else {
-        return Vector2D{1.0, 0.0};
+        result = (*queryResult.item)->closestNormal(otherPoint);
     }
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+            result = surface->closestNormal(otherPoint);
+        }
+    }
+
+    return result;
 }
 
 bool ImplicitSurfaceSet2::intersectsLocal(const Ray2D& ray) const {
@@ -103,7 +147,12 @@ bool ImplicitSurfaceSet2::intersectsLocal(const Ray2D& ray) const {
         return surface->intersects(ray);
     };
 
-    return _bvh.intersects(ray, testFunc);
+    bool result = _bvh.intersects(ray, testFunc);
+    for (auto surface : _unboundedSurfaces) {
+        result |= surface->intersects(ray);
+    }
+
+    return result;
 }
 
 SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersectionLocal(
@@ -123,6 +172,14 @@ SurfaceRayIntersection2 ImplicitSurfaceSet2::closestIntersectionLocal(
         result.point = ray.pointAt(queryResult.distance);
         result.normal = (*queryResult.item)->closestNormal(result.point);
     }
+
+    for (auto surface : _unboundedSurfaces) {
+        SurfaceRayIntersection2 localResult = surface->closestIntersection(ray);
+        if (localResult.distance < result.distance) {
+            result = localResult;
+        }
+    }
+
     return result;
 }
 
@@ -146,9 +203,11 @@ void ImplicitSurfaceSet2::invalidateBvh() { _bvhInvalidated = true; }
 
 void ImplicitSurfaceSet2::buildBvh() const {
     if (_bvhInvalidated) {
-        std::vector<BoundingBox2D> bounds(_surfaces.size());
+        std::vector<BoundingBox2D> bounds;
         for (size_t i = 0; i < _surfaces.size(); ++i) {
-            bounds[i] = _surfaces[i]->boundingBox();
+            if (_surfaces[i]->isBounded()) {
+                bounds.push_back(_surfaces[i]->boundingBox());
+            }
         }
         _bvh.build(_surfaces, bounds);
         _bvhInvalidated = false;

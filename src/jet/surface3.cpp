@@ -60,6 +60,10 @@ void Surface3::updateQueryEngine() {
     // Do nothing
 }
 
+bool Surface3::isBounded() const {
+    return true;
+}
+
 double Surface3::closestDistanceLocal(const Vector3D& otherPointLocal) const {
     return otherPointLocal.distanceTo(closestPointLocal(otherPointLocal));
 }

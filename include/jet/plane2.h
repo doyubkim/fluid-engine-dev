@@ -42,6 +42,9 @@ class Plane2 final : public Surface2 {
     //! Copy constructor.
     Plane2(const Plane2& other);
 
+    //! Returns true if bounding box can be defined.
+    bool isBounded() const override;
+
     //! Returns builder fox Plane2.
     static Builder builder();
 

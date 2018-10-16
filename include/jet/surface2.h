@@ -66,6 +66,9 @@ class Surface2 {
     //! Updates internal spatial query engine.
     virtual void updateQueryEngine();
 
+    //! Returns true if bounding box can be defined.
+    virtual bool isBounded() const;
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
