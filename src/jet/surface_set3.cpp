@@ -32,6 +32,8 @@ SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
 
 void SurfaceSet3::updateQueryEngine() { buildBvh(); }
 
+bool SurfaceSet3::isValidGeometry() const { return !_surfaces.empty(); }
+
 size_t SurfaceSet3::numberOfSurfaces() const { return _surfaces.size(); }
 
 const Surface3Ptr& SurfaceSet3::surfaceAt(size_t i) const {

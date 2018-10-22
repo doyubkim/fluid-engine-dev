@@ -394,3 +394,28 @@ TEST(SurfaceSet2, MixedBoundTypes) {
 
     EXPECT_VECTOR2_NEAR(answer, cp, 1e-9);
 }
+
+TEST(SurfaceSet2, IsValidGeometry) {
+    auto surfaceSet = SurfaceSet2::builder()
+            .makeShared();
+
+    EXPECT_FALSE(surfaceSet->isValidGeometry());
+
+    BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
+
+    auto plane = Plane2::builder()
+            .withNormal({0, 1})
+            .withPoint({0, 0.25 * domain.height()})
+            .makeShared();
+
+    auto sphere = Sphere2::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet2 = SurfaceSet2::builder()
+            .withSurfaces({plane, sphere})
+            .makeShared();
+
+    EXPECT_TRUE(surfaceSet2->isValidGeometry());
+}

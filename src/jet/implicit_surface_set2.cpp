@@ -41,6 +41,8 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
 
 void ImplicitSurfaceSet2::updateQueryEngine() { buildBvh(); }
 
+bool ImplicitSurfaceSet2::isValidGeometry() const { return !_surfaces.empty(); }
+
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
 }

@@ -39,6 +39,9 @@ class SurfaceSet2 final : public Surface2 {
     //! Updates internal spatial query engine.
     void updateQueryEngine() override;
 
+    //! Returns true if the surface is a valid geometry.
+    bool isValidGeometry() const override;
+
     //! Returns the number of surfaces.
     size_t numberOfSurfaces() const;
 

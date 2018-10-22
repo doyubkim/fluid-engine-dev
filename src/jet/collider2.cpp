@@ -18,6 +18,12 @@ Collider2::~Collider2() {}
 
 void Collider2::resolveCollision(double radius, double restitutionCoefficient,
                                  Vector2D* newPosition, Vector2D* newVelocity) {
+    JET_ASSERT(_surface);
+
+    if (!_surface->isValidGeometry()) {
+        return;
+    }
+
     ColliderQueryResult colliderPoint;
 
     getClosestPoint(_surface, *newPosition, &colliderPoint);
@@ -99,6 +105,12 @@ bool Collider2::isPenetrating(const ColliderQueryResult& colliderPoint,
 
 void Collider2::update(double currentTimeInSeconds,
                        double timeIntervalInSeconds) {
+    JET_ASSERT(_surface);
+
+    if (!_surface->isValidGeometry()) {
+        return;
+    }
+
     _surface->updateQueryEngine();
 
     if (_onUpdateCallback) {
