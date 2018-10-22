@@ -32,7 +32,17 @@ SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
 
 void SurfaceSet3::updateQueryEngine() { buildBvh(); }
 
-bool SurfaceSet3::isValidGeometry() const { return !_surfaces.empty(); }
+bool SurfaceSet3::isValidGeometry() const {
+    // All surfaces should be valid.
+    for (auto surface : _surfaces) {
+        if (!surface->isValidGeometry()) {
+            return false;
+        }
+    }
+
+    // Empty set is not valid.
+    return !_surfaces.empty();
+}
 
 size_t SurfaceSet3::numberOfSurfaces() const { return _surfaces.size(); }
 

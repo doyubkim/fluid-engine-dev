@@ -418,4 +418,8 @@ TEST(SurfaceSet2, IsValidGeometry) {
             .makeShared();
 
     EXPECT_TRUE(surfaceSet2->isValidGeometry());
+
+    surfaceSet2->addSurface(surfaceSet);
+
+    EXPECT_FALSE(surfaceSet2->isValidGeometry());
 }

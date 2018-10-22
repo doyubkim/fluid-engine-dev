@@ -41,7 +41,17 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
 
 void ImplicitSurfaceSet2::updateQueryEngine() { buildBvh(); }
 
-bool ImplicitSurfaceSet2::isValidGeometry() const { return !_surfaces.empty(); }
+bool ImplicitSurfaceSet2::isValidGeometry() const {
+    // All surfaces should be valid.
+    for (auto surface : _surfaces) {
+        if (!surface->isValidGeometry()) {
+            return false;
+        }
+    }
+
+    // Empty set is not valid.
+    return !_surfaces.empty();
+}
 
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
     return _surfaces.size();
