@@ -396,3 +396,32 @@ TEST(SurfaceSet3, MixedBoundTypes) {
 
     EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }
+
+TEST(SurfaceSet3, IsValidGeometry) {
+    auto surfaceSet = SurfaceSet3::builder()
+            .makeShared();
+
+    EXPECT_FALSE(surfaceSet->isValidGeometry());
+
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+
+    auto plane = Plane3::builder()
+            .withNormal({0, 1, 0})
+            .withPoint({0, 0.25 * domain.height(), 0})
+            .makeShared();
+
+    auto sphere = Sphere3::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet2 = SurfaceSet3::builder()
+            .withSurfaces({plane, sphere})
+            .makeShared();
+
+    EXPECT_TRUE(surfaceSet2->isValidGeometry());
+
+    surfaceSet2->addSurface(surfaceSet);
+
+    EXPECT_FALSE(surfaceSet2->isValidGeometry());
+}

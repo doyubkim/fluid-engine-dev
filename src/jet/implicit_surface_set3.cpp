@@ -41,6 +41,18 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
 
 void ImplicitSurfaceSet3::updateQueryEngine() { buildBvh(); }
 
+bool ImplicitSurfaceSet3::isValidGeometry() const {
+    // All surfaces should be valid.
+    for (auto surface : _surfaces) {
+        if (!surface->isValidGeometry()) {
+            return false;
+        }
+    }
+
+    // Empty set is not valid.
+    return !_surfaces.empty();
+}
+
 size_t ImplicitSurfaceSet3::numberOfSurfaces() const {
     return _surfaces.size();
 }
