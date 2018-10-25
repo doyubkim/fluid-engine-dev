@@ -261,7 +261,7 @@ size_t Vector<T, 4>::dominantAxis() const {
     return (std::fabs(x) > std::fabs(y))
                ? ((std::fabs(x) > std::fabs(z))
                       ? ((std::fabs(x) > std::fabs(w)) ? 0 : 3)
-                      : ((std::fabs(x) > std::fabs(w)) ? 2 : 3))
+                      : ((std::fabs(z) > std::fabs(w)) ? 2 : 3))
                : ((std::fabs(y) > std::fabs(z))
                       ? ((std::fabs(y) > std::fabs(w)) ? 1 : 3)
                       : ((std::fabs(z) > std::fabs(w)) ? 2 : 3));
@@ -272,7 +272,7 @@ size_t Vector<T, 4>::subminantAxis() const {
     return (std::fabs(x) < std::fabs(y))
                ? ((std::fabs(x) < std::fabs(z))
                       ? ((std::fabs(x) < std::fabs(w)) ? 0 : 3)
-                      : ((std::fabs(x) < std::fabs(w)) ? 2 : 3))
+                      : ((std::fabs(z) < std::fabs(w)) ? 2 : 3))
                : ((std::fabs(y) < std::fabs(z))
                       ? ((std::fabs(y) < std::fabs(w)) ? 1 : 3)
                       : ((std::fabs(z) < std::fabs(w)) ? 2 : 3));

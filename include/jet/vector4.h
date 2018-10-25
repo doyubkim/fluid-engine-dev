@@ -47,7 +47,7 @@ class Vector<T, 4> final {
     //! Constructs vector with given parameters \p x_, \p y_, \p z_, and \p w_.
     constexpr Vector(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_) {}
 
-    //! Constructs vector with a 3-D vector (x, y, and z) and a scalar (w).
+    //! Constructs vector with a 3-D vector (x, y, z, and w) and a scalar (w).
     constexpr Vector(const Vector3<T>& v, T w_)
         : x(v.x), y(v.y), z(v.z), w(w_) {}
 
@@ -84,27 +84,27 @@ class Vector<T, 4> final {
 
     // MARK: Binary operations: new instance = this (+) v
 
-    //! Computes this + (v, v, v).
+    //! Computes this + (v, v, v, v).
     Vector add(T v) const;
 
-    //! Computes this + (v.x, v.y, v.z).
+    //! Computes this + (v.x, v.y, v.z, v.w).
     Vector add(const Vector& v) const;
 
-    //! Computes this - (v, v, v).
+    //! Computes this - (v, v, v, v).
     Vector sub(T v) const;
 
-    //! Computes this - (v.x, v.y, v.z).
+    //! Computes this - (v.x, v.y, v.z, v.w).
     Vector sub(const Vector& v) const;
 
-    //! Computes this * (v, v, v).
+    //! Computes this * (v, v, v, v).
     Vector mul(T v) const;
 
-    //! Computes this * (v.x, v.y, v.z).
+    //! Computes this * (v.x, v.y, v.z, v.w).
     Vector mul(const Vector& v) const;
-    //! Computes this / (v, v, v).
+    //! Computes this / (v, v, v, v).
     Vector div(T v) const;
 
-    //! Computes this / (v.x, v.y, v.z).
+    //! Computes this / (v.x, v.y, v.z, v.w).
     Vector div(const Vector& v) const;
 
     //! Computes dot product.
@@ -112,42 +112,42 @@ class Vector<T, 4> final {
 
     // MARK: Binary operations: new instance = v (+) this
 
-    //! Computes (v, v, v) - this.
+    //! Computes (v, v, v, v) - this.
     Vector rsub(T v) const;
 
-    //! Computes (v.x, v.y, v.z) - this.
+    //! Computes (v.x, v.y, v.z, v.w) - this.
     Vector rsub(const Vector& v) const;
 
-    //! Computes (v, v, v) / this.
+    //! Computes (v, v, v, v) / this.
     Vector rdiv(T v) const;
 
-    //! Computes (v.x, v.y, v.z) / this.
+    //! Computes (v.x, v.y, v.z, v.w) / this.
     Vector rdiv(const Vector& v) const;
 
     // MARK: Augmented operations: this (+)= v
 
-    //! Computes this += (v, v, v).
+    //! Computes this += (v, v, v, v).
     void iadd(T v);
 
-    //! Computes this += (v.x, v.y, v.z).
+    //! Computes this += (v.x, v.y, v.z, v.w).
     void iadd(const Vector& v);
 
-    //! Computes this -= (v, v, v).
+    //! Computes this -= (v, v, v, v).
     void isub(T v);
 
-    //! Computes this -= (v.x, v.y, v.z).
+    //! Computes this -= (v.x, v.y, v.z, v.w).
     void isub(const Vector& v);
 
-    //! Computes this *= (v, v, v).
+    //! Computes this *= (v, v, v, v).
     void imul(T v);
 
-    //! Computes this *= (v.x, v.y, v.z).
+    //! Computes this *= (v.x, v.y, v.z, v.w).
     void imul(const Vector& v);
 
-    //! Computes this /= (v, v, v).
+    //! Computes this /= (v, v, v, v).
     void idiv(T v);
 
-    //! Computes this /= (v.x, v.y, v.z).
+    //! Computes this /= (v.x, v.y, v.z, v.w).
     void idiv(const Vector& v);
 
     // MARK: Basic getters
@@ -164,16 +164,16 @@ class Vector<T, 4> final {
     //! Returns the average of all the components.
     T avg() const;
 
-    //! Returns the minimum value among x, y, and z.
+    //! Returns the minimum value among x, y, z, and w.
     T min() const;
 
-    //! Returns the maximum value among x, y, and z.
+    //! Returns the maximum value among x, y, z, and w.
     T max() const;
 
-    //! Returns the absolute minimum value among x, y, and z.
+    //! Returns the absolute minimum value among x, y, z, and w.
     T absmin() const;
 
-    //! Returns the absolute maximum value among x, y, and z.
+    //! Returns the absolute maximum value among x, y, z, and w.
     T absmax() const;
 
     //! Returns the index of the dominant axis.
@@ -223,28 +223,28 @@ class Vector<T, 4> final {
     //! Set x and y with other vector \p v.
     Vector& operator=(const Vector& v);
 
-    //! Computes this += (v, v)
+    //! Computes this += (v, v, v, v)
     Vector& operator+=(T v);
 
-    //! Computes this += (v.x, v.y)
+    //! Computes this += (v.x, v.y, v.z, v.w)
     Vector& operator+=(const Vector& v);
 
-    //! Computes this -= (v, v)
+    //! Computes this -= (v, v, v, v)
     Vector& operator-=(T v);
 
-    //! Computes this -= (v.x, v.y)
+    //! Computes this -= (v.x, v.y, v.z, v.w)
     Vector& operator-=(const Vector& v);
 
-    //! Computes this *= (v, v)
+    //! Computes this *= (v, v, v, v)
     Vector& operator*=(T v);
 
-    //! Computes this *= (v.x, v.y)
+    //! Computes this *= (v.x, v.y, v.z, v.w)
     Vector& operator*=(const Vector& v);
 
-    //! Computes this /= (v, v)
+    //! Computes this /= (v, v, v, v)
     Vector& operator/=(T v);
 
-    //! Computes this /= (v.x, v.y)
+    //! Computes this /= (v.x, v.y, v.z, v.w)
     Vector& operator/=(const Vector& v);
 
     //! Returns true if \p other is the same as this vector.
