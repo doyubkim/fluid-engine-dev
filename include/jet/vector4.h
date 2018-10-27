@@ -47,7 +47,7 @@ class Vector<T, 4> final {
     //! Constructs vector with given parameters \p x_, \p y_, \p z_, and \p w_.
     constexpr Vector(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_) {}
 
-    //! Constructs vector with a 3-D vector (x, y, z, and w) and a scalar (w).
+    //! Constructs vector with a 3-D vector (x, y, and z) and a scalar (w).
     constexpr Vector(const Vector3<T>& v, T w_)
         : x(v.x), y(v.y), z(v.z), w(w_) {}
 
