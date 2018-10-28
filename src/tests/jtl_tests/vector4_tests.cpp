@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/vector4.h>
+#include <jet/matrix.h>
 
 #include <gtest/gtest.h>
 
@@ -43,7 +43,7 @@ TEST(Vector4, BasicGetterMethods) {
     float lenSqr = vec2.x * vec2.x + vec2.y * vec2.y + vec2.z * vec2.z + vec2.w * vec2.w;
     EXPECT_TRUE(lenSqr - 1.f < eps);
 
-    vec2.imul(2.f);
+    vec2 *= 2.f;
     float len = vec2.length();
     EXPECT_TRUE(len - 2.f < eps);
 
