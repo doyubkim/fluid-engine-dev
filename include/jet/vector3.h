@@ -234,28 +234,28 @@ class Vector<T, 3> final {
     //! Set x and y with other vector \p pt.
     Vector& operator=(const Vector& v);
 
-    //! Computes this += (v, v)
+    //! Computes this += (v, v, v)
     Vector& operator+=(T v);
 
-    //! Computes this += (v.x, v.y)
+    //! Computes this += (v.x, v.y, v.z)
     Vector& operator+=(const Vector& v);
 
-    //! Computes this -= (v, v)
+    //! Computes this -= (v, v, v)
     Vector& operator-=(T v);
 
-    //! Computes this -= (v.x, v.y)
+    //! Computes this -= (v.x, v.y, v.z)
     Vector& operator-=(const Vector& v);
 
-    //! Computes this *= (v, v)
+    //! Computes this *= (v, v, v)
     Vector& operator*=(T v);
 
-    //! Computes this *= (v.x, v.y)
+    //! Computes this *= (v.x, v.y, v.z)
     Vector& operator*=(const Vector& v);
 
-    //! Computes this /= (v, v)
+    //! Computes this /= (v, v, v)
     Vector& operator/=(T v);
 
-    //! Computes this /= (v.x, v.y)
+    //! Computes this /= (v.x, v.y, v.z)
     Vector& operator/=(const Vector& v);
 
     //! Returns true if \p other is the same as this vector.
