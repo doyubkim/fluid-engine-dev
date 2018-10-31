@@ -12,14 +12,20 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # Include cmake modules
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-# Declare project
-project(jet)
-
 # Overrides
 set(CMAKE_MACOSX_RPATH ON)
-if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
+if (POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif()
+if (POLICY CMP0063)
     cmake_policy(SET CMP0063 NEW)
 endif()
+if (POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+endif()
+
+# Declare project
+project(jet VERSION 1.3.1)
 
 # Configure tasking system backend
 include(cmake/TaskingSystemOptions.cmake)
