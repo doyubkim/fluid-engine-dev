@@ -38,9 +38,6 @@ Z_TAG = 'z'
 
 video_writer = 'ffmpeg'
 video_extra_args = ['-vcodec', 'libx264', '-pix_fmt', 'yuv420p']
-if utils.is_linux():
-    video_writer = 'mencoder'
-    video_extra_args = []
 
 def remove_ext(filename):
     return filename[:-len(INPUT_ARRAY_FORMAT)]
