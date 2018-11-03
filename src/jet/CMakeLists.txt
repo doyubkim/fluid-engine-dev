@@ -12,12 +12,6 @@ set(target jet)
 # Define
 set(root_dir ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 
-# Includes
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty
-)
-
 # Sources
 file(GLOB header_dir
     ${root_dir}/include/${target})
@@ -70,6 +64,23 @@ target_link_libraries(${target}
     INTERFACE
 )
 
+# Includes
+target_include_directories(${target}
+    PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty
+
+    PUBLIC
+
+    INTERFACE
+    $<BUILD_INTERFACE:${header_dir}>
+    $<INSTALL_INTERFACE:include>
+)
+
 # Install
-install(TARGETS ${target} DESTINATION lib)
+install(TARGETS ${target} DESTINATION lib EXPORT ${target}_Export)
 install(DIRECTORY ${header_dir} DESTINATION include)
+install(EXPORT ${target}_Export
+  DESTINATION lib/cmake/${target}
+  FILE ${target}Config.cmake
+)
