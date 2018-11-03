@@ -47,9 +47,9 @@ set_target_properties(${target}
 # Compile options
 target_compile_options(${target}
     PRIVATE
+    ${DEFAULT_COMPILE_OPTIONS}
 
     PUBLIC
-    ${DEFAULT_COMPILE_OPTIONS}
 
     INTERFACE
 )
