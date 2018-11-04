@@ -266,7 +266,7 @@ JET_BEGIN_TEST_F(FlipSolver3, RotatingTank) {
 
     collider->setOnBeginUpdateCallback([&](Collider3* col, double t, double) {
         if (t < 1.0) {
-            col->surface()->transform.setOrientation({{0, 0, 1}, 2.0 * t});
+            col->surface()->transform.setOrientation(QuaternionD{{0, 0, 1}, 2.0 * t});
             static_cast<RigidBodyCollider3*>(col)->angularVelocity = {0, 0, 2};
         } else {
             static_cast<RigidBodyCollider3*>(col)->angularVelocity = {0, 0, 0};

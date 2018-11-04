@@ -240,8 +240,7 @@
 #include <jet/svd.h>
 #include <jet/thrust_utils.h>
 #include <jet/timer.h>
-#include <jet/transform2.h>
-#include <jet/transform3.h>
+#include <jet/transform.h>
 #include <jet/triangle3.h>
 #include <jet/triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>

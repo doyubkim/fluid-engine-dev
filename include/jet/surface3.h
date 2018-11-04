@@ -10,7 +10,8 @@
 #include <jet/bounding_box.h>
 #include <jet/constants.h>
 #include <jet/ray.h>
-#include <jet/transform3.h>
+#include <jet/transform.h>
+
 #include <memory>
 
 namespace jet {

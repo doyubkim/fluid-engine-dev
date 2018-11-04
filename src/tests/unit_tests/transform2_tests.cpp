@@ -6,7 +6,7 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/transform2.h>
+#include <jet/transform.h>
 
 #include <gtest/gtest.h>
 
@@ -16,12 +16,12 @@ TEST(Transform2, Constructors) {
     Transform2 t1;
 
     EXPECT_EQ(Vector2D(), t1.translation());
-    EXPECT_EQ(0.0, t1.orientation());
+    EXPECT_EQ(0.0, t1.orientation().rotation());
 
     Transform2 t2({2.0, -5.0}, kQuarterPiD);
 
     EXPECT_EQ(Vector2D(2.0, -5.0), t2.translation());
-    EXPECT_EQ(kQuarterPiD, t2.orientation());
+    EXPECT_EQ(kQuarterPiD, t2.orientation().rotation());
 }
 
 TEST(Transform2, Transform) {

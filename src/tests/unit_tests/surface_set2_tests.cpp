@@ -31,12 +31,12 @@ TEST(SurfaceSet2, Constructors) {
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset2.surfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset2.transform.translation());
-    EXPECT_EQ(0.0, sset2.transform.orientation());
+    EXPECT_EQ(0.0, sset2.transform.orientation().rotation());
 
     SurfaceSet2 sset3({sph1, sph2, sph3}, Transform2(Vector2D(1, 2), 0.5),
                       false);
     EXPECT_EQ(Vector2D(1, 2), sset3.transform.translation());
-    EXPECT_EQ(0.5, sset3.transform.orientation());
+    EXPECT_EQ(0.5, sset3.transform.orientation().rotation());
 }
 
 TEST(SurfaceSet2, AddSurface) {
@@ -62,7 +62,7 @@ TEST(SurfaceSet2, AddSurface) {
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere2>(sset1.surfaceAt(2))->radius);
     EXPECT_EQ(Vector2D(), sset1.transform.translation());
-    EXPECT_EQ(0.0, sset1.transform.orientation());
+    EXPECT_EQ(0.0, sset1.transform.orientation().rotation());
 }
 
 TEST(SurfaceSet2, ClosestPoint) {
