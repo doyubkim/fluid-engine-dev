@@ -120,6 +120,10 @@ Here are some of the example simulations generated using Jet framework. Correspo
 
 > Top-left: spherical, top-right: SPH blobby, bottom-left: Zhu and Bridson's method, and bottom-right: Anisotropic kernel
 
+## Developers
+
+This repository is created and maintained by Doyub Kim (@doyubkim). Chris Ohk (@utilForever) is a co-developer of the framework since v1.3. [Many other contributors](https://github.com/doyubkim/fluid-engine-dev/graphs/contributors) also helped improving the codebase including Jefferson Amstutz (@jeffamstutz) who helped integrating Inten TBB and OpenMP backends.
+
 ## License
 
 Jet is under the MIT license. For more information, check out [LICENSE.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/LICENSE.md). Jet also utilizes other open source codes. Checkout [3RD_PARTY.md](https://github.com/doyubkim/fluid-engine-dev/blob/master/3RD_PARTY.md) for more details.
