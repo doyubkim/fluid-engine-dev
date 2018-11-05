@@ -10,7 +10,7 @@
 #include <jet/array.h>
 #include <jet/bvh3.h>
 #include <jet/quaternion.h>
-#include <jet/surface3.h>
+#include <jet/surface.h>
 #include <jet/triangle3.h>
 
 #include <iostream>

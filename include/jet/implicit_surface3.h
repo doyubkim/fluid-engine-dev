@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_IMPLICIT_SURFACE3_H_
 #define INCLUDE_JET_IMPLICIT_SURFACE3_H_
 
-#include <jet/surface3.h>
+#include <jet/surface.h>
 
 namespace jet {
 

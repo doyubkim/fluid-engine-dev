@@ -6,37 +6,47 @@
 
 #include <pch.h>
 
-#include <jet/surface3.h>
+#include <jet/surface.h>
 
 #include <algorithm>
 
-using namespace jet;
+namespace jet {
 
-Surface3::Surface3(const Transform3& transform_, bool isNormalFlipped_)
+template <size_t N>
+Surface<N>::Surface(const Transform<N> &transform_, bool isNormalFlipped_)
     : transform(transform_), isNormalFlipped(isNormalFlipped_) {}
 
-Surface3::Surface3(const Surface3& other)
+template <size_t N>
+Surface<N>::Surface(const Surface &other)
     : transform(other.transform), isNormalFlipped(other.isNormalFlipped) {}
 
-Surface3::~Surface3() {}
+template <size_t N>
+Surface<N>::~Surface() {}
 
-Vector3D Surface3::closestPoint(const Vector3D& otherPoint) const {
+template <size_t N>
+Vector<double, N> Surface<N>::closestPoint(
+    const Vector<double, N> &otherPoint) const {
     return transform.toWorld(closestPointLocal(transform.toLocal(otherPoint)));
 }
 
-BoundingBox3D Surface3::boundingBox() const {
+template <size_t N>
+BoundingBox<double, N> Surface<N>::boundingBox() const {
     return transform.toWorld(boundingBoxLocal());
 }
 
-bool Surface3::intersects(const Ray3D& ray) const {
+template <size_t N>
+bool Surface<N>::intersects(const Ray<double, N> &ray) const {
     return intersectsLocal(transform.toLocal(ray));
 }
 
-double Surface3::closestDistance(const Vector3D& otherPoint) const {
+template <size_t N>
+double Surface<N>::closestDistance(const Vector<double, N> &otherPoint) const {
     return closestDistanceLocal(transform.toLocal(otherPoint));
 }
 
-SurfaceRayIntersection3 Surface3::closestIntersection(const Ray3D& ray) const {
+template <size_t N>
+SurfaceRayIntersection<N> Surface<N>::closestIntersection(
+    const Ray<double, N> &ray) const {
     auto result = closestIntersectionLocal(transform.toLocal(ray));
     result.point = transform.toWorld(result.point);
     result.normal = transform.toWorldDirection(result.normal);
@@ -44,30 +54,44 @@ SurfaceRayIntersection3 Surface3::closestIntersection(const Ray3D& ray) const {
     return result;
 }
 
-Vector3D Surface3::closestNormal(const Vector3D& otherPoint) const {
+template <size_t N>
+Vector<double, N> Surface<N>::closestNormal(
+    const Vector<double, N> &otherPoint) const {
     auto result = transform.toWorldDirection(
         closestNormalLocal(transform.toLocal(otherPoint)));
     result *= (isNormalFlipped) ? -1.0 : 1.0;
     return result;
 }
 
-bool Surface3::intersectsLocal(const Ray3D& rayLocal) const {
+template <size_t N>
+bool Surface<N>::intersectsLocal(const Ray<double, N> &rayLocal) const {
     auto result = closestIntersectionLocal(rayLocal);
     return result.isIntersecting;
 }
 
-void Surface3::updateQueryEngine() {
+template <size_t N>
+void Surface<N>::updateQueryEngine() {
     // Do nothing
 }
 
-bool Surface3::isBounded() const {
+template <size_t N>
+bool Surface<N>::isBounded() const {
     return true;
 }
 
-bool Surface3::isValidGeometry() const {
+template <size_t N>
+bool Surface<N>::isValidGeometry() const {
     return true;
 }
 
-double Surface3::closestDistanceLocal(const Vector3D& otherPointLocal) const {
+template <size_t N>
+double Surface<N>::closestDistanceLocal(
+    const Vector<double, N> &otherPointLocal) const {
     return otherPointLocal.distanceTo(closestPointLocal(otherPointLocal));
 }
+
+template class Surface<2>;
+
+template class Surface<3>;
+
+}  // namespace jet

@@ -231,8 +231,7 @@
 #include <jet/spherical_points_to_implicit3.h>
 #include <jet/static_matrix.h>
 #include <jet/std_utils.h>
-#include <jet/surface2.h>
-#include <jet/surface3.h>
+#include <jet/surface.h>
 #include <jet/surface_set2.h>
 #include <jet/surface_set3.h>
 #include <jet/surface_to_implicit2.h>

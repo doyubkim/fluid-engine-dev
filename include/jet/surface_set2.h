@@ -8,7 +8,7 @@
 #define INCLUDE_JET_SURFACE_SET2_H_
 
 #include <jet/bvh2.h>
-#include <jet/surface2.h>
+#include <jet/surface.h>
 
 #include <vector>
 

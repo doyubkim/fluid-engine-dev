@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_BOX3_H_
 #define INCLUDE_JET_BOX3_H_
 
-#include <jet/surface3.h>
+#include <jet/surface.h>
 #include <jet/bounding_box.h>
 
 namespace jet {

@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_COLLIDER2_H_
 #define INCLUDE_JET_COLLIDER2_H_
 
-#include <jet/surface2.h>
+#include <jet/surface.h>
 #include <functional>
 
 namespace jet {
