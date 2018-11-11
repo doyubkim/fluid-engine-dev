@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_OCTREE_H_
 #define INCLUDE_JET_OCTREE_H_
 
-#include <jet/intersection_query_engine3.h>
-#include <jet/nearest_neighbor_query_engine3.h>
+#include <jet/intersection_query_engine.h>
+#include <jet/nearest_neighbor_query_engine.h>
 #include <vector>
 
 namespace jet {
@@ -58,12 +58,12 @@ class Octree final : public IntersectionQueryEngine3<T>,
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
     ClosestIntersectionQueryResult3<T> closestIntersection(
@@ -141,13 +141,13 @@ class Octree final : public IntersectionQueryEngine3<T>,
 
     void forEachIntersectingItem(const BoundingBox3D& box,
                                  const BoxIntersectionTestFunc3<T>& testFunc,
-                                 const IntersectionVisitorFunc3<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox3D& currentBound) const;
 
     void forEachIntersectingItem(const Ray3D& ray,
                                  const RayIntersectionTestFunc3<T>& testFunc,
-                                 const IntersectionVisitorFunc3<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox3D& currentBound) const;
 

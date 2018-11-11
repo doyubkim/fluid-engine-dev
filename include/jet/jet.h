@@ -144,8 +144,7 @@
 #include <jet/implicit_surface_set2.h>
 #include <jet/implicit_surface_set3.h>
 #include <jet/implicit_triangle_mesh3.h>
-#include <jet/intersection_query_engine2.h>
-#include <jet/intersection_query_engine3.h>
+#include <jet/intersection_query_engine.h>
 #include <jet/iteration_utils.h>
 #include <jet/iterative_level_set_solver2.h>
 #include <jet/iterative_level_set_solver3.h>
@@ -166,8 +165,7 @@
 #include <jet/matrix_dense_base.h>
 #include <jet/matrix_expression.h>
 #include <jet/mg.h>
-#include <jet/nearest_neighbor_query_engine2.h>
-#include <jet/nearest_neighbor_query_engine3.h>
+#include <jet/nearest_neighbor_query_engine.h>
 #include <jet/nested_initializer_list.h>
 #include <jet/octree.h>
 #include <jet/parallel.h>

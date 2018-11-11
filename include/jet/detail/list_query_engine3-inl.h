@@ -49,7 +49,7 @@ bool ListQueryEngine3<T>::intersects(
 template <typename T>
 void ListQueryEngine3<T>::forEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     for (const auto& item : _items) {
         if (testFunc(item, box)) {
             visitorFunc(item);
@@ -60,7 +60,7 @@ void ListQueryEngine3<T>::forEachIntersectingItem(
 template <typename T>
 void ListQueryEngine3<T>::forEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     for (const auto& item : _items) {
         if (testFunc(item, ray)) {
             visitorFunc(item);

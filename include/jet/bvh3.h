@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_BVH3_H_
 #define INCLUDE_JET_BVH3_H_
 
-#include <jet/intersection_query_engine3.h>
-#include <jet/nearest_neighbor_query_engine3.h>
+#include <jet/intersection_query_engine.h>
+#include <jet/nearest_neighbor_query_engine.h>
 
 #include <vector>
 
@@ -43,7 +43,7 @@ class Bvh3 final : public IntersectionQueryEngine3<T>,
     //! Returns the nearest neighbor for given point and distance measure
     //! function.
     NearestNeighborQueryResult3<T> nearest(
-        const Vector3D& pt,
+        const Vector<double, 3>& pt,
         const NearestNeighborDistanceFunc3<T>& distanceFunc) const override;
 
     //! Returns true if given \p box intersects with any of the stored items.
@@ -57,12 +57,12 @@ class Bvh3 final : public IntersectionQueryEngine3<T>,
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-        const IntersectionVisitorFunc3<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
     ClosestIntersectionQueryResult3<T> closestIntersection(

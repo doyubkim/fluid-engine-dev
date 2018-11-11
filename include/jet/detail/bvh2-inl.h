@@ -77,7 +77,7 @@ void Bvh2<T>::clear() {
 
 template <typename T>
 inline NearestNeighborQueryResult2<T> Bvh2<T>::nearest(
-    const Vector2D& pt,
+    const Vector<double, 2>& pt,
     const NearestNeighborDistanceFunc2<T>& distanceFunc) const {
     NearestNeighborQueryResult2<T> best;
     best.distance = kMaxD;
@@ -271,7 +271,7 @@ inline bool Bvh2<T>::intersects(const Ray2D& ray,
 template <typename T>
 inline void Bvh2<T>::forEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     if (!_bound.overlaps(box)) {
         return;
     }
@@ -321,7 +321,7 @@ inline void Bvh2<T>::forEachIntersectingItem(
 template <typename T>
 inline void Bvh2<T>::forEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     if (!_bound.intersects(ray)) {
         return;
     }
