@@ -6,18 +6,22 @@
 
 #include <pch.h>
 
-#include <jet/collider2.h>
+#include <jet/collider.h>
 
 #include <algorithm>
 
-using namespace jet;
+namespace jet {
 
-Collider2::Collider2() {}
+template <size_t N>
+Collider<N>::Collider() {}
 
-Collider2::~Collider2() {}
+template <size_t N>
+Collider<N>::~Collider() {}
 
-void Collider2::resolveCollision(double radius, double restitutionCoefficient,
-                                 Vector2D* newPosition, Vector2D* newVelocity) {
+template <size_t N>
+void Collider<N>::resolveCollision(double radius, double restitutionCoefficient,
+                                   Vector<double, N> *newPosition,
+                                   Vector<double, N> *newVelocity) {
     JET_ASSERT(_surface);
 
     if (!_surface->isValidGeometry()) {
@@ -32,22 +36,23 @@ void Collider2::resolveCollision(double radius, double restitutionCoefficient,
     if (isPenetrating(colliderPoint, *newPosition, radius)) {
         // Target point is the closest non-penetrating position from the
         // new position.
-        Vector2D targetNormal = colliderPoint.normal;
-        Vector2D targetPoint = colliderPoint.point + radius * targetNormal;
-        Vector2D colliderVelAtTargetPoint = colliderPoint.velocity;
+        Vector<double, N> targetNormal = colliderPoint.normal;
+        Vector<double, N> targetPoint =
+            colliderPoint.point + radius * targetNormal;
+        Vector<double, N> colliderVelAtTargetPoint = colliderPoint.velocity;
 
         // Get new candidate relative velocity from the target point.
-        Vector2D relativeVel = *newVelocity - colliderVelAtTargetPoint;
+        Vector<double, N> relativeVel = *newVelocity - colliderVelAtTargetPoint;
         double normalDotRelativeVel = targetNormal.dot(relativeVel);
-        Vector2D relativeVelN = normalDotRelativeVel * targetNormal;
-        Vector2D relativeVelT = relativeVel - relativeVelN;
+        Vector<double, N> relativeVelN = normalDotRelativeVel * targetNormal;
+        Vector<double, N> relativeVelT = relativeVel - relativeVelN;
 
         // Check if the velocity is facing opposite direction of the surface
         // normal
         if (normalDotRelativeVel < 0.0) {
             // Apply restitution coefficient to the surface normal component of
             // the velocity
-            Vector2D deltaRelativeVelN =
+            Vector<double, N> deltaRelativeVelN =
                 (-restitutionCoefficient - 1.0) * relativeVelN;
             relativeVelN *= -restitutionCoefficient;
 
@@ -73,29 +78,40 @@ void Collider2::resolveCollision(double radius, double restitutionCoefficient,
     }
 }
 
-double Collider2::frictionCoefficient() const { return _frictionCoeffient; }
+template <size_t N>
+double Collider<N>::frictionCoefficient() const {
+    return _frictionCoeffient;
+}
 
-void Collider2::setFrictionCoefficient(double newFrictionCoeffient) {
+template <size_t N>
+void Collider<N>::setFrictionCoefficient(double newFrictionCoeffient) {
     _frictionCoeffient = std::max(newFrictionCoeffient, 0.0);
 }
 
-const Surface2Ptr& Collider2::surface() const { return _surface; }
+template <size_t N>
+const std::shared_ptr<Surface<N>> &Collider<N>::surface() const {
+    return _surface;
+}
 
-void Collider2::setSurface(const Surface2Ptr& newSurface) {
+template <size_t N>
+void Collider<N>::setSurface(const std::shared_ptr<Surface<N>> &newSurface) {
     _surface = newSurface;
 }
 
-void Collider2::getClosestPoint(const Surface2Ptr& surface,
-                                const Vector2D& queryPoint,
-                                ColliderQueryResult* result) const {
+template <size_t N>
+void Collider<N>::getClosestPoint(const std::shared_ptr<Surface<N>> &surface,
+                                  const Vector<double, N> &queryPoint,
+                                  ColliderQueryResult *result) const {
     result->distance = surface->closestDistance(queryPoint);
     result->point = surface->closestPoint(queryPoint);
     result->normal = surface->closestNormal(queryPoint);
     result->velocity = velocityAt(queryPoint);
 }
 
-bool Collider2::isPenetrating(const ColliderQueryResult& colliderPoint,
-                              const Vector2D& position, double radius) {
+template <size_t N>
+bool Collider<N>::isPenetrating(const ColliderQueryResult &colliderPoint,
+                                const Vector<double, N> &position,
+                                double radius) {
     // If the new candidate position of the particle is on the other side of
     // the surface OR the new distance to the surface is less than the
     // particle's radius, this particle is in colliding state.
@@ -103,8 +119,9 @@ bool Collider2::isPenetrating(const ColliderQueryResult& colliderPoint,
            colliderPoint.distance < radius;
 }
 
-void Collider2::update(double currentTimeInSeconds,
-                       double timeIntervalInSeconds) {
+template <size_t N>
+void Collider<N>::update(double currentTimeInSeconds,
+                         double timeIntervalInSeconds) {
     JET_ASSERT(_surface);
 
     if (!_surface->isValidGeometry()) {
@@ -118,7 +135,14 @@ void Collider2::update(double currentTimeInSeconds,
     }
 }
 
-void Collider2::setOnBeginUpdateCallback(
-    const OnBeginUpdateCallback& callback) {
+template <size_t N>
+void Collider<N>::setOnBeginUpdateCallback(
+    const OnBeginUpdateCallback &callback) {
     _onUpdateCallback = callback;
 }
+
+template class Collider<2>;
+
+template class Collider<3>;
+
+}  // namespace jet

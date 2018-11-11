@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_PARTICLE_SYSTEM_SOLVER3_H_
 #define INCLUDE_JET_PARTICLE_SYSTEM_SOLVER3_H_
 
-#include <jet/collider3.h>
+#include <jet/collider.h>
 #include <jet/constants.h>
 #include <jet/particle_emitter3.h>
 #include <jet/particle_system_data3.h>

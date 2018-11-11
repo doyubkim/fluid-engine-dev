@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_COLLIDER_SET3_H_
 #define INCLUDE_JET_COLLIDER_SET3_H_
 
-#include <jet/collider3.h>
+#include <jet/collider.h>
 #include <jet/surface_set3.h>
 #include <vector>
 

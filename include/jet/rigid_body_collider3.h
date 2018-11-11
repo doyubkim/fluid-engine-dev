@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_RIGID_BODY_COLLIDER3_H_
 #define INCLUDE_JET_RIGID_BODY_COLLIDER3_H_
 
-#include <jet/collider3.h>
+#include <jet/collider.h>
 #include <jet/quaternion.h>
 
 namespace jet {

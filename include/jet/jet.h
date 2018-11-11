@@ -29,8 +29,7 @@
 #include <jet/cell_centered_vector_grid2.h>
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/cg.h>
-#include <jet/collider2.h>
-#include <jet/collider3.h>
+#include <jet/collider.h>
 #include <jet/collider_set2.h>
 #include <jet/collider_set3.h>
 #include <jet/collocated_vector_grid2.h>
