@@ -6,7 +6,7 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit3.h>

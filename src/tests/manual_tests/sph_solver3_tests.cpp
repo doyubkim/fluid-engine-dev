@@ -6,9 +6,9 @@
 
 #include <manual_tests.h>
 
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/implicit_surface_set3.h>
-#include <jet/plane3.h>
+#include <jet/plane.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/sph_solver3.h>
 #include <jet/sphere3.h>

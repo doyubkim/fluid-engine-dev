@@ -6,10 +6,10 @@
 
 #include <manual_tests.h>
 
-#include <jet/box2.h>
+#include <jet/box.h>
 #include <jet/implicit_surface_set2.h>
 #include <jet/pci_sph_solver2.h>
-#include <jet/plane2.h>
+#include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
 #include <jet/surface_to_implicit2.h>

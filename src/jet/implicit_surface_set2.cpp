@@ -14,19 +14,19 @@ using namespace jet;
 ImplicitSurfaceSet2::ImplicitSurfaceSet2() {}
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<ImplicitSurface2Ptr>& surfaces,
+    const Array1<ImplicitSurface2Ptr>& surfaces,
     const Transform2& transform, bool isNormalFlipped)
     : ImplicitSurface2(transform, isNormalFlipped), _surfaces(surfaces) {
     for (auto surface : _surfaces) {
         if (!surface->isBounded()) {
-            _unboundedSurfaces.push_back(surface);
+            _unboundedSurfaces.append(surface);
         }
     }
     invalidateBvh();
 }
 
 ImplicitSurfaceSet2::ImplicitSurfaceSet2(
-    const std::vector<Surface2Ptr>& surfaces, const Transform2& transform,
+    const Array1<Surface2Ptr>& surfaces, const Transform2& transform,
     bool isNormalFlipped)
     : ImplicitSurface2(transform, isNormalFlipped) {
     for (const auto& surface : surfaces) {
@@ -50,11 +50,11 @@ bool ImplicitSurfaceSet2::isValidGeometry() const {
     }
 
     // Empty set is not valid.
-    return !_surfaces.empty();
+    return !_surfaces.isEmpty();
 }
 
 size_t ImplicitSurfaceSet2::numberOfSurfaces() const {
-    return _surfaces.size();
+    return _surfaces.length();
 }
 
 const ImplicitSurface2Ptr& ImplicitSurfaceSet2::surfaceAt(size_t i) const {
@@ -66,9 +66,9 @@ void ImplicitSurfaceSet2::addExplicitSurface(const Surface2Ptr& surface) {
 }
 
 void ImplicitSurfaceSet2::addSurface(const ImplicitSurface2Ptr& surface) {
-    _surfaces.push_back(surface);
+    _surfaces.append(surface);
     if (!surface->isBounded()) {
-        _unboundedSurfaces.push_back(surface);
+        _unboundedSurfaces.append(surface);
     }
     invalidateBvh();
 }
@@ -215,10 +215,10 @@ void ImplicitSurfaceSet2::invalidateBvh() { _bvhInvalidated = true; }
 
 void ImplicitSurfaceSet2::buildBvh() const {
     if (_bvhInvalidated) {
-        std::vector<BoundingBox2D> bounds;
-        for (size_t i = 0; i < _surfaces.size(); ++i) {
+        Array1<BoundingBox2D> bounds;
+        for (size_t i = 0; i < _surfaces.length(); ++i) {
             if (_surfaces[i]->isBounded()) {
-                bounds.push_back(_surfaces[i]->boundingBox());
+                bounds.append(_surfaces[i]->boundingBox());
             }
         }
         _bvh.build(_surfaces, bounds);
@@ -233,17 +233,17 @@ ImplicitSurfaceSet2::Builder ImplicitSurfaceSet2::builder() {
 }
 
 ImplicitSurfaceSet2::Builder& ImplicitSurfaceSet2::Builder::withSurfaces(
-    const std::vector<ImplicitSurface2Ptr>& surfaces) {
+    const Array1<ImplicitSurface2Ptr>& surfaces) {
     _surfaces = surfaces;
     return *this;
 }
 
 ImplicitSurfaceSet2::Builder&
 ImplicitSurfaceSet2::Builder::withExplicitSurfaces(
-    const std::vector<Surface2Ptr>& surfaces) {
+    const Array1<Surface2Ptr>& surfaces) {
     _surfaces.clear();
     for (const auto& surface : surfaces) {
-        _surfaces.push_back(std::make_shared<SurfaceToImplicit2>(surface));
+        _surfaces.append(std::make_shared<SurfaceToImplicit2>(surface));
     }
     return *this;
 }

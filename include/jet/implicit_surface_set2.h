@@ -7,10 +7,9 @@
 #ifndef INCLUDE_JET_IMPLICIT_SURFACE_SET2_H_
 #define INCLUDE_JET_IMPLICIT_SURFACE_SET2_H_
 
-#include <jet/bvh2.h>
+#include <jet/array.h>
+#include <jet/bvh.h>
 #include <jet/implicit_surface2.h>
-
-#include <vector>
 
 namespace jet {
 
@@ -29,12 +28,12 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     ImplicitSurfaceSet2();
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(const std::vector<ImplicitSurface2Ptr>& surfaces,
+    ImplicitSurfaceSet2(const Array1<ImplicitSurface2Ptr>& surfaces,
                         const Transform2& transform = Transform2(),
                         bool isNormalFlipped = false);
 
     //! Constructs an implicit surface set using list of other surfaces.
-    ImplicitSurfaceSet2(const std::vector<Surface2Ptr>& surfaces,
+    ImplicitSurfaceSet2(const Array1<Surface2Ptr>& surfaces,
                         const Transform2& transform = Transform2(),
                         bool isNormalFlipped = false);
 
@@ -63,8 +62,8 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     static Builder builder();
 
  private:
-    std::vector<ImplicitSurface2Ptr> _surfaces;
-    std::vector<ImplicitSurface2Ptr> _unboundedSurfaces;
+    Array1<ImplicitSurface2Ptr> _surfaces;
+    Array1<ImplicitSurface2Ptr> _unboundedSurfaces;
     mutable Bvh2<ImplicitSurface2Ptr> _bvh;
     mutable bool _bvhInvalidated = true;
 
@@ -102,10 +101,10 @@ class ImplicitSurfaceSet2::Builder final
     : public SurfaceBuilderBase2<ImplicitSurfaceSet2::Builder> {
  public:
     //! Returns builder with surfaces.
-    Builder& withSurfaces(const std::vector<ImplicitSurface2Ptr>& surfaces);
+    Builder& withSurfaces(const Array1<ImplicitSurface2Ptr>& surfaces);
 
     //! Returns builder with explicit surfaces.
-    Builder& withExplicitSurfaces(const std::vector<Surface2Ptr>& surfaces);
+    Builder& withExplicitSurfaces(const Array1<Surface2Ptr>& surfaces);
 
     //! Builds ImplicitSurfaceSet2.
     ImplicitSurfaceSet2 build() const;
@@ -115,7 +114,7 @@ class ImplicitSurfaceSet2::Builder final
 
  private:
     bool _isNormalFlipped = false;
-    std::vector<ImplicitSurface2Ptr> _surfaces;
+    Array1<ImplicitSurface2Ptr> _surfaces;
 };
 
 }  // namespace jet

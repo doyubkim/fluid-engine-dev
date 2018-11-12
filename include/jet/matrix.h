@@ -154,6 +154,10 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
     reference operator[](size_t i);
 
     const_reference operator[](size_t i) const;
+
+    // Builders
+
+    constexpr static Matrix makeUnitX();
 };
 
 template <typename T>
@@ -218,6 +222,12 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     reference operator[](size_t i);
 
     const_reference operator[](size_t i) const;
+
+    // Builders
+
+    constexpr static Matrix makeUnitX();
+
+    constexpr static Matrix makeUnitY();
 };
 
 template <typename T>
@@ -288,6 +298,14 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
     reference operator[](size_t i);
 
     const_reference operator[](size_t i) const;
+
+    // Builders
+
+    constexpr static Matrix makeUnitX();
+
+    constexpr static Matrix makeUnitY();
+
+    constexpr static Matrix makeUnitZ();
 };
 
 template <typename T>
@@ -356,6 +374,16 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
     reference operator[](size_t i);
 
     const_reference operator[](size_t i) const;
+
+    // Builders
+
+    constexpr static Matrix makeUnitX();
+
+    constexpr static Matrix makeUnitY();
+
+    constexpr static Matrix makeUnitZ();
+
+    constexpr static Matrix makeUnitW();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

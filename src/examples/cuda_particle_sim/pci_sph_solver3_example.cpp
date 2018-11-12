@@ -7,7 +7,7 @@
 #include "pci_sph_solver3_example.h"
 
 #include <jet.viz/points_renderable3.h>
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/grid_point_generator3.h>
 #include <jet/rigid_body_collider3.h>
 

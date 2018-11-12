@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/implicit_surface_set2.h>
-#include <jet/plane2.h>
+#include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 
 #include <gtest/gtest.h>

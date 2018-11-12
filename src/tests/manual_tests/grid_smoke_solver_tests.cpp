@@ -6,8 +6,8 @@
 
 #include <manual_tests.h>
 
-#include <jet/box2.h>
-#include <jet/box3.h>
+#include <jet/box.h>
+#include <jet/box.h>
 #include <jet/cubic_semi_lagrangian3.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>

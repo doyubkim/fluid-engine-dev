@@ -173,6 +173,11 @@ std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, D>::depth() const {
 }
 
 template <typename T, size_t N, typename D>
+bool ArrayBase<T, N, D>::isEmpty() const {
+    return length() == 0;
+}
+
+template <typename T, size_t N, typename D>
 size_t ArrayBase<T, N, D>::length() const {
     return product<size_t, N>(_size, 1);
 }

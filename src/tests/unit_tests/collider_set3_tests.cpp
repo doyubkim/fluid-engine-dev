@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/collider_set3.h>
 #include <jet/rigid_body_collider3.h>
 #include <gtest/gtest.h>

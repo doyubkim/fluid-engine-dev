@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/grid_fractional_boundary_condition_solver3.h>
-#include <jet/plane3.h>
+#include <jet/plane.h>
 #include <jet/rigid_body_collider3.h>
 #include <gtest/gtest.h>
 

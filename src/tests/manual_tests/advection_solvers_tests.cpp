@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/array.h>
-#include <jet/box2.h>
+#include <jet/box.h>
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/cell_centered_vector_grid2.h>
 #include <jet/constant_vector_field2.h>

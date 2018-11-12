@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/grid_blocked_boundary_condition_solver2.h>
-#include <jet/plane2.h>
+#include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 #include <gtest/gtest.h>
 

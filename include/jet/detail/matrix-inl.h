@@ -367,6 +367,11 @@ typename Matrix<T, 1, 1>::const_reference Matrix<T, 1, 1>::operator[](
     return (&x)[i];
 }
 
+template <typename T>
+constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::makeUnitX() {
+    return Matrix<T, 1, 1>(1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix<T, 2, 1> (aka Vector2)
 
@@ -465,6 +470,16 @@ typename Matrix<T, 2, 1>::const_reference Matrix<T, 2, 1>::operator[](
     size_t i) const {
     JET_ASSERT(i < 2);
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnitX() {
+    return Matrix<T, 2, 1>(1, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnitY() {
+    return Matrix<T, 2, 1>(0, 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -570,6 +585,21 @@ typename Matrix<T, 3, 1>::const_reference Matrix<T, 3, 1>::operator[](
     size_t i) const {
     JET_ASSERT(i < 3);
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitX() {
+    return Matrix<T, 3, 1>(1, 0, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitY() {
+    return Matrix<T, 3, 1>(0, 1, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitZ() {
+    return Matrix<T, 3, 1>(0, 0, 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -680,6 +710,26 @@ typename Matrix<T, 4, 1>::const_reference Matrix<T, 4, 1>::operator[](
     size_t i) const {
     JET_ASSERT(i < 4);
     return (&x)[i];
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitX() {
+    return Matrix<T, 4, 1>(1, 0, 0, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitY() {
+    return Matrix<T, 4, 1>(0, 1, 0, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitZ() {
+    return Matrix<T, 4, 1>(0, 0, 1, 0);
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitW() {
+    return Matrix<T, 4, 1>(0, 0, 0, 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

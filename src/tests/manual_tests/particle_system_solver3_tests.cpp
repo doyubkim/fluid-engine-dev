@@ -9,7 +9,7 @@
 #include <jet/rigid_body_collider3.h>
 #include <jet/constant_vector_field3.h>
 #include <jet/particle_system_solver3.h>
-#include <jet/plane3.h>
+#include <jet/plane.h>
 #include <jet/point_particle_emitter3.h>
 
 using namespace jet;

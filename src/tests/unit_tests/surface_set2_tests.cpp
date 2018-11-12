@@ -6,9 +6,9 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/plane2.h>
+#include <jet/plane.h>
 #include <jet/sphere2.h>
-#include <jet/surface_set2.h>
+#include <jet/surface_set.h>
 
 using namespace jet;
 

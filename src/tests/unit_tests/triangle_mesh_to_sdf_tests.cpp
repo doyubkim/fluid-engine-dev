@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/triangle_mesh_to_sdf.h>
 #include <jet/cell_centered_scalar_grid3.h>
 #include <gtest/gtest.h>

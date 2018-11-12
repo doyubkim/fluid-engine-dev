@@ -4,10 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_DETAIL_BVH3_INL_H_
-#define INCLUDE_JET_DETAIL_BVH3_INL_H_
+#ifndef INCLUDE_JET_DETAIL_BVH_INL_H_
+#define INCLUDE_JET_DETAIL_BVH_INL_H_
 
-#include <jet/bvh3.h>
+#include <jet/bvh.h>
 #include <jet/constants.h>
 #include <jet/math_utils.h>
 
@@ -15,71 +15,72 @@
 
 namespace jet {
 
-template <typename T>
-Bvh3<T>::Node::Node() : flags(0) {
+template <typename T, size_t N>
+Bvh<T, N>::Node::Node() : flags(0) {
     child = kMaxSize;
 }
 
-template <typename T>
-void Bvh3<T>::Node::initLeaf(size_t it, const BoundingBox3D& b) {
-    flags = 3;
+template <typename T, size_t N>
+void Bvh<T, N>::Node::initLeaf(size_t it, const BoundingBox<double, N>& b) {
+    flags = static_cast<char>(N);
     item = it;
     bound = b;
 }
 
-template <typename T>
-void Bvh3<T>::Node::initInternal(uint8_t axis, size_t c,
-                                 const BoundingBox3D& b) {
+template <typename T, size_t N>
+void Bvh<T, N>::Node::initInternal(uint8_t axis, size_t c,
+                                   const BoundingBox<double, N>& b) {
     flags = axis;
     child = c;
     bound = b;
 }
 
-template <typename T>
-bool Bvh3<T>::Node::isLeaf() const {
-    return flags == 3;
+template <typename T, size_t N>
+bool Bvh<T, N>::Node::isLeaf() const {
+    return flags == static_cast<char>(N);
 }
 
 //
 
-template <typename T>
-Bvh3<T>::Bvh3() {}
+template <typename T, size_t N>
+Bvh<T, N>::Bvh() {}
 
-template <typename T>
-void Bvh3<T>::build(const std::vector<T>& items,
-                    const std::vector<BoundingBox3D>& itemsBounds) {
+template <typename T, size_t N>
+void Bvh<T, N>::build(
+    const ConstArrayView1<T>& items,
+    const ConstArrayView1<BoundingBox<double, N>>& itemsBounds) {
     _items = items;
     _itemBounds = itemsBounds;
 
-    if (_items.empty()) {
+    if (_items.isEmpty()) {
         return;
     }
 
     _nodes.clear();
 
-    for (size_t i = 0; i < _items.size(); ++i) {
+    for (size_t i = 0; i < _items.length(); ++i) {
         _bound.merge(_itemBounds[i]);
     }
 
-    std::vector<size_t> itemIndices(_items.size());
+    Array1<size_t> itemIndices(_items.length());
     std::iota(std::begin(itemIndices), std::end(itemIndices), 0);
 
-    build(0, itemIndices.data(), _items.size(), 0);
+    build(0, itemIndices.data(), _items.length(), 0);
 }
 
-template <typename T>
-void Bvh3<T>::clear() {
-    _bound = BoundingBox3D();
+template <typename T, size_t N>
+void Bvh<T, N>::clear() {
+    _bound = BoundingBox<double, N>();
     _items.clear();
     _itemBounds.clear();
     _nodes.clear();
 }
 
-template <typename T>
-inline NearestNeighborQueryResult3<T> Bvh3<T>::nearest(
-    const Vector<double, 3>& pt,
-    const NearestNeighborDistanceFunc3<T>& distanceFunc) const {
-    NearestNeighborQueryResult3<T> best;
+template <typename T, size_t N>
+inline NearestNeighborQueryResult<T, N> Bvh<T, N>::nearest(
+    const Vector<double, N>& pt,
+    const NearestNeighborDistanceFunc<T, N>& distanceFunc) const {
+    NearestNeighborQueryResult<T, N> best;
     best.distance = kMaxD;
     best.item = nullptr;
 
@@ -116,8 +117,8 @@ inline NearestNeighborQueryResult3<T> Bvh3<T>::nearest(
             // identical to pt. This will make distMinLeftSqr and
             // distMinRightSqr zero, meaning that such a box will have higher
             // priority.
-            Vector3D closestLeft = left->bound.clamp(pt);
-            Vector3D closestRight = right->bound.clamp(pt);
+            Vector<double, N> closestLeft = left->bound.clamp(pt);
+            Vector<double, N> closestRight = right->bound.clamp(pt);
 
             double distMinLeftSqr = closestLeft.distanceSquaredTo(pt);
             double distMinRightSqr = closestRight.distanceSquaredTo(pt);
@@ -159,9 +160,10 @@ inline NearestNeighborQueryResult3<T> Bvh3<T>::nearest(
     return best;
 }
 
-template <typename T>
-inline bool Bvh3<T>::intersects(const BoundingBox3D& box,
-                                const BoxIntersectionTestFunc3<T>& testFunc) const {
+template <typename T, size_t N>
+inline bool Bvh<T, N>::intersects(
+    const BoundingBox<double, N>& box,
+    const BoxIntersectionTestFunc<T, N>& testFunc) const {
     if (!_bound.overlaps(box)) {
         return false;
     }
@@ -210,9 +212,10 @@ inline bool Bvh3<T>::intersects(const BoundingBox3D& box,
     return false;
 }
 
-template <typename T>
-inline bool Bvh3<T>::intersects(const Ray3D& ray,
-                                const RayIntersectionTestFunc3<T>& testFunc) const {
+template <typename T, size_t N>
+inline bool Bvh<T, N>::intersects(
+    const Ray<double, N>& ray,
+    const RayIntersectionTestFunc<T, N>& testFunc) const {
     if (!_bound.intersects(ray)) {
         return false;
     }
@@ -268,9 +271,10 @@ inline bool Bvh3<T>::intersects(const Ray3D& ray,
     return false;
 }
 
-template <typename T>
-inline void Bvh3<T>::forEachIntersectingItem(
-    const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
+template <typename T, size_t N>
+inline void Bvh<T, N>::forEachIntersectingItem(
+    const BoundingBox<double, N>& box,
+    const BoxIntersectionTestFunc<T, N>& testFunc,
     const IntersectionVisitorFunc<T>& visitorFunc) const {
     if (!_bound.overlaps(box)) {
         return;
@@ -318,9 +322,9 @@ inline void Bvh3<T>::forEachIntersectingItem(
     }
 }
 
-template <typename T>
-inline void Bvh3<T>::forEachIntersectingItem(
-    const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
+template <typename T, size_t N>
+inline void Bvh<T, N>::forEachIntersectingItem(
+    const Ray<double, N>& ray, const RayIntersectionTestFunc<T, N>& testFunc,
     const IntersectionVisitorFunc<T>& visitorFunc) const {
     if (!_bound.intersects(ray)) {
         return;
@@ -375,10 +379,11 @@ inline void Bvh3<T>::forEachIntersectingItem(
     }
 }
 
-template <typename T>
-inline ClosestIntersectionQueryResult3<T> Bvh3<T>::closestIntersection(
-    const Ray3D& ray, const GetRayIntersectionFunc3<T>& testFunc) const {
-    ClosestIntersectionQueryResult3<T> best;
+template <typename T, size_t N>
+inline ClosestIntersectionQueryResult<T, N> Bvh<T, N>::closestIntersection(
+    const Ray<double, N>& ray,
+    const GetRayIntersectionFunc<T, N>& testFunc) const {
+    ClosestIntersectionQueryResult<T, N> best;
     best.distance = kMaxD;
     best.item = nullptr;
 
@@ -439,46 +444,46 @@ inline ClosestIntersectionQueryResult3<T> Bvh3<T>::closestIntersection(
     return best;
 }
 
-template <typename T>
-const BoundingBox3D& Bvh3<T>::boundingBox() const {
+template <typename T, size_t N>
+const BoundingBox<double, N>& Bvh<T, N>::boundingBox() const {
     return _bound;
 }
 
-template <typename T>
-typename Bvh3<T>::Iterator Bvh3<T>::begin() {
+template <typename T, size_t N>
+typename Bvh<T, N>::iterator Bvh<T, N>::begin() {
     return _items.begin();
 }
 
-template <typename T>
-typename Bvh3<T>::Iterator Bvh3<T>::end() {
+template <typename T, size_t N>
+typename Bvh<T, N>::iterator Bvh<T, N>::end() {
     return _items.end();
 }
 
-template <typename T>
-typename Bvh3<T>::ConstIterator Bvh3<T>::begin() const {
+template <typename T, size_t N>
+typename Bvh<T, N>::const_iterator Bvh<T, N>::begin() const {
     return _items.begin();
 }
 
-template <typename T>
-typename Bvh3<T>::ConstIterator Bvh3<T>::end() const {
+template <typename T, size_t N>
+typename Bvh<T, N>::const_iterator Bvh<T, N>::end() const {
     return _items.end();
 }
 
-template <typename T>
-size_t Bvh3<T>::numberOfItems() const {
+template <typename T, size_t N>
+size_t Bvh<T, N>::numberOfItems() const {
     return _items.size();
 }
 
-template <typename T>
-const T& Bvh3<T>::item(size_t i) const {
+template <typename T, size_t N>
+const T& Bvh<T, N>::item(size_t i) const {
     return _items[i];
 }
 
-template <typename T>
-size_t Bvh3<T>::build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
-                      size_t currentDepth) {
+template <typename T, size_t N>
+size_t Bvh<T, N>::build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
+                        size_t currentDepth) {
     // add a node
-    _nodes.push_back(Node());
+    _nodes.append(Node());
 
     // initialize leaf node if termination criteria met
     if (nItems == 1) {
@@ -487,20 +492,15 @@ size_t Bvh3<T>::build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
     }
 
     // find the mid-point of the bounding box to use as a qsplit pivot
-    BoundingBox3D nodeBound;
+    BoundingBox<double, N> nodeBound;
     for (size_t i = 0; i < nItems; ++i) {
         nodeBound.merge(_itemBounds[itemIndices[i]]);
     }
 
-    Vector3D d = nodeBound.upperCorner - nodeBound.lowerCorner;
+    Vector<double, N> d = nodeBound.upperCorner - nodeBound.lowerCorner;
 
     // choose which axis to split along
-    uint8_t axis;
-    if (d.x > d.y && d.x > d.z) {
-        axis = 0;
-    } else {
-        axis = (d.y > d.z) ? 1 : 2;
-    }
+    uint8_t axis = static_cast<uint8_t>(d.dominantAxis());
 
     double pivot =
         0.5 * (nodeBound.upperCorner[axis] + nodeBound.lowerCorner[axis]);
@@ -510,20 +510,20 @@ size_t Bvh3<T>::build(size_t nodeIndex, size_t* itemIndices, size_t nItems,
 
     // recursively initialize children _nodes
     size_t d0 = build(nodeIndex + 1, itemIndices, midPoint, currentDepth + 1);
-    _nodes[nodeIndex].initInternal(axis, _nodes.size(), nodeBound);
+    _nodes[nodeIndex].initInternal(axis, _nodes.length(), nodeBound);
     size_t d1 = build(_nodes[nodeIndex].child, itemIndices + midPoint,
                       nItems - midPoint, currentDepth + 1);
 
     return std::max(d0, d1);
 }
 
-template <typename T>
-size_t Bvh3<T>::qsplit(size_t* itemIndices, size_t numItems, double pivot,
-                       uint8_t axis) {
+template <typename T, size_t N>
+size_t Bvh<T, N>::qsplit(size_t* itemIndices, size_t numItems, double pivot,
+                         uint8_t axis) {
     double centroid;
     size_t ret = 0;
     for (size_t i = 0; i < numItems; ++i) {
-        BoundingBox3D b = _itemBounds[itemIndices[i]];
+        BoundingBox<double, N> b = _itemBounds[itemIndices[i]];
         centroid = 0.5f * (b.lowerCorner[axis] + b.upperCorner[axis]);
         if (centroid < pivot) {
             std::swap(itemIndices[i], itemIndices[ret]);
@@ -538,4 +538,4 @@ size_t Bvh3<T>::qsplit(size_t* itemIndices, size_t numItems, double pivot,
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_DETAIL_BVH3_INL_H_
+#endif  // INCLUDE_JET_DETAIL_BVH_INL_H_

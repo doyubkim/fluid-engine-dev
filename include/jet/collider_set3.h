@@ -8,7 +8,7 @@
 #define INCLUDE_JET_COLLIDER_SET3_H_
 
 #include <jet/collider.h>
-#include <jet/surface_set3.h>
+#include <jet/surface_set.h>
 #include <vector>
 
 namespace jet {

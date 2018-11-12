@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/apic_solver2.h>
-#include <jet/box2.h>
+#include <jet/box.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
 #include <jet/volume_particle_emitter2.h>
