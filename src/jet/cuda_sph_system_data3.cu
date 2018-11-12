@@ -10,6 +10,7 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/cuda_sph_system_data3.h>
 
+#include <thrust/device_ptr.h>
 #include <thrust/extrema.h>
 #include <thrust/for_each.h>
 
