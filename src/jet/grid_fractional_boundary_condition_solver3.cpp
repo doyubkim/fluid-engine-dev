@@ -8,7 +8,7 @@
 #include <jet/cell_centered_scalar_grid3.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/level_set_utils.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 #include <pch.h>
 #include <physics_helpers.h>
 #include <algorithm>

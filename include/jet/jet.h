@@ -29,8 +29,6 @@
 #include <jet/cg.h>
 #include <jet/collider.h>
 #include <jet/collider_set.h>
-#include <jet/collider_set2.h>
-#include <jet/collider_set3.h>
 #include <jet/collocated_vector_grid2.h>
 #include <jet/collocated_vector_grid3.h>
 #include <jet/constant_scalar_field2.h>
@@ -73,7 +71,6 @@
 #include <jet/custom_vector_field2.h>
 #include <jet/custom_vector_field3.h>
 #include <jet/cylinder3.h>
-#include <jet/dynamic_matrix.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>
 #include <jet/face_centered_grid2.h>
@@ -137,10 +134,8 @@
 #include <jet/grid_smoke_solver3.h>
 #include <jet/grid_system_data2.h>
 #include <jet/grid_system_data3.h>
-#include <jet/implicit_surface2.h>
-#include <jet/implicit_surface3.h>
-#include <jet/implicit_surface_set2.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/intersection_query_engine.h>
 #include <jet/iteration_utils.h>
@@ -228,8 +223,7 @@
 #include <jet/std_utils.h>
 #include <jet/surface.h>
 #include <jet/surface_set.h>
-#include <jet/surface_to_implicit2.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/svd.h>
 #include <jet/thrust_utils.h>
 #include <jet/timer.h>

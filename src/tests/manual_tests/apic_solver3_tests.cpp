@@ -12,13 +12,13 @@
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/grid_point_generator3.h>
 #include <jet/grid_single_phase_pressure_solver3.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_utils.h>
 #include <jet/particle_emitter_set3.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;

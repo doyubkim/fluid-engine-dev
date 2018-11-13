@@ -7,7 +7,7 @@
 #include "wc_sph_solver2_example.h"
 
 #include <jet/box.h>
-#include <jet/implicit_surface_set2.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>

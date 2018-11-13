@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/implicit_surface_set2.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 

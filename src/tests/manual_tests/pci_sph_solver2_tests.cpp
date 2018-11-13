@@ -7,12 +7,12 @@
 #include <manual_tests.h>
 
 #include <jet/box.h>
-#include <jet/implicit_surface_set2.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/pci_sph_solver2.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>
 
 using namespace jet;

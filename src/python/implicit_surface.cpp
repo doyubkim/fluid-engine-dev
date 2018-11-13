@@ -7,8 +7,8 @@
 #include "implicit_surface.h"
 #include "pybind11_utils.h"
 
-#include <jet/implicit_surface2.h>
-#include <jet/implicit_surface3.h>
+#include <jet/implicit_surface.h>
+#include <jet/implicit_surface.h>
 
 namespace py = pybind11;
 using namespace jet;

@@ -4,14 +4,14 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/implicit_surface_set2.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/level_set_liquid_solver3.h>
 #include <jet/sphere2.h>
 #include <jet/sphere3.h>
-#include <jet/surface_to_implicit2.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
+#include <jet/surface_to_implicit.h>
 #include <gtest/gtest.h>
 
 using namespace jet;

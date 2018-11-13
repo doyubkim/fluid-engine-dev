@@ -15,7 +15,7 @@
 #include <jet/grid_fluid_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/level_set_utils.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/timer.h>
 
 #include <algorithm>

@@ -5,8 +5,8 @@
 // property of any third parties.
 
 #include <jet/box.h>
-#include <jet/implicit_surface_set3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/surface_to_implicit.h>
 
 #include <gtest/gtest.h>
 

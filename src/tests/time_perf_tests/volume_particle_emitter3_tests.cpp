@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/box.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/timer.h>
 #include <jet/volume_particle_emitter3.h>
 

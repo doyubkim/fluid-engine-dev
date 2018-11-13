@@ -8,13 +8,13 @@
 
 #include <jet/box.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
-#include <jet/implicit_surface_set2.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_grid_emitter2.h>
 
 #include <vector>

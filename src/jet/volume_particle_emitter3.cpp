@@ -10,7 +10,7 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/point_hash_grid_searcher3.h>
 #include <jet/samplers.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;

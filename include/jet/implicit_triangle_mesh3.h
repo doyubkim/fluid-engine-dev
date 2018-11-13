@@ -8,7 +8,7 @@
 #define INCLUDE_JET_IMPLICIT_TRIANGLE_MESH3_H_
 
 #include <jet/custom_implicit_surface3.h>
-#include <jet/implicit_surface3.h>
+#include <jet/implicit_surface.h>
 #include <jet/triangle_mesh3.h>
 #include <jet/vertex_centered_scalar_grid3.h>
 

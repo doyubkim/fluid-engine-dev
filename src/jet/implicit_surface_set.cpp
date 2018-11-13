@@ -6,18 +6,19 @@
 
 #include <pch.h>
 
-#include <jet/surface_set.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/surface_to_implicit.h>
 
 namespace jet {
 
 template <size_t N>
-SurfaceSet<N>::SurfaceSet() {}
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet() {}
 
 template <size_t N>
-SurfaceSet<N>::SurfaceSet(
-    const ConstArrayView1<std::shared_ptr<Surface<N>>> &others,
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet(
+    ConstArrayView1<std::shared_ptr<ImplicitSurface<N>>> surfaces,
     const Transform<N> &transform, bool isNormalFlipped)
-    : Surface<N>(transform, isNormalFlipped), _surfaces(others) {
+    : ImplicitSurface<N>(transform, isNormalFlipped), _surfaces(surfaces) {
     for (auto surface : _surfaces) {
         if (!surface->isBounded()) {
             _unboundedSurfaces.append(surface);
@@ -27,20 +28,28 @@ SurfaceSet<N>::SurfaceSet(
 }
 
 template <size_t N>
-SurfaceSet<N>::SurfaceSet(const SurfaceSet &other)
-    : Surface<N>(other),
-      _surfaces(other._surfaces),
-      _unboundedSurfaces(other._unboundedSurfaces) {
-    invalidateBvh();
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet(
+    ConstArrayView1<std::shared_ptr<Surface<N>>> surfaces,
+    const Transform<N> &transform, bool isNormalFlipped)
+    : ImplicitSurface<N>(transform, isNormalFlipped) {
+    for (const auto &surface : surfaces) {
+        addExplicitSurface(surface);
+    }
 }
 
 template <size_t N>
-void SurfaceSet<N>::updateQueryEngine() {
+ImplicitSurfaceSet<N>::ImplicitSurfaceSet(const ImplicitSurfaceSet &other)
+    : ImplicitSurface<N>(other),
+      _surfaces(other._surfaces),
+      _unboundedSurfaces(other._unboundedSurfaces) {}
+
+template <size_t N>
+void ImplicitSurfaceSet<N>::updateQueryEngine() {
     buildBvh();
 }
 
 template <size_t N>
-bool SurfaceSet<N>::isValidGeometry() const {
+bool ImplicitSurfaceSet<N>::isValidGeometry() const {
     // All surfaces should be valid.
     for (auto surface : _surfaces) {
         if (!surface->isValidGeometry()) {
@@ -53,17 +62,25 @@ bool SurfaceSet<N>::isValidGeometry() const {
 }
 
 template <size_t N>
-size_t SurfaceSet<N>::numberOfSurfaces() const {
+size_t ImplicitSurfaceSet<N>::numberOfSurfaces() const {
     return _surfaces.length();
 }
 
 template <size_t N>
-const std::shared_ptr<Surface<N>> &SurfaceSet<N>::surfaceAt(size_t i) const {
+const std::shared_ptr<ImplicitSurface<N>> &ImplicitSurfaceSet<N>::surfaceAt(
+    size_t i) const {
     return _surfaces[i];
 }
 
 template <size_t N>
-void SurfaceSet<N>::addSurface(const std::shared_ptr<Surface<N>> &surface) {
+void ImplicitSurfaceSet<N>::addExplicitSurface(
+    const std::shared_ptr<Surface<N>> &surface) {
+    addSurface(std::make_shared<SurfaceToImplicit<N>>(surface));
+}
+
+template <size_t N>
+void ImplicitSurfaceSet<N>::addSurface(
+    const std::shared_ptr<ImplicitSurface<N>> &surface) {
     _surfaces.append(surface);
     if (!surface->isBounded()) {
         _unboundedSurfaces.append(surface);
@@ -72,7 +89,7 @@ void SurfaceSet<N>::addSurface(const std::shared_ptr<Surface<N>> &surface) {
 }
 
 template <size_t N>
-Vector<double, N> SurfaceSet<N>::closestPointLocal(
+Vector<double, N> ImplicitSurfaceSet<N>::closestPointLocal(
     const Vector<double, N> &otherPoint) const {
     buildBvh();
 
@@ -101,7 +118,31 @@ Vector<double, N> SurfaceSet<N>::closestPointLocal(
 }
 
 template <size_t N>
-Vector<double, N> SurfaceSet<N>::closestNormalLocal(
+double ImplicitSurfaceSet<N>::closestDistanceLocal(
+    const Vector<double, N> &otherPoint) const {
+    buildBvh();
+
+    const auto distanceFunc = [](const std::shared_ptr<Surface<N>> &surface,
+                                 const Vector<double, N> &pt) {
+        return surface->closestDistance(pt);
+    };
+
+    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
+
+    double minDist = queryResult.distance;
+    for (auto surface : _unboundedSurfaces) {
+        auto pt = surface->closestPoint(otherPoint);
+        double dist = pt.distanceTo(otherPoint);
+        if (dist < minDist) {
+            minDist = dist;
+        }
+    }
+
+    return minDist;
+}
+
+template <size_t N>
+Vector<double, N> ImplicitSurfaceSet<N>::closestNormalLocal(
     const Vector<double, N> &otherPoint) const {
     buildBvh();
 
@@ -130,31 +171,7 @@ Vector<double, N> SurfaceSet<N>::closestNormalLocal(
 }
 
 template <size_t N>
-double SurfaceSet<N>::closestDistanceLocal(
-    const Vector<double, N> &otherPoint) const {
-    buildBvh();
-
-    const auto distanceFunc = [](const std::shared_ptr<Surface<N>> &surface,
-                                 const Vector<double, N> &pt) {
-        return surface->closestDistance(pt);
-    };
-
-    const auto queryResult = _bvh.nearest(otherPoint, distanceFunc);
-
-    double minDist = queryResult.distance;
-    for (auto surface : _unboundedSurfaces) {
-        auto pt = surface->closestPoint(otherPoint);
-        double dist = pt.distanceTo(otherPoint);
-        if (dist < minDist) {
-            minDist = dist;
-        }
-    }
-
-    return minDist;
-}
-
-template <size_t N>
-bool SurfaceSet<N>::intersectsLocal(const Ray<double, N> &ray) const {
+bool ImplicitSurfaceSet<N>::intersectsLocal(const Ray<double, N> &ray) const {
     buildBvh();
 
     const auto testFunc = [](const std::shared_ptr<Surface<N>> &surface,
@@ -171,7 +188,7 @@ bool SurfaceSet<N>::intersectsLocal(const Ray<double, N> &ray) const {
 }
 
 template <size_t N>
-SurfaceRayIntersection<N> SurfaceSet<N>::closestIntersectionLocal(
+SurfaceRayIntersection<N> ImplicitSurfaceSet<N>::closestIntersectionLocal(
     const Ray<double, N> &ray) const {
     buildBvh();
 
@@ -202,19 +219,30 @@ SurfaceRayIntersection<N> SurfaceSet<N>::closestIntersectionLocal(
 }
 
 template <size_t N>
-BoundingBox<double, N> SurfaceSet<N>::boundingBoxLocal() const {
+BoundingBox<double, N> ImplicitSurfaceSet<N>::boundingBoxLocal() const {
     buildBvh();
 
     return _bvh.boundingBox();
 }
 
 template <size_t N>
-void SurfaceSet<N>::invalidateBvh() {
+double ImplicitSurfaceSet<N>::signedDistanceLocal(
+    const Vector<double, N> &otherPoint) const {
+    double sdf = kMaxD;
+    for (const auto &surface : _surfaces) {
+        sdf = std::min(sdf, surface->signedDistance(otherPoint));
+    }
+
+    return sdf;
+}
+
+template <size_t N>
+void ImplicitSurfaceSet<N>::invalidateBvh() {
     _bvhInvalidated = true;
 }
 
 template <size_t N>
-void SurfaceSet<N>::buildBvh() const {
+void ImplicitSurfaceSet<N>::buildBvh() const {
     if (_bvhInvalidated) {
         Array1<BoundingBox<double, N>> bounds;
         for (size_t i = 0; i < _surfaces.length(); ++i) {
@@ -227,34 +255,47 @@ void SurfaceSet<N>::buildBvh() const {
     }
 }
 
-// SurfaceSet<N>::Builder
+// ImplicitSurfaceSet<N>::Builder
 
 template <size_t N>
-typename SurfaceSet<N>::Builder SurfaceSet<N>::builder() {
+typename ImplicitSurfaceSet<N>::Builder ImplicitSurfaceSet<N>::builder() {
     return Builder();
 }
 
 template <size_t N>
-typename SurfaceSet<N>::Builder &SurfaceSet<N>::Builder::withSurfaces(
-    const ConstArrayView1<std::shared_ptr<Surface<N>>> &others) {
-    _surfaces = others;
+typename ImplicitSurfaceSet<N>::Builder &
+ImplicitSurfaceSet<N>::Builder::withSurfaces(
+    const ConstArrayView1<std::shared_ptr<ImplicitSurface<N>>> &surfaces) {
+    _surfaces = surfaces;
     return *this;
 }
 
 template <size_t N>
-SurfaceSet<N> SurfaceSet<N>::Builder::build() const {
-    return SurfaceSet(_surfaces, _transform, _isNormalFlipped);
+typename ImplicitSurfaceSet<N>::Builder &
+ImplicitSurfaceSet<N>::Builder::withExplicitSurfaces(
+    const ConstArrayView1<std::shared_ptr<Surface<N>>> &surfaces) {
+    _surfaces.clear();
+    for (const auto &surface : surfaces) {
+        _surfaces.append(std::make_shared<SurfaceToImplicit<N>>(surface));
+    }
+    return *this;
 }
 
 template <size_t N>
-std::shared_ptr<SurfaceSet<N>> SurfaceSet<N>::Builder::makeShared() const {
-    return std::shared_ptr<SurfaceSet>(
-        new SurfaceSet(_surfaces, _transform, _isNormalFlipped),
-        [](SurfaceSet *obj) { delete obj; });
+ImplicitSurfaceSet<N> ImplicitSurfaceSet<N>::Builder::build() const {
+    return ImplicitSurfaceSet(_surfaces, _transform, _isNormalFlipped);
 }
 
-template class SurfaceSet<2>;
+template <size_t N>
+std::shared_ptr<ImplicitSurfaceSet<N>>
+ImplicitSurfaceSet<N>::Builder::makeShared() const {
+    return std::shared_ptr<ImplicitSurfaceSet>(
+        new ImplicitSurfaceSet(_surfaces, _transform, _isNormalFlipped),
+        [](ImplicitSurfaceSet *obj) { delete obj; });
+}
 
-template class SurfaceSet<3>;
+template class ImplicitSurfaceSet<2>;
+
+template class ImplicitSurfaceSet<3>;
 
 }  // namespace jet

@@ -6,7 +6,7 @@
 
 #include <jtl_tests_utils.h>
 
-#include <jet/bvh3.h>
+#include <jet/bvh.h>
 
 using namespace jet;
 
@@ -23,9 +23,10 @@ TEST(Bvh3, Nearest) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy(getSamplePoints3(), getSamplePoints3() + numSamples, points.begin());
 
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<BoundingBox3D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
@@ -61,9 +62,10 @@ TEST(Bvh3, BBoxIntersects) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy(getSamplePoints3(), getSamplePoints3() + numSamples, points.begin());
 
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<BoundingBox3D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
@@ -99,7 +101,7 @@ TEST(Bvh3, RayIntersects) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints3()[i++];
@@ -142,7 +144,7 @@ TEST(Bvh3, ClosestIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints3()[i++];
@@ -182,9 +184,10 @@ TEST(Bvh3, ForEachOverlappingItems) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy(getSamplePoints3(), getSamplePoints3() + numSamples, points.begin());
 
-    std::vector<BoundingBox3D> bounds(points.size());
+    Array1<BoundingBox3D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];

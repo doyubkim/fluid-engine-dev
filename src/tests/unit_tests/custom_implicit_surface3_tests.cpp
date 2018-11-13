@@ -9,7 +9,7 @@
 #include <jet/box.h>
 #include <jet/custom_implicit_surface3.h>
 #include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 
 using namespace jet;
 

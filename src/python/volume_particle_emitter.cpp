@@ -7,8 +7,8 @@
 #include "volume_particle_emitter.h"
 #include "pybind11_utils.h"
 
-#include <jet/surface_to_implicit2.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
 

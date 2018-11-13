@@ -29,7 +29,7 @@ class SurfaceSet final : public Surface<N> {
     SurfaceSet();
 
     //! Constructs with a list of other surfaces.
-    explicit SurfaceSet(const Array1<std::shared_ptr<Surface<N>>>& others,
+    explicit SurfaceSet(const ConstArrayView1<std::shared_ptr<Surface<N>>>& others,
                         const Transform<N>& transform = Transform<N>(),
                         bool isNormalFlipped = false);
 
@@ -103,7 +103,7 @@ class SurfaceSet<N>::Builder final
     : public SurfaceBuilderBase<N, SurfaceSet<N>> {
  public:
     //! Returns builder with other surfaces.
-    Builder& withSurfaces(const Array1<std::shared_ptr<Surface<N>>>& others);
+    Builder& withSurfaces(const ConstArrayView1<std::shared_ptr<Surface<N>>>& others);
 
     //! Builds SurfaceSet.
     SurfaceSet build() const;

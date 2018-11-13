@@ -8,7 +8,7 @@
 #define INCLUDE_JET_GRID_EMITTER2_H_
 
 #include <jet/animation.h>
-#include <jet/implicit_surface2.h>
+#include <jet/implicit_surface.h>
 #include <jet/scalar_grid2.h>
 
 #include <utility>

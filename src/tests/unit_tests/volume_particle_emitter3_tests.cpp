@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 #include <gtest/gtest.h>
 

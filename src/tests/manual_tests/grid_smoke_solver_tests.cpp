@@ -16,14 +16,14 @@
 #include <jet/grid_single_phase_pressure_solver2.h>
 #include <jet/grid_smoke_solver2.h>
 #include <jet/grid_smoke_solver3.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_utils.h>
 #include <jet/rigid_body_collider2.h>
 #include <jet/rigid_body_collider3.h>
 #include <jet/sphere2.h>
 #include <jet/sphere3.h>
-#include <jet/surface_to_implicit2.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/surface_to_implicit.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_grid_emitter2.h>
 #include <jet/volume_grid_emitter3.h>
 #include <algorithm>

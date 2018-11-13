@@ -365,6 +365,18 @@ Array<T, N>::Array(NestedInitializerListsT<T, N> lst) {
 }
 
 template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<T, N, OtherDerived>& other) : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<const T, N, OtherDerived>& other) : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N>
 Array<T, N>::Array(const Array& other) : Array() {
     copyFrom(other);
 }
