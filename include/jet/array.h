@@ -55,6 +55,8 @@ class ArrayBase {
     template <size_t M = N>
     std::enable_if_t<(M > 2), size_t> depth() const;
 
+    bool isEmpty() const;
+
     size_t length() const;
 
     iterator begin();
@@ -152,6 +154,12 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
 
     Array(NestedInitializerListsT<T, N> lst);
 
+    template <typename OtherDerived>
+    Array(const ArrayBase<T, N, OtherDerived>& other);
+
+    template <typename OtherDerived>
+    Array(const ArrayBase<const T, N, OtherDerived>& other);
+
     Array(const Array& other);
 
     Array(Array&& other);
@@ -176,6 +184,10 @@ class Array final : public ArrayBase<T, N, Array<T, N>> {
     template <typename OtherDerived, size_t M = N>
     std::enable_if_t<(M == 1), void> append(
         const ArrayBase<T, N, OtherDerived>& extra);
+
+    template <typename OtherDerived, size_t M = N>
+    std::enable_if_t<(M == 1), void> append(
+        const ArrayBase<const T, N, OtherDerived>& extra);
 
     void clear();
 

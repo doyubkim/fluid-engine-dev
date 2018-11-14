@@ -7,8 +7,8 @@
 #include "box.h"
 #include "pybind11_utils.h"
 
-#include <jet/box2.h>
-#include <jet/box3.h>
+#include <jet/box.h>
+#include <jet/box.h>
 
 namespace py = pybind11;
 using namespace jet;

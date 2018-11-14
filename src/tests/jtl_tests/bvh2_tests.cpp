@@ -6,7 +6,7 @@
 
 #include <jtl_tests_utils.h>
 
-#include <jet/bvh2.h>
+#include <jet/bvh.h>
 
 using namespace jet;
 
@@ -23,10 +23,10 @@ TEST(Bvh2, Nearest) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<Vector2D> points(getSamplePoints2(),
-                                 getSamplePoints2() + numSamples);
+    Array1<Vector2D> points(numSamples);
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
 
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
@@ -62,10 +62,10 @@ TEST(Bvh2, BBoxIntersects) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<Vector2D> points(getSamplePoints2(),
-                                 getSamplePoints2() + numSamples);
+    Array1<Vector2D> points(numSamples);
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
 
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];
@@ -101,7 +101,7 @@ TEST(Bvh2, RayIntersects) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints2()[i++];
@@ -144,7 +144,7 @@ TEST(Bvh2, ClosestIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints2()[i++];
@@ -184,10 +184,10 @@ TEST(Bvh2, ForEachOverlappingItems) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<Vector2D> points(getSamplePoints2(),
-                                 getSamplePoints2() + numSamples);
+    Array1<Vector2D> points(numSamples);
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
 
-    std::vector<BoundingBox2D> bounds(points.size());
+    Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
     std::generate(bounds.begin(), bounds.end(), [&]() {
         auto c = points[i++];

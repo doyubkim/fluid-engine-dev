@@ -173,6 +173,11 @@ std::enable_if_t<(M > 2), size_t> ArrayBase<T, N, D>::depth() const {
 }
 
 template <typename T, size_t N, typename D>
+bool ArrayBase<T, N, D>::isEmpty() const {
+    return length() == 0;
+}
+
+template <typename T, size_t N, typename D>
 size_t ArrayBase<T, N, D>::length() const {
     return product<size_t, N>(_size, 1);
 }
@@ -360,6 +365,18 @@ Array<T, N>::Array(NestedInitializerListsT<T, N> lst) {
 }
 
 template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<T, N, OtherDerived>& other) : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived>
+Array<T, N>::Array(const ArrayBase<const T, N, OtherDerived>& other) : Array() {
+    copyFrom(other);
+}
+
+template <typename T, size_t N>
 Array<T, N>::Array(const Array& other) : Array() {
     copyFrom(other);
 }
@@ -420,6 +437,14 @@ template <typename T, size_t N>
 template <typename OtherDerived, size_t M>
 std::enable_if_t<(M == 1), void> Array<T, N>::append(
     const ArrayBase<T, N, OtherDerived>& extra) {
+    _data.insert(_data.end(), extra.begin(), extra.end());
+    Base::setPtrAndSize(_data.data(), _data.size());
+}
+
+template <typename T, size_t N>
+template <typename OtherDerived, size_t M>
+std::enable_if_t<(M == 1), void> Array<T, N>::append(
+    const ArrayBase<const T, N, OtherDerived>& extra) {
     _data.insert(_data.end(), extra.begin(), extra.end());
     Base::setPtrAndSize(_data.data(), _data.size());
 }

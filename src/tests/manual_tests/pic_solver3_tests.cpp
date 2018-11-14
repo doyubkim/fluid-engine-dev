@@ -6,18 +6,18 @@
 
 #include <manual_tests.h>
 
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/cylinder3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/grid_point_generator3.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_utils.h>
 #include <jet/particle_emitter_set3.h>
 #include <jet/pic_solver3.h>
-#include <jet/plane3.h>
-#include <jet/rigid_body_collider3.h>
-#include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;
@@ -94,7 +94,8 @@ JET_BEGIN_TEST_F(PicSolver3, DamBreakingWithCollider) {
     size_t resolutionX = 50;
 
     // Build solver
-    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX,
+                         (3 * resolutionX) / 2};
     auto solver = PicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -120,7 +121,7 @@ JET_BEGIN_TEST_F(PicSolver3, DamBreakingWithCollider) {
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -151,9 +152,10 @@ JET_BEGIN_TEST_F(PicSolver3, DamBreakingWithCollider) {
                     .withHeight(0.75)
                     .makeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
-                      .makeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(cylSet).makeShared();

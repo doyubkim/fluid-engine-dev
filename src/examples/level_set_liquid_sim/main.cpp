@@ -42,8 +42,8 @@ void triangulateAndSave(const ScalarGrid3Ptr& sdf, const std::string& rootDir,
                         int frameCnt) {
     TriangleMesh3 mesh;
     int flag = kDirectionAll & ~kDirectionDown;
-    marchingCubes(sdf->dataView(), sdf->gridSpacing(),
-                  sdf->dataOrigin(), &mesh, 0.0, flag);
+    marchingCubes(sdf->dataView(), sdf->gridSpacing(), sdf->dataOrigin(), &mesh,
+                  0.0, flag);
     saveTriangleMesh(mesh, rootDir, frameCnt);
 }
 
@@ -97,9 +97,10 @@ void runExample1(const std::string& rootDir, size_t resX, int numberOfFrames,
                       .withRadius(0.15 * domain.width())
                       .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({plane, sphere})
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{plane, sphere})
+            .makeShared();
 
     auto emitter =
         VolumeGridEmitter3::builder().withSourceRegion(surfaceSet).makeShared();
@@ -141,7 +142,7 @@ void runExample2(const std::string& rootDir, size_t resX, int numberOfFrames,
                     .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter =
@@ -169,9 +170,10 @@ void runExample2(const std::string& rootDir, size_t resX, int numberOfFrames,
                     .withHeight(0.75)
                     .makeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
-                      .makeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(cylSet).makeShared();

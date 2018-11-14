@@ -6,9 +6,9 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/plane3.h>
-#include <jet/sphere3.h>
-#include <jet/surface_set3.h>
+#include <jet/plane.h>
+#include <jet/sphere.h>
+#include <jet/surface_set.h>
 
 using namespace jet;
 
@@ -22,7 +22,8 @@ TEST(SurfaceSet3, Constructors) {
         Sphere3::builder().withRadius(0.5).withCenter({0, 3, 2}).makeShared();
     auto sph3 =
         Sphere3::builder().withRadius(0.25).withCenter({-2, 0, 0}).makeShared();
-    SurfaceSet3 sset2({sph1, sph2, sph3}, Transform3(), false);
+    SurfaceSet3 sset2(Array1<Surface3Ptr>{sph1, sph2, sph3}, Transform3(),
+                      false);
     EXPECT_EQ(3u, sset2.numberOfSurfaces());
     EXPECT_EQ(sph1->radius,
               std::dynamic_pointer_cast<Sphere3>(sset2.surfaceAt(0))->radius);
@@ -31,13 +32,14 @@ TEST(SurfaceSet3, Constructors) {
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere3>(sset2.surfaceAt(2))->radius);
     EXPECT_EQ(Vector3D(), sset2.transform.translation());
-    EXPECT_EQ(QuaternionD(), sset2.transform.orientation());
+    EXPECT_EQ(QuaternionD(), sset2.transform.orientation().rotation());
 
     SurfaceSet3 sset3(
-        {sph1, sph2, sph3},
+        Array1<Surface3Ptr>{sph1, sph2, sph3},
         Transform3(Vector3D(1, 2, 3), QuaternionD({1, 0, 0}, 0.5)), false);
     EXPECT_EQ(Vector3D(1, 2, 3), sset3.transform.translation());
-    EXPECT_EQ(QuaternionD({1, 0, 0}, 0.5), sset3.transform.orientation());
+    EXPECT_EQ(QuaternionD({1, 0, 0}, 0.5),
+              sset3.transform.orientation().rotation());
 }
 
 TEST(SurfaceSet3, AddSurface) {
@@ -63,7 +65,7 @@ TEST(SurfaceSet3, AddSurface) {
     EXPECT_EQ(sph3->radius,
               std::dynamic_pointer_cast<Sphere3>(sset1.surfaceAt(2))->radius);
     EXPECT_EQ(Vector3D(), sset1.transform.translation());
-    EXPECT_EQ(QuaternionD(), sset1.transform.orientation());
+    EXPECT_EQ(QuaternionD(), sset1.transform.orientation().rotation());
 }
 
 TEST(SurfaceSet3, ClosestPoint) {
@@ -378,18 +380,18 @@ TEST(SurfaceSet3, MixedBoundTypes) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
     auto plane = Plane3::builder()
-            .withNormal({0, 1, 0})
-            .withPoint({0, 0.25 * domain.height(), 0})
-            .makeShared();
+                     .withNormal({0, 1, 0})
+                     .withPoint({0, 0.25 * domain.height(), 0})
+                     .makeShared();
 
     auto sphere = Sphere3::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
     auto surfaceSet = SurfaceSet3::builder()
-            .withSurfaces({plane, sphere})
-            .makeShared();
+                          .withSurfaces(Array1<Surface3Ptr>{plane, sphere})
+                          .makeShared();
 
     auto cp = surfaceSet->closestPoint(Vector3D(0.5, 0.4, 0.5));
     Vector3D answer(0.5, 0.5, 0.5);
@@ -398,26 +400,25 @@ TEST(SurfaceSet3, MixedBoundTypes) {
 }
 
 TEST(SurfaceSet3, IsValidGeometry) {
-    auto surfaceSet = SurfaceSet3::builder()
-            .makeShared();
+    auto surfaceSet = SurfaceSet3::builder().makeShared();
 
     EXPECT_FALSE(surfaceSet->isValidGeometry());
 
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
     auto plane = Plane3::builder()
-            .withNormal({0, 1, 0})
-            .withPoint({0, 0.25 * domain.height(), 0})
-            .makeShared();
+                     .withNormal({0, 1, 0})
+                     .withPoint({0, 0.25 * domain.height(), 0})
+                     .makeShared();
 
     auto sphere = Sphere3::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
     auto surfaceSet2 = SurfaceSet3::builder()
-            .withSurfaces({plane, sphere})
-            .makeShared();
+                           .withSurfaces(Array1<Surface3Ptr>{plane, sphere})
+                           .makeShared();
 
     EXPECT_TRUE(surfaceSet2->isValidGeometry());
 

@@ -8,11 +8,11 @@
 
 #include "cuda_pci_sph_solver2_example.h"
 
-#include <jet/box2.h>
-#include <jet/implicit_surface_set2.h>
-#include <jet/plane2.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/sphere2.h>
+#include <jet/box.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/volume_particle_emitter2.h>
 

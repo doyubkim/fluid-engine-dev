@@ -108,9 +108,10 @@ void runExample1(const std::string& rootDir, double targetSpacing,
                       .withRadius(0.15 * domain.width())
                       .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({plane, sphere})
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{plane, sphere})
+            .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
                        .withImplicitSurface(surfaceSet)
@@ -165,9 +166,10 @@ void runExample2(const std::string& rootDir, double targetSpacing,
                       .withRadius(0.15 * domain.width())
                       .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({plane, sphere})
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{plane, sphere})
+            .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
                        .withImplicitSurface(surfaceSet)
@@ -228,7 +230,7 @@ void runExample3(const std::string& rootDir, double targetSpacing,
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -263,9 +265,10 @@ void runExample3(const std::string& rootDir, double targetSpacing,
                    .withBoundingBox(domain)
                    .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({cyl1, cyl2, cyl3, box})
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3, box})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(surfaceSet).makeShared();

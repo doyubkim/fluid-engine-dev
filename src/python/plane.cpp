@@ -7,8 +7,8 @@
 #include "plane.h"
 #include "pybind11_utils.h"
 
-#include <jet/plane2.h>
-#include <jet/plane3.h>
+#include <jet/plane.h>
+#include <jet/plane.h>
 
 namespace py = pybind11;
 using namespace jet;

@@ -4,9 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/implicit_surface_set2.h>
-#include <jet/plane2.h>
-#include <jet/rigid_body_collider2.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
 
 #include <gtest/gtest.h>
 
@@ -116,7 +116,7 @@ TEST(RigidBodyCollider2, VelocityAt) {
     collider.surface()->transform.setTranslation({-1, -2});
     collider.surface()->transform.setOrientation(0.1);
     collider.linearVelocity = {1, 3};
-    collider.angularVelocity = 4.0;
+    collider.angularVelocity.value = 4.0;
 
     Vector2D result = collider.velocityAt({5, 7});
     EXPECT_DOUBLE_EQ(-35.0, result.x);

@@ -145,14 +145,14 @@ bool Octree<T>::intersects(const Ray3D& ray,
 template <typename T>
 void Octree<T>::forEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     forEachIntersectingItem(box, testFunc, visitorFunc, 0, _bbox);
 }
 
 template <typename T>
 void Octree<T>::forEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     forEachIntersectingItem(ray, testFunc, visitorFunc, 0, _bbox);
 }
 
@@ -317,7 +317,7 @@ bool Octree<T>::intersects(const Ray3D& ray,
 template <typename T>
 void Octree<T>::forEachIntersectingItem(
     const BoundingBox3D& box, const BoxIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox3D& bound) const {
     if (!box.overlaps(bound)) {
         return;
@@ -345,7 +345,7 @@ void Octree<T>::forEachIntersectingItem(
 template <typename T>
 void Octree<T>::forEachIntersectingItem(
     const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc,
-    const IntersectionVisitorFunc3<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox3D& bound) const {
     if (!bound.intersects(ray)) {
         return;

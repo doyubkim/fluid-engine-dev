@@ -48,6 +48,12 @@ TEST(Array1, Constructors) {
         for (size_t i = 0; i < 4; ++i) {
             EXPECT_FLOAT_EQ((float)i + 1.f, arrView[i]);
         }
+
+        Array1<float> arr2(arrView);
+        EXPECT_EQ(4u, arr2.length());
+        for (size_t i = 0; i < 4; ++i) {
+            EXPECT_FLOAT_EQ((float)i + 1.f, arr2[i]);
+        }
     }
 }
 

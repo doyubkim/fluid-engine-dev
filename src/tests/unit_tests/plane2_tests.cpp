@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/plane2.h>
+#include <jet/plane.h>
 #include <gtest/gtest.h>
 
 using namespace jet;

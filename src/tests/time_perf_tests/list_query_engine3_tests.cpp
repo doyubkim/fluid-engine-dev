@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/list_query_engine3.h>
+#include <jet/list_query_engine.h>
 #include <jet/triangle_mesh3.h>
 
 #include <benchmark/benchmark.h>

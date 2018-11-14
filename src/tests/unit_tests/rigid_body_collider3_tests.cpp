@@ -4,9 +4,9 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/implicit_surface_set3.h>
-#include <jet/plane3.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
 
 #include <gtest/gtest.h>
 
@@ -123,7 +123,7 @@ TEST(RigidBodyCollider3, VelocityAt) {
         std::make_shared<Plane3>(Vector3D(0, 1, 0), Vector3D(0, 0, 0)));
 
     collider.linearVelocity = {1, 3, -2};
-    collider.angularVelocity = {0, 0, 4};
+    collider.angularVelocity.value = {0, 0, 4};
     collider.surface()->transform.setTranslation({-1, -2, 2});
     collider.surface()->transform.setOrientation(QuaternionD({1, 0, 0}, 0.1));
 

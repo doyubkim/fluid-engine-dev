@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_QUADTREE_H_
 #define INCLUDE_JET_QUADTREE_H_
 
-#include <jet/intersection_query_engine2.h>
-#include <jet/nearest_neighbor_query_engine2.h>
+#include <jet/intersection_query_engine.h>
+#include <jet/nearest_neighbor_query_engine.h>
 #include <vector>
 
 namespace jet {
@@ -58,12 +58,12 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-        const IntersectionVisitorFunc2<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Invokes \p visitorFunc for every intersecting items.
     void forEachIntersectingItem(
         const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-        const IntersectionVisitorFunc2<T>& visitorFunc) const override;
+        const IntersectionVisitorFunc<T>& visitorFunc) const override;
 
     //! Returns the closest intersection for given \p ray.
     ClosestIntersectionQueryResult2<T> closestIntersection(
@@ -141,13 +141,13 @@ class Quadtree final : public IntersectionQueryEngine2<T>,
 
     void forEachIntersectingItem(const BoundingBox2D& box,
                                  const BoxIntersectionTestFunc2<T>& testFunc,
-                                 const IntersectionVisitorFunc2<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox2D& currentBound) const;
 
     void forEachIntersectingItem(const Ray2D& ray,
                                  const RayIntersectionTestFunc2<T>& testFunc,
-                                 const IntersectionVisitorFunc2<T>& visitorFunc,
+                                 const IntersectionVisitorFunc<T>& visitorFunc,
                                  size_t nodeIdx,
                                  const BoundingBox2D& currentBound) const;
 

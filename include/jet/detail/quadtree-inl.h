@@ -145,14 +145,14 @@ bool Quadtree<T>::intersects(
 template <typename T>
 void Quadtree<T>::forEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     forEachIntersectingItem(box, testFunc, visitorFunc, 0, _bbox);
 }
 
 template <typename T>
 void Quadtree<T>::forEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc) const {
+    const IntersectionVisitorFunc<T>& visitorFunc) const {
     forEachIntersectingItem(ray, testFunc, visitorFunc, 0, _bbox);
 }
 
@@ -318,7 +318,7 @@ bool Quadtree<T>::intersects(const Ray2D& ray,
 template <typename T>
 void Quadtree<T>::forEachIntersectingItem(
     const BoundingBox2D& box, const BoxIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox2D& bound) const {
     if (!box.overlaps(bound)) {
         return;
@@ -346,7 +346,7 @@ void Quadtree<T>::forEachIntersectingItem(
 template <typename T>
 void Quadtree<T>::forEachIntersectingItem(
     const Ray2D& ray, const RayIntersectionTestFunc2<T>& testFunc,
-    const IntersectionVisitorFunc2<T>& visitorFunc, size_t nodeIdx,
+    const IntersectionVisitorFunc<T>& visitorFunc, size_t nodeIdx,
     const BoundingBox2D& bound) const {
     if (!bound.intersects(ray)) {
         return;

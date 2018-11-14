@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>
 #include <gtest/gtest.h>
 

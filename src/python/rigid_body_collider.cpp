@@ -7,8 +7,8 @@
 #include "rigid_body_collider.h"
 #include "pybind11_utils.h"
 
-#include <jet/rigid_body_collider2.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/rigid_body_collider.h>
 
 namespace py = pybind11;
 using namespace jet;
