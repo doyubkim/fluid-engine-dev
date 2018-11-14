@@ -211,7 +211,8 @@ void runExample2(const std::string& rootDir, size_t resolutionX,
 void runExample3(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX,
+                         (3 * resolutionX) / 2};
     auto solver = FlipSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -237,7 +238,7 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -268,9 +269,10 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
                     .withHeight(0.75)
                     .makeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
-                      .makeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(cylSet).makeShared();
@@ -289,7 +291,8 @@ void runExample3(const std::string& rootDir, size_t resolutionX,
 void runExample4(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX,
+                         (3 * resolutionX) / 2};
     auto solver = PicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -315,7 +318,7 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -346,9 +349,10 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
                     .withHeight(0.75)
                     .makeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
-                      .makeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(cylSet).makeShared();
@@ -367,7 +371,8 @@ void runExample4(const std::string& rootDir, size_t resolutionX,
 void runExample5(const std::string& rootDir, size_t resolutionX,
                  int numberOfFrames, const std::string& format, double fps) {
     // Build solver
-    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX, (3 * resolutionX) / 2};
+    Vector3UZ resolution{3 * resolutionX, 2 * resolutionX,
+                         (3 * resolutionX) / 2};
     auto solver = ApicSolver3::builder()
                       .withResolution(resolution)
                       .withDomainSizeX(3.0)
@@ -393,7 +398,7 @@ void runExample5(const std::string& rootDir, size_t resolutionX,
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -424,9 +429,10 @@ void runExample5(const std::string& rootDir, size_t resolutionX,
                     .withHeight(0.75)
                     .makeShared();
 
-    auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
-                      .makeShared();
+    auto cylSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
+            .makeShared();
 
     auto collider =
         RigidBodyCollider3::builder().withSurface(cylSet).makeShared();

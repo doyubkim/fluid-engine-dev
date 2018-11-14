@@ -19,20 +19,28 @@ class AngularVelocity<2> {
  public:
     double value = 0.0;
 
+    AngularVelocity() = default;
+    AngularVelocity(double val) : value(val) {}
+
     Vector2D cross(const Vector2D& r) const {
         return value * Vector2D(-r.y, r.x);
     }
 };
 
-    template <>
+template <>
 class AngularVelocity<3> {
  public:
     Vector3D value;
 
-    Vector3D cross(const Vector3D& r) const {
-        return value.cross(r);
-    }
+    AngularVelocity() = default;
+    AngularVelocity(const Vector3D& val) : value(val) {}
+
+    Vector3D cross(const Vector3D& r) const { return value.cross(r); }
 };
+
+using AngularVelocity2 = AngularVelocity<2>;
+
+using AngularVelocity3 = AngularVelocity<3>;
 
 //!
 //! \brief N-D rigid body collider class.

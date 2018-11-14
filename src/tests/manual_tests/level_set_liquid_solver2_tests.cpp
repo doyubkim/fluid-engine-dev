@@ -92,9 +92,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo) {
                           .withRadius(0.15)
                           .makeShared();
 
-        auto surfaceSet = ImplicitSurfaceSet2::builder()
-                              .withExplicitSurfaces({plane, sphere})
-                              .makeShared();
+        auto surfaceSet =
+            ImplicitSurfaceSet2::builder()
+                .withExplicitSurfaces(Array1<Surface2Ptr>{plane, sphere})
+                .makeShared();
 
         auto emitter = VolumeGridEmitter2::builder()
                            .withSourceRegion(surfaceSet)

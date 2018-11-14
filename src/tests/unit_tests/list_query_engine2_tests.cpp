@@ -6,14 +6,15 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/list_query_engine2.h>
+#include <jet/list_query_engine.h>
 
 using namespace jet;
 
 TEST(ListQueryEngine2, BoxIntersection) {
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<Vector2D> points(getSamplePoints2(),
-                                 getSamplePoints2() + numSamples);
+    Array1<Vector2D> points(numSamples);
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples,
+              points.begin());
 
     ListQueryEngine2<Vector2D> engine;
     engine.add(points);
@@ -57,7 +58,7 @@ TEST(ListQueryEngine2, RayIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints2()[i++];
@@ -96,7 +97,7 @@ TEST(ListQueryEngine2, ClosestIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<BoundingBox2D> items(numSamples / 2);
+    Array1<BoundingBox2D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints2()[i++];
@@ -144,8 +145,8 @@ TEST(ListQueryEngine2, NearestNeighbor) {
     };
 
     size_t numSamples = getNumberOfSamplePoints2();
-    std::vector<Vector2D> points(getSamplePoints2(),
-                                 getSamplePoints2() + numSamples);
+    Array1<Vector2D> points(numSamples);
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
 
     engine.add(points);
 

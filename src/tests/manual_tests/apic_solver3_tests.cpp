@@ -121,7 +121,7 @@ JET_BEGIN_TEST_F(ApicSolver3, DamBreakingWithCollider) {
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -153,7 +153,7 @@ JET_BEGIN_TEST_F(ApicSolver3, DamBreakingWithCollider) {
                     .makeShared();
 
     auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
                       .makeShared();
 
     auto collider =

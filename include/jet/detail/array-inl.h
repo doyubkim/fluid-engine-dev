@@ -442,6 +442,14 @@ std::enable_if_t<(M == 1), void> Array<T, N>::append(
 }
 
 template <typename T, size_t N>
+template <typename OtherDerived, size_t M>
+std::enable_if_t<(M == 1), void> Array<T, N>::append(
+    const ArrayBase<const T, N, OtherDerived>& extra) {
+    _data.insert(_data.end(), extra.begin(), extra.end());
+    Base::setPtrAndSize(_data.data(), _data.size());
+}
+
+template <typename T, size_t N>
 void Array<T, N>::clear() {
     Base::clearPtrAndSize();
     _data.clear();

@@ -40,9 +40,10 @@ class VolumeParticleEmitter3 : public ::benchmark::Fixture {
                 .withUpperCorner({3.5 * lx + pd, 0.75 * ly + pd, 1.5 * lz + pd})
                 .makeShared();
 
-        auto boxSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({box1, box2})
-                          .makeShared();
+        auto boxSet =
+            ImplicitSurfaceSet3::builder()
+                .withExplicitSurfaces(jet::Array1<jet::Surface3Ptr>{box1, box2})
+                .makeShared();
 
         emitter = jet::VolumeParticleEmitter3::builder()
                       .withSurface(boxSet)

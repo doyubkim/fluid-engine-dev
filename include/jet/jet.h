@@ -147,8 +147,7 @@
 #include <jet/level_set_solver2.h>
 #include <jet/level_set_solver3.h>
 #include <jet/level_set_utils.h>
-#include <jet/list_query_engine2.h>
-#include <jet/list_query_engine3.h>
+#include <jet/list_query_engine.h>
 #include <jet/logging.h>
 #include <jet/macros.h>
 #include <jet/marching_cubes.h>
@@ -198,7 +197,6 @@
 #include <jet/quaternion.h>
 #include <jet/ray.h>
 #include <jet/rigid_body_collider.h>
-#include <jet/rigid_body_collider.h>
 #include <jet/samplers.h>
 #include <jet/scalar_field2.h>
 #include <jet/scalar_field3.h>
@@ -215,7 +213,6 @@
 #include <jet/sph_solver3.h>
 #include <jet/sph_system_data2.h>
 #include <jet/sph_system_data3.h>
-#include <jet/sphere.h>
 #include <jet/sphere.h>
 #include <jet/spherical_points_to_implicit2.h>
 #include <jet/spherical_points_to_implicit3.h>
