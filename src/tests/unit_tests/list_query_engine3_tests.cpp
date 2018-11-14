@@ -6,13 +6,14 @@
 
 #include <unit_tests_utils.h>
 
-#include <jet/list_query_engine3.h>
+#include <jet/list_query_engine.h>
 
 using namespace jet;
 
 TEST(ListQueryEngine3, BoxIntersection) {
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy(getSamplePoints3(), getSamplePoints3() + numSamples, points.begin());
 
     ListQueryEngine3<Vector3D> engine;
     engine.add(points);
@@ -56,7 +57,7 @@ TEST(ListQueryEngine3, RayIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints3()[i++];
@@ -95,7 +96,7 @@ TEST(ListQueryEngine3, ClosestIntersection) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<BoundingBox3D> items(numSamples / 2);
+    Array1<BoundingBox3D> items(numSamples / 2);
     size_t i = 0;
     std::generate(items.begin(), items.end(), [&]() {
         auto c = getSamplePoints3()[i++];
@@ -143,7 +144,8 @@ TEST(ListQueryEngine3, NearestNeighbor) {
     };
 
     size_t numSamples = getNumberOfSamplePoints3();
-    std::vector<Vector3D> points(getSamplePoints3(), getSamplePoints3() + numSamples);
+    Array1<Vector3D> points(numSamples);
+    std::copy(getSamplePoints3(), getSamplePoints3() + numSamples, points.begin());
 
     engine.add(points);
 

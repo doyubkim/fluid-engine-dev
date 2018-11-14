@@ -7,8 +7,7 @@
 #include "surface_set.h"
 #include "pybind11_utils.h"
 
-#include <jet/surface_set2.h>
-#include <jet/surface_set3.h>
+#include <jet/surface_set.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -25,9 +24,9 @@ void addSurfaceSet2(py::module& m) {
         .def("__init__",
              [](SurfaceSet2& instance, py::list others,
                 const Transform2& transform, bool isNormalFlipped) {
-                 std::vector<Surface2Ptr> others_;
+                 Array1<Surface2Ptr> others_;
                  for (size_t i = 0; i < others.size(); ++i) {
-                     others_.push_back(others[i].cast<Surface2Ptr>());
+                     others_.append(others[i].cast<Surface2Ptr>());
                  }
                  new (&instance)
                      SurfaceSet2(others_, transform, isNormalFlipped);
@@ -66,9 +65,9 @@ void addSurfaceSet3(py::module& m) {
         .def("__init__",
              [](SurfaceSet3& instance, py::list others,
                 const Transform3& transform, bool isNormalFlipped) {
-                 std::vector<Surface3Ptr> others_;
+                 Array1<Surface3Ptr> others_;
                  for (size_t i = 0; i < others.size(); ++i) {
-                     others_.push_back(others[i].cast<Surface3Ptr>());
+                     others_.append(others[i].cast<Surface3Ptr>());
                  }
                  new (&instance)
                      SurfaceSet3(others_, transform, isNormalFlipped);

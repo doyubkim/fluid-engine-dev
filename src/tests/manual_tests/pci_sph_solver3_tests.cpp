@@ -6,13 +6,13 @@
 
 #include <manual_tests.h>
 
-#include <jet/box3.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/box.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/pci_sph_solver3.h>
-#include <jet/plane3.h>
-#include <jet/rigid_body_collider3.h>
-#include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;

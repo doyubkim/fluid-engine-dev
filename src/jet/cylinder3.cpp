@@ -6,9 +6,9 @@
 
 #include <pch.h>
 
-#include <jet/box2.h>
+#include <jet/box.h>
 #include <jet/cylinder3.h>
-#include <jet/plane3.h>
+#include <jet/plane.h>
 
 using namespace jet;
 

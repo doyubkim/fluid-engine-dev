@@ -6,15 +6,15 @@
 
 #include <manual_tests.h>
 
-#include <jet/box2.h>
+#include <jet/box.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
-#include <jet/implicit_surface_set2.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/level_set_utils.h>
-#include <jet/plane2.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_grid_emitter2.h>
 
 #include <vector>
@@ -92,9 +92,10 @@ JET_BEGIN_TEST_F(LevelSetLiquidSolver2, DropStopAndGo) {
                           .withRadius(0.15)
                           .makeShared();
 
-        auto surfaceSet = ImplicitSurfaceSet2::builder()
-                              .withExplicitSurfaces({plane, sphere})
-                              .makeShared();
+        auto surfaceSet =
+            ImplicitSurfaceSet2::builder()
+                .withExplicitSurfaces(Array1<Surface2Ptr>{plane, sphere})
+                .makeShared();
 
         auto emitter = VolumeGridEmitter2::builder()
                            .withSourceRegion(surfaceSet)

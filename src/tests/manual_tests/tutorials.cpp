@@ -66,8 +66,9 @@ JET_BEGIN_TEST_F(Tutorial, TriangleMeshDemo) {
                        .withCenter({0.01, 2.0, 0.01})
                        .withRadius(0.4)
                        .makeShared();
-    auto spheres =
-        SurfaceSet3::builder().withSurfaces({sphere1, sphere2}).makeShared();
+    auto spheres = SurfaceSet3::builder()
+                       .withSurfaces(Array1<Surface3Ptr>{sphere1, sphere2})
+                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
                        .withSurface(spheres)

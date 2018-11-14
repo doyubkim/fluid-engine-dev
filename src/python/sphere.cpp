@@ -7,8 +7,8 @@
 #include "sphere.h"
 #include "pybind11_utils.h"
 
-#include <jet/sphere2.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
+#include <jet/sphere.h>
 
 namespace py = pybind11;
 using namespace jet;

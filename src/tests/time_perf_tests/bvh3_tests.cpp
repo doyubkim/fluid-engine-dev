@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/bvh3.h>
+#include <jet/bvh.h>
 #include <jet/triangle_mesh3.h>
 
 #include <benchmark/benchmark.h>
@@ -33,12 +33,12 @@ class Bvh3 : public ::benchmark::Fixture {
             file.close();
         }
 
-        std::vector<Triangle3> triangles;
-        std::vector<BoundingBox3D> bounds;
+        jet::Array1<Triangle3> triangles;
+        jet::Array1<BoundingBox3D> bounds;
         for (size_t i = 0; i < triMesh.numberOfTriangles(); ++i) {
             auto tri = triMesh.triangle(i);
-            triangles.push_back(tri);
-            bounds.push_back(tri.boundingBox());
+            triangles.append(tri);
+            bounds.append(tri.boundingBox());
         }
 
         queryEngine.build(triangles, bounds);

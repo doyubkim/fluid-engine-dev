@@ -7,18 +7,18 @@
 #include <manual_tests.h>
 
 #include <jet/apic_solver3.h>
-#include <jet/box3.h>
+#include <jet/box.h>
 #include <jet/cylinder3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 #include <jet/grid_point_generator3.h>
 #include <jet/grid_single_phase_pressure_solver3.h>
-#include <jet/implicit_surface_set3.h>
+#include <jet/implicit_surface_set.h>
 #include <jet/level_set_utils.h>
 #include <jet/particle_emitter_set3.h>
-#include <jet/plane3.h>
-#include <jet/rigid_body_collider3.h>
-#include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 using namespace jet;
@@ -121,7 +121,7 @@ JET_BEGIN_TEST_F(ApicSolver3, DamBreakingWithCollider) {
             .makeShared();
 
     auto boxSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({box1, box2})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{box1, box2})
                       .makeShared();
 
     auto emitter = VolumeParticleEmitter3::builder()
@@ -153,7 +153,7 @@ JET_BEGIN_TEST_F(ApicSolver3, DamBreakingWithCollider) {
                     .makeShared();
 
     auto cylSet = ImplicitSurfaceSet3::builder()
-                      .withExplicitSurfaces({cyl1, cyl2, cyl3})
+                      .withExplicitSurfaces(Array1<Surface3Ptr>{cyl1, cyl2, cyl3})
                       .makeShared();
 
     auto collider =

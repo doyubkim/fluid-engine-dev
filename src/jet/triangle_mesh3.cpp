@@ -586,8 +586,8 @@ void TriangleMesh3::invalidateBvh() { _bvhInvalidated = true; }
 void TriangleMesh3::buildBvh() const {
     if (_bvhInvalidated) {
         size_t nTris = numberOfTriangles();
-        std::vector<size_t> ids(nTris);
-        std::vector<BoundingBox3D> bounds(nTris);
+        Array1<size_t> ids(nTris);
+        Array1<BoundingBox3D> bounds(nTris);
         for (size_t i = 0; i < nTris; ++i) {
             ids[i] = i;
             bounds[i] = triangle(i).boundingBox();

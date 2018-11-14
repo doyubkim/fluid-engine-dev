@@ -7,8 +7,7 @@
 #include "transform.h"
 #include "pybind11_utils.h"
 
-#include <jet/transform2.h>
-#include <jet/transform3.h>
+#include <jet/transform.h>
 
 namespace py = pybind11;
 using namespace jet;

@@ -10,7 +10,7 @@
 #include <jet/matrix.h>
 #include <jet/point_hash_grid_searcher2.h>
 #include <jet/samplers.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/volume_particle_emitter2.h>
 

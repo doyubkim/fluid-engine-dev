@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
 
 #include <gtest/gtest.h>
 

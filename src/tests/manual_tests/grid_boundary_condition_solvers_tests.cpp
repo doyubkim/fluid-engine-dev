@@ -8,11 +8,11 @@
 
 #include <jet/grid_blocked_boundary_condition_solver2.h>
 #include <jet/grid_fractional_boundary_condition_solver2.h>
-#include <jet/implicit_surface_set2.h>
-#include <jet/plane2.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 
 using namespace jet;
 

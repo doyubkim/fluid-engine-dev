@@ -7,8 +7,7 @@
 #include "surface.h"
 #include "pybind11_utils.h"
 
-#include <jet/surface2.h>
-#include <jet/surface3.h>
+#include <jet/surface.h>
 
 namespace py = pybind11;
 using namespace jet;

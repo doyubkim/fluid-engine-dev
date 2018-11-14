@@ -8,9 +8,9 @@
 #define INCLUDE_JET_TRIANGLE_MESH3_H_
 
 #include <jet/array.h>
-#include <jet/bvh3.h>
+#include <jet/bvh.h>
 #include <jet/quaternion.h>
-#include <jet/surface3.h>
+#include <jet/surface.h>
 #include <jet/triangle3.h>
 
 #include <iostream>

@@ -9,7 +9,7 @@
 
 #include <jet/constants.h>
 #include <jet/bounding_box.h>
-#include <jet/implicit_surface2.h>
+#include <jet/implicit_surface.h>
 #include <jet/particle_emitter2.h>
 #include <jet/point_generator2.h>
 

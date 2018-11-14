@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_GRID_BOUNDARY_CONDITION_SOLVER3_H_
 #define INCLUDE_JET_GRID_BOUNDARY_CONDITION_SOLVER3_H_
 
-#include <jet/collider3.h>
+#include <jet/collider.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/scalar_field3.h>

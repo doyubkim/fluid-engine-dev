@@ -7,8 +7,7 @@
 #include "collider.h"
 #include "pybind11_utils.h"
 
-#include <jet/collider2.h>
-#include <jet/collider3.h>
+#include <jet/collider.h>
 
 namespace py = pybind11;
 using namespace jet;
