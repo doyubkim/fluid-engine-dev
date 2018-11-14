@@ -7,7 +7,7 @@
 #include <jet/constants.h>
 #include <jet/particle_system_solver3.h>
 #include <jet/plane.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
 
 #include <benchmark/benchmark.h>
 

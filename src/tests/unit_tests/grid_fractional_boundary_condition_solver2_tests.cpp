@@ -6,7 +6,7 @@
 
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/plane.h>
-#include <jet/rigid_body_collider2.h>
+#include <jet/rigid_body_collider.h>
 #include <gtest/gtest.h>
 
 using namespace jet;

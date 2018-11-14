@@ -9,7 +9,7 @@
 #include <jet.viz/points_renderable3.h>
 #include <jet/box.h>
 #include <jet/grid_point_generator3.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
 
 using namespace jet;
 using namespace viz;

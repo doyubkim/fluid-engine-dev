@@ -15,7 +15,7 @@
 #include <jet/level_set_utils.h>
 #include <jet/particle_emitter_set3.h>
 #include <jet/plane.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>

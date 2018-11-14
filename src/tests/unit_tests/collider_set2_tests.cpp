@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 #include <jet/box.h>
 #include <jet/collider_set.h>
-#include <jet/rigid_body_collider2.h>
+#include <jet/rigid_body_collider.h>
 #include <vector>
 
 using namespace jet;

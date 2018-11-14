@@ -9,7 +9,7 @@
 #include <jet/box.h>
 #include <jet/implicit_surface_set.h>
 #include <jet/plane.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
 #include <jet/sph_solver3.h>
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit.h>

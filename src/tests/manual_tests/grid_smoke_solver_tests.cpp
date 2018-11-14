@@ -18,8 +18,8 @@
 #include <jet/grid_smoke_solver3.h>
 #include <jet/implicit_surface_set.h>
 #include <jet/level_set_utils.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/rigid_body_collider.h>
 #include <jet/sphere2.h>
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit.h>

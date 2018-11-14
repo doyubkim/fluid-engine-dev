@@ -197,8 +197,8 @@
 #include <jet/quadtree.h>
 #include <jet/quaternion.h>
 #include <jet/ray.h>
-#include <jet/rigid_body_collider2.h>
-#include <jet/rigid_body_collider3.h>
+#include <jet/rigid_body_collider.h>
+#include <jet/rigid_body_collider.h>
 #include <jet/samplers.h>
 #include <jet/scalar_field2.h>
 #include <jet/scalar_field3.h>
