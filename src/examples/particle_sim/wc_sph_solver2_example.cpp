@@ -10,7 +10,7 @@
 #include <jet/implicit_surface_set.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider.h>
-#include <jet/sphere2.h>
+#include <jet/sphere.h>
 #include <jet/volume_particle_emitter2.h>
 
 #include <imgui/imgui.h>

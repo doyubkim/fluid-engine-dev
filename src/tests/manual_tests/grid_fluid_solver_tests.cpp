@@ -11,7 +11,7 @@
 #include <jet/grid_fractional_boundary_condition_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 #include <jet/rigid_body_collider.h>
-#include <jet/sphere2.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 
 using namespace jet;

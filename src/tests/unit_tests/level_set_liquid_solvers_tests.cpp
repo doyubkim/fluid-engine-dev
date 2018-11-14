@@ -8,8 +8,8 @@
 #include <jet/implicit_surface_set.h>
 #include <jet/level_set_liquid_solver2.h>
 #include <jet/level_set_liquid_solver3.h>
-#include <jet/sphere2.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/surface_to_implicit.h>
 #include <gtest/gtest.h>

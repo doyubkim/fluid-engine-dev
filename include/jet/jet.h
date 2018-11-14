@@ -215,8 +215,8 @@
 #include <jet/sph_solver3.h>
 #include <jet/sph_system_data2.h>
 #include <jet/sph_system_data3.h>
-#include <jet/sphere2.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
+#include <jet/sphere.h>
 #include <jet/spherical_points_to_implicit2.h>
 #include <jet/spherical_points_to_implicit3.h>
 #include <jet/static_matrix.h>

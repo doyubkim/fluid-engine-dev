@@ -20,8 +20,8 @@
 #include <jet/level_set_utils.h>
 #include <jet/rigid_body_collider.h>
 #include <jet/rigid_body_collider.h>
-#include <jet/sphere2.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/volume_grid_emitter2.h>

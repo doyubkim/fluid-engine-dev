@@ -8,8 +8,8 @@
 
 #include <jet/particle_system_solver2.h>
 #include <jet/particle_system_solver3.h>
-#include <jet/sphere2.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>

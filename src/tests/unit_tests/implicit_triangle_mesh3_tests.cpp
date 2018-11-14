@@ -8,7 +8,7 @@
 
 #include <jet/box.h>
 #include <jet/implicit_triangle_mesh3.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 
 #include <gtest/gtest.h>

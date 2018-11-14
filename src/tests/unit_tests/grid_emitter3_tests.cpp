@@ -8,7 +8,7 @@
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/custom_vector_field3.h>
 #include <jet/level_set_utils.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
 #include <jet/volume_grid_emitter3.h>
 #include <gtest/gtest.h>
 

@@ -11,7 +11,7 @@
 #include <jet/plane.h>
 #include <jet/rigid_body_collider.h>
 #include <jet/sph_solver3.h>
-#include <jet/sphere3.h>
+#include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
