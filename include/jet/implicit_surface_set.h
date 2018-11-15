@@ -118,7 +118,7 @@ using ImplicitSurfaceSet3Ptr = std::shared_ptr<ImplicitSurfaceSet3>;
 //!
 template <size_t N>
 class ImplicitSurfaceSet<N>::Builder final
-    : public SurfaceBuilderBase<N, ImplicitSurfaceSet<N>::Builder> {
+    : public SurfaceBuilderBase<N, typename ImplicitSurfaceSet<N>::Builder> {
  public:
     //! Returns builder with surfaces.
     Builder& withSurfaces(
@@ -135,7 +135,7 @@ class ImplicitSurfaceSet<N>::Builder final
     std::shared_ptr<ImplicitSurfaceSet<N>> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, ImplicitSurfaceSet<N>::Builder>;
+    using Base = SurfaceBuilderBase<N, typename ImplicitSurfaceSet<N>::Builder>;
     using Base::_transform;
     using Base::_isNormalFlipped;
 

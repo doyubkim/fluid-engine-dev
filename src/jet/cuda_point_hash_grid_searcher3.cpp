@@ -6,7 +6,7 @@
 
 #if JET_USE_CUDA
 
-#include <jet/cuda_point_hash_grid_searcher.h>
+#include <jet/cuda_point_hash_grid_searcher3.h>
 
 using namespace jet;
 

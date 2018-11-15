@@ -83,7 +83,7 @@ using SurfaceToImplicit3Ptr = std::shared_ptr<SurfaceToImplicit3>;
 //!
 template <size_t N>
 class SurfaceToImplicit<N>::Builder final
-    : public SurfaceBuilderBase<N, SurfaceToImplicit<N>::Builder> {
+    : public SurfaceBuilderBase<N, typename SurfaceToImplicit<N>::Builder> {
  public:
     //! Returns builder with surface.
     Builder& withSurface(const std::shared_ptr<Surface<N>>& surface);
@@ -95,7 +95,7 @@ class SurfaceToImplicit<N>::Builder final
     std::shared_ptr<SurfaceToImplicit> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, SurfaceToImplicit<N>::Builder>;
+    using Base = SurfaceBuilderBase<N, typename SurfaceToImplicit<N>::Builder>;
     using Base::_transform;
     using Base::_isNormalFlipped;
 
