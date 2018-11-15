@@ -6,9 +6,8 @@
 
 #include <gtest/gtest.h>
 #include <jet/array.h>
-#include <jet/array.h>
 #include <jet/bounding_box.h>
-#include <jet/point_hash_grid_searcher2.h>
+#include <jet/point_hash_grid_searcher.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/triangle_point_generator.h>
 
@@ -17,7 +16,7 @@ using namespace jet;
 TEST(PointHashGridSearcher2, ForEachNearbyPoint) {
     Array1<Vector2D> points = {Vector2D(1, 3), Vector2D(2, 5), Vector2D(-1, 3)};
 
-    PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
+    PointHashGridSearcher2 searcher(Vector2UZ(4, 4), 2.0 * std::sqrt(10));
     searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
@@ -35,7 +34,7 @@ TEST(PointHashGridSearcher2, ForEachNearbyPoint) {
 TEST(PointHashGridSearcher2, ForEachNearbyPointEmpty) {
     Array1<Vector2D> points;
 
-    PointHashGridSearcher2 searcher(4, 4, 2.0 * std::sqrt(10));
+    PointHashGridSearcher2 searcher(Vector2UZ(4, 4), 2.0 * std::sqrt(10));
     searcher.build(points);
 
     searcher.forEachNearbyPoint(Vector2D(0, 0), std::sqrt(10.0),
@@ -50,7 +49,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
 
     pointsGenerator.generate(bbox, spacing, &points);
 
-    PointHashGridSearcher2 pointSearcher(4, 4, 0.18);
+    PointHashGridSearcher2 pointSearcher(Vector2UZ(4, 4), 0.18);
     pointSearcher.build(points);
 
     Array2<size_t> grid(4, 4);
@@ -59,7 +58,7 @@ TEST(PointParallelHashGridSearcher2, Build) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
                 Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
-            size_t value = pointSearcher.buckets()[key].size();
+            size_t value = pointSearcher.buckets()[key].length();
             grid(i, j) = value;
         }
     }

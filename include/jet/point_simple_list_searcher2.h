@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_POINT_SIMPLE_LIST_SEARCHER2_H_
 #define INCLUDE_JET_POINT_SIMPLE_LIST_SEARCHER2_H_
 
-#include <jet/point_neighbor_searcher2.h>
+#include <jet/point_neighbor_searcher.h>
 #include <vector>
 
 namespace jet {
@@ -21,7 +21,7 @@ namespace jet {
 //!
 class PointSimpleListSearcher2 final : public PointNeighborSearcher2 {
  public:
-    JET_NEIGHBOR_SEARCHER2_TYPE_NAME(PointSimpleListSearcher2)
+    JET_NEIGHBOR_SEARCHER_TYPE_NAME(PointSimpleListSearcher, 2)
 
     class Builder;
 

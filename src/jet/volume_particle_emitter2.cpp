@@ -8,7 +8,7 @@
 
 #include <jet/array_utils.h>
 #include <jet/matrix.h>
-#include <jet/point_hash_grid_searcher2.h>
+#include <jet/point_hash_grid_searcher.h>
 #include <jet/samplers.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/triangle_point_generator.h>

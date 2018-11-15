@@ -8,7 +8,7 @@
 #define INCLUDE_JET_PARTICLE_SYSTEM_DATA2_H_
 
 #include <jet/array.h>
-#include <jet/point_neighbor_searcher2.h>
+#include <jet/point_neighbor_searcher.h>
 #include <jet/serialization.h>
 
 #include <memory>

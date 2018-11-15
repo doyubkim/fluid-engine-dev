@@ -9,7 +9,7 @@
 
 #include <jet/kdtree.h>
 #include <jet/matrix.h>
-#include <jet/point_neighbor_searcher3.h>
+#include <jet/point_neighbor_searcher.h>
 
 #include <vector>
 
@@ -23,7 +23,7 @@ namespace jet {
 //!
 class PointKdTreeSearcher3 final : public PointNeighborSearcher3 {
  public:
-    JET_NEIGHBOR_SEARCHER3_TYPE_NAME(PointKdTreeSearcher3)
+    JET_NEIGHBOR_SEARCHER_TYPE_NAME(PointKdTreeSearcher, 3)
 
     class Builder;
 

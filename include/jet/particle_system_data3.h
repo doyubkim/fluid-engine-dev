@@ -9,7 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/serialization.h>
-#include <jet/point_neighbor_searcher3.h>
+#include <jet/point_neighbor_searcher.h>
 
 #include <memory>
 #include <vector>

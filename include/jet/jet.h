@@ -179,12 +179,10 @@
 #include <jet/plane.h>
 #include <jet/point_generator2.h>
 #include <jet/point_generator3.h>
-#include <jet/point_hash_grid_searcher2.h>
-#include <jet/point_hash_grid_searcher3.h>
+#include <jet/point_hash_grid_searcher.h>
 #include <jet/point_kdtree_searcher2.h>
 #include <jet/point_kdtree_searcher3.h>
-#include <jet/point_neighbor_searcher2.h>
-#include <jet/point_neighbor_searcher3.h>
+#include <jet/point_neighbor_searcher.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>
 #include <jet/point_parallel_hash_grid_searcher3.h>
 #include <jet/point_particle_emitter2.h>

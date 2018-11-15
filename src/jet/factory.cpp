@@ -14,8 +14,7 @@
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/face_centered_grid3.h>
-#include <jet/point_hash_grid_searcher2.h>
-#include <jet/point_hash_grid_searcher3.h>
+#include <jet/point_hash_grid_searcher.h>
 #include <jet/point_kdtree_searcher2.h>
 #include <jet/point_kdtree_searcher3.h>
 #include <jet/point_parallel_hash_grid_searcher2.h>

@@ -8,7 +8,7 @@
 #define INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER3_H_
 
 #include <jet/matrix.h>
-#include <jet/point_neighbor_searcher3.h>
+#include <jet/point_neighbor_searcher.h>
 #include <vector>
 
 namespace jet {
@@ -22,7 +22,7 @@ namespace jet {
 //!
 class PointParallelHashGridSearcher3 final : public PointNeighborSearcher3 {
  public:
-    JET_NEIGHBOR_SEARCHER3_TYPE_NAME(PointParallelHashGridSearcher3)
+    JET_NEIGHBOR_SEARCHER_TYPE_NAME(PointParallelHashGridSearcher, 3)
 
     class Builder;
 

@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cuda_point_hash_grid_searcher3.h>
+#include <jet/cuda_point_hash_grid_searcher.h>
 #include <jet/cuda_utils.h>
 #include <jet/macros.h>
 

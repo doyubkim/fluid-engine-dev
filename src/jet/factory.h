@@ -11,8 +11,8 @@
 #include <jet/scalar_grid3.h>
 #include <jet/vector_grid2.h>
 #include <jet/vector_grid3.h>
-#include <jet/point_neighbor_searcher2.h>
-#include <jet/point_neighbor_searcher3.h>
+#include <jet/point_neighbor_searcher.h>
+
 #include <string>
 
 namespace jet {
