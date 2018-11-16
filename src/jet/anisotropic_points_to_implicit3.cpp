@@ -8,7 +8,7 @@
 
 #include <jet/anisotropic_points_to_implicit3.h>
 #include <jet/fmm_level_set_solver3.h>
-#include <jet/point_kdtree_searcher3.h>
+#include <jet/point_kdtree_searcher.h>
 #include <jet/sph_kernels3.h>
 #include <jet/sph_system_data3.h>
 #include <jet/svd.h>

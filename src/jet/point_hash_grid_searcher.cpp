@@ -77,7 +77,7 @@ void PointHashGridSearcher<N>::forEachNearbyPoint(
         return;
     }
 
-    constexpr int kNumKeys = 2 << N;
+    constexpr int kNumKeys = 1 << N;
     size_t nearbyKeys[kNumKeys];
     getNearbyKeys(origin, nearbyKeys);
 
@@ -104,7 +104,7 @@ bool PointHashGridSearcher<N>::hasNearbyPoint(const Vector<double, N> &origin,
         return false;
     }
 
-    constexpr int kNumKeys = 2 << N;
+    constexpr int kNumKeys = 1 << N;
     size_t nearbyKeys[kNumKeys];
     getNearbyKeys(origin, nearbyKeys);
 
@@ -178,7 +178,7 @@ size_t PointHashGridSearcher<N>::getHashKeyFromBucketIndex(
 template <size_t N>
 void PointHashGridSearcher<N>::getNearbyKeys(const Vector<double, N> &position,
                                              size_t *nearbyKeys) const {
-    constexpr int kNumKeys = 2 << N;
+    constexpr int kNumKeys = 1 << N;
 
     Vector<ssize_t, N> originIndex = getBucketIndex(position);
     Vector<ssize_t, N> nearbyBucketIndices[kNumKeys];
@@ -188,11 +188,10 @@ void PointHashGridSearcher<N>::getNearbyKeys(const Vector<double, N> &position,
     }
 
     for (size_t axis = 0; axis < N; axis++) {
-        int offset = (originIndex[axis] + 0.5f) * _gridSpacing <= position[axis]
-                         ? 1
-                         : -1;
+        int offset =
+            (originIndex[axis] + 0.5) * _gridSpacing <= position[axis] ? 1 : -1;
         for (int j = 0; j < kNumKeys; j++) {
-            if (j & (1 << axis)) {
+            if (j & (kNumKeys >> axis)) {
                 nearbyBucketIndices[j][axis] += offset;
             }
         }
