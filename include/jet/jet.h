@@ -180,14 +180,13 @@
 #include <jet/point_generator2.h>
 #include <jet/point_generator3.h>
 #include <jet/point_hash_grid_searcher.h>
+#include <jet/point_hash_grid_utils.h>
 #include <jet/point_kdtree_searcher.h>
 #include <jet/point_neighbor_searcher.h>
-#include <jet/point_parallel_hash_grid_searcher2.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/point_particle_emitter2.h>
 #include <jet/point_particle_emitter3.h>
-#include <jet/point_simple_list_searcher2.h>
-#include <jet/point_simple_list_searcher3.h>
+#include <jet/point_simple_list_searcher.h>
 #include <jet/points_to_implicit2.h>
 #include <jet/points_to_implicit3.h>
 #include <jet/quadtree.h>

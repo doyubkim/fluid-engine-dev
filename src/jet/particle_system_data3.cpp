@@ -16,7 +16,7 @@
 
 #include <jet/parallel.h>
 #include <jet/particle_system_data3.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/timer.h>
 
 #include <algorithm>
@@ -35,8 +35,9 @@ ParticleSystemData3::ParticleSystemData3(size_t numberOfParticles) {
 
     // Use PointParallelHashGridSearcher3 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        kDefaultHashGridResolution, kDefaultHashGridResolution,
-        kDefaultHashGridResolution, 2.0 * _radius);
+        Vector3UZ(kDefaultHashGridResolution, kDefaultHashGridResolution,
+                  kDefaultHashGridResolution),
+        2.0 * _radius);
 
     resize(numberOfParticles);
 }
@@ -191,8 +192,9 @@ void ParticleSystemData3::buildNeighborSearcher(double maxSearchRadius) {
 
     // Use PointParallelHashGridSearcher3 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher3>(
-        kDefaultHashGridResolution, kDefaultHashGridResolution,
-        kDefaultHashGridResolution, 2.0 * maxSearchRadius);
+        Vector3UZ(kDefaultHashGridResolution, kDefaultHashGridResolution,
+                  kDefaultHashGridResolution),
+        2.0 * maxSearchRadius);
 
     _neighborSearcher->build(positions());
 

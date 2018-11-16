@@ -191,6 +191,27 @@ TEST(ParticleSystemData3, BuildNeighborLists) {
 
     const double radius = 0.4;
     particleSystem.buildNeighborSearcher(radius);
+
+    auto neighborSearcher = particleSystem.neighborSearcher();
+    for (size_t i = 0; i < positions.length(); ++i) {
+        int cnt1 = 0;
+        neighborSearcher->forEachNearbyPoint(positions[i], radius,
+                                             [&](size_t j, const Vector3D&) {
+                                                 if (i != j) {
+                                                     ++cnt1;
+                                                 }
+                                             });
+
+        int cnt2 = 0;
+        for (size_t j = 0; j < positions.length(); ++j) {
+            if (j != i && positions[j].distanceTo(positions[i]) <= radius) {
+                ++cnt2;
+            }
+        }
+
+        EXPECT_EQ(cnt2, cnt1);
+    }
+
     particleSystem.buildNeighborLists(radius);
 
     const auto& neighborLists = particleSystem.neighborLists();

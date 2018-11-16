@@ -94,25 +94,6 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     const Array1<Array1<size_t>>& buckets() const;
 
     //!
-    //! Returns the hash value for given N-D bucket index.
-    //!
-    //! \param[in]  bucketIndex The bucket index.
-    //!
-    //! \return     The hash key from bucket index.
-    //!
-    size_t getHashKeyFromBucketIndex(
-        const Vector<ssize_t, N>& bucketIndex) const;
-
-    //!
-    //! Gets the bucket index from a point.
-    //!
-    //! \param[in]  position The position of the point.
-    //!
-    //! \return     The bucket index.
-    //!
-    Vector<ssize_t, N> getBucketIndex(const Vector<double, N>& position) const;
-
-    //!
     //! \brief      Creates a new instance of the object with same properties
     //!             than original.
     //!
@@ -140,11 +121,6 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     Vector<ssize_t, N> _resolution = Vector<ssize_t, N>::makeConstant(1);
     Array1<Vector<double, N>> _points;
     Array1<Array1<size_t>> _buckets;
-
-    size_t getHashKeyFromPosition(const Vector<double, N>& position) const;
-
-    void getNearbyKeys(const Vector<double, N>& position,
-                       size_t* bucketIndices) const;
 
     template <size_t M = N>
     static std::enable_if_t<M == 2, void> serialize(

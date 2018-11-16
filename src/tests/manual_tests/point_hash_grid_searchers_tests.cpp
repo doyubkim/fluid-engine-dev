@@ -10,8 +10,8 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher.h>
-#include <jet/point_parallel_hash_grid_searcher2.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/sph_system_data3.h>
 #include <jet/triangle_point_generator.h>
 
@@ -27,7 +27,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher2, Build) {
 
     pointsGenerator.generate(bbox, spacing, &points);
 
-    PointHashGridSearcher2 pointSearcher(4, 4, 0.18);
+    PointHashGridSearcher2 pointSearcher({4, 4}, 0.18);
     pointSearcher.build(ArrayView1<Vector2D>(points.data(), points.size()));
 
     Array2<double> grid(4, 4, 0.0);
@@ -36,7 +36,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher2, Build) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
                 Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
-            size_t value = pointSearcher.buckets()[key].size();
+            size_t value = pointSearcher.buckets()[key].length();
             grid(i, j) += static_cast<double>(value);
         }
     }
@@ -55,7 +55,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher3, Build) {
 
     pointsGenerator.generate(bbox, spacing, &points);
 
-    PointHashGridSearcher3 pointSearcher(4, 4, 4, 0.18);
+    PointHashGridSearcher3 pointSearcher({4, 4, 4}, 0.18);
     pointSearcher.build(ArrayView1<Vector3D>(points.data(), points.size()));
 
     Array2<double> grid(4, 4, 0.0);
@@ -64,7 +64,7 @@ JET_BEGIN_TEST_F(PointHashGridSearcher3, Build) {
         for (size_t i = 0; i < grid.size().x; ++i) {
             size_t key = pointSearcher.getHashKeyFromBucketIndex(
                 Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
-            size_t value = pointSearcher.buckets()[key].size();
+            size_t value = pointSearcher.buckets()[key].length();
             grid(i, j) += static_cast<double>(value);
         }
     }
@@ -83,7 +83,7 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher2, Build) {
 
     pointsGenerator.generate(bbox, spacing, &points);
 
-    PointParallelHashGridSearcher2 pointSearcher(4, 4, 0.18);
+    PointParallelHashGridSearcher2 pointSearcher({4, 4}, 0.18);
     pointSearcher.build(ArrayView1<Vector2D>(points.data(), points.size()));
 
     Array2<double> grid(4, 4, 0.0);
@@ -113,7 +113,7 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher3, Build) {
 
     pointsGenerator.generate(bbox, spacing, &points);
 
-    PointParallelHashGridSearcher3 pointSearcher(4, 4, 4, 0.18);
+    PointParallelHashGridSearcher3 pointSearcher({4, 4, 4}, 0.18);
     pointSearcher.build(ArrayView1<Vector3D>(points.data(), points.size()));
 
     Array2<double> grid(4, 4, 0.0);

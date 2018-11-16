@@ -16,7 +16,7 @@
 
 #include <jet/parallel.h>
 #include <jet/particle_system_data2.h>
-#include <jet/point_parallel_hash_grid_searcher2.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/timer.h>
 
 #include <algorithm>
@@ -35,7 +35,8 @@ ParticleSystemData2::ParticleSystemData2(size_t numberOfParticles) {
 
     // Use PointParallelHashGridSearcher2 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher2>(
-        kDefaultHashGridResolution, kDefaultHashGridResolution, 2.0 * _radius);
+        Vector2UZ(kDefaultHashGridResolution, kDefaultHashGridResolution),
+        2.0 * _radius);
 
     resize(numberOfParticles);
 }
@@ -190,7 +191,7 @@ void ParticleSystemData2::buildNeighborSearcher(double maxSearchRadius) {
 
     // Use PointParallelHashGridSearcher2 by default
     _neighborSearcher = std::make_shared<PointParallelHashGridSearcher2>(
-        kDefaultHashGridResolution, kDefaultHashGridResolution,
+        Vector2UZ(kDefaultHashGridResolution, kDefaultHashGridResolution),
         2.0 * maxSearchRadius);
 
     _neighborSearcher->build(positions());

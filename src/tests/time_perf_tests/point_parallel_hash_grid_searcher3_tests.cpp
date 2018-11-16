@@ -6,7 +6,7 @@
 
 #include <jet/array.h>
 #include <jet/logging.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 
 #include <benchmark/benchmark.h>
 
@@ -36,7 +36,7 @@ class PointParallelHashGridSearcher3 : public ::benchmark::Fixture {
 BENCHMARK_DEFINE_F(PointParallelHashGridSearcher3, Build)
 (benchmark::State& state) {
     while (state.KeepRunning()) {
-        jet::PointParallelHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+        jet::PointParallelHashGridSearcher3 grid({64, 64, 64}, 1.0 / 64.0);
         grid.build(points);
     }
 }
@@ -48,7 +48,7 @@ BENCHMARK_REGISTER_F(PointParallelHashGridSearcher3, Build)
 
 BENCHMARK_DEFINE_F(PointParallelHashGridSearcher3, ForEachNearbyPoints)
 (benchmark::State& state) {
-    jet::PointParallelHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+    jet::PointParallelHashGridSearcher3 grid({64, 64, 64}, 1.0 / 64.0);
     grid.build(points);
 
     size_t cnt = 0;

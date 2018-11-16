@@ -4,29 +4,29 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
-#define INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
+#ifndef INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER_H_
+#define INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER_H_
 
 #include <jet/matrix.h>
 #include <jet/point_neighbor_searcher.h>
-#include <vector>
-
-class PointParallelHashGridSearcher2Tests;
 
 namespace jet {
 
 //!
-//! \brief Parallel version of hash grid-based 2-D point searcher.
+//! \brief Parallel version of hash grid-based N-D point searcher.
 //!
-//! This class implements parallel version of 2-D point searcher by using hash
+//! This class implements parallel version of N-D point searcher by using hash
 //! grid for its internal acceleration data structure. Each point is recorded to
-//! its corresponding bucket where the hashing function is 2-D grid mapping.
+//! its corresponding bucket where the hashing function is N-D grid mapping.
 //!
-class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
+template <size_t N>
+class PointParallelHashGridSearcher final : public PointNeighborSearcher<N> {
  public:
-    JET_NEIGHBOR_SEARCHER_TYPE_NAME(PointParallelHashGridSearcher, 2)
+    JET_NEIGHBOR_SEARCHER_TYPE_NAME(PointParallelHashGridSearcher, N)
 
     class Builder;
+
+    using typename PointNeighborSearcher<N>::ForEachNearbyPointFunc;
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -38,25 +38,11 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  resolution  The resolution.
     //! \param[in]  gridSpacing The grid spacing.
     //!
-    PointParallelHashGridSearcher2(const Vector2UZ& resolution,
-                                   double gridSpacing);
-
-    //!
-    //! \brief      Constructs hash grid with given resolution and grid spacing.
-    //!
-    //! This constructor takes hash grid resolution and its grid spacing as
-    //! its input parameters. The grid spacing must be 2x or greater than
-    //! search radius.
-    //!
-    //! \param[in]  resolutionX The resolution x.
-    //! \param[in]  resolutionY The resolution y.
-    //! \param[in]  gridSpacing The grid spacing.
-    //!
-    PointParallelHashGridSearcher2(size_t resolutionX, size_t resolutionY,
-                                   double gridSpacing);
+    PointParallelHashGridSearcher(const Vector<size_t, N>& resolution,
+                                  double gridSpacing);
 
     //! Copy constructor.
-    PointParallelHashGridSearcher2(const PointParallelHashGridSearcher2& other);
+    PointParallelHashGridSearcher(const PointParallelHashGridSearcher& other);
 
     //!
     //! \brief Builds internal acceleration structure for given points list.
@@ -65,7 +51,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \param[in]  points The points to be added.
     //!
-    void build(const ConstArrayView1<Vector2D>& points) override;
+    void build(const ConstArrayView1<Vector<double, N>>& points) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin
@@ -76,7 +62,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! \param[in]  callback The callback function.
     //!
     void forEachNearbyPoint(
-        const Vector2D& origin, double radius,
+        const Vector<double, N>& origin, double radius,
         const ForEachNearbyPointFunc& callback) const override;
 
     //!
@@ -88,7 +74,8 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     True if has nearby point, false otherwise.
     //!
-    bool hasNearbyPoint(const Vector2D& origin, double radius) const override;
+    bool hasNearbyPoint(const Vector<double, N>& origin,
+                        double radius) const override;
 
     //!
     //! \brief      Returns the hash key list.
@@ -98,7 +85,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The hash key list.
     //!
-    const std::vector<size_t>& keys() const;
+    ConstArrayView1<size_t> keys() const;
 
     //!
     //! \brief      Returns the start index table.
@@ -123,7 +110,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The start index table.
     //!
-    const std::vector<size_t>& startIndexTable() const;
+    ConstArrayView1<size_t> startIndexTable() const;
 
     //!
     //! \brief      Returns the end index table.
@@ -148,7 +135,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The end index table.
     //!
-    const std::vector<size_t>& endIndexTable() const;
+    ConstArrayView1<size_t> endIndexTable() const;
 
     //!
     //! \brief      Returns the sorted indices of the points.
@@ -160,25 +147,7 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     The sorted indices of the points.
     //!
-    const std::vector<size_t>& sortedIndices() const;
-
-    //!
-    //! Returns the hash value for given 2-D bucket index.
-    //!
-    //! \param[in]  bucketIndex The bucket index.
-    //!
-    //! \return     The hash key from bucket index.
-    //!
-    size_t getHashKeyFromBucketIndex(const Vector2Z& bucketIndex) const;
-
-    //!
-    //! Gets the bucket index from a point.
-    //!
-    //! \param[in]  position The position of the point.
-    //!
-    //! \return     The bucket index.
-    //!
-    Vector2Z getBucketIndex(const Vector2D& position) const;
+    ConstArrayView1<size_t> sortedIndices() const;
 
     //!
     //! \brief      Creates a new instance of the object with same properties
@@ -186,14 +155,14 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //!
     //! \return     Copy of this object.
     //!
-    PointNeighborSearcher2Ptr clone() const override;
+    std::shared_ptr<PointNeighborSearcher<N>> clone() const override;
 
     //! Assignment operator.
-    PointParallelHashGridSearcher2& operator=(
-        const PointParallelHashGridSearcher2& other);
+    PointParallelHashGridSearcher& operator=(
+        const PointParallelHashGridSearcher& other);
 
     //! Copy from the other instance.
-    void set(const PointParallelHashGridSearcher2& other);
+    void set(const PointParallelHashGridSearcher& other);
 
     //! Serializes the neighbor searcher into the buffer.
     void serialize(std::vector<uint8_t>* buffer) const override;
@@ -201,56 +170,80 @@ class PointParallelHashGridSearcher2 final : public PointNeighborSearcher2 {
     //! Deserializes the neighbor searcher from the buffer.
     void deserialize(const std::vector<uint8_t>& buffer) override;
 
-    //! Returns builder fox PointParallelHashGridSearcher2.
+    //! Returns builder fox PointParallelHashGridSearcher.
     static Builder builder();
 
  private:
-    friend class PointParallelHashGridSearcher2Tests;
+    friend class PointParallelHashGridSearcherTests;
 
     double _gridSpacing = 1.0;
-    Vector2Z _resolution = Vector2Z(1, 1);
-    std::vector<Vector2D> _points;
-    std::vector<size_t> _keys;
-    std::vector<size_t> _startIndexTable;
-    std::vector<size_t> _endIndexTable;
-    std::vector<size_t> _sortedIndices;
+    Vector<ssize_t, N> _resolution = Vector<ssize_t, N>::makeConstant(1);
+    Array1<Vector<double, N>> _points;
+    Array1<size_t> _keys;
+    Array1<size_t> _startIndexTable;
+    Array1<size_t> _endIndexTable;
+    Array1<size_t> _sortedIndices;
 
-    size_t getHashKeyFromPosition(const Vector2D& position) const;
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> serialize(
+        const PointParallelHashGridSearcher<2>& searcher, std::vector<uint8_t>* buffer);
 
-    void getNearbyKeys(const Vector2D& position, size_t* bucketIndices) const;
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> serialize(
+        const PointParallelHashGridSearcher<3>& searcher, std::vector<uint8_t>* buffer);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> deserialize(
+        const std::vector<uint8_t>& buffer, PointParallelHashGridSearcher<2>& searcher);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> deserialize(
+        const std::vector<uint8_t>& buffer, PointParallelHashGridSearcher<3>& searcher);
 };
 
+//! 2-D PointParallelHashGridSearcher type.
+using PointParallelHashGridSearcher2 = PointParallelHashGridSearcher<2>;
+
+//! 3-D PointParallelHashGridSearcher type.
+using PointParallelHashGridSearcher3 = PointParallelHashGridSearcher<3>;
+
 //! Shared pointer for the PointParallelHashGridSearcher2 type.
-typedef std::shared_ptr<PointParallelHashGridSearcher2>
-    PointParallelHashGridSearcher2Ptr;
+using PointParallelHashGridSearcher2Ptr =
+    std::shared_ptr<PointParallelHashGridSearcher2>;
+
+//! Shared pointer for the PointParallelHashGridSearcher3 type.
+using PointParallelHashGridSearcher3Ptr =
+    std::shared_ptr<PointParallelHashGridSearcher3>;
 
 //!
-//! \brief Front-end to create PointParallelHashGridSearcher2 objects step by
+//! \brief Front-end to create PointParallelHashGridSearcher objects step by
 //!        step.
 //!
-class PointParallelHashGridSearcher2::Builder final
-    : public PointNeighborSearcherBuilder2 {
+template <size_t N>
+class PointParallelHashGridSearcher<N>::Builder final
+    : public PointNeighborSearcherBuilder<N> {
  public:
     //! Returns builder with resolution.
-    Builder& withResolution(const Vector2UZ& resolution);
+    Builder& withResolution(const Vector<size_t, N>& resolution);
 
     //! Returns builder with grid spacing.
     Builder& withGridSpacing(double gridSpacing);
 
-    //! Builds PointParallelHashGridSearcher2 instance.
-    PointParallelHashGridSearcher2 build() const;
+    //! Builds PointParallelHashGridSearcher instance.
+    PointParallelHashGridSearcher<N> build() const;
 
-    //! Builds shared pointer of PointParallelHashGridSearcher2 instance.
-    PointParallelHashGridSearcher2Ptr makeShared() const;
+    //! Builds shared pointer of PointParallelHashGridSearcher instance.
+    std::shared_ptr<PointParallelHashGridSearcher<N>> makeShared() const;
 
-    //! Returns shared pointer of PointNeighborSearcher3 type.
-    PointNeighborSearcher2Ptr buildPointNeighborSearcher() const override;
+    //! Returns shared pointer of PointNeighborSearcher type.
+    std::shared_ptr<PointNeighborSearcher<N>> buildPointNeighborSearcher()
+        const override;
 
  private:
-    Vector2UZ _resolution{64, 64};
+    Vector<size_t, N> _resolution = Vector<size_t, N>::makeConstant(64);
     double _gridSpacing = 1.0;
 };
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER2_H_
+#endif  // INCLUDE_JET_POINT_PARALLEL_HASH_GRID_SEARCHER_H_

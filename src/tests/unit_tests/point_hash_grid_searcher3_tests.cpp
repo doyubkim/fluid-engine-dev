@@ -9,11 +9,10 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_hash_grid_utils.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 
 #include <gtest/gtest.h>
-
-#include <vector>
 
 using namespace jet;
 
@@ -64,9 +63,10 @@ TEST(PointParallelHashGridSearcher3, Build) {
     Array3<size_t> grid(4, 4, 4);
 
     forEachIndex(grid.size(), [&](size_t i, size_t j, size_t k) {
-        size_t key = pointSearcher.getHashKeyFromBucketIndex(
+        size_t key = PointHashGridUtils3::getHashKeyFromBucketIndex(
             Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j),
-                     static_cast<ssize_t>(k)));
+                     static_cast<ssize_t>(k)),
+            Vector3Z(4, 4, 4));
         size_t value = pointSearcher.buckets()[key].length();
         grid(i, j, k) = value;
     });
@@ -75,9 +75,10 @@ TEST(PointParallelHashGridSearcher3, Build) {
     parallelSearcher.build(points);
 
     forEachIndex(grid.size(), [&](size_t i, size_t j, size_t k) {
-        size_t key = parallelSearcher.getHashKeyFromBucketIndex(
+        size_t key = PointHashGridUtils3::getHashKeyFromBucketIndex(
             Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j),
-                     static_cast<ssize_t>(k)));
+                     static_cast<ssize_t>(k)),
+            Vector3Z(4, 4, 4));
         size_t start = parallelSearcher.startIndexTable()[key];
         size_t end = parallelSearcher.endIndexTable()[key];
         size_t value = end - start;
