@@ -134,4 +134,4 @@ I am making my contributions/submissions to this project solely in my personal c
 
 We would like to thank [JetBrains](https://www.jetbrains.com/) for their support and allowing us to use their products for developing Jet Framework.
 
-![JetBrains](https://github.com/doyubkim/fluid-engine-dev/raw/master/doc/img/jetbrains.svg)
+![JetBrains](doc/img/jetbrains.svg)
