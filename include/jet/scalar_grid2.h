@@ -12,7 +12,7 @@
 #include <jet/array_samplers.h>
 #include <jet/grid2.h>
 #include <jet/parallel.h>
-#include <jet/scalar_field2.h>
+#include <jet/scalar_field.h>
 
 #include <memory>
 #include <vector>

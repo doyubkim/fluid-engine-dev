@@ -5,12 +5,19 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/field3.h>
 
-using namespace jet;
+#include <jet/field.h>
 
-Field3::Field3() {
-}
+namespace jet {
 
-Field3::~Field3() {
-}
+template <size_t N>
+Field<N>::Field() {}
+
+template <size_t N>
+Field<N>::~Field() {}
+
+template class Field<2>;
+
+template class Field<3>;
+
+}  // namespace jet

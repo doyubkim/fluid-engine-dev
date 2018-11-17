@@ -8,8 +8,7 @@
 
 #include <jet/array.h>
 #include <jet/array_utils.h>
-#include <jet/scalar_field2.h>
-#include <jet/scalar_field3.h>
+#include <jet/scalar_field.h>
 #include <jet/vector_field2.h>
 #include <jet/vector_field3.h>
 

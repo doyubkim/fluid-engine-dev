@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_
 #define INCLUDE_JET_CUSTOM_SCALAR_FIELD2_H_
 
-#include <jet/scalar_field2.h>
+#include <jet/scalar_field.h>
 
 namespace jet {
 

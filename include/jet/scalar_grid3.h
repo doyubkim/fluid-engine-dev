@@ -12,7 +12,7 @@
 #include <jet/array_view.h>
 #include <jet/grid3.h>
 #include <jet/parallel.h>
-#include <jet/scalar_field3.h>
+#include <jet/scalar_field.h>
 
 #include <memory>
 #include <vector>

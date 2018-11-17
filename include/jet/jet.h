@@ -64,8 +64,7 @@
 #include <jet/cuda_utils.h>
 #include <jet/cuda_wc_sph_solver2.h>
 #include <jet/cuda_wc_sph_solver3.h>
-#include <jet/custom_implicit_surface2.h>
-#include <jet/custom_implicit_surface3.h>
+#include <jet/custom_implicit_surface.h>
 #include <jet/custom_scalar_field2.h>
 #include <jet/custom_scalar_field3.h>
 #include <jet/custom_vector_field2.h>
@@ -95,8 +94,7 @@
 #include <jet/fdm_mgpcg_solver2.h>
 #include <jet/fdm_mgpcg_solver3.h>
 #include <jet/fdm_utils.h>
-#include <jet/field2.h>
-#include <jet/field3.h>
+#include <jet/field.h>
 #include <jet/flip_solver2.h>
 #include <jet/flip_solver3.h>
 #include <jet/fmm_level_set_solver2.h>
@@ -194,8 +192,7 @@
 #include <jet/ray.h>
 #include <jet/rigid_body_collider.h>
 #include <jet/samplers.h>
-#include <jet/scalar_field2.h>
-#include <jet/scalar_field3.h>
+#include <jet/scalar_field.h>
 #include <jet/scalar_grid2.h>
 #include <jet/scalar_grid3.h>
 #include <jet/semi_lagrangian2.h>

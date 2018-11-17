@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VECTOR_FIELD2_H_
 #define INCLUDE_JET_VECTOR_FIELD2_H_
 
-#include <jet/field2.h>
+#include <jet/field.h>
 #include <jet/matrix.h>
 
 #include <functional>
