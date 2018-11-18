@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/parallel.h>
-#include <jet/sph_kernels2.h>
+#include <jet/sph_kernels.h>
 #include <jet/sph_solver2.h>
 #include <jet/timer.h>
 #include <pch.h>

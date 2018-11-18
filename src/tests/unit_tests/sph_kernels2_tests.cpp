@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/sph_kernels2.h>
+#include <jet/sph_kernels.h>
 #include <gtest/gtest.h>
 
 using namespace jet;

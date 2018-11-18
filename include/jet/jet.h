@@ -197,8 +197,7 @@
 #include <jet/semi_lagrangian2.h>
 #include <jet/semi_lagrangian3.h>
 #include <jet/serialization.h>
-#include <jet/sph_kernels2.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 #include <jet/sph_points_to_implicit2.h>
 #include <jet/sph_points_to_implicit3.h>
 #include <jet/sph_solver2.h>

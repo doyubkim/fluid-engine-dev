@@ -6,7 +6,7 @@
 
 #include <jet/parallel.h>
 #include <jet/pci_sph_solver2.h>
-#include <jet/sph_kernels2.h>
+#include <jet/sph_kernels.h>
 #include <jet/triangle_point_generator.h>
 #include <pch.h>
 

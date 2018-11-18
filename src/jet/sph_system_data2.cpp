@@ -15,7 +15,7 @@
 #include <generated/sph_system_data2_generated.h>
 
 #include <jet/parallel.h>
-#include <jet/sph_kernels2.h>
+#include <jet/sph_kernels.h>
 #include <jet/sph_system_data2.h>
 #include <jet/triangle_point_generator.h>
 

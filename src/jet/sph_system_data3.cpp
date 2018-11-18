@@ -16,7 +16,7 @@
 
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/parallel.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 #include <jet/sph_system_data3.h>
 
 #include <algorithm>

@@ -7,7 +7,7 @@
 #include <pch.h>
 #include <physics_helpers.h>
 #include <jet/parallel.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 #include <jet/sph_solver3.h>
 #include <jet/timer.h>
 

@@ -7,7 +7,7 @@
 #if JET_USE_CUDA
 
 #include <jet/cuda_sph_system_data2.h>
-#include <jet/sph_kernels2.h>
+#include <jet/sph_kernels.h>
 #include <jet/triangle_point_generator.h>
 
 using namespace jet;
