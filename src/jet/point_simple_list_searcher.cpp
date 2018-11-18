@@ -25,7 +25,9 @@ PointSimpleListSearcher<N>::PointSimpleListSearcher(
 
 template <size_t N>
 void PointSimpleListSearcher<N>::build(
-    const ConstArrayView1<Vector<double, N>> &points) {
+    const ConstArrayView1<Vector<double, N>> &points, double maxSearchRadius) {
+    UNUSED_VARIABLE(maxSearchRadius);
+
     _points.resize(points.length());
     std::copy(points.data(), points.data() + points.length(), _points.begin());
 }

@@ -16,6 +16,11 @@ PointNeighborSearcher<N>::PointNeighborSearcher() {}
 template <size_t N>
 PointNeighborSearcher<N>::~PointNeighborSearcher() {}
 
+template <size_t N>
+void PointNeighborSearcher<N>::build(const ConstArrayView1<Vector<double, N>>& points) {
+    build(points, kMaxD);
+}
+
 template class PointNeighborSearcher<2>;
 
 template class PointNeighborSearcher<3>;

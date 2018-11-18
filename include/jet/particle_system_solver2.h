@@ -10,7 +10,7 @@
 #include <jet/collider.h>
 #include <jet/constants.h>
 #include <jet/particle_emitter2.h>
-#include <jet/particle_system_data2.h>
+#include <jet/particle_system_data.h>
 #include <jet/physics_animation.h>
 #include <jet/vector_field2.h>
 

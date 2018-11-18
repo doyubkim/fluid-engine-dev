@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet/fmm_level_set_solver2.h>
-#include <jet/particle_system_data2.h>
+#include <jet/particle_system_data.h>
 #include <jet/zhu_bridson_points_to_implicit2.h>
 
 using namespace jet;

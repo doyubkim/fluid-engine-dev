@@ -8,7 +8,7 @@
 #define INCLUDE_JET_SPH_SYSTEM_DATA2_H_
 
 #include <jet/constants.h>
-#include <jet/particle_system_data2.h>
+#include <jet/particle_system_data.h>
 #include <vector>
 
 namespace jet {

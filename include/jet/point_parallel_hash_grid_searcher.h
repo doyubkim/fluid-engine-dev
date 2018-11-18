@@ -27,6 +27,7 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N> {
     class Builder;
 
     using typename PointNeighborSearcher<N>::ForEachNearbyPointFunc;
+    using PointNeighborSearcher<N>::build;
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -45,13 +46,14 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N> {
     PointParallelHashGridSearcher(const PointParallelHashGridSearcher& other);
 
     //!
-    //! \brief Builds internal acceleration structure for given points list.
+    //! \brief Builds internal acceleration structure for given points list and max search radius.
     //!
     //! This function builds the hash grid for given points in parallel.
     //!
-    //! \param[in]  points The points to be added.
+    //! \param[in]  points          The points to be added.
+    //! \param[in]  maxSearchRadius Max search radius.
     //!
-    void build(const ConstArrayView1<Vector<double, N>>& points) override;
+    void build(const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

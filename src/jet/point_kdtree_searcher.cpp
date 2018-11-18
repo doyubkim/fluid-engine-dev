@@ -31,7 +31,9 @@ PointKdTreeSearcher<N>::PointKdTreeSearcher(const PointKdTreeSearcher &other) {
 
 template <size_t N>
 void PointKdTreeSearcher<N>::build(
-    const ConstArrayView1<Vector<double, N>> &points) {
+    const ConstArrayView1<Vector<double, N>> &points, double maxSearchRadius) {
+    UNUSED_VARIABLE(maxSearchRadius);
+
     _tree.build(points);
 }
 
@@ -221,7 +223,8 @@ PointKdTreeSearcher<N> PointKdTreeSearcher<N>::Builder::build() const {
 }
 
 template <size_t N>
-std::shared_ptr<PointKdTreeSearcher<N>> PointKdTreeSearcher<N>::Builder::makeShared() const {
+std::shared_ptr<PointKdTreeSearcher<N>>
+PointKdTreeSearcher<N>::Builder::makeShared() const {
     return std::shared_ptr<PointKdTreeSearcher>(
         new PointKdTreeSearcher, [](PointKdTreeSearcher *obj) { delete obj; });
 }

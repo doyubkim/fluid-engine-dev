@@ -28,6 +28,7 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     class Builder;
 
     using typename PointNeighborSearcher<N>::ForEachNearbyPointFunc;
+    using PointNeighborSearcher<N>::build;
 
     //!
     //! \brief      Constructs hash grid with given resolution and grid spacing.
@@ -45,8 +46,8 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     //! Copy constructor.
     PointHashGridSearcher(const PointHashGridSearcher& other);
 
-    //! Builds internal acceleration structure for given points list.
-    void build(const ConstArrayView1<Vector<double, N>>& points) override;
+    //! Builds internal acceleration structure for given points list and max search radius.
+    void build(const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

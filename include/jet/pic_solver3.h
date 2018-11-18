@@ -9,7 +9,7 @@
 
 #include <jet/grid_fluid_solver3.h>
 #include <jet/particle_emitter3.h>
-#include <jet/particle_system_data3.h>
+#include <jet/particle_system_data.h>
 
 namespace jet {
 

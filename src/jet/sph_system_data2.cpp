@@ -267,7 +267,7 @@ void SphSystemData2::serialize(std::vector<uint8_t>* buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
     flatbuffers::Offset<fbs::ParticleSystemData2> fbsParticleSystemData;
 
-    serializeParticleSystemData(&builder, &fbsParticleSystemData);
+    ParticleSystemData2::serialize(*this, &builder, &fbsParticleSystemData);
 
     auto fbsSphSystemData = fbs::CreateSphSystemData2(
         builder, fbsParticleSystemData, _targetDensity, _targetSpacing,
@@ -287,7 +287,7 @@ void SphSystemData2::deserialize(const std::vector<uint8_t>& buffer) {
     auto fbsSphSystemData = fbs::GetSphSystemData2(buffer.data());
 
     auto base = fbsSphSystemData->base();
-    deserializeParticleSystemData(base);
+    ParticleSystemData2::deserialize(base, *this);
 
     // SPH specific
     _targetDensity = fbsSphSystemData->targetDensity();

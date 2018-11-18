@@ -42,7 +42,10 @@ class PointNeighborSearcher : public Serializable {
     virtual std::string typeName() const = 0;
 
     //! Builds internal acceleration structure for given points list.
-    virtual void build(const ConstArrayView1<Vector<double, N>>& points) = 0;
+    virtual void build(const ConstArrayView1<Vector<double, N>>& points);
+
+    //! Builds internal acceleration structure for given points list and max search radius.
+    virtual void build(const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius) = 0;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

@@ -163,8 +163,7 @@
 #include <jet/particle_emitter3.h>
 #include <jet/particle_emitter_set2.h>
 #include <jet/particle_emitter_set3.h>
-#include <jet/particle_system_data2.h>
-#include <jet/particle_system_data3.h>
+#include <jet/particle_system_data.h>
 #include <jet/particle_system_solver2.h>
 #include <jet/particle_system_solver3.h>
 #include <jet/pbf_solver2.h>

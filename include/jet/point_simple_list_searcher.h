@@ -27,6 +27,7 @@ class PointSimpleListSearcher final : public PointNeighborSearcher<N> {
     class Builder;
 
     using typename PointNeighborSearcher<N>::ForEachNearbyPointFunc;
+    using PointNeighborSearcher<N>::build;
 
     //! Default constructor.
     PointSimpleListSearcher();
@@ -35,14 +36,15 @@ class PointSimpleListSearcher final : public PointNeighborSearcher<N> {
     PointSimpleListSearcher(const PointSimpleListSearcher& other);
 
     //!
-    //! \brief      Builds internal structure for given points list.
+    //! \brief      Builds internal structure for given points list and max search radius.
     //!
     //! For this class, this function simply copies the given point list to the
-    //! internal list.
+    //! internal list. The max search radius will be unused.
     //!
-    //! \param[in]  points The points to search.
+    //! \param[in]  points          The points to search.
+    //! \param[in]  maxSearchRadius Max search radius (ignored).
     //!
-    void build(const ConstArrayView1<Vector<double, N>>& points) override;
+    void build(const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius) override;
 
     //!
     //! Invokes the callback function for each nearby point around the origin

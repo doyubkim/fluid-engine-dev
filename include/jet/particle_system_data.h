@@ -4,63 +4,82 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_PARTICLE_SYSTEM_DATA2_H_
-#define INCLUDE_JET_PARTICLE_SYSTEM_DATA2_H_
+#ifndef INCLUDE_JET_PARTICLE_SYSTEM_DATA_H_
+#define INCLUDE_JET_PARTICLE_SYSTEM_DATA_H_
 
 #include <jet/array.h>
 #include <jet/point_neighbor_searcher.h>
 #include <jet/serialization.h>
-
-#include <memory>
-#include <vector>
 
 #ifndef JET_DOXYGEN
 
 namespace flatbuffers {
 
 class FlatBufferBuilder;
-template<typename T> struct Offset;
+template <typename T>
+struct Offset;
 
-}
+}  // namespace flatbuffers
 
 namespace jet {
 namespace fbs {
 
 struct ParticleSystemData2;
+struct ParticleSystemData3;
 
-}
-}
+}  // namespace fbs
+}  // namespace jet
 
 #endif  // JET_DOXYGEN
 
 namespace jet {
 
+template <size_t N>
+struct GetFlatbuffersParticleSystemData {};
+
+template <>
+struct GetFlatbuffersParticleSystemData<2> {
+    using offset = flatbuffers::Offset<fbs::ParticleSystemData2>;
+
+    static const fbs::ParticleSystemData2* getParticleSystemData(
+        const uint8_t* data);
+};
+
+template <>
+struct GetFlatbuffersParticleSystemData<3> {
+    using offset = flatbuffers::Offset<fbs::ParticleSystemData3>;
+
+    static const fbs::ParticleSystemData3* getParticleSystemData(
+        const uint8_t* data);
+};
+
 //!
-//! \brief      2-D particle system data.
+//! \brief      N-D particle system data.
 //!
 //! This class is the key data structure for storing particle system data. A
 //! single particle has position, velocity, and force attributes by default. But
 //! it can also have additional custom scalar or vector attributes.
 //!
-class ParticleSystemData2 : public Serializable {
+template <size_t N>
+class ParticleSystemData : public Serializable {
  public:
     //! Scalar data chunk.
     typedef Array1<double> ScalarData;
 
     //! Vector data chunk.
-    typedef Array1<Vector2D> VectorData;
+    typedef Array1<Vector<double, N>> VectorData;
 
     //! Default constructor.
-    ParticleSystemData2();
+    ParticleSystemData();
 
     //! Constructs particle system data with given number of particles.
-    explicit ParticleSystemData2(size_t numberOfParticles);
+    explicit ParticleSystemData(size_t numberOfParticles);
 
     //! Copy constructor.
-    ParticleSystemData2(const ParticleSystemData2& other);
+    ParticleSystemData(const ParticleSystemData& other);
 
     //! Destructor.
-    virtual ~ParticleSystemData2();
+    virtual ~ParticleSystemData();
 
     //!
     //! \brief      Resizes the number of particles of the container.
@@ -68,8 +87,8 @@ class ParticleSystemData2 : public Serializable {
     //! This function will resize internal containers to store newly given
     //! number of particles including custom data layers. However, this will
     //! invalidate neighbor searcher and neighbor lists. It is users
-    //! responsibility to call ParticleSystemData2::buildNeighborSearcher and
-    //! ParticleSystemData2::buildNeighborLists to refresh those data.
+    //! responsibility to call ParticleSystemData::buildNeighborSearcher and
+    //! ParticleSystemData::buildNeighborLists to refresh those data.
     //!
     //! \param[in]  newNumberOfParticles    New number of particles.
     //!
@@ -96,7 +115,8 @@ class ParticleSystemData2 : public Serializable {
     //!
     //! \params[in] initialVal  Initial value of the new vector data.
     //!
-    size_t addVectorData(const Vector2D& initialVal = Vector2D());
+    size_t addVectorData(
+        const Vector<double, N>& initialVal = Vector<double, N>());
 
     //! Returns the radius of the particles.
     double radius() const;
@@ -111,22 +131,22 @@ class ParticleSystemData2 : public Serializable {
     virtual void setMass(double newMass);
 
     //! Returns the position array (immutable).
-    ConstArrayView1<Vector2D> positions() const;
+    ConstArrayView1<Vector<double, N>> positions() const;
 
     //! Returns the position array (mutable).
-    ArrayView1<Vector2D> positions();
+    ArrayView1<Vector<double, N>> positions();
 
     //! Returns the velocity array (immutable).
-    ConstArrayView1<Vector2D> velocities() const;
+    ConstArrayView1<Vector<double, N>> velocities() const;
 
     //! Returns the velocity array (mutable).
-    ArrayView1<Vector2D> velocities();
+    ArrayView1<Vector<double, N>> velocities();
 
     //! Returns the force array (immutable).
-    ConstArrayView1<Vector2D> forces() const;
+    ConstArrayView1<Vector<double, N>> forces() const;
 
     //! Returns the force array (mutable).
-    ArrayView1<Vector2D> forces();
+    ArrayView1<Vector<double, N>> forces();
 
     //! Returns custom scalar data layer at given index (immutable).
     ConstArrayView1<double> scalarDataAt(size_t idx) const;
@@ -135,10 +155,10 @@ class ParticleSystemData2 : public Serializable {
     ArrayView1<double> scalarDataAt(size_t idx);
 
     //! Returns custom vector data layer at given index (immutable).
-    ConstArrayView1<Vector2D> vectorDataAt(size_t idx) const;
+    ConstArrayView1<Vector<double, N>> vectorDataAt(size_t idx) const;
 
     //! Returns custom vector data layer at given index (mutable).
-    ArrayView1<Vector2D> vectorDataAt(size_t idx);
+    ArrayView1<Vector<double, N>> vectorDataAt(size_t idx);
 
     //!
     //! \brief      Adds a particle to the data structure.
@@ -147,17 +167,16 @@ class ParticleSystemData2 : public Serializable {
     //! custom data layers, zeros will be assigned for new particles.
     //! However, this will invalidate neighbor searcher and neighbor lists. It
     //! is users responsibility to call
-    //! ParticleSystemData2::buildNeighborSearcher and
-    //! ParticleSystemData2::buildNeighborLists to refresh those data.
+    //! ParticleSystemData::buildNeighborSearcher and
+    //! ParticleSystemData::buildNeighborLists to refresh those data.
     //!
     //! \param[in]  newPosition The new position.
     //! \param[in]  newVelocity The new velocity.
     //! \param[in]  newForce    The new force.
     //!
-    void addParticle(
-        const Vector2D& newPosition,
-        const Vector2D& newVelocity = Vector2D(),
-        const Vector2D& newForce = Vector2D());
+    void addParticle(const Vector<double, N>& newPosition,
+                     const Vector<double, N>& newVelocity = Vector<double, N>(),
+                     const Vector<double, N>& newForce = Vector<double, N>());
 
     //!
     //! \brief      Adds particles to the data structure.
@@ -165,19 +184,18 @@ class ParticleSystemData2 : public Serializable {
     //! This function will add particles to the data structure. For custom data
     //! layers, zeros will be assigned for new particles. However, this will
     //! invalidate neighbor searcher and neighbor lists. It is users
-    //! responsibility to call ParticleSystemData2::buildNeighborSearcher and
-    //! ParticleSystemData2::buildNeighborLists to refresh those data.
+    //! responsibility to call ParticleSystemData::buildNeighborSearcher and
+    //! ParticleSystemData::buildNeighborLists to refresh those data.
     //!
     //! \param[in]  newPositions  The new positions.
     //! \param[in]  newVelocities The new velocities.
     //! \param[in]  newForces     The new forces.
     //!
-    void addParticles(
-        const ConstArrayView1<Vector2D>& newPositions,
-        const ConstArrayView1<Vector2D>& newVelocities
-            = ConstArrayView1<Vector2D>(),
-        const ConstArrayView1<Vector2D>& newForces
-            = ConstArrayView1<Vector2D>());
+    void addParticles(const ConstArrayView1<Vector<double, N>>& newPositions,
+                      const ConstArrayView1<Vector<double, N>>& newVelocities =
+                          ConstArrayView1<Vector<double, N>>(),
+                      const ConstArrayView1<Vector<double, N>>& newForces =
+                          ConstArrayView1<Vector<double, N>>());
 
     //!
     //! \brief      Returns neighbor searcher.
@@ -187,11 +205,11 @@ class ParticleSystemData2 : public Serializable {
     //!
     //! \return     Current neighbor searcher.
     //!
-    const PointNeighborSearcher2Ptr& neighborSearcher() const;
+    const std::shared_ptr<PointNeighborSearcher<N>>& neighborSearcher() const;
 
     //! Sets neighbor searcher.
     void setNeighborSearcher(
-        const PointNeighborSearcher2Ptr& newNeighborSearcher);
+        const std::shared_ptr<PointNeighborSearcher<N>>& newNeighborSearcher);
 
     //!
     //! \brief      Returns neighbor lists.
@@ -202,7 +220,7 @@ class ParticleSystemData2 : public Serializable {
     //!
     //! \return     Neighbor lists.
     //!
-    const std::vector<std::vector<size_t>>& neighborLists() const;
+    const Array1<Array1<size_t>>& neighborLists() const;
 
     //! Builds neighbor searcher with given search radius.
     void buildNeighborSearcher(double maxSearchRadius);
@@ -217,19 +235,33 @@ class ParticleSystemData2 : public Serializable {
     void deserialize(const std::vector<uint8_t>& buffer) override;
 
     //! Copies from other particle system data.
-    void set(const ParticleSystemData2& other);
+    void set(const ParticleSystemData& other);
 
     //! Copies from other particle system data.
-    ParticleSystemData2& operator=(const ParticleSystemData2& other);
+    ParticleSystemData& operator=(const ParticleSystemData& other);
 
  protected:
-    void serializeParticleSystemData(
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> serialize(
+        const ParticleSystemData<2>& particles,
         flatbuffers::FlatBufferBuilder* builder,
-        flatbuffers::Offset<fbs::ParticleSystemData2>* fbsParticleSystemData)
-        const;
+        flatbuffers::Offset<fbs::ParticleSystemData2>* fbsParticleSystemData);
 
-    void deserializeParticleSystemData(
-        const fbs::ParticleSystemData2* fbsParticleSystemData);
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> serialize(
+        const ParticleSystemData<3>& particles,
+        flatbuffers::FlatBufferBuilder* builder,
+        flatbuffers::Offset<fbs::ParticleSystemData3>* fbsParticleSystemData);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> deserialize(
+        const fbs::ParticleSystemData2* fbsParticleSystemData,
+        ParticleSystemData<2>& particles);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> deserialize(
+        const fbs::ParticleSystemData3* fbsParticleSystemData,
+        ParticleSystemData<3>& particles);
 
  private:
     double _radius = 1e-3;
@@ -239,15 +271,24 @@ class ParticleSystemData2 : public Serializable {
     size_t _velocityIdx;
     size_t _forceIdx;
 
-    std::vector<ScalarData> _scalarDataList;
-    std::vector<VectorData> _vectorDataList;
+    Array1<ScalarData> _scalarDataList;
+    Array1<VectorData> _vectorDataList;
 
-    PointNeighborSearcher2Ptr _neighborSearcher;
-    std::vector<std::vector<size_t>> _neighborLists;
+    std::shared_ptr<PointNeighborSearcher<N>> _neighborSearcher;
+    Array1<Array1<size_t>> _neighborLists;
 };
 
+//! 2-D ParticleSystemData type.
+using ParticleSystemData2 = ParticleSystemData<2>;
+
+//! 3-D ParticleSystemData type.
+using ParticleSystemData3 = ParticleSystemData<3>;
+
 //! Shared pointer type of ParticleSystemData2.
-typedef std::shared_ptr<ParticleSystemData2> ParticleSystemData2Ptr;
+using ParticleSystemData2Ptr = std::shared_ptr<ParticleSystemData2>;
+
+//! Shared pointer type of ParticleSystemData3.
+using ParticleSystemData3Ptr = std::shared_ptr<ParticleSystemData3>;
 
 }  // namespace jet
 
