@@ -11,8 +11,8 @@
 #include <jet/cell_centered_scalar_grid2.h>
 #include <jet/triangle_point_generator.h>
 #include <jet/parallel.h>
-#include <jet/sph_system_data2.h>
-#include <jet/sph_system_data3.h>
+#include <jet/sph_system_data.h>
+#include <jet/sph_system_data.h>
 #include <random>
 
 using namespace jet;

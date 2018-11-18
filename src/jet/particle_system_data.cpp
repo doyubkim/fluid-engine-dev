@@ -26,15 +26,28 @@ static const size_t kDefaultHashGridResolution = 64;
 
 // MARK: Serialization helpers
 
-const fbs::ParticleSystemData2 *GetFlatbuffersParticleSystemData<
-    2>::getParticleSystemData(const uint8_t *data) {
-    return fbs::GetParticleSystemData2(data);
-}
+template <size_t N>
+struct GetFlatbuffersParticleSystemData {};
 
-const fbs::ParticleSystemData3 *GetFlatbuffersParticleSystemData<
-    3>::getParticleSystemData(const uint8_t *data) {
-    return fbs::GetParticleSystemData3(data);
-}
+template <>
+struct GetFlatbuffersParticleSystemData<2> {
+    using Offset = flatbuffers::Offset<fbs::ParticleSystemData2>;
+
+    static const fbs::ParticleSystemData2 *getParticleSystemData(
+        const uint8_t *data) {
+        return fbs::GetParticleSystemData2(data);
+    }
+};
+
+template <>
+struct GetFlatbuffersParticleSystemData<3> {
+    using Offset = flatbuffers::Offset<fbs::ParticleSystemData3>;
+
+    static const fbs::ParticleSystemData3 *getParticleSystemData(
+        const uint8_t *data) {
+        return fbs::GetParticleSystemData3(data);
+    }
+};
 
 // MARK: ParticleSystemData implementations
 
@@ -269,7 +282,7 @@ void ParticleSystemData<N>::buildNeighborLists(double maxSearchRadius) {
 template <size_t N>
 void ParticleSystemData<N>::serialize(std::vector<uint8_t> *buffer) const {
     flatbuffers::FlatBufferBuilder builder(1024);
-    typename GetFlatbuffersParticleSystemData<N>::offset fbsParticleSystemData;
+    typename GetFlatbuffersParticleSystemData<N>::Offset fbsParticleSystemData;
 
     serialize(*this, &builder, &fbsParticleSystemData);
 

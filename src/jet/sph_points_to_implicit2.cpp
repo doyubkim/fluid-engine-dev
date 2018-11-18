@@ -8,7 +8,7 @@
 
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/sph_points_to_implicit2.h>
-#include <jet/sph_system_data2.h>
+#include <jet/sph_system_data.h>
 
 using namespace jet;
 

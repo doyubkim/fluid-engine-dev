@@ -34,25 +34,6 @@ struct ParticleSystemData3;
 
 namespace jet {
 
-template <size_t N>
-struct GetFlatbuffersParticleSystemData {};
-
-template <>
-struct GetFlatbuffersParticleSystemData<2> {
-    using offset = flatbuffers::Offset<fbs::ParticleSystemData2>;
-
-    static const fbs::ParticleSystemData2* getParticleSystemData(
-        const uint8_t* data);
-};
-
-template <>
-struct GetFlatbuffersParticleSystemData<3> {
-    using offset = flatbuffers::Offset<fbs::ParticleSystemData3>;
-
-    static const fbs::ParticleSystemData3* getParticleSystemData(
-        const uint8_t* data);
-};
-
 //!
 //! \brief      N-D particle system data.
 //!

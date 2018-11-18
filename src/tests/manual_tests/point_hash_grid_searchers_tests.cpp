@@ -12,7 +12,7 @@
 #include <jet/point_hash_grid_searcher.h>
 #include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/point_parallel_hash_grid_searcher.h>
-#include <jet/sph_system_data3.h>
+#include <jet/sph_system_data.h>
 #include <jet/triangle_point_generator.h>
 
 using namespace jet;

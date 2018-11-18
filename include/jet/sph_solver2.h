@@ -9,7 +9,7 @@
 
 #include <jet/constants.h>
 #include <jet/particle_system_solver2.h>
-#include <jet/sph_system_data2.h>
+#include <jet/sph_system_data.h>
 
 namespace jet {
 
