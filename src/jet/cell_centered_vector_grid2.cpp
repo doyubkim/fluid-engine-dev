@@ -19,8 +19,8 @@ CellCenteredVectorGrid2::CellCenteredVectorGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValueU,
     double initialValueV) {
-    resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValueU, initialValueV);
+    resize({resolutionX, resolutionY}, {gridSpacingX, gridSpacingY},
+           {originX, originY}, {initialValueU, initialValueV});
 }
 
 CellCenteredVectorGrid2::CellCenteredVectorGrid2(const Vector2UZ& resolution,
@@ -75,7 +75,7 @@ void CellCenteredVectorGrid2::fill(
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelForEachIndex(Vector2UZ::makeZero(), size,
-                         [&func, &acc, &pos](auto ...indices) {
+                         [&func, &acc, &pos](auto... indices) {
                              acc(indices...) = func(pos(Vector2UZ(indices...)));
                          },
                          policy);

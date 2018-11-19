@@ -18,8 +18,8 @@ VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
     size_t resolutionX, size_t resolutionY, double gridSpacingX,
     double gridSpacingY, double originX, double originY, double initialValueU,
     double initialValueV) {
-    resize(resolutionX, resolutionY, gridSpacingX, gridSpacingY, originX,
-           originY, initialValueU, initialValueV);
+    resize({resolutionX, resolutionY}, {gridSpacingX, gridSpacingY},
+           {originX, originY}, {initialValueU, initialValueV});
 }
 
 VertexCenteredVectorGrid2::VertexCenteredVectorGrid2(
@@ -92,7 +92,8 @@ VertexCenteredVectorGrid2::Builder VertexCenteredVectorGrid2::builder() {
 }
 
 VertexCenteredVectorGrid2::Builder&
-VertexCenteredVectorGrid2::Builder::withResolution(const Vector2UZ& resolution) {
+VertexCenteredVectorGrid2::Builder::withResolution(
+    const Vector2UZ& resolution) {
     _resolution = resolution;
     return *this;
 }

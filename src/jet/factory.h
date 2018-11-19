@@ -8,8 +8,7 @@
 #define SRC_JET_FACTORY_H_
 
 #include <jet/scalar_grid.h>
-#include <jet/vector_grid2.h>
-#include <jet/vector_grid3.h>
+#include <jet/vector_grid.h>
 #include <jet/point_neighbor_searcher.h>
 
 #include <string>

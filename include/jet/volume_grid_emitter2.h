@@ -9,7 +9,7 @@
 
 #include <jet/grid_emitter2.h>
 #include <jet/scalar_grid.h>
-#include <jet/vector_grid2.h>
+#include <jet/vector_grid.h>
 
 namespace jet {
 

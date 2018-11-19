@@ -20,9 +20,10 @@ CellCenteredVectorGrid3::CellCenteredVectorGrid3(
     double gridSpacingX, double gridSpacingY, double gridSpacingZ,
     double originX, double originY, double originZ, double initialValueU,
     double initialValueV, double initialValueW) {
-    resize(resolutionX, resolutionY, resolutionZ, gridSpacingX, gridSpacingY,
-           gridSpacingZ, originX, originY, originZ, initialValueU,
-           initialValueV, initialValueW);
+    resize({resolutionX, resolutionY, resolutionZ},
+           {gridSpacingX, gridSpacingY, gridSpacingZ},
+           {originX, originY, originZ},
+           {initialValueU, initialValueV, initialValueW});
 }
 
 CellCenteredVectorGrid3::CellCenteredVectorGrid3(const Vector3UZ& resolution,
@@ -78,7 +79,7 @@ void CellCenteredVectorGrid3::fill(
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
     parallelForEachIndex(Vector3UZ::makeZero(), size,
-                         [&func, &acc, &pos](auto ...indices) {
+                         [&func, &acc, &pos](auto... indices) {
                              acc(indices...) = func(pos(Vector3UZ(indices...)));
                          },
                          policy);

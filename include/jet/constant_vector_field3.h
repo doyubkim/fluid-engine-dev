@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_CONSTANT_VECTOR_FIELD3_H_
 #define INCLUDE_JET_CONSTANT_VECTOR_FIELD3_H_
 
-#include <jet/vector_field3.h>
+#include <jet/vector_field.h>
 #include <memory>
 
 namespace jet {

@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_CONSTANT_VECTOR_FIELD2_H_
 #define INCLUDE_JET_CONSTANT_VECTOR_FIELD2_H_
 
-#include <jet/vector_field2.h>
+#include <jet/vector_field.h>
 #include <memory>
 
 namespace jet {

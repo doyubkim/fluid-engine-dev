@@ -220,10 +220,12 @@
 #include <jet/type_helpers.h>
 #include <jet/upwind_level_set_solver2.h>
 #include <jet/upwind_level_set_solver3.h>
-#include <jet/vector_field2.h>
-#include <jet/vector_field3.h>
-#include <jet/vector_grid2.h>
-#include <jet/vector_grid3.h>
+#include <jet/vector_field.h>
+#include <jet/vector_field.h>
+#include <jet/vector_field.h>
+#include <jet/vector_grid.h>
+#include <jet/vector_grid.h>
+#include <jet/vector_grid.h>
 #include <jet/vertex_centered_scalar_grid2.h>
 #include <jet/vertex_centered_scalar_grid3.h>
 #include <jet/vertex_centered_vector_grid2.h>

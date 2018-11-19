@@ -9,7 +9,7 @@
 
 #include <jet/array.h>
 #include <jet/array_samplers.h>
-#include <jet/vector_grid3.h>
+#include <jet/vector_grid.h>
 
 #include <vector>
 
