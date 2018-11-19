@@ -81,9 +81,9 @@ void VectorGrid2::serialize(std::vector<uint8_t>* buffer) const {
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
 
-    std::vector<double> gridData;
-    getData(&gridData);
-    auto data = builder.CreateVector(gridData.data(), gridData.size());
+    Array1<double> gridData;
+    getData(gridData);
+    auto data = builder.CreateVector(gridData.data(), gridData.length());
 
     auto fbsGrid = fbs::CreateVectorGrid2(
         builder, &fbsResolution, &fbsGridSpacing, &fbsOrigin, data);
@@ -106,7 +106,7 @@ void VectorGrid2::deserialize(const std::vector<uint8_t>& buffer) {
         fbsToJet(*fbsGrid->origin()));
 
     auto data = fbsGrid->data();
-    std::vector<double> gridData(data->size());
+    Array1<double> gridData(data->size());
     std::copy(data->begin(), data->end(), gridData.begin());
 
     setData(gridData);

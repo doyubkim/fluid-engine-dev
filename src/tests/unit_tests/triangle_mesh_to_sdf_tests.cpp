@@ -46,7 +46,7 @@ TEST(TriangleMeshToSdf, TriangleMeshToSdf) {
 
     Box3 box(Vector3D(), Vector3D(1.0, 1.0, 1.0));
 
-    auto gridPos = grid.dataPosition();
+    auto gridPos = unroll3(grid.dataPosition());
     grid.forEachDataPointIndex(
         [&](size_t i, size_t j, size_t k) {
             auto pos = gridPos(i, j, k);

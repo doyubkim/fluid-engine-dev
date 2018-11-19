@@ -9,8 +9,7 @@
 
 #include <jet/collocated_vector_grid2.h>
 #include <jet/face_centered_grid2.h>
-#include <jet/scalar_grid2.h>
-#include <memory>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

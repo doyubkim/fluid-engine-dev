@@ -31,9 +31,9 @@ void GridBlockedBoundaryConditionSolver3::constrainVelocity(
     auto u = velocity->uView();
     auto v = velocity->vView();
     auto w = velocity->wView();
-    auto uPos = velocity->uPosition();
-    auto vPos = velocity->vPosition();
-    auto wPos = velocity->wPosition();
+    auto uPos = unroll3(velocity->uPosition());
+    auto vPos = unroll3(velocity->vPosition());
+    auto wPos = unroll3(velocity->wPosition());
 
     forEachIndex(_marker.size(), [&](size_t i, size_t j, size_t k) {
         if (_marker(i, j, k) == kCollider) {

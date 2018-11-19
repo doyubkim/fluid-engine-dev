@@ -24,7 +24,7 @@ namespace jet {
 //!
 class CellCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
  public:
-    JET_GRID3_TYPE_NAME(CellCenteredVectorGrid3)
+    JET_GRID_TYPE_NAME(CellCenteredVectorGrid, 3)
 
     class Builder;
 

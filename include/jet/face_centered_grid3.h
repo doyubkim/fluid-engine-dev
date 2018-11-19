@@ -26,7 +26,7 @@ namespace jet {
 //!
 class FaceCenteredGrid3 final : public VectorGrid3 {
  public:
-    JET_GRID3_TYPE_NAME(FaceCenteredGrid3)
+    JET_GRID_TYPE_NAME(FaceCenteredGrid, 3)
 
     class Builder;
 
@@ -262,10 +262,10 @@ class FaceCenteredGrid3 final : public VectorGrid3 {
                   const Vector3D& origin, const Vector3D& initialValue) final;
 
     //! Fetches the data into a continuous linear array.
-    void getData(std::vector<double>* data) const override;
+    void getData(Array1<double>& data) const override;
 
     //! Sets the data from a continuous linear array.
-    void setData(const std::vector<double>& data) override;
+    void setData(const ConstArrayView1<double>& data) override;
 
  private:
     Array3<double> _dataU;

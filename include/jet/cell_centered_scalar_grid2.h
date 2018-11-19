@@ -7,8 +7,7 @@
 #ifndef INCLUDE_JET_CELL_CENTERED_SCALAR_GRID2_H_
 #define INCLUDE_JET_CELL_CENTERED_SCALAR_GRID2_H_
 
-#include <jet/scalar_grid2.h>
-#include <utility>  // just make cpplint happy..
+#include <jet/scalar_grid.h>
 
 namespace jet {
 
@@ -22,7 +21,7 @@ namespace jet {
 //!
 class CellCenteredScalarGrid2 final : public ScalarGrid2 {
  public:
-    JET_GRID2_TYPE_NAME(CellCenteredScalarGrid2)
+    JET_GRID_TYPE_NAME(CellCenteredScalarGrid, 2)
 
     class Builder;
 

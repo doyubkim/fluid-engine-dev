@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #ifdef _MSC_VER
-#pragma warning(disable: 4244)
+#pragma warning(disable : 4244)
 #endif
 
 #include <pch.h>
@@ -44,8 +44,9 @@ void VectorGrid3::resize(size_t resolutionX, size_t resolutionY,
            Vector3D(initialValueX, initialValueY, initialValueZ));
 }
 
-void VectorGrid3::resize(const Vector3UZ& resolution, const Vector3D& gridSpacing,
-                         const Vector3D& origin, const Vector3D& initialValue) {
+void VectorGrid3::resize(const Vector3UZ& resolution,
+                         const Vector3D& gridSpacing, const Vector3D& origin,
+                         const Vector3D& initialValue) {
     setSizeParameters(resolution, gridSpacing, origin);
 
     onResize(resolution, gridSpacing, origin, initialValue);
@@ -69,9 +70,9 @@ void VectorGrid3::serialize(std::vector<uint8_t>* buffer) const {
     auto fbsGridSpacing = jetToFbs(gridSpacing());
     auto fbsOrigin = jetToFbs(origin());
 
-    std::vector<double> gridData;
-    getData(&gridData);
-    auto data = builder.CreateVector(gridData.data(), gridData.size());
+    Array1<double> gridData;
+    getData(gridData);
+    auto data = builder.CreateVector(gridData.data(), gridData.length());
 
     auto fbsGrid = fbs::CreateVectorGrid3(builder, &fbsResolution,
                                           &fbsGridSpacing, &fbsOrigin, data);
@@ -92,7 +93,7 @@ void VectorGrid3::deserialize(const std::vector<uint8_t>& buffer) {
            fbsToJet(*fbsGrid->origin()));
 
     auto data = fbsGrid->data();
-    std::vector<double> gridData(data->size());
+    Array1<double> gridData(data->size());
     std::copy(data->begin(), data->end(), gridData.begin());
 
     setData(gridData);

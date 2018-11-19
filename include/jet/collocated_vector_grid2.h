@@ -105,10 +105,10 @@ class CollocatedVectorGrid2 : public VectorGrid2 {
     void setCollocatedVectorGrid(const CollocatedVectorGrid2& other);
 
     //! Fetches the data into a continuous linear array.
-    void getData(std::vector<double>* data) const override;
+    void getData(Array1<double>& data) const override;
 
     //! Sets the data from a continuous linear array.
-    void setData(const std::vector<double>& data) override;
+    void setData(const ConstArrayView1<double>& data) override;
 
  private:
     Array2<Vector2D> _data;

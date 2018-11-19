@@ -65,7 +65,7 @@ void VertexCenteredVectorGrid3::fill(
     ExecutionPolicy policy) {
     Vector3UZ size = dataSize();
     auto acc = dataView();
-    DataPositionFunc pos = dataPosition();
+    auto pos = unroll3(dataPosition());
     parallelFor(kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
                 [&func, &acc, &pos](size_t i, size_t j, size_t k) {
                     acc(i, j, k) = func(pos(i, j, k));
@@ -92,7 +92,8 @@ VertexCenteredVectorGrid3::Builder VertexCenteredVectorGrid3::builder() {
 }
 
 VertexCenteredVectorGrid3::Builder&
-VertexCenteredVectorGrid3::Builder::withResolution(const Vector3UZ& resolution) {
+VertexCenteredVectorGrid3::Builder::withResolution(
+    const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }

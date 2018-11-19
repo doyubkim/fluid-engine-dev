@@ -7,8 +7,7 @@
 #include "grid.h"
 #include "pybind11_utils.h"
 
-#include <jet/grid2.h>
-#include <jet/grid3.h>
+#include <jet/grid.h>
 
 namespace py = pybind11;
 using namespace jet;

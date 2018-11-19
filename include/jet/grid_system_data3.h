@@ -8,10 +8,8 @@
 #define INCLUDE_JET_GRID_SYSTEM_DATA3_H_
 
 #include <jet/face_centered_grid3.h>
-#include <jet/scalar_grid3.h>
+#include <jet/scalar_grid.h>
 #include <jet/serialization.h>
-#include <memory>
-#include <vector>
 
 namespace jet {
 

@@ -241,7 +241,7 @@ TEST(FaceCenteredGrid3, ValueAtCellCenter) {
     auto pos = grid.cellCenterPosition();
     grid.forEachCellIndex([&](size_t i, size_t j, size_t k) {
         Vector3D val = grid.valueAtCellCenter(i, j, k);
-        Vector3D x = pos(i, j, k);
+        Vector3D x = pos({i, j, k});
         Vector3D expected
             = Vector3D(3.0 * x.y + 1.0, 5.0 * x.z + 7.0, -1.0 * x.x - 9.0);
         EXPECT_NEAR(expected.x, val.x, 1e-6);
@@ -258,7 +258,7 @@ TEST(FaceCenteredGrid3, Sample) {
 
     auto pos = grid.cellCenterPosition();
     grid.forEachCellIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D x = pos(i, j, k);
+        Vector3D x = pos({i, j, k});
         Vector3D val = grid.sample(x);
         Vector3D expected
             = Vector3D(3.0 * x.y + 1.0, 5.0 * x.z + 7.0, -1.0 * x.x - 9.0);

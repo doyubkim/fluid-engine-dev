@@ -39,8 +39,8 @@ void ApicSolver2::transferFromParticlesToGrids() {
     // Weighted-average velocity
     auto u = flow->uView();
     auto v = flow->vView();
-    const auto uPos = flow->uPosition();
-    const auto vPos = flow->vPosition();
+    const auto uPos = unroll2(flow->uPosition());
+    const auto vPos = unroll2(flow->vPosition());
     Array2<double> uWeight(u.size());
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());

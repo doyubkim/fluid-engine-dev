@@ -74,11 +74,11 @@ void CellCenteredVectorGrid2::fill(
     Vector2UZ size = dataSize();
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
-    parallelFor(kZeroSize, size.x, kZeroSize, size.y,
-                [&func, &acc, &pos](size_t i, size_t j) {
-                    acc(i, j) = func(pos(i, j));
-                },
-                policy);
+    parallelForEachIndex(Vector2UZ::makeZero(), size,
+                         [&func, &acc, &pos](auto ...indices) {
+                             acc(indices...) = func(pos(Vector2UZ(indices...)));
+                         },
+                         policy);
 }
 
 std::shared_ptr<VectorGrid2> CellCenteredVectorGrid2::clone() const {

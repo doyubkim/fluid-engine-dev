@@ -204,28 +204,28 @@ FaceCenteredGrid3::ConstScalarDataView FaceCenteredGrid3::wView() const {
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::uPosition() const {
     Vector3D h = gridSpacing();
+    Vector3D dataOriginU_ = _dataOriginU;
 
-    return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginU +
-               elemMul(h, Vector3D((double)i, (double)j, (double)k));
+    return [h, dataOriginU_](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginU_ + elemMul(h, idx.castTo<double>());
     };
 }
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::vPosition() const {
     Vector3D h = gridSpacing();
+    Vector3D dataOriginV_ = _dataOriginV;
 
-    return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginV +
-               elemMul(h, Vector3D((double)i, (double)j, (double)k));
+    return [h, dataOriginV_](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginV_ + elemMul(h, idx.castTo<double>());
     };
 }
 
 VectorGrid3::DataPositionFunc FaceCenteredGrid3::wPosition() const {
     Vector3D h = gridSpacing();
+    Vector3D dataOriginW_ = _dataOriginW;
 
-    return [this, h](size_t i, size_t j, size_t k) -> Vector3D {
-        return _dataOriginW +
-               elemMul(h, Vector3D((double)i, (double)j, (double)k));
+    return [h, dataOriginW_](const Vector3UZ& idx) -> Vector3D {
+        return dataOriginW_ + elemMul(h, idx.castTo<double>());
     };
 }
 
@@ -268,26 +268,26 @@ void FaceCenteredGrid3::fill(
     const std::function<Vector3D(const Vector3D&)>& func,
     ExecutionPolicy policy) {
     DataPositionFunc uPos = uPosition();
-    parallelFor(kZeroSize, _dataU.width(), kZeroSize, _dataU.height(),
-                kZeroSize, _dataU.depth(),
-                [this, &func, &uPos](size_t i, size_t j, size_t k) {
-                    _dataU(i, j, k) = func(uPos(i, j, k)).x;
-                },
-                policy);
+    parallelForEachIndex(Vector3UZ::makeZero(), _dataU.size(),
+                         [this, &func, &uPos](auto... indices) {
+                             _dataU(indices...) =
+                                 func(uPos(Vector3UZ(indices...))).x;
+                         },
+                         policy);
     DataPositionFunc vPos = vPosition();
-    parallelFor(kZeroSize, _dataV.width(), kZeroSize, _dataV.height(),
-                kZeroSize, _dataV.depth(),
-                [this, &func, &vPos](size_t i, size_t j, size_t k) {
-                    _dataV(i, j, k) = func(vPos(i, j, k)).y;
-                },
-                policy);
+    parallelForEachIndex(Vector3UZ::makeZero(), _dataV.size(),
+                         [this, &func, &vPos](auto... indices) {
+                             _dataV(indices...) =
+                                 func(vPos(Vector3UZ(indices...))).y;
+                         },
+                         policy);
     DataPositionFunc wPos = wPosition();
-    parallelFor(kZeroSize, _dataW.width(), kZeroSize, _dataW.height(),
-                kZeroSize, _dataW.depth(),
-                [this, &func, &wPos](size_t i, size_t j, size_t k) {
-                    _dataW(i, j, k) = func(wPos(i, j, k)).z;
-                },
-                policy);
+    parallelForEachIndex(Vector3UZ::makeZero(), _dataW.size(),
+                         [this, &func, &wPos](auto... indices) {
+                             _dataW(indices...) =
+                                 func(wPos(Vector3UZ(indices...))).z;
+                         },
+                         policy);
 }
 
 std::shared_ptr<VectorGrid3> FaceCenteredGrid3::clone() const {
@@ -457,25 +457,24 @@ void FaceCenteredGrid3::resetSampler() {
 
 FaceCenteredGrid3::Builder FaceCenteredGrid3::builder() { return Builder(); }
 
-void FaceCenteredGrid3::getData(std::vector<double>* data) const {
+void FaceCenteredGrid3::getData(Array1<double>& data) const {
     size_t size = uSize().x * uSize().y * uSize().z +
                   vSize().x * vSize().y * vSize().z +
                   wSize().x * wSize().y * wSize().z;
-    data->resize(size);
+    data.resize(size);
     size_t cnt = 0;
     std::for_each(_dataU.begin(), _dataU.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
     std::for_each(_dataV.begin(), _dataV.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
     std::for_each(_dataW.begin(), _dataW.end(),
-                  [&](double value) { (*data)[cnt++] = value; });
+                  [&](double value) { data[cnt++] = value; });
 }
 
-void FaceCenteredGrid3::setData(const std::vector<double>& data) {
-    JET_ASSERT(uSize().x * uSize().y * uSize().z +
-                   vSize().x * vSize().y * vSize().z +
-                   wSize().x * wSize().y * wSize().z ==
-               data.size());
+void FaceCenteredGrid3::setData(const ConstArrayView1<double>& data) {
+    JET_ASSERT(product(uSize(), kOneSize) + product(vSize(), kOneSize) +
+                   product(wSize(), kOneSize) ==
+               data.length());
 
     size_t cnt = 0;
     forEachIndex(_dataU.size(), [&](size_t i, size_t j, size_t k) {

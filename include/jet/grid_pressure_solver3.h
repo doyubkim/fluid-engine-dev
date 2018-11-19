@@ -13,8 +13,7 @@
 #include <jet/constants.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/grid_boundary_condition_solver3.h>
-#include <jet/scalar_grid3.h>
-#include <memory>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

@@ -8,8 +8,7 @@
 #define INCLUDE_JET_VERTEX_CENTERED_SCALAR_GRID3_H_
 
 #include <jet/array.h>
-#include <jet/scalar_grid3.h>
-#include <utility>  // just make cpplint happy..
+#include <jet/scalar_grid.h>
 
 namespace jet {
 
@@ -23,7 +22,7 @@ namespace jet {
 //!
 class VertexCenteredScalarGrid3 final : public ScalarGrid3 {
  public:
-    JET_GRID3_TYPE_NAME(VertexCenteredScalarGrid3)
+    JET_GRID_TYPE_NAME(VertexCenteredScalarGrid, 3)
 
     class Builder;
 

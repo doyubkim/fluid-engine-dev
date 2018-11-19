@@ -28,8 +28,8 @@ void GridBlockedBoundaryConditionSolver2::constrainVelocity(
     Vector2UZ size = velocity->resolution();
     auto u = velocity->uView();
     auto v = velocity->vView();
-    auto uPos = velocity->uPosition();
-    auto vPos = velocity->vPosition();
+    auto uPos = unroll2(velocity->uPosition());
+    auto vPos = unroll2(velocity->vPosition());
 
     forEachIndex(_marker.size(), [&](size_t i, size_t j) {
         if (_marker(i, j) == kCollider) {

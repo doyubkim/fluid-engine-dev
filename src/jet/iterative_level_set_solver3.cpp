@@ -86,7 +86,7 @@ void IterativeLevelSetSolver3::extrapolate(const ScalarGrid3& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array3<double> sdfGrid(input.dataSize());
-    auto pos = input.dataPosition();
+    auto pos = unroll3(input.dataPosition());
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });
@@ -102,7 +102,7 @@ void IterativeLevelSetSolver3::extrapolate(const CollocatedVectorGrid3& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array3<double> sdfGrid(input.dataSize());
-    auto pos = input.dataPosition();
+    auto pos = unroll3(input.dataPosition());
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });
@@ -144,7 +144,7 @@ void IterativeLevelSetSolver3::extrapolate(const FaceCenteredGrid3& input,
     const Vector3D gridSpacing = input.gridSpacing();
 
     auto u = input.uView();
-    auto uPos = input.uPosition();
+    auto uPos = unroll3(input.uPosition());
     Array3<double> sdfAtU(u.size());
     input.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         sdfAtU(i, j, k) = sdf.sample(uPos(i, j, k));
@@ -153,7 +153,7 @@ void IterativeLevelSetSolver3::extrapolate(const FaceCenteredGrid3& input,
     extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
     auto v = input.vView();
-    auto vPos = input.vPosition();
+    auto vPos = unroll3(input.vPosition());
     Array3<double> sdfAtV(v.size());
     input.parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         sdfAtV(i, j, k) = sdf.sample(vPos(i, j, k));
@@ -162,7 +162,7 @@ void IterativeLevelSetSolver3::extrapolate(const FaceCenteredGrid3& input,
     extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 
     auto w = input.wView();
-    auto wPos = input.wPosition();
+    auto wPos = unroll3((input.wPosition()));
     Array3<double> sdfAtW(w.size());
     input.parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         sdfAtW(i, j, k) = sdf.sample(wPos(i, j, k));

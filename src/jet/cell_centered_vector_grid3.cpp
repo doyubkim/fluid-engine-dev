@@ -77,11 +77,11 @@ void CellCenteredVectorGrid3::fill(
     Vector3UZ size = dataSize();
     auto acc = dataView();
     DataPositionFunc pos = dataPosition();
-    parallelFor(kZeroSize, size.x, kZeroSize, size.y, kZeroSize, size.z,
-                [&func, &acc, &pos](size_t i, size_t j, size_t k) {
-                    acc(i, j, k) = func(pos(i, j, k));
-                },
-                policy);
+    parallelForEachIndex(Vector3UZ::makeZero(), size,
+                         [&func, &acc, &pos](auto ...indices) {
+                             acc(indices...) = func(pos(Vector3UZ(indices...)));
+                         },
+                         policy);
 }
 
 std::shared_ptr<VectorGrid3> CellCenteredVectorGrid3::clone() const {

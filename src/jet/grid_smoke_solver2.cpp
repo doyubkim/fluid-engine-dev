@@ -140,14 +140,14 @@ void GridSmokeSolver2::computeBuoyancyForce(double timeIntervalInSeconds) {
 
         double tAmb = 0.0;
         temp->forEachCellIndex(
-            [&](size_t i, size_t j) { tAmb += (*temp)(i, j); });
+            [&](const Vector2UZ& idx) { tAmb += (*temp)(idx.x, idx.y); });
         tAmb /=
             static_cast<double>(temp->resolution().x * temp->resolution().y);
 
         auto u = vel->uView();
         auto v = vel->vView();
-        auto uPos = vel->uPosition();
-        auto vPos = vel->vPosition();
+        auto uPos = unroll2(vel->uPosition());
+        auto vPos = unroll2(vel->vPosition());
 
         if (std::abs(up.x) > kEpsilonD) {
             vel->parallelForEachUIndex([&](size_t i, size_t j) {

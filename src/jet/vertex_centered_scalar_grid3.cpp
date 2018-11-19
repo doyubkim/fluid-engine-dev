@@ -5,43 +5,25 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/vertex_centered_scalar_grid3.h>
-#include <utility>  // just make cpplint happy..
 
 using namespace jet;
 
-VertexCenteredScalarGrid3::VertexCenteredScalarGrid3() {
+VertexCenteredScalarGrid3::VertexCenteredScalarGrid3() {}
+
+VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
+    size_t resolutionX, size_t resolutionY, size_t resolutionZ,
+    double gridSpacingX, double gridSpacingY, double gridSpacingZ,
+    double originX, double originY, double originZ, double initialValue) {
+    resize({resolutionX, resolutionY, resolutionZ},
+           {gridSpacingX, gridSpacingY, gridSpacingZ},
+           {originX, originY, originZ}, initialValue);
 }
 
 VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
-    size_t resolutionX,
-    size_t resolutionY,
-    size_t resolutionZ,
-    double gridSpacingX,
-    double gridSpacingY,
-    double gridSpacingZ,
-    double originX,
-    double originY,
-    double originZ,
-    double initialValue) {
-    resize(
-        resolutionX,
-        resolutionY,
-        resolutionZ,
-        gridSpacingX,
-        gridSpacingY,
-        gridSpacingZ,
-        originX,
-        originY,
-        originZ,
-        initialValue);
-}
-
-VertexCenteredScalarGrid3::VertexCenteredScalarGrid3(
-    const Vector3UZ& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& origin,
-    double initialValue) {
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
+    const Vector3D& origin, double initialValue) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
@@ -58,17 +40,15 @@ Vector3UZ VertexCenteredScalarGrid3::dataSize() const {
     }
 }
 
-Vector3D VertexCenteredScalarGrid3::dataOrigin() const {
-    return origin();
-}
+Vector3D VertexCenteredScalarGrid3::dataOrigin() const { return origin(); }
 
 std::shared_ptr<ScalarGrid3> VertexCenteredScalarGrid3::clone() const {
     return CLONE_W_CUSTOM_DELETER(VertexCenteredScalarGrid3);
 }
 
 void VertexCenteredScalarGrid3::swap(Grid3* other) {
-    VertexCenteredScalarGrid3* sameType
-        = dynamic_cast<VertexCenteredScalarGrid3*>(other);
+    VertexCenteredScalarGrid3* sameType =
+        dynamic_cast<VertexCenteredScalarGrid3*>(other);
     if (sameType != nullptr) {
         swapScalarGrid(sameType);
     }
@@ -78,8 +58,8 @@ void VertexCenteredScalarGrid3::set(const VertexCenteredScalarGrid3& other) {
     setScalarGrid(other);
 }
 
-VertexCenteredScalarGrid3&
-VertexCenteredScalarGrid3::operator=(const VertexCenteredScalarGrid3& other) {
+VertexCenteredScalarGrid3& VertexCenteredScalarGrid3::operator=(
+    const VertexCenteredScalarGrid3& other) {
     set(other);
     return *this;
 }
@@ -88,16 +68,17 @@ VertexCenteredScalarGrid3::Builder VertexCenteredScalarGrid3::builder() {
     return Builder();
 }
 
-
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withResolution(const Vector3UZ& resolution) {
+VertexCenteredScalarGrid3::Builder::withResolution(
+    const Vector3UZ& resolution) {
     _resolution = resolution;
     return *this;
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withResolution(
-    size_t resolutionX, size_t resolutionY, size_t resolutionZ) {
+VertexCenteredScalarGrid3::Builder::withResolution(size_t resolutionX,
+                                                   size_t resolutionY,
+                                                   size_t resolutionZ) {
     _resolution.x = resolutionX;
     _resolution.y = resolutionY;
     _resolution.z = resolutionZ;
@@ -112,8 +93,9 @@ VertexCenteredScalarGrid3::Builder::withGridSpacing(
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withGridSpacing(
-    double gridSpacingX, double gridSpacingY, double gridSpacingZ) {
+VertexCenteredScalarGrid3::Builder::withGridSpacing(double gridSpacingX,
+                                                    double gridSpacingY,
+                                                    double gridSpacingZ) {
     _gridSpacing.x = gridSpacingX;
     _gridSpacing.y = gridSpacingY;
     _gridSpacing.z = gridSpacingZ;
@@ -127,8 +109,9 @@ VertexCenteredScalarGrid3::Builder::withOrigin(const Vector3D& gridOrigin) {
 }
 
 VertexCenteredScalarGrid3::Builder&
-VertexCenteredScalarGrid3::Builder::withOrigin(
-    double gridOriginX, double gridOriginY, double gridOriginZ) {
+VertexCenteredScalarGrid3::Builder::withOrigin(double gridOriginX,
+                                               double gridOriginY,
+                                               double gridOriginZ) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;
     _gridOrigin.z = gridOriginZ;
@@ -142,38 +125,23 @@ VertexCenteredScalarGrid3::Builder::withInitialValue(double initialVal) {
 }
 
 VertexCenteredScalarGrid3 VertexCenteredScalarGrid3::Builder::build() const {
-    return VertexCenteredScalarGrid3(
-        _resolution,
-        _gridSpacing,
-        _gridOrigin,
-        _initialVal);
+    return VertexCenteredScalarGrid3(_resolution, _gridSpacing, _gridOrigin,
+                                     _initialVal);
 }
 
-VertexCenteredScalarGrid3Ptr
-VertexCenteredScalarGrid3::Builder::makeShared() const {
+VertexCenteredScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::makeShared()
+    const {
     return std::shared_ptr<VertexCenteredScalarGrid3>(
-        new VertexCenteredScalarGrid3(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal),
-        [] (VertexCenteredScalarGrid3* obj) {
-            delete obj;
-        });
+        new VertexCenteredScalarGrid3(_resolution, _gridSpacing, _gridOrigin,
+                                      _initialVal),
+        [](VertexCenteredScalarGrid3* obj) { delete obj; });
 }
 
 ScalarGrid3Ptr VertexCenteredScalarGrid3::Builder::build(
-    const Vector3UZ& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin,
-    double initialVal) const {
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin, double initialVal) const {
     return std::shared_ptr<VertexCenteredScalarGrid3>(
-        new VertexCenteredScalarGrid3(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal),
-        [] (VertexCenteredScalarGrid3* obj) {
-            delete obj;
-        });
+        new VertexCenteredScalarGrid3(resolution, gridSpacing, gridOrigin,
+                                      initialVal),
+        [](VertexCenteredScalarGrid3* obj) { delete obj; });
 }

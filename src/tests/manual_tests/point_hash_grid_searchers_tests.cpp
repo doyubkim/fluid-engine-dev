@@ -10,7 +10,7 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box.h>
 #include <jet/point_hash_grid_searcher.h>
-#include <jet/point_parallel_hash_grid_searcher.h>
+#include <jet/point_hash_grid_utils.h>
 #include <jet/point_parallel_hash_grid_searcher.h>
 #include <jet/sph_system_data.h>
 #include <jet/triangle_point_generator.h>
@@ -34,8 +34,9 @@ JET_BEGIN_TEST_F(PointHashGridSearcher2, Build) {
 
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
-            size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+            size_t key = PointHashGridUtils2::getHashKeyFromBucketIndex(
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)),
+                {4, 4});
             size_t value = pointSearcher.buckets()[key].length();
             grid(i, j) += static_cast<double>(value);
         }
@@ -62,8 +63,9 @@ JET_BEGIN_TEST_F(PointHashGridSearcher3, Build) {
 
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
-            size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
+            size_t key = PointHashGridUtils2::getHashKeyFromBucketIndex(
+                Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0),
+                {4, 4});
             size_t value = pointSearcher.buckets()[key].length();
             grid(i, j) += static_cast<double>(value);
         }
@@ -90,8 +92,9 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher2, Build) {
 
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
-            size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)));
+            size_t key = PointHashGridUtils2::getHashKeyFromBucketIndex(
+                Vector2Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j)),
+                {4, 4});
             size_t start = pointSearcher.startIndexTable()[key];
             size_t end = pointSearcher.endIndexTable()[key];
             size_t value = end - start;
@@ -120,8 +123,9 @@ JET_BEGIN_TEST_F(PointParallelHashGridSearcher3, Build) {
 
     for (size_t j = 0; j < grid.size().y; ++j) {
         for (size_t i = 0; i < grid.size().x; ++i) {
-            size_t key = pointSearcher.getHashKeyFromBucketIndex(
-                Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0));
+            size_t key = PointHashGridUtils2::getHashKeyFromBucketIndex(
+                Vector3Z(static_cast<ssize_t>(i), static_cast<ssize_t>(j), 0),
+                {4, 4});
             size_t start = pointSearcher.startIndexTable()[key];
             size_t end = pointSearcher.endIndexTable()[key];
             size_t value = end - start;

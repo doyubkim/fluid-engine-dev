@@ -5,127 +5,108 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/semi_lagrangian3.h>
-#include <algorithm>
 
 using namespace jet;
 
-SemiLagrangian3::SemiLagrangian3() {
-}
+SemiLagrangian3::SemiLagrangian3() {}
 
-SemiLagrangian3::~SemiLagrangian3() {
-}
+SemiLagrangian3::~SemiLagrangian3() {}
 
-void SemiLagrangian3::advect(
-    const ScalarGrid3& input,
-    const VectorField3& flow,
-    double dt,
-    ScalarGrid3* output,
-    const ScalarField3& boundarySdf) {
-    auto outputDataPos = output->dataPosition();
+void SemiLagrangian3::advect(const ScalarGrid3& input, const VectorField3& flow,
+                             double dt, ScalarGrid3* output,
+                             const ScalarField3& boundarySdf) {
+    auto outputDataPos = unroll3(output->dataPosition());
     auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
-    auto inputDataPos = input.dataPosition();
+    auto inputDataPos = unroll3(input.dataPosition());
 
-    double h = min3(
-        output->gridSpacing().x,
-        output->gridSpacing().y,
-        output->gridSpacing().z);
+    double h = min3(output->gridSpacing().x, output->gridSpacing().y,
+                    output->gridSpacing().z);
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(inputDataPos(i, j, k)) > 0.0) {
-            Vector3D pt = backTrace(
-                flow, dt, h, outputDataPos(i, j, k), boundarySdf);
+            Vector3D pt =
+                backTrace(flow, dt, h, outputDataPos(i, j, k), boundarySdf);
             outputDataAcc(i, j, k) = inputSamplerFunc(pt);
         }
     });
 }
 
-void SemiLagrangian3::advect(
-    const CollocatedVectorGrid3& input,
-    const VectorField3& flow,
-    double dt,
-    CollocatedVectorGrid3* output,
-    const ScalarField3& boundarySdf) {
+void SemiLagrangian3::advect(const CollocatedVectorGrid3& input,
+                             const VectorField3& flow, double dt,
+                             CollocatedVectorGrid3* output,
+                             const ScalarField3& boundarySdf) {
     auto inputSamplerFunc = getVectorSamplerFunc(input);
 
-    double h = min3(
-        output->gridSpacing().x,
-        output->gridSpacing().y,
-        output->gridSpacing().z);
+    double h = min3(output->gridSpacing().x, output->gridSpacing().y,
+                    output->gridSpacing().z);
 
-    auto outputDataPos = output->dataPosition();
+    auto outputDataPos = unroll3(output->dataPosition());
     auto outputDataAcc = output->dataView();
-    auto inputDataPos = input.dataPosition();
+    auto inputDataPos = unroll3(input.dataPosition());
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(inputDataPos(i, j, k)) > 0.0) {
-            Vector3D pt = backTrace(
-                flow, dt, h, outputDataPos(i, j, k), boundarySdf);
+            Vector3D pt =
+                backTrace(flow, dt, h, outputDataPos(i, j, k), boundarySdf);
             outputDataAcc(i, j, k) = inputSamplerFunc(pt);
         }
     });
 }
 
-void SemiLagrangian3::advect(
-    const FaceCenteredGrid3& input,
-    const VectorField3& flow,
-    double dt,
-    FaceCenteredGrid3* output,
-    const ScalarField3& boundarySdf) {
+void SemiLagrangian3::advect(const FaceCenteredGrid3& input,
+                             const VectorField3& flow, double dt,
+                             FaceCenteredGrid3* output,
+                             const ScalarField3& boundarySdf) {
     auto inputSamplerFunc = getVectorSamplerFunc(input);
 
-    double h = min3(
-        output->gridSpacing().x,
-        output->gridSpacing().y,
-        output->gridSpacing().z);
+    double h = min3(output->gridSpacing().x, output->gridSpacing().y,
+                    output->gridSpacing().z);
 
-    auto uTargetDataPos = output->uPosition();
+    auto uTargetDataPos = unroll3(output->uPosition());
     auto uTargetDataAcc = output->uView();
-    auto uSourceDataPos = input.uPosition();
+    auto uSourceDataPos = unroll3(input.uPosition());
 
     output->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(uSourceDataPos(i, j, k)) > 0.0) {
-            Vector3D pt = backTrace(
-                flow, dt, h, uTargetDataPos(i, j, k), boundarySdf);
+            Vector3D pt =
+                backTrace(flow, dt, h, uTargetDataPos(i, j, k), boundarySdf);
             uTargetDataAcc(i, j, k) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vTargetDataPos = output->vPosition();
+    auto vTargetDataPos = unroll3(output->vPosition());
     auto vTargetDataAcc = output->vView();
-    auto vSourceDataPos = input.vPosition();
+    auto vSourceDataPos = unroll3(input.vPosition());
 
     output->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(vSourceDataPos(i, j, k)) > 0.0) {
-            Vector3D pt = backTrace(
-                flow, dt, h, vTargetDataPos(i, j, k), boundarySdf);
+            Vector3D pt =
+                backTrace(flow, dt, h, vTargetDataPos(i, j, k), boundarySdf);
             vTargetDataAcc(i, j, k) = inputSamplerFunc(pt).y;
         }
     });
 
-    auto wTargetDataPos = output->wPosition();
+    auto wTargetDataPos = unroll3(output->wPosition());
     auto wTargetDataAcc = output->wView();
-    auto wSourceDataPos = input.wPosition();
+    auto wSourceDataPos = unroll3(input.wPosition());
 
     output->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(wSourceDataPos(i, j, k)) > 0.0) {
-            Vector3D pt = backTrace(
-                flow, dt, h, wTargetDataPos(i, j, k), boundarySdf);
+            Vector3D pt =
+                backTrace(flow, dt, h, wTargetDataPos(i, j, k), boundarySdf);
             wTargetDataAcc(i, j, k) = inputSamplerFunc(pt).z;
         }
     });
 }
 
-Vector3D SemiLagrangian3::backTrace(
-    const VectorField3& flow,
-    double dt,
-    double h,
-    const Vector3D& startPt,
-    const ScalarField3& boundarySdf) {
-
+Vector3D SemiLagrangian3::backTrace(const VectorField3& flow, double dt,
+                                    double h, const Vector3D& startPt,
+                                    const ScalarField3& boundarySdf) {
     double remainingT = dt;
     Vector3D pt0 = startPt;
     Vector3D pt1 = startPt;
@@ -133,8 +114,8 @@ Vector3D SemiLagrangian3::backTrace(
     while (remainingT > kEpsilonD) {
         // Adaptive time-stepping
         Vector3D vel0 = flow.sample(pt0);
-        double numSubSteps
-            = std::max(std::ceil(vel0.length() * remainingT / h), 1.0);
+        double numSubSteps =
+            std::max(std::ceil(vel0.length() * remainingT / h), 1.0);
         dt = remainingT / numSubSteps;
 
         // Mid-point rule
@@ -159,18 +140,17 @@ Vector3D SemiLagrangian3::backTrace(
     return pt1;
 }
 
-std::function<double(const Vector3D&)>
-SemiLagrangian3::getScalarSamplerFunc(const ScalarGrid3& input) const {
+std::function<double(const Vector3D&)> SemiLagrangian3::getScalarSamplerFunc(
+    const ScalarGrid3& input) const {
     return input.sampler();
 }
 
-std::function<Vector3D(const Vector3D&)>
-SemiLagrangian3::getVectorSamplerFunc(
+std::function<Vector3D(const Vector3D&)> SemiLagrangian3::getVectorSamplerFunc(
     const CollocatedVectorGrid3& input) const {
     return input.sampler();
 }
 
-std::function<Vector3D(const Vector3D&)>
-SemiLagrangian3::getVectorSamplerFunc(const FaceCenteredGrid3& input) const {
+std::function<Vector3D(const Vector3D&)> SemiLagrangian3::getVectorSamplerFunc(
+    const FaceCenteredGrid3& input) const {
     return input.sampler();
 }

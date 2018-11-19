@@ -11,7 +11,7 @@
 #include <jet/constant_scalar_field2.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid2.h>
-#include <jet/scalar_grid2.h>
+#include <jet/scalar_grid.h>
 #include <limits>
 #include <memory>
 

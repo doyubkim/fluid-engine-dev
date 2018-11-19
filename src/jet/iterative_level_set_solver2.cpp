@@ -81,7 +81,7 @@ void IterativeLevelSetSolver2::extrapolate(const ScalarGrid2& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array2<double> sdfGrid(input.dataSize());
-    auto pos = input.dataPosition();
+    auto pos = unroll2(input.dataPosition());
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.sample(pos(i, j));
     });
@@ -97,7 +97,7 @@ void IterativeLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array2<double> sdfGrid(input.dataSize());
-    auto pos = input.dataPosition();
+    auto pos = unroll2(input.dataPosition());
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.sample(pos(i, j));
     });
@@ -133,7 +133,7 @@ void IterativeLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     const Vector2D gridSpacing = input.gridSpacing();
 
     auto u = input.uView();
-    auto uPos = input.uPosition();
+    auto uPos = unroll2(input.uPosition());
     Array2<double> sdfAtU(u.size());
     input.parallelForEachUIndex(
         [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.sample(uPos(i, j)); });
@@ -141,7 +141,7 @@ void IterativeLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
     auto v = input.vView();
-    auto vPos = input.vPosition();
+    auto vPos = unroll2(input.vPosition());
     Array2<double> sdfAtV(v.size());
     input.parallelForEachVIndex(
         [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.sample(vPos(i, j)); });

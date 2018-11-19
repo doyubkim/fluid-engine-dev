@@ -5,45 +5,26 @@
 // property of any third parties.
 
 #include <pch.h>
-#include <jet/cell_centered_scalar_grid3.h>
 
-#include <algorithm>
-#include <utility>  // just make cpplint happy..
+#include <jet/cell_centered_scalar_grid3.h>
 
 using namespace jet;
 
-CellCenteredScalarGrid3::CellCenteredScalarGrid3() {
-}
+CellCenteredScalarGrid3::CellCenteredScalarGrid3() {}
 
 CellCenteredScalarGrid3::CellCenteredScalarGrid3(
-    size_t resolutionX,
-    size_t resolutionY,
-    size_t resolutionZ,
-    double gridSpacingX,
-    double gridSpacingY,
-    double gridSpacingZ,
-    double originX,
-    double originY,
-    double originZ,
-    double initialValue) {
-    resize(
-        resolutionX,
-        resolutionY,
-        resolutionZ,
-        gridSpacingX,
-        gridSpacingY,
-        gridSpacingZ,
-        originX,
-        originY,
-        originZ,
-        initialValue);
+    size_t resolutionX, size_t resolutionY, size_t resolutionZ,
+    double gridSpacingX, double gridSpacingY, double gridSpacingZ,
+    double originX, double originY, double originZ, double initialValue) {
+    resize({resolutionX, resolutionY, resolutionZ},
+           {gridSpacingX, gridSpacingY, gridSpacingZ},
+           {originX, originY, originZ}, initialValue);
 }
 
-CellCenteredScalarGrid3::CellCenteredScalarGrid3(
-    const Vector3UZ& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& origin,
-    double initialValue) {
+CellCenteredScalarGrid3::CellCenteredScalarGrid3(const Vector3UZ& resolution,
+                                                 const Vector3D& gridSpacing,
+                                                 const Vector3D& origin,
+                                                 double initialValue) {
     resize(resolution, gridSpacing, origin, initialValue);
 }
 
@@ -66,8 +47,8 @@ std::shared_ptr<ScalarGrid3> CellCenteredScalarGrid3::clone() const {
 }
 
 void CellCenteredScalarGrid3::swap(Grid3* other) {
-    CellCenteredScalarGrid3* sameType
-        = dynamic_cast<CellCenteredScalarGrid3*>(other);
+    CellCenteredScalarGrid3* sameType =
+        dynamic_cast<CellCenteredScalarGrid3*>(other);
     if (sameType != nullptr) {
         swapScalarGrid(sameType);
     }
@@ -77,8 +58,8 @@ void CellCenteredScalarGrid3::set(const CellCenteredScalarGrid3& other) {
     setScalarGrid(other);
 }
 
-CellCenteredScalarGrid3&
-CellCenteredScalarGrid3::operator=(const CellCenteredScalarGrid3& other) {
+CellCenteredScalarGrid3& CellCenteredScalarGrid3::operator=(
+    const CellCenteredScalarGrid3& other) {
     set(other);
     return *this;
 }
@@ -87,7 +68,6 @@ CellCenteredScalarGrid3::Builder CellCenteredScalarGrid3::builder() {
     return Builder();
 }
 
-
 CellCenteredScalarGrid3::Builder&
 CellCenteredScalarGrid3::Builder::withResolution(const Vector3UZ& resolution) {
     _resolution = resolution;
@@ -95,8 +75,9 @@ CellCenteredScalarGrid3::Builder::withResolution(const Vector3UZ& resolution) {
 }
 
 CellCenteredScalarGrid3::Builder&
-CellCenteredScalarGrid3::Builder::withResolution(
-    size_t resolutionX, size_t resolutionY, size_t resolutionZ) {
+CellCenteredScalarGrid3::Builder::withResolution(size_t resolutionX,
+                                                 size_t resolutionY,
+                                                 size_t resolutionZ) {
     _resolution.x = resolutionX;
     _resolution.y = resolutionY;
     _resolution.z = resolutionZ;
@@ -110,22 +91,22 @@ CellCenteredScalarGrid3::Builder::withGridSpacing(const Vector3D& gridSpacing) {
 }
 
 CellCenteredScalarGrid3::Builder&
-CellCenteredScalarGrid3::Builder::withGridSpacing(
-    double gridSpacingX, double gridSpacingY, double gridSpacingZ) {
+CellCenteredScalarGrid3::Builder::withGridSpacing(double gridSpacingX,
+                                                  double gridSpacingY,
+                                                  double gridSpacingZ) {
     _gridSpacing.x = gridSpacingX;
     _gridSpacing.y = gridSpacingY;
     _gridSpacing.z = gridSpacingZ;
     return *this;
 }
 
-CellCenteredScalarGrid3::Builder&
-CellCenteredScalarGrid3::Builder::withOrigin(const Vector3D& gridOrigin) {
+CellCenteredScalarGrid3::Builder& CellCenteredScalarGrid3::Builder::withOrigin(
+    const Vector3D& gridOrigin) {
     _gridOrigin = gridOrigin;
     return *this;
 }
 
-CellCenteredScalarGrid3::Builder&
-CellCenteredScalarGrid3::Builder::withOrigin(
+CellCenteredScalarGrid3::Builder& CellCenteredScalarGrid3::Builder::withOrigin(
     double gridOriginX, double gridOriginY, double gridOriginZ) {
     _gridOrigin.x = gridOriginX;
     _gridOrigin.y = gridOriginY;
@@ -140,38 +121,23 @@ CellCenteredScalarGrid3::Builder::withInitialValue(double initialVal) {
 }
 
 CellCenteredScalarGrid3 CellCenteredScalarGrid3::Builder::build() const {
-    return CellCenteredScalarGrid3(
-        _resolution,
-        _gridSpacing,
-        _gridOrigin,
-        _initialVal);
+    return CellCenteredScalarGrid3(_resolution, _gridSpacing, _gridOrigin,
+                                   _initialVal);
 }
 
 ScalarGrid3Ptr CellCenteredScalarGrid3::Builder::build(
-    const Vector3UZ& resolution,
-    const Vector3D& gridSpacing,
-    const Vector3D& gridOrigin,
-    double initialVal) const {
+    const Vector3UZ& resolution, const Vector3D& gridSpacing,
+    const Vector3D& gridOrigin, double initialVal) const {
     return std::shared_ptr<CellCenteredScalarGrid3>(
-        new CellCenteredScalarGrid3(
-            resolution,
-            gridSpacing,
-            gridOrigin,
-            initialVal),
-        [] (CellCenteredScalarGrid3* obj) {
-            delete obj;
-        });
+        new CellCenteredScalarGrid3(resolution, gridSpacing, gridOrigin,
+                                    initialVal),
+        [](CellCenteredScalarGrid3* obj) { delete obj; });
 }
 
-CellCenteredScalarGrid3Ptr
-CellCenteredScalarGrid3::Builder::makeShared() const {
+CellCenteredScalarGrid3Ptr CellCenteredScalarGrid3::Builder::makeShared()
+    const {
     return std::shared_ptr<CellCenteredScalarGrid3>(
-        new CellCenteredScalarGrid3(
-            _resolution,
-            _gridSpacing,
-            _gridOrigin,
-            _initialVal),
-        [] (CellCenteredScalarGrid3* obj) {
-            delete obj;
-        });
+        new CellCenteredScalarGrid3(_resolution, _gridSpacing, _gridOrigin,
+                                    _initialVal),
+        [](CellCenteredScalarGrid3* obj) { delete obj; });
 }

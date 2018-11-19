@@ -100,8 +100,7 @@
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/fmm_level_set_solver3.h>
 #include <jet/functors.h>
-#include <jet/grid2.h>
-#include <jet/grid3.h>
+#include <jet/grid.h>
 #include <jet/grid_backward_euler_diffusion_solver2.h>
 #include <jet/grid_backward_euler_diffusion_solver3.h>
 #include <jet/grid_blocked_boundary_condition_solver2.h>
@@ -192,8 +191,7 @@
 #include <jet/rigid_body_collider.h>
 #include <jet/samplers.h>
 #include <jet/scalar_field.h>
-#include <jet/scalar_grid2.h>
-#include <jet/scalar_grid3.h>
+#include <jet/scalar_grid.h>
 #include <jet/semi_lagrangian2.h>
 #include <jet/semi_lagrangian3.h>
 #include <jet/serialization.h>

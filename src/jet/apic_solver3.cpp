@@ -39,9 +39,9 @@ void ApicSolver3::transferFromParticlesToGrids() {
     auto u = flow->uView();
     auto v = flow->vView();
     auto w = flow->wView();
-    const auto uPos = flow->uPosition();
-    const auto vPos = flow->vPosition();
-    const auto wPos = flow->wPosition();
+    const auto uPos = unroll3(flow->uPosition());
+    const auto vPos = unroll3(flow->vPosition());
+    const auto wPos = unroll3(flow->wPosition());
     Array3<double> uWeight(u.size());
     Array3<double> vWeight(v.size());
     Array3<double> wWeight(w.size());

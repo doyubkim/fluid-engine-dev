@@ -158,7 +158,7 @@ void GridSinglePhasePressureSolver2::solve(const FaceCenteredGrid2& input,
     UNUSED_VARIABLE(timeIntervalInSeconds);
     UNUSED_VARIABLE(boundaryVelocity);
 
-    auto pos = input.cellCenterPosition();
+    auto pos = unroll2(input.cellCenterPosition());
     buildMarkers(input.resolution(), pos, boundarySdf, fluidSdf);
     buildSystem(input, useCompressed);
 

@@ -75,7 +75,7 @@ void VertexCenteredVectorGrid2::fill(
     ExecutionPolicy policy) {
     Vector2UZ size = dataSize();
     auto acc = dataView();
-    DataPositionFunc pos = dataPosition();
+    auto pos = unroll2(dataPosition());
     parallelFor(kZeroSize, size.x, kZeroSize, size.y,
                 [&func, &acc, &pos](size_t i, size_t j) {
                     acc(i, j) = func(pos(i, j));

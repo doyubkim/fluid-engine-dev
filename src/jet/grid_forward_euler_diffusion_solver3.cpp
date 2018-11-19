@@ -66,17 +66,17 @@ void GridForwardEulerDiffusionSolver3::solve(const ScalarGrid3& source,
                                              const ScalarField3& fluidSdf) {
     auto src = source.dataView();
     Vector3D h = source.gridSpacing();
-    auto pos = source.dataPosition();
+    auto pos = unroll3(source.dataPosition());
 
     buildMarkers(source.resolution(), pos, boundarySdf, fluidSdf);
 
-    source.parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-        if (_markers(i, j, k) == kFluid) {
-            (*dest)(i, j, k) =
-                source(i, j, k) + diffusionCoefficient * timeIntervalInSeconds *
-                                      laplacian(src, _markers, h, i, j, k);
+    source.parallelForEachDataPointIndex([&](const Vector3UZ& idx) {
+        if (_markers(idx) == kFluid) {
+            (*dest)(idx) = source(idx) +
+                           diffusionCoefficient * timeIntervalInSeconds *
+                               laplacian(src, _markers, h, idx.x, idx.y, idx.z);
         } else {
-            (*dest)(i, j, k) = source(i, j, k);
+            (*dest)(idx) = source(idx);
         }
     });
 }
@@ -87,7 +87,7 @@ void GridForwardEulerDiffusionSolver3::solve(
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     auto src = source.dataView();
     Vector3D h = source.gridSpacing();
-    auto pos = source.dataPosition();
+    auto pos = unroll3(source.dataPosition());
 
     buildMarkers(source.resolution(), pos, boundarySdf, fluidSdf);
 
@@ -114,9 +114,9 @@ void GridForwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
     auto u = dest->uView();
     auto v = dest->vView();
     auto w = dest->wView();
-    auto uPos = source.uPosition();
-    auto vPos = source.vPosition();
-    auto wPos = source.wPosition();
+    auto uPos = unroll3(source.uPosition());
+    auto vPos = unroll3(source.vPosition());
+    auto wPos = unroll3(source.wPosition());
     Vector3D h = source.gridSpacing();
 
     buildMarkers(source.uSize(), uPos, boundarySdf, fluidSdf);

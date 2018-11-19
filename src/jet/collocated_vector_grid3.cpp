@@ -130,9 +130,9 @@ VectorGrid3::ConstVectorDataView CollocatedVectorGrid3::dataView() const {
 
 VectorGrid3::DataPositionFunc CollocatedVectorGrid3::dataPosition() const {
     Vector3D dataOrigin_ = dataOrigin();
-    return [this, dataOrigin_](size_t i, size_t j, size_t k) -> Vector3D {
-        return dataOrigin_ + elemMul(gridSpacing(),
-                                     Vector3D((double)i, (double)j, (double)k));
+    Vector3D gridSpacing_ = gridSpacing();
+    return [dataOrigin_, gridSpacing_](const Vector3UZ& idx) -> Vector3D {
+        return dataOrigin_ + elemMul(gridSpacing_, idx.castTo<double>());
     };
 }
 
@@ -181,20 +181,20 @@ void CollocatedVectorGrid3::resetSampler() {
     _sampler = _linearSampler.functor();
 }
 
-void CollocatedVectorGrid3::getData(std::vector<double>* data) const {
+void CollocatedVectorGrid3::getData(Array1<double>& data) const {
     size_t size = 3 * dataSize().x * dataSize().y * dataSize().z;
-    data->resize(size);
+    data.resize(size);
     size_t cnt = 0;
     forEachIndex(_data.size(), [&](size_t i, size_t j, size_t k) {
         const Vector3D& value = _data(i, j, k);
-        (*data)[cnt++] = value.x;
-        (*data)[cnt++] = value.y;
-        (*data)[cnt++] = value.z;
+        data[cnt++] = value.x;
+        data[cnt++] = value.y;
+        data[cnt++] = value.z;
     });
 }
 
-void CollocatedVectorGrid3::setData(const std::vector<double>& data) {
-    JET_ASSERT(3 * dataSize().x * dataSize().y * dataSize().z == data.size());
+void CollocatedVectorGrid3::setData(const ConstArrayView1<double>& data) {
+    JET_ASSERT(3 * product(dataSize(), kOneSize) == data.length());
 
     size_t cnt = 0;
     forEachIndex(_data.size(), [&](size_t i, size_t j, size_t k) {

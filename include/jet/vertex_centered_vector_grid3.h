@@ -22,7 +22,7 @@ namespace jet {
 //!
 class VertexCenteredVectorGrid3 final : public CollocatedVectorGrid3 {
  public:
-    JET_GRID3_TYPE_NAME(VertexCenteredVectorGrid3)
+    JET_GRID_TYPE_NAME(VertexCenteredVectorGrid, 3)
 
     class Builder;
 

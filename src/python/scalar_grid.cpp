@@ -7,8 +7,7 @@
 #include "scalar_grid.h"
 #include "pybind11_utils.h"
 
-#include <jet/scalar_grid2.h>
-#include <jet/scalar_grid3.h>
+#include <jet/scalar_grid.h>
 
 namespace py = pybind11;
 using namespace jet;

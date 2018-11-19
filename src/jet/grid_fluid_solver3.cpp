@@ -57,9 +57,9 @@ void GridFluidSolver3::setViscosityCoefficient(double newValue) {
 double GridFluidSolver3::cfl(double timeIntervalInSeconds) const {
     auto vel = _grids->velocity();
     double maxVel = 0.0;
-    vel->forEachCellIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D v =
-            vel->valueAtCellCenter(i, j, k) + timeIntervalInSeconds * _gravity;
+    vel->forEachCellIndex([&](const Vector3UZ& idx) {
+        Vector3D v = vel->valueAtCellCenter(idx.x, idx.y, idx.z) +
+                     timeIntervalInSeconds * _gravity;
         maxVel = std::max(maxVel, v.x);
         maxVel = std::max(maxVel, v.y);
         maxVel = std::max(maxVel, v.z);
@@ -354,7 +354,7 @@ void GridFluidSolver3::applyBoundaryCondition() {
 
 void GridFluidSolver3::extrapolateIntoCollider(ScalarGrid3* grid) {
     Array3<char> marker(grid->dataSize());
-    auto pos = grid->dataPosition();
+    auto pos = unroll3(grid->dataPosition());
     parallelForEachIndex(marker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j, k)))) {
             marker(i, j, k) = 0;
@@ -369,7 +369,7 @@ void GridFluidSolver3::extrapolateIntoCollider(ScalarGrid3* grid) {
 
 void GridFluidSolver3::extrapolateIntoCollider(CollocatedVectorGrid3* grid) {
     Array3<char> marker(grid->dataSize());
-    auto pos = grid->dataPosition();
+    auto pos = unroll3(grid->dataPosition());
     parallelForEachIndex(marker.size(), [&](size_t i, size_t j, size_t k) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j, k)))) {
             marker(i, j, k) = 0;
@@ -386,9 +386,9 @@ void GridFluidSolver3::extrapolateIntoCollider(FaceCenteredGrid3* grid) {
     auto u = grid->uView();
     auto v = grid->vView();
     auto w = grid->wView();
-    auto uPos = grid->uPosition();
-    auto vPos = grid->vPosition();
-    auto wPos = grid->wPosition();
+    auto uPos = unroll3(grid->uPosition());
+    auto vPos = unroll3(grid->vPosition());
+    auto wPos = unroll3(grid->wPosition());
 
     Array3<char> uMarker(u.size());
     Array3<char> vMarker(v.size());

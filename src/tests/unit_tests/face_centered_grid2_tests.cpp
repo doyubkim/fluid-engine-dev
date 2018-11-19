@@ -156,7 +156,7 @@ TEST(FaceCenteredGrid2, ValueAtCellCenter) {
     auto pos = grid.cellCenterPosition();
     grid.forEachCellIndex([&](size_t i, size_t j) {
         Vector2D val = grid.valueAtCellCenter(i, j);
-        Vector2D x = pos(i, j);
+        Vector2D x = pos({i, j});
         Vector2D expected = Vector2D(3.0 * x.y + 1.0, 5.0 * x.x + 7.0);
         EXPECT_NEAR(expected.x, val.x, 1e-6);
         EXPECT_NEAR(expected.y, val.y, 1e-6);
@@ -171,7 +171,7 @@ TEST(FaceCenteredGrid2, Sample) {
 
     auto pos = grid.cellCenterPosition();
     grid.forEachCellIndex([&](size_t i, size_t j) {
-        Vector2D x = pos(i, j);
+        Vector2D x = pos({i, j});
         Vector2D val = grid.sample(x);
         Vector2D expected = Vector2D(3.0 * x.y + 1.0, 5.0 * x.x + 7.0);
         EXPECT_NEAR(expected.x, val.x, 1e-6);

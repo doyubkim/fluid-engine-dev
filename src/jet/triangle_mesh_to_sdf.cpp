@@ -199,7 +199,7 @@ void triangleMeshToSdf(const TriangleMesh3& mesh, ScalarGrid3* sdf,
     // We begin by initializing distances near the mesh, and figuring out
     // intersection counts
 
-    auto gridPos = sdf->dataPosition();
+    auto gridPos = unroll3(sdf->dataPosition());
 
     size_t nTri = mesh.numberOfTriangles();
     ssize_t bandwidth = static_cast<ssize_t>(exactBand);

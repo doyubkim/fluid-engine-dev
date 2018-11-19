@@ -31,8 +31,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     auto u = velocity->uView();
     auto v = velocity->vView();
-    auto uPos = velocity->uPosition();
-    auto vPos = velocity->vPosition();
+    auto uPos = unroll2(velocity->uPosition());
+    auto vPos = unroll2(velocity->vPosition());
 
     Array2<double> uTemp(u.size());
     Array2<double> vTemp(v.size());

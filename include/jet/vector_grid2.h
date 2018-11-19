@@ -8,12 +8,9 @@
 #define INCLUDE_JET_VECTOR_GRID2_H_
 
 #include <jet/array_view.h>
-#include <jet/grid2.h>
+#include <jet/grid.h>
 #include <jet/parallel.h>
 #include <jet/vector_field2.h>
-
-#include <memory>
-#include <vector>
 
 namespace jet {
 
