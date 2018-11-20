@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/cell_centered_scalar_grid.h>
-#include <jet/cell_centered_vector_grid2.h>
+#include <jet/cell_centered_vector_grid.h>
 #include <jet/custom_vector_field2.h>
 #include <jet/level_set_utils.h>
 #include <jet/sphere.h>

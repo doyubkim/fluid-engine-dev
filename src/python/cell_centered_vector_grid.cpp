@@ -11,8 +11,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <jet/cell_centered_vector_grid2.h>
-#include <jet/cell_centered_vector_grid3.h>
+#include <jet/cell_centered_vector_grid.h>
+#include <jet/cell_centered_vector_grid.h>
 
 namespace py = pybind11;
 using namespace jet;

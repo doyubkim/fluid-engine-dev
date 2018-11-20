@@ -6,8 +6,8 @@
 
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_scalar_grid.h>
-#include <jet/cell_centered_vector_grid2.h>
-#include <jet/cell_centered_vector_grid3.h>
+#include <jet/cell_centered_vector_grid.h>
+#include <jet/cell_centered_vector_grid.h>
 #include <jet/fdm_utils.h>
 #include <gtest/gtest.h>
 
