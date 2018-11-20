@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid2.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/fdm_mg_solver2.h>
@@ -16,7 +16,7 @@ using namespace jet;
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface) {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSdf(3, 3);
+    CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -62,7 +62,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface) {
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
     FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSdf(3, 3);
+    CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -108,7 +108,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMg) {
     FaceCenteredGrid2 vel(32, 32);
-    CellCenteredScalarGrid2 fluidSdf(32, 32);
+    CellCenteredScalarGrid2 fluidSdf({32, 32});
 
     for (size_t j = 0; j < 32; ++j) {
         for (size_t i = 0; i < 33; ++i) {

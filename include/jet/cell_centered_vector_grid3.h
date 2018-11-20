@@ -8,7 +8,7 @@
 #define INCLUDE_JET_CELL_CENTERED_VECTOR_GRID3_H_
 
 #include <jet/array.h>
-#include <jet/collocated_vector_grid3.h>
+#include <jet/collocated_vector_grid.h>
 #include <utility>  // just make cpplint happy..
 #include <vector>
 

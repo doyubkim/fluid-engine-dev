@@ -19,10 +19,10 @@ template <size_t N>
 class VectorGrid : public VectorField<N>, public Grid<N> {
  public:
     //! Read-write array view type.
-    typedef ArrayView<Vector<double, N>, N> VectorDataView;
+    using VectorDataView = ArrayView<Vector<double, N>, N>;
 
     //! Read-only array view type.
-    typedef ArrayView<const Vector<double, N>, N> ConstVectorDataView;
+    using ConstVectorDataView = ArrayView<const Vector<double, N>, N>;
 
     using Grid<N>::resolution;
     using Grid<N>::gridSpacing;

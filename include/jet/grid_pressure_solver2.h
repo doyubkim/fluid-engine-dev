@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_GRID_PRESSURE_SOLVER2_H_
 #define INCLUDE_JET_GRID_PRESSURE_SOLVER2_H_
 
-#include <jet/collocated_vector_grid2.h>
+#include <jet/collocated_vector_grid.h>
 #include <jet/constant_scalar_field2.h>
 #include <jet/constant_vector_field2.h>
 #include <jet/constants.h>

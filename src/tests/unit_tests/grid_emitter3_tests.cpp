@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/custom_vector_field3.h>
 #include <jet/level_set_utils.h>

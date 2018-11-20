@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/anisotropic_points_to_implicit2.h>
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 
 #include <random>
 

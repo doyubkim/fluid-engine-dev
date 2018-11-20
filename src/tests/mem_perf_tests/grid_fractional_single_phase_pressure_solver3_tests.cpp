@@ -6,7 +6,7 @@
 
 #include "mem_perf_tests.h"
 
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/face_centered_grid3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 

@@ -7,8 +7,8 @@
 #include <manual_tests.h>
 
 #include <jet/array_utils.h>
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/fmm_level_set_solver3.h>
 

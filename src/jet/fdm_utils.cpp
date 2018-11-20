@@ -228,4 +228,94 @@ Vector3D laplacian3(const ConstArrayView3<Vector3D>& data,
            (dfront - dback) / square(gridSpacing.z);
 }
 
+double divergence2(const ConstArrayView2<Vector2D>& data,
+                   const Vector2D& gridSpacing, size_t i, size_t j) {
+    const Vector2UZ& ds = data.size();
+
+    JET_ASSERT(i < ds.x && j < ds.y);
+
+    double left = data((i > 0) ? i - 1 : i, j).x;
+    double right = data((i + 1 < ds.x) ? i + 1 : i, j).x;
+    double down = data(i, (j > 0) ? j - 1 : j).y;
+    double up = data(i, (j + 1 < ds.y) ? j + 1 : j).y;
+
+    return 0.5 * (right - left) / gridSpacing.x +
+           0.5 * (up - down) / gridSpacing.y;
+}
+
+double divergence3(const ConstArrayView3<Vector3D>& data,
+                   const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
+    const Vector3UZ ds = data.size();
+
+    JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
+
+    double left = data((i > 0) ? i - 1 : i, j, k).x;
+    double right = data((i + 1 < ds.x) ? i + 1 : i, j, k).x;
+    double down = data(i, (j > 0) ? j - 1 : j, k).y;
+    double up = data(i, (j + 1 < ds.y) ? j + 1 : j, k).y;
+    double back = data(i, j, (k > 0) ? k - 1 : k).z;
+    double front = data(i, j, (k + 1 < ds.z) ? k + 1 : k).z;
+
+    return 0.5 * (right - left) / gridSpacing.x +
+           0.5 * (up - down) / gridSpacing.y +
+           0.5 * (front - back) / gridSpacing.z;
+}
+
+double curl2(const ConstArrayView2<Vector2D>& data, const Vector2D& gridSpacing,
+             size_t i, size_t j) {
+    const Vector2UZ ds = data.size();
+
+    JET_ASSERT(i < ds.x && j < ds.y);
+
+    Vector2D left = data((i > 0) ? i - 1 : i, j);
+    Vector2D right = data((i + 1 < ds.x) ? i + 1 : i, j);
+    Vector2D bottom = data(i, (j > 0) ? j - 1 : j);
+    Vector2D top = data(i, (j + 1 < ds.y) ? j + 1 : j);
+
+    double Fx_ym = bottom.x;
+    double Fx_yp = top.x;
+
+    double Fy_xm = left.y;
+    double Fy_xp = right.y;
+
+    return 0.5 * (Fy_xp - Fy_xm) / gridSpacing.x -
+           0.5 * (Fx_yp - Fx_ym) / gridSpacing.y;
+}
+
+Vector3D curl3(const ConstArrayView3<Vector3D>& data,
+               const Vector3D& gridSpacing, size_t i, size_t j, size_t k) {
+    const Vector3UZ ds = data.size();
+
+    JET_ASSERT(i < ds.x && j < ds.y && k < ds.z);
+
+    Vector3D left = data((i > 0) ? i - 1 : i, j, k);
+    Vector3D right = data((i + 1 < ds.x) ? i + 1 : i, j, k);
+    Vector3D down = data(i, (j > 0) ? j - 1 : j, k);
+    Vector3D up = data(i, (j + 1 < ds.y) ? j + 1 : j, k);
+    Vector3D back = data(i, j, (k > 0) ? k - 1 : k);
+    Vector3D front = data(i, j, (k + 1 < ds.z) ? k + 1 : k);
+
+    double Fx_ym = down.x;
+    double Fx_yp = up.x;
+    double Fx_zm = back.x;
+    double Fx_zp = front.x;
+
+    double Fy_xm = left.y;
+    double Fy_xp = right.y;
+    double Fy_zm = back.y;
+    double Fy_zp = front.y;
+
+    double Fz_xm = left.z;
+    double Fz_xp = right.z;
+    double Fz_ym = down.z;
+    double Fz_yp = up.z;
+
+    return Vector3D(0.5 * (Fz_yp - Fz_ym) / gridSpacing.y -
+                        0.5 * (Fy_zp - Fy_zm) / gridSpacing.z,
+                    0.5 * (Fx_zp - Fx_zm) / gridSpacing.z -
+                        0.5 * (Fz_xp - Fz_xm) / gridSpacing.x,
+                    0.5 * (Fy_xp - Fy_xm) / gridSpacing.x -
+                        0.5 * (Fx_yp - Fx_ym) / gridSpacing.y);
+}
+
 }  // namespace jet

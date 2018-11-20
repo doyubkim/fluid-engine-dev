@@ -8,7 +8,7 @@
 
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/bounding_box.h>
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/parallel.h>
 #include <jet/sph_system_data.h>
 #include <jet/triangle_point_generator.h>

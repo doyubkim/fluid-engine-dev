@@ -7,8 +7,8 @@
 #include "collocated_vector_grid.h"
 #include "pybind11_utils.h"
 
-#include <jet/collocated_vector_grid2.h>
-#include <jet/collocated_vector_grid3.h>
+#include <jet/collocated_vector_grid.h>
+#include <jet/collocated_vector_grid.h>
 
 namespace py = pybind11;
 using namespace jet;

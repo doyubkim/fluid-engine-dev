@@ -8,8 +8,8 @@
 
 #include <factory.h>
 
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid2.h>
 #include <jet/cell_centered_vector_grid3.h>
 #include <jet/face_centered_grid2.h>

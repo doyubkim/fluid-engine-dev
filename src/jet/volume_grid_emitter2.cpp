@@ -6,7 +6,7 @@
 
 #include <pch.h>
 
-#include <jet/collocated_vector_grid2.h>
+#include <jet/collocated_vector_grid.h>
 #include <jet/face_centered_grid2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit.h>

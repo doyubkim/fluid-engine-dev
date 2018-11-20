@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_VERTEX_CENTERED_VECTOR_GRID3_H_
 #define INCLUDE_JET_VERTEX_CENTERED_VECTOR_GRID3_H_
 
-#include <jet/collocated_vector_grid3.h>
+#include <jet/collocated_vector_grid.h>
 #include <utility>  // just make cpplint happy..
 
 namespace jet {

@@ -22,41 +22,6 @@
 
 namespace jet {
 
-namespace {
-
-template <size_t N>
-struct GetFdmUtils {};
-
-template <>
-struct GetFdmUtils<2> {
-    static Vector2D gradient(const ConstArrayView2<double> &data,
-                             const Vector2D &gridSpacing,
-                             const Vector2UZ &idx) {
-        return gradient2(data, gridSpacing, idx.x, idx.y);
-    }
-
-    static double laplacian(const ConstArrayView2<double> &data,
-                            const Vector2D &gridSpacing, const Vector2UZ &idx) {
-        return laplacian2(data, gridSpacing, idx.x, idx.y);
-    }
-};
-
-template <>
-struct GetFdmUtils<3> {
-    static Vector3D gradient(const ConstArrayView3<double> &data,
-                             const Vector3D &gridSpacing,
-                             const Vector3UZ &idx) {
-        return gradient3(data, gridSpacing, idx.x, idx.y, idx.z);
-    }
-
-    static double laplacian(const ConstArrayView3<double> &data,
-                            const Vector3D &gridSpacing, const Vector3UZ &idx) {
-        return laplacian3(data, gridSpacing, idx.x, idx.y, idx.z);
-    }
-};
-
-}  // namespace
-
 // MARK: Serialization helpers
 
 template <size_t N>

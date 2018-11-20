@@ -8,7 +8,7 @@
 
 #include <jet/array.h>
 #include <jet/box.h>
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid2.h>
 #include <jet/constant_vector_field2.h>
 #include <jet/constants.h>
