@@ -219,10 +219,8 @@
 #include <jet/upwind_level_set_solver3.h>
 #include <jet/vector_field.h>
 #include <jet/vector_grid.h>
-#include <jet/vertex_centered_scalar_grid2.h>
-#include <jet/vertex_centered_scalar_grid3.h>
-#include <jet/vertex_centered_vector_grid2.h>
-#include <jet/vertex_centered_vector_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
+#include <jet/vertex_centered_vector_grid.h>
 #include <jet/volume_grid_emitter2.h>
 #include <jet/volume_grid_emitter3.h>
 #include <jet/volume_particle_emitter2.h>

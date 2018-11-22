@@ -62,10 +62,10 @@ template <size_t N>
 void CellCenteredVectorGrid<N>::fill(const Vector<double, N> &value,
                                      ExecutionPolicy policy) {
     Vector<size_t, N> size = dataSize();
-    auto acc = dataView();
+    auto view = dataView();
     parallelForEachIndex(
         Vector<size_t, N>(), size,
-        [&acc, &value](auto... indices) { acc(indices...) = value; }, policy);
+        [&view, &value](auto... indices) { view(indices...) = value; }, policy);
 }
 
 template <size_t N>
@@ -73,11 +73,11 @@ void CellCenteredVectorGrid<N>::fill(
     const std::function<Vector<double, N>(const Vector<double, N> &)> &func,
     ExecutionPolicy policy) {
     Vector<size_t, N> size = dataSize();
-    auto acc = dataView();
+    auto view = dataView();
     DataPositionFunc pos = dataPosition();
     parallelForEachIndex(Vector<size_t, N>::makeZero(), size,
-                         [&func, &acc, &pos](auto... indices) {
-                             acc(indices...) =
+                         [&func, &view, &pos](auto... indices) {
+                             view(indices...) =
                                  func(pos(Vector<size_t, N>(indices...)));
                          },
                          policy);
@@ -146,7 +146,7 @@ std::shared_ptr<VectorGrid<N>> CellCenteredVectorGrid<N>::Builder::build(
 template <size_t N>
 std::shared_ptr<CellCenteredVectorGrid<N>>
 CellCenteredVectorGrid<N>::Builder::makeShared() const {
-    return std::shared_ptr<CellCenteredVectorGrid<N>>(
+    return std::shared_ptr<CellCenteredVectorGrid>(
         new CellCenteredVectorGrid(_resolution, _gridSpacing, _gridOrigin,
                                    _initialVal),
         [](CellCenteredVectorGrid *obj) { delete obj; });

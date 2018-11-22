@@ -9,7 +9,7 @@
 #include <jet/array.h>
 #include <jet/marching_cubes.h>
 #include <jet/triangle_mesh_to_sdf.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 using namespace jet;
 

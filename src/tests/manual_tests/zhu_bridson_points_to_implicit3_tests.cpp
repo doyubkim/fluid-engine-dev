@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/marching_cubes.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 #include <jet/zhu_bridson_points_to_implicit3.h>
 
 #include <random>

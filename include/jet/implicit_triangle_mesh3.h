@@ -10,7 +10,7 @@
 #include <jet/custom_implicit_surface.h>
 #include <jet/implicit_surface.h>
 #include <jet/triangle_mesh3.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 namespace jet {
 

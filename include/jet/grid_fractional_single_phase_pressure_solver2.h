@@ -13,7 +13,7 @@
 #include <jet/fdm_mg_solver2.h>
 #include <jet/grid_boundary_condition_solver2.h>
 #include <jet/grid_pressure_solver2.h>
-#include <jet/vertex_centered_scalar_grid2.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 #include <memory>
 

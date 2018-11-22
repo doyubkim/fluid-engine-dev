@@ -11,8 +11,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <jet/vertex_centered_scalar_grid2.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 namespace py = pybind11;
 using namespace jet;

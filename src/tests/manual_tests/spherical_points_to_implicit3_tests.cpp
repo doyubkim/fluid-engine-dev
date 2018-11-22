@@ -8,7 +8,7 @@
 
 #include <jet/marching_cubes.h>
 #include <jet/spherical_points_to_implicit3.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 #include <random>
 
