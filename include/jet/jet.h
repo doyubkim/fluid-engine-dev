@@ -62,10 +62,8 @@
 #include <jet/cuda_wc_sph_solver2.h>
 #include <jet/cuda_wc_sph_solver3.h>
 #include <jet/custom_implicit_surface.h>
-#include <jet/custom_scalar_field2.h>
-#include <jet/custom_scalar_field3.h>
-#include <jet/custom_vector_field2.h>
-#include <jet/custom_vector_field3.h>
+#include <jet/custom_scalar_field.h>
+#include <jet/custom_vector_field.h>
 #include <jet/cylinder3.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>

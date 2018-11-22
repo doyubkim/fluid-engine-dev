@@ -10,7 +10,7 @@
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cubic_semi_lagrangian2.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/custom_vector_field.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>
 #include <jet/upwind_level_set_solver2.h>

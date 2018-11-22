@@ -6,7 +6,7 @@
 
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/custom_vector_field.h>
 #include <jet/level_set_utils.h>
 #include <jet/sphere.h>
 #include <jet/volume_grid_emitter2.h>

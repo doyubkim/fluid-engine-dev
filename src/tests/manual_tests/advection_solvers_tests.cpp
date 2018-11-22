@@ -14,7 +14,7 @@
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/custom_scalar_field2.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/custom_vector_field.h>
 #include <jet/semi_lagrangian2.h>
 
 #include <algorithm>
