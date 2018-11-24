@@ -6,7 +6,7 @@
 
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid.h>
-#include <jet/face_centered_grid2.h>
+#include <jet/face_centered_grid.h>
 #include <jet/fdm_mg_solver2.h>
 #include <jet/grid_fractional_single_phase_pressure_solver2.h>
 
@@ -15,7 +15,7 @@
 using namespace jet;
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface) {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
     CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
@@ -61,7 +61,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurface) {
 }
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
     CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
@@ -107,7 +107,7 @@ TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
 }
 
 TEST(GridFractionalSinglePhasePressureSolver2, SolveFreeSurfaceMg) {
-    FaceCenteredGrid2 vel(32, 32);
+    FaceCenteredGrid2 vel({32, 32});
     CellCenteredScalarGrid2 fluidSdf({32, 32});
 
     for (size_t j = 0; j < 32; ++j) {

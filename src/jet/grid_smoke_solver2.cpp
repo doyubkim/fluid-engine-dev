@@ -146,26 +146,26 @@ void GridSmokeSolver2::computeBuoyancyForce(double timeIntervalInSeconds) {
 
         auto u = vel->uView();
         auto v = vel->vView();
-        auto uPos = unroll2(vel->uPosition());
-        auto vPos = unroll2(vel->vPosition());
+        auto uPos = vel->uPosition();
+        auto vPos = vel->vPosition();
 
         if (std::abs(up.x) > kEpsilonD) {
-            vel->parallelForEachUIndex([&](size_t i, size_t j) {
-                Vector2D pt = uPos(i, j);
+            vel->parallelForEachUIndex([&](const Vector2UZ& idx) {
+                Vector2D pt = uPos(idx);
                 double fBuoy =
                     _buoyancySmokeDensityFactor * den->sample(pt) +
                     _buoyancyTemperatureFactor * (temp->sample(pt) - tAmb);
-                u(i, j) += timeIntervalInSeconds * fBuoy * up.x;
+                u(idx) += timeIntervalInSeconds * fBuoy * up.x;
             });
         }
 
         if (std::abs(up.y) > kEpsilonD) {
-            vel->parallelForEachVIndex([&](size_t i, size_t j) {
-                Vector2D pt = vPos(i, j);
+            vel->parallelForEachVIndex([&](const Vector2UZ& idx) {
+                Vector2D pt = vPos(idx);
                 double fBuoy =
                     _buoyancySmokeDensityFactor * den->sample(pt) +
                     _buoyancyTemperatureFactor * (temp->sample(pt) - tAmb);
-                v(i, j) += timeIntervalInSeconds * fBuoy * up.y;
+                v(idx) += timeIntervalInSeconds * fBuoy * up.y;
             });
         }
 

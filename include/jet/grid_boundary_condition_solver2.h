@@ -9,7 +9,7 @@
 
 #include <jet/collider.h>
 #include <jet/constants.h>
-#include <jet/face_centered_grid2.h>
+#include <jet/face_centered_grid.h>
 #include <jet/scalar_field.h>
 
 #include <memory>

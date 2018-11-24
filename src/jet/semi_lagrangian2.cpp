@@ -64,27 +64,27 @@ void SemiLagrangian2::advect(const FaceCenteredGrid2& input,
 
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
 
-    auto uTargetDataPos = unroll2(output->uPosition());
+    auto uTargetDataPos = output->uPosition();
     auto uTargetDataAcc = output->uView();
-    auto uSourceDataPos = unroll2(input.uPosition());
+    auto uSourceDataPos = input.uPosition();
 
-    output->parallelForEachUIndex([&](size_t i, size_t j) {
-        if (boundarySdf.sample(uSourceDataPos(i, j)) > 0.0) {
+    output->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        if (boundarySdf.sample(uSourceDataPos(idx)) > 0.0) {
             Vector2D pt =
-                backTrace(flow, dt, h, uTargetDataPos(i, j), boundarySdf);
-            uTargetDataAcc(i, j) = inputSamplerFunc(pt).x;
+                backTrace(flow, dt, h, uTargetDataPos(idx), boundarySdf);
+            uTargetDataAcc(idx) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vTargetDataPos = unroll2(output->vPosition());
+    auto vTargetDataPos = output->vPosition();
     auto vTargetDataAcc = output->vView();
-    auto vSourceDataPos = unroll2(input.vPosition());
+    auto vSourceDataPos = input.vPosition();
 
-    output->parallelForEachVIndex([&](size_t i, size_t j) {
-        if (boundarySdf.sample(vSourceDataPos(i, j)) > 0.0) {
+    output->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        if (boundarySdf.sample(vSourceDataPos(idx)) > 0.0) {
             Vector2D pt =
-                backTrace(flow, dt, h, vTargetDataPos(i, j), boundarySdf);
-            vTargetDataAcc(i, j) = inputSamplerFunc(pt).y;
+                backTrace(flow, dt, h, vTargetDataPos(idx), boundarySdf);
+            vTargetDataAcc(idx) = inputSamplerFunc(pt).y;
         }
     });
 }

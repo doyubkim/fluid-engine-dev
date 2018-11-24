@@ -105,7 +105,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.parallelForEachUIndex(
-            [&](size_t i, size_t j) { dest->u(i, j) = _system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->u(idx) = _system.x(idx); });
 
         // v
         auto vPos = unroll2(source.vPosition());
@@ -118,7 +118,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.parallelForEachVIndex(
-            [&](size_t i, size_t j) { dest->v(i, j) = _system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->v(idx) = _system.x(idx); });
     }
 }
 

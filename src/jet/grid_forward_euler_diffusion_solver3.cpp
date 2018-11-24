@@ -66,7 +66,7 @@ void GridForwardEulerDiffusionSolver3::solve(const ScalarGrid3& source,
                                              const ScalarField3& fluidSdf) {
     auto src = source.dataView();
     Vector3D h = source.gridSpacing();
-    auto pos = unroll3(source.dataPosition());
+    auto pos = source.dataPosition();
 
     buildMarkers(source.resolution(), pos, boundarySdf, fluidSdf);
 
@@ -87,7 +87,7 @@ void GridForwardEulerDiffusionSolver3::solve(
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     auto src = source.dataView();
     Vector3D h = source.gridSpacing();
-    auto pos = unroll3(source.dataPosition());
+    auto pos = source.dataPosition();
 
     buildMarkers(source.resolution(), pos, boundarySdf, fluidSdf);
 
@@ -114,52 +114,50 @@ void GridForwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
     auto u = dest->uView();
     auto v = dest->vView();
     auto w = dest->wView();
-    auto uPos = unroll3(source.uPosition());
-    auto vPos = unroll3(source.vPosition());
-    auto wPos = unroll3(source.wPosition());
+    auto uPos = source.uPosition();
+    auto vPos = source.vPosition();
+    auto wPos = source.wPosition();
     Vector3D h = source.gridSpacing();
 
     buildMarkers(source.uSize(), uPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (!isInsideSdf(boundarySdf.sample(uPos(i, j, k)))) {
-            u(i, j, k) = uSrc(i, j, k) + diffusionCoefficient *
-                                             timeIntervalInSeconds *
-                                             laplacian3(uSrc, h, i, j, k);
+    source.parallelForEachUIndex([&](const Vector3UZ& idx) {
+        if (!isInsideSdf(boundarySdf.sample(uPos(idx)))) {
+            u(idx) = uSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     laplacian3(uSrc, h, idx.x, idx.y, idx.z);
         }
     });
 
     buildMarkers(source.vSize(), vPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (!isInsideSdf(boundarySdf.sample(vPos(i, j, k)))) {
-            v(i, j, k) = vSrc(i, j, k) + diffusionCoefficient *
-                                             timeIntervalInSeconds *
-                                             laplacian3(vSrc, h, i, j, k);
+    source.parallelForEachVIndex([&](const Vector3UZ& idx) {
+        if (!isInsideSdf(boundarySdf.sample(vPos(idx)))) {
+            v(idx) = vSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     laplacian3(vSrc, h, idx.x, idx.y, idx.z);
         }
     });
 
     buildMarkers(source.wSize(), wPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (!isInsideSdf(boundarySdf.sample(wPos(i, j, k)))) {
-            w(i, j, k) = wSrc(i, j, k) + diffusionCoefficient *
+    source.parallelForEachUIndex([&](const Vector3UZ& idx) {
+        if (!isInsideSdf(boundarySdf.sample(wPos(idx)))) {
+            w(idx) = wSrc(idx) + diffusionCoefficient *
                                              timeIntervalInSeconds *
-                                             laplacian3(wSrc, h, i, j, k);
+                                             laplacian3(wSrc, h, idx.x, idx.y, idx.z);
         }
     });
 }
 
 void GridForwardEulerDiffusionSolver3::buildMarkers(
     const Vector3UZ& size,
-    const std::function<Vector3D(size_t, size_t, size_t)>& pos,
+    const std::function<Vector3D(const Vector3UZ&)>& pos,
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
     _markers.resize(size);
 
     forEachIndex(_markers.size(), [&](size_t i, size_t j, size_t k) {
-        if (isInsideSdf(boundarySdf.sample(pos(i, j, k)))) {
+        if (isInsideSdf(boundarySdf.sample(pos(Vector3UZ(i, j, k))))) {
             _markers(i, j, k) = kBoundary;
-        } else if (isInsideSdf(fluidSdf.sample(pos(i, j, k)))) {
+        } else if (isInsideSdf(fluidSdf.sample(pos(Vector3UZ(i, j, k))))) {
             _markers(i, j, k) = kFluid;
         } else {
             _markers(i, j, k) = kAir;

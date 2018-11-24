@@ -67,39 +67,39 @@ void SemiLagrangian3::advect(const FaceCenteredGrid3& input,
     double h = min3(output->gridSpacing().x, output->gridSpacing().y,
                     output->gridSpacing().z);
 
-    auto uTargetDataPos = unroll3(output->uPosition());
+    auto uTargetDataPos = output->uPosition();
     auto uTargetDataAcc = output->uView();
-    auto uSourceDataPos = unroll3(input.uPosition());
+    auto uSourceDataPos = input.uPosition();
 
-    output->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySdf.sample(uSourceDataPos(i, j, k)) > 0.0) {
+    output->parallelForEachUIndex([&](const Vector3UZ& idx) {
+        if (boundarySdf.sample(uSourceDataPos(idx)) > 0.0) {
             Vector3D pt =
-                backTrace(flow, dt, h, uTargetDataPos(i, j, k), boundarySdf);
-            uTargetDataAcc(i, j, k) = inputSamplerFunc(pt).x;
+                backTrace(flow, dt, h, uTargetDataPos(idx), boundarySdf);
+            uTargetDataAcc(idx) = inputSamplerFunc(pt).x;
         }
     });
 
-    auto vTargetDataPos = unroll3(output->vPosition());
+    auto vTargetDataPos = output->vPosition();
     auto vTargetDataAcc = output->vView();
-    auto vSourceDataPos = unroll3(input.vPosition());
+    auto vSourceDataPos = input.vPosition();
 
-    output->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySdf.sample(vSourceDataPos(i, j, k)) > 0.0) {
+    output->parallelForEachVIndex([&](const Vector3UZ& idx) {
+        if (boundarySdf.sample(vSourceDataPos(idx)) > 0.0) {
             Vector3D pt =
-                backTrace(flow, dt, h, vTargetDataPos(i, j, k), boundarySdf);
-            vTargetDataAcc(i, j, k) = inputSamplerFunc(pt).y;
+                backTrace(flow, dt, h, vTargetDataPos(idx), boundarySdf);
+            vTargetDataAcc(idx) = inputSamplerFunc(pt).y;
         }
     });
 
-    auto wTargetDataPos = unroll3(output->wPosition());
+    auto wTargetDataPos = output->wPosition();
     auto wTargetDataAcc = output->wView();
-    auto wSourceDataPos = unroll3(input.wPosition());
+    auto wSourceDataPos = input.wPosition();
 
-    output->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (boundarySdf.sample(wSourceDataPos(i, j, k)) > 0.0) {
+    output->parallelForEachWIndex([&](const Vector3UZ& idx) {
+        if (boundarySdf.sample(wSourceDataPos(idx)) > 0.0) {
             Vector3D pt =
-                backTrace(flow, dt, h, wTargetDataPos(i, j, k), boundarySdf);
-            wTargetDataAcc(i, j, k) = inputSamplerFunc(pt).z;
+                backTrace(flow, dt, h, wTargetDataPos(idx), boundarySdf);
+            wTargetDataAcc(idx) = inputSamplerFunc(pt).z;
         }
     });
 }

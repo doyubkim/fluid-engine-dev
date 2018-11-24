@@ -372,6 +372,11 @@ constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::makeUnitX() {
     return Matrix<T, 1, 1>(1);
 }
 
+template <typename T>
+constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::makeUnit(size_t) {
+    return makeUnitX();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix<T, 2, 1> (aka Vector2)
 
@@ -480,6 +485,11 @@ constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnitX() {
 template <typename T>
 constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnitY() {
     return Matrix<T, 2, 1>(0, 1);
+}
+
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnit(size_t i) {
+    return Matrix<T, 2, 1>(i == 0, i == 1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -600,6 +610,11 @@ constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitY() {
 template <typename T>
 constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitZ() {
     return Matrix<T, 3, 1>(0, 0, 1);
+}
+
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnit(size_t i) {
+    return Matrix<T, 3, 1>(i == 0, i == 1, i == 2);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -730,6 +745,11 @@ constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitZ() {
 template <typename T>
 constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitW() {
     return Matrix<T, 4, 1>(0, 0, 0, 1);
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnit(size_t i) {
+    return Matrix<T, 4, 1>(i == 0, i == 1, i == 2, i == 3);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

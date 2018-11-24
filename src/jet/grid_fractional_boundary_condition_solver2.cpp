@@ -31,8 +31,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     auto u = velocity->uView();
     auto v = velocity->vView();
-    auto uPos = unroll2(velocity->uPosition());
-    auto vPos = unroll2(velocity->vPosition());
+    auto uPos = velocity->uPosition();
+    auto vPos = velocity->vPosition();
 
     Array2<double> uTemp(u.size());
     Array2<double> vTemp(v.size());
@@ -42,35 +42,35 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
     Vector2D h = velocity->gridSpacing();
 
     // Assign collider's velocity first and initialize markers
-    velocity->parallelForEachUIndex([&](size_t i, size_t j) {
-        Vector2D pt = uPos(i, j);
+    velocity->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        Vector2D pt = uPos(idx);
         double phi0 = _colliderSdf->sample(pt - Vector2D(0.5 * h.x, 0.0));
         double phi1 = _colliderSdf->sample(pt + Vector2D(0.5 * h.x, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
         if (frac > 0.0) {
-            uMarker(i, j) = 1;
+            uMarker(idx) = 1;
         } else {
             Vector2D colliderVel = collider()->velocityAt(pt);
-            u(i, j) = colliderVel.x;
-            uMarker(i, j) = 0;
+            u(idx) = colliderVel.x;
+            uMarker(idx) = 0;
         }
     });
 
-    velocity->parallelForEachVIndex([&](size_t i, size_t j) {
-        Vector2D pt = vPos(i, j);
+    velocity->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        Vector2D pt = vPos(idx);
         double phi0 = _colliderSdf->sample(pt - Vector2D(0.0, 0.5 * h.y));
         double phi1 = _colliderSdf->sample(pt + Vector2D(0.0, 0.5 * h.y));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
         if (frac > 0.0) {
-            vMarker(i, j) = 1;
+            vMarker(idx) = 1;
         } else {
             Vector2D colliderVel = collider()->velocityAt(pt);
-            v(i, j) = colliderVel.y;
-            vMarker(i, j) = 0;
+            v(idx) = colliderVel.y;
+            vMarker(idx) = 0;
         }
     });
 
@@ -80,8 +80,8 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
 
     // No-flux: project the extrapolated velocity to the collider's surface
     // normal
-    velocity->parallelForEachUIndex([&](size_t i, size_t j) {
-        Vector2D pt = uPos(i, j);
+    velocity->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        Vector2D pt = uPos(idx);
         if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector2D colliderVel = collider()->velocityAt(pt);
             Vector2D vel = velocity->sample(pt);
@@ -93,17 +93,17 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
-                uTemp(i, j) = velp.x;
+                uTemp(idx) = velp.x;
             } else {
-                uTemp(i, j) = colliderVel.x;
+                uTemp(idx) = colliderVel.x;
             }
         } else {
-            uTemp(i, j) = u(i, j);
+            uTemp(idx) = u(idx);
         }
     });
 
-    velocity->parallelForEachVIndex([&](size_t i, size_t j) {
-        Vector2D pt = vPos(i, j);
+    velocity->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        Vector2D pt = vPos(idx);
         if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector2D colliderVel = collider()->velocityAt(pt);
             Vector2D vel = velocity->sample(pt);
@@ -115,12 +115,12 @@ void GridFractionalBoundaryConditionSolver2::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector2D velp = velt + colliderVel;
-                vTemp(i, j) = velp.y;
+                vTemp(idx) = velp.y;
             } else {
-                vTemp(i, j) = colliderVel.y;
+                vTemp(idx) = colliderVel.y;
             }
         } else {
-            vTemp(i, j) = v(i, j);
+            vTemp(idx) = v(idx);
         }
     });
 

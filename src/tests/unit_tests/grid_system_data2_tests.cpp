@@ -168,10 +168,10 @@ TEST(GridSystemData2, Serialize) {
     EXPECT_EQ(velocity->vSize(), velocity2->vSize());
     EXPECT_EQ(velocity->uOrigin(), velocity2->uOrigin());
     EXPECT_EQ(velocity->vOrigin(), velocity2->vOrigin());
-    velocity->forEachUIndex([&] (size_t i, size_t j) {
-        EXPECT_EQ(velocity->u(i, j), velocity2->u(i, j));
+    velocity->forEachUIndex([&] (const Vector2UZ& idx) {
+        EXPECT_EQ(velocity->u(idx), velocity2->u(idx));
     });
-    velocity->forEachVIndex([&] (size_t i, size_t j) {
-        EXPECT_EQ(velocity->v(i, j), velocity2->v(i, j));
+    velocity->forEachVIndex([&] (const Vector2UZ& idx) {
+        EXPECT_EQ(velocity->v(idx), velocity2->v(idx));
     });
 }

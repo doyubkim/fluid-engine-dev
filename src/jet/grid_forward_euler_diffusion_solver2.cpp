@@ -108,25 +108,23 @@ void GridForwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 
     buildMarkers(source.uSize(), uPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachUIndex([&](size_t i, size_t j) {
-        if (_markers(i, j) == kFluid) {
-            u(i, j) = uSrc(i, j) + diffusionCoefficient *
-                                       timeIntervalInSeconds *
-                                       laplacian(uSrc, _markers, h, i, j);
+    source.parallelForEachUIndex([&](const Vector2UZ& idx) {
+        if (_markers(idx) == kFluid) {
+            u(idx) = uSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     laplacian(uSrc, _markers, h, idx.x, idx.y);
         } else {
-            u(i, j) = uSrc(i, j);
+            u(idx) = uSrc(idx);
         }
     });
 
     buildMarkers(source.vSize(), vPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachVIndex([&](size_t i, size_t j) {
-        if (_markers(i, j) == kFluid) {
-            v(i, j) = vSrc(i, j) + diffusionCoefficient *
-                                       timeIntervalInSeconds *
-                                       laplacian(vSrc, _markers, h, i, j);
+    source.parallelForEachVIndex([&](const Vector2UZ& idx) {
+        if (_markers(idx) == kFluid) {
+            v(idx) = vSrc(idx) + diffusionCoefficient * timeIntervalInSeconds *
+                                     laplacian(vSrc, _markers, h, idx.x, idx.y);
         } else {
-            v(i, j) = vSrc(i, j);
+            v(idx) = vSrc(idx);
         }
     });
 }

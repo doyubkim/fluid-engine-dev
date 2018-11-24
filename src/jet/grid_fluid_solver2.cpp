@@ -319,14 +319,14 @@ void GridFluidSolver2::computeGravity(double timeIntervalInSeconds) {
         auto v = vel->vView();
 
         if (std::abs(_gravity.x) > kEpsilonD) {
-            vel->forEachUIndex([&](size_t i, size_t j) {
-                u(i, j) += timeIntervalInSeconds * _gravity.x;
+            vel->forEachUIndex([&](const Vector2UZ& idx) {
+                u(idx) += timeIntervalInSeconds * _gravity.x;
             });
         }
 
         if (std::abs(_gravity.y) > kEpsilonD) {
-            vel->forEachVIndex([&](size_t i, size_t j) {
-                v(i, j) += timeIntervalInSeconds * _gravity.y;
+            vel->forEachVIndex([&](const Vector2UZ& idx) {
+                v(idx) += timeIntervalInSeconds * _gravity.y;
             });
         }
 

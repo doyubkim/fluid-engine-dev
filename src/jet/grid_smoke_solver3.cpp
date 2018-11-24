@@ -149,37 +149,37 @@ void GridSmokeSolver3::computeBuoyancyForce(double timeIntervalInSeconds) {
         auto u = vel->uView();
         auto v = vel->vView();
         auto w = vel->wView();
-        auto uPos = unroll3(vel->uPosition());
-        auto vPos = unroll3(vel->vPosition());
-        auto wPos = unroll3(vel->wPosition());
+        auto uPos = vel->uPosition();
+        auto vPos = vel->vPosition();
+        auto wPos = vel->wPosition();
 
         if (std::abs(up.x) > kEpsilonD) {
-            vel->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = uPos(i, j, k);
+            vel->parallelForEachUIndex([&](const Vector3UZ& idx) {
+                Vector3D pt = uPos(idx);
                 double fBuoy =
                     _buoyancySmokeDensityFactor * den->sample(pt) +
                     _buoyancyTemperatureFactor * (temp->sample(pt) - tAmb);
-                u(i, j, k) += timeIntervalInSeconds * fBuoy * up.x;
+                u(idx) += timeIntervalInSeconds * fBuoy * up.x;
             });
         }
 
         if (std::abs(up.y) > kEpsilonD) {
-            vel->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = vPos(i, j, k);
+            vel->parallelForEachVIndex([&](const Vector3UZ& idx) {
+                Vector3D pt = vPos(idx);
                 double fBuoy =
                     _buoyancySmokeDensityFactor * den->sample(pt) +
                     _buoyancyTemperatureFactor * (temp->sample(pt) - tAmb);
-                v(i, j, k) += timeIntervalInSeconds * fBuoy * up.y;
+                v(idx) += timeIntervalInSeconds * fBuoy * up.y;
             });
         }
 
         if (std::abs(up.z) > kEpsilonD) {
-            vel->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-                Vector3D pt = wPos(i, j, k);
+            vel->parallelForEachWIndex([&](const Vector3UZ& idx) {
+                Vector3D pt = wPos(idx);
                 double fBuoy =
                     _buoyancySmokeDensityFactor * den->sample(pt) +
                     _buoyancyTemperatureFactor * (temp->sample(pt) - tAmb);
-                w(i, j, k) += timeIntervalInSeconds * fBuoy * up.z;
+                w(idx) += timeIntervalInSeconds * fBuoy * up.z;
             });
         }
 

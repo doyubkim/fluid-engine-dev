@@ -69,15 +69,15 @@ TEST(GridFluidSolver2, GravityOnly) {
     Frame frame(0, 0.01);
     solver.update(frame);
 
-    solver.velocity()->forEachUIndex([&](size_t i, size_t j) {
-        EXPECT_NEAR(0.0, solver.velocity()->u(i, j), 1e-8);
+    solver.velocity()->forEachUIndex([&](const Vector2UZ& idx) {
+        EXPECT_NEAR(0.0, solver.velocity()->u(idx), 1e-8);
     });
 
-    solver.velocity()->forEachVIndex([&](size_t i, size_t j) {
-        if (j == 0 || j == 3) {
-            EXPECT_NEAR(0.0, solver.velocity()->v(i, j), 1e-8);
+    solver.velocity()->forEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == 0 || idx.y == 3) {
+            EXPECT_NEAR(0.0, solver.velocity()->v(idx), 1e-8);
         } else {
-            EXPECT_NEAR(-0.1, solver.velocity()->v(i, j), 1e-8);
+            EXPECT_NEAR(-0.1, solver.velocity()->v(idx), 1e-8);
         }
     });
 }

@@ -10,7 +10,7 @@
 #include <jet/advection_solver3.h>
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/collider.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_diffusion_solver3.h>
 #include <jet/grid_emitter3.h>

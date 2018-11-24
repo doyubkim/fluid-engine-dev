@@ -11,8 +11,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <jet/face_centered_grid2.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/face_centered_grid.h>
+#include <jet/face_centered_grid.h>
 
 namespace py = pybind11;
 using namespace jet;

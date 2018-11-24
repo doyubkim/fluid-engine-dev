@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/cell_centered_scalar_grid.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 
 #include <benchmark/benchmark.h>

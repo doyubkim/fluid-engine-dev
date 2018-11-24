@@ -10,8 +10,8 @@
 
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_vector_grid.h>
-#include <jet/face_centered_grid2.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/face_centered_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/point_hash_grid_searcher.h>
 #include <jet/point_kdtree_searcher.h>
 #include <jet/point_parallel_hash_grid_searcher.h>
