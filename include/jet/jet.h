@@ -123,8 +123,8 @@
 #include <jet/grid_single_phase_pressure_solver3.h>
 #include <jet/grid_smoke_solver2.h>
 #include <jet/grid_smoke_solver3.h>
-#include <jet/grid_system_data2.h>
-#include <jet/grid_system_data3.h>
+#include <jet/grid_system_data.h>
+#include <jet/grid_system_data.h>
 #include <jet/implicit_surface.h>
 #include <jet/implicit_surface_set.h>
 #include <jet/implicit_triangle_mesh3.h>

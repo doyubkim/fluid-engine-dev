@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#ifndef INCLUDE_JET_GRID_SYSTEM_DATA2_H_
-#define INCLUDE_JET_GRID_SYSTEM_DATA2_H_
+#ifndef INCLUDE_JET_GRID_SYSTEM_DATA_H_
+#define INCLUDE_JET_GRID_SYSTEM_DATA_H_
 
 #include <jet/face_centered_grid.h>
 #include <jet/scalar_grid.h>
@@ -14,17 +14,18 @@
 namespace jet {
 
 //!
-//! \brief      2-D grid system data.
+//! \brief      N-D grid system data.
 //!
 //! This class is the key data structure for storing grid system data. To
 //! represent a grid system for fluid simulation, velocity field is defined as a
 //! face-centered (MAC) grid by default. It can also have additional scalar or
 //! vector attributes by adding extra data layer.
 //!
-class GridSystemData2 : public Serializable {
+template <size_t N>
+class GridSystemData : public Serializable {
  public:
     //! Constructs empty grid system.
-    GridSystemData2();
+    GridSystemData();
 
     //!
     //! \brief      Constructs a grid system with given resolution, grid spacing
@@ -41,16 +42,15 @@ class GridSystemData2 : public Serializable {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    GridSystemData2(
-        const Vector2UZ& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& origin);
+    GridSystemData(const Vector<size_t, N>& resolution,
+                   const Vector<double, N>& gridSpacing,
+                   const Vector<double, N>& origin);
 
     //! Copy constructor.
-    GridSystemData2(const GridSystemData2& other);
+    GridSystemData(const GridSystemData& other);
 
     //! Destructor.
-    virtual ~GridSystemData2();
+    virtual ~GridSystemData();
 
     //!
     //! \brief      Resizes the whole system with given resolution, grid
@@ -67,10 +67,9 @@ class GridSystemData2 : public Serializable {
     //! \param[in]  gridSpacing The grid spacing.
     //! \param[in]  origin      The origin.
     //!
-    void resize(
-        const Vector2UZ& resolution,
-        const Vector2D& gridSpacing,
-        const Vector2D& origin);
+    void resize(const Vector<size_t, N>& resolution,
+                const Vector<double, N>& gridSpacing,
+                const Vector<double, N>& origin);
 
     //!
     //! \brief      Returns the resolution of the grid.
@@ -84,16 +83,16 @@ class GridSystemData2 : public Serializable {
     //!
     //! \return     Grid cell resolution.
     //!
-    Vector2UZ resolution() const;
+    Vector<size_t, N> resolution() const;
 
     //! Return the grid spacing.
-    Vector2D gridSpacing() const;
+    Vector<double, N> gridSpacing() const;
 
     //! Returns the origin of the grid.
-    Vector2D origin() const;
+    Vector<double, N> origin() const;
 
     //! Returns the bounding box of the grid.
-    BoundingBox2D boundingBox() const;
+    BoundingBox<double, N> boundingBox() const;
 
     //!
     //! \brief      Adds a non-advectable scalar data grid by passing its
@@ -109,9 +108,8 @@ class GridSystemData2 : public Serializable {
     //!
     //! \return     Index of the data.
     //!
-    size_t addScalarData(
-        const ScalarGridBuilder2Ptr& builder,
-        double initialVal = 0.0);
+    size_t addScalarData(const std::shared_ptr<ScalarGridBuilder<N>>& builder,
+                         double initialVal = 0.0);
 
     //!
     //! \brief      Adds a non-advectable vector data grid by passing its
@@ -128,8 +126,8 @@ class GridSystemData2 : public Serializable {
     //! \return     Index of the data.
     //!
     size_t addVectorData(
-        const VectorGridBuilder2Ptr& builder,
-        const Vector2D& initialVal = Vector2D());
+        const std::shared_ptr<VectorGridBuilder<N>>& builder,
+        const Vector<double, N>& initialVal = Vector<double, N>());
 
     //!
     //! \brief      Adds an advectable scalar data grid by passing its builder
@@ -146,7 +144,7 @@ class GridSystemData2 : public Serializable {
     //! \return     Index of the data.
     //!
     size_t addAdvectableScalarData(
-        const ScalarGridBuilder2Ptr& builder,
+        const std::shared_ptr<ScalarGridBuilder<N>>& builder,
         double initialVal = 0.0);
 
     //!
@@ -164,8 +162,8 @@ class GridSystemData2 : public Serializable {
     //! \return     Index of the data.
     //!
     size_t addAdvectableVectorData(
-        const VectorGridBuilder2Ptr& builder,
-        const Vector2D& initialVal = Vector2D());
+        const std::shared_ptr<VectorGridBuilder<N>>& builder,
+        const Vector<double, N>& initialVal = Vector<double, N>());
 
     //!
     //! \brief      Returns the velocity field.
@@ -175,7 +173,7 @@ class GridSystemData2 : public Serializable {
     //!
     //! \return     Pointer to the velocity field.
     //!
-    const FaceCenteredGrid2Ptr& velocity() const;
+    const std::shared_ptr<FaceCenteredGrid<N>>& velocity() const;
 
     //!
     //! \brief      Returns the index of the velocity field.
@@ -189,16 +187,18 @@ class GridSystemData2 : public Serializable {
     size_t velocityIndex() const;
 
     //! Returns the non-advectable scalar data at given index.
-    const ScalarGrid2Ptr& scalarDataAt(size_t idx) const;
+    const std::shared_ptr<ScalarGrid<N>>& scalarDataAt(size_t idx) const;
 
     //! Returns the non-advectable vector data at given index.
-    const VectorGrid2Ptr& vectorDataAt(size_t idx) const;
+    const std::shared_ptr<VectorGrid<N>>& vectorDataAt(size_t idx) const;
 
     //! Returns the advectable scalar data at given index.
-    const ScalarGrid2Ptr& advectableScalarDataAt(size_t idx) const;
+    const std::shared_ptr<ScalarGrid<N>>& advectableScalarDataAt(
+        size_t idx) const;
 
     //! Returns the advectable vector data at given index.
-    const VectorGrid2Ptr& advectableVectorDataAt(size_t idx) const;
+    const std::shared_ptr<VectorGrid<N>>& advectableVectorDataAt(
+        size_t idx) const;
 
     //! Returns the number of non-advectable scalar data.
     size_t numberOfScalarData() const;
@@ -219,21 +219,46 @@ class GridSystemData2 : public Serializable {
     void deserialize(const std::vector<uint8_t>& buffer) override;
 
  private:
-    Vector2UZ _resolution;
-    Vector2D _gridSpacing;
-    Vector2D _origin;
+    Vector<size_t, N> _resolution;
+    Vector<double, N> _gridSpacing;
+    Vector<double, N> _origin;
 
-    FaceCenteredGrid2Ptr _velocity;
+    std::shared_ptr<FaceCenteredGrid<N>> _velocity;
     size_t _velocityIdx;
-    std::vector<ScalarGrid2Ptr> _scalarDataList;
-    std::vector<VectorGrid2Ptr> _vectorDataList;
-    std::vector<ScalarGrid2Ptr> _advectableScalarDataList;
-    std::vector<VectorGrid2Ptr> _advectableVectorDataList;
+    std::vector<std::shared_ptr<ScalarGrid<N>>> _scalarDataList;
+    std::vector<std::shared_ptr<VectorGrid<N>>> _vectorDataList;
+    std::vector<std::shared_ptr<ScalarGrid<N>>> _advectableScalarDataList;
+    std::vector<std::shared_ptr<VectorGrid<N>>> _advectableVectorDataList;
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> serialize(
+        const GridSystemData<2>& grid, std::vector<uint8_t>* buffer);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> serialize(
+        const GridSystemData<3>& grid, std::vector<uint8_t>* buffer);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 2, void> deserialize(
+        const std::vector<uint8_t>& buffer, GridSystemData<2>& grid);
+
+    template <size_t M = N>
+    static std::enable_if_t<M == 3, void> deserialize(
+        const std::vector<uint8_t>& buffer, GridSystemData<3>& grid);
 };
 
+//! 2-D GridSystemData type.
+using GridSystemData2 = GridSystemData<2>;
+
+//! 3-D GridSystemData type.
+using GridSystemData3 = GridSystemData<3>;
+
 //! Shared pointer type of GridSystemData2.
-typedef std::shared_ptr<GridSystemData2> GridSystemData2Ptr;
+using GridSystemData2Ptr = std::shared_ptr<GridSystemData2>;
+
+//! Shared pointer type of GridSystemData3.
+using GridSystemData3Ptr = std::shared_ptr<GridSystemData3>;
 
 }  // namespace jet
 
-#endif  // INCLUDE_JET_GRID_SYSTEM_DATA2_H_
+#endif  // INCLUDE_JET_GRID_SYSTEM_DATA_H_

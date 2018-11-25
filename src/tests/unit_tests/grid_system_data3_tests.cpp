@@ -9,7 +9,7 @@
 #include <jet/vertex_centered_scalar_grid.h>
 #include <jet/vertex_centered_vector_grid.h>
 
-#include <jet/grid_system_data3.h>
+#include <jet/grid_system_data.h>
 #include <gtest/gtest.h>
 #include <vector>
 

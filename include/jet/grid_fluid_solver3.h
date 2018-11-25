@@ -15,7 +15,7 @@
 #include <jet/grid_diffusion_solver3.h>
 #include <jet/grid_emitter3.h>
 #include <jet/grid_pressure_solver3.h>
-#include <jet/grid_system_data3.h>
+#include <jet/grid_system_data.h>
 #include <jet/physics_animation.h>
 
 namespace jet {

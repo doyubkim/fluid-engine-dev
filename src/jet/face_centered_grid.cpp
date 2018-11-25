@@ -525,7 +525,7 @@ void FaceCenteredGrid<N>::onResize(const Vector<size_t, N> &resolution,
 
         Vector<double, N> offset = 0.5 * gridSpacing;
         offset[i] = 0.0;
-        _dataOrigins[i] = origin + 0.5 * offset;
+        _dataOrigins[i] = origin + offset;
     }
 
     resetSampler();
