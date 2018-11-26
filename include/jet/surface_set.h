@@ -60,7 +60,7 @@ class SurfaceSet final : public Surface<N> {
     mutable Bvh<std::shared_ptr<Surface<N>>, N> _bvh;
     mutable bool _bvhInvalidated = true;
 
-    // Surface2 implementations
+    // Surface implementations
 
     Vector<double, N> closestPointLocal(
         const Vector<double, N>& otherPoint) const override;

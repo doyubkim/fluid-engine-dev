@@ -175,7 +175,7 @@ class ScalarGrid : public ScalarField<N>, public Grid<N> {
             [&func](const Vector3UZ& idx) { func(idx.x, idx.y, idx.z); });
     }
 
-    // ScalarField2 implementations
+    // ScalarField implementations
 
     //!
     //! \brief Returns the sampled value at given position \p x.

@@ -90,8 +90,8 @@ class CollocatedVectorGrid : public VectorGrid<N> {
     //! \brief Invokes the given function \p func for each data point.
     //!
     //! This function invokes the given function object \p func for each data
-    //! point in serial manner. The input parameters are i and j indices of a
-    //! data point. The order of execution is i-first, j-last.
+    //! point in serial manner. The input parameters are i, j (and k for 3-D)
+    //! indices of a data point. The order of execution is i-first, j-next.
     //!
     void forEachDataPointIndex(
         const std::function<void(const Vector<size_t, N>&)>& func) const;
@@ -115,9 +115,9 @@ class CollocatedVectorGrid : public VectorGrid<N> {
     //! parallelly.
     //!
     //! This function invokes the given function object \p func for each data
-    //! point in parallel manner. The input parameters are i and j indices of a
-    //! data point. The order of execution can be arbitrary since it's
-    //! multi-threaded.
+    //! point in parallel manner. The input parameters are i, j (and k for 3-D)
+    //! indices of a data point. The order of execution can be arbitrary since
+    //! it's multi-threaded.
     //!
     void parallelForEachDataPointIndex(
         const std::function<void(const Vector<size_t, N>&)>& func) const;
@@ -136,7 +136,7 @@ class CollocatedVectorGrid : public VectorGrid<N> {
             [&func](const Vector3UZ& idx) { func(idx.x, idx.y, idx.z); });
     }
 
-    // VectorField2 implementations
+    // VectorField implementations
 
     //! Returns sampled value at given position \p x.
     Vector<double, N> sample(const Vector<double, N>& x) const override;
