@@ -25,15 +25,15 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertTwo) {
         points.append(Vector3D{dist(rng), dist(rng)});
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({128, 128, 128},
+                                   {1.0 / 128, 1.0 / 128, 1.0 / 128});
 
     ZhuBridsonPointsToImplicit3 converter(0.6, 0.25);
     converter.convert(points.view(), &grid);
 
     TriangleMesh3 triMesh;
-    marchingCubes(grid.dataView(), grid.gridSpacing(),
-                  grid.dataOrigin(), &triMesh, 0, kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.dataOrigin(),
+                  &triMesh, 0, kDirectionAll);
 
     saveTriangleMeshData(triMesh,
                          "zhu_bridson_points_to_implicit3_convert_two.obj");
@@ -49,15 +49,15 @@ JET_BEGIN_TEST_F(ZhuBridsonPointsToImplicit3, ConvertMany) {
         points.append(Vector3D{dist(rng), dist(rng)});
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({128, 128, 128},
+                                   {1.0 / 128, 1.0 / 128, 1.0 / 128});
 
     ZhuBridsonPointsToImplicit3 converter(0.2, 0.25);
     converter.convert(points.view(), &grid);
 
     TriangleMesh3 triMesh;
-    marchingCubes(grid.dataView(), grid.gridSpacing(),
-                  grid.dataOrigin(), &triMesh, 0, kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.dataOrigin(),
+                  &triMesh, 0, kDirectionAll);
 
     saveTriangleMeshData(triMesh,
                          "zhu_bridson_points_to_implicit3_convert_many.obj");

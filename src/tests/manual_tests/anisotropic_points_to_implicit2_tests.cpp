@@ -24,7 +24,7 @@ JET_BEGIN_TEST_F(AnisotropicPointsToImplicit2, ConvertTwo) {
         points.append(Vector2D{dist(rng), dist(rng)});
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
     AnisotropicPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);
@@ -43,7 +43,7 @@ JET_BEGIN_TEST_F(AnisotropicPointsToImplicit2, ConvertMany) {
         points.append(Vector2D{dist(rng), dist(rng)});
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
     AnisotropicPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);

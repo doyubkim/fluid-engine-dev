@@ -7,8 +7,7 @@
 #include "custom_scalar_field.h"
 #include "pybind11_utils.h"
 
-#include <jet/custom_scalar_field2.h>
-#include <jet/custom_scalar_field3.h>
+#include <jet/custom_scalar_field.h>
 
 namespace py = pybind11;
 using namespace jet;

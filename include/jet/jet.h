@@ -28,10 +28,8 @@
 #include <jet/collider.h>
 #include <jet/collider_set.h>
 #include <jet/collocated_vector_grid.h>
-#include <jet/constant_scalar_field2.h>
-#include <jet/constant_scalar_field3.h>
-#include <jet/constant_vector_field2.h>
-#include <jet/constant_vector_field3.h>
+#include <jet/constant_scalar_field.h>
+#include <jet/constant_vector_field.h>
 #include <jet/constants.h>
 #include <jet/cpp_utils.h>
 #include <jet/cubic_semi_lagrangian2.h>
@@ -123,7 +121,6 @@
 #include <jet/grid_single_phase_pressure_solver3.h>
 #include <jet/grid_smoke_solver2.h>
 #include <jet/grid_smoke_solver3.h>
-#include <jet/grid_system_data.h>
 #include <jet/grid_system_data.h>
 #include <jet/implicit_surface.h>
 #include <jet/implicit_surface_set.h>

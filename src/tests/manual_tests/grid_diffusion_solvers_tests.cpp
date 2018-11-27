@@ -11,8 +11,7 @@
 #include <jet/grid_backward_euler_diffusion_solver3.h>
 #include <jet/cell_centered_scalar_grid.h>
 #include <jet/cell_centered_scalar_grid.h>
-#include <jet/custom_scalar_field2.h>
-#include <jet/custom_scalar_field3.h>
+#include <jet/custom_scalar_field.h>
 #include <jet/grid_forward_euler_diffusion_solver2.h>
 #include <jet/grid_forward_euler_diffusion_solver3.h>
 

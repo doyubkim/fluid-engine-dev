@@ -39,7 +39,7 @@ class VectorGrid : public VectorField<N>, public Grid<N> {
 
     //! Resizes the grid using given parameters.
     void resize(const Vector<size_t, N>& resolution,
-                const Vector<double, N>& gridSpacing = Vector<double, N>(1, 1),
+                const Vector<double, N>& gridSpacing = Vector<double, N>::makeConstant(1.0),
                 const Vector<double, N>& origin = Vector<double, N>(),
                 const Vector<double, N>& initialValue = Vector<double, N>());
 

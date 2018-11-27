@@ -17,8 +17,8 @@ using namespace jet;
 namespace {
 
 void runExperiment(size_t n, double height, bool compressed) {
-    FaceCenteredGrid3 vel(n, n, n);
-    CellCenteredScalarGrid3 fluidSdf(n, n, n);
+    FaceCenteredGrid3 vel({n, n, n});
+    CellCenteredScalarGrid3 fluidSdf({n, n, n});
 
     vel.fill(Vector3D());
 

@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet/array_utils.h>
-#include <jet/constant_scalar_field2.h>
+#include <jet/constant_scalar_field.h>
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/grid_backward_euler_diffusion_solver2.h>

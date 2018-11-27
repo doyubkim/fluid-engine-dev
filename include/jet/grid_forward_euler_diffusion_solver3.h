@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_GRID_FORWARD_EULER_DIFFUSION_SOLVER3_H_
 #define INCLUDE_JET_GRID_FORWARD_EULER_DIFFUSION_SOLVER3_H_
 
-#include <jet/constant_scalar_field3.h>
+#include <jet/constant_scalar_field.h>
 #include <jet/grid_diffusion_solver3.h>
 #include <limits>
 #include <memory>

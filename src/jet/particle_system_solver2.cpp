@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet/array_utils.h>
-#include <jet/constant_vector_field2.h>
+#include <jet/constant_vector_field.h>
 #include <jet/parallel.h>
 #include <jet/particle_system_solver2.h>
 #include <jet/timer.h>

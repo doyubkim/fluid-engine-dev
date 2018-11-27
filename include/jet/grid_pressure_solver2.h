@@ -8,8 +8,8 @@
 #define INCLUDE_JET_GRID_PRESSURE_SOLVER2_H_
 
 #include <jet/collocated_vector_grid.h>
-#include <jet/constant_scalar_field2.h>
-#include <jet/constant_vector_field2.h>
+#include <jet/constant_scalar_field.h>
+#include <jet/constant_vector_field.h>
 #include <jet/constants.h>
 #include <jet/face_centered_grid.h>
 #include <jet/grid_boundary_condition_solver2.h>
