@@ -13,6 +13,11 @@ namespace py = pybind11;
 using namespace jet;
 
 void addScalarGrid2(py::module& m) {
+    using GradientAtDataPointFunc =
+        Vector2D (ScalarGrid2::*)(const Vector2UZ&) const;
+    using LaplacianAtDataPointFunc =
+        double (ScalarGrid2::*)(const Vector2UZ&) const;
+
     py::class_<ScalarGrid2, ScalarGrid2Ptr, ScalarField2, Grid2>(
         m, "ScalarGrid2",
         R"pbdoc(Abstract base class for 2-D scalar grid structure.)pbdoc")
@@ -58,28 +63,7 @@ void addScalarGrid2(py::module& m) {
              )pbdoc")
         .def("__getitem__",
              [](const ScalarGrid2& instance, py::object obj) -> double {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 2) {
-                         return instance(tidx[0].cast<size_t>(),
-                                         tidx[1].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 2.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 2) {
-                         return instance(lidx[0].cast<size_t>(),
-                                         lidx[1].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 2.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
+                 return instance(objectToVector2UZ(obj));
              },
              R"pbdoc(
              Returns the grid data at given data point.
@@ -91,28 +75,7 @@ void addScalarGrid2(py::module& m) {
              py::arg("idx"))
         .def("__setitem__",
              [](ScalarGrid2& instance, py::object obj, double val) {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 2) {
-                         instance(tidx[0].cast<size_t>(),
-                                  tidx[1].cast<size_t>()) = val;
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 2.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 2) {
-                         instance(lidx[0].cast<size_t>(),
-                                  lidx[1].cast<size_t>()) = val;
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 2.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
+                 instance(objectToVector2UZ(obj)) = val;
              },
              R"pbdoc(
             Sets the grid data at given data point.
@@ -123,26 +86,26 @@ void addScalarGrid2(py::module& m) {
             - val : Value to set.
             )pbdoc",
              py::arg("idx"), py::arg("val"))
-        .def("gradientAtDataPoint", &ScalarGrid2::gradientAtDataPoint,
+        .def("gradientAtDataPoint",
+             (GradientAtDataPointFunc)&ScalarGrid2::gradientAtDataPoint,
              R"pbdoc(
              Returns the gradient vector at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
-        .def("laplacianAtDataPoint", &ScalarGrid2::laplacianAtDataPoint,
+             py::arg("idx"))
+        .def("laplacianAtDataPoint",
+             (LaplacianAtDataPointFunc)&ScalarGrid2::laplacianAtDataPoint,
              R"pbdoc(
              Returns the Laplacian at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("dataView",
              (ArrayView2<double>(ScalarGrid2::*)()) & ScalarGrid2::dataView,
              R"pbdoc(The data array view.)pbdoc")
@@ -202,6 +165,11 @@ void addScalarGrid2(py::module& m) {
 }
 
 void addScalarGrid3(py::module& m) {
+    using GradientAtDataPointFunc =
+        Vector3D (ScalarGrid3::*)(const Vector3UZ&) const;
+    using LaplacianAtDataPointFunc =
+        double (ScalarGrid3::*)(const Vector3UZ&) const;
+
     py::class_<ScalarGrid3, ScalarGrid3Ptr, ScalarField3, Grid3>(
         m, "ScalarGrid3",
         R"pbdoc(Abstract base class for 3-D scalar grid structure.)pbdoc")
@@ -247,30 +215,7 @@ void addScalarGrid3(py::module& m) {
              )pbdoc")
         .def("__getitem__",
              [](const ScalarGrid3& instance, py::object obj) -> double {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 3) {
-                         return instance(tidx[0].cast<size_t>(),
-                                         tidx[1].cast<size_t>(),
-                                         tidx[2].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 3.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 3) {
-                         return instance(lidx[0].cast<size_t>(),
-                                         lidx[1].cast<size_t>(),
-                                         lidx[2].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 3.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
+                 return instance(objectToVector3UZ(obj));
              },
              R"pbdoc(
              Returns the grid data at given data point.
@@ -280,33 +225,11 @@ void addScalarGrid3(py::module& m) {
              - idx : Data point index (i, j, k).
              )pbdoc",
              py::arg("idx"))
-        .def(
-            "__setitem__",
-            [](ScalarGrid3& instance, py::object obj, double val) {
-                if (py::isinstance<py::tuple>(obj)) {
-                    auto tidx = obj.cast<py::tuple>();
-                    if (tidx.size() == 3) {
-                        instance(tidx[0].cast<size_t>(), tidx[1].cast<size_t>(),
-                                 tidx[2].cast<size_t>()) = val;
-                    } else {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                } else if (py::isinstance<py::list>(obj)) {
-                    auto lidx = obj.cast<py::list>();
-                    if (lidx.size() == 3) {
-                        instance(lidx[0].cast<size_t>(), lidx[1].cast<size_t>(),
-                                 lidx[2].cast<size_t>()) = val;
-                    } else {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                } else {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
-            R"pbdoc(
+        .def("__setitem__",
+             [](ScalarGrid3& instance, py::object obj, double val) {
+                 instance(objectToVector3UZ(obj)) = val;
+             },
+             R"pbdoc(
             Sets the grid data at given data point.
 
             Parameters
@@ -314,29 +237,27 @@ void addScalarGrid3(py::module& m) {
             - idx : Data point index (i, j, k).
             - val : Value to set.
             )pbdoc",
-            py::arg("idx"), py::arg("val"))
-        .def("gradientAtDataPoint", &ScalarGrid3::gradientAtDataPoint,
+             py::arg("idx"), py::arg("val"))
+        .def("gradientAtDataPoint",
+             (GradientAtDataPointFunc)&ScalarGrid3::gradientAtDataPoint,
              R"pbdoc(
              Returns the gradient vector at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("laplacianAtDataPoint", &ScalarGrid3::laplacianAtDataPoint,
+             py::arg("idx"))
+        .def("laplacianAtDataPoint",
+             (LaplacianAtDataPointFunc)&ScalarGrid3::laplacianAtDataPoint,
              R"pbdoc(
              Returns the Laplacian at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("dataView",
              (ArrayView3<double>(ScalarGrid3::*)()) & ScalarGrid3::dataView,
              R"pbdoc(The data array view.)pbdoc")

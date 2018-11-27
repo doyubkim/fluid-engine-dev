@@ -8,41 +8,22 @@
 #include "pybind11_utils.h"
 
 #include <jet/collocated_vector_grid.h>
-#include <jet/collocated_vector_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
 
 void addCollocatedVectorGrid2(py::module& m) {
+    using DivergenceAtDataPointFunc =
+        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
+    using CurlAtDataPointFunc =
+        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
+
     py::class_<CollocatedVectorGrid2, CollocatedVectorGrid2Ptr, VectorGrid2>(
         m, "CollocatedVectorGrid2",
         R"pbdoc(Abstract base class for 2-D collocated vector grid structure.)pbdoc")
         .def("__getitem__",
-             [](const CollocatedVectorGrid2& instance,
-                py::object obj) -> Vector2D {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 2) {
-                         return instance(tidx[0].cast<size_t>(),
-                                         tidx[1].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 2.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 2) {
-                         return instance(lidx[0].cast<size_t>(),
-                                         lidx[1].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 2.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
-             },
+             [](const CollocatedVectorGrid2& instance, py::object obj)
+                 -> Vector2D { return instance(objectToVector2UZ(obj)); },
              R"pbdoc(
              Returns the grid data at given data point.
 
@@ -51,33 +32,11 @@ void addCollocatedVectorGrid2(py::module& m) {
              - idx : Data point index (i, j).
              )pbdoc",
              py::arg("idx"))
-        .def("__setitem__",
-             [](CollocatedVectorGrid2& instance, py::object obj,
-                const Vector2D& val) {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 2) {
-                         instance(tidx[0].cast<size_t>(),
-                                  tidx[1].cast<size_t>()) = val;
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 2.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 2) {
-                         instance(lidx[0].cast<size_t>(),
-                                  lidx[1].cast<size_t>()) = val;
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 2.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
-             },
-             R"pbdoc(
+        .def(
+            "__setitem__",
+            [](CollocatedVectorGrid2& instance, py::object obj,
+               const Vector2D& val) { instance(objectToVector2UZ(obj)) = val; },
+            R"pbdoc(
             Sets the grid data at given data point.
 
             Parameters
@@ -85,28 +44,28 @@ void addCollocatedVectorGrid2(py::module& m) {
             - idx : Data point index (i, j).
             - val : Value to set.
             )pbdoc",
-             py::arg("idx"), py::arg("val"))
+            py::arg("idx"), py::arg("val"))
         .def("divergenceAtDataPoint",
-             &CollocatedVectorGrid2::divergenceAtDataPoint,
+             (DivergenceAtDataPointFunc)&CollocatedVectorGrid2::
+                 divergenceAtDataPoint,
              R"pbdoc(
              Returns divergence at data point location.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+            - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
-        .def("curlAtDataPoint", &CollocatedVectorGrid2::curlAtDataPoint,
+             py::arg("idx"))
+        .def("curlAtDataPoint",
+             (CurlAtDataPointFunc)&CollocatedVectorGrid2::curlAtDataPoint,
              R"pbdoc(
              Returns curl at data point location.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+            - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("dataView",
              (ArrayView2<Vector2D>(CollocatedVectorGrid2::*)()) &
                  CollocatedVectorGrid2::dataView,
@@ -155,37 +114,17 @@ void addCollocatedVectorGrid2(py::module& m) {
 }
 
 void addCollocatedVectorGrid3(py::module& m) {
+    using DivergenceAtDataPointFunc =
+        double (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
+    using CurlAtDataPointFunc =
+        Vector3D (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
+
     py::class_<CollocatedVectorGrid3, CollocatedVectorGrid3Ptr, VectorGrid3>(
         m, "CollocatedVectorGrid3",
         R"pbdoc(Abstract base class for 3-D collocated vector grid structure.)pbdoc")
         .def("__getitem__",
-             [](const CollocatedVectorGrid3& instance,
-                py::object obj) -> Vector3D {
-                 if (py::isinstance<py::tuple>(obj)) {
-                     auto tidx = obj.cast<py::tuple>();
-                     if (tidx.size() == 3) {
-                         return instance(tidx[0].cast<size_t>(),
-                                         tidx[1].cast<size_t>(),
-                                         tidx[2].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index tuple must be 3.");
-                     }
-                 } else if (py::isinstance<py::list>(obj)) {
-                     auto lidx = obj.cast<py::list>();
-                     if (lidx.size() == 3) {
-                         return instance(lidx[0].cast<size_t>(),
-                                         lidx[1].cast<size_t>(),
-                                         lidx[2].cast<size_t>());
-                     } else {
-                         throw std::invalid_argument(
-                             "Size of index list must be 3.");
-                     }
-                 } else {
-                     throw std::invalid_argument(
-                         "Input type must be tuple or list");
-                 }
-             },
+             [](const CollocatedVectorGrid3& instance, py::object obj)
+                 -> Vector3D { return instance(objectToVector3UZ(obj)); },
              R"pbdoc(
              Returns the grid data at given data point.
 
@@ -197,30 +136,7 @@ void addCollocatedVectorGrid3(py::module& m) {
         .def(
             "__setitem__",
             [](CollocatedVectorGrid3& instance, py::object obj,
-               const Vector3D& val) {
-                if (py::isinstance<py::tuple>(obj)) {
-                    auto tidx = obj.cast<py::tuple>();
-                    if (tidx.size() == 3) {
-                        instance(tidx[0].cast<size_t>(), tidx[1].cast<size_t>(),
-                                 tidx[2].cast<size_t>()) = val;
-                    } else {
-                        throw std::invalid_argument(
-                            "Size of index tuple must be 3.");
-                    }
-                } else if (py::isinstance<py::list>(obj)) {
-                    auto lidx = obj.cast<py::list>();
-                    if (lidx.size() == 3) {
-                        instance(lidx[0].cast<size_t>(), lidx[1].cast<size_t>(),
-                                 lidx[2].cast<size_t>()) = val;
-                    } else {
-                        throw std::invalid_argument(
-                            "Size of index list must be 3.");
-                    }
-                } else {
-                    throw std::invalid_argument(
-                        "Input type must be tuple or list");
-                }
-            },
+               const Vector3D& val) { instance(objectToVector3UZ(obj)) = val; },
             R"pbdoc(
             Sets the grid data at given data point.
 
@@ -231,28 +147,26 @@ void addCollocatedVectorGrid3(py::module& m) {
             )pbdoc",
             py::arg("idx"), py::arg("val"))
         .def("divergenceAtDataPoint",
-             &CollocatedVectorGrid3::divergenceAtDataPoint,
+             (DivergenceAtDataPointFunc)&CollocatedVectorGrid3::
+                 divergenceAtDataPoint,
              R"pbdoc(
              Returns divergence at data point location.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+            - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("curlAtDataPoint", &CollocatedVectorGrid3::curlAtDataPoint,
+             py::arg("idx"))
+        .def("curlAtDataPoint",
+             (CurlAtDataPointFunc)&CollocatedVectorGrid3::curlAtDataPoint,
              R"pbdoc(
              Returns curl at data point location.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+            - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("dataView",
              (ArrayView3<Vector3D>(CollocatedVectorGrid3::*)()) &
                  CollocatedVectorGrid3::dataView,

@@ -219,7 +219,7 @@ inline Vector2UZ objectToVector2UZ(const pybind11::object& obj) {
     } else if (pybind11::isinstance<pybind11::list>(obj)) {
         return tupleToVector2UZ(pybind11::list(obj));
     } else {
-        throw std::invalid_argument("Cannot convert to Size2.");
+        throw std::invalid_argument("Cannot convert to Vector2UZ.");
     }
 }
 
@@ -231,7 +231,7 @@ inline Vector3UZ objectToVector3UZ(const pybind11::object& obj) {
     } else if (pybind11::isinstance<pybind11::list>(obj)) {
         return tupleToVector3UZ(pybind11::list(obj));
     } else {
-        throw std::invalid_argument("Cannot convert to Size3.");
+        throw std::invalid_argument("Cannot convert to Vector3UZ.");
     }
 }
 

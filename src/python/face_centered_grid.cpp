@@ -12,12 +12,18 @@
 #include <pybind11/stl.h>
 
 #include <jet/face_centered_grid.h>
-#include <jet/face_centered_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
 
 void addFaceCenteredGrid2(py::module& m) {
+    using ValueAtCenterFunc =
+        Vector2D (FaceCenteredGrid2::*)(const Vector2UZ&) const;
+    using DivergenceAtCellCenterFunc =
+        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
+    using CurlAtCellCenterFunc =
+        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
+
     py::class_<FaceCenteredGrid2, FaceCenteredGrid2Ptr, VectorGrid2>(
         m, "FaceCenteredGrid2",
         R"pbdoc(
@@ -61,88 +67,86 @@ void addFaceCenteredGrid2(py::module& m) {
              )pbdoc",
              py::arg("other"))
         .def("u",
-             [](const FaceCenteredGrid2& instance, size_t i,
-                size_t j) -> double { return instance.u(i, j); },
+             [](const FaceCenteredGrid2& instance, py::object obj) -> double {
+                 return instance.u(objectToVector2UZ(obj));
+             },
              R"pbdoc(
              Returns u-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("v",
-             [](const FaceCenteredGrid2& instance, size_t i,
-                size_t j) -> double { return instance.v(i, j); },
+             [](const FaceCenteredGrid2& instance, py::object obj) -> double {
+                 return instance.v(objectToVector2UZ(obj));
+             },
              R"pbdoc(
              Returns v-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("setU",
-             [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
-                 instance.u(i, j) = val;
+             [](FaceCenteredGrid2& instance, py::object obj, double val) {
+                 instance.u(objectToVector2UZ(obj)) = val;
              },
              R"pbdoc(
              Sets u-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              - val : Value to set.
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("val"))
+             py::arg("idx"), py::arg("val"))
         .def("setV",
-             [](FaceCenteredGrid2& instance, size_t i, size_t j, double val) {
-                 instance.v(i, j) = val;
+             [](FaceCenteredGrid2& instance, py::object obj, double val) {
+                 instance.v(objectToVector2UZ(obj)) = val;
              },
              R"pbdoc(
              Sets v-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              - val : Value to set.
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("val"))
-        .def("valueAtCellCenter", &FaceCenteredGrid2::valueAtCellCenter,
+             py::arg("idx"), py::arg("val"))
+        .def("valueAtCellCenter",
+             (ValueAtCenterFunc)&FaceCenteredGrid2::valueAtCellCenter,
              R"pbdoc(
              Returns interpolated value at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("divergenceAtCellCenter",
-             &FaceCenteredGrid2::divergenceAtCellCenter,
+             (DivergenceAtCellCenterFunc)&FaceCenteredGrid2::
+                 divergenceAtCellCenter,
              R"pbdoc(
              Returns divergence at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
-        .def("curlAtCellCenter", &FaceCenteredGrid2::curlAtCellCenter,
+             py::arg("idx"))
+        .def("curlAtCellCenter",
+             (CurlAtCellCenterFunc)&FaceCenteredGrid2::curlAtCellCenter,
              R"pbdoc(
              Returns curl at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
+             - idx : Data point index (i, j).
              )pbdoc",
-             py::arg("i"), py::arg("j"))
+             py::arg("idx"))
         .def("vView",
              (ArrayView2<double>(FaceCenteredGrid2::*)()) &
                  FaceCenteredGrid2::vView,
@@ -248,6 +252,17 @@ void addFaceCenteredGrid2(py::module& m) {
 }
 
 void addFaceCenteredGrid3(py::module& m) {
+    using ValueAtCenterFunc =
+        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
+    using DivergenceAtCellCenterFunc =
+        double (FaceCenteredGrid3::*)(const Vector3UZ&) const;
+    using CurlAtCellCenterFunc =
+        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
+    using PositionFunc =
+        FaceCenteredGrid3::DataPositionFunc (FaceCenteredGrid3::*)() const;
+    using SizeFunc = Vector3UZ (FaceCenteredGrid3::*)() const;
+    using OriginFunc = Vector3D (FaceCenteredGrid3::*)() const;
+
     py::class_<FaceCenteredGrid3, FaceCenteredGrid3Ptr, VectorGrid3>(
         m, "FaceCenteredGrid3",
         R"pbdoc(
@@ -291,120 +306,111 @@ void addFaceCenteredGrid3(py::module& m) {
              )pbdoc",
              py::arg("other"))
         .def("u",
-             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                size_t k) -> double { return instance.u(i, j, k); },
+             [](const FaceCenteredGrid3& instance, py::object obj) -> double {
+                 return instance.u(objectToVector3UZ(obj));
+             },
              R"pbdoc(
              Returns u-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("v",
-             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                size_t k) -> double { return instance.v(i, j, k); },
+             [](const FaceCenteredGrid3& instance, py::object obj) -> double {
+                 return instance.v(objectToVector3UZ(obj));
+             },
              R"pbdoc(
              Returns v-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("w",
-             [](const FaceCenteredGrid3& instance, size_t i, size_t j,
-                size_t k) -> double { return instance.w(i, j, k); },
+             [](const FaceCenteredGrid3& instance, py::object obj) -> double {
+                 return instance.w(objectToVector3UZ(obj));
+             },
              R"pbdoc(
              Returns v-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("setU",
-             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-                double val) { instance.u(i, j, k) = val; },
+             [](FaceCenteredGrid3& instance, py::object obj, double val) {
+                 instance.u(objectToVector3UZ(obj)) = val;
+             },
              R"pbdoc(
              Sets u-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              - val : Value to set.
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"), py::arg("val"))
+             py::arg("idx"), py::arg("val"))
         .def("setV",
-             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-                double val) { instance.v(i, j, k) = val; },
+             [](FaceCenteredGrid3& instance, py::object obj, double val) {
+                 instance.v(objectToVector3UZ(obj)) = val;
+             },
              R"pbdoc(
              Sets v-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              - val : Value to set.
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"), py::arg("val"))
+             py::arg("idx"), py::arg("val"))
         .def("setW",
-             [](FaceCenteredGrid3& instance, size_t i, size_t j, size_t k,
-                double val) { instance.w(i, j, k) = val; },
+             [](FaceCenteredGrid3& instance, py::object obj, double val) {
+                 instance.w(objectToVector3UZ(obj)) = val;
+             },
              R"pbdoc(
              Sets w-value at given data point.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              - val : Value to set.
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"), py::arg("val"))
-        .def("valueAtCellCenter", &FaceCenteredGrid3::valueAtCellCenter,
+             py::arg("idx"), py::arg("val"))
+        .def("valueAtCellCenter",
+             (ValueAtCenterFunc)&FaceCenteredGrid3::valueAtCellCenter,
              R"pbdoc(
              Returns interpolated value at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("divergenceAtCellCenter",
-             &FaceCenteredGrid3::divergenceAtCellCenter,
+             (DivergenceAtCellCenterFunc)&FaceCenteredGrid3::
+                 divergenceAtCellCenter,
              R"pbdoc(
              Returns divergence at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
-        .def("curlAtCellCenter", &FaceCenteredGrid3::curlAtCellCenter,
+             py::arg("idx"))
+        .def("curlAtCellCenter",
+             (CurlAtCellCenterFunc)&FaceCenteredGrid3::curlAtCellCenter,
              R"pbdoc(
              Returns curl at cell center.
 
              Parameters
              ----------
-             - i : Data point index i.
-             - j : Data point index j.
-             - k : Data point index k.
+             - idx : Data point index (i, j, k).
              )pbdoc",
-             py::arg("i"), py::arg("j"), py::arg("k"))
+             py::arg("idx"))
         .def("vView",
              (ArrayView3<double>(FaceCenteredGrid3::*)()) &
                  FaceCenteredGrid3::vView,
@@ -425,7 +431,7 @@ void addFaceCenteredGrid3(py::module& m) {
              R"pbdoc(
             The function object that maps v data point to its actual position.
             )pbdoc")
-        .def("wPosition", &FaceCenteredGrid3::wPosition,
+        .def("wPosition", (PositionFunc)&FaceCenteredGrid3::wPosition,
              R"pbdoc(
             The function object that maps w data point to its actual position.
             )pbdoc")
@@ -433,7 +439,7 @@ void addFaceCenteredGrid3(py::module& m) {
              R"pbdoc(Returns data size of the u component.)pbdoc")
         .def("vSize", &FaceCenteredGrid3::vSize,
              R"pbdoc(Returns data size of the v component.)pbdoc")
-        .def("wSize", &FaceCenteredGrid3::wSize,
+        .def("wSize", (SizeFunc)&FaceCenteredGrid3::wSize,
              R"pbdoc(Returns data size of the w component.)pbdoc")
         .def("uOrigin", &FaceCenteredGrid3::uOrigin,
              R"pbdoc(
@@ -449,7 +455,7 @@ void addFaceCenteredGrid3(py::module& m) {
              Note that this is different from origin() since origin() returns
              the lower corner point of the bounding box.
              )pbdoc")
-        .def("wOrigin", &FaceCenteredGrid3::wOrigin,
+        .def("wOrigin", (OriginFunc)&FaceCenteredGrid3::wOrigin,
              R"pbdoc(
              Returns w-data position for the grid point at (0, 0).
 
