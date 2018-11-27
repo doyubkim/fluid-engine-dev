@@ -18,6 +18,26 @@
 
 namespace jet {
 
+template <size_t N>
+class GridDataPositionFunc final {
+ public:
+    using RawFunctionType = std::function<Vector<double, N>(const Vector<size_t, N>&)>;
+
+    GridDataPositionFunc(const RawFunctionType& func) : _func(func) {}
+
+    template <typename... Indices>
+    Vector<double, N> operator()(size_t i, Indices... indices) const {
+        return (*this)(Vector<size_t, N>(i, indices...));
+    }
+
+    Vector<double, N> operator()(const Vector<size_t, N>& idx) const {
+        return _func(idx);
+    }
+
+private:
+    RawFunctionType _func;
+};
+
 //!
 //! \brief Abstract base class for N-D cartesian grid structure.
 //!
@@ -29,10 +49,6 @@ namespace jet {
 template <size_t N>
 class Grid : public Serializable {
  public:
-    //! Function type for mapping data index to actual position.
-    using DataPositionFunc =
-        std::function<Vector<double, N>(const Vector<size_t, N>&)>;
-
     //! Constructs an empty grid.
     Grid();
 
@@ -55,7 +71,7 @@ class Grid : public Serializable {
     const BoundingBox<double, N>& boundingBox() const;
 
     //! Returns the function that maps grid index to the cell-center position.
-    DataPositionFunc cellCenterPosition() const;
+    GridDataPositionFunc<N> cellCenterPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each grid cell.

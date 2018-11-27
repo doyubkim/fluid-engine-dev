@@ -19,7 +19,6 @@ class CollocatedVectorGrid : public VectorGrid<N> {
  public:
     using typename VectorGrid<N>::VectorDataView;
     using typename VectorGrid<N>::ConstVectorDataView;
-    using typename VectorGrid<N>::DataPositionFunc;
     using VectorGrid<N>::gridSpacing;
 
     //! Constructs an empty grid.
@@ -84,7 +83,7 @@ class CollocatedVectorGrid : public VectorGrid<N> {
     ConstVectorDataView dataView() const;
 
     //! Returns the function that maps data point to its position.
-    DataPositionFunc dataPosition() const;
+    GridDataPositionFunc<N> dataPosition() const;
 
     //!
     //! \brief Invokes the given function \p func for each data point.

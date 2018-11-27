@@ -258,8 +258,7 @@ void addFaceCenteredGrid3(py::module& m) {
         double (FaceCenteredGrid3::*)(const Vector3UZ&) const;
     using CurlAtCellCenterFunc =
         Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
-    using PositionFunc =
-        FaceCenteredGrid3::DataPositionFunc (FaceCenteredGrid3::*)() const;
+    using PositionFunc = GridDataPositionFunc<3> (FaceCenteredGrid3::*)() const;
     using SizeFunc = Vector3UZ (FaceCenteredGrid3::*)() const;
     using OriginFunc = Vector3D (FaceCenteredGrid3::*)() const;
 

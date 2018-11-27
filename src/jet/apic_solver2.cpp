@@ -39,8 +39,8 @@ void ApicSolver2::transferFromParticlesToGrids() {
     // Weighted-average velocity
     auto u = flow->uView();
     auto v = flow->vView();
-    const auto uPos = unroll2(flow->uPosition());
-    const auto vPos = unroll2(flow->vPosition());
+    const auto uPos = flow->uPosition();
+    const auto vPos = flow->vPosition();
     Array2<double> uWeight(u.size());
     Array2<double> vWeight(v.size());
     _uMarkers.resize(u.size());
@@ -61,7 +61,7 @@ void ApicSolver2::transferFromParticlesToGrids() {
                               bbox.upperCorner.y - hh.y);
         uSampler.getCoordinatesAndWeights(uPosClamped, indices, weights);
         for (int j = 0; j < 4; ++j) {
-            Vector2D gridPos = uPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = uPos(indices[j]);
             double apicTerm = _cX[i].dot(gridPos - uPosClamped);
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
             uWeight(indices[j]) += weights[j];
@@ -73,7 +73,7 @@ void ApicSolver2::transferFromParticlesToGrids() {
                               bbox.upperCorner.x - hh.x);
         vSampler.getCoordinatesAndWeights(vPosClamped, indices, weights);
         for (int j = 0; j < 4; ++j) {
-            Vector2D gridPos = vPos(indices[j].x, indices[j].y);
+            Vector2D gridPos = vPos(indices[j]);
             double apicTerm = _cY[i].dot(gridPos - vPosClamped);
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
             vWeight(indices[j]) += weights[j];

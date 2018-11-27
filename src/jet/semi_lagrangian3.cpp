@@ -19,10 +19,10 @@ SemiLagrangian3::~SemiLagrangian3() {}
 void SemiLagrangian3::advect(const ScalarGrid3& input, const VectorField3& flow,
                              double dt, ScalarGrid3* output,
                              const ScalarField3& boundarySdf) {
-    auto outputDataPos = unroll3(output->dataPosition());
+    auto outputDataPos = output->dataPosition();
     auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
-    auto inputDataPos = unroll3(input.dataPosition());
+    auto inputDataPos = input.dataPosition();
 
     double h = min3(output->gridSpacing().x, output->gridSpacing().y,
                     output->gridSpacing().z);
@@ -45,9 +45,9 @@ void SemiLagrangian3::advect(const CollocatedVectorGrid3& input,
     double h = min3(output->gridSpacing().x, output->gridSpacing().y,
                     output->gridSpacing().z);
 
-    auto outputDataPos = unroll3(output->dataPosition());
+    auto outputDataPos = output->dataPosition();
     auto outputDataAcc = output->dataView();
-    auto inputDataPos = unroll3(input.dataPosition());
+    auto inputDataPos = input.dataPosition();
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         if (boundarySdf.sample(inputDataPos(i, j, k)) > 0.0) {

@@ -122,9 +122,9 @@ void buildSingleSystem(FdmMatrix3* A, FdmVector3* b,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
     const Vector3UZ size = input.resolution();
-    const auto uPos = unroll3(input.uPosition());
-    const auto vPos = unroll3(input.vPosition());
-    const auto wPos = unroll3(input.wPosition());
+    const auto uPos = input.uPosition();
+    const auto vPos = input.vPosition();
+    const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
     const Vector3D invHSqr = elemMul(invH, invH);
@@ -274,9 +274,9 @@ void buildSingleSystem(MatrixCsrD* A, VectorND* x, VectorND* b,
                        std::function<Vector3D(const Vector3D&)> boundaryVel,
                        const FaceCenteredGrid3& input) {
     const Vector3UZ size = input.resolution();
-    const auto uPos = unroll3(input.uPosition());
-    const auto vPos = unroll3(input.vPosition());
-    const auto wPos = unroll3(input.wPosition());
+    const auto uPos = input.uPosition();
+    const auto vPos = input.vPosition();
+    const auto wPos = input.wPosition();
 
     const Vector3D invH = 1.0 / input.gridSpacing();
     const Vector3D invHSqr = elemMul(invH, invH);
@@ -538,10 +538,10 @@ void GridFractionalSinglePhasePressureSolver3::buildWeights(
     }
 
     // Build top-level grids
-    auto cellPos = unroll3(input.cellCenterPosition());
-    auto uPos = unroll3(input.uPosition());
-    auto vPos = unroll3(input.vPosition());
-    auto wPos = unroll3(input.wPosition());
+    auto cellPos = input.cellCenterPosition();
+    auto uPos = input.uPosition();
+    auto vPos = input.vPosition();
+    auto wPos = input.wPosition();
     _boundaryVel = boundaryVelocity.sampler();
     Vector3D h = input.gridSpacing();
 

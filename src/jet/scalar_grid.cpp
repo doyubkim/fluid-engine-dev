@@ -166,12 +166,13 @@ typename ScalarGrid<N>::ConstScalarDataView ScalarGrid<N>::dataView() const {
 }
 
 template <size_t N>
-typename ScalarGrid<N>::DataPositionFunc ScalarGrid<N>::dataPosition() const {
+GridDataPositionFunc<N> ScalarGrid<N>::dataPosition() const {
     Vector<double, N> o = dataOrigin();
     Vector<double, N> gs = gridSpacing();
-    return [o, gs](const Vector<size_t, N> &idx) -> Vector<double, N> {
-        return o + elemMul(gs, idx.template castTo<double>());
-    };
+    return GridDataPositionFunc<N>(
+        [o, gs](const Vector<size_t, N> &idx) -> Vector<double, N> {
+            return o + elemMul(gs, idx.template castTo<double>());
+        });
 }
 
 template <size_t N>

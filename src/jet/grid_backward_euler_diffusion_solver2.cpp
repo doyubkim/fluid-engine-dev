@@ -30,7 +30,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const ScalarGrid2& source,
                                               const ScalarField2& boundarySdf,
                                               const ScalarField2& fluidSdf) {
     if (_systemSolver != nullptr) {
-        auto pos = unroll2(source.dataPosition());
+        auto pos = source.dataPosition();
         Vector2D h = source.gridSpacing();
         Vector2D c =
             timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
@@ -53,7 +53,7 @@ void GridBackwardEulerDiffusionSolver2::solve(
     double timeIntervalInSeconds, CollocatedVectorGrid2* dest,
     const ScalarField2& boundarySdf, const ScalarField2& fluidSdf) {
     if (_systemSolver != nullptr) {
-        auto pos = unroll2(source.dataPosition());
+        auto pos = source.dataPosition();
         Vector2D h = source.gridSpacing();
         Vector2D c =
             timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
@@ -95,7 +95,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
             timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
         // u
-        auto uPos = unroll2(source.uPosition());
+        auto uPos = source.uPosition();
         buildMarkers(source.uSize(), uPos, boundarySdf, fluidSdf);
         buildMatrix(source.uSize(), c);
         buildVectors(source.uView(), c);
@@ -108,7 +108,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
             [&](const Vector2UZ& idx) { dest->u(idx) = _system.x(idx); });
 
         // v
-        auto vPos = unroll2(source.vPosition());
+        auto vPos = source.vPosition();
         buildMarkers(source.vSize(), vPos, boundarySdf, fluidSdf);
         buildMatrix(source.vSize(), c);
         buildVectors(source.vView(), c);

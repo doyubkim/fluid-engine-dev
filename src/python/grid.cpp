@@ -13,6 +13,24 @@ namespace py = pybind11;
 using namespace jet;
 
 void addGrid2(py::module& m) {
+    py::class_<GridDataPositionFunc<2>>(m, "GridDataPositionFunc2")
+        .def("__call__",
+             [](const GridDataPositionFunc<2>& instance, py::args args) {
+                 size_t i, j;
+                 if (args.size() == 1) {
+                     auto idx = objectToVector2UZ(args[0]);
+                     i = idx.x;
+                     j = idx.y;
+                 } else if (args.size() == 2) {
+                     i = args[0].cast<size_t>();
+                     j = args[1].cast<size_t>();
+                 } else {
+                     throw std::invalid_argument("Too many arguments.");
+                 }
+
+                 return instance(i, j);
+             });
+
     py::class_<Grid2, Grid2Ptr, Serializable>(m, "Grid2",
                                               R"pbdoc(
         Abstract base class for 2-D cartesian grid structure.
@@ -62,6 +80,26 @@ void addGrid2(py::module& m) {
 }
 
 void addGrid3(py::module& m) {
+    py::class_<GridDataPositionFunc<3>>(m, "GridDataPositionFunc3")
+        .def("__call__",
+             [](const GridDataPositionFunc<3>& instance, py::args args) {
+                 size_t i, j, k;
+                 if (args.size() == 1) {
+                     auto idx = objectToVector3UZ(args[0]);
+                     i = idx.x;
+                     j = idx.y;
+                     k = idx.z;
+                 } else if (args.size() == 3) {
+                     i = args[0].cast<size_t>();
+                     j = args[1].cast<size_t>();
+                     k = args[2].cast<size_t>();
+                 } else {
+                     throw std::invalid_argument("Too few/many arguments.");
+                 }
+
+                 return instance(i, j, k);
+             });
+
     py::class_<Grid3, Grid3Ptr, Serializable>(m, "Grid3",
                                               R"pbdoc(
         Abstract base class for 3-D cartesian grid structure.

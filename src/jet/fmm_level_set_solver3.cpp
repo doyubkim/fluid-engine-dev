@@ -383,7 +383,7 @@ void FmmLevelSetSolver3::extrapolate(const ScalarGrid3& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array3<double> sdfGrid(input.dataSize());
-    auto pos = unroll3(input.dataPosition());
+    auto pos = input.dataPosition();
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });
@@ -399,7 +399,7 @@ void FmmLevelSetSolver3::extrapolate(const CollocatedVectorGrid3& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array3<double> sdfGrid(input.dataSize());
-    auto pos = unroll3(input.dataPosition());
+    auto pos = input.dataPosition();
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j, size_t k) {
         sdfGrid(i, j, k) = sdf.sample(pos(i, j, k));
     });

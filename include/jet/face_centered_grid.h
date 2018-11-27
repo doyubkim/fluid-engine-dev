@@ -33,8 +33,6 @@ class FaceCenteredGrid final : public VectorGrid<N> {
     using VectorGrid<N>::resolution;
     using VectorGrid<N>::gridSpacing;
 
-    using typename VectorGrid<N>::DataPositionFunc;
-
     //! Read-write scalar data view type.
     typedef ArrayView<double, N> ScalarDataView;
 
@@ -191,19 +189,19 @@ class FaceCenteredGrid final : public VectorGrid<N> {
     ConstScalarDataView dataView(size_t i) const;
 
     //! Returns function object that maps u data point to its actual position.
-    DataPositionFunc uPosition() const;
+    GridDataPositionFunc<N> uPosition() const;
 
     //! Returns function object that maps v data point to its actual position.
-    DataPositionFunc vPosition() const;
+    GridDataPositionFunc<N> vPosition() const;
 
     //! Returns function object that maps w data point to its actual position.
     template <size_t M = N>
-    std::enable_if_t<M == 3, DataPositionFunc> wPosition() const {
+    std::enable_if_t<M == 3, GridDataPositionFunc<N>> wPosition() const {
         return dataPosition(2);
     }
 
     //! Returns function object that maps data point to its actual position.
-    DataPositionFunc dataPosition(size_t i) const;
+    GridDataPositionFunc<N> dataPosition(size_t i) const;
 
     //! Returns data size of the u component.
     Vector<size_t, N> uSize() const;

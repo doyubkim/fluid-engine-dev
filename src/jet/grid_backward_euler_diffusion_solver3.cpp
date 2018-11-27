@@ -29,7 +29,7 @@ void GridBackwardEulerDiffusionSolver3::solve(const ScalarGrid3& source,
                                               ScalarGrid3* dest,
                                               const ScalarField3& boundarySdf,
                                               const ScalarField3& fluidSdf) {
-    auto pos = unroll3(source.dataPosition());
+    auto pos = source.dataPosition();
     Vector3D h = source.gridSpacing();
     Vector3D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
@@ -51,7 +51,7 @@ void GridBackwardEulerDiffusionSolver3::solve(
     const CollocatedVectorGrid3& source, double diffusionCoefficient,
     double timeIntervalInSeconds, CollocatedVectorGrid3* dest,
     const ScalarField3& boundarySdf, const ScalarField3& fluidSdf) {
-    auto pos = unroll3(source.dataPosition());
+    auto pos = source.dataPosition();
     Vector3D h = source.gridSpacing();
     Vector3D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
@@ -108,7 +108,7 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
     Vector3D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
     // u
-    auto uPos = unroll3(source.uPosition());
+    auto uPos = source.uPosition();
     buildMarkers(source.uSize(), uPos, boundarySdf, fluidSdf);
     buildMatrix(source.uSize(), c);
     buildVectors(source.uView(), c);
@@ -124,7 +124,7 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
     }
 
     // v
-    auto vPos = unroll3(source.vPosition());
+    auto vPos = source.vPosition();
     buildMarkers(source.vSize(), vPos, boundarySdf, fluidSdf);
     buildMatrix(source.vSize(), c);
     buildVectors(source.vView(), c);
@@ -140,7 +140,7 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
     }
 
     // w
-    auto wPos = unroll3(source.wPosition());
+    auto wPos = source.wPosition();
     buildMarkers(source.wSize(), wPos, boundarySdf, fluidSdf);
     buildMatrix(source.wSize(), c);
     buildVectors(source.wView(), c);

@@ -142,8 +142,8 @@ void LevelSetLiquidSolver2::extrapolateVelocityToAir(double currentCfl) {
 
     auto u = vel->uView();
     auto v = vel->vView();
-    auto uPos = unroll2(vel->uPosition());
-    auto vPos = unroll2(vel->vPosition());
+    auto uPos = vel->uPosition();
+    auto vPos = vel->vPosition();
 
     Array2<char> uMarker(u.size());
     Array2<char> vMarker(v.size());

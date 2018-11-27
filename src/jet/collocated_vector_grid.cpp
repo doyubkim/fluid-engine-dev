@@ -103,15 +103,15 @@ CollocatedVectorGrid<N>::dataView() const {
 }
 
 template <size_t N>
-typename CollocatedVectorGrid<N>::DataPositionFunc
-CollocatedVectorGrid<N>::dataPosition() const {
+GridDataPositionFunc<N> CollocatedVectorGrid<N>::dataPosition() const {
     Vector<double, N> dataOrigin_ = dataOrigin();
     Vector<double, N> gridSpacing_ = gridSpacing();
-    return [dataOrigin_,
-            gridSpacing_](const Vector<size_t, N> &idx) -> Vector<double, N> {
-        return dataOrigin_ +
-               elemMul(gridSpacing_, idx.template castTo<double>());
-    };
+    return GridDataPositionFunc<N>(
+        [dataOrigin_,
+         gridSpacing_](const Vector<size_t, N> &idx) -> Vector<double, N> {
+            return dataOrigin_ +
+                   elemMul(gridSpacing_, idx.template castTo<double>());
+        });
 }
 
 template <size_t N>

@@ -19,10 +19,10 @@ SemiLagrangian2::~SemiLagrangian2() {}
 void SemiLagrangian2::advect(const ScalarGrid2& input, const VectorField2& flow,
                              double dt, ScalarGrid2* output,
                              const ScalarField2& boundarySdf) {
-    auto outputDataPos = unroll2(output->dataPosition());
+    auto outputDataPos = output->dataPosition();
     auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
-    auto inputDataPos = unroll2(input.dataPosition());
+    auto inputDataPos = input.dataPosition();
 
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
 
@@ -43,9 +43,9 @@ void SemiLagrangian2::advect(const CollocatedVectorGrid2& input,
 
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
 
-    auto outputDataPos = unroll2(output->dataPosition());
+    auto outputDataPos = output->dataPosition();
     auto outputDataAcc = output->dataView();
-    auto inputDataPos = unroll2(input.dataPosition());
+    auto inputDataPos = input.dataPosition();
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
         if (boundarySdf.sample(inputDataPos(i, j)) > 0.0) {

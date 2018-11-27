@@ -275,7 +275,7 @@ void PicSolver3::extrapolateVelocityToAir() {
 
 void PicSolver3::buildSignedDistanceField() {
     auto sdf = signedDistanceField();
-    auto sdfPos = unroll3(sdf->dataPosition());
+    auto sdfPos = sdf->dataPosition();
     double maxH =
         max3(sdf->gridSpacing().x, sdf->gridSpacing().y, sdf->gridSpacing().z);
     double radius = 1.2 * maxH / std::sqrt(2.0);

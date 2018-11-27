@@ -82,7 +82,7 @@ void VolumeGridEmitter2::emit() {
         const auto& grid = std::get<0>(target);
         const auto& mapper = std::get<1>(target);
 
-        auto pos = unroll2(grid->dataPosition());
+        auto pos = grid->dataPosition();
         grid->parallelForEachDataPointIndex([&](size_t i, size_t j) {
             Vector2D gx = pos(i, j);
             double sdf = sourceRegion()->signedDistance(gx);
@@ -97,7 +97,7 @@ void VolumeGridEmitter2::emit() {
         CollocatedVectorGrid2Ptr collocated =
             std::dynamic_pointer_cast<CollocatedVectorGrid2>(grid);
         if (collocated != nullptr) {
-            auto pos = unroll2(collocated->dataPosition());
+            auto pos = collocated->dataPosition();
             collocated->parallelForEachDataPointIndex([&](size_t i, size_t j) {
                 Vector2D gx = pos(i, j);
                 double sdf = sourceRegion()->signedDistance(gx);

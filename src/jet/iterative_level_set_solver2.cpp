@@ -81,7 +81,7 @@ void IterativeLevelSetSolver2::extrapolate(const ScalarGrid2& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array2<double> sdfGrid(input.dataSize());
-    auto pos = unroll2(input.dataPosition());
+    auto pos = input.dataPosition();
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.sample(pos(i, j));
     });
@@ -97,7 +97,7 @@ void IterativeLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
     JET_THROW_INVALID_ARG_IF(!input.hasSameShape(*output));
 
     Array2<double> sdfGrid(input.dataSize());
-    auto pos = unroll2(input.dataPosition());
+    auto pos = input.dataPosition();
     parallelForEachIndex(sdfGrid.size(), [&](size_t i, size_t j) {
         sdfGrid(i, j) = sdf.sample(pos(i, j));
     });

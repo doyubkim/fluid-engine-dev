@@ -345,7 +345,7 @@ void GridFluidSolver2::applyBoundaryCondition() {
 
 void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
     Array2<char> marker(grid->dataSize());
-    auto pos = unroll2(grid->dataPosition());
+    auto pos = grid->dataPosition();
     parallelForEachIndex(marker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
@@ -360,7 +360,7 @@ void GridFluidSolver2::extrapolateIntoCollider(ScalarGrid2* grid) {
 
 void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
     Array2<char> marker(grid->dataSize());
-    auto pos = unroll2(grid->dataPosition());
+    auto pos = grid->dataPosition();
     parallelForEachIndex(marker.size(), [&](size_t i, size_t j) {
         if (isInsideSdf(colliderSdf()->sample(pos(i, j)))) {
             marker(i, j) = 0;
@@ -376,8 +376,8 @@ void GridFluidSolver2::extrapolateIntoCollider(CollocatedVectorGrid2* grid) {
 void GridFluidSolver2::extrapolateIntoCollider(FaceCenteredGrid2* grid) {
     auto u = grid->uView();
     auto v = grid->vView();
-    auto uPos = unroll2(grid->uPosition());
-    auto vPos = unroll2(grid->vPosition());
+    auto uPos = grid->uPosition();
+    auto vPos = grid->vPosition();
 
     Array2<char> uMarker(u.size());
     Array2<char> vMarker(v.size());

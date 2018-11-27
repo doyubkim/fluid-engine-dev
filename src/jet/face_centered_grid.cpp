@@ -381,26 +381,24 @@ typename FaceCenteredGrid<N>::ConstScalarDataView FaceCenteredGrid<N>::dataView(
 }
 
 template <size_t N>
-typename FaceCenteredGrid<N>::DataPositionFunc FaceCenteredGrid<N>::uPosition()
-    const {
+GridDataPositionFunc<N> FaceCenteredGrid<N>::uPosition() const {
     return dataPosition(0);
 }
 
 template <size_t N>
-typename FaceCenteredGrid<N>::DataPositionFunc FaceCenteredGrid<N>::vPosition()
-    const {
+GridDataPositionFunc<N> FaceCenteredGrid<N>::vPosition() const {
     return dataPosition(1);
 }
 
 template <size_t N>
-typename FaceCenteredGrid<N>::DataPositionFunc
-FaceCenteredGrid<N>::dataPosition(size_t i) const {
+GridDataPositionFunc<N> FaceCenteredGrid<N>::dataPosition(size_t i) const {
     Vector<double, N> h = gridSpacing();
     Vector<double, N> dataOrigin_ = _dataOrigins[i];
 
-    return [h, dataOrigin_](const Vector<size_t, N> &idx) -> Vector<double, N> {
-        return dataOrigin_ + elemMul(h, idx.template castTo<double>());
-    };
+    return GridDataPositionFunc<N>(
+        [h, dataOrigin_](const Vector<size_t, N> &idx) -> Vector<double, N> {
+            return dataOrigin_ + elemMul(h, idx.template castTo<double>());
+        });
 }
 
 template <size_t N>
@@ -450,11 +448,11 @@ void FaceCenteredGrid<N>::fill(
     const std::function<Vector<double, N>(const Vector<double, N> &)> &func,
     ExecutionPolicy policy) {
     for (size_t i = 0; i < N; ++i) {
-        DataPositionFunc pos = dataPosition(i);
+        auto pos = dataPosition(i);
         parallelForEachIndex(dataSize(i),
                              [this, &func, &pos, i](auto... indices) {
-                                 _data[i](indices...) = func(
-                                     pos(Vector<size_t, N>(indices...)))[i];
+                                 _data[i](indices...) =
+                                     func(pos(indices...))[i];
                              },
                              policy);
     }

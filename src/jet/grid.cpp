@@ -42,13 +42,14 @@ const BoundingBox<double, N> &Grid<N>::boundingBox() const {
 }
 
 template <size_t N>
-typename Grid<N>::DataPositionFunc Grid<N>::cellCenterPosition() const {
+GridDataPositionFunc<N> Grid<N>::cellCenterPosition() const {
     Vector<double, N> h = _gridSpacing;
     Vector<double, N> o = _origin;
-    return [h, o](const Vector<size_t, N> &idx) -> Vector<double, N> {
-        return o + elemMul(h, idx.template castTo<double>() +
-                                  Vector<double, N>::makeConstant(0.5));
-    };
+    return GridDataPositionFunc<N>(
+        [h, o](const Vector<size_t, N> &idx) -> Vector<double, N> {
+            return o + elemMul(h, idx.template castTo<double>() +
+                                      Vector<double, N>::makeConstant(0.5));
+        });
 }
 
 template <size_t N>

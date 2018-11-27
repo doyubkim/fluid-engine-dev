@@ -26,7 +26,6 @@ class VertexCenteredVectorGrid final : public CollocatedVectorGrid<N> {
 
     class Builder;
 
-    using typename CollocatedVectorGrid<N>::DataPositionFunc;
     using CollocatedVectorGrid<N>::resize;
     using CollocatedVectorGrid<N>::resolution;
     using CollocatedVectorGrid<N>::origin;
