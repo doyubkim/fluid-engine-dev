@@ -13,11 +13,6 @@ namespace py = pybind11;
 using namespace jet;
 
 void addScalarGrid2(py::module& m) {
-    using GradientAtDataPointFunc =
-        Vector2D (ScalarGrid2::*)(const Vector2UZ&) const;
-    using LaplacianAtDataPointFunc =
-        double (ScalarGrid2::*)(const Vector2UZ&) const;
-
     py::class_<ScalarGrid2, ScalarGrid2Ptr, ScalarField2, Grid2>(
         m, "ScalarGrid2",
         R"pbdoc(Abstract base class for 2-D scalar grid structure.)pbdoc")
@@ -87,25 +82,23 @@ void addScalarGrid2(py::module& m) {
             )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("gradientAtDataPoint",
-             (GradientAtDataPointFunc)&ScalarGrid2::gradientAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(ScalarGrid2, gradientAtDataPoint),
              R"pbdoc(
              Returns the gradient vector at given data point.
 
              Parameters
              ----------
-             - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("laplacianAtDataPoint",
-             (LaplacianAtDataPointFunc)&ScalarGrid2::laplacianAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(ScalarGrid2, laplacianAtDataPoint),
              R"pbdoc(
              Returns the Laplacian at given data point.
 
              Parameters
              ----------
-             - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("dataView",
              (ArrayView2<double>(ScalarGrid2::*)()) & ScalarGrid2::dataView,
              R"pbdoc(The data array view.)pbdoc")
@@ -165,11 +158,6 @@ void addScalarGrid2(py::module& m) {
 }
 
 void addScalarGrid3(py::module& m) {
-    using GradientAtDataPointFunc =
-        Vector3D (ScalarGrid3::*)(const Vector3UZ&) const;
-    using LaplacianAtDataPointFunc =
-        double (ScalarGrid3::*)(const Vector3UZ&) const;
-
     py::class_<ScalarGrid3, ScalarGrid3Ptr, ScalarField3, Grid3>(
         m, "ScalarGrid3",
         R"pbdoc(Abstract base class for 3-D scalar grid structure.)pbdoc")
@@ -239,25 +227,23 @@ void addScalarGrid3(py::module& m) {
             )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("gradientAtDataPoint",
-             (GradientAtDataPointFunc)&ScalarGrid3::gradientAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION3(ScalarGrid3, gradientAtDataPoint),
              R"pbdoc(
              Returns the gradient vector at given data point.
 
              Parameters
              ----------
-             - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j, k).
+             )pbdoc")
         .def("laplacianAtDataPoint",
-             (LaplacianAtDataPointFunc)&ScalarGrid3::laplacianAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION3(ScalarGrid3, laplacianAtDataPoint),
              R"pbdoc(
              Returns the Laplacian at given data point.
 
              Parameters
              ----------
-             - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j, k).
+             )pbdoc")
         .def("dataView",
              (ArrayView3<double>(ScalarGrid3::*)()) & ScalarGrid3::dataView,
              R"pbdoc(The data array view.)pbdoc")

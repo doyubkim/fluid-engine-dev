@@ -13,11 +13,6 @@ namespace py = pybind11;
 using namespace jet;
 
 void addCollocatedVectorGrid2(py::module& m) {
-    using DivergenceAtDataPointFunc =
-        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
-    using CurlAtDataPointFunc =
-        double (CollocatedVectorGrid2::*)(const Vector2UZ&) const;
-
     py::class_<CollocatedVectorGrid2, CollocatedVectorGrid2Ptr, VectorGrid2>(
         m, "CollocatedVectorGrid2",
         R"pbdoc(Abstract base class for 2-D collocated vector grid structure.)pbdoc")
@@ -46,26 +41,23 @@ void addCollocatedVectorGrid2(py::module& m) {
             )pbdoc",
             py::arg("idx"), py::arg("val"))
         .def("divergenceAtDataPoint",
-             (DivergenceAtDataPointFunc)&CollocatedVectorGrid2::
-                 divergenceAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2, divergenceAtDataPoint),
              R"pbdoc(
              Returns divergence at data point location.
 
              Parameters
              ----------
-            - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("curlAtDataPoint",
-             (CurlAtDataPointFunc)&CollocatedVectorGrid2::curlAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid2, curlAtDataPoint),
              R"pbdoc(
              Returns curl at data point location.
 
              Parameters
              ----------
-            - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("dataView",
              (ArrayView2<Vector2D>(CollocatedVectorGrid2::*)()) &
                  CollocatedVectorGrid2::dataView,
@@ -114,11 +106,6 @@ void addCollocatedVectorGrid2(py::module& m) {
 }
 
 void addCollocatedVectorGrid3(py::module& m) {
-    using DivergenceAtDataPointFunc =
-        double (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
-    using CurlAtDataPointFunc =
-        Vector3D (CollocatedVectorGrid3::*)(const Vector3UZ&) const;
-
     py::class_<CollocatedVectorGrid3, CollocatedVectorGrid3Ptr, VectorGrid3>(
         m, "CollocatedVectorGrid3",
         R"pbdoc(Abstract base class for 3-D collocated vector grid structure.)pbdoc")
@@ -147,26 +134,23 @@ void addCollocatedVectorGrid3(py::module& m) {
             )pbdoc",
             py::arg("idx"), py::arg("val"))
         .def("divergenceAtDataPoint",
-             (DivergenceAtDataPointFunc)&CollocatedVectorGrid3::
-                 divergenceAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid3, divergenceAtDataPoint),
              R"pbdoc(
              Returns divergence at data point location.
 
              Parameters
              ----------
-            - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("curlAtDataPoint",
-             (CurlAtDataPointFunc)&CollocatedVectorGrid3::curlAtDataPoint,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(CollocatedVectorGrid3, curlAtDataPoint),
              R"pbdoc(
              Returns curl at data point location.
 
              Parameters
              ----------
-            - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("dataView",
              (ArrayView3<Vector3D>(CollocatedVectorGrid3::*)()) &
                  CollocatedVectorGrid3::dataView,

@@ -17,13 +17,6 @@ namespace py = pybind11;
 using namespace jet;
 
 void addFaceCenteredGrid2(py::module& m) {
-    using ValueAtCenterFunc =
-        Vector2D (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-    using DivergenceAtCellCenterFunc =
-        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-    using CurlAtCellCenterFunc =
-        double (FaceCenteredGrid2::*)(const Vector2UZ&) const;
-
     py::class_<FaceCenteredGrid2, FaceCenteredGrid2Ptr, VectorGrid2>(
         m, "FaceCenteredGrid2",
         R"pbdoc(
@@ -117,36 +110,32 @@ void addFaceCenteredGrid2(py::module& m) {
              )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("valueAtCellCenter",
-             (ValueAtCenterFunc)&FaceCenteredGrid2::valueAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, valueAtCellCenter),
              R"pbdoc(
              Returns interpolated value at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("divergenceAtCellCenter",
-             (DivergenceAtCellCenterFunc)&FaceCenteredGrid2::
-                 divergenceAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, divergenceAtCellCenter),
              R"pbdoc(
              Returns divergence at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("curlAtCellCenter",
-             (CurlAtCellCenterFunc)&FaceCenteredGrid2::curlAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, curlAtCellCenter),
              R"pbdoc(
              Returns curl at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("vView",
              (ArrayView2<double>(FaceCenteredGrid2::*)()) &
                  FaceCenteredGrid2::vView,
@@ -252,12 +241,6 @@ void addFaceCenteredGrid2(py::module& m) {
 }
 
 void addFaceCenteredGrid3(py::module& m) {
-    using ValueAtCenterFunc =
-        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
-    using DivergenceAtCellCenterFunc =
-        double (FaceCenteredGrid3::*)(const Vector3UZ&) const;
-    using CurlAtCellCenterFunc =
-        Vector3D (FaceCenteredGrid3::*)(const Vector3UZ&) const;
     using PositionFunc = GridDataPositionFunc<3> (FaceCenteredGrid3::*)() const;
     using SizeFunc = Vector3UZ (FaceCenteredGrid3::*)() const;
     using OriginFunc = Vector3D (FaceCenteredGrid3::*)() const;
@@ -380,36 +363,32 @@ void addFaceCenteredGrid3(py::module& m) {
              )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("valueAtCellCenter",
-             (ValueAtCenterFunc)&FaceCenteredGrid3::valueAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, valueAtCellCenter),
              R"pbdoc(
              Returns interpolated value at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("divergenceAtCellCenter",
-             (DivergenceAtCellCenterFunc)&FaceCenteredGrid3::
-                 divergenceAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, divergenceAtCellCenter),
              R"pbdoc(
              Returns divergence at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("curlAtCellCenter",
-             (CurlAtCellCenterFunc)&FaceCenteredGrid3::curlAtCellCenter,
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, curlAtCellCenter),
              R"pbdoc(
              Returns curl at cell center.
 
              Parameters
              ----------
-             - idx : Data point index (i, j, k).
-             )pbdoc",
-             py::arg("idx"))
+             - `*args` : Data point index (i, j).
+             )pbdoc")
         .def("vView",
              (ArrayView3<double>(FaceCenteredGrid3::*)()) &
                  FaceCenteredGrid3::vView,

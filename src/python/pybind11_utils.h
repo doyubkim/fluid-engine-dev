@@ -404,6 +404,27 @@ inline void parseGridResizeParams(pybind11::args args, pybind11::kwargs kwargs,
         gridSpacing.fill(domainSizeX / static_cast<double>(resolution.x));
     }
 }
+
 }  // namespace jet
+
+#define JET_PYTHON_MAKE_INDEX_FUNCTION2(Class, Func)                        \
+    [](const Class& instance, py::args args) {                              \
+        if (args.size() == 1) {                                             \
+            return instance.Func(                                           \
+                objectToVector2UZ(args[0]));                                \
+        } else {                                                            \
+            throw std::invalid_argument("Invalid number of arguments.");    \
+        }                                                                   \
+    }
+
+#define JET_PYTHON_MAKE_INDEX_FUNCTION3(Class, Func)                        \
+    [](const Class& instance, py::args args) {                              \
+        if (args.size() == 1) {                                             \
+            return instance.Func(                                           \
+                objectToVector3UZ(args[0]));                                \
+        } else {                                                            \
+            throw std::invalid_argument("Invalid number of arguments.");    \
+        }                                                                   \
+    }
 
 #endif  // SRC_PYTHON_PYBIND11_UTILS_H_
