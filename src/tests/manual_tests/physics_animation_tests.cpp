@@ -7,7 +7,7 @@
 #include "manual_tests.h"
 
 #include <jet/array.h>
-#include <jet/constant_vector_field3.h>
+#include <jet/constant_vector_field.h>
 #include <jet/matrix.h>
 #include <jet/physics_animation.h>
 

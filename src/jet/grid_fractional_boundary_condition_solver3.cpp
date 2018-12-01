@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/array_utils.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/grid_fractional_boundary_condition_solver3.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit.h>
@@ -46,66 +46,63 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
     Vector3D h = velocity->gridSpacing();
 
     // Assign collider's velocity first and initialize markers
-    velocity->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = uPos(i, j, k);
+    velocity->parallelForEachUIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = uPos(idx);
         double phi0 = _colliderSdf->sample(pt - Vector3D(0.5 * h.x, 0.0, 0.0));
         double phi1 = _colliderSdf->sample(pt + Vector3D(0.5 * h.x, 0.0, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
         if (frac > 0.0) {
-            uMarker(i, j, k) = 1;
+            uMarker(idx) = 1;
         } else {
             Vector3D colliderVel = collider()->velocityAt(pt);
-            u(i, j, k) = colliderVel.x;
-            uMarker(i, j, k) = 0;
+            u(idx) = colliderVel.x;
+            uMarker(idx) = 0;
         }
     });
 
-    velocity->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = vPos(i, j, k);
+    velocity->parallelForEachVIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = vPos(idx);
         double phi0 = _colliderSdf->sample(pt - Vector3D(0.0, 0.5 * h.y, 0.0));
         double phi1 = _colliderSdf->sample(pt + Vector3D(0.0, 0.5 * h.y, 0.0));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
         if (frac > 0.0) {
-            vMarker(i, j, k) = 1;
+            vMarker(idx) = 1;
         } else {
             Vector3D colliderVel = collider()->velocityAt(pt);
-            v(i, j, k) = colliderVel.y;
-            vMarker(i, j, k) = 0;
+            v(idx) = colliderVel.y;
+            vMarker(idx) = 0;
         }
     });
 
-    velocity->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = wPos(i, j, k);
+    velocity->parallelForEachWIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = wPos(idx);
         double phi0 = _colliderSdf->sample(pt - Vector3D(0.0, 0.0, 0.5 * h.z));
         double phi1 = _colliderSdf->sample(pt + Vector3D(0.0, 0.0, 0.5 * h.z));
         double frac = fractionInsideSdf(phi0, phi1);
         frac = 1.0 - clamp(frac, 0.0, 1.0);
 
         if (frac > 0.0) {
-            wMarker(i, j, k) = 1;
+            wMarker(idx) = 1;
         } else {
             Vector3D colliderVel = collider()->velocityAt(pt);
-            w(i, j, k) = colliderVel.z;
-            wMarker(i, j, k) = 0;
+            w(idx) = colliderVel.z;
+            wMarker(idx) = 0;
         }
     });
 
     // Free-slip: Extrapolate fluid velocity into the collider
-    extrapolateToRegion(velocity->uView(), uMarker, extrapolationDepth,
-                                u);
-    extrapolateToRegion(velocity->vView(), vMarker, extrapolationDepth,
-                                v);
-    extrapolateToRegion(velocity->wView(), wMarker, extrapolationDepth,
-                                w);
+    extrapolateToRegion(velocity->uView(), uMarker, extrapolationDepth, u);
+    extrapolateToRegion(velocity->vView(), vMarker, extrapolationDepth, v);
+    extrapolateToRegion(velocity->wView(), wMarker, extrapolationDepth, w);
 
     // No-flux: project the extrapolated velocity to the collider's surface
     // normal
-    velocity->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = uPos(i, j, k);
+    velocity->parallelForEachUIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = uPos(idx);
         if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
@@ -117,17 +114,17 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                uTemp(i, j, k) = velp.x;
+                uTemp(idx) = velp.x;
             } else {
-                uTemp(i, j, k) = colliderVel.x;
+                uTemp(idx) = colliderVel.x;
             }
         } else {
-            uTemp(i, j, k) = u(i, j, k);
+            uTemp(idx) = u(idx);
         }
     });
 
-    velocity->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = vPos(i, j, k);
+    velocity->parallelForEachVIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = vPos(idx);
         if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
@@ -139,17 +136,17 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                vTemp(i, j, k) = velp.y;
+                vTemp(idx) = velp.y;
             } else {
-                vTemp(i, j, k) = colliderVel.y;
+                vTemp(idx) = colliderVel.y;
             }
         } else {
-            vTemp(i, j, k) = v(i, j, k);
+            vTemp(idx) = v(idx);
         }
     });
 
-    velocity->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D pt = wPos(i, j, k);
+    velocity->parallelForEachWIndex([&](const Vector3UZ& idx) {
+        Vector3D pt = wPos(idx);
         if (isInsideSdf(_colliderSdf->sample(pt))) {
             Vector3D colliderVel = collider()->velocityAt(pt);
             Vector3D vel = velocity->sample(pt);
@@ -161,12 +158,12 @@ void GridFractionalBoundaryConditionSolver3::constrainVelocity(
                     velr, n, collider()->frictionCoefficient());
 
                 Vector3D velp = velt + colliderVel;
-                wTemp(i, j, k) = velp.z;
+                wTemp(idx) = velp.z;
             } else {
-                wTemp(i, j, k) = colliderVel.z;
+                wTemp(idx) = colliderVel.z;
             }
         } else {
-            wTemp(i, j, k) = w(i, j, k);
+            wTemp(idx) = w(idx);
         }
     });
 

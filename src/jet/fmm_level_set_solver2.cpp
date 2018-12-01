@@ -216,8 +216,9 @@ void FmmLevelSetSolver2::reinitialize(const ScalarGrid2& inputSdf,
         };
 
         // Enqueue initial candidates
-        std::priority_queue<Vector2UZ, std::vector<Vector2UZ>, decltype(compare)> trial(
-            compare);
+        std::priority_queue<Vector2UZ, std::vector<Vector2UZ>,
+                            decltype(compare)>
+            trial(compare);
         forEachIndex(markers.size(), [&](size_t i, size_t j) {
             if (markers(i, j) != kKnown &&
                 ((i > 0 && markers(i - 1, j) == kKnown) ||
@@ -323,18 +324,18 @@ void FmmLevelSetSolver2::extrapolate(const CollocatedVectorGrid2& input,
     Array2<double> v(input.dataSize());
     Array2<double> v0(input.dataSize());
 
-    input.parallelForEachDataPointIndex([&](size_t i, size_t j) {
-        u(i, j) = input(i, j).x;
-        v(i, j) = input(i, j).y;
+    input.parallelForEachDataPointIndex([&](const Vector2UZ& idx) {
+        u(idx) = input(idx).x;
+        v(idx) = input(idx).y;
     });
 
     extrapolate(u, sdfGrid, gridSpacing, maxDistance, u0);
 
     extrapolate(v, sdfGrid, gridSpacing, maxDistance, v0);
 
-    output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
-        (*output)(i, j).x = u(i, j);
-        (*output)(i, j).y = v(i, j);
+    output->parallelForEachDataPointIndex([&](const Vector2UZ& idx) {
+        (*output)(idx).x = u(idx);
+        (*output)(idx).y = v(idx);
     });
 }
 
@@ -350,7 +351,7 @@ void FmmLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     auto uPos = input.uPosition();
     Array2<double> sdfAtU(u.size());
     input.parallelForEachUIndex(
-        [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.sample(uPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtU(idx) = sdf.sample(uPos(idx)); });
 
     extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
@@ -358,7 +359,7 @@ void FmmLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     auto vPos = input.vPosition();
     Array2<double> sdfAtV(v.size());
     input.parallelForEachVIndex(
-        [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.sample(vPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtV(idx) = sdf.sample(vPos(idx)); });
 
     extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 }
@@ -385,8 +386,8 @@ void FmmLevelSetSolver2::extrapolate(const ConstArrayView2<double>& input,
     };
 
     // Enqueue initial candidates
-    std::priority_queue<Vector2UZ, std::vector<Vector2UZ>, decltype(compare)> trial(
-        compare);
+    std::priority_queue<Vector2UZ, std::vector<Vector2UZ>, decltype(compare)>
+        trial(compare);
     forEachIndex(markers.size(), [&](size_t i, size_t j) {
         if (markers(i, j) == kKnown) {
             return;

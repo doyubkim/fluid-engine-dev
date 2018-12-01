@@ -21,16 +21,14 @@ void addSurfaceSet2(py::module& m) {
          surface-related queries. This is class can hold a collection of other
          surface instances.
          )pbdoc")
-        .def("__init__",
-             [](SurfaceSet2& instance, py::list others,
-                const Transform2& transform, bool isNormalFlipped) {
+        .def(py::init([](py::list others, const Transform2& transform,
+                         bool isNormalFlipped) {
                  Array1<Surface2Ptr> others_;
                  for (size_t i = 0; i < others.size(); ++i) {
                      others_.append(others[i].cast<Surface2Ptr>());
                  }
-                 new (&instance)
-                     SurfaceSet2(others_, transform, isNormalFlipped);
-             },
+                 return new SurfaceSet2(others_, transform, isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs with a list of other surfaces.
              )pbdoc",
@@ -62,16 +60,14 @@ void addSurfaceSet3(py::module& m) {
          surface-related queries. This is class can hold a collection of other
          surface instances.
          )pbdoc")
-        .def("__init__",
-             [](SurfaceSet3& instance, py::list others,
-                const Transform3& transform, bool isNormalFlipped) {
+        .def(py::init([](py::list others, const Transform3& transform,
+                         bool isNormalFlipped) {
                  Array1<Surface3Ptr> others_;
                  for (size_t i = 0; i < others.size(); ++i) {
                      others_.append(others[i].cast<Surface3Ptr>());
                  }
-                 new (&instance)
-                     SurfaceSet3(others_, transform, isNormalFlipped);
-             },
+                 return new SurfaceSet3(others_, transform, isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs with a list of other surfaces.
              )pbdoc",

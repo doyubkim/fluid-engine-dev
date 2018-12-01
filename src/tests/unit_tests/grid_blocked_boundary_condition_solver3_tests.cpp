@@ -4,10 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include <gtest/gtest.h>
 #include <jet/grid_blocked_boundary_condition_solver3.h>
 #include <jet/plane.h>
 #include <jet/rigid_body_collider.h>
-#include <gtest/gtest.h>
 
 using namespace jet;
 
@@ -24,27 +24,27 @@ TEST(GridBlockedBoundaryConditionSolver3, ClosedDomain) {
 
     bndSolver.constrainVelocity(&velocity);
 
-    velocity.forEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (i == 0 || i == gridSize.x) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.u(i, j, k));
+    velocity.forEachUIndex([&](const Vector3UZ& idx) {
+        if (idx.x == 0 || idx.x == gridSize.x) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.u(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.u(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.u(idx));
         }
     });
 
-    velocity.forEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (j == 0 || j == gridSize.y) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.v(i, j, k));
+    velocity.forEachVIndex([&](const Vector3UZ& idx) {
+        if (idx.y == 0 || idx.y == gridSize.y) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.v(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.v(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.v(idx));
         }
     });
 
-    velocity.forEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (k == 0 || k == gridSize.z) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.w(i, j, k));
+    velocity.forEachWIndex([&](const Vector3UZ& idx) {
+        if (idx.z == 0 || idx.z == gridSize.z) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.w(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.w(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.w(idx));
         }
     });
 }
@@ -56,8 +56,8 @@ TEST(GridBlockedBoundaryConditionSolver3, OpenDomain) {
     Vector3D gridOrigin(-5.0, -5.0, -5.0);
 
     // Partially open domain
-    bndSolver.setClosedDomainBoundaryFlag(
-        kDirectionLeft | kDirectionUp | kDirectionFront);
+    bndSolver.setClosedDomainBoundaryFlag(kDirectionLeft | kDirectionUp |
+                                          kDirectionFront);
     bndSolver.updateCollider(nullptr, gridSize, gridSpacing, gridOrigin);
 
     FaceCenteredGrid3 velocity(gridSize, gridSpacing, gridOrigin);
@@ -65,27 +65,27 @@ TEST(GridBlockedBoundaryConditionSolver3, OpenDomain) {
 
     bndSolver.constrainVelocity(&velocity);
 
-    velocity.forEachUIndex([&](size_t i, size_t j, size_t k) {
-        if (i == 0) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.u(i, j, k));
+    velocity.forEachUIndex([&](const Vector3UZ& idx) {
+        if (idx.x == 0) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.u(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.u(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.u(idx));
         }
     });
 
-    velocity.forEachVIndex([&](size_t i, size_t j, size_t k) {
-        if (j == gridSize.y) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.v(i, j, k));
+    velocity.forEachVIndex([&](const Vector3UZ& idx) {
+        if (idx.y == gridSize.y) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.v(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.v(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.v(idx));
         }
     });
 
-    velocity.forEachWIndex([&](size_t i, size_t j, size_t k) {
-        if (k == gridSize.z) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.w(i, j, k));
+    velocity.forEachWIndex([&](const Vector3UZ& idx) {
+        if (idx.z == gridSize.z) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.w(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.w(i, j, k));
+            EXPECT_DOUBLE_EQ(1.0, velocity.w(idx));
         }
     });
 }

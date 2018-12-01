@@ -8,11 +8,8 @@
 #define INCLUDE_JET_VOLUME_GRID_EMITTER2_H_
 
 #include <jet/grid_emitter2.h>
-#include <jet/scalar_grid2.h>
-#include <jet/vector_grid2.h>
-
-#include <tuple>
-#include <vector>
+#include <jet/scalar_grid.h>
+#include <jet/vector_grid.h>
 
 namespace jet {
 

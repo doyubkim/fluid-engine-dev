@@ -7,8 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/array_utils.h>
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/fmm_level_set_solver3.h>
 
@@ -17,13 +16,11 @@ using namespace jet;
 JET_TESTS(FmmLevelSetSolver2);
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver2, ReinitializeSmall) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
     FmmLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
@@ -65,13 +62,11 @@ JET_BEGIN_TEST_F(FmmLevelSetSolver2, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({160, 120}), temp({160, 120});
     FmmLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
@@ -114,7 +109,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver2, Extrapolate) {
     Vector2UZ size(160, 120);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
+    Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
     FmmLevelSetSolver2 solver;
@@ -143,11 +138,10 @@ JET_BEGIN_TEST_F(FmmLevelSetSolver2, Extrapolate) {
 }
 JET_END_TEST_F
 
-
 JET_TESTS(FmmLevelSetSolver3);
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver3, ReinitializeSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -171,8 +165,8 @@ JET_BEGIN_TEST_F(FmmLevelSetSolver3, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(FmmLevelSetSolver3, ExtrapolateSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;

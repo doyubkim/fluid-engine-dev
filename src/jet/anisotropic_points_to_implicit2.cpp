@@ -8,9 +8,9 @@
 
 #include <jet/anisotropic_points_to_implicit2.h>
 #include <jet/fmm_level_set_solver2.h>
-#include <jet/point_kdtree_searcher2.h>
-#include <jet/sph_kernels2.h>
-#include <jet/sph_system_data2.h>
+#include <jet/point_kdtree_searcher.h>
+#include <jet/sph_kernels.h>
+#include <jet/sph_system_data.h>
 #include <jet/svd.h>
 
 using namespace jet;

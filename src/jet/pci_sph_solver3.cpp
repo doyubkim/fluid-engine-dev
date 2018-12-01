@@ -7,7 +7,7 @@
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/parallel.h>
 #include <jet/pci_sph_solver3.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 #include <pch.h>
 
 #include <algorithm>

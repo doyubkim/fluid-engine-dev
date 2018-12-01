@@ -7,8 +7,8 @@
 #ifndef INCLUDE_JET_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H_
 #define INCLUDE_JET_GRID_FRACTIONAL_BOUNDARY_CONDITION_SOLVER2_H_
 
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/custom_vector_field.h>
 #include <jet/grid_boundary_condition_solver2.h>
 
 #include <memory>

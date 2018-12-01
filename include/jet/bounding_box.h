@@ -64,6 +64,9 @@ class BoundingBox {
     //! Constructs a box with other box instance.
     BoundingBox(const BoundingBox& other);
 
+    //! Returns the size of the box.
+    VectorType size() const;
+
     //! Returns width of the box.
     T width() const;
 

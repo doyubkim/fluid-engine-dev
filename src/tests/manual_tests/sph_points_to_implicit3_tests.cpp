@@ -8,7 +8,7 @@
 
 #include <jet/marching_cubes.h>
 #include <jet/sph_points_to_implicit3.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 #include <random>
 
@@ -25,15 +25,15 @@ JET_BEGIN_TEST_F(SphPointsToImplicit3, ConvertTwo) {
         points.append(Vector3D{dist(rng), dist(rng), dist(rng)});
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({128, 128, 128},
+                                   {1.0 / 128, 1.0 / 128, 1.0 / 128});
 
     SphPointsToImplicit3 converter(0.3);
     converter.convert(points.view(), &grid);
 
     TriangleMesh3 triMesh;
-    marchingCubes(grid.dataView(), grid.gridSpacing(),
-                  grid.dataOrigin(), &triMesh, 0, kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.dataOrigin(),
+                  &triMesh, 0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "sph_points_to_implicit3_convert_two.obj");
 }
@@ -48,15 +48,15 @@ JET_BEGIN_TEST_F(SphPointsToImplicit3, ConvertMany) {
         points.append(Vector3D{dist(rng), dist(rng), dist(rng)});
     }
 
-    VertexCenteredScalarGrid3 grid(128, 128, 128, 1.0 / 128, 1.0 / 128,
-                                   1.0 / 128);
+    VertexCenteredScalarGrid3 grid({128, 128, 128},
+                                   {1.0 / 128, 1.0 / 128, 1.0 / 128});
 
     SphPointsToImplicit3 converter(0.1);
     converter.convert(points.view(), &grid);
 
     TriangleMesh3 triMesh;
-    marchingCubes(grid.dataView(), grid.gridSpacing(),
-                  grid.dataOrigin(), &triMesh, 0, kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.dataOrigin(),
+                  &triMesh, 0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "sph_points_to_implicit3_convert_many.obj");
 }

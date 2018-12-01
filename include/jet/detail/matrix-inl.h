@@ -288,7 +288,7 @@ template <typename T>
 Matrix<T, 1, 1>::Matrix(const std::initializer_list<T>& lst) {
     JET_ASSERT(lst.size() > 0);
 
-    x = static_cast<T>(*lst.begin());
+    x = *lst.begin();
 }
 
 template <typename T>
@@ -372,6 +372,11 @@ constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::makeUnitX() {
     return Matrix<T, 1, 1>(1);
 }
 
+template <typename T>
+constexpr Matrix<T, 1, 1> Matrix<T, 1, 1>::makeUnit(size_t) {
+    return makeUnitX();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix<T, 2, 1> (aka Vector2)
 
@@ -389,8 +394,8 @@ Matrix<T, 2, 1>::Matrix(const std::initializer_list<T>& lst) {
     JET_ASSERT(lst.size() > 1);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter);
 }
 
 template <typename T>
@@ -482,6 +487,11 @@ constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnitY() {
     return Matrix<T, 2, 1>(0, 1);
 }
 
+template <typename T>
+constexpr Matrix<T, 2, 1> Matrix<T, 2, 1>::makeUnit(size_t i) {
+    return Matrix<T, 2, 1>(i == 0, i == 1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix<T, 3, 1> (aka Vector3)
 
@@ -500,9 +510,9 @@ Matrix<T, 3, 1>::Matrix(const std::initializer_list<T>& lst) {
     JET_ASSERT(lst.size() > 2);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter++));
-    z = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter++);
+    z = *(iter);
 }
 
 template <typename T>
@@ -602,6 +612,11 @@ constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnitZ() {
     return Matrix<T, 3, 1>(0, 0, 1);
 }
 
+template <typename T>
+constexpr Matrix<T, 3, 1> Matrix<T, 3, 1>::makeUnit(size_t i) {
+    return Matrix<T, 3, 1>(i == 0, i == 1, i == 2);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Matrix<T, 4, 1> (aka Vector4)
 
@@ -621,10 +636,10 @@ Matrix<T, 4, 1>::Matrix(const std::initializer_list<T>& lst) {
     JET_ASSERT(lst.size() > 3);
 
     auto iter = lst.begin();
-    x = static_cast<T>(*(iter++));
-    y = static_cast<T>(*(iter++));
-    z = static_cast<T>(*(iter++));
-    w = static_cast<T>(*(iter));
+    x = *(iter++);
+    y = *(iter++);
+    z = *(iter++);
+    w = *(iter);
 }
 
 template <typename T>
@@ -730,6 +745,11 @@ constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitZ() {
 template <typename T>
 constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnitW() {
     return Matrix<T, 4, 1>(0, 0, 0, 1);
+}
+
+template <typename T>
+constexpr Matrix<T, 4, 1> Matrix<T, 4, 1>::makeUnit(size_t i) {
+    return Matrix<T, 4, 1>(i == 0, i == 1, i == 2, i == 3);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

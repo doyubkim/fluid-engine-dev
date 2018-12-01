@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/face_centered_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/fdm_mg_solver2.h>
 #include <jet/grid_single_phase_pressure_solver2.h>
 
@@ -14,7 +14,7 @@
 using namespace jet;
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhase) {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -58,7 +58,7 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhase) {
 }
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed) {
-    FaceCenteredGrid2 vel(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -102,8 +102,8 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseCompressed) {
 }
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary) {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 boundarySdf(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
+    CellCenteredScalarGrid2 boundarySdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -152,8 +152,8 @@ TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithBoundary) {
 }
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurface) {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSdf(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
+    CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -199,8 +199,8 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurface) {
 }
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSdf(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
+    CellCenteredScalarGrid2 fluidSdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -246,9 +246,9 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceCompressed) {
 }
 
 TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary) {
-    FaceCenteredGrid2 vel(3, 3);
-    CellCenteredScalarGrid2 fluidSdf(3, 3);
-    CellCenteredScalarGrid2 boundarySdf(3, 3);
+    FaceCenteredGrid2 vel({3, 3});
+    CellCenteredScalarGrid2 fluidSdf({3, 3});
+    CellCenteredScalarGrid2 boundarySdf({3, 3});
 
     for (size_t j = 0; j < 3; ++j) {
         for (size_t i = 0; i < 4; ++i) {
@@ -301,7 +301,7 @@ TEST(GridSinglePhasePressureSolver2, SolveFreeSurfaceWithBoundary) {
 
 TEST(GridSinglePhasePressureSolver2, SolveSinglePhaseWithMg) {
     size_t n = 64;
-    FaceCenteredGrid2 vel(n, n);
+    FaceCenteredGrid2 vel({n, n});
 
     for (size_t j = 0; j < n; ++j) {
         for (size_t i = 0; i < n + 1; ++i) {

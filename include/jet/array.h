@@ -67,6 +67,14 @@ class ArrayBase {
 
     const_iterator end() const;
 
+    iterator rbegin();
+
+    const_iterator rbegin() const;
+
+    iterator rend();
+
+    const_iterator rend() const;
+
     reference at(size_t i);
 
     const_reference at(size_t i) const;

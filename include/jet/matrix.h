@@ -158,6 +158,8 @@ class Matrix<T, 1, 1> final : public MatrixExpression<T, 1, 1, Matrix<T, 1, 1>>,
     // Builders
 
     constexpr static Matrix makeUnitX();
+
+    constexpr static Matrix makeUnit(size_t i);
 };
 
 template <typename T>
@@ -228,6 +230,8 @@ class Matrix<T, 2, 1> final : public MatrixExpression<T, 2, 1, Matrix<T, 2, 1>>,
     constexpr static Matrix makeUnitX();
 
     constexpr static Matrix makeUnitY();
+
+    constexpr static Matrix makeUnit(size_t i);
 };
 
 template <typename T>
@@ -306,6 +310,8 @@ class Matrix<T, 3, 1> final : public MatrixExpression<T, 3, 1, Matrix<T, 3, 1>>,
     constexpr static Matrix makeUnitY();
 
     constexpr static Matrix makeUnitZ();
+
+    constexpr static Matrix makeUnit(size_t i);
 };
 
 template <typename T>
@@ -384,6 +390,8 @@ class Matrix<T, 4, 1> final : public MatrixExpression<T, 4, 1, Matrix<T, 4, 1>>,
     constexpr static Matrix makeUnitZ();
 
     constexpr static Matrix makeUnitW();
+
+    constexpr static Matrix makeUnit(size_t i);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

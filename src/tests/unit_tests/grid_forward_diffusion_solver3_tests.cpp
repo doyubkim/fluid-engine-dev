@@ -4,15 +4,15 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/grid_forward_euler_diffusion_solver3.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
 
 TEST(GridForwardEulerDiffusionSolver3, Solve) {
-    CellCenteredScalarGrid3 src(3, 3, 3, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
-    CellCenteredScalarGrid3 dst(3, 3, 3, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
+    CellCenteredScalarGrid3 src({3, 3, 3}, {1.0, 1.0, 1.0}, {0.0, 0.0, 0.0});
+    CellCenteredScalarGrid3 dst({3, 3, 3}, {1.0, 1.0, 1.0}, {0.0, 0.0, 0.0});
 
     src(1, 1, 1) = 1.0;
 

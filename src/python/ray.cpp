@@ -15,11 +15,10 @@ using namespace jet;
 void addRay2F(pybind11::module& m) {
     py::class_<Ray2F>(m, "Ray2F")
         // CTOR
-        .def("__init__",
-             [](Ray2F& instance, py::object origin, py::object direction) {
-                 new (&instance) Ray2F(objectToVector2F(origin),
-                                       objectToVector2F(direction));
-             },
+        .def(py::init([](py::object origin, py::object direction) {
+                 return new Ray2F(objectToVector2F(origin),
+                                  objectToVector2F(direction));
+             }),
              R"pbdoc(
              Constructs Ray2F
 
@@ -36,11 +35,10 @@ void addRay2F(pybind11::module& m) {
 void addRay2D(pybind11::module& m) {
     py::class_<Ray2D>(m, "Ray2D")
         // CTOR
-        .def("__init__",
-             [](Ray2D& instance, py::object origin, py::object direction) {
-                 new (&instance) Ray2D(objectToVector2D(origin),
-                                       objectToVector2D(direction));
-             },
+        .def(py::init([](py::object origin, py::object direction) {
+                 return new Ray2D(objectToVector2D(origin),
+                                  objectToVector2D(direction));
+             }),
              R"pbdoc(
              Constructs Ray2D
 
@@ -57,11 +55,10 @@ void addRay2D(pybind11::module& m) {
 void addRay3F(pybind11::module& m) {
     py::class_<Ray3F>(m, "Ray3F")
         // CTOR
-        .def("__init__",
-             [](Ray3F& instance, py::object origin, py::object direction) {
-                 new (&instance) Ray3F(objectToVector3F(origin),
-                                       objectToVector3F(direction));
-             },
+        .def(py::init([](py::object origin, py::object direction) {
+                 return new Ray3F(objectToVector3F(origin),
+                                  objectToVector3F(direction));
+             }),
              R"pbdoc(
              Constructs Ray3F
 
@@ -78,11 +75,10 @@ void addRay3F(pybind11::module& m) {
 void addRay3D(pybind11::module& m) {
     py::class_<Ray3D>(m, "Ray3D")
         // CTOR
-        .def("__init__",
-             [](Ray3D& instance, py::object origin, py::object direction) {
-                 new (&instance) Ray3D(objectToVector3D(origin),
-                                       objectToVector3D(direction));
-             },
+        .def(py::init([](py::object origin, py::object direction) {
+                 return new Ray3D(objectToVector3D(origin),
+                                  objectToVector3D(direction));
+             }),
              R"pbdoc(
              Constructs Ray3D
 

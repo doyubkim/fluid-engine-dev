@@ -7,13 +7,13 @@
 #ifndef INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER3_H_
 #define INCLUDE_JET_GRID_FRACTIONAL_SINGLE_PHASE_PRESSURE_SOLVER3_H_
 
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/fdm_linear_system_solver3.h>
 #include <jet/fdm_mg_linear_system3.h>
 #include <jet/fdm_mg_solver3.h>
 #include <jet/grid_boundary_condition_solver3.h>
 #include <jet/grid_pressure_solver3.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 #include <memory>
 

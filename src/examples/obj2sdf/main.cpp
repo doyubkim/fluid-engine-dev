@@ -17,9 +17,8 @@
 
 using namespace jet;
 
-void saveTriangleMeshData(
-    const TriangleMesh3& data,
-    const std::string& filename) {
+void saveTriangleMeshData(const TriangleMesh3& data,
+                          const std::string& filename) {
     std::ofstream file(filename.c_str());
     if (file) {
         data.writeObj(&file);
@@ -86,25 +85,22 @@ int main(int argc, char* argv[]) {
 
     size_t resolutionY = static_cast<size_t>(
         std::ceil(resolutionX * box.height() / box.width()));
-    size_t resolutionZ = static_cast<size_t>(
-        std::ceil(resolutionX * box.depth() / box.width()));
+    size_t resolutionZ =
+        static_cast<size_t>(std::ceil(resolutionX * box.depth() / box.width()));
 
-    printf(
-        "Vertex-centered grid size: %zu x %zu x %zu\n",
-        resolutionX, resolutionY, resolutionZ);
+    printf("Vertex-centered grid size: %zu x %zu x %zu\n", resolutionX,
+           resolutionY, resolutionZ);
 
     double dx = box.width() / resolutionX;
 
     VertexCenteredScalarGrid3 grid(
-        resolutionX, resolutionY, resolutionZ,
-        dx, dx, dx,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+        {resolutionX, resolutionY, resolutionZ}, {dx, dx, dx},
+        {box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z});
 
     BoundingBox3D domain = grid.boundingBox();
-    printf(
-        "Domain size: [%f, %f, %f] x [%f, %f, %f]\n",
-        domain.lowerCorner.x, domain.lowerCorner.y, domain.lowerCorner.z,
-        domain.upperCorner.x, domain.upperCorner.y, domain.upperCorner.z);
+    printf("Domain size: [%f, %f, %f] x [%f, %f, %f]\n", domain.lowerCorner.x,
+           domain.lowerCorner.y, domain.lowerCorner.z, domain.upperCorner.x,
+           domain.upperCorner.y, domain.upperCorner.z);
     printf("Generating SDF...");
 
     triangleMeshToSdf(triMesh, &grid);
@@ -125,13 +121,8 @@ int main(int argc, char* argv[]) {
     }
 
     TriangleMesh3 triMesh2;
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh2,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh2,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh2, outputFilename + "_previz.obj");
 

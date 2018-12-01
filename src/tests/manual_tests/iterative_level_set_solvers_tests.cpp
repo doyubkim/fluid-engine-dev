@@ -7,10 +7,9 @@
 #include <manual_tests.h>
 
 #include <jet/array_utils.h>
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/cubic_semi_lagrangian2.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/custom_vector_field.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>
 #include <jet/upwind_level_set_solver2.h>
@@ -22,38 +21,32 @@ JET_TESTS(LevelSetSolver2);
 
 JET_BEGIN_TEST_F(LevelSetSolver2, Reinitialize) {
     Vector2UZ size(256, 256);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
+    Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
     CellCenteredScalarGrid2 data1(size, gridSpacing);
 
-    data0.fill([&] (const Vector2D& pt) {
+    data0.fill([&](const Vector2D& pt) {
         return pt.distanceTo(Vector2D(0.5, 0.75)) - 0.15;
     });
 
-    auto flowFunc = [&] (const Vector2D& pt) {
+    auto flowFunc = [&](const Vector2D& pt) {
         Vector2D ret;
-        ret.x =
-            2.0 * square(std::sin(kPiD * pt.x))
-            * std::sin(kPiD * pt.y)
-            * std::cos(kPiD * pt.y);
-        ret.y =
-            -2.0 * square(std::sin(kPiD * pt.y))
-            * std::sin(kPiD * pt.x)
-            * std::cos(kPiD * pt.x);
+        ret.x = 2.0 * square(std::sin(kPiD * pt.x)) * std::sin(kPiD * pt.y) *
+                std::cos(kPiD * pt.y);
+        ret.y = -2.0 * square(std::sin(kPiD * pt.y)) * std::sin(kPiD * pt.x) *
+                std::cos(kPiD * pt.x);
         return ret;
     };
 
     CustomVectorField2 flow(flowFunc);
 
-    CellCenteredScalarGrid2 dataU(Vector2UZ(20, 20), Vector2D(1/20.0, 1/20.0));
-    CellCenteredScalarGrid2 dataV(Vector2UZ(20, 20), Vector2D(1/20.0, 1/20.0));
-    dataU.fill([&] (const Vector2D& pt) {
-        return flowFunc(pt).x;
-    });
-    dataV.fill([&] (const Vector2D& pt) {
-        return flowFunc(pt).y;
-    });
+    CellCenteredScalarGrid2 dataU(Vector2UZ(20, 20),
+                                  Vector2D(1 / 20.0, 1 / 20.0));
+    CellCenteredScalarGrid2 dataV(Vector2UZ(20, 20),
+                                  Vector2D(1 / 20.0, 1 / 20.0));
+    dataU.fill([&](const Vector2D& pt) { return flowFunc(pt).x; });
+    dataV.fill([&](const Vector2D& pt) { return flowFunc(pt).y; });
     saveData(dataU.dataView(), "flow_#grid2,x.npy");
     saveData(dataV.dataView(), "flow_#grid2,y.npy");
 
@@ -73,25 +66,21 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize) {
     Vector2UZ size(256, 256);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
+    Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
 
     CellCenteredScalarGrid2 data0(size, gridSpacing);
     CellCenteredScalarGrid2 data1(size, gridSpacing);
 
-    data0.fill([&] (const Vector2D& pt) {
+    data0.fill([&](const Vector2D& pt) {
         return pt.distanceTo(Vector2D(0.5, 0.75)) - 0.15;
     });
 
-    CustomVectorField2 flow([&] (const Vector2D& pt) {
+    CustomVectorField2 flow([&](const Vector2D& pt) {
         Vector2D ret;
-        ret.x =
-            2.0 * square(std::sin(kPiD * pt.x))
-            * std::sin(kPiD * pt.y)
-            * std::cos(kPiD * pt.y);
-        ret.y =
-            -2.0 * square(std::sin(kPiD * pt.y))
-            * std::sin(kPiD * pt.x)
-            * std::cos(kPiD * pt.x);
+        ret.x = 2.0 * square(std::sin(kPiD * pt.x)) * std::sin(kPiD * pt.y) *
+                std::cos(kPiD * pt.y);
+        ret.y = -2.0 * square(std::sin(kPiD * pt.y)) * std::sin(kPiD * pt.x) *
+                std::cos(kPiD * pt.x);
         return ret;
     });
 
@@ -105,17 +94,14 @@ JET_BEGIN_TEST_F(LevelSetSolver2, NoReinitialize) {
 }
 JET_END_TEST_F
 
-
 JET_TESTS(UpwindLevelSetSolver2);
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
     UpwindLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
@@ -157,13 +143,11 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({160, 120}), temp({160, 120});
     UpwindLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
@@ -206,7 +190,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate) {
     Vector2UZ size(160, 120);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
+    Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
     UpwindLevelSetSolver2 solver;
@@ -235,11 +219,10 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver2, Extrapolate) {
 }
 JET_END_TEST_F
 
-
 JET_TESTS(UpwindLevelSetSolver3);
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ReinitializeSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -263,8 +246,8 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ExtrapolateSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -294,17 +277,14 @@ JET_BEGIN_TEST_F(UpwindLevelSetSolver3, ExtrapolateSmall) {
 }
 JET_END_TEST_F
 
-
 JET_TESTS(EnoLevelSetSolver2);
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, ReinitializeSmall) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
     EnoLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 40.0, &temp);
@@ -346,13 +326,11 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(160, 120), temp(160, 120);
+    CellCenteredScalarGrid2 sdf({160, 120}), temp({160, 120});
     EnoLevelSetSolver2 solver;
 
     // Starting from constant field
-    sdf.fill([](const Vector2D& x) {
-        return 1.0;
-    });
+    sdf.fill([](const Vector2D& x) { return 1.0; });
     saveData(sdf.dataView(), "constant0_#grid2,iso.npy");
 
     solver.reinitialize(sdf, 160.0, &temp);
@@ -395,7 +373,7 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver2, Extrapolate) {
     Vector2UZ size(160, 120);
-    Vector2D gridSpacing(1.0/size.x, 1.0/size.x);
+    Vector2D gridSpacing(1.0 / size.x, 1.0 / size.x);
     double maxDistance = 20.0 * gridSpacing.x;
 
     EnoLevelSetSolver2 solver;
@@ -424,11 +402,10 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver2, Extrapolate) {
 }
 JET_END_TEST_F
 
-
 JET_TESTS(EnoLevelSetSolver3);
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver3, ReinitializeSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -452,8 +429,8 @@ JET_BEGIN_TEST_F(EnoLevelSetSolver3, ReinitializeSmall) {
 JET_END_TEST_F
 
 JET_BEGIN_TEST_F(EnoLevelSetSolver3, ExtrapolateSmall) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;

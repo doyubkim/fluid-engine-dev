@@ -78,7 +78,7 @@ using Plane3Ptr = std::shared_ptr<Plane3>;
 //! \brief Front-end to create Plane objects step by step.
 //!
 template <size_t N>
-class Plane<N>::Builder final : public SurfaceBuilderBase<N, Plane<N>::Builder> {
+class Plane<N>::Builder final : public SurfaceBuilderBase<N, typename Plane<N>::Builder> {
  public:
     //! Returns builder with plane normal.
     Builder& withNormal(const Vector<double, N>& normal);
@@ -93,7 +93,7 @@ class Plane<N>::Builder final : public SurfaceBuilderBase<N, Plane<N>::Builder> 
     std::shared_ptr<Plane<N>> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, Plane<N>::Builder>;
+    using Base = SurfaceBuilderBase<N, typename Plane<N>::Builder>;
     using Base::_transform;
     using Base::_isNormalFlipped;
 

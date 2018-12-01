@@ -35,14 +35,14 @@ void FlipSolver3::transferFromParticlesToGrids() {
     _vDelta.resize(v.size());
     _wDelta.resize(w.size());
 
-    vel->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        _uDelta(i, j, k) = static_cast<float>(u(i, j, k));
+    vel->parallelForEachUIndex([&](const Vector3UZ& idx) {
+        _uDelta(idx) = static_cast<float>(u(idx));
     });
-    vel->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        _vDelta(i, j, k) = static_cast<float>(v(i, j, k));
+    vel->parallelForEachVIndex([&](const Vector3UZ& idx) {
+        _vDelta(idx) = static_cast<float>(v(idx));
     });
-    vel->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        _wDelta(i, j, k) = static_cast<float>(w(i, j, k));
+    vel->parallelForEachWIndex([&](const Vector3UZ& idx) {
+        _wDelta(idx) = static_cast<float>(w(idx));
     });
 }
 
@@ -53,19 +53,19 @@ void FlipSolver3::transferFromGridsToParticles() {
     size_t numberOfParticles = particleSystemData()->numberOfParticles();
 
     // Compute delta
-    flow->parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        _uDelta(i, j, k) =
-            static_cast<float>(flow->u(i, j, k)) - _uDelta(i, j, k);
+    flow->parallelForEachUIndex([&](const Vector3UZ& idx) {
+        _uDelta(idx) =
+            static_cast<float>(flow->u(idx)) - _uDelta(idx);
     });
 
-    flow->parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        _vDelta(i, j, k) =
-            static_cast<float>(flow->v(i, j, k)) - _vDelta(i, j, k);
+    flow->parallelForEachVIndex([&](const Vector3UZ& idx) {
+        _vDelta(idx) =
+            static_cast<float>(flow->v(idx)) - _vDelta(idx);
     });
 
-    flow->parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        _wDelta(i, j, k) =
-            static_cast<float>(flow->w(i, j, k)) - _wDelta(i, j, k);
+    flow->parallelForEachWIndex([&](const Vector3UZ& idx) {
+        _wDelta(idx) =
+            static_cast<float>(flow->w(idx)) - _wDelta(idx);
     });
 
     LinearArraySampler3<float> uSampler(

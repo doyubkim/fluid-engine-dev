@@ -24,19 +24,19 @@ TEST(GridFractionalBoundaryConditionSolver2, ClosedDomain) {
 
     bndSolver.constrainVelocity(&velocity);
 
-    velocity.forEachUIndex([&](size_t i, size_t j) {
-        if (i == 0 || i == gridSize.x) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.u(i, j));
+    velocity.forEachUIndex([&](const Vector2UZ& idx) {
+        if (idx.x == 0 || idx.x == gridSize.x) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.u(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.u(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.u(idx));
         }
     });
 
-    velocity.forEachVIndex([&](size_t i, size_t j) {
-        if (j == 0 || j == gridSize.y) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.v(i, j));
+    velocity.forEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == 0 || idx.y == gridSize.y) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.v(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.v(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.v(idx));
         }
     });
 }
@@ -56,19 +56,19 @@ TEST(GridFractionalBoundaryConditionSolver2, OpenDomain) {
 
     bndSolver.constrainVelocity(&velocity);
 
-    velocity.forEachUIndex([&](size_t i, size_t j) {
-        if (i == 0) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.u(i, j));
+    velocity.forEachUIndex([&](const Vector2UZ& idx) {
+        if (idx.x == 0) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.u(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.u(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.u(idx));
         }
     });
 
-    velocity.forEachVIndex([&](size_t i, size_t j) {
-        if (j == gridSize.y) {
-            EXPECT_DOUBLE_EQ(0.0, velocity.v(i, j));
+    velocity.forEachVIndex([&](const Vector2UZ& idx) {
+        if (idx.y == gridSize.y) {
+            EXPECT_DOUBLE_EQ(0.0, velocity.v(idx));
         } else {
-            EXPECT_DOUBLE_EQ(1.0, velocity.v(i, j));
+            EXPECT_DOUBLE_EQ(1.0, velocity.v(idx));
         }
     });
 }

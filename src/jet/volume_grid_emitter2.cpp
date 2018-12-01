@@ -6,8 +6,8 @@
 
 #include <pch.h>
 
-#include <jet/collocated_vector_grid2.h>
-#include <jet/face_centered_grid2.h>
+#include <jet/collocated_vector_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit.h>
 #include <jet/volume_grid_emitter2.h>
@@ -114,19 +114,19 @@ void VolumeGridEmitter2::emit() {
             auto uPos = faceCentered->uPosition();
             auto vPos = faceCentered->vPosition();
 
-            faceCentered->parallelForEachUIndex([&](size_t i, size_t j) {
-                Vector2D gx = uPos(i, j);
+            faceCentered->parallelForEachUIndex([&](const Vector2UZ& idx) {
+                Vector2D gx = uPos(idx);
                 double sdf = sourceRegion()->signedDistance(gx);
                 Vector2D oldVal = faceCentered->sample(gx);
                 Vector2D newVal = mapper(sdf, gx, oldVal);
-                faceCentered->u(i, j) = newVal.x;
+                faceCentered->u(idx) = newVal.x;
             });
-            faceCentered->parallelForEachVIndex([&](size_t i, size_t j) {
-                Vector2D gx = vPos(i, j);
+            faceCentered->parallelForEachVIndex([&](const Vector2UZ& idx) {
+                Vector2D gx = vPos(idx);
                 double sdf = sourceRegion()->signedDistance(gx);
                 Vector2D oldVal = faceCentered->sample(gx);
                 Vector2D newVal = mapper(sdf, gx, oldVal);
-                faceCentered->v(i, j) = newVal.y;
+                faceCentered->v(idx) = newVal.y;
             });
             continue;
         }

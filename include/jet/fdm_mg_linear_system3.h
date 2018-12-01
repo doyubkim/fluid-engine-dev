@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_FDM_MG_LINEAR_SYSTEM3_H_
 #define INCLUDE_JET_FDM_MG_LINEAR_SYSTEM3_H_
 
-#include <jet/face_centered_grid3.h>
+#include <jet/face_centered_grid.h>
 #include <jet/fdm_linear_system3.h>
 #include <jet/mg.h>
 

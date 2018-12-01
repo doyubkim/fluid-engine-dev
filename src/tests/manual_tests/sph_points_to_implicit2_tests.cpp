@@ -6,7 +6,7 @@
 
 #include <manual_tests.h>
 
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/sph_points_to_implicit2.h>
 
 #include <random>
@@ -24,7 +24,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertTwo) {
         points.append(Vector2D{dist(rng), dist(rng)});
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
     SphPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);
@@ -43,7 +43,7 @@ JET_BEGIN_TEST_F(SphPointsToImplicit2, ConvertMany) {
         points.append(Vector2D{dist(rng), dist(rng)});
     }
 
-    CellCenteredScalarGrid2 grid(512, 512, 1.0 / 512, 1.0 / 512);
+    CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
     SphPointsToImplicit2 converter(0.1);
     converter.convert(points.view(), &grid);

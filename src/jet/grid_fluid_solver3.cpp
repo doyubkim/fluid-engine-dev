@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet/array_utils.h>
-#include <jet/constant_scalar_field3.h>
+#include <jet/constant_scalar_field.h>
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian3.h>
 #include <jet/grid_backward_euler_diffusion_solver3.h>
@@ -57,9 +57,9 @@ void GridFluidSolver3::setViscosityCoefficient(double newValue) {
 double GridFluidSolver3::cfl(double timeIntervalInSeconds) const {
     auto vel = _grids->velocity();
     double maxVel = 0.0;
-    vel->forEachCellIndex([&](size_t i, size_t j, size_t k) {
-        Vector3D v =
-            vel->valueAtCellCenter(i, j, k) + timeIntervalInSeconds * _gravity;
+    vel->forEachCellIndex([&](const Vector3UZ& idx) {
+        Vector3D v = vel->valueAtCellCenter(idx.x, idx.y, idx.z) +
+                     timeIntervalInSeconds * _gravity;
         maxVel = std::max(maxVel, v.x);
         maxVel = std::max(maxVel, v.y);
         maxVel = std::max(maxVel, v.z);
@@ -322,20 +322,20 @@ void GridFluidSolver3::computeGravity(double timeIntervalInSeconds) {
         auto w = vel->wView();
 
         if (std::abs(_gravity.x) > kEpsilonD) {
-            vel->forEachUIndex([&](size_t i, size_t j, size_t k) {
-                u(i, j, k) += timeIntervalInSeconds * _gravity.x;
+            vel->forEachUIndex([&](const Vector3UZ& idx) {
+                u(idx) += timeIntervalInSeconds * _gravity.x;
             });
         }
 
         if (std::abs(_gravity.y) > kEpsilonD) {
-            vel->forEachVIndex([&](size_t i, size_t j, size_t k) {
-                v(i, j, k) += timeIntervalInSeconds * _gravity.y;
+            vel->forEachVIndex([&](const Vector3UZ& idx) {
+                v(idx) += timeIntervalInSeconds * _gravity.y;
             });
         }
 
         if (std::abs(_gravity.z) > kEpsilonD) {
-            vel->forEachWIndex([&](size_t i, size_t j, size_t k) {
-                w(i, j, k) += timeIntervalInSeconds * _gravity.z;
+            vel->forEachWIndex([&](const Vector3UZ& idx) {
+                w(idx) += timeIntervalInSeconds * _gravity.z;
             });
         }
 

@@ -7,7 +7,7 @@
 #include <jet/array.h>
 #include <jet/array.h>
 #include <jet/bounding_box.h>
-#include <jet/point_kdtree_searcher2.h>
+#include <jet/point_kdtree_searcher.h>
 #include <jet/triangle_point_generator.h>
 
 #include <gtest/gtest.h>

@@ -82,7 +82,7 @@ using Box3Ptr = std::shared_ptr<Box3>;
 //! \brief Front-end to create Box objects step by step.
 //!
 template <size_t N>
-class Box<N>::Builder final : public SurfaceBuilderBase<N, Box<N>::Builder> {
+class Box<N>::Builder final : public SurfaceBuilderBase<N, typename Box<N>::Builder> {
  public:
     //! Returns builder with lower corner set.
     Builder& withLowerCorner(const Vector<double, N>& pt);
@@ -100,7 +100,7 @@ class Box<N>::Builder final : public SurfaceBuilderBase<N, Box<N>::Builder> {
     std::shared_ptr<Box<N>> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, Box<N>::Builder>;
+    using Base = SurfaceBuilderBase<N, typename Box<N>::Builder>;
     using Base::_isNormalFlipped;
     using Base::_transform;
 

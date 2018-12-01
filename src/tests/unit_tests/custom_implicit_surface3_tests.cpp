@@ -7,7 +7,7 @@
 #include <unit_tests_utils.h>
 
 #include <jet/box.h>
-#include <jet/custom_implicit_surface3.h>
+#include <jet/custom_implicit_surface.h>
 #include <jet/sphere.h>
 #include <jet/surface_to_implicit.h>
 

@@ -8,26 +8,19 @@
 #include "pybind11_utils.h"
 
 #include <jet/rigid_body_collider.h>
-#include <jet/rigid_body_collider.h>
 
 namespace py = pybind11;
 using namespace jet;
 
 void addRigidBodyCollider2(py::module& m) {
     py::class_<RigidBodyCollider2, RigidBodyCollider2Ptr, Collider2>(
-        m, "RigidBodyCollider2", R"pbdoc(
-        2-D rigid body collider class.
-
-        This class implements 2-D rigid body collider. The collider can only take
-        rigid body motion with linear and rotational velocities.
-        )pbdoc")
-        .def("__init__",
-             [](RigidBodyCollider2& instance, const Surface2Ptr& surface,
-                py::object linearVelocity, double angularVelocity) {
-                 new (&instance) RigidBodyCollider2(
-                     surface, objectToVector2D(linearVelocity),
-                     angularVelocity);
-             },
+        m, "RigidBodyCollider2")
+        .def(py::init([](const Surface2Ptr& surface, py::object linearVelocity,
+                         double angularVelocity) {
+                 return new RigidBodyCollider2(surface,
+                                               objectToVector2D(linearVelocity),
+                                               angularVelocity);
+             }),
              R"pbdoc(
              Constructs RigidBodyCollider2
 
@@ -50,19 +43,13 @@ void addRigidBodyCollider2(py::module& m) {
 
 void addRigidBodyCollider3(py::module& m) {
     py::class_<RigidBodyCollider3, RigidBodyCollider3Ptr, Collider3>(
-        m, "RigidBodyCollider3", R"pbdoc(
-        3-D rigid body collider class.
-
-        This class implements 3-D rigid body collider. The collider can only take
-        rigid body motion with linear and rotational velocities.
-        )pbdoc")
-        .def("__init__",
-             [](RigidBodyCollider3& instance, const Surface3Ptr& surface,
-                py::object linearVelocity, py::object angularVelocity) {
-                 new (&instance) RigidBodyCollider3(
+        m, "RigidBodyCollider3")
+        .def(py::init([](const Surface3Ptr& surface, py::object linearVelocity,
+                         py::object angularVelocity) {
+                 return new RigidBodyCollider3(
                      surface, objectToVector3D(linearVelocity),
                      objectToVector3D(angularVelocity));
-             },
+             }),
              R"pbdoc(
              Constructs RigidBodyCollider3
 

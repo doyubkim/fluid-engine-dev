@@ -21,10 +21,8 @@ void addTriangle3(pybind11::module& m) {
          overriding surface-related queries.
          )pbdoc")
         // CTOR
-        .def("__init__",
-             [](Triangle3& instance, py::list points, py::list normals,
-                py::list uvs, const Transform3& transform,
-                bool isNormalFlipped) {
+        .def(py::init([](py::list points, py::list normals, py::list uvs,
+                         const Transform3& transform, bool isNormalFlipped) {
                  if (points.size() != 3) {
                      throw std::invalid_argument("Wrong size of point list.");
                  }
@@ -42,15 +40,13 @@ void addTriangle3(pybind11::module& m) {
                      normals_[i] = objectToVector3D(normals);
                      uvs_[i] = objectToVector2D(uvs);
                  }
-                 new (&instance) Triangle3(points_, normals_, uvs_, transform,
-                                           isNormalFlipped);
-             },
+                 return new Triangle3(points_, normals_, uvs_, transform,
+                                      isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs a triangle with given `points`, `normals`, and `uvs`.
              )pbdoc",
-             py::arg("points"),
-             py::arg("normals"),
-             py::arg("uvs"),
+             py::arg("points"), py::arg("normals"), py::arg("uvs"),
              py::arg("transform") = Transform3(),
              py::arg("isNormalFlipped") = false)
         .def_readwrite("points", &Triangle3::points)

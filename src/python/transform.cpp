@@ -15,12 +15,10 @@ using namespace jet;
 void addTransform2(pybind11::module& m) {
     py::class_<Transform2>(m, "Transform2")
         // CTOR
-        .def("__init__",
-             [](Transform2& instance, py::object translation,
-                double orientation) {
+        .def(py::init([](py::object translation, double orientation) {
                  Vector2D translation_ = objectToVector2D(translation);
-                 new (&instance) Transform2(translation_, orientation);
-             },
+                 return new Transform2(translation_, orientation);
+             }),
              R"pbdoc(
              Constructs Transform2
 
@@ -34,13 +32,11 @@ void addTransform2(pybind11::module& m) {
 void addTransform3(pybind11::module& m) {
     py::class_<Transform3>(m, "Transform3")
         // CTOR
-        .def("__init__",
-             [](Transform3& instance, py::object translation,
-                py::object orientation) {
+        .def(py::init([](py::object translation, py::object orientation) {
                  Vector3D translation_ = objectToVector3D(translation);
                  QuaternionD orientation_ = objectToQuaternionD(orientation);
-                 new (&instance) Transform3(translation_, orientation_);
-             },
+                 return new Transform3(translation_, orientation_);
+             }),
              R"pbdoc(
              Constructs Transform3
 

@@ -26,8 +26,7 @@ void addGridSmokeSolver2(py::module& m) {
             "Visual simulation of smoke." Proceedings of the 28th annual conference
             on Computer graphics and interactive techniques. ACM, 2001.
         )pbdoc")
-        .def("__init__",
-             [](GridSmokeSolver2& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
@@ -35,9 +34,9 @@ void addGridSmokeSolver2(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     GridSmokeSolver2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new GridSmokeSolver2(resolution, gridSpacing,
+                                             gridOrigin);
+             }),
              R"pbdoc(
              Constructs GridSmokeSolver2
 
@@ -123,8 +122,7 @@ void addGridSmokeSolver3(py::module& m) {
             "Visual simulation of smoke." Proceedings of the 28th annual conference
             on Computer graphics and interactive techniques. ACM, 2001.
         )pbdoc")
-        .def("__init__",
-             [](GridSmokeSolver3& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
@@ -132,9 +130,9 @@ void addGridSmokeSolver3(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     GridSmokeSolver3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new GridSmokeSolver3(resolution, gridSpacing,
+                                             gridOrigin);
+             }),
              R"pbdoc(
              Constructs GridSmokeSolver3
 

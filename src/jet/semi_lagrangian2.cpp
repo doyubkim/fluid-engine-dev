@@ -5,25 +5,20 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/array_samplers.h>
 #include <jet/parallel.h>
 #include <jet/semi_lagrangian2.h>
-#include <algorithm>
 
 using namespace jet;
 
-SemiLagrangian2::SemiLagrangian2() {
-}
+SemiLagrangian2::SemiLagrangian2() {}
 
-SemiLagrangian2::~SemiLagrangian2() {
-}
+SemiLagrangian2::~SemiLagrangian2() {}
 
-void SemiLagrangian2::advect(
-    const ScalarGrid2& input,
-    const VectorField2& flow,
-    double dt,
-    ScalarGrid2* output,
-    const ScalarField2& boundarySdf) {
+void SemiLagrangian2::advect(const ScalarGrid2& input, const VectorField2& flow,
+                             double dt, ScalarGrid2* output,
+                             const ScalarField2& boundarySdf) {
     auto outputDataPos = output->dataPosition();
     auto outputDataAcc = output->dataView();
     auto inputSamplerFunc = getScalarSamplerFunc(input);
@@ -33,19 +28,17 @@ void SemiLagrangian2::advect(
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
         if (boundarySdf.sample(inputDataPos(i, j)) > 0.0) {
-            Vector2D pt = backTrace(
-                flow, dt, h, outputDataPos(i, j), boundarySdf);
+            Vector2D pt =
+                backTrace(flow, dt, h, outputDataPos(i, j), boundarySdf);
             outputDataAcc(i, j) = inputSamplerFunc(pt);
         }
     });
 }
 
-void SemiLagrangian2::advect(
-    const CollocatedVectorGrid2& input,
-    const VectorField2& flow,
-    double dt,
-    CollocatedVectorGrid2* output,
-    const ScalarField2& boundarySdf) {
+void SemiLagrangian2::advect(const CollocatedVectorGrid2& input,
+                             const VectorField2& flow, double dt,
+                             CollocatedVectorGrid2* output,
+                             const ScalarField2& boundarySdf) {
     auto inputSamplerFunc = getVectorSamplerFunc(input);
 
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
@@ -56,19 +49,17 @@ void SemiLagrangian2::advect(
 
     output->parallelForEachDataPointIndex([&](size_t i, size_t j) {
         if (boundarySdf.sample(inputDataPos(i, j)) > 0.0) {
-            Vector2D pt = backTrace(
-                flow, dt, h, outputDataPos(i, j), boundarySdf);
+            Vector2D pt =
+                backTrace(flow, dt, h, outputDataPos(i, j), boundarySdf);
             outputDataAcc(i, j) = inputSamplerFunc(pt);
         }
     });
 }
 
-void SemiLagrangian2::advect(
-    const FaceCenteredGrid2& input,
-    const VectorField2& flow,
-    double dt,
-    FaceCenteredGrid2* output,
-    const ScalarField2& boundarySdf) {
+void SemiLagrangian2::advect(const FaceCenteredGrid2& input,
+                             const VectorField2& flow, double dt,
+                             FaceCenteredGrid2* output,
+                             const ScalarField2& boundarySdf) {
     auto inputSamplerFunc = getVectorSamplerFunc(input);
 
     double h = std::min(output->gridSpacing().x, output->gridSpacing().y);
@@ -77,11 +68,11 @@ void SemiLagrangian2::advect(
     auto uTargetDataAcc = output->uView();
     auto uSourceDataPos = input.uPosition();
 
-    output->parallelForEachUIndex([&](size_t i, size_t j) {
-        if (boundarySdf.sample(uSourceDataPos(i, j)) > 0.0) {
-            Vector2D pt = backTrace(
-                flow, dt, h, uTargetDataPos(i, j), boundarySdf);
-            uTargetDataAcc(i, j) = inputSamplerFunc(pt).x;
+    output->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        if (boundarySdf.sample(uSourceDataPos(idx)) > 0.0) {
+            Vector2D pt =
+                backTrace(flow, dt, h, uTargetDataPos(idx), boundarySdf);
+            uTargetDataAcc(idx) = inputSamplerFunc(pt).x;
         }
     });
 
@@ -89,22 +80,18 @@ void SemiLagrangian2::advect(
     auto vTargetDataAcc = output->vView();
     auto vSourceDataPos = input.vPosition();
 
-    output->parallelForEachVIndex([&](size_t i, size_t j) {
-        if (boundarySdf.sample(vSourceDataPos(i, j)) > 0.0) {
-            Vector2D pt = backTrace(
-                flow, dt, h, vTargetDataPos(i, j), boundarySdf);
-            vTargetDataAcc(i, j) = inputSamplerFunc(pt).y;
+    output->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        if (boundarySdf.sample(vSourceDataPos(idx)) > 0.0) {
+            Vector2D pt =
+                backTrace(flow, dt, h, vTargetDataPos(idx), boundarySdf);
+            vTargetDataAcc(idx) = inputSamplerFunc(pt).y;
         }
     });
 }
 
-Vector2D SemiLagrangian2::backTrace(
-    const VectorField2& flow,
-    double dt,
-    double h,
-    const Vector2D& startPt,
-    const ScalarField2& boundarySdf) {
-
+Vector2D SemiLagrangian2::backTrace(const VectorField2& flow, double dt,
+                                    double h, const Vector2D& startPt,
+                                    const ScalarField2& boundarySdf) {
     double remainingT = dt;
     Vector2D pt0 = startPt;
     Vector2D pt1 = startPt;
@@ -112,8 +99,8 @@ Vector2D SemiLagrangian2::backTrace(
     while (remainingT > kEpsilonD) {
         // Adaptive time-stepping
         Vector2D vel0 = flow.sample(pt0);
-        double numSubSteps
-            = std::max(std::ceil(vel0.length() * remainingT / h), 1.0);
+        double numSubSteps =
+            std::max(std::ceil(vel0.length() * remainingT / h), 1.0);
         dt = remainingT / numSubSteps;
 
         // Mid-point rule
@@ -138,18 +125,17 @@ Vector2D SemiLagrangian2::backTrace(
     return pt1;
 }
 
-std::function<double(const Vector2D&)>
-SemiLagrangian2::getScalarSamplerFunc(const ScalarGrid2& input) const {
+std::function<double(const Vector2D&)> SemiLagrangian2::getScalarSamplerFunc(
+    const ScalarGrid2& input) const {
     return input.sampler();
 }
 
-std::function<Vector2D(const Vector2D&)>
-SemiLagrangian2::getVectorSamplerFunc(
+std::function<Vector2D(const Vector2D&)> SemiLagrangian2::getVectorSamplerFunc(
     const CollocatedVectorGrid2& input) const {
     return input.sampler();
 }
 
-std::function<Vector2D(const Vector2D&)>
-SemiLagrangian2::getVectorSamplerFunc(const FaceCenteredGrid2& input) const {
+std::function<Vector2D(const Vector2D&)> SemiLagrangian2::getVectorSamplerFunc(
+    const FaceCenteredGrid2& input) const {
     return input.sampler();
 }

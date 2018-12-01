@@ -79,7 +79,7 @@ using Sphere3Ptr = std::shared_ptr<Sphere3>;
 //!
 template <size_t N>
 class Sphere<N>::Builder final
-    : public SurfaceBuilderBase<N, Sphere<N>::Builder> {
+    : public SurfaceBuilderBase<N, typename Sphere<N>::Builder> {
  public:
     //! Returns builder with sphere center.
     Builder& withCenter(const Vector<double, N>& center);
@@ -94,7 +94,7 @@ class Sphere<N>::Builder final
     std::shared_ptr<Sphere<N>> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, Sphere<N>::Builder>;
+    using Base = SurfaceBuilderBase<N, typename Sphere<N>::Builder>;
     using Base::_isNormalFlipped;
     using Base::_transform;
 

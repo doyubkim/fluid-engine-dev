@@ -8,7 +8,6 @@
 #include "pybind11_utils.h"
 
 #include <jet/sphere.h>
-#include <jet/sphere.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -16,12 +15,11 @@ using namespace jet;
 void addSphere2(pybind11::module& m) {
     py::class_<Sphere2, Sphere2Ptr, Surface2>(m, "Sphere2")
         // CTOR
-        .def("__init__",
-             [](Sphere2& instance, py::object center, double radius,
-                const Transform2& transform, bool isNormalFlipped) {
-                 new (&instance) Sphere2(objectToVector2D(center), radius,
-                                         transform, isNormalFlipped);
-             },
+        .def(py::init([](py::object center, double radius,
+                         const Transform2& transform, bool isNormalFlipped) {
+                 return new Sphere2(objectToVector2D(center), radius, transform,
+                                    isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs Sphere2.
 
@@ -38,12 +36,11 @@ void addSphere2(pybind11::module& m) {
 void addSphere3(pybind11::module& m) {
     py::class_<Sphere3, Sphere3Ptr, Surface3>(m, "Sphere3")
         // CTOR
-        .def("__init__",
-             [](Sphere3& instance, py::object center, double radius,
-                const Transform3& transform, bool isNormalFlipped) {
-                 new (&instance) Sphere3(objectToVector3D(center), radius,
-                                         transform, isNormalFlipped);
-             },
+        .def(py::init([](py::object center, double radius,
+                         const Transform3& transform, bool isNormalFlipped) {
+                 return new Sphere3(objectToVector3D(center), radius, transform,
+                                    isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs Sphere3.
 

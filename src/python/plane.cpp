@@ -8,7 +8,6 @@
 #include "pybind11_utils.h"
 
 #include <jet/plane.h>
-#include <jet/plane.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -22,15 +21,13 @@ void addPlane2(pybind11::module& m) {
          overriding surface-related queries.
          )pbdoc")
         // CTOR
-        .def("__init__",
-             [](Plane2& instance, py::object normal, py::object point,
-                const Transform2& transform, bool isNormalFlipped) {
+        .def(py::init([](py::object normal, py::object point,
+                         const Transform2& transform, bool isNormalFlipped) {
                  Vector2D normal_ = objectToVector2D(normal);
                  Vector2D point_ = objectToVector2D(point);
 
-                 new (&instance)
-                     Plane2(normal_, point_, transform, isNormalFlipped);
-             },
+                 return new Plane2(normal_, point_, transform, isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs a plane that cross `point` with surface `normal`.
              )pbdoc",
@@ -50,15 +47,13 @@ void addPlane3(pybind11::module& m) {
          overriding surface-related queries.
          )pbdoc")
         // CTOR
-        .def("__init__",
-             [](Plane3& instance, py::object normal, py::object point,
-                const Transform3& transform, bool isNormalFlipped) {
+        .def(py::init([](py::object normal, py::object point,
+                         const Transform3& transform, bool isNormalFlipped) {
                  Vector3D normal_ = objectToVector3D(normal);
                  Vector3D point_ = objectToVector3D(point);
 
-                 new (&instance)
-                     Plane3(normal_, point_, transform, isNormalFlipped);
-             },
+                 return new Plane3(normal_, point_, transform, isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs a plane that cross `point` with surface `normal`.
              )pbdoc",

@@ -42,9 +42,8 @@ void GridBackwardEulerDiffusionSolver3::solve(const ScalarGrid3& source,
         _systemSolver->solve(&_system);
 
         // Assign the solution
-        source.parallelForEachDataPointIndex([&](size_t i, size_t j, size_t k) {
-            (*dest)(i, j, k) = _system.x(i, j, k);
-        });
+        source.parallelForEachDataPointIndex(
+            [&](const Vector3UZ& idx) { (*dest)(idx) = _system.x(idx); });
     }
 }
 
@@ -119,8 +118,8 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
         _systemSolver->solve(&_system);
 
         // Assign the solution
-        source.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-            dest->u(i, j, k) = _system.x(i, j, k);
+        source.parallelForEachUIndex([&](const Vector3UZ& idx) {
+            dest->u(idx) = _system.x(idx);
         });
     }
 
@@ -135,8 +134,8 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
         _systemSolver->solve(&_system);
 
         // Assign the solution
-        source.parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-            dest->v(i, j, k) = _system.x(i, j, k);
+        source.parallelForEachVIndex([&](const Vector3UZ& idx) {
+            dest->v(idx) = _system.x(idx);
         });
     }
 
@@ -151,8 +150,8 @@ void GridBackwardEulerDiffusionSolver3::solve(const FaceCenteredGrid3& source,
         _systemSolver->solve(&_system);
 
         // Assign the solution
-        source.parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-            dest->w(i, j, k) = _system.x(i, j, k);
+        source.parallelForEachWIndex([&](const Vector3UZ& idx) {
+            dest->w(idx) = _system.x(idx);
         });
     }
 }
@@ -285,8 +284,7 @@ void GridBackwardEulerDiffusionSolver3::buildVectors(
 }
 
 void GridBackwardEulerDiffusionSolver3::buildVectors(
-    const ConstArrayView3<Vector3D>& f, const Vector3D& c,
-    size_t component) {
+    const ConstArrayView3<Vector3D>& f, const Vector3D& c, size_t component) {
     Vector3UZ size = f.size();
 
     _system.x.resize(size, 0.0);

@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid3.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 
 #include <benchmark/benchmark.h>
@@ -27,7 +27,7 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture {
         const auto n = static_cast<size_t>(state.range(0));
         const auto height = static_cast<double>(state.range(1));
 
-        vel.resize(n, n, n);
+        vel.resize({n, n, n});
         vel.fill(Vector3D());
 
         for (size_t k = 0; k < n; ++k) {
@@ -42,7 +42,7 @@ class GridFractionalSinglePhasePressureSolver3 : public ::benchmark::Fixture {
             }
         }
 
-        fluidSdf.resize(n, n, n);
+        fluidSdf.resize({n, n, n});
         fluidSdf.fill([&](const Vector3D& x) { return x.y - height; });
     }
 };
