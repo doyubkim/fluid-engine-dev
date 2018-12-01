@@ -27,9 +27,7 @@ void addLevelSetLiquidSolver2(py::module& m) {
                "Animation and rendering of complex water surfaces." ACM Transactions on
                Graphics (TOG). Vol. 21. No. 3. ACM, 2002.
          )pbdoc")
-        .def("__init__",
-             [](LevelSetLiquidSolver2& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
@@ -37,9 +35,9 @@ void addLevelSetLiquidSolver2(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     LevelSetLiquidSolver2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new LevelSetLiquidSolver2(resolution, gridSpacing,
+                                                  gridOrigin);
+             }),
              R"pbdoc(
              Constructs LevelSetLiquidSolver2
 
@@ -101,9 +99,7 @@ void addLevelSetLiquidSolver3(py::module& m) {
                "Animation and rendering of complex water surfaces." ACM Transactions on
                Graphics (TOG). Vol. 21. No. 3. ACM, 2002.
          )pbdoc")
-        .def("__init__",
-             [](LevelSetLiquidSolver3& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
@@ -111,9 +107,9 @@ void addLevelSetLiquidSolver3(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     LevelSetLiquidSolver3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new LevelSetLiquidSolver3(resolution, gridSpacing,
+                                                  gridOrigin);
+             }),
              R"pbdoc(
              Constructs LevelSetLiquidSolver3
 

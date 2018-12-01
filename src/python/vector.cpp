@@ -168,19 +168,16 @@ void addFloatVector(PyBindClass& cls, const std::string& name) {
         });
 }
 
-#define ADD_VECTOR2(NAME, SCALAR)                    \
-    py::class_<NAME> cls(m, #NAME);                  \
-    cls.def("__init__",                              \
-            [](NAME& instance, SCALAR x, SCALAR y) { \
-                new (&instance) NAME(x, y);          \
-            },                                       \
-            "Constructs " #NAME                      \
-            ".\n\n"                                  \
-            "This method constructs " #SCALAR        \
-            "-type 2-D vector with x and y.\n",      \
-            py::arg("x") = 0, py::arg("y") = 0)      \
-        .def_readwrite("x", &NAME::x)                \
-        .def_readwrite("y", &NAME::y);               \
+#define ADD_VECTOR2(NAME, SCALAR)                                        \
+    py::class_<NAME> cls(m, #NAME);                                      \
+    cls.def(py::init([](SCALAR x, SCALAR y) { return new NAME(x, y); }), \
+            "Constructs " #NAME                                          \
+            ".\n\n"                                                      \
+            "This method constructs " #SCALAR                            \
+            "-type 2-D vector with x and y.\n",                          \
+            py::arg("x") = 0, py::arg("y") = 0)                          \
+        .def_readwrite("x", &NAME::x)                                    \
+        .def_readwrite("y", &NAME::y);                                   \
     addVector<py::class_<NAME>, SCALAR, 2>(cls, #NAME);
 
 #define ADD_FLOAT_VECTOR2(NAME, SCALAR)               \
@@ -190,10 +187,9 @@ void addFloatVector(PyBindClass& cls, const std::string& name) {
 
 #define ADD_VECTOR3(NAME, SCALAR)                                 \
     py::class_<NAME> cls(m, #NAME);                               \
-    cls.def("__init__",                                           \
-            [](NAME& instance, SCALAR x, SCALAR y, SCALAR z) {    \
-                new (&instance) NAME(x, y, z);                    \
-            },                                                    \
+    cls.def(py::init([](SCALAR x, SCALAR y, SCALAR z) {           \
+                return new NAME(x, y, z);                         \
+            }),                                                   \
             "Constructs " #NAME                                   \
             ".\n\n"                                               \
             "This method constructs " #SCALAR                     \

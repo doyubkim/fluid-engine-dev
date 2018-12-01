@@ -26,16 +26,15 @@ void addFaceCenteredGrid2(py::module& m) {
         marker-and-cell (MAC) or staggered grid. This vector grid stores each vector
         component at face center. Thus, u and v components are not collocated.
         )pbdoc")
-        .def("__init__",
-             [](FaceCenteredGrid2& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance)
-                     FaceCenteredGrid2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new FaceCenteredGrid2(resolution, gridSpacing,
+                                              gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -110,7 +109,8 @@ void addFaceCenteredGrid2(py::module& m) {
              )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("valueAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, valueAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                             valueAtCellCenter),
              R"pbdoc(
              Returns interpolated value at cell center.
 
@@ -119,7 +119,8 @@ void addFaceCenteredGrid2(py::module& m) {
              - `*args` : Data point index (i, j).
              )pbdoc")
         .def("divergenceAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, divergenceAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                             divergenceAtCellCenter),
              R"pbdoc(
              Returns divergence at cell center.
 
@@ -128,7 +129,8 @@ void addFaceCenteredGrid2(py::module& m) {
              - `*args` : Data point index (i, j).
              )pbdoc")
         .def("curlAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2, curlAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid2,
+                                             curlAtCellCenter),
              R"pbdoc(
              Returns curl at cell center.
 
@@ -254,16 +256,15 @@ void addFaceCenteredGrid3(py::module& m) {
         marker-and-cell (MAC) or staggered grid. This vector grid stores each vector
         component at face center. Thus, u, v, and w components are not collocated.
         )pbdoc")
-        .def("__init__",
-             [](FaceCenteredGrid3& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance)
-                     FaceCenteredGrid3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new FaceCenteredGrid3(resolution, gridSpacing,
+                                              gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -363,7 +364,8 @@ void addFaceCenteredGrid3(py::module& m) {
              )pbdoc",
              py::arg("idx"), py::arg("val"))
         .def("valueAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, valueAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3,
+                                             valueAtCellCenter),
              R"pbdoc(
              Returns interpolated value at cell center.
 
@@ -372,7 +374,8 @@ void addFaceCenteredGrid3(py::module& m) {
              - `*args` : Data point index (i, j).
              )pbdoc")
         .def("divergenceAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, divergenceAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3,
+                                             divergenceAtCellCenter),
              R"pbdoc(
              Returns divergence at cell center.
 
@@ -381,7 +384,8 @@ void addFaceCenteredGrid3(py::module& m) {
              - `*args` : Data point index (i, j).
              )pbdoc")
         .def("curlAtCellCenter",
-             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3, curlAtCellCenter),
+             JET_PYTHON_MAKE_INDEX_FUNCTION2(FaceCenteredGrid3,
+                                             curlAtCellCenter),
              R"pbdoc(
              Returns curl at cell center.
 

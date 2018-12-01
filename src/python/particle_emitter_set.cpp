@@ -19,14 +19,13 @@ void addParticleEmitterSet2(py::module& m) {
         R"pbdoc(
         2-D particle-based emitter set.
         )pbdoc")
-        .def("__init__",
-             [](ParticleEmitterSet2& instance, py::list emitters) {
+        .def(py::init([](py::list emitters) {
                  std::vector<ParticleEmitter2Ptr> emitters_(emitters.size());
                  for (size_t i = 0; i < emitters_.size(); ++i) {
                      emitters_[i] = emitters[i].cast<ParticleEmitter2Ptr>();
                  }
-                 new (&instance) ParticleEmitterSet2(emitters_);
-             },
+                 return new ParticleEmitterSet2(emitters_);
+             }),
              R"pbdoc(
             Constructs an emitter with sub-emitters.
             )pbdoc",
@@ -43,14 +42,13 @@ void addParticleEmitterSet3(py::module& m) {
         R"pbdoc(
         3-D particle-based emitter set.
         )pbdoc")
-        .def("__init__",
-             [](ParticleEmitterSet3& instance, py::list emitters) {
+        .def(py::init([](py::list emitters) {
                  std::vector<ParticleEmitter3Ptr> emitters_(emitters.size());
                  for (size_t i = 0; i < emitters_.size(); ++i) {
                      emitters_[i] = emitters[i].cast<ParticleEmitter3Ptr>();
                  }
-                 new (&instance) ParticleEmitterSet3(emitters_);
-             },
+                 return new ParticleEmitterSet3(emitters_);
+             }),
              R"pbdoc(
             Constructs an emitter with sub-emitters.
             )pbdoc",

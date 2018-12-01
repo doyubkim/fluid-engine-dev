@@ -8,7 +8,6 @@
 #include "pybind11_utils.h"
 
 #include <jet/box.h>
-#include <jet/box.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -22,13 +21,12 @@ void addBox2(pybind11::module& m) {
         that wraps lower-level primitive type, BoundingBox2D.
         )pbdoc")
         // CTOR
-        .def("__init__",
-             [](Box2& instance, py::object lowerCorner, py::object upperCorner,
-                const Transform2& transform, bool isNormalFlipped) {
-                 new (&instance) Box2(objectToVector2D(lowerCorner),
-                                      objectToVector2D(upperCorner), transform,
-                                      isNormalFlipped);
-             },
+        .def(py::init([](py::object lowerCorner, py::object upperCorner,
+                         const Transform2& transform, bool isNormalFlipped) {
+                 return new Box2(objectToVector2D(lowerCorner),
+                                 objectToVector2D(upperCorner), transform,
+                                 isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs Box2
 
@@ -51,13 +49,12 @@ void addBox3(pybind11::module& m) {
         that wraps lower-level primitive type, BoundingBox3D.
         )pbdoc")
         // CTOR
-        .def("__init__",
-             [](Box3& instance, py::object lowerCorner, py::object upperCorner,
-                const Transform3& transform, bool isNormalFlipped) {
-                 new (&instance) Box3(objectToVector3D(lowerCorner),
-                                      objectToVector3D(upperCorner), transform,
-                                      isNormalFlipped);
-             },
+        .def(py::init([](py::object lowerCorner, py::object upperCorner,
+                         const Transform3& transform, bool isNormalFlipped) {
+                 return new Box3(objectToVector3D(lowerCorner),
+                                 objectToVector3D(upperCorner), transform,
+                                 isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs Box3
 

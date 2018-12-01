@@ -22,11 +22,10 @@ void addTriangleMesh3(pybind11::module& m) {
          normals, and UV coordinates.
          )pbdoc")
         // CTOR
-        .def("__init__",
-             [](TriangleMesh3& instance, py::list points, py::list normals,
-                py::list uvs, py::list pointIndices, py::list normalIndices,
-                py::list uvIndices, const Transform3& transform,
-                bool isNormalFlipped) {
+        .def(py::init([](py::list points, py::list normals, py::list uvs,
+                         py::list pointIndices, py::list normalIndices,
+                         py::list uvIndices, const Transform3& transform,
+                         bool isNormalFlipped) {
                  TriangleMesh3::PointArray points_;
                  TriangleMesh3::NormalArray normals_;
                  TriangleMesh3::UvArray uvs_;
@@ -59,10 +58,10 @@ void addTriangleMesh3(pybind11::module& m) {
                      uvIndices_[i] = objectToVector3UZ(uvIndices[i]);
                  }
 
-                 new (&instance) TriangleMesh3(
+                 return new TriangleMesh3(
                      points_, normals_, uvs_, pointIndices_, normalIndices_,
                      uvIndices_, transform, isNormalFlipped);
-             },
+             }),
              R"pbdoc(
              Constructs mesh with points, normals, uvs, and their indices.
              )pbdoc",

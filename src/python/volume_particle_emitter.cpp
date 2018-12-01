@@ -8,7 +8,6 @@
 #include "pybind11_utils.h"
 
 #include <jet/surface_to_implicit.h>
-#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>
 #include <jet/volume_particle_emitter3.h>
 
@@ -19,10 +18,7 @@ void addVolumeParticleEmitter2(py::module& m) {
     py::class_<VolumeParticleEmitter2, VolumeParticleEmitter2Ptr,
                ParticleEmitter2>(m, "VolumeParticleEmitter2")
         // CTOR
-        .def("__init__",
-             [](VolumeParticleEmitter2& instance, py::args args,
-                py::kwargs kwargs) {
-
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  ImplicitSurface2Ptr implicitSurface;
                  BoundingBox2D bounds;
                  double spacing = 0.1;
@@ -105,11 +101,11 @@ void addVolumeParticleEmitter2(py::module& m) {
                      seed = kwargs["seed"].cast<uint32_t>();
                  }
 
-                 new (&instance) VolumeParticleEmitter2(
+                 return new VolumeParticleEmitter2(
                      implicitSurface, bounds, spacing, initialVel,
                      maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
                      seed);
-             },
+             }),
              R"pbdoc(
              Constructs VolumeParticleEmitter2
 
@@ -126,10 +122,7 @@ void addVolumeParticleEmitter3(py::module& m) {
     py::class_<VolumeParticleEmitter3, VolumeParticleEmitter3Ptr,
                ParticleEmitter3>(m, "VolumeParticleEmitter3")
         // CTOR
-        .def("__init__",
-             [](VolumeParticleEmitter3& instance, py::args args,
-                py::kwargs kwargs) {
-
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  ImplicitSurface3Ptr implicitSurface;
                  BoundingBox3D bounds;
                  double spacing = 0.1;
@@ -212,11 +205,11 @@ void addVolumeParticleEmitter3(py::module& m) {
                      seed = kwargs["seed"].cast<uint32_t>();
                  }
 
-                 new (&instance) VolumeParticleEmitter3(
+                 return new VolumeParticleEmitter3(
                      implicitSurface, bounds, spacing, initialVel,
                      maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
                      seed);
-             },
+             }),
              R"pbdoc(
              Constructs VolumeParticleEmitter3
 

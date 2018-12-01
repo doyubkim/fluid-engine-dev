@@ -16,27 +16,24 @@ void addCustomScalarField2(py::module& m) {
     py::class_<CustomScalarField2, CustomScalarField2Ptr, ScalarField2>(
         m, "CustomScalarField2",
         R"pbdoc(2-D scalar field with custom field function.)pbdoc")
-        .def("__init__",
-             [](CustomScalarField2& instance, py::function func,
-                py::function gradFunc, py::function lapFunc) {
+        .def(py::init([](py::function func, py::function gradFunc,
+                         py::function lapFunc) {
                  if (!gradFunc) {
-                     new (&instance) CustomScalarField2(
+                     return new CustomScalarField2(
                          [func](const Vector2D& x) -> double {
                              return func(x).cast<double>();
                          });
-                     return;
                  }
                  if (!lapFunc) {
-                     new (&instance) CustomScalarField2(
+                     return new CustomScalarField2(
                          [func](const Vector2D& x) -> double {
                              return func(x).cast<double>();
                          },
                          [gradFunc](const Vector2D& x) -> Vector2D {
                              return gradFunc(x).cast<Vector2D>();
                          });
-                     return;
                  }
-                 new (&instance) CustomScalarField2(
+                 return new CustomScalarField2(
                      [func](const Vector2D& x) -> double {
                          return func(x).cast<double>();
                      },
@@ -46,7 +43,7 @@ void addCustomScalarField2(py::module& m) {
                      [lapFunc](const Vector2D& x) -> double {
                          return lapFunc(x).cast<double>();
                      });
-             },
+             }),
              R"pbdoc(
             Constructs a field with given field, gradient, and Laplacian function.
             )pbdoc",
@@ -86,27 +83,24 @@ void addCustomScalarField3(py::module& m) {
     py::class_<CustomScalarField3, CustomScalarField3Ptr, ScalarField3>(
         m, "CustomScalarField3",
         R"pbdoc(3-D scalar field with custom field function.)pbdoc")
-        .def("__init__",
-             [](CustomScalarField3& instance, py::function func,
-                py::function gradFunc, py::function lapFunc) {
+        .def(py::init([](py::function func, py::function gradFunc,
+                         py::function lapFunc) {
                  if (!gradFunc) {
-                     new (&instance) CustomScalarField3(
+                     return new CustomScalarField3(
                          [func](const Vector3D& x) -> double {
                              return func(x).cast<double>();
                          });
-                     return;
                  }
                  if (!lapFunc) {
-                     new (&instance) CustomScalarField3(
+                     return new CustomScalarField3(
                          [func](const Vector3D& x) -> double {
                              return func(x).cast<double>();
                          },
                          [gradFunc](const Vector3D& x) -> Vector3D {
                              return gradFunc(x).cast<Vector3D>();
                          });
-                     return;
                  }
-                 new (&instance) CustomScalarField3(
+                 return new CustomScalarField3(
                      [func](const Vector3D& x) -> double {
                          return func(x).cast<double>();
                      },
@@ -116,7 +110,7 @@ void addCustomScalarField3(py::module& m) {
                      [lapFunc](const Vector3D& x) -> double {
                          return lapFunc(x).cast<double>();
                      });
-             },
+             }),
              R"pbdoc(
             Constructs a field with given field, gradient, and Laplacian function.
             )pbdoc",

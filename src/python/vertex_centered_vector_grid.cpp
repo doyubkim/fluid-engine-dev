@@ -12,7 +12,6 @@
 #include <pybind11/stl.h>
 
 #include <jet/vertex_centered_vector_grid.h>
-#include <jet/vertex_centered_vector_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -28,17 +27,15 @@ void addVertexCenteredVectorGrid2(py::module& m) {
         point at the center of a grid vertex. Thus, the dimension of data points are
         equal to the dimension of the vertices.
         )pbdoc")
-        .def("__init__",
-             [](VertexCenteredVectorGrid2& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) VertexCenteredVectorGrid2(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new VertexCenteredVectorGrid2(resolution, gridSpacing,
+                                                      gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -104,17 +101,15 @@ void addVertexCenteredVectorGrid3(py::module& m) {
         point at the center of a grid vertex. Thus, the dimension of data points are
         equal to the dimension of the vertices.
         )pbdoc")
-        .def("__init__",
-             [](VertexCenteredVectorGrid3& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) VertexCenteredVectorGrid3(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new VertexCenteredVectorGrid3(resolution, gridSpacing,
+                                                      gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 

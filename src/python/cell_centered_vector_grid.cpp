@@ -12,7 +12,6 @@
 #include <pybind11/stl.h>
 
 #include <jet/cell_centered_vector_grid.h>
-#include <jet/cell_centered_vector_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -28,17 +27,15 @@ void addCellCenteredVectorGrid2(py::module& m) {
         point at the center of a grid cell. Thus, the dimension of data points are
         equal to the dimension of the cells.
         )pbdoc")
-        .def("__init__",
-             [](CellCenteredVectorGrid2& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) CellCenteredVectorGrid2(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new CellCenteredVectorGrid2(resolution, gridSpacing,
+                                                    gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -54,7 +51,8 @@ void addCellCenteredVectorGrid2(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredVectorGrid2::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid2::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &CellCenteredVectorGrid2::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0).
 
@@ -103,17 +101,15 @@ void addCellCenteredVectorGrid3(py::module& m) {
         point at the center of a grid cell. Thus, the dimension of data points are
         equal to the dimension of the cells.
         )pbdoc")
-        .def("__init__",
-             [](CellCenteredVectorGrid3& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) CellCenteredVectorGrid3(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new CellCenteredVectorGrid3(resolution, gridSpacing,
+                                                    gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -129,7 +125,8 @@ void addCellCenteredVectorGrid3(py::module& m) {
         .def_property_readonly(
             "dataSize", &CellCenteredVectorGrid3::dataSize,
             R"pbdoc(Returns the actual data point size.)pbdoc")
-        .def_property_readonly("dataOrigin", &CellCenteredVectorGrid3::dataOrigin,
+        .def_property_readonly("dataOrigin",
+                               &CellCenteredVectorGrid3::dataOrigin,
                                R"pbdoc(
             Returns data position for the grid point at (0, 0, 0).
 

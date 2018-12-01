@@ -15,8 +15,7 @@ using namespace jet;
 
 void addPicSolver2(py::module& m) {
     py::class_<PicSolver2, PicSolver2Ptr, GridFluidSolver2>(m, "PicSolver2")
-        .def("__init__",
-             [](PicSolver2& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
@@ -24,9 +23,8 @@ void addPicSolver2(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     PicSolver2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new PicSolver2(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs PicSolver2
 
@@ -52,8 +50,7 @@ void addPicSolver2(py::module& m) {
 
 void addPicSolver3(py::module& m) {
     py::class_<PicSolver3, PicSolver3Ptr, GridFluidSolver3>(m, "PicSolver3")
-        .def("__init__",
-             [](PicSolver3& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
@@ -61,9 +58,8 @@ void addPicSolver3(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     PicSolver3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new PicSolver3(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs PicSolver3
 
