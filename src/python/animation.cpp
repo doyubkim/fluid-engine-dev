@@ -19,10 +19,7 @@ void addFrame(pybind11::module& m) {
         This struct holds current animation frame index and frame interval in
         seconds.
         )pbdoc")
-        .def("__init__",
-             [](Frame& instance, int index, double timeIntervalInSeconds) {
-                 new (&instance) Frame(index, timeIntervalInSeconds);
-             },
+        .def(py::init<int, double>(),
              R"pbdoc(
              Constructs Frame
 

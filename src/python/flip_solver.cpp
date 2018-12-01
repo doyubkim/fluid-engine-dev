@@ -26,8 +26,7 @@ void addFlipSolver2(py::module& m) {
         See: Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
             ACM Transactions on Graphics (TOG). Vol. 24. No. 2. ACM, 2005.
         )pbdoc")
-        .def("__init__",
-             [](FlipSolver2& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
@@ -35,9 +34,8 @@ void addFlipSolver2(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     FlipSolver2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new FlipSolver2(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs FlipSolver2
 
@@ -78,8 +76,7 @@ void addFlipSolver3(py::module& m) {
         See: Zhu, Yongning, and Robert Bridson. "Animating sand as a fluid."
             ACM Transactions on Graphics (TOG). Vol. 24. No. 3. ACM, 2005.
         )pbdoc")
-        .def("__init__",
-             [](FlipSolver3& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
@@ -87,9 +84,8 @@ void addFlipSolver3(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     FlipSolver3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new FlipSolver3(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs FlipSolver3
 

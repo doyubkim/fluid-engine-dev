@@ -47,8 +47,8 @@ class CudaPointHashGridSearcher2 final {
 
      private:
         float _gridSpacing;
-        uint2 _resolution;
         uint32_t _dummy;
+        uint2 _resolution;
     };
 
     template <typename Callback>

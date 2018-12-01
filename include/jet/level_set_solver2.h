@@ -7,10 +7,9 @@
 #ifndef INCLUDE_JET_LEVEL_SET_SOLVER2_H_
 #define INCLUDE_JET_LEVEL_SET_SOLVER2_H_
 
-#include <jet/collocated_vector_grid2.h>
-#include <jet/face_centered_grid2.h>
-#include <jet/scalar_grid2.h>
-#include <memory>
+#include <jet/collocated_vector_grid.h>
+#include <jet/face_centered_grid.h>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

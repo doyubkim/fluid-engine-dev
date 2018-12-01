@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/particle_system_data2.h>
+#include <jet/particle_system_data.h>
 
 #include <gtest/gtest.h>
 
@@ -187,9 +187,9 @@ TEST(ParticleSystemData2, BuildNeighborLists) {
     particleSystem.buildNeighborLists(radius);
 
     const auto& neighborLists = particleSystem.neighborLists();
-    EXPECT_EQ(positions.length(), neighborLists.size());
+    EXPECT_EQ(positions.length(), neighborLists.length());
 
-    for (size_t i = 0; i < neighborLists.size(); ++i) {
+    for (size_t i = 0; i < neighborLists.length(); ++i) {
         const auto& neighbors = neighborLists[i];
         for (size_t ii = 0; ii < positions.length(); ++ii) {
             if (ii != i && positions[ii].distanceTo(positions[i]) <= radius) {
@@ -245,12 +245,12 @@ TEST(ParticleSystemData2, Serialization) {
     const auto& neighborLists2 = particleSystem2.neighborLists();
     EXPECT_EQ(neighborLists.size(), neighborLists2.size());
 
-    for (size_t i = 0; i < neighborLists.size(); ++i) {
+    for (size_t i = 0; i < neighborLists.length(); ++i) {
         const auto& neighbors = neighborLists[i];
         const auto& neighbors2 = neighborLists2[i];
         EXPECT_EQ(neighbors.size(), neighbors2.size());
 
-        for (size_t j = 0; j < neighbors.size(); ++j) {
+        for (size_t j = 0; j < neighbors.length(); ++j) {
             EXPECT_EQ(neighbors[j], neighbors2[j]);
         }
     }

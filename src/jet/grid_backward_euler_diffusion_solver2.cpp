@@ -32,7 +32,8 @@ void GridBackwardEulerDiffusionSolver2::solve(const ScalarGrid2& source,
     if (_systemSolver != nullptr) {
         auto pos = source.dataPosition();
         Vector2D h = source.gridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
+        Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
         buildMarkers(source.dataSize(), pos, boundarySdf, fluidSdf);
         buildMatrix(source.dataSize(), c);
@@ -43,7 +44,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const ScalarGrid2& source,
 
         // Assign the solution
         source.parallelForEachDataPointIndex(
-            [&](size_t i, size_t j) { (*dest)(i, j) = _system.x(i, j); });
+            [&](const Vector2UZ& idx) { (*dest)(idx) = _system.x(idx); });
     }
 }
 
@@ -54,7 +55,8 @@ void GridBackwardEulerDiffusionSolver2::solve(
     if (_systemSolver != nullptr) {
         auto pos = source.dataPosition();
         Vector2D h = source.gridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
+        Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
         buildMarkers(source.dataSize(), pos, boundarySdf, fluidSdf);
         buildMatrix(source.dataSize(), c);
@@ -89,7 +91,8 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
                                               const ScalarField2& fluidSdf) {
     if (_systemSolver != nullptr) {
         Vector2D h = source.gridSpacing();
-        Vector2D c = timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
+        Vector2D c =
+            timeIntervalInSeconds * diffusionCoefficient / elemMul(h, h);
 
         // u
         auto uPos = source.uPosition();
@@ -102,7 +105,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.parallelForEachUIndex(
-            [&](size_t i, size_t j) { dest->u(i, j) = _system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->u(idx) = _system.x(idx); });
 
         // v
         auto vPos = source.vPosition();
@@ -115,7 +118,7 @@ void GridBackwardEulerDiffusionSolver2::solve(const FaceCenteredGrid2& source,
 
         // Assign the solution
         source.parallelForEachVIndex(
-            [&](size_t i, size_t j) { dest->v(i, j) = _system.x(i, j); });
+            [&](const Vector2UZ& idx) { dest->v(idx) = _system.x(idx); });
     }
 }
 
@@ -222,8 +225,7 @@ void GridBackwardEulerDiffusionSolver2::buildVectors(
 }
 
 void GridBackwardEulerDiffusionSolver2::buildVectors(
-    const ConstArrayView2<Vector2D>& f, const Vector2D& c,
-    size_t component) {
+    const ConstArrayView2<Vector2D>& f, const Vector2D& c, size_t component) {
     Vector2UZ size = f.size();
 
     _system.x.resize(size, 0.0);

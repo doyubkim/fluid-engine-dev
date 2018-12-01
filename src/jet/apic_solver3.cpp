@@ -69,7 +69,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.z - hh.z);
         uSampler.getCoordinatesAndWeights(uPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
-            Vector3D gridPos = uPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = uPos(indices[j]);
             double apicTerm = _cX[i].dot(gridPos - uPosClamped);
             u(indices[j]) += weights[j] * (velocities[i].x + apicTerm);
             uWeight(indices[j]) += weights[j];
@@ -83,7 +83,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.z - hh.z);
         vSampler.getCoordinatesAndWeights(vPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
-            Vector3D gridPos = vPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = vPos(indices[j]);
             double apicTerm = _cY[i].dot(gridPos - vPosClamped);
             v(indices[j]) += weights[j] * (velocities[i].y + apicTerm);
             vWeight(indices[j]) += weights[j];
@@ -97,7 +97,7 @@ void ApicSolver3::transferFromParticlesToGrids() {
                               bbox.upperCorner.y - hh.y);
         wSampler.getCoordinatesAndWeights(wPosClamped, indices, weights);
         for (int j = 0; j < 8; ++j) {
-            Vector3D gridPos = wPos(indices[j].x, indices[j].y, indices[j].z);
+            Vector3D gridPos = wPos(indices[j]);
             double apicTerm = _cZ[i].dot(gridPos - wPosClamped);
             w(indices[j]) += weights[j] * (velocities[i].z + apicTerm);
             wWeight(indices[j]) += weights[j];

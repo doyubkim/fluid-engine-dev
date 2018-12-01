@@ -46,15 +46,15 @@ void addBoundingBox2F(pybind11::module& m) {
     py::class_<BoundingBox2F>(m, "BoundingBox2F", R"pbdoc(
         2-D axis-aligned bounding box class (32-bit float).
         )pbdoc")
-        .def("__init__",
-             [](BoundingBox2F& instance, py::args args) {
+        .def(py::init([](py::args args) {
                  if (args.size() == 2) {
-                     new (&instance) BoundingBox2F(objectToVector2F(args[0]),
-                                                   objectToVector2F(args[1]));
+                     return new BoundingBox2F(objectToVector2F(args[0]),
+                                              objectToVector2F(args[1]));
                  } else if (args.size() == 0) {
-                     new (&instance) BoundingBox2F();
+                     return new BoundingBox2F();
                  }
-             },
+                 throw std::invalid_argument("Invalid number of arguments.");
+             }),
              R"pbdoc(
              Constructs BoundingBox2F
 
@@ -189,15 +189,15 @@ void addBoundingBox2D(pybind11::module& m) {
     py::class_<BoundingBox2D>(m, "BoundingBox2D", R"pbdoc(
         2-D axis-aligned bounding box class (64-bit float).
         )pbdoc")
-        .def("__init__",
-             [](BoundingBox2D& instance, py::args args) {
+        .def(py::init([](py::args args) {
                  if (args.size() == 2) {
-                     new (&instance) BoundingBox2D(objectToVector2D(args[0]),
-                                                   objectToVector2D(args[1]));
+                     return new BoundingBox2D(objectToVector2D(args[0]),
+                                              objectToVector2D(args[1]));
                  } else if (args.size() == 0) {
-                     new (&instance) BoundingBox2D();
+                     return new BoundingBox2D();
                  }
-             },
+                 throw std::invalid_argument("Invalid number of arguments.");
+             }),
              R"pbdoc(
              Constructs BoundingBox2D
 
@@ -332,15 +332,15 @@ void addBoundingBox3F(pybind11::module& m) {
     py::class_<BoundingBox3F>(m, "BoundingBox3F", R"pbdoc(
         3-D axis-aligned bounding box class (32-bit float).
         )pbdoc")
-        .def("__init__",
-             [](BoundingBox3F& instance, py::args args) {
+        .def(py::init([](py::args args) {
                  if (args.size() == 2) {
-                     new (&instance) BoundingBox3F(objectToVector3F(args[0]),
-                                                   objectToVector3F(args[1]));
+                     return new BoundingBox3F(objectToVector3F(args[0]),
+                                              objectToVector3F(args[1]));
                  } else if (args.size() == 0) {
-                     new (&instance) BoundingBox3F();
+                     return new BoundingBox3F();
                  }
-             },
+                 throw std::invalid_argument("Invalid number of arguments.");
+             }),
              R"pbdoc(
              Constructs BoundingBox3F
 
@@ -480,15 +480,15 @@ void addBoundingBox3D(pybind11::module& m) {
     py::class_<BoundingBox3D>(m, "BoundingBox3D", R"pbdoc(
         3-D axis-aligned bounding box class (64-bit float).
         )pbdoc")
-        .def("__init__",
-             [](BoundingBox3D& instance, py::args args) {
+        .def(py::init([](py::args args) {
                  if (args.size() == 2) {
-                     new (&instance) BoundingBox3D(objectToVector3D(args[0]),
-                                                   objectToVector3D(args[1]));
+                     return new BoundingBox3D(objectToVector3D(args[0]),
+                                              objectToVector3D(args[1]));
                  } else if (args.size() == 0) {
-                     new (&instance) BoundingBox3D();
+                     return new BoundingBox3D();
                  }
-             },
+                 throw std::invalid_argument("Invalid number of arguments.");
+             }),
              R"pbdoc(
              Constructs BoundingBox3D
 

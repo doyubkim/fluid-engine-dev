@@ -9,8 +9,8 @@
 
 #include <jet/collider.h>
 #include <jet/constants.h>
-#include <jet/face_centered_grid3.h>
-#include <jet/scalar_field3.h>
+#include <jet/face_centered_grid.h>
+#include <jet/scalar_field.h>
 
 #include <memory>
 

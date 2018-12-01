@@ -11,8 +11,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <jet/vertex_centered_scalar_grid2.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -28,17 +27,15 @@ void addVertexCenteredScalarGrid2(py::module& m) {
         center of a grid cell. Thus, the dimension of data points are equal to the
         dimension of the cells.
         )pbdoc")
-        .def("__init__",
-             [](VertexCenteredScalarGrid2& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) VertexCenteredScalarGrid2(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new VertexCenteredScalarGrid2(resolution, gridSpacing,
+                                                      gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 
@@ -84,17 +81,15 @@ void addVertexCenteredScalarGrid3(py::module& m) {
         center of a grid cell. Thus, the dimension of data points are equal to the
         dimension of the cells.
         )pbdoc")
-        .def("__init__",
-             [](VertexCenteredScalarGrid3& instance, py::args args,
-                py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
-                 new (&instance) VertexCenteredScalarGrid3(
-                     resolution, gridSpacing, gridOrigin);
-             },
+                 return new VertexCenteredScalarGrid3(resolution, gridSpacing,
+                                                      gridOrigin);
+             }),
              R"pbdoc(
              Constructs grid.
 

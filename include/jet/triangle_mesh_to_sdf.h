@@ -31,7 +31,7 @@
 #define INCLUDE_JET_TRIANGLE_MESH_TO_SDF_H_
 
 #include <jet/triangle_mesh3.h>
-#include <jet/scalar_grid3.h>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

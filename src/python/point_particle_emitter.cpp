@@ -19,16 +19,15 @@ void addPointParticleEmitter2(py::module& m) {
         R"pbdoc(
         2-D point particle emitter.
         )pbdoc")
-        .def("__init__",
-             [](PointParticleEmitter2& instance, py::object origin,
-                py::object direction, double speed, double spreadAngleInDegrees,
-                size_t maxNumOfNewParticlesPerSec, size_t maxNumOfParticles,
-                uint32_t seed) {
-                 new (&instance) PointParticleEmitter2(
+        .def(py::init([](py::object origin, py::object direction, double speed,
+                         double spreadAngleInDegrees,
+                         size_t maxNumOfNewParticlesPerSec,
+                         size_t maxNumOfParticles, uint32_t seed) {
+                 return new PointParticleEmitter2(
                      objectToVector2D(origin), objectToVector2D(direction),
                      speed, spreadAngleInDegrees, maxNumOfNewParticlesPerSec,
                      maxNumOfParticles, seed);
-             },
+             }),
              R"pbdoc(
             Constructs an emitter that spawns particles from given origin,
             direction, speed, spread angle, max number of new particles per second,
@@ -59,16 +58,15 @@ void addPointParticleEmitter3(py::module& m) {
         R"pbdoc(
         3-D point particle emitter.
         )pbdoc")
-        .def("__init__",
-             [](PointParticleEmitter3& instance, py::object origin,
-                py::object direction, double speed, double spreadAngleInDegrees,
-                size_t maxNumOfNewParticlesPerSec, size_t maxNumOfParticles,
-                uint32_t seed) {
-                 new (&instance) PointParticleEmitter3(
+        .def(py::init([](py::object origin, py::object direction, double speed,
+                         double spreadAngleInDegrees,
+                         size_t maxNumOfNewParticlesPerSec,
+                         size_t maxNumOfParticles, uint32_t seed) {
+                 return new PointParticleEmitter3(
                      objectToVector3D(origin), objectToVector3D(direction),
                      speed, spreadAngleInDegrees, maxNumOfNewParticlesPerSec,
                      maxNumOfParticles, seed);
-             },
+             }),
              R"pbdoc(
             Constructs an emitter that spawns particles from given origin,
             direction, speed, spread angle, max number of new particles per second,

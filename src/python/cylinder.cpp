@@ -15,13 +15,11 @@ using namespace jet;
 void addCylinder3(pybind11::module& m) {
     py::class_<Cylinder3, Cylinder3Ptr, Surface3>(m, "Cylinder3")
         // CTOR
-        .def("__init__",
-             [](Cylinder3& instance, py::object center, double radius,
-                double height, const Transform3& transform,
-                bool isNormalFlipped) {
-                 new (&instance) Cylinder3(objectToVector3D(center), radius,
-                                           height, transform, isNormalFlipped);
-             },
+        .def(py::init([](py::object center, double radius, double height,
+                         const Transform3& transform, bool isNormalFlipped) {
+                 return new Cylinder3(objectToVector3D(center), radius, height,
+                                      transform, isNormalFlipped);
+             }),
              R"pbdoc(
              Constructs Cylinder3
 

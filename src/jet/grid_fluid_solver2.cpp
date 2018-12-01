@@ -7,7 +7,7 @@
 #include <pch.h>
 
 #include <jet/array_utils.h>
-#include <jet/constant_scalar_field2.h>
+#include <jet/constant_scalar_field.h>
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian2.h>
 #include <jet/grid_backward_euler_diffusion_solver2.h>
@@ -319,14 +319,14 @@ void GridFluidSolver2::computeGravity(double timeIntervalInSeconds) {
         auto v = vel->vView();
 
         if (std::abs(_gravity.x) > kEpsilonD) {
-            vel->forEachUIndex([&](size_t i, size_t j) {
-                u(i, j) += timeIntervalInSeconds * _gravity.x;
+            vel->forEachUIndex([&](const Vector2UZ& idx) {
+                u(idx) += timeIntervalInSeconds * _gravity.x;
             });
         }
 
         if (std::abs(_gravity.y) > kEpsilonD) {
-            vel->forEachVIndex([&](size_t i, size_t j) {
-                v(i, j) += timeIntervalInSeconds * _gravity.y;
+            vel->forEachVIndex([&](const Vector2UZ& idx) {
+                v(idx) += timeIntervalInSeconds * _gravity.y;
             });
         }
 

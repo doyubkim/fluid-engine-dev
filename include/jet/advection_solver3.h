@@ -7,11 +7,11 @@
 #ifndef INCLUDE_JET_ADVECTION_SOLVER3_H_
 #define INCLUDE_JET_ADVECTION_SOLVER3_H_
 
-#include <jet/collocated_vector_grid3.h>
-#include <jet/constant_scalar_field3.h>
+#include <jet/collocated_vector_grid.h>
+#include <jet/constant_scalar_field.h>
 #include <jet/constants.h>
-#include <jet/face_centered_grid3.h>
-#include <jet/scalar_grid3.h>
+#include <jet/face_centered_grid.h>
+#include <jet/scalar_grid.h>
 #include <limits>
 #include <memory>
 

@@ -34,11 +34,11 @@ void FlipSolver2::transferFromParticlesToGrids() {
     _uDelta.resize(u.size());
     _vDelta.resize(v.size());
 
-    vel->parallelForEachUIndex([&](size_t i, size_t j) {
-        _uDelta(i, j) = static_cast<float>(u(i, j));
+    vel->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        _uDelta(idx) = static_cast<float>(u(idx));
     });
-    vel->parallelForEachVIndex([&](size_t i, size_t j) {
-        _vDelta(i, j) = static_cast<float>(v(i, j));
+    vel->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        _vDelta(idx) = static_cast<float>(v(idx));
     });
 }
 
@@ -49,12 +49,12 @@ void FlipSolver2::transferFromGridsToParticles() {
     size_t numberOfParticles = particleSystemData()->numberOfParticles();
 
     // Compute delta
-    flow->parallelForEachUIndex([&](size_t i, size_t j) {
-        _uDelta(i, j) = static_cast<float>(flow->u(i, j)) - _uDelta(i, j);
+    flow->parallelForEachUIndex([&](const Vector2UZ& idx) {
+        _uDelta(idx) = static_cast<float>(flow->u(idx)) - _uDelta(idx);
     });
 
-    flow->parallelForEachVIndex([&](size_t i, size_t j) {
-        _vDelta(i, j) = static_cast<float>(flow->v(i, j)) - _vDelta(i, j);
+    flow->parallelForEachVIndex([&](const Vector2UZ& idx) {
+        _vDelta(idx) = static_cast<float>(flow->v(idx)) - _vDelta(idx);
     });
 
     LinearArraySampler2<float> uSampler(_uDelta,

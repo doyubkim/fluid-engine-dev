@@ -4,8 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid3.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/fdm_iccg_solver3.h>
 #include <jet/fdm_mgpcg_solver3.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
@@ -15,8 +15,8 @@
 using namespace jet;
 
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 fluidSdf({3, 3, 3});
 
     vel.fill(Vector3D());
 
@@ -74,8 +74,8 @@ TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurface) {
 }
 
 TEST(GridFractionalSinglePhasePressureSolver3, SolveFreeSurfaceCompressed) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 fluidSdf({3, 3, 3});
 
     vel.fill(Vector3D());
 

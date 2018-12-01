@@ -203,6 +203,26 @@ typename ArrayBase<T, N, D>::const_iterator ArrayBase<T, N, D>::end() const {
 }
 
 template <typename T, size_t N, typename D>
+typename ArrayBase<T, N, D>::iterator ArrayBase<T, N, D>::rbegin() {
+    return end() - 1;
+}
+
+template <typename T, size_t N, typename D>
+typename ArrayBase<T, N, D>::const_iterator ArrayBase<T, N, D>::rbegin() const {
+    return end() - 1;
+}
+
+template <typename T, size_t N, typename D>
+typename ArrayBase<T, N, D>::iterator ArrayBase<T, N, D>::rend() {
+    return begin() - 1;
+}
+
+template <typename T, size_t N, typename D>
+typename ArrayBase<T, N, D>::const_iterator ArrayBase<T, N, D>::rend() const {
+    return begin() - 1;
+}
+
+template <typename T, size_t N, typename D>
 T& ArrayBase<T, N, D>::at(size_t i) {
     return _ptr[i];
 }

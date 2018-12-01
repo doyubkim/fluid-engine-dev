@@ -10,9 +10,9 @@
 #include <jet/collider.h>
 #include <jet/constants.h>
 #include <jet/particle_emitter3.h>
-#include <jet/particle_system_data3.h>
+#include <jet/particle_system_data.h>
 #include <jet/physics_animation.h>
-#include <jet/vector_field3.h>
+#include <jet/vector_field.h>
 
 namespace jet {
 

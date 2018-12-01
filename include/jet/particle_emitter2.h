@@ -8,7 +8,7 @@
 #define INCLUDE_JET_PARTICLE_EMITTER2_H_
 
 #include <jet/animation.h>
-#include <jet/particle_system_data2.h>
+#include <jet/particle_system_data.h>
 
 namespace jet {
 

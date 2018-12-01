@@ -15,10 +15,9 @@ using namespace jet;
 void addQuaternionF(pybind11::module& m) {
     py::class_<QuaternionF>(m, "QuaternionF")
         // CTOR
-        .def("__init__",
-             [](QuaternionF& instance, float w, float x, float y, float z) {
-                 new (&instance) QuaternionF(w, x, y, z);
-             },
+        .def(py::init([](float w, float x, float y, float z) {
+                 return new QuaternionF(w, x, y, z);
+             }),
              R"pbdoc(
              Constructs QuaternionF.
 
@@ -91,8 +90,10 @@ void addQuaternionF(pybind11::module& m) {
              py::arg("other"))
         .def("__setitem__", [](QuaternionF& instance, size_t i,
                                float val) { instance[i] = val; })
-        .def("__getitem__", [](const QuaternionF& instance,
-                               size_t i) -> float { return instance[i]; })
+        .def("__getitem__",
+             [](const QuaternionF& instance, size_t i) -> float {
+                 return instance[i];
+             })
         .def("__eq__", [](const QuaternionF& instance, py::object obj) {
             QuaternionF other = objectToQuaternionF(obj);
             return instance == other;
@@ -102,10 +103,9 @@ void addQuaternionF(pybind11::module& m) {
 void addQuaternionD(pybind11::module& m) {
     py::class_<QuaternionD>(m, "QuaternionD")
         // CTOR
-        .def("__init__",
-             [](QuaternionD& instance, double w, double x, double y, double z) {
-                 new (&instance) QuaternionD(w, x, y, z);
-             },
+        .def(py::init([](double w, double x, double y, double z) {
+                 return new QuaternionD(w, x, y, z);
+             }),
              R"pbdoc(
              Constructs QuaternionD.
 
@@ -178,8 +178,10 @@ void addQuaternionD(pybind11::module& m) {
              py::arg("other"))
         .def("__setitem__", [](QuaternionD& instance, size_t i,
                                double val) { instance[i] = val; })
-        .def("__getitem__", [](const QuaternionD& instance,
-                               size_t i) -> double { return instance[i]; })
+        .def("__getitem__",
+             [](const QuaternionD& instance, size_t i) -> double {
+                 return instance[i];
+             })
         .def("__eq__", [](const QuaternionD& instance, py::object obj) {
             QuaternionD other = objectToQuaternionD(obj);
             return instance == other;

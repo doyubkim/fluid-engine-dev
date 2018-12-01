@@ -10,7 +10,7 @@
 
 #include <jet/bcc_lattice_point_generator.h>
 #include <jet/cuda_pci_sph_solver3.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 
 using namespace jet;
 

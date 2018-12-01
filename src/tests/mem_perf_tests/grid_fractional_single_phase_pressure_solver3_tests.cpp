@@ -6,8 +6,8 @@
 
 #include "mem_perf_tests.h"
 
-#include <jet/cell_centered_scalar_grid3.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_fractional_single_phase_pressure_solver3.h>
 
 #include <gtest/gtest.h>
@@ -17,8 +17,8 @@ using namespace jet;
 namespace {
 
 void runExperiment(size_t n, double height, bool compressed) {
-    FaceCenteredGrid3 vel(n, n, n);
-    CellCenteredScalarGrid3 fluidSdf(n, n, n);
+    FaceCenteredGrid3 vel({n, n, n});
+    CellCenteredScalarGrid3 fluidSdf({n, n, n});
 
     vel.fill(Vector3D());
 

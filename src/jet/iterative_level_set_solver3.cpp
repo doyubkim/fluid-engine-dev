@@ -146,27 +146,24 @@ void IterativeLevelSetSolver3::extrapolate(const FaceCenteredGrid3& input,
     auto u = input.uView();
     auto uPos = input.uPosition();
     Array3<double> sdfAtU(u.size());
-    input.parallelForEachUIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtU(i, j, k) = sdf.sample(uPos(i, j, k));
-    });
+    input.parallelForEachUIndex(
+        [&](const Vector3UZ& idx) { sdfAtU(idx) = sdf.sample(uPos(idx)); });
 
     extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
     auto v = input.vView();
     auto vPos = input.vPosition();
     Array3<double> sdfAtV(v.size());
-    input.parallelForEachVIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtV(i, j, k) = sdf.sample(vPos(i, j, k));
-    });
+    input.parallelForEachVIndex(
+        [&](const Vector3UZ& idx) { sdfAtV(idx) = sdf.sample(vPos(idx)); });
 
     extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 
     auto w = input.wView();
-    auto wPos = input.wPosition();
+    auto wPos = (input.wPosition());
     Array3<double> sdfAtW(w.size());
-    input.parallelForEachWIndex([&](size_t i, size_t j, size_t k) {
-        sdfAtW(i, j, k) = sdf.sample(wPos(i, j, k));
-    });
+    input.parallelForEachWIndex(
+        [&](const Vector3UZ& idx) { sdfAtW(idx) = sdf.sample(wPos(idx)); });
 
     extrapolate(w, sdfAtW, gridSpacing, maxDistance, output->wView());
 }

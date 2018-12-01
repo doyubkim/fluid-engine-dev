@@ -5,14 +5,14 @@
 // property of any third parties.
 
 #include <gtest/gtest.h>
-#include <jet/cell_centered_scalar_grid3.h>
-#include <jet/face_centered_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_single_phase_pressure_solver3.h>
 
 using namespace jet;
 
 TEST(GridSinglePhasePressureSolver3, SolveSinglePhase) {
-    FaceCenteredGrid3 vel(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
 
     vel.fill(Vector3D());
 
@@ -67,8 +67,8 @@ TEST(GridSinglePhasePressureSolver3, SolveSinglePhase) {
 }
 
 TEST(GridSinglePhasePressureSolver3, SolveSinglePhaseWithBoundary) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 boundarySdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 boundarySdf({3, 3, 3});
 
     vel.fill(Vector3D());
 
@@ -130,8 +130,8 @@ TEST(GridSinglePhasePressureSolver3, SolveSinglePhaseWithBoundary) {
 }
 
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurface) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 fluidSdf({3, 3, 3});
 
     vel.fill(Vector3D());
 
@@ -189,8 +189,8 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurface) {
 }
 
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceCompressed) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 fluidSdf({3, 3, 3});
 
     vel.fill(Vector3D());
 
@@ -248,9 +248,9 @@ TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceCompressed) {
 }
 
 TEST(GridSinglePhasePressureSolver3, SolveFreeSurfaceWithBoundary) {
-    FaceCenteredGrid3 vel(3, 3, 3);
-    CellCenteredScalarGrid3 fluidSdf(3, 3, 3);
-    CellCenteredScalarGrid3 boundarySdf(3, 3, 3);
+    FaceCenteredGrid3 vel({3, 3, 3});
+    CellCenteredScalarGrid3 fluidSdf({3, 3, 3});
+    CellCenteredScalarGrid3 boundarySdf({3, 3, 3});
 
     vel.fill(Vector3D());
 

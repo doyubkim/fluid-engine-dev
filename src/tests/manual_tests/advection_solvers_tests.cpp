@@ -8,13 +8,13 @@
 
 #include <jet/array.h>
 #include <jet/box.h>
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_vector_grid2.h>
-#include <jet/constant_vector_field2.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/cell_centered_vector_grid.h>
+#include <jet/constant_vector_field.h>
 #include <jet/constants.h>
 #include <jet/cubic_semi_lagrangian2.h>
-#include <jet/custom_scalar_field2.h>
-#include <jet/custom_vector_field2.h>
+#include <jet/custom_scalar_field.h>
+#include <jet/custom_vector_field.h>
 #include <jet/semi_lagrangian2.h>
 
 #include <algorithm>
@@ -24,8 +24,8 @@ using namespace jet;
 JET_TESTS(SemiLagrangian2);
 
 JET_BEGIN_TEST_F(SemiLagrangian2, Boundary) {
-    CellCenteredVectorGrid2 src(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredVectorGrid2 dst(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredVectorGrid2 src({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
+    CellCenteredVectorGrid2 dst({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
     src.fill([&](const Vector2D& pt) -> Vector2D {
         return {0.5 * (std::sin(15 * pt.x) + 1.0),
                 0.5 * (std::sin(15 * pt.y) + 1.0)};
@@ -58,8 +58,8 @@ JET_END_TEST_F
 
 JET_BEGIN_TEST_F(SemiLagrangian2, Zalesak) {
     Box2 box(Vector2D(0.5 - 0.025, 0.6), Vector2D(0.5 + 0.025, 0.85));
-    CellCenteredScalarGrid2 sdf(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredScalarGrid2 sdf2(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredScalarGrid2 sdf({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
+    CellCenteredScalarGrid2 sdf2({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
     sdf.fill([box](const Vector2D& pt) {
         double disk = pt.distanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.closestDistance(pt);
@@ -90,8 +90,8 @@ JET_TESTS(CubicSemiLagrangian2);
 
 JET_BEGIN_TEST_F(CubicSemiLagrangian2, Zalesak) {
     Box2 box(Vector2D(0.5 - 0.025, 0.6), Vector2D(0.5 + 0.025, 0.85));
-    CellCenteredScalarGrid2 sdf(200, 200, 1.0 / 200.0, 1.0 / 200.0);
-    CellCenteredScalarGrid2 sdf2(200, 200, 1.0 / 200.0, 1.0 / 200.0);
+    CellCenteredScalarGrid2 sdf({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
+    CellCenteredScalarGrid2 sdf2({200, 200}, {1.0 / 200.0, 1.0 / 200.0});
     sdf.fill([box](const Vector2D& pt) {
         double disk = pt.distanceTo(Vector2D(0.5, 0.75)) - 0.15;
         double slot = box.closestDistance(pt);

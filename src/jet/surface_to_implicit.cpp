@@ -26,6 +26,11 @@ std::shared_ptr<Surface<N>> SurfaceToImplicit<N>::surface() const {
 }
 
 template <size_t N>
+typename SurfaceToImplicit<N>::Builder SurfaceToImplicit<N>::builder() {
+    return Builder();
+}
+
+template <size_t N>
 Vector<double, N> SurfaceToImplicit<N>::closestPointLocal(
     const Vector<double, N> &otherPoint) const {
     return _surface->closestPoint(otherPoint);

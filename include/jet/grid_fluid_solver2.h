@@ -8,14 +8,14 @@
 #define INCLUDE_JET_GRID_FLUID_SOLVER2_H_
 
 #include <jet/advection_solver2.h>
-#include <jet/cell_centered_scalar_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/collider.h>
-#include <jet/face_centered_grid2.h>
+#include <jet/face_centered_grid.h>
 #include <jet/grid_boundary_condition_solver2.h>
 #include <jet/grid_diffusion_solver2.h>
 #include <jet/grid_emitter2.h>
 #include <jet/grid_pressure_solver2.h>
-#include <jet/grid_system_data2.h>
+#include <jet/grid_system_data.h>
 #include <jet/physics_animation.h>
 
 namespace jet {

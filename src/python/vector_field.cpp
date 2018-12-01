@@ -7,8 +7,7 @@
 #include "vector_field.h"
 #include "pybind11_utils.h"
 
-#include <jet/vector_field2.h>
-#include <jet/vector_field3.h>
+#include <jet/vector_field.h>
 
 namespace py = pybind11;
 using namespace jet;

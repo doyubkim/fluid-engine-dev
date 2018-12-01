@@ -7,7 +7,7 @@
 #include <manual_tests.h>
 
 #include <jet/array.h>
-#include <jet/sph_kernels3.h>
+#include <jet/sph_kernels.h>
 
 using namespace jet;
 

@@ -24,8 +24,7 @@ void addApicSolver2(py::module& m) {
         See: Jiang, Chenfanfu, et al. "The affine particle-in-cell method."
              ACM Transactions on Graphics (TOG) 34.4 (2015): 51.
         )pbdoc")
-        .def("__init__",
-             [](ApicSolver2& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector2UZ resolution{1, 1};
                  Vector2D gridSpacing{1, 1};
                  Vector2D gridOrigin{0, 0};
@@ -33,9 +32,8 @@ void addApicSolver2(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     ApicSolver2(resolution, gridSpacing, gridOrigin);
-             },
+                 return new ApicSolver2(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs ApicSolver2
 
@@ -64,8 +62,7 @@ void addApicSolver3(py::module& m) {
         See: Jiang, Chenfanfu, et al. "The affine particle-in-cell method."
              ACM Transactions on Graphics (TOG) 34.4 (2015): 51.
         )pbdoc")
-        .def("__init__",
-             [](ApicSolver3& instance, py::args args, py::kwargs kwargs) {
+        .def(py::init([](py::args args, py::kwargs kwargs) {
                  Vector3UZ resolution{1, 1, 1};
                  Vector3D gridSpacing{1, 1, 1};
                  Vector3D gridOrigin{0, 0, 0};
@@ -73,9 +70,8 @@ void addApicSolver3(py::module& m) {
                  parseGridResizeParams(args, kwargs, resolution, gridSpacing,
                                        gridOrigin);
 
-                 new (&instance)
-                     ApicSolver3(resolution, gridSpacing, gridOrigin);
-             },
+                 return new ApicSolver3(resolution, gridSpacing, gridOrigin);
+             }),
              R"pbdoc(
              Constructs ApicSolver3
 

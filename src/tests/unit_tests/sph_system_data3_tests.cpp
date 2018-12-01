@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/sph_system_data3.h>
+#include <jet/sph_system_data.h>
 #include <gtest/gtest.h>
 #include <vector>
 
@@ -130,12 +130,12 @@ TEST(SphSystemData3, Serialization) {
     const auto& neighborLists2 = data2.neighborLists();
     EXPECT_EQ(neighborLists.size(), neighborLists2.size());
 
-    for (size_t i = 0; i < neighborLists.size(); ++i) {
+    for (size_t i = 0; i < neighborLists.length(); ++i) {
         const auto& neighbors = neighborLists[i];
         const auto& neighbors2 = neighborLists2[i];
         EXPECT_EQ(neighbors.size(), neighbors2.size());
 
-        for (size_t j = 0; j < neighbors.size(); ++j) {
+        for (size_t j = 0; j < neighbors.length(); ++j) {
             EXPECT_EQ(neighbors[j], neighbors2[j]);
         }
     }

@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/array.h>
-#include <jet/point_kdtree_searcher3.h>
+#include <jet/point_kdtree_searcher.h>
 
 #include <benchmark/benchmark.h>
 

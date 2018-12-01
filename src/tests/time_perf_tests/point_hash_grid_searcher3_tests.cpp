@@ -5,7 +5,7 @@
 // property of any third parties.
 
 #include <jet/array.h>
-#include <jet/point_hash_grid_searcher3.h>
+#include <jet/point_hash_grid_searcher.h>
 
 #include <benchmark/benchmark.h>
 
@@ -34,7 +34,7 @@ class PointHashGridSearcher3 : public ::benchmark::Fixture {
 
 BENCHMARK_DEFINE_F(PointHashGridSearcher3, Build)(benchmark::State& state) {
     while (state.KeepRunning()) {
-        jet::PointHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+        jet::PointHashGridSearcher3 grid({64, 64, 64}, 1.0 / 64.0);
         grid.build(points);
     }
 }
@@ -46,7 +46,7 @@ BENCHMARK_REGISTER_F(PointHashGridSearcher3, Build)
 
 BENCHMARK_DEFINE_F(PointHashGridSearcher3, ForEachNearbyPoints)
 (benchmark::State& state) {
-    jet::PointHashGridSearcher3 grid(64, 64, 64, 1.0 / 64.0);
+    jet::PointHashGridSearcher3 grid({64, 64, 64}, 1.0 / 64.0);
     grid.build(points);
 
     size_t cnt = 0;

@@ -136,7 +136,7 @@ void IterativeLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     auto uPos = input.uPosition();
     Array2<double> sdfAtU(u.size());
     input.parallelForEachUIndex(
-        [&](size_t i, size_t j) { sdfAtU(i, j) = sdf.sample(uPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtU(idx) = sdf.sample(uPos(idx)); });
 
     extrapolate(u, sdfAtU, gridSpacing, maxDistance, output->uView());
 
@@ -144,7 +144,7 @@ void IterativeLevelSetSolver2::extrapolate(const FaceCenteredGrid2& input,
     auto vPos = input.vPosition();
     Array2<double> sdfAtV(v.size());
     input.parallelForEachVIndex(
-        [&](size_t i, size_t j) { sdfAtV(i, j) = sdf.sample(vPos(i, j)); });
+        [&](const Vector2UZ& idx) { sdfAtV(idx) = sdf.sample(vPos(idx)); });
 
     extrapolate(v, sdfAtV, gridSpacing, maxDistance, output->vView());
 }

@@ -5,8 +5,7 @@
 // property of any third parties.
 
 #include <jet/array_utils.h>
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_scalar_grid3.h>
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/eno_level_set_solver2.h>
 #include <jet/eno_level_set_solver3.h>
 #include <jet/fdm_utils.h>
@@ -20,7 +19,7 @@
 using namespace jet;
 
 TEST(UpwindLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -37,8 +36,8 @@ TEST(UpwindLevelSetSolver2, Reinitialize) {
 }
 
 TEST(UpwindLevelSetSolver2, Extrapolate) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
+    CellCenteredScalarGrid2 field({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -56,7 +55,7 @@ TEST(UpwindLevelSetSolver2, Extrapolate) {
 }
 
 TEST(UpwindLevelSetSolver3, Reinitialize) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -76,8 +75,8 @@ TEST(UpwindLevelSetSolver3, Reinitialize) {
 }
 
 TEST(UpwindLevelSetSolver3, Extrapolate) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -97,9 +96,8 @@ TEST(UpwindLevelSetSolver3, Extrapolate) {
     }
 }
 
-
 TEST(EnoLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -116,8 +114,8 @@ TEST(EnoLevelSetSolver2, Reinitialize) {
 }
 
 TEST(EnoLevelSetSolver2, Extrapolate) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
+    CellCenteredScalarGrid2 field({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -135,7 +133,7 @@ TEST(EnoLevelSetSolver2, Extrapolate) {
 }
 
 TEST(EnoLevelSetSolver3, Reinitialize) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -148,15 +146,16 @@ TEST(EnoLevelSetSolver3, Reinitialize) {
         for (size_t j = 0; j < 30; ++j) {
             for (size_t i = 0; i < 40; ++i) {
                 EXPECT_NEAR(sdf(i, j, k), temp(i, j, k), 0.5)
-                    << i << ", " << j << ", " << k;;
+                    << i << ", " << j << ", " << k;
+                ;
             }
         }
     }
 }
 
 TEST(EnoLevelSetSolver3, Extrapolate) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -170,15 +169,15 @@ TEST(EnoLevelSetSolver3, Extrapolate) {
         for (size_t j = 0; j < 30; ++j) {
             for (size_t i = 0; i < 40; ++i) {
                 EXPECT_DOUBLE_EQ(5.0, temp(i, j, k))
-                    << i << ", " << j << ", " << k;;
+                    << i << ", " << j << ", " << k;
+                ;
             }
         }
     }
 }
 
-
 TEST(FmmLevelSetSolver2, Reinitialize) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -195,8 +194,8 @@ TEST(FmmLevelSetSolver2, Reinitialize) {
 }
 
 TEST(FmmLevelSetSolver2, Extrapolate) {
-    CellCenteredScalarGrid2 sdf(40, 30), temp(40, 30);
-    CellCenteredScalarGrid2 field(40, 30);
+    CellCenteredScalarGrid2 sdf({40, 30}), temp({40, 30});
+    CellCenteredScalarGrid2 field({40, 30});
 
     sdf.fill([](const Vector2D& x) {
         return (x - Vector2D(20, 20)).length() - 8.0;
@@ -214,7 +213,7 @@ TEST(FmmLevelSetSolver2, Extrapolate) {
 }
 
 TEST(FmmLevelSetSolver3, Reinitialize) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -227,15 +226,16 @@ TEST(FmmLevelSetSolver3, Reinitialize) {
         for (size_t j = 0; j < 30; ++j) {
             for (size_t i = 0; i < 40; ++i) {
                 EXPECT_NEAR(sdf(i, j, k), temp(i, j, k), 0.9)
-                    << i << ", " << j << ", " << k;;
+                    << i << ", " << j << ", " << k;
+                ;
             }
         }
     }
 }
 
 TEST(FmmLevelSetSolver3, Extrapolate) {
-    CellCenteredScalarGrid3 sdf(40, 30, 50), temp(40, 30, 50);
-    CellCenteredScalarGrid3 field(40, 30, 50);
+    CellCenteredScalarGrid3 sdf({40, 30, 50}), temp({40, 30, 50});
+    CellCenteredScalarGrid3 field({40, 30, 50});
 
     sdf.fill([](const Vector3D& x) {
         return (x - Vector3D(20, 20, 20)).length() - 8.0;
@@ -249,7 +249,8 @@ TEST(FmmLevelSetSolver3, Extrapolate) {
         for (size_t j = 0; j < 30; ++j) {
             for (size_t i = 0; i < 40; ++i) {
                 EXPECT_DOUBLE_EQ(5.0, temp(i, j, k))
-                    << i << ", " << j << ", " << k;;
+                    << i << ", " << j << ", " << k;
+                ;
             }
         }
     }

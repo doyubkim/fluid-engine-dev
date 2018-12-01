@@ -7,8 +7,8 @@
 #include "constant_vector_field.h"
 #include "pybind11_utils.h"
 
-#include <jet/constant_vector_field2.h>
-#include <jet/constant_vector_field3.h>
+#include <jet/constant_vector_field.h>
+#include <jet/constant_vector_field.h>
 
 namespace py = pybind11;
 using namespace jet;

@@ -4,12 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/cell_centered_scalar_grid2.h>
-#include <jet/cell_centered_vector_grid2.h>
-#include <jet/vertex_centered_scalar_grid2.h>
-#include <jet/vertex_centered_vector_grid2.h>
+#include <jet/cell_centered_scalar_grid.h>
+#include <jet/cell_centered_vector_grid.h>
+#include <jet/vertex_centered_scalar_grid.h>
+#include <jet/vertex_centered_vector_grid.h>
 
-#include <jet/grid_system_data2.h>
+#include <jet/grid_system_data.h>
 #include <gtest/gtest.h>
 #include <vector>
 
@@ -168,10 +168,10 @@ TEST(GridSystemData2, Serialize) {
     EXPECT_EQ(velocity->vSize(), velocity2->vSize());
     EXPECT_EQ(velocity->uOrigin(), velocity2->uOrigin());
     EXPECT_EQ(velocity->vOrigin(), velocity2->vOrigin());
-    velocity->forEachUIndex([&] (size_t i, size_t j) {
-        EXPECT_EQ(velocity->u(i, j), velocity2->u(i, j));
+    velocity->forEachUIndex([&] (const Vector2UZ& idx) {
+        EXPECT_EQ(velocity->u(idx), velocity2->u(idx));
     });
-    velocity->forEachVIndex([&] (size_t i, size_t j) {
-        EXPECT_EQ(velocity->v(i, j), velocity2->v(i, j));
+    velocity->forEachVIndex([&] (const Vector2UZ& idx) {
+        EXPECT_EQ(velocity->v(idx), velocity2->v(idx));
     });
 }

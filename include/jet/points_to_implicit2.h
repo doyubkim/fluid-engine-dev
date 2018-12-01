@@ -9,9 +9,7 @@
 
 #include <jet/array_view.h>
 #include <jet/matrix.h>
-#include <jet/scalar_grid2.h>
-
-#include <memory>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

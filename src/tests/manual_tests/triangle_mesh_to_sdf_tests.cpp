@@ -9,7 +9,7 @@
 #include <jet/array.h>
 #include <jet/marching_cubes.h>
 #include <jet/triangle_mesh_to_sdf.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 using namespace jet;
 
@@ -51,8 +51,8 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
     triMesh.addPointTriangle({1, 5, 7});
     triMesh.addPointTriangle({1, 7, 3});
 
-    VertexCenteredScalarGrid3 grid(
-        64, 64, 64, 3.0/64, 3.0/64, 3.0/64, -1.0, -1.0, -1.0);
+    VertexCenteredScalarGrid3 grid({64, 64, 64}, {3.0 / 64, 3.0 / 64, 3.0 / 64},
+                                   {-1.0, -1.0, -1.0});
 
     triangleMeshToSdf(triMesh, &grid);
 
@@ -66,13 +66,8 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Cube) {
     saveData(temp.view(), "sdf_#grid2.npy");
 
     TriangleMesh3 triMesh2;
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh2,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh2,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "cube.obj");
 }
@@ -92,21 +87,14 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Bunny) {
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;
 
-    VertexCenteredScalarGrid3 grid(
-        100, 100, 100,
-        box.width() / 100, box.height() / 100, box.depth() / 100,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid({100, 100, 100}, box.size(),
+                                   box.lowerCorner);
 
     triangleMeshToSdf(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh2,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh2,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "bunny.obj");
 }
@@ -126,21 +114,14 @@ JET_BEGIN_TEST_F(TriangleMeshToSdf, Dragon) {
     box.lowerCorner -= 0.2 * scale;
     box.upperCorner += 0.2 * scale;
 
-    VertexCenteredScalarGrid3 grid(
-        100, 100, 100,
-        box.width() / 100, box.height() / 100, box.depth() / 100,
-        box.lowerCorner.x, box.lowerCorner.y, box.lowerCorner.z);
+    VertexCenteredScalarGrid3 grid({100, 100, 100}, box.size(),
+                                   box.lowerCorner);
 
     triangleMeshToSdf(triMesh, &grid);
 
     TriangleMesh3 triMesh2;
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh2,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh2,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh2, "dragon.obj");
 }

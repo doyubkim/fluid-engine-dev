@@ -9,10 +9,7 @@
 
 #include <jet/animation.h>
 #include <jet/implicit_surface.h>
-#include <jet/scalar_grid2.h>
-
-#include <utility>
-#include <vector>
+#include <jet/scalar_grid.h>
 
 namespace jet {
 

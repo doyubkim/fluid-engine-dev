@@ -8,7 +8,7 @@
 
 #include <jet/array.h>
 #include <jet/marching_cubes.h>
-#include <jet/vertex_centered_scalar_grid3.h>
+#include <jet/vertex_centered_scalar_grid.h>
 
 using namespace jet;
 
@@ -20,20 +20,15 @@ JET_BEGIN_TEST_F(MarchingCubes, SingleCube) {
     Array3<double> grid(2, 2, 2);
     grid(0, 0, 0) = -0.5;
     grid(0, 0, 1) = -0.5;
-    grid(0, 1, 0) =  0.5;
-    grid(0, 1, 1) =  0.5;
+    grid(0, 1, 0) = 0.5;
+    grid(0, 1, 1) = 0.5;
     grid(1, 0, 0) = -0.5;
     grid(1, 0, 1) = -0.5;
-    grid(1, 1, 0) =  0.5;
-    grid(1, 1, 1) =  0.5;
+    grid(1, 1, 0) = 0.5;
+    grid(1, 1, 1) = 0.5;
 
-    marchingCubes(
-        grid,
-        Vector3D(1, 1, 1),
-        Vector3D(),
-        &triMesh,
-        0,
-        kDirectionAll);
+    marchingCubes(grid, Vector3D(1, 1, 1), Vector3D(), &triMesh, 0,
+                  kDirectionAll);
 
     saveTriangleMeshData(triMesh, "single_cube.obj");
 }
@@ -42,18 +37,11 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(MarchingCubes, FourCubes) {
     TriangleMesh3 triMesh;
 
-    VertexCenteredScalarGrid3 grid(2, 1, 2);
-    grid.fill([](const Vector3D& x) {
-        return x.y - 0.5;
-    });
+    VertexCenteredScalarGrid3 grid({2, 1, 2});
+    grid.fill([](const Vector3D& x) { return x.y - 0.5; });
 
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "four_cubes.obj");
 }
@@ -62,18 +50,13 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
     TriangleMesh3 triMesh;
 
-    VertexCenteredScalarGrid3 grid(16, 16, 16);
+    VertexCenteredScalarGrid3 grid({16, 16, 16});
     grid.fill([](const Vector3D& x) {
         return x.distanceTo(Vector3D{8.0, 8.0, 8.0}) - 3.0;
     });
 
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "sphere.obj");
 
@@ -83,13 +66,8 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
 
     triMesh.clear();
 
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "clamped_sphere.obj");
 
@@ -99,13 +77,8 @@ JET_BEGIN_TEST_F(MarchingCubes, Sphere) {
 
     triMesh.clear();
 
-    marchingCubes(
-        grid.dataView(),
-        grid.gridSpacing(),
-        grid.origin(),
-        &triMesh,
-        0,
-        kDirectionAll);
+    marchingCubes(grid.dataView(), grid.gridSpacing(), grid.origin(), &triMesh,
+                  0, kDirectionAll);
 
     saveTriangleMeshData(triMesh, "clamped_sphere2.obj");
 }
