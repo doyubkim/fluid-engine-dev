@@ -203,7 +203,7 @@ void runExample3(const std::string& rootDir, size_t resX, int numberOfFrames,
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::builder().makeShared();
-    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile) {
         bunnyMesh->readObj(&objFile);
     } else {
@@ -246,7 +246,7 @@ void runExample4(const std::string& rootDir, size_t resX, int numberOfFrames,
 
     // Build emitters
     auto bunnyMesh = TriangleMesh3::builder().makeShared();
-    std::ifstream objFile(RESOURCES_DIR "bunny.obj");
+    std::ifstream objFile(RESOURCES_DIR "/bunny.obj");
     if (objFile) {
         bunnyMesh->readObj(&objFile);
     } else {
