@@ -9,7 +9,7 @@
 #include <jet/array.h>
 #include <jet/cuda_array.h>
 #include <jet/cuda_point_hash_grid_searcher3.h>
-#include <jet/point_parallel_hash_grid_searcher3.h>
+#include <jet/point_parallel_hash_grid_searcher.h>
 
 #include <cuda_runtime.h>
 
@@ -48,7 +48,7 @@ TEST(CudaPointHashGridSearcher3, Build) {
     Array1<Vector3D> points = {Vector3D(0, 1, 3), Vector3D(2, 5, 4),
                                Vector3D(-1, 3, 0)};
 
-    PointParallelHashGridSearcher3 searcher(4, 4, 4, std::sqrt(10));
+    PointParallelHashGridSearcher3 searcher({4, 4, 4}, std::sqrt(10.0f));
     searcher.build(points);
 
     // GPU
@@ -57,44 +57,44 @@ TEST(CudaPointHashGridSearcher3, Build) {
     pointsD[1] = make_float4(2, 5, 4, 0);
     pointsD[2] = make_float4(-1, 3, 0, 0);
 
-    CudaPointHashGridSearcher3 searcherD(4, 4, 4, std::sqrt(10.0f));
+    CudaPointHashGridSearcher3 searcherD({4, 4, 4}, std::sqrt(10.0f));
     searcherD.build(pointsD.view());
 
     // Compare
-    EXPECT_EQ(searcher.keys().size(), searcherD.keys().length());
-    EXPECT_EQ(searcher.startIndexTable().size(),
+    EXPECT_EQ(searcher.keys().length(), searcherD.keys().length());
+    EXPECT_EQ(searcher.startIndexTable().length(),
               searcherD.startIndexTable().length());
-    EXPECT_EQ(searcher.endIndexTable().size(),
+    EXPECT_EQ(searcher.endIndexTable().length(),
               searcherD.endIndexTable().length());
-    EXPECT_EQ(searcher.sortedIndices().size(),
+    EXPECT_EQ(searcher.sortedIndices().length(),
               searcherD.sortedIndices().length());
 
-    for (size_t i = 0; i < searcher.keys().size(); ++i) {
+    for (size_t i = 0; i < searcher.keys().length(); ++i) {
         uint32_t valD = searcherD.keys()[i];
-        EXPECT_EQ(searcher.keys()[i], valD);
+        EXPECT_EQ(searcher.keys()[i], valD) << i << " of " << searcher.keys().length();
     }
 
-    for (size_t i = 0; i < searcher.startIndexTable().size(); ++i) {
+    for (size_t i = 0; i < searcher.startIndexTable().length(); ++i) {
         uint32_t valD = searcherD.startIndexTable()[i];
         if (valD == 0xffffffff) {
-            EXPECT_EQ(kMaxSize, searcher.startIndexTable()[i]);
+            EXPECT_EQ(kMaxSize, searcher.startIndexTable()[i]) << i << " of " << searcher.startIndexTable().length();
         } else {
-            EXPECT_EQ(searcher.startIndexTable()[i], valD);
+            EXPECT_EQ(searcher.startIndexTable()[i], valD) << i << " of " << searcher.startIndexTable().length();
         }
     }
 
-    for (size_t i = 0; i < searcher.endIndexTable().size(); ++i) {
+    for (size_t i = 0; i < searcher.endIndexTable().length(); ++i) {
         uint32_t valD = searcherD.endIndexTable()[i];
         if (valD == 0xffffffff) {
-            EXPECT_EQ(kMaxSize, searcher.endIndexTable()[i]);
+            EXPECT_EQ(kMaxSize, searcher.endIndexTable()[i]) << i << " of " << searcher.endIndexTable().length();
         } else {
-            EXPECT_EQ(searcher.endIndexTable()[i], valD);
+            EXPECT_EQ(searcher.endIndexTable()[i], valD) << i << " of " << searcher.endIndexTable().length();
         }
     }
 
-    for (size_t i = 0; i < searcher.sortedIndices().size(); ++i) {
+    for (size_t i = 0; i < searcher.sortedIndices().length(); ++i) {
         size_t valD = searcherD.sortedIndices()[i];
-        EXPECT_EQ(searcher.sortedIndices()[i], valD);
+        EXPECT_EQ(searcher.sortedIndices()[i], valD) << i << " of " << searcher.sortedIndices().length();
     }
 }
 

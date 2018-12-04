@@ -24,9 +24,12 @@ class Box final : public Surface<N> {
  public:
     class Builder;
 
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+
     //! Bounding box of this box.
-    BoundingBox<double, N> bound = BoundingBox<double, N>(
-        Vector<double, N>(), Vector<double, N>::makeConstant(1.0));
+    BoundingBox<double, N> bound = (BoundingBox<double, N>(
+        Vector<double, N>(), Vector<double, N>::makeConstant(1.0)));
 
     //! Constructs (0, 0, ...) x (1, 1, ...) box.
     Box(const Transform<N>& transform = Transform<N>(),
@@ -82,7 +85,8 @@ using Box3Ptr = std::shared_ptr<Box3>;
 //! \brief Front-end to create Box objects step by step.
 //!
 template <size_t N>
-class Box<N>::Builder final : public SurfaceBuilderBase<N, typename Box<N>::Builder> {
+class Box<N>::Builder final
+    : public SurfaceBuilderBase<N, typename Box<N>::Builder> {
  public:
     //! Returns builder with lower corner set.
     Builder& withLowerCorner(const Vector<double, N>& pt);
@@ -104,8 +108,10 @@ class Box<N>::Builder final : public SurfaceBuilderBase<N, typename Box<N>::Buil
     using Base::_isNormalFlipped;
     using Base::_transform;
 
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
     Vector<double, N> _lowerCorner;
-    Vector<double, N> _upperCorner = Vector<double, N>::makeConstant(1.0);
+    Vector<double, N> _upperCorner = (Vector<double, N>::makeConstant(1.0));
 };
 
 }  // namespace jet

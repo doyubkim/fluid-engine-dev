@@ -33,14 +33,14 @@ CudaPointHashGridSearcher3::HashUtils::getNearbyKeys(
     }
 
     if ((originIndex.x + 0.5f) * _gridSpacing <= position.x) {
-        nearbyBucketIndices[4].x += 1;
+        nearbyBucketIndices[1].x += 1;
+        nearbyBucketIndices[3].x += 1;
         nearbyBucketIndices[5].x += 1;
-        nearbyBucketIndices[6].x += 1;
         nearbyBucketIndices[7].x += 1;
     } else {
-        nearbyBucketIndices[4].x -= 1;
+        nearbyBucketIndices[1].x -= 1;
+        nearbyBucketIndices[3].x -= 1;
         nearbyBucketIndices[5].x -= 1;
-        nearbyBucketIndices[6].x -= 1;
         nearbyBucketIndices[7].x -= 1;
     }
 
@@ -57,14 +57,14 @@ CudaPointHashGridSearcher3::HashUtils::getNearbyKeys(
     }
 
     if ((originIndex.z + 0.5f) * _gridSpacing <= position.z) {
-        nearbyBucketIndices[1].z += 1;
-        nearbyBucketIndices[3].z += 1;
+        nearbyBucketIndices[4].z += 1;
         nearbyBucketIndices[5].z += 1;
+        nearbyBucketIndices[6].z += 1;
         nearbyBucketIndices[7].z += 1;
     } else {
-        nearbyBucketIndices[1].z -= 1;
-        nearbyBucketIndices[3].z -= 1;
+        nearbyBucketIndices[4].z -= 1;
         nearbyBucketIndices[5].z -= 1;
+        nearbyBucketIndices[6].z -= 1;
         nearbyBucketIndices[7].z -= 1;
     }
 

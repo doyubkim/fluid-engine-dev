@@ -22,8 +22,11 @@ class Plane final : public Surface<N> {
  public:
     class Builder;
 
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+
     //! Plane normal.
-    Vector<double, N> normal = Vector<double, N>::makeUnitY();
+    Vector<double, N> normal = (Vector<double, N>::makeUnitY());
 
     //! Point that lies on the plane.
     Vector<double, N> point;
@@ -97,7 +100,9 @@ class Plane<N>::Builder final : public SurfaceBuilderBase<N, typename Plane<N>::
     using Base::_transform;
     using Base::_isNormalFlipped;
 
-    Vector<double, N> _normal = Vector<double, N>::makeUnitY();
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+    Vector<double, N> _normal = (Vector<double, N>::makeUnitY());
     Vector<double, N> _point;
 };
 

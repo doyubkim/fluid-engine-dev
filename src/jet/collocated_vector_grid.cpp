@@ -60,7 +60,7 @@ double CollocatedVectorGrid<N>::divergence(const Vector<double, N> &x) const {
 
     double result = 0.0;
 
-    for (int i = 0; i < kNumPoints; ++i) {
+    for (size_t i = 0; i < kNumPoints; ++i) {
         result += weights[i] * divergenceAtDataPoint(indices[i]);
     }
 
@@ -77,7 +77,7 @@ typename GetCurl<N>::type CollocatedVectorGrid<N>::curl(
 
     typename GetCurl<N>::type result{};
 
-    for (int i = 0; i < kNumPoints; ++i) {
+    for (size_t i = 0; i < kNumPoints; ++i) {
         result += weights[i] * curlAtDataPoint(indices[i]);
     }
 

@@ -42,7 +42,7 @@ TEST(VolumeGridEmitter3, Velocity) {
 
     emitter->update(0.0, 0.01);
 
-    auto pos = unroll3(grid->dataPosition());
+    auto pos = grid->dataPosition();
     grid->forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
         Vector3D gx = pos(i, j, k);
         double sdf = emitter->sourceRegion()->signedDistance(gx);
@@ -77,7 +77,7 @@ TEST(VolumeGridEmitter3, SignedDistance) {
 
     emitter->update(0.0, 0.01);
 
-    auto pos = unroll3(grid->dataPosition());
+    auto pos = grid->dataPosition();
     grid->forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
         Vector3D gx = pos(i, j, k);
         double answer = (sphere->center - gx).length() - 0.15;
@@ -107,7 +107,7 @@ TEST(VolumeGridEmitter3, StepFunction) {
 
     emitter->update(0.0, 0.01);
 
-    auto pos = unroll3(grid->dataPosition());
+    auto pos = grid->dataPosition();
     grid->forEachDataPointIndex([&] (size_t i, size_t j, size_t k) {
         Vector3D gx = pos(i, j, k);
         double answer = (sphere->center - gx).length() - 0.15;

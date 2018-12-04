@@ -46,7 +46,25 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     //! Copy constructor.
     PointHashGridSearcher(const PointHashGridSearcher& other);
 
-    //! Builds internal acceleration structure for given points list and max search radius.
+    //!
+    //! \brief Builds internal acceleration structure for given points list.
+    //!
+    //! This function builds the hash grid for given points.
+    //!
+    //! \param[in]  points  The points to be added.
+    //!
+    void build(const ConstArrayView1<Vector<double, N>>& points) override;
+
+    //!
+    //! \brief Builds internal acceleration structure for given points list and max search radius.
+    //!
+    //! This function builds the hash grid for given points and also updates the
+    //! grid spacing accordingly with the given max search radius 
+    //! (grid spacing = 2 * max search radius).
+    //!
+    //! \param[in]  points          The points to be added.
+    //! \param[in]  maxSearchRadius Max search radius.
+    //!
     void build(const ConstArrayView1<Vector<double, N>>& points, double maxSearchRadius) override;
 
     //!
@@ -118,8 +136,10 @@ class PointHashGridSearcher final : public PointNeighborSearcher<N> {
     static Builder builder();
 
  private:
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
     double _gridSpacing = 1.0;
-    Vector<ssize_t, N> _resolution = Vector<ssize_t, N>::makeConstant(1);
+    Vector<ssize_t, N> _resolution = (Vector<ssize_t, N>::makeConstant(1));
     Array1<Vector<double, N>> _points;
     Array1<Array1<size_t>> _buckets;
 
@@ -176,7 +196,9 @@ class PointHashGridSearcher<N>::Builder final
         const override;
 
  private:
-    Vector<size_t, N> _resolution = Vector<size_t, N>::makeConstant(64);
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+    Vector<size_t, N> _resolution = (Vector<size_t, N>::makeConstant(64));
     double _gridSpacing = 1.0;
 };
 
