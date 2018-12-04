@@ -132,7 +132,7 @@ Vector<double, N> ScalarGrid<N>::gradient(const Vector<double, N> &x) const {
 
     Vector<double, N> result;
 
-    for (int i = 0; i < kNumPoints; ++i) {
+    for (size_t i = 0; i < kNumPoints; ++i) {
         result += weights[i] * gradientAtDataPoint(indices[i]);
     }
 
@@ -148,7 +148,7 @@ double ScalarGrid<N>::laplacian(const Vector<double, N> &x) const {
 
     double result = 0.0;
 
-    for (int i = 0; i < kNumPoints; ++i) {
+    for (size_t i = 0; i < kNumPoints; ++i) {
         result += weights[i] * laplacianAtDataPoint(indices[i]);
     }
 

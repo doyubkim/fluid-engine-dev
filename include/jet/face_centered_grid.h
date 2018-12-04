@@ -433,8 +433,10 @@ class FaceCenteredGrid<N>::Builder final : public VectorGridBuilder<N> {
         const Vector<double, N>& initialVal) const override;
 
  private:
-    Vector<size_t, N> _resolution = Vector<size_t, N>::makeConstant(1);
-    Vector<double, N> _gridSpacing = Vector<double, N>::makeConstant(1.0);
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+    Vector<size_t, N> _resolution = (Vector<size_t, N>::makeConstant(1));
+    Vector<double, N> _gridSpacing = (Vector<double, N>::makeConstant(1.0));
     Vector<double, N> _gridOrigin;
     Vector<double, N> _initialVal;
 };

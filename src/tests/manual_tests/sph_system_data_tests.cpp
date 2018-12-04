@@ -39,7 +39,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Interpolate) {
 
     CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -85,7 +85,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Gradient) {
     CellCenteredScalarGrid2 grid({64, 64}, {1.0 / 64, 1.0 / 64});
     CellCenteredScalarGrid2 grid2({64, 64}, {1.0 / 64, 1.0 / 64});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -138,7 +138,7 @@ JET_BEGIN_TEST_F(SphSystemData2, Laplacian) {
 
     CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -181,7 +181,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Interpolate) {
 
     CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -227,7 +227,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Gradient) {
     CellCenteredScalarGrid2 grid({64, 64}, {1.0 / 64, 1.0 / 64});
     CellCenteredScalarGrid2 grid2({64, 64}, {1.0 / 64, 1.0 / 64});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);
@@ -280,7 +280,7 @@ JET_BEGIN_TEST_F(SphSystemData3, Laplacian) {
 
     CellCenteredScalarGrid2 grid({512, 512}, {1.0 / 512, 1.0 / 512});
 
-    auto gridPos = unroll2(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     parallelFor(kZeroSize, grid.dataSize().x, kZeroSize, grid.dataSize().y,
                 [&](size_t i, size_t j) {
                     Vector2D xy = gridPos(i, j);

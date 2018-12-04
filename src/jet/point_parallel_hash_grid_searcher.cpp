@@ -40,9 +40,7 @@ PointParallelHashGridSearcher<N>::PointParallelHashGridSearcher(
 
 template <size_t N>
 void PointParallelHashGridSearcher<N>::build(
-    const ConstArrayView1<Vector<double, N>> &points, double maxSearchRadius) {
-    _gridSpacing = 2.0 * maxSearchRadius;
-
+    const ConstArrayView1<Vector<double, N>> &points) {
     _points.clear();
     _keys.clear();
     _startIndexTable.clear();
@@ -126,6 +124,14 @@ void PointParallelHashGridSearcher<N>::build(
                     static_cast<float>(numberOfNonEmptyBucket);
     JET_INFO << "Max number of points per bucket: "
              << maxNumberOfPointsPerBucket;
+}
+
+template <size_t N>
+void PointParallelHashGridSearcher<N>::build(
+    const ConstArrayView1<Vector<double, N>> &points, double maxSearchRadius) {
+    _gridSpacing = 2.0 * maxSearchRadius;
+
+    build(points);
 }
 
 template <size_t N>

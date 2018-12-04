@@ -44,7 +44,7 @@ TEST(TriangleMeshToSdf, TriangleMeshToSdf) {
 
     Box3 box(Vector3D(), Vector3D(1.0, 1.0, 1.0));
 
-    auto gridPos = unroll3(grid.dataPosition());
+    auto gridPos = grid.dataPosition();
     grid.forEachDataPointIndex([&](size_t i, size_t j, size_t k) {
         auto pos = gridPos(i, j, k);
         double ans = box.closestDistance(pos);

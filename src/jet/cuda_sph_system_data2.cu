@@ -10,6 +10,7 @@
 #include <jet/cuda_sph_system_data2.h>
 #include <jet/triangle_point_generator.h>
 
+#include <thrust/device_ptr.h>
 #include <thrust/extrema.h>
 #include <thrust/for_each.h>
 

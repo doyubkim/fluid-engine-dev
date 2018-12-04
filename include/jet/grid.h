@@ -21,7 +21,8 @@ namespace jet {
 template <size_t N>
 class GridDataPositionFunc final {
  public:
-    using RawFunctionType = std::function<Vector<double, N>(const Vector<size_t, N>&)>;
+    using RawFunctionType =
+        std::function<Vector<double, N>(const Vector<size_t, N>&)>;
 
     GridDataPositionFunc(const RawFunctionType& func) : _func(func) {}
 
@@ -34,7 +35,7 @@ class GridDataPositionFunc final {
         return _func(idx);
     }
 
-private:
+ private:
     RawFunctionType _func;
 };
 
@@ -148,11 +149,13 @@ class Grid : public Serializable {
     virtual void setData(const ConstArrayView1<double>& data) = 0;
 
  private:
+    // parentheses around some of the initialization expressions due to:
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
     Vector<size_t, N> _resolution;
-    Vector<double, N> _gridSpacing = Vector<double, N>::makeConstant(1);
+    Vector<double, N> _gridSpacing = (Vector<double, N>::makeConstant(1));
     Vector<double, N> _origin;
     BoundingBox<double, N> _boundingBox =
-        BoundingBox<double, N>(Vector<double, N>(), Vector<double, N>());
+        (BoundingBox<double, N>(Vector<double, N>(), Vector<double, N>()));
 };
 
 //! 2-D Grid type.

@@ -45,7 +45,7 @@ Vector<double, N> Box<N>::closestPointLocal(
         Vector<double, N> result = planes[0].closestPoint(otherPoint);
         double distanceSquared = result.distanceSquaredTo(otherPoint);
 
-        for (int i = 1; i < 2 * N; ++i) {
+        for (size_t i = 1; i < 2 * N; ++i) {
             Vector<double, N> localResult = planes[i].closestPoint(otherPoint);
             double localDistanceSquared =
                 localResult.distanceSquaredTo(otherPoint);
@@ -78,7 +78,7 @@ Vector<double, N> Box<N>::closestNormalLocal(
         Vector<double, N> closestPoint = planes[0].closestPoint(otherPoint);
         double minDistanceSquared = (closestPoint - otherPoint).lengthSquared();
 
-        for (int i = 1; i < 2 * N; ++i) {
+        for (size_t i = 1; i < 2 * N; ++i) {
             Vector<double, N> localClosestPoint =
                 planes[i].closestPoint(otherPoint);
             double localDistanceSquared =
@@ -98,7 +98,7 @@ Vector<double, N> Box<N>::closestNormalLocal(
         Vector<double, N> closestNormal = planes[0].normal;
         double maxCosineAngle = closestNormal.dot(closestPointToInputPoint);
 
-        for (int i = 1; i < 2 * N; ++i) {
+        for (size_t i = 1; i < 2 * N; ++i) {
             double cosineAngle = planes[i].normal.dot(closestPointToInputPoint);
 
             if (cosineAngle > maxCosineAngle) {

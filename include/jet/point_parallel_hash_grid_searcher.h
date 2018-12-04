@@ -46,9 +46,20 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N> {
     PointParallelHashGridSearcher(const PointParallelHashGridSearcher& other);
 
     //!
-    //! \brief Builds internal acceleration structure for given points list and max search radius.
+    //! \brief Builds internal acceleration structure for given points list.
     //!
     //! This function builds the hash grid for given points in parallel.
+    //!
+    //! \param[in]  points  The points to be added.
+    //!
+    void build(const ConstArrayView1<Vector<double, N>>& points) override;
+
+    //!
+    //! \brief Builds internal acceleration structure for given points list and max search radius.
+    //!
+    //! This function builds the hash grid for given points in parallel and also
+    //! updates the grid spacing accordingly with the given max search radius 
+    //! (grid spacing = 2 * max search radius).
     //!
     //! \param[in]  points          The points to be added.
     //! \param[in]  maxSearchRadius Max search radius.
@@ -178,8 +189,12 @@ class PointParallelHashGridSearcher final : public PointNeighborSearcher<N> {
  private:
     friend class PointParallelHashGridSearcherTests;
 
+    // Private type alias to work around the following issue on gcc5 and nvcc
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+    using VectorNZ = Vector<ssize_t, N>;
+
     double _gridSpacing = 1.0;
-    Vector<ssize_t, N> _resolution = Vector<ssize_t, N>::makeConstant(1);
+    Vector<ssize_t, N> _resolution = VectorNZ::makeConstant(1);
     Array1<Vector<double, N>> _points;
     Array1<size_t> _keys;
     Array1<size_t> _startIndexTable;
@@ -242,7 +257,11 @@ class PointParallelHashGridSearcher<N>::Builder final
         const override;
 
  private:
-    Vector<size_t, N> _resolution = Vector<size_t, N>::makeConstant(64);
+    // Private type alias to work around the following issue on gcc5 and nvcc
+    // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52595
+    using VectorNUZ = Vector<size_t, N>;
+
+    Vector<size_t, N> _resolution = VectorNUZ::makeConstant(64);
     double _gridSpacing = 1.0;
 };
 

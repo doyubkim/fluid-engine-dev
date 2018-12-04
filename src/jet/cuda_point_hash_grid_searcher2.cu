@@ -7,6 +7,7 @@
 #include <jet/cuda_algorithms.h>
 #include <jet/cuda_point_hash_grid_searcher2.h>
 
+#include <thrust/device_ptr.h>
 #include <thrust/for_each.h>
 #include <thrust/sort.h>
 
