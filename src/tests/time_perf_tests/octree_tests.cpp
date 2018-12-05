@@ -25,7 +25,7 @@ class Octree : public ::benchmark::Fixture {
     jet::Octree<Triangle3> queryEngine;
 
     void SetUp(const ::benchmark::State&) {
-        std::ifstream file(RESOURCES_DIR "bunny.obj");
+        std::ifstream file(RESOURCES_DIR "/bunny.obj");
 
         if (file) {
             triMesh.readObj(&file);

@@ -81,7 +81,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(TriangleMeshToSdf, Bunny) {
     TriangleMesh3 triMesh;
 
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file) {
         triMesh.readObj(&file);
         file.close();
@@ -115,7 +115,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(TriangleMeshToSdf, Dragon) {
     TriangleMesh3 triMesh;
 
-    std::ifstream file(RESOURCES_DIR "dragon.obj");
+    std::ifstream file(RESOURCES_DIR "/dragon.obj");
     if (file) {
         triMesh.readObj(&file);
         file.close();

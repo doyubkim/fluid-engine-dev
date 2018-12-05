@@ -102,7 +102,7 @@ JET_END_TEST_F
 JET_BEGIN_TEST_F(TriangleMesh3, BasicIO) {
     TriangleMesh3 triMesh;
 
-    std::ifstream file(RESOURCES_DIR "bunny.obj");
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
     if (file) {
         triMesh.readObj(&file);
         file.close();
