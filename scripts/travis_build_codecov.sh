@@ -8,7 +8,7 @@ sudo apt-get install -yq lcov curl
 
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Debug
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON
 make unit_tests
 lcov -c -i -d src/tests/unit_tests -o base.info
 bin/unit_tests
