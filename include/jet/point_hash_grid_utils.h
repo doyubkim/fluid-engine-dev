@@ -17,13 +17,8 @@ namespace jet {
 template <size_t N>
 class PointHashGridUtils {
  public:
-    template <size_t M = N>
-    static std::enable_if_t<M == 2, size_t> hashKey(
-        const Vector<ssize_t, 2> &index, const Vector<ssize_t, 2> &resolution);
-
-    template <size_t M = N>
-    static std::enable_if_t<M == 3, size_t> hashKey(
-        const Vector<ssize_t, 3> &index, const Vector<ssize_t, 3> &resolution);
+    static size_t hashKey(const Vector<ssize_t, N> &index,
+                          const Vector<ssize_t, N> &resolution);
 
     //!
     //! Returns the hash value for given N-D bucket index.

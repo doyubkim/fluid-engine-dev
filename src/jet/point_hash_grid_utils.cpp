@@ -10,19 +10,24 @@
 
 namespace jet {
 
-template <size_t N>
-template <size_t M>
-std::enable_if_t<M == 2, size_t> PointHashGridUtils<N>::hashKey(
-    const Vector<ssize_t, 2> &index, const Vector<ssize_t, 2> &resolution) {
+namespace {
+
+size_t _hashKey(const Vector<ssize_t, 2> &index,
+                const Vector<ssize_t, 2> &resolution) {
     return static_cast<size_t>(index.y * resolution.x + index.x);
 }
 
-template <size_t N>
-template <size_t M>
-std::enable_if_t<M == 3, size_t> PointHashGridUtils<N>::hashKey(
-    const Vector<ssize_t, 3> &index, const Vector<ssize_t, 3> &resolution) {
+size_t _hashKey(const Vector<ssize_t, 3> &index,
+                const Vector<ssize_t, 3> &resolution) {
     return static_cast<size_t>(
         (index.z * resolution.y + index.y) * resolution.x + index.x);
+}
+}
+
+template <size_t N>
+size_t PointHashGridUtils<N>::hashKey(const Vector<ssize_t, N> &index,
+                                      const Vector<ssize_t, N> &resolution) {
+    return _hashKey(index, resolution);
 }
 
 template <size_t N>

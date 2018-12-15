@@ -543,7 +543,7 @@ void CudaArray<T, N>::copyTo(CudaArray<T, N>& other) {
 
 template <typename T, size_t N>
 void CudaArray<T, N>::copyTo(CudaArrayView<T, N>& other) {
-    JET_ASSERT(size() == other.size());
+    JET_ASSERT(length() == other.length());
     cudaCopyDeviceToDevice(data(), length(), other.data());
 }
 
