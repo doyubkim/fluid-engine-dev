@@ -44,6 +44,8 @@ __host__ __device__ inline void cudaSwap(T& a, T& b) {
     b = tmp;
 }
 
+// TODO: Rename it to something else to indicate this is a memory copy.
+// TODO: Also, having cuda prefix may collide with CUDA API.
 template <typename T>
 void cudaCopy(const T* src, size_t n, T* dst,
               cudaMemcpyKind kind = cudaMemcpyDeviceToDevice) {
