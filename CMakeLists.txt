@@ -25,7 +25,7 @@ if (POLICY CMP0074)
 endif()
 
 # Declare project
-project(jet VERSION 1.3.1)
+project(jet VERSION 1.3.2)
 
 # Configure tasking system backend
 include(cmake/TaskingSystemOptions.cmake)
@@ -51,96 +51,55 @@ endif()
 option(USE_GL "Use OpenGL features" ON)
 if (USE_GL)
     find_package(OpenGL REQUIRED)
+    
+    if (OPENGL_FOUND)
+        add_definitions(-DJET_USE_GL)
 
-    # Add Apple-specific libraries
-    if (APPLE)
-        find_library(COREFOUNDATION_LIB CoreFoundation)
-    else()
-        set(COREFOUNDATION_LIB "")
-    endif()
-
-    # Add GLFW3
-    if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-        find_program(NUGET nuget)
-        if (NOT NUGET)
-            message(FATAL "Cannot find nuget command line tool.")
-        else()
-            if ("${CMAKE_GENERATOR}" MATCHES "Win64" OR "${CMAKE_GENERATOR_PLATFORM}" MATCHES "x64")
-                set(MSVC_ARCH "x64")
-            else()
-                set(MSVC_ARCH "Win32")
-            endif()
-            execute_process(COMMAND ${NUGET} install glfw -Version 3.2.1-v141)
-            set(MSVC_GLFW_DIR ${PROJECT_BINARY_DIR}/glfw.3.2.1-v141/build/native)
-            include_directories(${MSVC_GLFW_DIR}/include)
-            link_directories(${MSVC_GLFW_DIR}/lib/${CMAKE_VS_PLATFORM_TOOLSET}/${MSVC_ARCH}/static)
-        endif()
-        set(GLFW_LIBRARY glfw3)
-    else()
-        find_package(glfw3 REQUIRED)
+        # Add Apple-specific libraries
         if (APPLE)
-            set(GLFW_LIBRARY glfw)
+            find_library(COREFOUNDATION_LIB CoreFoundation)
         else()
-            # From pkg-config glfw3 --static --libs
-            set(GLFW_LIBRARY
-                glfw
-                rt m dl Xrandr Xinerama Xcursor Xext Xrender Xfixes X11 pthread
-                xcb Xau Xdmcp)
+            set(COREFOUNDATION_LIB "")
         endif()
+
+        # Add GLFW3
+        if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+            find_program(NUGET nuget)
+            if (NOT NUGET)
+                message(FATAL "Cannot find nuget command line tool.")
+            else()
+                if ("${CMAKE_GENERATOR}" MATCHES "Win64" OR "${CMAKE_GENERATOR_PLATFORM}" MATCHES "x64")
+                    set(MSVC_ARCH "x64")
+                else()
+                    set(MSVC_ARCH "Win32")
+                endif()
+                execute_process(COMMAND ${NUGET} install glfw -Version 3.2.1-v141)
+                set(MSVC_GLFW_DIR ${PROJECT_BINARY_DIR}/glfw.3.2.1-v141/build/native)
+                include_directories(${MSVC_GLFW_DIR}/include)
+                link_directories(${MSVC_GLFW_DIR}/lib/${CMAKE_VS_PLATFORM_TOOLSET}/${MSVC_ARCH}/static)
+            endif()
+            set(GLFW_LIBRARY glfw3)
+        else()
+            find_package(glfw3 REQUIRED)
+            if (APPLE)
+                set(GLFW_LIBRARY glfw)
+            else()
+                # From pkg-config glfw3 --static --libs
+                set(GLFW_LIBRARY
+                    glfw
+                    rt m dl Xrandr Xinerama Xcursor Xext Xrender Xfixes X11 pthread
+                    xcb Xau Xdmcp)
+            endif()
+        endif()
+
+        set(OPENGL_LIBRARIES 
+            ${OPENGL_LIBRARIES}
+            ${COREFOUNDATION_LIB})
+    else()
+        set(USE_GL OFF)
     endif()
-
-    set(OPENGL_LIBRARIES ${OPENGL_LIBRARIES}
-            ${COREFOUNDATION_LIB}
-            ${GLFW_LIBRARY})
-    add_definitions(-DJET_USE_GL)
-
-    # Add dear ImGui
-    set(IMGUI_LIBRARIES imgui)
 endif()
 
-# Includes
-include_directories(/usr/local/include)
-include_directories(include)
-include_directories(external)
-include_directories(external/pybind11/include)
-include_directories(external/googletest/googletest/include)
-include_directories(external/Clara/include)
-include_directories(external/tinyobj)
-include_directories(src/examples)
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    include_directories(src/winix)
-endif()
-if (USE_GL)
-    include_directories(external/imgui)
-    include_directories(${OPENGL_INCLUDE_DIRS})
-else()
-    set(OPENGL_LIBRARIES "")
-    set(IMGUI_LIBRARIES "")
-endif()
-
-# Build type - Release by default
-message("CMake build type: " ${CMAKE_BUILD_TYPE})
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_definitions(-DDEBUG)
-endif()
-
-# Configure tasking system backend
-include(cmake/TaskingSystemOptions.cmake)
-
-# Compile options
-include(cmake/CompileOptions.cmake)
-
-# Code coverage - Debug only
-# NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
-option(BUILD_COVERAGE "Build code coverage" OFF)
-if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX AND BUILD_COVERAGE)
-    include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage unit_tests coverage)
-endif()
-
-# Options
 # CUDA
 option(USE_CUDA "Use CUDA features" ON)
 if (USE_CUDA)
@@ -169,22 +128,43 @@ if (USE_CUDA)
     endif()
 endif()
 
-# Includes
-if (UNIX)
-    include_directories(/usr/local/include)
+# Include directories
+if (WIN32)
+    set(USR_LOCAL_INCLUDE_DIR "")
+else()
+    set(USR_LOCAL_INCLUDE_DIR /usr/local/include)
 endif()
-include_directories(include)
-include_directories(external)
-include_directories(external/pybind11/include)
-include_directories(external/googletest/googletest/include)
-include_directories(external/googlebenchmark/include)
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    include_directories(src/winix)
-endif()
+set(JET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(EXTERNAL_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
+set(PYBIND11_INCLUDE_DIR ${EXTERNAL_INCLUDE_DIR}/pybind11/include)
+set(GTEST_INCLUDE_DIR ${EXTERNAL_INCLUDE_DIR}/googletest/googletest/include)
+set(CLARA_INCLUDE_DIR ${EXTERNAL_INCLUDE_DIR}/Clara/include)
+set(TINYOBJ_INCLUDE_DIR ${EXTERNAL_INCLUDE_DIR}/tinyobj)
+set(EXAMPLES_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/examples
+    ${EXTERNAL_INCLUDE_DIR}
+    ${CLARA_INCLUDE_DIR})
 
 # Build type - Release by default
+message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
+elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
+    add_definitions(-DDEBUG)
+endif()
+
+# Configure tasking system backend
+include(cmake/TaskingSystemOptions.cmake)
+
+# Compile options
+include(cmake/CompileOptions.cmake)
+
+# Code coverage - Debug only
+# NOTE: Code coverage results with an optimized (non-Debug) build may be misleading
+option(BUILD_COVERAGE "Build code coverage" OFF)
+if (CMAKE_BUILD_TYPE MATCHES Debug AND CMAKE_COMPILER_IS_GNUCXX AND BUILD_COVERAGE)
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage unit_tests coverage)
 endif()
 
 # Unpack resources
@@ -216,20 +196,20 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 add_subdirectory(external/cnpy)
 add_subdirectory(external/pystring)
-if (USE_GL)
-    add_subdirectory(external/imgui)
-endif()
+# if (USE_GL)
+#     add_subdirectory(external/imgui)
+# endif()
 add_subdirectory(src/jet)
-add_subdirectory(src/jet.viz)
+# add_subdirectory(src/jet.viz)
 add_subdirectory(src/tests/jtl_tests)
 add_subdirectory(src/tests/manual_tests)
 add_subdirectory(src/tests/mem_perf_tests)
 add_subdirectory(src/tests/time_perf_tests)
 add_subdirectory(src/tests/unit_tests)
-if (USE_GL)
-    add_subdirectory(src/tests/opengl_tests)
-endif()
-add_subdirectory(src/examples/common)
+# if (USE_GL)
+#     add_subdirectory(src/tests/opengl_tests)
+# endif()
+# add_subdirectory(src/examples/common)
 add_subdirectory(src/examples/hello_fluid_sim)
 add_subdirectory(src/examples/hybrid_liquid_sim)
 add_subdirectory(src/examples/level_set_liquid_sim)
@@ -239,10 +219,10 @@ add_subdirectory(src/examples/particles2xml)
 add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
 add_subdirectory(src/examples/playground)
-add_subdirectory(src/examples/particle_sim)
-if (USE_GL)
-    add_subdirectory(src/examples/smoke_sim2d)
-endif()
+# add_subdirectory(src/examples/particle_sim)
+# if (USE_GL)
+#     add_subdirectory(src/examples/smoke_sim2d)
+# endif()
 add_subdirectory(external/pybind11)
 if (BUILD_FROM_PIP)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY})

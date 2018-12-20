@@ -26,6 +26,13 @@ set_target_properties(${target}
         PROPERTIES
         ${DEFAULT_PROJECT_OPTIONS})
 
+# Includes
+target_include_directories(${target}
+    PRIVATE
+    ${JET_INCLUDE_DIR}
+    ${PYBIND11_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR})
+
 # Link libraries
 target_link_libraries(${target}
         PUBLIC

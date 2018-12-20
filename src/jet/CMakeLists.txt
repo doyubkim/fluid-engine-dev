@@ -82,6 +82,8 @@ target_link_libraries(${target}
 # Includes
 target_include_directories(${target}
     PRIVATE
+    ${JET_INCLUDE_DIR}
+    ${TINYOBJ_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty
 

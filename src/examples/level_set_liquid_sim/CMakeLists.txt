@@ -9,9 +9,6 @@
 # Target name
 set(target level_set_liquid_sim)
 
-# Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 # Sources
 file(GLOB sources
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -35,6 +32,13 @@ target_compile_definitions(${target}
     PRIVATE
     RESOURCES_DIR="${RESOURCES_DIR}"
 )
+
+# Includes
+target_include_directories(${target}
+    PRIVATE
+    ${JET_INCLUDE_DIR}
+    ${EXAMPLES_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link libraries
 target_link_libraries(${target}

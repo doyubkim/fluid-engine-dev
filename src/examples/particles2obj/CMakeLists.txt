@@ -9,9 +9,6 @@
 # Target name
 set(target particles2obj)
 
-# Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 # Sources
 file(GLOB sources
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
@@ -31,6 +28,13 @@ target_compile_options(${target}
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
 )
+
+# Includes
+target_include_directories(${target}
+    PRIVATE
+    ${JET_INCLUDE_DIR}
+    ${EXAMPLES_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link libraries
 target_link_libraries(${target}

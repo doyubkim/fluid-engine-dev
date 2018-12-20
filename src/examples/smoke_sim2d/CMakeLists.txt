@@ -9,9 +9,6 @@
 # Target name
 set(target smoke_sim2d)
 
-# Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 # Sources
 file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
@@ -29,6 +26,12 @@ set_target_properties(${target}
 target_compile_options(${target}
         PUBLIC
         ${DEFAULT_COMPILE_OPTIONS})
+
+# Includes
+target_include_directories(${target}
+    PRIVATE
+    ${JET_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link libraries
 target_link_libraries(${target}
