@@ -6,7 +6,7 @@
 
 #ifdef JET_USE_CUDA
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/cuda_particle_system_solver_base3.h>
 

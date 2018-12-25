@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/implicit_triangle_mesh3.h>
 #include <jet/triangle_mesh_to_sdf.h>

@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/sph_points_to_implicit2.h>

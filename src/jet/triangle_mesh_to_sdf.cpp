@@ -30,7 +30,7 @@
 #include <jet/array.h>
 #include <jet/array_utils.h>
 #include <jet/triangle_mesh_to_sdf.h>
-#include <pch.h>
+#include <common.h>
 #include <algorithm>
 #include <vector>
 

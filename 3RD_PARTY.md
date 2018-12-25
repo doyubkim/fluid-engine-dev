@@ -531,6 +531,33 @@ SOFTWARE.
 
 ---
 
+Jet uses NestedInitializerLists from m3ta library by Christopher Crouzet.
+
+https://github.com/christophercrouzet/m3ta
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Christopher Crouzet
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
 Jet uses GLFW for OpenGL Window management
 
 Copyright (c) 2002-2006 Marcus Geelnard
@@ -616,47 +643,6 @@ https://graphics.ethz.ch/teaching/former/imagesynthesis_06/miniprojects/p3/
 
 ---
 
-Jet uses ImGuiUtils.h by Doug Binks for custom ImGui style:
-https://gist.github.com/dougbinks/8089b4bbaccaaf6fa204236978d165a9
-
----
-
-Jet uses IconsFontAwesome.h by Juliette Foucaut and Doug Binks for custom ImGui style: 
-https://github.com/juliettef/IconFontCppHeaders
-
-Copyright (c) 2017 Juliette Foucaut and Doug Binks
-
-This software is provided 'as-is', without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
-
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgement in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
-
----
-
-Jet uses stb_image for loading images:
-https://github.com/nothings/stb/blob/master/stb_image.h
-
-stb_image - v2.16 - public domain image loader - http://nothings.org/stb_image.h
-                                     no warranty implied; use at your own risk 
-
----
-
-Jet uses airplane.png image file for the testing from
-http://homepages.cae.wisc.edu/~ece533/images/index.html
-
----
-
 Jet uses Aaron Lefohn, Robert Strzodka, and Adam Moerschell's framebuffer object class.
 
 ```
@@ -702,27 +688,28 @@ OF SUCH DAMAGE.
 
 ---
 
-Jet uses NestedInitializerLists from m3ta library by Christopher Crouzet.
+Jet uses mtlpp for accessing Metal API from C++ layer.
 
-https://github.com/christophercrouzet/m3ta
+https://github.com/naleksiev/mtlpp
 
-The MIT License (MIT)
+MIT License
 
-Copyright (c) 2015 Christopher Crouzet
+Copyright (c) 2016-2017 Nikolay Aleksiev
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

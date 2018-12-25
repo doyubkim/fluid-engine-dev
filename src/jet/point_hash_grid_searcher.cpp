@@ -8,7 +8,7 @@
 #pragma warning(disable : 4244)
 #endif
 
-#include <pch.h>
+#include <common.h>
 
 #include <fbs_helpers.h>
 #include <generated/point_hash_grid_searcher2_generated.h>

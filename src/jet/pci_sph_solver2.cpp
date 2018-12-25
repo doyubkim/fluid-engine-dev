@@ -8,7 +8,7 @@
 #include <jet/pci_sph_solver2.h>
 #include <jet/sph_kernels.h>
 #include <jet/triangle_point_generator.h>
-#include <pch.h>
+#include <common.h>
 
 #include <algorithm>
 

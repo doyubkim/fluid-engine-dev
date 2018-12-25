@@ -8,7 +8,7 @@
 #include <jet/grid_blocked_boundary_condition_solver2.h>
 #include <jet/level_set_utils.h>
 #include <jet/surface_to_implicit.h>
-#include <pch.h>
+#include <common.h>
 #include <physics_helpers.h>
 #include <algorithm>
 

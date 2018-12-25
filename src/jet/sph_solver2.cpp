@@ -8,7 +8,7 @@
 #include <jet/sph_kernels.h>
 #include <jet/sph_solver2.h>
 #include <jet/timer.h>
-#include <pch.h>
+#include <common.h>
 #include <physics_helpers.h>
 
 #include <algorithm>

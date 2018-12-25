@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/fdm_gauss_seidel_solver2.h>
 #include <jet/fdm_mg_solver2.h>

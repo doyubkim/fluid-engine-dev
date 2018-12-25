@@ -47,6 +47,15 @@ elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_definitions(-DDEBUG)
 endif()
 
+# Find Apple-specific libraries
+if (APPLE)
+    find_library(COCOA_LIB Cocoa)
+    find_library(COREFOUNDATION_LIB CoreFoundation)
+else()
+    set(COCOA_LIB "")
+    set(COREFOUNDATION_LIB "")
+endif()
+
 # OpenGL
 option(USE_GL "Use OpenGL features" ON)
 if (USE_GL)
@@ -54,13 +63,6 @@ if (USE_GL)
     
     if (OPENGL_FOUND)
         add_definitions(-DJET_USE_GL)
-
-        # Add Apple-specific libraries
-        if (APPLE)
-            find_library(COREFOUNDATION_LIB CoreFoundation)
-        else()
-            set(COREFOUNDATION_LIB "")
-        endif()
 
         # Add GLFW3
         if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -94,6 +96,7 @@ if (USE_GL)
 
         set(OPENGL_LIBRARIES 
             ${OPENGL_LIBRARIES}
+            ${GLFW_LIBRARY}
             ${COREFOUNDATION_LIB})
     else()
         set(USE_GL OFF)
@@ -170,17 +173,17 @@ endif()
 # Unpack resources
 set(RESOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
 set(RESOURCES_OBJS
-        ${RESOURCES_DIR}/bunny.obj
-        ${RESOURCES_DIR}/cube.obj
-        ${RESOURCES_DIR}/cup.obj
-        ${RESOURCES_DIR}/dragon.obj)
+    ${RESOURCES_DIR}/bunny.obj
+    ${RESOURCES_DIR}/cube.obj
+    ${RESOURCES_DIR}/cup.obj
+    ${RESOURCES_DIR}/dragon.obj)
 set(unzip_py ${CMAKE_CURRENT_SOURCE_DIR}/scripts/unzip.py)
 add_custom_command(
-        COMMAND python ${unzip_py} ${RESOURCES_DIR}/resources.zip ${RESOURCES_DIR}
-        DEPENDS ${headers}
-        OUTPUT ${RESOURCES_OBJS})
+    COMMAND python ${unzip_py} ${RESOURCES_DIR}/resources.zip ${RESOURCES_DIR}
+    DEPENDS ${headers}
+    OUTPUT ${RESOURCES_OBJS})
 add_custom_target(unzip_py ALL
-        DEPENDS ${RESOURCES_OBJS})
+    DEPENDS ${RESOURCES_OBJS})
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
@@ -200,7 +203,7 @@ add_subdirectory(external/pystring)
 #     add_subdirectory(external/imgui)
 # endif()
 add_subdirectory(src/jet)
-# add_subdirectory(src/jet.viz)
+add_subdirectory(src/jet.gfx)
 add_subdirectory(src/tests/jtl_tests)
 add_subdirectory(src/tests/manual_tests)
 add_subdirectory(src/tests/mem_perf_tests)
@@ -219,6 +222,13 @@ add_subdirectory(src/examples/particles2xml)
 add_subdirectory(src/examples/smoke_sim)
 add_subdirectory(src/examples/sph_sim)
 add_subdirectory(src/examples/playground)
+add_subdirectory(src/examples/example_utils)
+if (USE_GL)
+    add_subdirectory(src/examples/opengl_examples)
+endif()
+if (APPLE)
+    add_subdirectory(src/examples/metal_examples)
+endif()
 # add_subdirectory(src/examples/particle_sim)
 # if (USE_GL)
 #     add_subdirectory(src/examples/smoke_sim2d)

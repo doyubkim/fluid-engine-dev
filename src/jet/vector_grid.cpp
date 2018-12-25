@@ -8,7 +8,7 @@
 #pragma warning(disable : 4244)
 #endif
 
-#include <pch.h>
+#include <common.h>
 
 #include <fbs_helpers.h>
 #include <generated/vector_grid2_generated.h>

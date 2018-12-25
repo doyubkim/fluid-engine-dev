@@ -20,7 +20,7 @@
 
 #include <marching_cubes_table.h>
 #include <marching_squares_table.h>
-#include <pch.h>
+#include <common.h>
 
 #include <jet/bounding_box.h>
 #include <jet/level_set_utils.h>

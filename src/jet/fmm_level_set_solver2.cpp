@@ -7,7 +7,7 @@
 #include <jet/fdm_utils.h>
 #include <jet/fmm_level_set_solver2.h>
 #include <jet/level_set_utils.h>
-#include <pch.h>
+#include <common.h>
 
 #include <algorithm>
 #include <queue>

@@ -4,7 +4,7 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/cuda_particle_system_solver3.h>
 #include <jet/cuda_utils.h>

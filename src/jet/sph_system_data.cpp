@@ -9,7 +9,7 @@
 // "Meshless Approximation Methods and Applications in Physics Based Modeling
 // and Animation", Eurographics 2009 Tutorial
 
-#include <pch.h>
+#include <common.h>
 
 #include <fbs_helpers.h>
 #include <generated/sph_system_data2_generated.h>

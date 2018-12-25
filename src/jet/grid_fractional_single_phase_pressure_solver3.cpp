@@ -11,7 +11,7 @@
 // https://github.com/christopherbatty/FluidRigidCoupling2D
 //
 
-#include <pch.h>
+#include <common.h>
 
 #include <jet/constants.h>
 #include <jet/fdm_iccg_solver3.h>

@@ -7,7 +7,7 @@
 #include <jet/cg.h>
 #include <jet/constants.h>
 #include <jet/fdm_cg_solver3.h>
-#include <pch.h>
+#include <common.h>
 
 using namespace jet;
 

@@ -67,6 +67,7 @@ cmake-build-*
 
 # Temp files
 obj
+tmp
 
 # Doxygen files
 doc/doxygen/html

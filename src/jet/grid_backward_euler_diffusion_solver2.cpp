@@ -9,7 +9,7 @@
 #include <jet/fdm_utils.h>
 #include <jet/grid_backward_euler_diffusion_solver2.h>
 #include <jet/level_set_utils.h>
-#include <pch.h>
+#include <common.h>
 
 using namespace jet;
 
