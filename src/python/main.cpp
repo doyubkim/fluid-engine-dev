@@ -54,6 +54,7 @@
 #include "level_set_liquid_solver.h"
 #include "level_set_solver.h"
 #include "logging.h"
+#include "marching_cubes.h"
 #include "particle_emitter.h"
 #include "particle_emitter_set.h"
 #include "particle_system_data.h"
@@ -304,6 +305,9 @@ PYBIND11_MODULE(pyjet, m) {
     addSphSolver3(m);
     addPciSphSolver2(m);
     addPciSphSolver3(m);
+
+    // Global functions
+    addMarchingCubes(m);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = py::str(VERSION_INFO);
