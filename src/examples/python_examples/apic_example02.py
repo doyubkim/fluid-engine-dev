@@ -38,8 +38,8 @@ def main():
     solver.collider = collider
 
     # Visualization
-    fig, ax = plt.subplots()
-    ax.set_aspect('equal')
+    fig = plt.figure(figsize=(3, 6))
+    ax = fig.add_axes([0, 0, 1, 1], frameon=False)
     ax.set_xlim(0, 1), ax.set_xticks([])
     ax.set_ylim(0, 2), ax.set_yticks([])
 

@@ -84,7 +84,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //!
     void setIsOneShot(bool newValue);
 
-    //! Returns trhe if particles can be overlapped.
+    //! Returns true if particles can be overlapped.
     bool allowOverlapping() const;
 
     //!
