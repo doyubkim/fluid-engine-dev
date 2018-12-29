@@ -27,9 +27,9 @@ void addImplicitTriangleMesh3(pybind11::module& m) {
         // CTOR
         .def(py::init<TriangleMesh3Ptr, size_t, double, Transform3, bool>(),
              R"pbdoc(
-             Constructs a triangle with given `points`, `normals`, and `uvs`.
+             Constructs an ImplicitSurface3 with mesh and other grid parameters.
              )pbdoc",
-             py::arg("points"), py::arg("normals"), py::arg("uvs"),
+             py::arg("mesh"), py::arg("resolutionX"), py::arg("margin"),
              py::arg("transform") = Transform3(),
              py::arg("isNormalFlipped") = false)
         .def_property_readonly("grid", &ImplicitTriangleMesh3::grid,

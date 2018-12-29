@@ -27,12 +27,11 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3 {
  public:
     class Builder;
 
-    ImplicitTriangleMesh3(
-        const TriangleMesh3Ptr& mesh,
-        size_t resolutionX,
-        double margin,
-        const Transform3& transform = Transform3(),
-        bool isNormalFlipped = false);
+    //! Constructs an ImplicitSurface3 with mesh and other grid parameters.
+    ImplicitTriangleMesh3(const TriangleMesh3Ptr& mesh, size_t resolutionX,
+                          double margin,
+                          const Transform3& transform = Transform3(),
+                          bool isNormalFlipped = false);
 
     virtual ~ImplicitTriangleMesh3();
 
@@ -55,8 +54,7 @@ class ImplicitTriangleMesh3 final : public ImplicitSurface3 {
 
     BoundingBox3D boundingBoxLocal() const override;
 
-    Vector3D closestNormalLocal(
-        const Vector3D& otherPoint) const override;
+    Vector3D closestNormalLocal(const Vector3D& otherPoint) const override;
 
     double signedDistanceLocal(const Vector3D& otherPoint) const override;
 
