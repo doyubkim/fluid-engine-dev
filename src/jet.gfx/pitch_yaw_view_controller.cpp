@@ -12,13 +12,13 @@
 namespace jet {
 namespace gfx {
 
-constexpr double kRotateSpeedMultiplier = 0.01;
-constexpr double kZoomSpeedMultiplier = 0.01;
-constexpr double kPanSpeedMultiplier = 0.001;
-constexpr double kMinRadialDistance = 1e-3;
+constexpr float kRotateSpeedMultiplier = 0.01f;
+constexpr float kZoomSpeedMultiplier = 0.01f;
+constexpr float kPanSpeedMultiplier = 0.001f;
+constexpr float kMinRadialDistance = 1e-3f;
 
 PitchYawViewController::PitchYawViewController(const CameraPtr &camera,
-                                               const Vector3D &rotationOrigin)
+                                               const Vector3F &rotationOrigin)
     : ViewController(camera), _origin(rotationOrigin) {
     _radialDistance =
         std::max((camera->state.origin - _origin).length(), kMinRadialDistance);
@@ -46,17 +46,17 @@ void PitchYawViewController::onPointerHover(const PointerEvent &pointerEvent) {
 
 void PitchYawViewController::onPointerDragged(
     const PointerEvent &pointerEvent) {
-    double deltaX = static_cast<double>(pointerEvent.deltaX());
-    double deltaY = static_cast<double>(pointerEvent.deltaY());
+    float deltaX = static_cast<float>(pointerEvent.deltaX());
+    float deltaY = static_cast<float>(pointerEvent.deltaY());
 
     if (pointerEvent.modifierKey() == ModifierKey::kCtrl) {
         _azimuthalAngleInRadians -=
             kRotateSpeedMultiplier * _rotateSpeed * deltaX;
         _polarAngleInRadians -= kRotateSpeedMultiplier * _rotateSpeed * deltaY;
-        _polarAngleInRadians = clamp(_polarAngleInRadians, 0.0, pi<double>());
+        _polarAngleInRadians = clamp(_polarAngleInRadians, 0.0f, kPiF);
     } else {
         CameraState state = camera()->state;
-        Vector3D right = state.lookAt.cross(state.lookUp);
+        Vector3F right = state.lookAt.cross(state.lookUp);
 
         // This should use unproject
         _origin += kPanSpeedMultiplier * _panSpeed *
@@ -80,26 +80,26 @@ void PitchYawViewController::onMouseWheel(const PointerEvent &pointerEvent) {
 }
 
 void PitchYawViewController::updateCamera() {
-    double x = _radialDistance * std::sin(_polarAngleInRadians) *
-               std::sin(_azimuthalAngleInRadians);
-    double y = _radialDistance * std::cos(_polarAngleInRadians);
-    double z = _radialDistance * std::sin(_polarAngleInRadians) *
-               std::cos(_azimuthalAngleInRadians);
+    float x = _radialDistance * std::sin(_polarAngleInRadians) *
+              std::sin(_azimuthalAngleInRadians);
+    float y = _radialDistance * std::cos(_polarAngleInRadians);
+    float z = _radialDistance * std::sin(_polarAngleInRadians) *
+              std::cos(_azimuthalAngleInRadians);
 
-    Vector3D positionInLocal = x * _basisX + y * _rotationAxis + z * _basisZ;
+    Vector3F positionInLocal = x * _basisX + y * _rotationAxis + z * _basisZ;
 
     CameraState state = camera()->state;
 
     state.origin = positionInLocal + _origin;
     state.lookAt = -positionInLocal.normalized();
 
-    double upPolarAngleInRadians = pi<double>() / 2.0 - _polarAngleInRadians;
-    double upAzimuthalAngleInRadians = pi<double>() + _azimuthalAngleInRadians;
+    float upPolarAngleInRadians = pi<float>() / 2.0 - _polarAngleInRadians;
+    float upAzimuthalAngleInRadians = pi<float>() + _azimuthalAngleInRadians;
 
-    double upX =
+    float upX =
         std::sin(upPolarAngleInRadians) * std::sin(upAzimuthalAngleInRadians);
-    double upY = std::cos(upPolarAngleInRadians);
-    double upZ =
+    float upY = std::cos(upPolarAngleInRadians);
+    float upZ =
         std::sin(upPolarAngleInRadians) * std::cos(upAzimuthalAngleInRadians);
 
     state.lookUp =

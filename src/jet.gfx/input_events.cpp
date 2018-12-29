@@ -23,8 +23,8 @@ PointerEvent::PointerEvent()
       _pressedMouseButton(MouseButtonType::kNone) {}
 
 PointerEvent::PointerEvent(PointerInputType newInputType,
-                           ModifierKey newModifierKey, double newX, double newY,
-                           double newDeltaX, double newDelyaY,
+                           ModifierKey newModifierKey, float newX, float newY,
+                           float newDeltaX, float newDelyaY,
                            MouseButtonType pressedMouseButton,
                            MouseWheelData wheelData)
     : _inputType(newInputType),
@@ -40,13 +40,13 @@ PointerInputType PointerEvent::inputType() const { return _inputType; }
 
 ModifierKey PointerEvent::modifierKey() const { return _modifierKey; }
 
-double PointerEvent::x() const { return _x; }
+float PointerEvent::x() const { return _x; }
 
-double PointerEvent::y() const { return _y; }
+float PointerEvent::y() const { return _y; }
 
-double PointerEvent::deltaX() const { return _deltaX; }
+float PointerEvent::deltaX() const { return _deltaX; }
 
-double PointerEvent::deltaY() const { return _deltaY; }
+float PointerEvent::deltaY() const { return _deltaY; }
 
 MouseButtonType PointerEvent::pressedMouseButton() const {
     return _pressedMouseButton;

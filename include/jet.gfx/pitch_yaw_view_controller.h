@@ -30,7 +30,7 @@ class PitchYawViewController : public ViewController {
     //! \param rotationOrigin   Origin of the rotation of the view controller.
     //!
     PitchYawViewController(const CameraPtr& camera,
-                           const Vector3D& rotationOrigin = Vector3D());
+                           const Vector3F& rotationOrigin = Vector3F());
     virtual ~PitchYawViewController();
 
  protected:
@@ -44,18 +44,18 @@ class PitchYawViewController : public ViewController {
     void onMouseWheel(const PointerEvent& pointerEvent) override;
 
  private:
-    Vector3D _origin;
-    Vector3D _basisX = Vector3D(1, 0, 0);
-    Vector3D _rotationAxis = Vector3D(0, 1, 0);
-    Vector3D _basisZ = Vector3D(0, 0, 1);
+    Vector3F _origin;
+    Vector3F _basisX = Vector3F(1, 0, 0);
+    Vector3F _rotationAxis = Vector3F(0, 1, 0);
+    Vector3F _basisZ = Vector3F(0, 0, 1);
 
-    double _radialDistance = 1.0;
-    double _polarAngleInRadians = kHalfPiD;
-    double _azimuthalAngleInRadians = 0.0;
+    float _radialDistance = 1.0f;
+    float _polarAngleInRadians = kHalfPiF;
+    float _azimuthalAngleInRadians = 0.0f;
 
-    double _rotateSpeed = 1.0;
-    double _zoomSpeed = 1.0;
-    double _panSpeed = 1.0;
+    float _rotateSpeed = 1.0f;
+    float _zoomSpeed = 1.0f;
+    float _panSpeed = 1.0f;
 
     void updateCamera();
 };

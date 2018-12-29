@@ -22,8 +22,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Debug mode
-#if defined(DEBUG) || defined(_DEBUG)
-#define JET_DEBUG_MODE
+#if defined(JET_DEBUG_MODE)
 #include <cassert>
 #define JET_ASSERT(x) assert(x)
 #else

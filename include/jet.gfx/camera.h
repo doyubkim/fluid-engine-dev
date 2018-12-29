@@ -20,19 +20,19 @@ namespace gfx {
 class CameraState {
  public:
     //! Origin of the camera.
-    Vector3D origin = Vector3D(0, 0, 0);
+    Vector3F origin = Vector3F(0, 0, 0);
 
     //! Look-at direction.
-    Vector3D lookAt = Vector3D(0, 0, -1);
+    Vector3F lookAt = Vector3F(0, 0, -1);
 
     //! Up vector.
-    Vector3D lookUp = Vector3D(0, 1, 0);
+    Vector3F lookUp = Vector3F(0, 1, 0);
 
     //! Distance to the near-clip plane.
-    double nearClipPlane = 0.1;
+    float nearClipPlane = 0.1f;
 
     //! Distance to the far-clip plane.
-    double farClipPlane = 100.0;
+    float farClipPlane = 100.0f;
 
     //! Viewport in screen space.
     Viewport viewport;
@@ -45,7 +45,7 @@ class CameraState {
     //!
     //! \return The view matrix.
     //!
-    Matrix4x4D viewMatrix() const;
+    Matrix4x4F viewMatrix() const;
 
     //! Returns true if equal to the other state.
     bool operator==(const CameraState& other) const;
@@ -82,7 +82,7 @@ class Camera {
     //!
     //! \return The projection matrix.
     //!
-    virtual Matrix4x4D projectionMatrix() const = 0;
+    virtual Matrix4x4F projectionMatrix() const = 0;
 };
 
 //! Shared pointer type for Camera.

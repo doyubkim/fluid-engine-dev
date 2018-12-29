@@ -73,10 +73,10 @@ inline ModifierKey operator|(ModifierKey a, ModifierKey b) {
 //! Mouse wheel event data.
 struct MouseWheelData {
     //! Horizontal scroll amount.
-    double deltaX = 0.0;
+    float deltaX = 0.0f;
 
     //! Vertical scroll amount.
-    double deltaY = 0.0;
+    float deltaY = 0.0f;
 };
 
 //! Pointer event representation.
@@ -98,7 +98,7 @@ class PointerEvent {
     //! \param wheelData Mouse scroll wheel event data.
     //!
     PointerEvent(PointerInputType newInputType, ModifierKey newModifierKey,
-                 double newX, double newY, double newDeltaX, double newDelyaY,
+                 float newX, float newY, float newDeltaX, float newDelyaY,
                  MouseButtonType pressedMouseButton, MouseWheelData wheelData);
 
     //! Returns pointer input type.
@@ -108,16 +108,16 @@ class PointerEvent {
     ModifierKey modifierKey() const;
 
     //! Returns current x position.
-    double x() const;
+    float x() const;
 
     //! Returns current y position.
-    double y() const;
+    float y() const;
 
     //! Returns delta of x position.
-    double deltaX() const;
+    float deltaX() const;
 
     //! Returns delta of y position.
-    double deltaY() const;
+    float deltaY() const;
 
     //! Returns currently pressed mouse button.
     MouseButtonType pressedMouseButton() const;
@@ -128,10 +128,10 @@ class PointerEvent {
  private:
     PointerInputType _inputType;
     ModifierKey _modifierKey;
-    double _x;
-    double _y;
-    double _deltaX;
-    double _deltaY;
+    float _x;
+    float _y;
+    float _deltaX;
+    float _deltaY;
 
     MouseButtonType _pressedMouseButton;
     MouseWheelData _wheelData;

@@ -13,19 +13,19 @@ namespace gfx {
 
 // MARK: CameraState
 
-Matrix4x4D CameraState::viewMatrix() const {
+Matrix4x4F CameraState::viewMatrix() const {
     // https://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml
     // The matrix maps the reference point to the negative z axis and the eye
     // point to the origin.
 
-    Vector3D right = lookAt.cross(lookUp);           // normalized right vec
-    Vector3D up = right.normalized().cross(lookAt);  // normalized up vec
+    Vector3F right = lookAt.cross(lookUp);           // normalized right vec
+    Vector3F up = right.normalized().cross(lookAt);  // normalized up vec
 
-    Matrix4x4D view(right.x, right.y, right.z, 0,        // 1st row
+    Matrix4x4F view(right.x, right.y, right.z, 0,        // 1st row
                     up.x, up.y, up.z, 0,                 // 2nd row
                     -lookAt.x, -lookAt.y, -lookAt.z, 0,  // 3rd row
                     0, 0, 0, 1);                         // 4th row
-    Matrix4x4D translation = Matrix4x4D::makeTranslationMatrix(-origin);
+    Matrix4x4F translation = Matrix4x4F::makeTranslationMatrix(-origin);
 
     return view * translation;
 }

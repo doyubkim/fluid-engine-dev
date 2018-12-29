@@ -16,10 +16,10 @@ namespace gfx {
 //! Orthographic camera representation.
 class OrthoCamera : public Camera {
  public:
-    double left = -1.0;
-    double right = 1.0;
-    double bottom = -1.0;
-    double top = 1.0;
+    float left = -1.0f;
+    float right = 1.0f;
+    float bottom = -1.0f;
+    float top = 1.0f;
 
     //! \brief Constructs an orthographic camera with default parameters.
     OrthoCamera();
@@ -36,20 +36,20 @@ class OrthoCamera : public Camera {
     //! \param bottom   Bottom side of the view area.
     //! \param top      Top side of the view area.
     //!
-    OrthoCamera(const CameraState& state, double left, double right,
-                double bottom, double top);
+    OrthoCamera(const CameraState& state, float left, float right, float bottom,
+                float top);
 
     //! Destructor.
     virtual ~OrthoCamera();
 
     //! Width of the view area.
-    double width() const;
+    float width() const;
 
     //! Height the view area.
-    double height() const;
+    float height() const;
 
     //! Center of the view area.
-    Vector2D center() const;
+    Vector2F center() const;
 
     //!
     //! \brief Returns the projection matrix for this camera.
@@ -60,7 +60,7 @@ class OrthoCamera : public Camera {
     //!
     //! \return The projection matrix.
     //!
-    Matrix4x4D projectionMatrix() const override;
+    Matrix4x4F projectionMatrix() const override;
 };
 
 //! Shared pointer type for OrthoCamera.

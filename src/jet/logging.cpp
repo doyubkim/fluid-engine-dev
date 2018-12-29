@@ -65,7 +65,11 @@ Logger::Logger(LoggingLevel level) : _level(level) {}
 
 Logger::~Logger() {
     std::lock_guard<std::mutex> lock(critical);
-    if (isLeq(sLoggingLevel, _level)) {
+    bool shouldWrite = true;
+#ifndef JET_DEBUG_MODE
+    shouldWrite = _level != LoggingLevel::Debug;
+#endif
+    if (shouldWrite && isLeq(sLoggingLevel, _level)) {
         auto strm = levelToStream(_level);
         (*strm) << _buffer.str() << std::endl;
         strm->flush();

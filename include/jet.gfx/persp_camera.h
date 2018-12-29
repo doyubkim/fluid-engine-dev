@@ -17,7 +17,7 @@ namespace gfx {
 class PerspCamera : public Camera {
  public:
     //! Camera's field of view in radians.
-    double fieldOfViewInRadians = kHalfPiD;
+    float fieldOfViewInRadians = kHalfPiF;
 
     //! \brief Constructs an perspective camera with default camera state.
     PerspCamera();
@@ -29,7 +29,7 @@ class PerspCamera : public Camera {
     //! \param fieldOfViewInRadians Perspective camera's field of view in
     //! radian.
     //!
-    PerspCamera(const CameraState& state, double fieldOfViewInRadians);
+    PerspCamera(const CameraState& state, float fieldOfViewInRadians);
 
     //! Destructor.
     virtual ~PerspCamera();
@@ -43,7 +43,7 @@ class PerspCamera : public Camera {
     //!
     //! \return The projection matrix.
     //!
-    Matrix4x4D projectionMatrix() const override;
+    Matrix4x4F projectionMatrix() const override;
 };
 
 //! Shared pointer type for PerspCamera.

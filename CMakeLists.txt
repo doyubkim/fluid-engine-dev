@@ -40,12 +40,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # Build type - Release by default
-message("CMake build type: " ${CMAKE_BUILD_TYPE})
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 elseif(CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_definitions(-DDEBUG)
+    add_definitions(-DJET_DEBUG_MODE)
 endif()
+message("CMake build type: " ${CMAKE_BUILD_TYPE})
 
 # Find Apple-specific libraries
 if (APPLE)

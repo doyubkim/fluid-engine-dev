@@ -15,15 +15,15 @@ using namespace gfx;
 
 Viewport::Viewport() : x(0), y(0), width(256), height(256) {}
 
-Viewport::Viewport(double newX, double newY, double newWidth, double newHeight)
+Viewport::Viewport(float newX, float newY, float newWidth, float newHeight)
     : x(newX), y(newY), width(newWidth), height(newHeight) {
-    JET_ASSERT(width > 0.0 && height > 0.0);
+    JET_ASSERT(width > 0.0f && height > 0.0f);
 }
 
-double Viewport::aspectRatio() const { return width / height; }
+float Viewport::aspectRatio() const { return width / height; }
 
-Vector2D Viewport::center() const {
-    return Vector2D(x + width / 2.0, y + height / 2.0);
+Vector2F Viewport::center() const {
+    return Vector2F(x + width / 2.0f, y + height / 2.0f);
 }
 
 bool Viewport::operator==(const Viewport& other) const {

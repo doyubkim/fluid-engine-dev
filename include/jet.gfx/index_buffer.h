@@ -1,0 +1,88 @@
+// Copyright (c) 2018 Doyub Kim
+//
+// I am making my contributions/submissions to this project solely in my
+// personal capacity and am not conveying any rights to any intellectual
+// property of any third parties.
+
+#ifndef INCLUDE_JET_GFX_INDEX_BUFFER_H_
+#define INCLUDE_JET_GFX_INDEX_BUFFER_H_
+
+#include <jet.gfx/shader.h>
+#include <jet.gfx/vertex_buffer.h>
+#include <jet/array_view.h>
+
+namespace jet {
+namespace gfx {
+
+class Renderer;
+
+//! Abstract base class for index buffers.
+class IndexBuffer {
+ public:
+    //! Constructs an empty buffer.
+    IndexBuffer();
+
+    //! Destructor.
+    virtual ~IndexBuffer();
+
+    //!
+    //! Updates the buffer with given indices array.
+    //!
+    //! \param indices Index array.
+    //!
+    virtual void update(const ConstArrayView1<uint32_t>& indices) = 0;
+
+    //! Clears the buffer.
+    void clear();
+
+    //!
+    //! \brief Resizes the buffer with given parameters.
+    //!
+    //! \param vertexBuffer The associated vertex buffer.
+    //! \param indices Index array.
+    //! \param numberOfIndices Number of indices.
+    //!
+    void resize(const VertexBufferPtr& vertexBuffer,
+                const ConstArrayView1<uint32_t>& indices);
+
+    //!
+    //! \brief Binds the buffer to the renderer.
+    //!
+    //! \param renderer The renderer in current render context.
+    //!
+    void bind(Renderer* renderer);
+
+    //!
+    //! \brief Unbinds the buffer to the renderer.
+    //!
+    //! \param renderer The renderer in current render context.
+    //!
+    void unbind(Renderer* renderer);
+
+    //! Returns the number of indices.
+    size_t numberOfIndices() const;
+
+ protected:
+    //! Called when clear() is invoked.
+    virtual void onClear() = 0;
+
+    //! Called when resize(...) is invoked.
+    virtual void onResize(const VertexBufferPtr& vertexBuffer,
+                          const ConstArrayView1<uint32_t>& indices) = 0;
+
+    //! Called when bind(...) is invoked.
+    virtual void onBind(Renderer* renderer) = 0;
+
+    //! Called when unbind(...) is invoked.
+    virtual void onUnbind(Renderer* renderer) = 0;
+
+ private:
+    size_t _numberOfIndices = 0;
+};
+
+using IndexBufferPtr = std::shared_ptr<IndexBuffer>;
+
+}  // namespace gfx
+}  // namespace jet
+
+#endif  // INCLUDE_JET_GFX_INDEX_BUFFER_H_

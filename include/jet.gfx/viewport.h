@@ -13,17 +13,17 @@ namespace jet {
 namespace gfx {
 
 struct Viewport {
-    double x;
-    double y;
-    double width;
-    double height;
+    float x;
+    float y;
+    float width;
+    float height;
 
     Viewport();
-    Viewport(double newX, double newY, double newWidth, double newHeight);
+    Viewport(float newX, float newY, float newWidth, float newHeight);
 
-    double aspectRatio() const;
+    float aspectRatio() const;
 
-    Vector2D center() const;
+    Vector2F center() const;
 
     //! Returns true if equal to the other viewport.
     bool operator==(const Viewport& other) const;
