@@ -115,12 +115,6 @@ MetalPrivateRenderPipelineState* createRenderPipelineStateFromShader(
     renderPipelineDesc.GetColorAttachments()[0].SetPixelFormat(
             mtlpp::PixelFormat::BGRA8Unorm);
 
-    NSLog(@"%lu", ((__bridge MTLVertexDescriptor*)renderPipelineDesc
-            .GetVertexDescriptor()
-            .GetPtr())
-            .layouts[0]
-            .stride);
-
     JET_INFO << "Metal render pipeline state created with shader "
              << shader->name();
 
@@ -223,6 +217,9 @@ void MetalRenderer::render() {
     mtlpp::RenderPassDescriptor renderPassDesc =
             getCurrentRenderPassDescriptor(_window);
     if (renderPassDesc) {
+        const auto& bg = backgroundColor();
+        renderPassDesc.GetColorAttachments()[0].SetClearColor(mtlpp::ClearColor(bg.x, bg.y, bg.z, bg.w));
+
         mtlpp::RenderCommandEncoder renderCommandEncoder =
                 commandBuffer.RenderCommandEncoder(renderPassDesc);
 
