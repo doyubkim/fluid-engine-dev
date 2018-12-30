@@ -44,6 +44,9 @@ add_custom_target(jet_header_gen_py ALL
 
 # Build library
 if (USE_CUDA)
+    # https://gitlab.kitware.com/cmake/cmake/issues/14201
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+    
     cuda_add_library(${target}
         ${sources})
 else()

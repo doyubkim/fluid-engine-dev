@@ -258,29 +258,29 @@ void TriangleMesh3::addPointTriangle(const Vector3UZ& newPointIndices) {
     invalidateBvh();
 }
 
-void TriangleMesh3::addNormalTriangle(const Point3UI& newNormalIndices) {
+void TriangleMesh3::addNormalTriangle(const Vector3UZ& newNormalIndices) {
     _normalIndices.append(newNormalIndices);
 
     invalidateBvh();
 }
 
-void TriangleMesh3::addUvTriangle(const Point3UI& newUvIndices) {
+void TriangleMesh3::addUvTriangle(const Vector3UZ& newUvIndices) {
     _uvIndices.append(newUvIndices);
 
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
-                                           const Point3UI& newNormalIndices) {
+void TriangleMesh3::addPointNormalTriangle(const Vector3UZ& newPointIndices,
+                                           const Vector3UZ& newNormalIndices) {
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
 
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
-                                             const Point3UI& newUvIndices,
-                                             const Point3UI& newNormalIndices) {
+void TriangleMesh3::addPointUvNormalTriangle(const Vector3UZ& newPointIndices,
+                                             const Vector3UZ& newUvIndices,
+                                             const Vector3UZ& newNormalIndices) {
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
@@ -288,8 +288,8 @@ void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
     invalidateBvh();
 }
 
-void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
-                                       const Point3UI& newUvIndices) {
+void TriangleMesh3::addPointUvTriangle(const Vector3UZ& newPointIndices,
+                                       const Vector3UZ& newUvIndices) {
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
 

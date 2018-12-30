@@ -8,7 +8,7 @@
 #include "pybind11_utils.h"
 
 #include <jet/marching_cubes.h>
-#include <jet/scalar_grid3.h>
+#include <jet/scalar_grid.h>
 
 namespace py = pybind11;
 using namespace jet;
@@ -18,9 +18,9 @@ void addMarchingCubes(pybind11::module& m) {
           [](ScalarGrid3Ptr grid, py::object gridSize, py::object origin,
              double isoValue, int bndFlag) -> TriangleMesh3Ptr {
               auto mesh = TriangleMesh3::builder().makeShared();
-              marchingCubes(
-                  grid->constDataAccessor(), objectToVector3D(gridSize),
-                  objectToVector3D(origin), mesh.get(), isoValue, bndFlag);
+              marchingCubes(grid->dataView(), objectToVector3D(gridSize),
+                            objectToVector3D(origin), mesh.get(), isoValue,
+                            bndFlag);
               return mesh;
           },
           R"pbdoc(
