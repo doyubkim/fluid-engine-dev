@@ -6,24 +6,72 @@
 
 #include <common.h>
 
+#include <jet.gfx/persp_camera.h>
 #include <jet.gfx/renderer.h>
 
 namespace jet {
-
 namespace gfx {
 
-Renderer::Renderer() {}
+Renderer::Renderer() { _camera = std::make_shared<PerspCamera>(); }
 
 Renderer::~Renderer() {}
 
-const CameraPtr& Renderer::camera() const { return _camera; }
+void Renderer::render() {
+    onRenderBegin();
 
-void Renderer::setCamera(const CameraPtr& camera) { _camera = camera; }
+    // TODO: Actual rendering
+    //    for (auto &renderable : _renderables) {
+    //        renderable->render(this);
+    //    }
 
-const Vector4D& Renderer::backgroundColor() const { return _bgColor; }
+    onRenderEnd();
+}
 
-void Renderer::setBackgroundColor(const Vector4D& color) { _bgColor = color; }
+void Renderer::bindShader(const ShaderPtr &shader) { shader->bind(this); }
+
+void Renderer::unbindShader(const ShaderPtr &shader) { shader->unbind(this); }
+
+void Renderer::bindVertexBuffer(const VertexBufferPtr &vertexBuffer) {
+    vertexBuffer->bind(this);
+}
+
+void Renderer::unbindVertexBuffer(const VertexBufferPtr &vertexBuffer) {
+    vertexBuffer->unbind(this);
+}
+
+void Renderer::bindIndexBuffer(const IndexBufferPtr &indexBuffer) {
+    indexBuffer->bind(this);
+}
+
+void Renderer::unbindIndexBuffer(const IndexBufferPtr &indexBuffer) {
+    indexBuffer->unbind(this);
+}
+
+void Renderer::bindTexture(const Texture2Ptr &texture, unsigned int slotId) {
+    texture->bind(this, slotId);
+}
+
+void Renderer::bindTexture(const Texture3Ptr &texture, unsigned int slotId) {
+    texture->bind(this, slotId);
+}
+
+const CameraPtr &Renderer::camera() const { return _camera; }
+
+void Renderer::setCamera(const CameraPtr &camera) { _camera = camera; }
+
+const RenderStates &Renderer::renderStates() const { return _renderStates; }
+
+void Renderer::setRenderStates(const RenderStates &states) {
+    _renderStates = states;
+
+    onSetRenderStates(states);
+}
+
+const Vector4F &Renderer::backgroundColor() const { return _backgroundColor; }
+
+void Renderer::setBackgroundColor(const Vector4F &color) {
+    _backgroundColor = color;
+}
 
 }  // namespace gfx
-
 }  // namespace jet
