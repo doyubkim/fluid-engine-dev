@@ -30,7 +30,7 @@ class PitchYawViewController : public ViewController {
     //! \param rotationOrigin   Origin of the rotation of the view controller.
     //!
     PitchYawViewController(const CameraPtr& camera,
-                           const Vector3F& rotationOrigin = Vector3F());
+                           const Vector3F& rotationOrigin);
     virtual ~PitchYawViewController();
 
  protected:

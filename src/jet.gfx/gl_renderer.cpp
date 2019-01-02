@@ -76,19 +76,20 @@ GLRenderer::GLRenderer() {
 
 GLRenderer::~GLRenderer() {}
 
-VertexBufferPtr GLRenderer::createVertexBuffer(
-    const ShaderPtr& shader, const ConstArrayView1<float>& vertices) {
+VertexBufferPtr GLRenderer::createVertexBuffer(const ShaderPtr& shader,
+                                               const float* vertices,
+                                               size_t numberOfPoints) {
     GLVertexBuffer* vertexBuffer = new GLVertexBuffer();
-    vertexBuffer->resize(shader, vertices);
+    vertexBuffer->resize(shader, vertices, numberOfPoints);
 
     return VertexBufferPtr(vertexBuffer);
 }
 
 IndexBufferPtr GLRenderer::createIndexBuffer(
-    const VertexBufferPtr& vertexBuffer,
-    const ConstArrayView1<uint32_t>& indices) {
+    const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+    size_t numberOfIndices) {
     GLIndexBuffer* indexBuffer = new GLIndexBuffer();
-    indexBuffer->resize(vertexBuffer, indices);
+    indexBuffer->resize(vertexBuffer, indices, numberOfIndices);
 
     return IndexBufferPtr(indexBuffer);
 }

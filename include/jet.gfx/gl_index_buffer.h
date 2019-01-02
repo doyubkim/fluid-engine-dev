@@ -35,15 +35,15 @@ class GLIndexBuffer final : public IndexBuffer {
     //!
     //! \param indices Index array.
     //!
-    void update(const ConstArrayView1<uint32_t>& indices) override;
+    void update(const uint32_t* indices) override;
 
  private:
     unsigned int _bufferId = 0;
 
     void onClear() override;
 
-    void onResize(const VertexBufferPtr& vertexBuffer,
-                  const ConstArrayView1<uint32_t>& indices) override;
+    void onResize(const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+                  size_t numberOfIndices) override;
 
     void onBind(Renderer* renderer) override;
 
@@ -51,7 +51,7 @@ class GLIndexBuffer final : public IndexBuffer {
 };
 
 //! Shared pointer type for GLIndexBuffer.
-typedef std::shared_ptr<GLIndexBuffer> GLIndexBufferPtr;
+using GLIndexBufferPtr = std::shared_ptr<GLIndexBuffer>;
 
 }  // namespace gfx
 

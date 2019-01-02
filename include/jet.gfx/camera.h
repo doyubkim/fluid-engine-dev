@@ -20,7 +20,7 @@ namespace gfx {
 class CameraState {
  public:
     //! Origin of the camera.
-    Vector3F origin = Vector3F(0, 0, 0);
+    Vector3F origin = Vector3F(0, 0, 1);
 
     //! Look-at direction.
     Vector3F lookAt = Vector3F(0, 0, -1);

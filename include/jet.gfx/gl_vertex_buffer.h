@@ -42,7 +42,7 @@ class GLVertexBuffer final : public VertexBuffer {
     //!
     //! \param vertices Vertex array.
     //!
-    void update(const ConstArrayView1<float>& vertices) override;
+    void update(const float* vertices) override;
 
 #ifdef JET_USE_CUDA
     //!
@@ -78,8 +78,8 @@ class GLVertexBuffer final : public VertexBuffer {
 
     void onClear() override;
 
-    void onResize(const ShaderPtr& shader,
-                  const ConstArrayView1<float>& vertices) override;
+    void onResize(const ShaderPtr& shader, const float* vertices,
+                  size_t numberOfVertices) override;
 
     void onBind(Renderer* renderer) override;
 

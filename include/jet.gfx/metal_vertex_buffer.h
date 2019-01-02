@@ -42,9 +42,9 @@ class MetalVertexBuffer final : public VertexBuffer {
     //!
     //! Updates the buffer with given vertex array.
     //!
-    //! \param vertices Vertex array.
+    //! \param vertices Vertex array data.
     //!
-    void update(const ConstArrayView1<float>& vertices) override;
+    void update(const float* vertices) override;
 
     MetalPrivateBuffer* buffer() const;
 
@@ -53,8 +53,8 @@ class MetalVertexBuffer final : public VertexBuffer {
 
     void onClear() override;
 
-    void onResize(const ShaderPtr& shader,
-                  const ConstArrayView1<float>& vertices) override;
+    void onResize(const ShaderPtr& shader, const float* vertices,
+                  size_t numberOfVertices) override;
 
     void onBind(Renderer* renderer) override;
 

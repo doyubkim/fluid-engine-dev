@@ -31,21 +31,21 @@ void VertexBuffer::clear() {
     onClear();
 }
 
-void VertexBuffer::resize(const ShaderPtr &shader,
-                          const ConstArrayView1<float> &vertices) {
-    if (vertices.isEmpty()) {
+void VertexBuffer::resize(const ShaderPtr &shader, const float *vertices,
+                          size_t numberOfVertices) {
+    if (numberOfVertices == 0) {
         clear();
     } else if (_shader == shader && _vertexFormat == shader->vertexFormat() &&
-               _numberOfVertices == vertices.length()) {
+               _numberOfVertices == numberOfVertices) {
         update(vertices);
     } else {
         clear();
 
-        _numberOfVertices = vertices.length();
+        _numberOfVertices = numberOfVertices;
         _vertexFormat = shader->vertexFormat();
         _shader = shader;
 
-        onResize(shader, vertices);
+        onResize(shader, vertices, numberOfVertices);
     }
 }
 

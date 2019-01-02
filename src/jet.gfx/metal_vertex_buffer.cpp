@@ -27,14 +27,14 @@ MetalVertexBuffer::MetalVertexBuffer(MetalPrivateDevice *device,
 
 MetalVertexBuffer::~MetalVertexBuffer() { clear(); }
 
-void MetalVertexBuffer::update(const ConstArrayView1<float> &vertices) {}
+void MetalVertexBuffer::update(const float *vertices) {}
 
 MetalPrivateBuffer *MetalVertexBuffer::buffer() const { return _buffer; }
 
 void MetalVertexBuffer::onClear() { delete _buffer; }
 
-void MetalVertexBuffer::onResize(const ShaderPtr &shader,
-                                 const ConstArrayView1<float> &vertices) {}
+void MetalVertexBuffer::onResize(const ShaderPtr &shader, const float *vertices,
+                                 size_t numberOfVertices) {}
 
 void MetalVertexBuffer::onBind(Renderer *renderer) {
     UNUSED_VARIABLE(renderer);

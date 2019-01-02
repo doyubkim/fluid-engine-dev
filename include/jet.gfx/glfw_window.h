@@ -34,6 +34,9 @@ class GlfwWindow final : public Window {
     //! Returns the window size.
     Vector2UZ windowSize() const override;
 
+    //! Returns framebuffer / window size ratio.
+    Vector2F displayScalingFactor() const override;
+
     //! Request to render given number of frames to the renderer.
     void requestRender(unsigned int numFrames) override;
 
@@ -45,6 +48,9 @@ class GlfwWindow final : public Window {
 
  private:
     GLFWwindow* _window = nullptr;
+
+    mutable bool _hasDisplayScalingFactorCache = false;
+    mutable Vector2F _displayScalingFactorCache;
 
     MouseButtonType _pressedMouseButton = MouseButtonType::kNone;
     ModifierKey _lastModifierKey = ModifierKey::kNone;
@@ -63,23 +69,23 @@ class GlfwWindow final : public Window {
 
     GlfwWindow(const std::string& title, int width, int height);
 
-    void render();
+    void onRender();
 
-    void resize(int width, int height);
+    void onWindowResized(int width, int height);
 
-    void update();
+    void onWindowMoved(int x, int y);
 
-    void key(int key, int scancode, int action, int mods);
+    void onUpdate();
 
-    void pointerButton(int button, int action, int mods);
+    void onKey(int key, int scancode, int action, int mods);
 
-    void pointerMoved(double x, double y);
+    void onPointerButton(int button, int action, int mods);
 
-    void pointerEnter(bool entered);
+    void onPointerMoved(double x, double y);
 
-    void mouseWheel(double deltaX, double deltaY);
+    void onPointerEnter(bool entered);
 
-    double getScaleFactor() const;
+    void onMouseWheel(double deltaX, double deltaY);
 
     friend class GlfwApp;
 };

@@ -58,7 +58,7 @@ void PitchYawViewController::onPointerDragged(
         CameraState state = camera()->state;
         Vector3F right = state.lookAt.cross(state.lookUp);
 
-        // This should use unproject
+        // TODO: This should use unproject
         _origin += kPanSpeedMultiplier * _panSpeed *
                    (-deltaX * right + deltaY * state.lookUp);
     }
@@ -93,8 +93,8 @@ void PitchYawViewController::updateCamera() {
     state.origin = positionInLocal + _origin;
     state.lookAt = -positionInLocal.normalized();
 
-    float upPolarAngleInRadians = pi<float>() / 2.0 - _polarAngleInRadians;
-    float upAzimuthalAngleInRadians = pi<float>() + _azimuthalAngleInRadians;
+    float upPolarAngleInRadians = kHalfPiF - _polarAngleInRadians;
+    float upAzimuthalAngleInRadians = kPiF + _azimuthalAngleInRadians;
 
     float upX =
         std::sin(upPolarAngleInRadians) * std::sin(upAzimuthalAngleInRadians);

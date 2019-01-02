@@ -17,7 +17,6 @@ Matrix4x4F CameraState::viewMatrix() const {
     // https://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml
     // The matrix maps the reference point to the negative z axis and the eye
     // point to the origin.
-
     Vector3F right = lookAt.cross(lookUp);           // normalized right vec
     Vector3F up = right.normalized().cross(lookAt);  // normalized up vec
 

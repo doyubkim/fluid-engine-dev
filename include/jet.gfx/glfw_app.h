@@ -88,6 +88,24 @@ class GlfwApp {
     static Event<GLFWwindow*, int, int>& onGlfwWindowResizedEvent();
 
     //!
+    //! \brief Returns window moved event object.
+    //!
+    //! This function exposes low-level raw GLFW event handler. The callback
+    //! function should be identical to  GLFWwindowposfun in GLFW. Unless there
+    //! is a need for accessing raw GLFW event handling cycle, use
+    //! onWindowMovedEvent.
+    //!
+    //! Here's an example for attaching a callback function to the event object:
+    //!
+    //! \code{.cpp}
+    //! GlfwApp::onGlfwWindowMovedEvent() += callbackFunc;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    static Event<GLFWwindow*, int, int>& onGlfwWindowMovedEvent();
+
+    //!
     //! \brief Returns key event object.
     //!
     //! This function exposes low-level raw GLFW event handler. The callback
@@ -227,6 +245,8 @@ class GlfwApp {
     static void onCloseCurrentWindow(const GlfwWindowPtr& window);
 
     static void onWindowResized(GLFWwindow* glfwWindow, int width, int height);
+
+    static void onWindowMoved(GLFWwindow* glfwWindow, int width, int height);
 
     static void onKey(GLFWwindow* glfwWindow, int key, int scancode, int action,
                       int mods);

@@ -7,6 +7,7 @@
 #ifndef INCLUDE_JET_GFX_JET_GFX_H_
 #define INCLUDE_JET_GFX_JET_GFX_H_
 #include <jet.gfx/camera.h>
+#include <jet.gfx/color_utils.h>
 #include <jet.gfx/event.h>
 #include <jet.gfx/gl_common.h>
 #include <jet.gfx/gl_index_buffer.h>
@@ -28,9 +29,11 @@
 #include <jet.gfx/ortho_camera.h>
 #include <jet.gfx/persp_camera.h>
 #include <jet.gfx/pitch_yaw_view_controller.h>
+#include <jet.gfx/points_renderable.h>
 #include <jet.gfx/primitive_types.h>
 #include <jet.gfx/render_parameters.h>
 #include <jet.gfx/render_states.h>
+#include <jet.gfx/renderable.h>
 #include <jet.gfx/renderer.h>
 #include <jet.gfx/shader.h>
 #include <jet.gfx/texture.h>

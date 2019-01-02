@@ -30,17 +30,17 @@ class VertexBuffer {
     //!
     //! Updates the buffer with given vertex array.
     //!
-    //! \param vertices Vertex array.
+    //! \param vertices Vertex array data.
     //!
-    virtual void update(const ConstArrayView1<float>& vertices) = 0;
+    virtual void update(const float* data) = 0;
 
 #ifdef JET_USE_CUDA
     //!
     //! Updates the buffer with given CUDA vertex array.
     //!
-    //! \param vertices Vertex array in CUDA device memory.
+    //! \param vertices Vertex array data in CUDA device memory.
     //!
-    virtual void updateWithCuda(const ConstArrayView1<float>& vertices);
+    virtual void updateWithCuda(const float* data);
 
     //! Maps vertex buffer to CUDA-accessible memory pointer.
     virtual void* cudaMapResources();
@@ -53,8 +53,8 @@ class VertexBuffer {
     void clear();
 
     //! Resizes the buffer.
-    void resize(const ShaderPtr& shader,
-                const ConstArrayView1<float>& vertices);
+    void resize(const ShaderPtr& shader, const float* data,
+                size_t numberOfVertices);
 
     //! Binds this buffer to the given \p renderer.
     void bind(Renderer* renderer);
@@ -74,8 +74,8 @@ class VertexBuffer {
  protected:
     virtual void onClear() = 0;
 
-    virtual void onResize(const ShaderPtr& shader,
-                          const ConstArrayView1<float>& vertices) = 0;
+    virtual void onResize(const ShaderPtr& shader, const float* vertices,
+                          size_t numberOfVertices) = 0;
 
     virtual void onBind(Renderer* renderer) = 0;
 

@@ -20,8 +20,8 @@ namespace jet {
 namespace gfx {
 
 static GLuint glCreateBufferWithVertexCountStrideAndData(GLuint vertexCount,
-                                                         GLsizei strideInBytes,
-                                                         const GLfloat *data) {
+                                                         GLuint strideInBytes,
+                                                         const GLfloat* data) {
     GLsizeiptr sizeInBytes = strideInBytes * vertexCount;
 
     GLuint bufferId = 0;
@@ -41,14 +41,14 @@ static GLuint glCreateBufferWithVertexCountStrideAndData(GLuint vertexCount,
     return bufferId;
 }
 
-static const GLchar *getOffset(GLsizeiptr offset) {
-    return ((const GLchar *)nullptr + offset);
+static const GLchar* getOffset(GLsizeiptr offset) {
+    return ((const GLchar*)nullptr + offset);
 }
 
-static void glEnableAttribute(GLint numberOfFloats, const char *name,
-                              GLsizei strideInBytes, const GLvoid *offset,
+static void glEnableAttribute(GLint numberOfFloats, const char* name,
+                              GLsizei strideInBytes, const GLvoid* offset,
                               GLuint programId,
-                              std::map<std::string, GLuint> &map) {
+                              std::map<std::string, GLuint>& map) {
     glUseProgram(programId);
 
     GLint attribLoc = glGetAttribLocation(programId, name);
@@ -66,20 +66,20 @@ GLVertexBuffer::GLVertexBuffer() {}
 
 GLVertexBuffer::~GLVertexBuffer() { clear(); }
 
-void GLVertexBuffer::update(const ConstArrayView1<float> &vertices) {
+void GLVertexBuffer::update(const float* vertices) {
     GLsizei strideInBytes = static_cast<GLsizei>(
         VertexHelper::getSizeInBytes(shader()->vertexFormat()));
     GLsizeiptr sizeInBytes = strideInBytes * numberOfVertices();
 
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeInBytes, vertices.data());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeInBytes, vertices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 #ifdef JET_USE_CUDA
-void GLVertexBuffer::updateWithCuda(const float *vertices) {
+void GLVertexBuffer::updateWithCuda(const float* vertices) {
     // Map resource
-    void *ptrVbo = cudaMapResources();
+    void* ptrVbo = cudaMapResources();
 
     // Copy data
     GLsizei strideInBytes = static_cast<GLsizei>(
@@ -91,7 +91,7 @@ void GLVertexBuffer::updateWithCuda(const float *vertices) {
     cudaUnmapResources();
 }
 
-void *GLVertexBuffer::cudaMapResources() {
+void* GLVertexBuffer::cudaMapResources() {
     GLsizei strideInBytes = static_cast<GLsizei>(
         VertexHelper::getSizeInBytes(shader()->vertexFormat()));
     GLsizeiptr sizeInBytes = strideInBytes * numberOfVertices();
@@ -104,7 +104,7 @@ void *GLVertexBuffer::cudaMapResources() {
 
     cudaGraphicsMapResources(1, &_resource, 0);
 
-    void *ptrVbo = nullptr;
+    void* ptrVbo = nullptr;
     size_t size = sizeInBytes;
     cudaGraphicsResourceGetMappedPointer(&ptrVbo, &size, _resource);
 
@@ -147,9 +147,9 @@ void GLVertexBuffer::onClear() {
 #endif  // JET_USE_CUDA
 }
 
-void GLVertexBuffer::onResize(const ShaderPtr &shader,
-                              const ConstArrayView1<float> &vertices) {
-    GLShader *glShader = dynamic_cast<GLShader *>(shader.get());
+void GLVertexBuffer::onResize(const ShaderPtr& shader, const float* vertices,
+                              size_t numberOfVertices) {
+    GLShader* glShader = dynamic_cast<GLShader*>(shader.get());
     JET_ASSERT(glShader != nullptr);
 
     VertexFormat vertexFormat = glShader->vertexFormat();
@@ -165,8 +165,7 @@ void GLVertexBuffer::onResize(const ShaderPtr &shader,
             static_cast<GLsizei>(VertexHelper::getSizeInBytes(vertexFormat));
 
         _vertexBufferId = glCreateBufferWithVertexCountStrideAndData(
-            static_cast<GLuint>(vertices.length()), strideInBytes,
-            vertices.data());
+            static_cast<GLuint>(numberOfVertices), strideInBytes, vertices);
 
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferId);
 
@@ -216,13 +215,13 @@ void GLVertexBuffer::onResize(const ShaderPtr &shader,
     glUseProgram(0);
 }
 
-void GLVertexBuffer::onBind(Renderer *renderer) {
+void GLVertexBuffer::onBind(Renderer* renderer) {
     UNUSED_VARIABLE(renderer);
 
     glBindVertexArray(_vertexArrayId);
 }
 
-void GLVertexBuffer::onUnbind(Renderer *renderer) {
+void GLVertexBuffer::onUnbind(Renderer* renderer) {
     UNUSED_VARIABLE(renderer);
 
     glBindVertexArray(0);

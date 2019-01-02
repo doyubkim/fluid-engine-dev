@@ -28,9 +28,9 @@ class IndexBuffer {
     //!
     //! Updates the buffer with given indices array.
     //!
-    //! \param indices Index array.
+    //! \param indices Index array data.
     //!
-    virtual void update(const ConstArrayView1<uint32_t>& indices) = 0;
+    virtual void update(const uint32_t* indices) = 0;
 
     //! Clears the buffer.
     void clear();
@@ -39,11 +39,11 @@ class IndexBuffer {
     //! \brief Resizes the buffer with given parameters.
     //!
     //! \param vertexBuffer The associated vertex buffer.
-    //! \param indices Index array.
+    //! \param indices Index array data.
     //! \param numberOfIndices Number of indices.
     //!
-    void resize(const VertexBufferPtr& vertexBuffer,
-                const ConstArrayView1<uint32_t>& indices);
+    void resize(const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+                size_t numberOfIndices);
 
     //!
     //! \brief Binds the buffer to the renderer.
@@ -68,7 +68,7 @@ class IndexBuffer {
 
     //! Called when resize(...) is invoked.
     virtual void onResize(const VertexBufferPtr& vertexBuffer,
-                          const ConstArrayView1<uint32_t>& indices) = 0;
+                          const uint32_t* indices, size_t numberOfIndices) = 0;
 
     //! Called when bind(...) is invoked.
     virtual void onBind(Renderer* renderer) = 0;

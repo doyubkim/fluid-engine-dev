@@ -13,6 +13,11 @@ namespace gfx {
 
 void Window::setSwapInterval(int interval) { UNUSED_VARIABLE(interval); }
 
+Vector2F Window::displayScalingFactor() const {
+    return elemDiv(framebufferSize().castTo<float>(),
+                   windowSize().castTo<float>());
+}
+
 void Window::requestRender(unsigned int numFrames) {
     UNUSED_VARIABLE(numFrames);
 }
@@ -53,6 +58,10 @@ Event<Window *> &Window::onGuiEvent() { return _onGuiEvent; }
 
 Event<Window *, const Vector2I &> &Window::onWindowResizedEvent() {
     return _onWindowResizedEvent;
+}
+
+Event<Window *, const Vector2I &> &Window::onWindowMovedEvent() {
+    return _onWindowMovedEvent;
 }
 
 Event<Window *, const KeyEvent &> &Window::onKeyDownEvent() {

@@ -32,6 +32,9 @@ class Window {
     //! Returns the window size.
     virtual Vector2UZ windowSize() const = 0;
 
+    //! Returns framebuffer / window size ratio.
+    virtual Vector2F displayScalingFactor() const;
+
     //! Request to render given number of frames to the renderer.
     virtual void requestRender(unsigned int numFrames);
 
@@ -111,6 +114,22 @@ class Window {
     //! \return Event object.
     //!
     Event<Window*, const Vector2I&>& onWindowResizedEvent();
+
+    //!
+    //! \brief Returns window moved event object.
+    //!
+    //! A key-down callback function can be attached to this event object such
+    //! as:
+    //!
+    //! \code{.cpp}
+    //! bool onWindowMoved(Window* win, const Vector2I& newPos) { ... }
+    //! ...
+    //! window->onWindowMovedEvent() += onWindowMoved;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    Event<Window*, const Vector2I&>& onWindowMovedEvent();
 
     //!
     //! \brief Returns key-down event object.
@@ -242,6 +261,7 @@ class Window {
     Event<Window*> _onUpdateEvent;
     Event<Window*> _onGuiEvent;
     Event<Window*, const Vector2I&> _onWindowResizedEvent;
+    Event<Window*, const Vector2I&> _onWindowMovedEvent;
     Event<Window*, const KeyEvent&> _onKeyDownEvent;
     Event<Window*, const KeyEvent&> _onKeyUpEvent;
     Event<Window*, const PointerEvent&> _onPointerPressedEvent;

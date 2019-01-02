@@ -10,6 +10,7 @@
 #include <jet.gfx/camera.h>
 #include <jet.gfx/index_buffer.h>
 #include <jet.gfx/render_states.h>
+#include <jet.gfx/renderable.h>
 #include <jet.gfx/texture2.h>
 #include <jet.gfx/texture3.h>
 #include <jet.gfx/vertex_buffer.h>
@@ -41,8 +42,9 @@ class Renderer {
     //! \param numberOfPoints Number of vertices.
     //! \return New vertex buffer.
     //!
-    virtual VertexBufferPtr createVertexBuffer(
-        const ShaderPtr& shader, const ConstArrayView1<float>& vertices) = 0;
+    virtual VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
+                                               const float* vertices,
+                                               size_t numberOfPoints) = 0;
 
     //!
     //! Creates an index buffer with given parameters.
@@ -53,8 +55,8 @@ class Renderer {
     //! \return New index buffer.
     //!
     virtual IndexBufferPtr createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer,
-        const ConstArrayView1<uint32_t>& indices) = 0;
+        const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+        size_t numberOfIndices) = 0;
 
     //!
     //! Creates a 2-D texture with 8-bit image and given parameters.
@@ -171,6 +173,12 @@ class Renderer {
     //! Sets current background color.
     void setBackgroundColor(const Vector4F& color);
 
+    //! Adds a renderable to the rendering pipeline.
+    void addRenderable(const RenderablePtr& renderable);
+
+    //! Clears all the renderables.
+    void clearRenderables();
+
  protected:
     //! Called when rendering a frame begins.
     virtual void onRenderBegin() = 0;
@@ -185,9 +193,12 @@ class Renderer {
     virtual void onSetRenderStates(const RenderStates& states) = 0;
 
  private:
+    bool _isFirstFrame = true;
+    Viewport _prevViewport;
     CameraPtr _camera;
     RenderStates _renderStates;
     Vector4F _backgroundColor;
+    Array1<RenderablePtr> _renderables;
 };
 
 //! Shared pointer type for Renderer.

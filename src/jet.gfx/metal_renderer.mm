@@ -155,12 +155,14 @@ MetalRenderer::~MetalRenderer() {
 }
 
 VertexBufferPtr MetalRenderer::createVertexBuffer(const ShaderPtr& shader,
-                                                  const ConstArrayView1<float>& vertices) {
+                                                  const float* vertices,
+                                                  size_t numberOfPoints) {
     return nullptr;
 }
 
 IndexBufferPtr MetalRenderer::createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer, const ConstArrayView1<uint32_t>& indices) {
+        const VertexBufferPtr& vertexBuffer, const uint32_t* indices,
+        size_t numberOfIndices) {
     return nullptr;
 }
 

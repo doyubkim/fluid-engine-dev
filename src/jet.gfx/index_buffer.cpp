@@ -21,24 +21,24 @@ void IndexBuffer::clear() {
     onClear();
 }
 
-void IndexBuffer::resize(const VertexBufferPtr &vertexBuffer,
-                         const ConstArrayView1<uint32_t> &indices) {
-    if (indices.isEmpty()) {
+void IndexBuffer::resize(const VertexBufferPtr& vertexBuffer,
+                         const uint32_t* indices, size_t numberOfIndices) {
+    if (numberOfIndices == 0) {
         clear();
-    } else if (_numberOfIndices == indices.length()) {
+    } else if (_numberOfIndices == numberOfIndices) {
         update(indices);
     } else {
         clear();
 
-        _numberOfIndices = indices.length();
+        _numberOfIndices = numberOfIndices;
 
-        onResize(vertexBuffer, indices);
+        onResize(vertexBuffer, indices, numberOfIndices);
     }
 }
 
-void IndexBuffer::bind(Renderer *renderer) { onBind(renderer); }
+void IndexBuffer::bind(Renderer* renderer) { onBind(renderer); }
 
-void IndexBuffer::unbind(Renderer *renderer) { onUnbind(renderer); }
+void IndexBuffer::unbind(Renderer* renderer) { onUnbind(renderer); }
 
 size_t IndexBuffer::numberOfIndices() const { return _numberOfIndices; }
 

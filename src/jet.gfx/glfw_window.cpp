@@ -51,10 +51,11 @@ GlfwWindow::GlfwWindow(const std::string &title, int width, int height) {
 
     setRenderer(std::make_shared<GLRenderer>());
 
+    CameraState state;
     setViewController(std::make_shared<PitchYawViewController>(
-        std::make_shared<PerspCamera>()));
+        std::make_shared<PerspCamera>(state, kHalfPiF), Vector3F()));
 
-    resize(width, height);
+    onWindowResized(width, height);
 }
 
 void GlfwWindow::setSwapInterval(int interval) {
@@ -74,6 +75,14 @@ Vector2UZ GlfwWindow::windowSize() const {
     return Vector2UZ(static_cast<size_t>(w), static_cast<size_t>(h));
 }
 
+Vector2F GlfwWindow::displayScalingFactor() const {
+    if (!_hasDisplayScalingFactorCache) {
+        _displayScalingFactorCache = Window::displayScalingFactor();
+        _hasDisplayScalingFactorCache = true;
+    }
+    return _displayScalingFactorCache;
+}
+
 void GlfwWindow::requestRender(unsigned int numFrames) {
     _numRequestedRenderFrames = std::max(_numRequestedRenderFrames, numFrames);
     glfwPostEmptyEvent();
@@ -81,7 +90,7 @@ void GlfwWindow::requestRender(unsigned int numFrames) {
 
 GLFWwindow *GlfwWindow::glfwWindow() const { return _window; }
 
-void GlfwWindow::render() {
+void GlfwWindow::onRender() {
     JET_ASSERT(renderer());
 
     renderer()->render();
@@ -89,16 +98,16 @@ void GlfwWindow::render() {
     onGuiEvent()(this);
 }
 
-void GlfwWindow::resize(int width, int height) {
+void GlfwWindow::onWindowResized(int width, int height) {
     JET_ASSERT(renderer());
 
-    double scaleFactor = getScaleFactor();
+    Vector2F scaleFactor = displayScalingFactor();
 
     Viewport viewport;
     viewport.x = 0.0;
     viewport.y = 0.0;
-    viewport.width = scaleFactor * width;
-    viewport.height = scaleFactor * height;
+    viewport.width = scaleFactor.x * width;
+    viewport.height = scaleFactor.y * height;
 
     _width = width;
     _height = height;
@@ -108,12 +117,20 @@ void GlfwWindow::resize(int width, int height) {
     onWindowResizedEvent()(this, {width, height});
 }
 
-void GlfwWindow::update() {
+void GlfwWindow::onWindowMoved(int x, int y) {
+    // In case the window has moved to a different monitor with different DPI
+    // setting.
+    _hasDisplayScalingFactorCache = false;
+
+    onWindowMovedEvent()(this, {x, y});
+}
+
+void GlfwWindow::onUpdate() {
     // Update
     onUpdateEvent()(this);
 }
 
-void GlfwWindow::key(int key, int scancode, int action, int mods) {
+void GlfwWindow::onKey(int key, int scancode, int action, int mods) {
     UNUSED_VARIABLE(scancode);
 
     ModifierKey modifier = getModifier(mods);
@@ -134,7 +151,7 @@ void GlfwWindow::key(int key, int scancode, int action, int mods) {
     }
 }
 
-void GlfwWindow::pointerButton(int button, int action, int mods) {
+void GlfwWindow::onPointerButton(int button, int action, int mods) {
     PointerInputType newInputType = PointerInputType::kMouse;
     ModifierKey newModifierKey = getModifier(mods);
 
@@ -168,9 +185,10 @@ void GlfwWindow::pointerButton(int button, int action, int mods) {
     }
 }
 
-void GlfwWindow::pointerMoved(double x, double y) {
-    x = getScaleFactor() * x;
-    y = getScaleFactor() * y;
+void GlfwWindow::onPointerMoved(double x, double y) {
+    Vector2F scaleFactor = displayScalingFactor();
+    x = scaleFactor.x * x;
+    y = scaleFactor.y * y;
 
     _pointerDeltaX = x - _pointerPosX;
     _pointerDeltaY = y - _pointerPosY;
@@ -195,7 +213,7 @@ void GlfwWindow::pointerMoved(double x, double y) {
     }
 }
 
-void GlfwWindow::mouseWheel(double deltaX, double deltaY) {
+void GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
     MouseWheelData wheelData;
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
@@ -210,16 +228,7 @@ void GlfwWindow::mouseWheel(double deltaX, double deltaY) {
     onMouseWheelEvent()(this, pointerEvent);
 }
 
-void GlfwWindow::pointerEnter(bool entered) { _hasPointerEntered = entered; }
-
-double GlfwWindow::getScaleFactor() const {
-    int fbWidth, fbHeight;
-    int winWidth, winHeight;
-    glfwGetFramebufferSize(_window, &fbWidth, &fbHeight);
-    glfwGetWindowSize(_window, &winWidth, &winHeight);
-
-    return static_cast<float>(fbWidth) / static_cast<float>(winWidth);
-}
+void GlfwWindow::onPointerEnter(bool entered) { _hasPointerEntered = entered; }
 
 }  // namespace gfx
 }  // namespace jet

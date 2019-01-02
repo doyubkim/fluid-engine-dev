@@ -17,14 +17,20 @@ Renderer::Renderer() { _camera = std::make_shared<PerspCamera>(); }
 Renderer::~Renderer() {}
 
 void Renderer::render() {
+    if (_isFirstFrame || _prevViewport != _camera->state.viewport) {
+        onResize(_camera->state.viewport);
+        _isFirstFrame = false;
+    }
+
     onRenderBegin();
 
-    // TODO: Actual rendering
-    //    for (auto &renderable : _renderables) {
-    //        renderable->render(this);
-    //    }
+    for (auto &renderable : _renderables) {
+        renderable->render(this);
+    }
 
     onRenderEnd();
+
+    _prevViewport = _camera->state.viewport;
 }
 
 void Renderer::bindShader(const ShaderPtr &shader) { shader->bind(this); }
@@ -72,6 +78,12 @@ const Vector4F &Renderer::backgroundColor() const { return _backgroundColor; }
 void Renderer::setBackgroundColor(const Vector4F &color) {
     _backgroundColor = color;
 }
+
+void Renderer::addRenderable(const RenderablePtr &renderable) {
+    _renderables.append(renderable);
+}
+
+void Renderer::clearRenderables() { _renderables.clear(); }
 
 }  // namespace gfx
 }  // namespace jet

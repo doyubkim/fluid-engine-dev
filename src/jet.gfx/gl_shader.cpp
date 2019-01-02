@@ -189,8 +189,8 @@ void GLShader::onBind(const Renderer *renderer) {
     glUseProgram(_program);
 
     // Load default parameters
-    const auto& camera = renderer->camera();
-    const auto matrix = camera->state.viewMatrix() * camera->projectionMatrix();
+    const auto &camera = renderer->camera();
+    const Matrix4x4F matrix = camera->projectionMatrix() * camera->state.viewMatrix();
 
     setModelViewProjectionMatrix(matrix);
     setViewWidth(camera->state.viewport.width);

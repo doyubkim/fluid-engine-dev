@@ -35,9 +35,9 @@ class MetalRenderer final : public Renderer {
     //! \param numberOfPoints Number of vertices.
     //! \return New vertex buffer.
     //!
-    VertexBufferPtr createVertexBuffer(
-        const ShaderPtr& shader,
-        const ConstArrayView1<float>& vertices) override;
+    VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
+                                       const float* vertices,
+                                       size_t numberOfPoints) override;
 
     //!
     //! Creates an index buffer with given parameters.
@@ -47,9 +47,9 @@ class MetalRenderer final : public Renderer {
     //! \param numberOfIndices Number of indices.
     //! \return New index buffer.
     //!
-    IndexBufferPtr createIndexBuffer(
-        const VertexBufferPtr& vertexBuffer,
-        const ConstArrayView1<uint32_t>& indices) override;
+    IndexBufferPtr createIndexBuffer(const VertexBufferPtr& vertexBuffer,
+                                     const uint32_t* indices,
+                                     size_t numberOfIndices) override;
 
     //!
     //! Creates a 2-D texture with 8-bit image and given parameters.
