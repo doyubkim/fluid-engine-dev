@@ -71,26 +71,26 @@ class GlfwWindow final : public Window {
 
     void onRender();
 
-    void onWindowResized(int width, int height);
+    bool onWindowResized(int width, int height);
 
-    void onWindowMoved(int x, int y);
+    bool onWindowMoved(int x, int y);
 
-    void onUpdate();
+    bool onUpdate();
 
-    void onKey(int key, int scancode, int action, int mods);
+    bool onKey(int key, int scancode, int action, int mods);
 
-    void onPointerButton(int button, int action, int mods);
+    bool onPointerButton(int button, int action, int mods);
 
-    void onPointerMoved(double x, double y);
+    bool onPointerMoved(double x, double y);
 
-    void onPointerEnter(bool entered);
+    bool onPointerEnter(bool entered);
 
-    void onMouseWheel(double deltaX, double deltaY);
+    bool onMouseWheel(double deltaX, double deltaY);
 
     friend class GlfwApp;
 };
 
-//! Shared typed for GlfwWindow.
+//! Shared pointer type for GlfwWindow.
 using GlfwWindowPtr = std::shared_ptr<GlfwWindow>;
 
 }  // namespace gfx

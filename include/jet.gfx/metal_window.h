@@ -21,6 +21,7 @@ namespace jet {
 namespace gfx {
 
 class MetalView;
+class MetalWindowEventHandler;
 
 //!
 //! \brief Helper class for Metal-based window.
@@ -52,12 +53,14 @@ class MetalWindow final : public Window {
 
     MetalWindow(const std::string& title, int width, int height);
 
-    static void render(const MetalWindow& window);
+    void onRender();
 
     friend class MetalApp;
+    friend class MetalWindowEventHandler;
 };
 
-typedef std::shared_ptr<MetalWindow> MetalWindowPtr;
+//! Shared pointer type for MetalWindow
+using MetalWindowPtr = std::shared_ptr<MetalWindow>;
 
 }  // namespace gfx
 }  // namespace jet

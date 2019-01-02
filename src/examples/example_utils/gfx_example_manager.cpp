@@ -43,6 +43,7 @@ bool onKeyDown(Window* win, const KeyEvent& keyEvent) {
         return true;
     } else if (keyEvent.key() == ' ') {
         nextTests(win);
+        JET_INFO << "Starting example ID: " << sCurrentTestIdx;
         return true;
     }
 

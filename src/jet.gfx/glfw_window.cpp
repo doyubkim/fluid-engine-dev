@@ -51,9 +51,8 @@ GlfwWindow::GlfwWindow(const std::string &title, int width, int height) {
 
     setRenderer(std::make_shared<GLRenderer>());
 
-    CameraState state;
     setViewController(std::make_shared<PitchYawViewController>(
-        std::make_shared<PerspCamera>(state, kHalfPiF), Vector3F()));
+        std::make_shared<PerspCamera>(), Vector3F()));
 
     onWindowResized(width, height);
 }
@@ -98,7 +97,7 @@ void GlfwWindow::onRender() {
     onGuiEvent()(this);
 }
 
-void GlfwWindow::onWindowResized(int width, int height) {
+bool GlfwWindow::onWindowResized(int width, int height) {
     JET_ASSERT(renderer());
 
     Vector2F scaleFactor = displayScalingFactor();
@@ -114,23 +113,23 @@ void GlfwWindow::onWindowResized(int width, int height) {
 
     viewController()->setViewport(viewport);
 
-    onWindowResizedEvent()(this, {width, height});
+    return onWindowResizedEvent()(this, {width, height});
 }
 
-void GlfwWindow::onWindowMoved(int x, int y) {
+bool GlfwWindow::onWindowMoved(int x, int y) {
     // In case the window has moved to a different monitor with different DPI
     // setting.
     _hasDisplayScalingFactorCache = false;
 
-    onWindowMovedEvent()(this, {x, y});
+    return onWindowMovedEvent()(this, {x, y});
 }
 
-void GlfwWindow::onUpdate() {
+bool GlfwWindow::onUpdate() {
     // Update
-    onUpdateEvent()(this);
+    return onUpdateEvent()(this);
 }
 
-void GlfwWindow::onKey(int key, int scancode, int action, int mods) {
+bool GlfwWindow::onKey(int key, int scancode, int action, int mods) {
     UNUSED_VARIABLE(scancode);
 
     ModifierKey modifier = getModifier(mods);
@@ -142,16 +141,18 @@ void GlfwWindow::onKey(int key, int scancode, int action, int mods) {
         if (viewController() != nullptr) {
             viewController()->keyDown(keyEvent);
         }
-        onKeyDownEvent()(this, keyEvent);
+        return onKeyDownEvent()(this, keyEvent);
     } else if (action == GLFW_RELEASE) {
         if (viewController() != nullptr) {
             viewController()->keyUp(keyEvent);
         }
-        onKeyUpEvent()(this, keyEvent);
+        return onKeyUpEvent()(this, keyEvent);
     }
+
+    return false;
 }
 
-void GlfwWindow::onPointerButton(int button, int action, int mods) {
+bool GlfwWindow::onPointerButton(int button, int action, int mods) {
     PointerInputType newInputType = PointerInputType::kMouse;
     ModifierKey newModifierKey = getModifier(mods);
 
@@ -173,19 +174,21 @@ void GlfwWindow::onPointerButton(int button, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (viewController() != nullptr) {
             viewController()->pointerPressed(pointerEvent);
-            onPointerPressedEvent()(this, pointerEvent);
+            return onPointerPressedEvent()(this, pointerEvent);
         }
     } else if (action == GLFW_RELEASE) {
+        _pressedMouseButton = MouseButtonType::kNone;
+
         if (viewController() != nullptr) {
             viewController()->pointerReleased(pointerEvent);
-            onPointerReleasedEvent()(this, pointerEvent);
+            return onPointerReleasedEvent()(this, pointerEvent);
         }
-
-        _pressedMouseButton = MouseButtonType::kNone;
     }
+
+    return false;
 }
 
-void GlfwWindow::onPointerMoved(double x, double y) {
+bool GlfwWindow::onPointerMoved(double x, double y) {
     Vector2F scaleFactor = displayScalingFactor();
     x = scaleFactor.x * x;
     y = scaleFactor.y * y;
@@ -204,16 +207,16 @@ void GlfwWindow::onPointerMoved(double x, double y) {
         if (viewController() != nullptr) {
             viewController()->pointerDragged(pointerEvent);
         }
-        onPointerDraggedEvent()(this, pointerEvent);
+        return onPointerDraggedEvent()(this, pointerEvent);
     } else {
         if (viewController() != nullptr) {
             viewController()->pointerHover(pointerEvent);
         }
-        onPointerHoverEvent()(this, pointerEvent);
+        return onPointerHoverEvent()(this, pointerEvent);
     }
 }
 
-void GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
+bool GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
     MouseWheelData wheelData;
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
@@ -225,10 +228,14 @@ void GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
     if (viewController() != nullptr) {
         viewController()->mouseWheel(pointerEvent);
     }
-    onMouseWheelEvent()(this, pointerEvent);
+    return onMouseWheelEvent()(this, pointerEvent);
 }
 
-void GlfwWindow::onPointerEnter(bool entered) { _hasPointerEntered = entered; }
+bool GlfwWindow::onPointerEnter(bool entered) {
+    _hasPointerEntered = entered;
+
+    return onPointerEnterEvent()(this);
+}
 
 }  // namespace gfx
 }  // namespace jet

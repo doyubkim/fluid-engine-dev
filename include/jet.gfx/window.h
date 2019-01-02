@@ -248,6 +248,22 @@ class Window {
     //!
     Event<Window*, const PointerEvent&>& onMouseWheelEvent();
 
+    //!
+    //! \brief Returns pointer enter event object.
+    //!
+    //! A mouse wheel callback function can be attached to this event
+    //! object such as:
+    //!
+    //! \code{.cpp}
+    //! bool onPointerEnter(Window* win) { ... }
+    //! ...
+    //! window->onPointerEnter() += onPointerEnter;
+    //! \endcode
+    //!
+    //! \return Event object.
+    //!
+    Event<Window*>& onPointerEnterEvent();
+
  protected:
     //! Sets the renderer for this window.
     void setRenderer(const RendererPtr& renderer);
@@ -269,6 +285,7 @@ class Window {
     Event<Window*, const PointerEvent&> _onPointerDraggedEvent;
     Event<Window*, const PointerEvent&> _onPointerHoverEvent;
     Event<Window*, const PointerEvent&> _onMouseWheelEvent;
+    Event<Window*> _onPointerEnterEvent;
 
     EventToken _onCameraStateChangedEventToken = kEmptyEventToken;
 };

@@ -20,6 +20,32 @@ class SimpleExample final : public GfxExample {
     }
 };
 
+class PointsExample final : public GfxExample {
+public:
+    PointsExample() : GfxExample(Frame()) {}
+
+    std::string name() const override { return "Points Example"; }
+
+    void onSetup(Window* window) override {
+        Array1<Vector3F> positions;
+        Array1<Vector4F> colors;
+
+        // Generate random points
+        std::mt19937 rng(0);
+        std::uniform_real_distribution<float> dist1(-0.5f, 0.5f);
+        std::uniform_real_distribution<float> dist2(-1.0f, 1.0f);
+        for (size_t i = 0; i < 1000; ++i) {
+            positions.append({dist1(rng), dist1(rng), dist1(rng)});
+            colors.append(ColorUtils::makeJet(dist2(rng)));
+        }
+
+        auto pointsRenderable = std::make_shared<PointsRenderable>(
+                positions, colors, 10.0f * window->displayScalingFactor().x);
+        window->renderer()->addRenderable(pointsRenderable);
+        window->renderer()->setBackgroundColor({0.2f, 0.5f, 1.0f, 1.0f});
+    }
+};
+
 int main() {
     MetalApp::initialize();
 
@@ -27,6 +53,7 @@ int main() {
 
     GfxExampleManager::initialize(window);
     GfxExampleManager::addExample<SimpleExample>();
+    GfxExampleManager::addExample<PointsExample>();
 
     return MetalApp::run();
 }
