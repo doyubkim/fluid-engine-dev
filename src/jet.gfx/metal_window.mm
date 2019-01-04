@@ -42,7 +42,6 @@ public:
                 int c = [str characterAtIndex:i];
                 int key = mapCharacterToKey(c);
                 KeyEvent keyEvent(key, mods);
-                JET_INFO << key;
                 window->viewController()->keyDown(keyEvent);
                 handled |= window->onKeyDownEvent()(window, keyEvent);
             }
@@ -54,7 +53,6 @@ public:
                 int c = [str characterAtIndex:i];
                 int key = mapCharacterToKey(c);
                 KeyEvent keyEvent(key, mods);
-                JET_INFO << key;
                 window->viewController()->keyUp(keyEvent);
                 handled |= window->onKeyUpEvent()(window, keyEvent);
             }
@@ -76,16 +74,16 @@ public:
     }
 
     static ModifierKey getModifier(NSEventModifierFlags mods) {
-        ModifierKey modifier = ModifierKey::kNone;
+        ModifierKey modifier = ModifierKey::None;
 
         if (mods & NSEventModifierFlagOption) {
-            modifier = modifier | ModifierKey::kAlt;
+            modifier = modifier | ModifierKey::Alt;
         }
         if (mods & NSEventModifierFlagControl) {
-            modifier = modifier | ModifierKey::kCtrl;
+            modifier = modifier | ModifierKey::Ctrl;
         }
         if (mods & NSEventModifierFlagShift) {
-            modifier = modifier | ModifierKey::kShift;
+            modifier = modifier | ModifierKey::Shift;
         }
 
         return modifier;

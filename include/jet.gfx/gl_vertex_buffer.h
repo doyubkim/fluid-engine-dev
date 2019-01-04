@@ -42,7 +42,7 @@ class GLVertexBuffer final : public VertexBuffer {
     //!
     //! \param vertices Vertex array.
     //!
-    void update(const float* vertices) override;
+    void update(const float* vertexData) override;
 
 #ifdef JET_USE_CUDA
     //!
@@ -50,7 +50,7 @@ class GLVertexBuffer final : public VertexBuffer {
     //!
     //! \param vertices Vertex array in CUDA device memory.
     //!
-    void updateWithCuda(const float* vertices) override;
+    void updateWithCuda(const float* vertexData) override;
 
     //! Maps vertex buffer to CUDA-accessible memory pointer.
     void* cudaMapResources() override;
@@ -78,7 +78,7 @@ class GLVertexBuffer final : public VertexBuffer {
 
     void onClear() override;
 
-    void onResize(const ShaderPtr& shader, const float* vertices,
+    void onResize(const ShaderPtr& shader, const float* vertexData,
                   size_t numberOfVertices) override;
 
     void onBind(Renderer* renderer) override;

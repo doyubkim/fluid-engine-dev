@@ -47,7 +47,7 @@ void PointsRenderable::onInitializeGpuResources(Renderer* renderer) {
     std::lock_guard<std::mutex> lock(_dataMutex);
 
     if (!_shader) {
-        _shader = renderer->createPresetShader("point_sprite");
+        _shader = renderer->createPresetShader("points");
     }
     if (!_shader) {
         throw NotImplementedException(

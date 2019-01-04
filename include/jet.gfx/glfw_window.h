@@ -52,8 +52,8 @@ class GlfwWindow final : public Window {
     mutable bool _hasDisplayScalingFactorCache = false;
     mutable Vector2F _displayScalingFactorCache;
 
-    MouseButtonType _pressedMouseButton = MouseButtonType::kNone;
-    ModifierKey _lastModifierKey = ModifierKey::kNone;
+    MouseButtonType _pressedMouseButton = MouseButtonType::None;
+    ModifierKey _lastModifierKey = ModifierKey::None;
 
     unsigned int _numRequestedRenderFrames = 0;
 

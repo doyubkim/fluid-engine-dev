@@ -32,7 +32,7 @@ class GLRenderer final : public Renderer {
     //! \return New vertex buffer.
     //!
     VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
-                                       const float* vertices,
+                                       const float* vertexData,
                                        size_t numberOfPoints) override;
 
     //!

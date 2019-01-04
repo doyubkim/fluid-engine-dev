@@ -115,7 +115,7 @@ const GLchar* kPointsShaders[2] = {
     } outData;
     void main() {
         outData.color = color;
-        gl_PointSize = Radius;
+        gl_PointSize = 2.0 * Radius;
         gl_Position = ModelViewProjection * vec4(position,1.0);
     }
     )glsl",
@@ -123,85 +123,16 @@ const GLchar* kPointsShaders[2] = {
     // Fragment shader
     R"glsl(
     #version 330 core
+    uniform float Radius;
     in VertexData {
     	 vec4 color;
     } inData;
     out vec4 fragColor;
     void main() {
+         if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.5) {
+             discard;
+         }
     	 fragColor = inData.color;
-    }
-    )glsl"};
-
-const GLchar* kPointSpriteShaders[3] = {
-    // Vertex shader
-    R"glsl(
-    #version 330 core
-    uniform mat4 ModelViewProjection;
-    layout(location = 0) in vec3 position;
-    layout(location = 1) in vec4 color;
-    out VertexData {
-        vec4 color;
-    } outData;
-    void main() {
-        outData.color = color;
-        gl_Position = ModelViewProjection * vec4(position,1.0);
-    }
-    )glsl",
-
-    // Geometry shader
-    R"glsl(
-    #version 330 core
-    uniform float ViewWidth;
-    uniform float ViewHeight;
-    uniform float Radius;
-    layout(points) in;
-    layout(triangle_strip, max_vertices=4) out;
-    in VertexData {
-        vec4 color;
-    } inData[1];
-    out VertexData {
-        vec4 color;
-        vec2 texCoord2;
-    } outData;
-    void main() {
-        float size = 2.0 * Radius;
-        vec4 position = gl_in[0].gl_Position;
-        vec4 color = inData[0].color;
-        float dx = size / ViewWidth * position.w;
-        float dy = size / ViewHeight * position.w;
-        gl_Position = position + vec4(dx, -dy, 0, 0);
-        outData.color = color;
-        outData.texCoord2 = vec2(1,0);
-        EmitVertex();
-        gl_Position = position + vec4(-dx, -dy, 0, 0);
-        outData.color = color;
-        outData.texCoord2 = vec2(0,0);
-        EmitVertex();
-        gl_Position = position + vec4(dx, dy, 0, 0);
-        outData.color = color;
-        outData.texCoord2 = vec2(1,1);
-        EmitVertex();
-        gl_Position = position + vec4(-dx, dy, 0, 0);
-        outData.color = color;
-        outData.texCoord2 = vec2(0,1);
-        EmitVertex();
-    }
-    )glsl",
-
-    // Fragment shader
-    R"glsl(
-    #version 330 core
-    in VertexData {
-    	vec4 color;
-        vec2 texCoord2;
-    } inData;
-    out vec4 fragColor;
-    void main() {
-        float r = distance(inData.texCoord2, vec2(0.5,0.5));
-        if (r > 0.5) {
-    	     discard;
-        }
-    	fragColor = inData.color;
     }
     )glsl"};
 

@@ -6,6 +6,8 @@
 
 #include <common.h>
 
+#ifdef JET_MACOSX
+
 #include "mtlpp_wrappers.h"
 
 #include <jet.gfx/metal_renderer.h>
@@ -36,7 +38,21 @@ MetalPrivateFunction *MetalShader::fragmentFunction() const {
 const std::string &MetalShader::name() const { return _name; }
 
 void MetalShader::onBind(const Renderer *renderer) {
-    UNUSED_VARIABLE(renderer);
+    const auto mtlRenderer = dynamic_cast<const MetalRenderer *>(renderer);
+    JET_ASSERT(mtlRenderer != nullptr);
+
+    auto renderPipelineState = mtlRenderer->findRenderPipelineState(name());
+    JET_ASSERT(renderPipelineState != nullptr);
+
+    mtlRenderer->renderCommandEncoder()->value.SetRenderPipelineState(
+        renderPipelineState->value);
+
+    // Load default parameters
+    // TODO: Copy MVP matrix and view parameters to shader uniform space
+
+    // Apply parameters
+    // TODO: Copy user parameters to shader uniform space
+    // TODO: Convert "Radius" to "PointSize"
 }
 
 void MetalShader::onUnbind(const Renderer *renderer) {
@@ -84,3 +100,5 @@ void MetalShader::load(const MetalPrivateDevice *device,
 
 }  // namespace gfx
 }  // namespace jet
+
+#endif  // JET_MACOSX

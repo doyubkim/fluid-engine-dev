@@ -23,6 +23,8 @@ void toggleUpdate(Window* win, bool onoff) { win->setIsUpdateEnabled(onoff); }
 void toggleUpdate(Window* win) { toggleUpdate(win, !win->isUpdateEnabled()); }
 
 void nextTests(Window* win) {
+    sWindow->renderer()->clearRenderables();
+
     toggleUpdate(win, false);
 
     ++sCurrentTestIdx;

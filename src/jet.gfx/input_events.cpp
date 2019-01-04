@@ -14,13 +14,13 @@ namespace gfx {
 // MARK: PointerEvent implementation
 
 PointerEvent::PointerEvent()
-    : _inputType(PointerInputType::kUnknown),
-      _modifierKey(ModifierKey::kNone),
+    : _inputType(PointerInputType::Unknown),
+      _modifierKey(ModifierKey::None),
       _x(0.0),
       _y(0.0),
       _deltaX(0.0),
       _deltaY(0.0),
-      _pressedMouseButton(MouseButtonType::kNone) {}
+      _pressedMouseButton(MouseButtonType::None) {}
 
 PointerEvent::PointerEvent(PointerInputType newInputType,
                            ModifierKey newModifierKey, float newX, float newY,
@@ -55,7 +55,7 @@ MouseButtonType PointerEvent::pressedMouseButton() const {
 const MouseWheelData &PointerEvent::wheelData() const { return _wheelData; }
 
 // MARK: KeyEvent implementation
-KeyEvent::KeyEvent() : _key(0), _modifierKey(ModifierKey::kNone) {}
+KeyEvent::KeyEvent() : _key(0), _modifierKey(ModifierKey::None) {}
 
 KeyEvent::KeyEvent(int newKey, ModifierKey newModifierKey)
     : _key(newKey), _modifierKey(newModifierKey) {}

@@ -6,8 +6,11 @@
 
 #include <common.h>
 
+#ifdef JET_MACOSX
+
 #include "mtlpp_wrappers.h"
 
+#include <jet.gfx/metal_renderer.h>
 #include <jet.gfx/metal_shader.h>
 #include <jet.gfx/metal_vertex_buffer.h>
 #include <jet.gfx/vertex.h>
@@ -15,29 +18,39 @@
 namespace jet {
 namespace gfx {
 
-MetalVertexBuffer::MetalVertexBuffer(MetalPrivateDevice *device,
-                                     const ShaderPtr &shader,
-                                     const ConstArrayView1<float> &vertices) {
-    size_t vertexSizeInBytes =
-        VertexHelper::getSizeInBytes(shader->vertexFormat());
-    _buffer = new MetalPrivateBuffer(device->value.NewBuffer(
-        vertices.data(), uint32_t(vertexSizeInBytes * vertices.length()),
-        mtlpp::ResourceOptions::CpuCacheModeDefaultCache));
-}
+MetalVertexBuffer::MetalVertexBuffer(MetalPrivateDevice *device)
+    : _device(device) {}
 
 MetalVertexBuffer::~MetalVertexBuffer() { clear(); }
 
-void MetalVertexBuffer::update(const float *vertices) {}
+void MetalVertexBuffer::update(const float *data) {
+    size_t vertexSizeInBytes =
+            VertexHelper::getSizeInBytes(vertexFormat());
+    memcpy(_buffer->value.GetContents(), data, vertexSizeInBytes);
+}
 
-MetalPrivateBuffer *MetalVertexBuffer::buffer() const { return _buffer; }
+MetalPrivateBuffer *MetalVertexBuffer::buffer() const { return _buffer.get(); }
 
-void MetalVertexBuffer::onClear() { delete _buffer; }
+void MetalVertexBuffer::onClear() {
+    _buffer = std::unique_ptr<MetalPrivateBuffer>();
+}
 
-void MetalVertexBuffer::onResize(const ShaderPtr &shader, const float *vertices,
-                                 size_t numberOfVertices) {}
+void MetalVertexBuffer::onResize(const ShaderPtr &shader, const float *data,
+                                 size_t numberOfVertices) {
+    size_t vertexSizeInBytes =
+        VertexHelper::getSizeInBytes(shader->vertexFormat());
+    _buffer = std::make_unique<MetalPrivateBuffer>(_device->value.NewBuffer(
+        data, uint32_t(vertexSizeInBytes * numberOfVertices),
+        mtlpp::ResourceOptions::CpuCacheModeDefaultCache));
+}
 
 void MetalVertexBuffer::onBind(Renderer *renderer) {
-    UNUSED_VARIABLE(renderer);
+    const auto mtlRenderer = dynamic_cast<const MetalRenderer *>(renderer);
+    JET_ASSERT(mtlRenderer != nullptr);
+
+    mtlRenderer->renderCommandEncoder()->value.SetVertexBuffer(buffer()->value,
+                                                               /* offset */ 0,
+                                                               /* buffer0 */ 0);
 }
 
 void MetalVertexBuffer::onUnbind(Renderer *renderer) {
@@ -46,3 +59,5 @@ void MetalVertexBuffer::onUnbind(Renderer *renderer) {
 
 }  // namespace gfx
 }  // namespace jet
+
+#endif  // JET_MACOSX

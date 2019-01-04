@@ -74,7 +74,7 @@ class VertexBuffer {
  protected:
     virtual void onClear() = 0;
 
-    virtual void onResize(const ShaderPtr& shader, const float* vertices,
+    virtual void onResize(const ShaderPtr& shader, const float* vertexData,
                           size_t numberOfVertices) = 0;
 
     virtual void onBind(Renderer* renderer) = 0;

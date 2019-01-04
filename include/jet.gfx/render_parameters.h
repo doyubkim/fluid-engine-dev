@@ -23,13 +23,13 @@ class RenderParameters final {
  public:
     //! Rendering parameter types.
     enum class Type {
-        kInt,
-        kUInt,
-        kFloat,
-        kFloat2,
-        kFloat3,
-        kFloat4,
-        kMatrix,
+        Int,
+        UInt,
+        Float,
+        Float2,
+        Float3,
+        Float4,
+        Matrix,
     };
 
     //! Rendering parameter metadata.

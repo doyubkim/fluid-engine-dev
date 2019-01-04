@@ -19,12 +19,18 @@ namespace gfx {
 
 class MetalWindow;
 class MetalPrivateDevice;
+class MetalPrivateCommandBuffer;
 class MetalPrivateCommandQueue;
+class MetalPrivateRenderCommandEncoder;
+class MetalPrivateRenderPassDescriptor;
 class MetalPrivateRenderPipelineState;
 
 class MetalRenderer final : public Renderer {
  public:
+    JET_NON_COPYABLE(MetalRenderer);
+
     MetalRenderer(MetalWindow* window);
+
     ~MetalRenderer();
 
     //!
@@ -32,12 +38,12 @@ class MetalRenderer final : public Renderer {
     //!
     //! \param shader Shader object for the buffer.
     //! \param vertices Vertex data.
-    //! \param numberOfPoints Number of vertices.
+    //! \param numberOfVertices Number of vertices.
     //! \return New vertex buffer.
     //!
     VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
-                                       const float* vertices,
-                                       size_t numberOfPoints) override;
+                                       const float* vertexData,
+                                       size_t numberOfVertices) override;
 
     //!
     //! Creates an index buffer with given parameters.
@@ -116,10 +122,16 @@ class MetalRenderer final : public Renderer {
     //!
     void drawIndexed(size_t numberOfIndices) override;
 
-    void render();
+//    void render();
 
     MetalPrivateDevice* device() const;
+
     MetalPrivateCommandQueue* commandQueue() const;
+
+    MetalPrivateRenderCommandEncoder* renderCommandEncoder() const;
+
+    MetalPrivateRenderPipelineState* findRenderPipelineState(
+        const std::string& name) const;
 
  protected:
     //! Called when rendering a frame begins.
@@ -136,10 +148,18 @@ class MetalRenderer final : public Renderer {
 
  private:
     MetalWindow* _window = nullptr;
-    MetalPrivateDevice* _device = nullptr;
-    MetalPrivateCommandQueue* _commandQueue = nullptr;
 
-    mutable std::unordered_map<std::string, MetalPrivateRenderPipelineState*>
+    std::unique_ptr<MetalPrivateDevice> _device;
+    std::unique_ptr<MetalPrivateCommandQueue> _commandQueue;
+
+    std::unique_ptr<MetalPrivateCommandBuffer> _commandBuffer;
+    std::unique_ptr<MetalPrivateRenderPassDescriptor> _renderPassDescriptor;
+    std::unique_ptr<MetalPrivateRenderCommandEncoder> _renderCommandEncoder;
+
+    PrimitiveType _primitiveType = PrimitiveType::Triangles;
+
+    mutable std::unordered_map<std::string,
+                               std::unique_ptr<MetalPrivateRenderPipelineState>>
         _renderPipelineStates;
 };
 

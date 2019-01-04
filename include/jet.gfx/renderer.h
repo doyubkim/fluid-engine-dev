@@ -43,7 +43,7 @@ class Renderer {
     //! \return New vertex buffer.
     //!
     virtual VertexBufferPtr createVertexBuffer(const ShaderPtr& shader,
-                                               const float* vertices,
+                                               const float* vertexData,
                                                size_t numberOfPoints) = 0;
 
     //!

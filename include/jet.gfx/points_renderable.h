@@ -40,6 +40,8 @@ class PointsRenderable final : public Renderable {
     void onRender(Renderer* renderer) override;
 };
 
+using PointsRenderablePtr = std::shared_ptr<PointsRenderable>;
+
 }  // namespace gfx
 }  // namespace jet
 

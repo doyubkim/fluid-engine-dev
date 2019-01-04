@@ -66,25 +66,25 @@ static void applyParameters(GLuint program, const RenderParameters &params) {
                 reinterpret_cast<const GLfloat *>(buffer);
 
             switch (metadata.type) {
-                case RenderParameters::Type::kInt:
+                case RenderParameters::Type::Int:
                     glUniform1i(location, intData[0]);
                     break;
-                case RenderParameters::Type::kUInt:
+                case RenderParameters::Type::UInt:
                     glUniform1i(location, uintData[0]);
                     break;
-                case RenderParameters::Type::kFloat:
+                case RenderParameters::Type::Float:
                     glUniform1f(location, floatData[0]);
                     break;
-                case RenderParameters::Type::kFloat2:
+                case RenderParameters::Type::Float2:
                     glUniform2fv(location, 1, floatData);
                     break;
-                case RenderParameters::Type::kFloat3:
+                case RenderParameters::Type::Float3:
                     glUniform3fv(location, 1, floatData);
                     break;
-                case RenderParameters::Type::kFloat4:
+                case RenderParameters::Type::Float4:
                     glUniform4fv(location, 1, floatData);
                     break;
-                case RenderParameters::Type::kMatrix:
+                case RenderParameters::Type::Matrix:
                     glUniformMatrix4fv(location, 1, GL_TRUE, floatData);
                     break;
             }

@@ -21,16 +21,16 @@ inline size_t sizeWithPadding(size_t size) {
 
 inline size_t getNumberOfElements(RenderParameters::Type type) {
     switch (type) {
-        case RenderParameters::Type::kInt:
-        case RenderParameters::Type::kFloat:
+        case RenderParameters::Type::Int:
+        case RenderParameters::Type::Float:
             return 1;
-        case RenderParameters::Type::kFloat2:
+        case RenderParameters::Type::Float2:
             return 2;
-        case RenderParameters::Type::kFloat3:
+        case RenderParameters::Type::Float3:
             return 3;
-        case RenderParameters::Type::kFloat4:
+        case RenderParameters::Type::Float4:
             return 4;
-        case RenderParameters::Type::kMatrix:
+        case RenderParameters::Type::Matrix:
             return 16;
         default:
             JET_ASSERT(false);
@@ -40,39 +40,39 @@ inline size_t getNumberOfElements(RenderParameters::Type type) {
 }
 
 void RenderParameters::add(const std::string &name, int32_t defaultValue) {
-    add(name, &defaultValue, Type::kInt);
+    add(name, &defaultValue, Type::Int);
 }
 
 void RenderParameters::add(const std::string &name, uint32_t defaultValue) {
-    add(name, reinterpret_cast<const int32_t *>(&defaultValue), Type::kUInt);
+    add(name, reinterpret_cast<const int32_t *>(&defaultValue), Type::UInt);
 }
 
 void RenderParameters::add(const std::string &name, float defaultValue) {
-    add(name, reinterpret_cast<const int32_t *>(&defaultValue), Type::kFloat);
+    add(name, reinterpret_cast<const int32_t *>(&defaultValue), Type::Float);
 }
 
 void RenderParameters::add(const std::string &name,
                            const Vector2F &defaultValue) {
     add(name, reinterpret_cast<const int32_t *>(&defaultValue[0]),
-        Type::kFloat2);
+        Type::Float2);
 }
 
 void RenderParameters::add(const std::string &name,
                            const Vector3F &defaultValue) {
     add(name, reinterpret_cast<const int32_t *>(&defaultValue[0]),
-        Type::kFloat3);
+        Type::Float3);
 }
 
 void RenderParameters::add(const std::string &name,
                            const Vector4F &defaultValue) {
     add(name, reinterpret_cast<const int32_t *>(&defaultValue[0]),
-        Type::kFloat4);
+        Type::Float4);
 }
 
 void RenderParameters::add(const std::string &name,
                            const Matrix4x4F &defaultValue) {
     add(name, reinterpret_cast<const int32_t *>(defaultValue.data()),
-        Type::kMatrix);
+        Type::Matrix);
 }
 
 void RenderParameters::set(const std::string &name, int32_t value) {

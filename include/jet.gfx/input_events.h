@@ -18,46 +18,46 @@ namespace gfx {
 //! Pointer input types.
 enum class PointerInputType : int8_t {
     //! Unknown pointer input type.
-    kUnknown = 0,
+    Unknown = 0,
 
     //! Mouse pointer input type.
-    kMouse = 1,
+    Mouse = 1,
 
     //! Touch pointer input type.
-    kTouch = 2,
+    Touch = 2,
 
     //! Pen pointer input type.
-    kPen = 3,
+    Pen = 3,
 };
 
 //! Mouse button types.
 enum class MouseButtonType : int8_t {
     //! No mouse button.
-    kNone = 0,
+    None = 0,
 
     //! Left mouse button.
-    kLeft = 1,
+    Left = 1,
 
     //! Middle mouse button.
-    kMiddle = 2,
+    Middle = 2,
 
     //! Right mouse button.
-    kRight = 3,
+    Right = 3,
 };
 
 //! Modifier key types.
 enum class ModifierKey : int8_t {
     //! No modifier.
-    kNone = 0,
+    None = 0,
 
     //! Shift modifier key.
-    kShift = 1 << 0,
+    Shift = 1 << 0,
 
     //! Ctrl modifier key.
-    kCtrl = 1 << 1,
+    Ctrl = 1 << 1,
 
     //! Alt modifier key.
-    kAlt = 1 << 2,
+    Alt = 1 << 2,
 };
 
 //! And operator for two modifier keys.
@@ -159,7 +159,7 @@ class KeyEvent {
 
  private:
     int _key = 0;
-    ModifierKey _modifierKey = ModifierKey::kNone;
+    ModifierKey _modifierKey = ModifierKey::None;
 };
 
 }  // namespace gfx

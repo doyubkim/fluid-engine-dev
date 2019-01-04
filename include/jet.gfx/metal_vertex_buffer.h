@@ -32,9 +32,8 @@ class MetalPrivateDevice;
 //!
 class MetalVertexBuffer final : public VertexBuffer {
  public:
-    //! Default constructor.
-    MetalVertexBuffer(MetalPrivateDevice* device, const ShaderPtr& shader,
-                      const ConstArrayView1<float>& vertices);
+    //! Constructs empty buffer.
+    MetalVertexBuffer(MetalPrivateDevice* device);
 
     //! Destructor.
     virtual ~MetalVertexBuffer();
@@ -44,16 +43,17 @@ class MetalVertexBuffer final : public VertexBuffer {
     //!
     //! \param vertices Vertex array data.
     //!
-    void update(const float* vertices) override;
+    void update(const float* data) override;
 
     MetalPrivateBuffer* buffer() const;
 
  private:
-    MetalPrivateBuffer* _buffer = nullptr;
+    MetalPrivateDevice* _device = nullptr;
+    std::unique_ptr<MetalPrivateBuffer> _buffer;
 
     void onClear() override;
 
-    void onResize(const ShaderPtr& shader, const float* vertices,
+    void onResize(const ShaderPtr& shader, const float* data,
                   size_t numberOfVertices) override;
 
     void onBind(Renderer* renderer) override;
@@ -62,7 +62,7 @@ class MetalVertexBuffer final : public VertexBuffer {
 };
 
 //! Shared pointer type for MetalVertexBuffer.
-typedef std::shared_ptr<MetalVertexBuffer> MetalVertexBufferPtr;
+using MetalVertexBufferPtr = std::shared_ptr<MetalVertexBuffer>;
 
 }  // namespace gfx
 }  // namespace jet

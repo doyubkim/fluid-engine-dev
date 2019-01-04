@@ -21,10 +21,13 @@ namespace gfx {
     };
 
 MTLPP_WRAPPER_CLASS(Buffer)
+MTLPP_WRAPPER_CLASS(CommandBuffer)
 MTLPP_WRAPPER_CLASS(CommandQueue)
 MTLPP_WRAPPER_CLASS(Device)
 MTLPP_WRAPPER_CLASS(Function)
 MTLPP_WRAPPER_CLASS(Library)
+MTLPP_WRAPPER_CLASS(RenderCommandEncoder)
+MTLPP_WRAPPER_CLASS(RenderPassDescriptor)
 MTLPP_WRAPPER_CLASS(RenderPipelineState)
 
 }  // namespace gfx

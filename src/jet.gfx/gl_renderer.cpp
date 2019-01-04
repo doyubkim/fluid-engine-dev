@@ -77,10 +77,10 @@ GLRenderer::GLRenderer() {
 GLRenderer::~GLRenderer() {}
 
 VertexBufferPtr GLRenderer::createVertexBuffer(const ShaderPtr& shader,
-                                               const float* vertices,
+                                               const float* vertexData,
                                                size_t numberOfPoints) {
     GLVertexBuffer* vertexBuffer = new GLVertexBuffer();
-    vertexBuffer->resize(shader, vertices, numberOfPoints);
+    vertexBuffer->resize(shader, vertexData, numberOfPoints);
 
     return VertexBufferPtr(vertexBuffer);
 }
@@ -148,12 +148,6 @@ ShaderPtr GLRenderer::createPresetShader(const std::string& shaderName) const {
 
         return std::make_shared<GLShader>(params, VertexFormat::Position3Color4,
                                           kPointsShaders[0], kPointsShaders[1]);
-    } else if (shaderName == "point_sprite") {
-        params.add("Radius", 1.f);
-
-        return std::make_shared<GLShader>(
-            params, VertexFormat::Position3Color4, kPointSpriteShaders[0],
-            kPointSpriteShaders[1], kPointSpriteShaders[2]);
     }
 
     return nullptr;

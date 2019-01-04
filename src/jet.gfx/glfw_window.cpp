@@ -17,14 +17,14 @@ namespace jet {
 namespace gfx {
 
 static ModifierKey getModifier(int mods) {
-    ModifierKey modifier = ModifierKey::kNone;
+    ModifierKey modifier = ModifierKey::None;
 
     if (mods == GLFW_MOD_ALT) {
-        modifier = ModifierKey::kAlt;
+        modifier = ModifierKey::Alt;
     } else if (mods == GLFW_MOD_CONTROL) {
-        modifier = ModifierKey::kCtrl;
+        modifier = ModifierKey::Ctrl;
     } else if (mods == GLFW_MOD_SHIFT) {
-        modifier = ModifierKey::kShift;
+        modifier = ModifierKey::Shift;
     }
 
     return modifier;
@@ -153,18 +153,18 @@ bool GlfwWindow::onKey(int key, int scancode, int action, int mods) {
 }
 
 bool GlfwWindow::onPointerButton(int button, int action, int mods) {
-    PointerInputType newInputType = PointerInputType::kMouse;
+    PointerInputType newInputType = PointerInputType::Mouse;
     ModifierKey newModifierKey = getModifier(mods);
 
     _lastModifierKey = newModifierKey;
 
-    _pressedMouseButton = MouseButtonType::kNone;
+    _pressedMouseButton = MouseButtonType::None;
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
-        _pressedMouseButton = MouseButtonType::kLeft;
+        _pressedMouseButton = MouseButtonType::Left;
     } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
-        _pressedMouseButton = MouseButtonType::kRight;
+        _pressedMouseButton = MouseButtonType::Right;
     } else if (button == GLFW_MOUSE_BUTTON_MIDDLE) {
-        _pressedMouseButton = MouseButtonType::kMiddle;
+        _pressedMouseButton = MouseButtonType::Middle;
     }
 
     PointerEvent pointerEvent(newInputType, newModifierKey, _pointerPosX,
@@ -177,7 +177,7 @@ bool GlfwWindow::onPointerButton(int button, int action, int mods) {
             return onPointerPressedEvent()(this, pointerEvent);
         }
     } else if (action == GLFW_RELEASE) {
-        _pressedMouseButton = MouseButtonType::kNone;
+        _pressedMouseButton = MouseButtonType::None;
 
         if (viewController() != nullptr) {
             viewController()->pointerReleased(pointerEvent);
@@ -200,10 +200,10 @@ bool GlfwWindow::onPointerMoved(double x, double y) {
     _pointerPosY = y;
 
     PointerEvent pointerEvent(
-        PointerInputType::kMouse, _lastModifierKey, _pointerPosX, _pointerPosY,
+        PointerInputType::Mouse, _lastModifierKey, _pointerPosX, _pointerPosY,
         _pointerDeltaX, _pointerDeltaY, _pressedMouseButton, MouseWheelData());
 
-    if (_pressedMouseButton != MouseButtonType::kNone) {
+    if (_pressedMouseButton != MouseButtonType::None) {
         if (viewController() != nullptr) {
             viewController()->pointerDragged(pointerEvent);
         }
@@ -221,7 +221,7 @@ bool GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
 
-    PointerEvent pointerEvent(PointerInputType::kMouse, _lastModifierKey,
+    PointerEvent pointerEvent(PointerInputType::Mouse, _lastModifierKey,
                               _pointerPosX, _pointerPosY, _pointerDeltaX,
                               _pointerDeltaY, _pressedMouseButton, wheelData);
 
