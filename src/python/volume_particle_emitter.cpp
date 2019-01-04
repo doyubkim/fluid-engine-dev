@@ -24,7 +24,7 @@ void addVolumeParticleEmitter2(py::module& m) {
                 py::kwargs kwargs) {
 
                  ImplicitSurface2Ptr implicitSurface;
-                 BoundingBox2D bounds;
+                 BoundingBox2D maxRegion;
                  double spacing = 0.1;
                  Vector2D initialVel;
                  size_t maxNumberOfParticles = kMaxSize;
@@ -36,22 +36,25 @@ void addVolumeParticleEmitter2(py::module& m) {
                  const auto parseImplicitSurface = [&](py::object arg) {
                      if (py::isinstance<ImplicitSurface2>(arg)) {
                          implicitSurface = arg.cast<ImplicitSurface2Ptr>();
-                         bounds = implicitSurface->boundingBox();
                      } else if (py::isinstance<Surface2>(arg)) {
                          auto surface = arg.cast<Surface2Ptr>();
                          implicitSurface =
                              std::make_shared<SurfaceToImplicit2>(surface);
-                         bounds = surface->boundingBox();
                      } else {
                          throw std::invalid_argument(
                              "Unknown type for implicitSurface.");
+                     }
+
+                     // Get initial val for the max region.
+                     if (implicitSurface->isBounded()) {
+                         maxRegion = implicitSurface->boundingBox();
                      }
                  };
 
                  if (args.size() >= 3 && args.size() <= 9) {
                      parseImplicitSurface(args[0]);
 
-                     bounds = args[1].cast<BoundingBox2D>();
+                     maxRegion = args[1].cast<BoundingBox2D>();
                      spacing = args[2].cast<double>();
 
                      if (args.size() > 3) {
@@ -79,8 +82,12 @@ void addVolumeParticleEmitter2(py::module& m) {
                  if (kwargs.contains("implicitSurface")) {
                      parseImplicitSurface(kwargs["implicitSurface"]);
                  }
+                 // "bounds" will be deprecated in v2, but keeping here for v1.
                  if (kwargs.contains("bounds")) {
-                     bounds = kwargs["bounds"].cast<BoundingBox2D>();
+                     maxRegion = kwargs["bounds"].cast<BoundingBox2D>();
+                 }
+                 if (kwargs.contains("maxRegion")) {
+                     maxRegion = kwargs["maxRegion"].cast<BoundingBox2D>();
                  }
                  if (kwargs.contains("spacing")) {
                      spacing = kwargs["spacing"].cast<double>();
@@ -106,7 +113,7 @@ void addVolumeParticleEmitter2(py::module& m) {
                  }
 
                  new (&instance) VolumeParticleEmitter2(
-                     implicitSurface, bounds, spacing, initialVel,
+                     implicitSurface, maxRegion, spacing, initialVel,
                      maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
                      seed);
              },
@@ -119,6 +126,26 @@ void addVolumeParticleEmitter2(py::module& m) {
              (optional), whether it's one shot or not (optional), whether it
              should allow overlapping or not (optional), and random seed
              (optional).
+
+             Parameters
+             ----------
+             - implicitSurface : The implicit surface.
+             - maxRegion: The max region.
+             - spacing: The spacing between particles.
+             - initialVel: The initial velocity.
+             - maxNumberOfParticles: The max number of particles to be emitted.
+             - jitter: The jitter amount between 0 and 1.
+             - isOneShot: Set true if particles are emitted just once.
+             - allowOverlapping: True if particles can be overlapped.
+             - seed: The random seed.
+             )pbdoc")
+        .def_property("surface", &VolumeParticleEmitter2::surface,
+                      &VolumeParticleEmitter2::setSurface, R"pbdoc(
+             Source surface.
+             )pbdoc")
+        .def_property("maxRegion", &VolumeParticleEmitter2::maxRegion,
+                      &VolumeParticleEmitter2::setMaxRegion, R"pbdoc(
+             Max particle gen region.
              )pbdoc")
         .def_property("jitter", &VolumeParticleEmitter2::jitter,
                       &VolumeParticleEmitter2::setJitter, R"pbdoc(
@@ -149,6 +176,22 @@ void addVolumeParticleEmitter2(py::module& m) {
             },
             R"pbdoc(
              The initial velocity of the particles.
+             )pbdoc")
+        .def_property(
+            "linearVelocity", &VolumeParticleEmitter2::linearVelocity,
+            [](VolumeParticleEmitter2& instance, py::object newLinearVel) {
+                instance.setLinearVelocity(objectToVector2D(newLinearVel));
+            },
+            R"pbdoc(
+             The linear velocity of the emitter.
+             )pbdoc")
+        .def_property(
+            "angularVelocity", &VolumeParticleEmitter2::angularVelocity,
+            [](VolumeParticleEmitter2& instance, double newAngularVel) {
+                instance.setAngularVelocity(newAngularVel);
+            },
+            R"pbdoc(
+             The angular velocity of the emitter.
              )pbdoc");
 }
 
@@ -161,7 +204,7 @@ void addVolumeParticleEmitter3(py::module& m) {
                 py::kwargs kwargs) {
 
                  ImplicitSurface3Ptr implicitSurface;
-                 BoundingBox3D bounds;
+                 BoundingBox3D maxRegion;
                  double spacing = 0.1;
                  Vector3D initialVel;
                  size_t maxNumberOfParticles = kMaxSize;
@@ -173,22 +216,25 @@ void addVolumeParticleEmitter3(py::module& m) {
                  const auto parseImplicitSurface = [&](py::object arg) {
                      if (py::isinstance<ImplicitSurface3>(arg)) {
                          implicitSurface = arg.cast<ImplicitSurface3Ptr>();
-                         bounds = implicitSurface->boundingBox();
                      } else if (py::isinstance<Surface3>(arg)) {
                          auto surface = arg.cast<Surface3Ptr>();
                          implicitSurface =
                              std::make_shared<SurfaceToImplicit3>(surface);
-                         bounds = surface->boundingBox();
                      } else {
                          throw std::invalid_argument(
                              "Unknown type for implicitSurface.");
+                     }
+
+                     // Get initial val for the max region.
+                     if (implicitSurface->isBounded()) {
+                         maxRegion = implicitSurface->boundingBox();
                      }
                  };
 
                  if (args.size() >= 3 && args.size() <= 9) {
                      parseImplicitSurface(args[0]);
 
-                     bounds = args[1].cast<BoundingBox3D>();
+                     maxRegion = args[1].cast<BoundingBox3D>();
                      spacing = args[2].cast<double>();
 
                      if (args.size() > 3) {
@@ -216,8 +262,12 @@ void addVolumeParticleEmitter3(py::module& m) {
                  if (kwargs.contains("implicitSurface")) {
                      parseImplicitSurface(kwargs["implicitSurface"]);
                  }
+                 // "bounds" will be deprecated in v2, but keeping here for v1.
                  if (kwargs.contains("bounds")) {
-                     bounds = kwargs["bounds"].cast<BoundingBox3D>();
+                     maxRegion = kwargs["bounds"].cast<BoundingBox3D>();
+                 }
+                 if (kwargs.contains("maxRegion")) {
+                     maxRegion = kwargs["maxRegion"].cast<BoundingBox3D>();
                  }
                  if (kwargs.contains("spacing")) {
                      spacing = kwargs["spacing"].cast<double>();
@@ -243,7 +293,7 @@ void addVolumeParticleEmitter3(py::module& m) {
                  }
 
                  new (&instance) VolumeParticleEmitter3(
-                     implicitSurface, bounds, spacing, initialVel,
+                     implicitSurface, maxRegion, spacing, initialVel,
                      maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
                      seed);
              },
@@ -256,6 +306,26 @@ void addVolumeParticleEmitter3(py::module& m) {
              (optional), whether it's one shot or not (optional), whether it
              should allow overlapping or not (optional), and random seed
              (optional).
+
+             Parameters
+             ----------
+             - implicitSurface : The implicit surface.
+             - maxRegion: The max region.
+             - spacing: The spacing between particles.
+             - initialVel: The initial velocity.
+             - maxNumberOfParticles: The max number of particles to be emitted.
+             - jitter: The jitter amount between 0 and 1.
+             - isOneShot: Set true if particles are emitted just once.
+             - allowOverlapping: True if particles can be overlapped.
+             - seed: The random seed.
+             )pbdoc")
+        .def_property("surface", &VolumeParticleEmitter3::surface,
+                      &VolumeParticleEmitter3::setSurface, R"pbdoc(
+             Source surface.
+             )pbdoc")
+        .def_property("maxRegion", &VolumeParticleEmitter3::maxRegion,
+                      &VolumeParticleEmitter3::setMaxRegion, R"pbdoc(
+             Max particle gen region.
              )pbdoc")
         .def_property("jitter", &VolumeParticleEmitter3::jitter,
                       &VolumeParticleEmitter3::setJitter, R"pbdoc(
@@ -286,5 +356,21 @@ void addVolumeParticleEmitter3(py::module& m) {
             },
             R"pbdoc(
              The initial velocity of the particles.
+             )pbdoc")
+        .def_property(
+            "linearVelocity", &VolumeParticleEmitter3::linearVelocity,
+            [](VolumeParticleEmitter3& instance, py::object newLinearVel) {
+                instance.setLinearVelocity(objectToVector3D(newLinearVel));
+            },
+            R"pbdoc(
+             The linear velocity of the emitter.
+             )pbdoc")
+        .def_property(
+            "angularVelocity", &VolumeParticleEmitter3::angularVelocity,
+            [](VolumeParticleEmitter3& instance, py::object newAngularVel) {
+                instance.setAngularVelocity(objectToVector3D(newAngularVel));
+            },
+            R"pbdoc(
+             The angular velocity of the emitter.
              )pbdoc");
 }

@@ -32,7 +32,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //! the particle generation region.
     //!
     //! \param[in]  implicitSurface         The implicit surface.
-    //! \param[in]  bounds                  The max region.
+    //! \param[in]  maxRegion               The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
@@ -45,7 +45,7 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //!
     VolumeParticleEmitter3(
         const ImplicitSurface3Ptr& implicitSurface,
-        const BoundingBox3D& bounds,
+        const BoundingBox3D& maxRegion,
         double spacing,
         const Vector3D& initialVel = Vector3D(),
         size_t maxNumberOfParticles = kMaxSize,
@@ -63,6 +63,18 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //! \param[in]  newPointsGen The new points generator.
     //!
     void setPointGenerator(const PointGenerator3Ptr& newPointsGen);
+
+    //! Returns source surface.
+    const ImplicitSurface3Ptr& surface() const;
+
+    //! Sets the source surface.
+    void setSurface(const ImplicitSurface3Ptr& newSurface);
+
+    //! Returns max particle gen region.
+    const BoundingBox3D& maxRegion() const;
+
+    //! Sets the max particle gen region.
+    void setMaxRegion(const BoundingBox3D& newBox);
 
     //! Returns jitter amount.
     double jitter() const;
@@ -116,6 +128,18 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //! Returns the initial velocity of the particles.
     void setInitialVelocity(const Vector3D& newInitialVel);
 
+    //! Returns the linear velocity of the emitter.
+    Vector3D linearVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void setLinearVelocity(const Vector3D& newLinearVel);
+
+    //! Returns the angular velocity of the emitter.
+    Vector3D angularVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void setAngularVelocity(const Vector3D& newAngularVel);
+
     //! Returns builder fox VolumeParticleEmitter3.
     static Builder builder();
 
@@ -126,6 +150,8 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     BoundingBox3D _bounds;
     double _spacing;
     Vector3D _initialVel;
+    Vector3D _linearVel;
+    Vector3D _angularVel;
     PointGenerator3Ptr _pointsGen;
 
     size_t _maxNumberOfParticles = kMaxSize;
@@ -151,6 +177,8 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
         Array1<Vector3D>* newVelocities);
 
     double random();
+
+    Vector3D velocityAt(const Vector3D& point) const;
 };
 
 //! Shared pointer for the VolumeParticleEmitter3 type.

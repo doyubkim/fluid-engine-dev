@@ -33,7 +33,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! the particle generation region.
     //!
     //! \param[in]  implicitSurface         The implicit surface.
-    //! \param[in]  bounds                  The max region.
+    //! \param[in]  maxRegion               The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
@@ -46,7 +46,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //!
     VolumeParticleEmitter2(
         const ImplicitSurface2Ptr& implicitSurface,
-        const BoundingBox2D& bounds,
+        const BoundingBox2D& maxRegion,
         double spacing,
         const Vector2D& initialVel = Vector2D(),
         size_t maxNumberOfParticles = kMaxSize,
@@ -64,6 +64,18 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! \param[in]  newPointsGen The new points generator.
     //!
     void setPointGenerator(const PointGenerator2Ptr& newPointsGen);
+
+    //! Returns source surface.
+    const ImplicitSurface2Ptr& surface() const;
+
+    //! Sets the source surface.
+    void setSurface(const ImplicitSurface2Ptr& newSurface);
+
+    //! Returns max particle gen region.
+    const BoundingBox2D& maxRegion() const;
+
+    //! Sets the max particle gen region.
+    void setMaxRegion(const BoundingBox2D& newBox);
 
     //! Returns jitter amount.
     double jitter() const;
@@ -117,6 +129,18 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! Returns the initial velocity of the particles.
     void setInitialVelocity(const Vector2D& newInitialVel);
 
+    //! Returns the linear velocity of the emitter.
+    Vector2D linearVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void setLinearVelocity(const Vector2D& newLinearVel);
+
+    //! Returns the angular velocity of the emitter.
+    double angularVelocity() const;
+
+    //! Sets the linear velocity of the emitter.
+    void setAngularVelocity(double newAngularVel);
+
     //! Returns builder fox VolumeParticleEmitter2.
     static Builder builder();
 
@@ -127,6 +151,8 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     BoundingBox2D _bounds;
     double _spacing;
     Vector2D _initialVel;
+    Vector2D _linearVel;
+    double _angularVel;
     PointGenerator2Ptr _pointsGen;
 
     size_t _maxNumberOfParticles = kMaxSize;
@@ -152,6 +178,8 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
         Array1<Vector2D>* newVelocities);
 
     double random();
+
+    Vector2D velocityAt(const Vector2D& point) const;
 };
 
 //! Shared pointer for the VolumeParticleEmitter2 type.
