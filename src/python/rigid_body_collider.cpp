@@ -15,7 +15,12 @@ using namespace jet;
 
 void addRigidBodyCollider2(py::module& m) {
     py::class_<RigidBodyCollider2, RigidBodyCollider2Ptr, Collider2>(
-        m, "RigidBodyCollider2")
+        m, "RigidBodyCollider2", R"pbdoc(
+        2-D rigid body collider class.
+
+        This class implements 2-D rigid body collider. The collider can only take
+        rigid body motion with linear and rotational velocities.
+        )pbdoc")
         .def("__init__",
              [](RigidBodyCollider2& instance, const Surface2Ptr& surface,
                 py::object linearVelocity, double angularVelocity) {
@@ -45,7 +50,12 @@ void addRigidBodyCollider2(py::module& m) {
 
 void addRigidBodyCollider3(py::module& m) {
     py::class_<RigidBodyCollider3, RigidBodyCollider3Ptr, Collider3>(
-        m, "RigidBodyCollider3")
+        m, "RigidBodyCollider3", R"pbdoc(
+        3-D rigid body collider class.
+
+        This class implements 3-D rigid body collider. The collider can only take
+        rigid body motion with linear and rotational velocities.
+        )pbdoc")
         .def("__init__",
              [](RigidBodyCollider3& instance, const Surface3Ptr& surface,
                 py::object linearVelocity, py::object angularVelocity) {

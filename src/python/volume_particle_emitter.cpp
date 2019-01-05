@@ -27,6 +27,8 @@ void addVolumeParticleEmitter2(py::module& m) {
                  BoundingBox2D maxRegion;
                  double spacing = 0.1;
                  Vector2D initialVel;
+                 Vector2D linearVel;
+                 double angularVel = 0.0;
                  size_t maxNumberOfParticles = kMaxSize;
                  double jitter = 0.0;
                  bool isOneShot = true;
@@ -51,7 +53,7 @@ void addVolumeParticleEmitter2(py::module& m) {
                      }
                  };
 
-                 if (args.size() >= 3 && args.size() <= 9) {
+                 if (args.size() >= 3 && args.size() <= 11) {
                      parseImplicitSurface(args[0]);
 
                      maxRegion = args[1].cast<BoundingBox2D>();
@@ -61,19 +63,25 @@ void addVolumeParticleEmitter2(py::module& m) {
                          initialVel = objectToVector2D(py::object(args[3]));
                      }
                      if (args.size() > 4) {
-                         maxNumberOfParticles = args[4].cast<size_t>();
+                         linearVel = objectToVector2D(py::object(args[4]));
                      }
                      if (args.size() > 5) {
-                         jitter = args[5].cast<double>();
+                         angularVel = args[5].cast<double>();
                      }
                      if (args.size() > 6) {
-                         isOneShot = args[6].cast<bool>();
+                         maxNumberOfParticles = args[6].cast<size_t>();
                      }
                      if (args.size() > 7) {
-                         allowOverlapping = args[7].cast<bool>();
+                         jitter = args[7].cast<double>();
                      }
                      if (args.size() > 8) {
-                         seed = args[8].cast<uint32_t>();
+                         isOneShot = args[8].cast<bool>();
+                     }
+                     if (args.size() > 9) {
+                         allowOverlapping = args[9].cast<bool>();
+                     }
+                     if (args.size() > 10) {
+                         seed = args[10].cast<uint32_t>();
                      }
                  } else if (args.size() > 0) {
                      throw std::invalid_argument("Too few/many arguments.");
@@ -95,6 +103,12 @@ void addVolumeParticleEmitter2(py::module& m) {
                  if (kwargs.contains("initialVelocity")) {
                      initialVel = objectToVector2D(kwargs["initialVelocity"]);
                  }
+                 if (kwargs.contains("linearVelocity")) {
+                     linearVel = objectToVector2D(kwargs["linearVelocity"]);
+                 }
+                 if (kwargs.contains("angularVelocity")) {
+                     angularVel = kwargs["angularVelocity"].cast<double>();
+                 }
                  if (kwargs.contains("maxNumberOfParticles")) {
                      maxNumberOfParticles =
                          kwargs["maxNumberOfParticles"].cast<size_t>();
@@ -113,9 +127,9 @@ void addVolumeParticleEmitter2(py::module& m) {
                  }
 
                  new (&instance) VolumeParticleEmitter2(
-                     implicitSurface, maxRegion, spacing, initialVel,
-                     maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
-                     seed);
+                     implicitSurface, maxRegion, spacing, initialVel, linearVel,
+                     angularVel, maxNumberOfParticles, jitter, isOneShot,
+                     allowOverlapping, seed);
              },
              R"pbdoc(
              Constructs VolumeParticleEmitter2
@@ -161,7 +175,7 @@ void addVolumeParticleEmitter2(py::module& m) {
              True if particles can be overlapped.
              )pbdoc")
         .def_property(
-            "allowOverlapping", &VolumeParticleEmitter2::maxNumberOfParticles,
+            "maxNumberOfParticles", &VolumeParticleEmitter2::maxNumberOfParticles,
             &VolumeParticleEmitter2::setMaxNumberOfParticles, R"pbdoc(
              Max number of particles to be emitted.
              )pbdoc")
@@ -207,6 +221,8 @@ void addVolumeParticleEmitter3(py::module& m) {
                  BoundingBox3D maxRegion;
                  double spacing = 0.1;
                  Vector3D initialVel;
+                 Vector3D linearVel;
+                 Vector3D angularVel;
                  size_t maxNumberOfParticles = kMaxSize;
                  double jitter = 0.0;
                  bool isOneShot = true;
@@ -231,7 +247,7 @@ void addVolumeParticleEmitter3(py::module& m) {
                      }
                  };
 
-                 if (args.size() >= 3 && args.size() <= 9) {
+                 if (args.size() >= 3 && args.size() <= 11) {
                      parseImplicitSurface(args[0]);
 
                      maxRegion = args[1].cast<BoundingBox3D>();
@@ -241,19 +257,25 @@ void addVolumeParticleEmitter3(py::module& m) {
                          initialVel = objectToVector3D(py::object(args[3]));
                      }
                      if (args.size() > 4) {
-                         maxNumberOfParticles = args[4].cast<size_t>();
+                         linearVel = objectToVector3D(py::object(args[4]));
                      }
                      if (args.size() > 5) {
-                         jitter = args[5].cast<double>();
+                         angularVel = objectToVector3D(py::object(args[5]));
                      }
                      if (args.size() > 6) {
-                         isOneShot = args[6].cast<bool>();
+                         maxNumberOfParticles = args[6].cast<size_t>();
                      }
                      if (args.size() > 7) {
-                         allowOverlapping = args[7].cast<bool>();
+                         jitter = args[7].cast<double>();
                      }
                      if (args.size() > 8) {
-                         seed = args[8].cast<uint32_t>();
+                         isOneShot = args[8].cast<bool>();
+                     }
+                     if (args.size() > 9) {
+                         allowOverlapping = args[9].cast<bool>();
+                     }
+                     if (args.size() > 10) {
+                         seed = args[10].cast<uint32_t>();
                      }
                  } else if (args.size() > 0) {
                      throw std::invalid_argument("Too few/many arguments.");
@@ -275,6 +297,12 @@ void addVolumeParticleEmitter3(py::module& m) {
                  if (kwargs.contains("initialVelocity")) {
                      initialVel = objectToVector3D(kwargs["initialVelocity"]);
                  }
+                 if (kwargs.contains("linearVelocity")) {
+                     linearVel = objectToVector3D(kwargs["linearVelocity"]);
+                 }
+                 if (kwargs.contains("angularVelocity")) {
+                     angularVel = objectToVector3D(kwargs["angularVelocity"]);
+                 }
                  if (kwargs.contains("maxNumberOfParticles")) {
                      maxNumberOfParticles =
                          kwargs["maxNumberOfParticles"].cast<size_t>();
@@ -293,9 +321,9 @@ void addVolumeParticleEmitter3(py::module& m) {
                  }
 
                  new (&instance) VolumeParticleEmitter3(
-                     implicitSurface, maxRegion, spacing, initialVel,
-                     maxNumberOfParticles, jitter, isOneShot, allowOverlapping,
-                     seed);
+                     implicitSurface, maxRegion, spacing, initialVel, linearVel,
+                     angularVel, maxNumberOfParticles, jitter, isOneShot,
+                     allowOverlapping, seed);
              },
              R"pbdoc(
              Constructs VolumeParticleEmitter3
@@ -341,7 +369,7 @@ void addVolumeParticleEmitter3(py::module& m) {
              True if particles can be overlapped.
              )pbdoc")
         .def_property(
-            "allowOverlapping", &VolumeParticleEmitter3::maxNumberOfParticles,
+            "maxNumberOfParticles", &VolumeParticleEmitter3::maxNumberOfParticles,
             &VolumeParticleEmitter3::setMaxNumberOfParticles, R"pbdoc(
              Max number of particles to be emitted.
              )pbdoc")
