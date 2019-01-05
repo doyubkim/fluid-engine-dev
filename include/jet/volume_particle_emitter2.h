@@ -12,6 +12,7 @@
 #include <jet/implicit_surface2.h>
 #include <jet/particle_emitter2.h>
 #include <jet/point_generator2.h>
+
 #include <limits>
 #include <memory>
 #include <random>
@@ -35,7 +36,9 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! \param[in]  implicitSurface         The implicit surface.
     //! \param[in]  maxRegion               The max region.
     //! \param[in]  spacing                 The spacing between particles.
-    //! \param[in]  initialVel              The initial velocity.
+    //! \param[in]  initialVel              The initial velocity of new particles.
+    //! \param[in]  linearVel               The linear velocity of the emitter.
+    //! \param[in]  angularVel              The angular velocity of the emitter.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
     //!                                     emitted.
     //! \param[in]  jitter                  The jitter amount between 0 and 1.
@@ -49,6 +52,8 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
         const BoundingBox2D& maxRegion,
         double spacing,
         const Vector2D& initialVel = Vector2D(),
+        const Vector2D& linearVel = Vector2D(),
+        double angularVel = 0.0,
         size_t maxNumberOfParticles = kMaxSize,
         double jitter = 0.0,
         bool isOneShot = true,
@@ -152,7 +157,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     double _spacing;
     Vector2D _initialVel;
     Vector2D _linearVel;
-    double _angularVel;
+    double _angularVel = 0.0;
     PointGenerator2Ptr _pointsGen;
 
     size_t _maxNumberOfParticles = kMaxSize;
@@ -206,6 +211,12 @@ class VolumeParticleEmitter2::Builder final {
     //! Returns builder with initial velocity.
     Builder& withInitialVelocity(const Vector2D& initialVel);
 
+    //! Returns builder with linear velocity.
+    Builder& withLinearVelocity(const Vector2D& linearVel);
+
+    //! Returns builder with angular velocity.
+    Builder& withAngularVelocity(double angularVel);
+
     //! Returns builder with max number of particles.
     Builder& withMaxNumberOfParticles(size_t maxNumberOfParticles);
 
@@ -232,7 +243,9 @@ class VolumeParticleEmitter2::Builder final {
     bool _isBoundSet = false;
     BoundingBox2D _bounds;
     double _spacing = 0.1;
-    Vector2D _initialVel{0, 0};
+    Vector2D _initialVel;
+    Vector2D _linearVel;
+    double _angularVel = 0.0;
     size_t _maxNumberOfParticles = kMaxSize;
     double _jitter = 0.0;
     bool _isOneShot = true;

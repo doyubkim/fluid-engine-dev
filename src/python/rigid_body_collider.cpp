@@ -40,14 +40,7 @@ void addRigidBodyCollider2(py::module& m) {
                       },
                       R"pbdoc(Linear velocity of the collider.)pbdoc")
         .def_readwrite("angularVelocity", &RigidBodyCollider2::angularVelocity,
-                       R"pbdoc(Angular velocity of the collider.)pbdoc")
-        .def(
-            "velocityAt",
-            [](const RigidBodyCollider2& instance, py::object obj) {
-                return instance.velocityAt(objectToVector2D(obj));
-            },
-            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
-            py::arg("point"));
+                       R"pbdoc(Angular velocity of the collider.)pbdoc");
 }
 
 void addRigidBodyCollider3(py::module& m) {
@@ -83,12 +76,5 @@ void addRigidBodyCollider3(py::module& m) {
                       [](RigidBodyCollider3& instance, py::object obj) {
                           instance.angularVelocity = objectToVector3D(obj);
                       },
-                      R"pbdoc(Angular velocity of the collider.)pbdoc")
-        .def(
-            "velocityAt",
-            [](const RigidBodyCollider3& instance, py::object obj) {
-                return instance.velocityAt(objectToVector3D(obj));
-            },
-            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
-            py::arg("point"));
+                      R"pbdoc(Angular velocity of the collider.)pbdoc");
 }

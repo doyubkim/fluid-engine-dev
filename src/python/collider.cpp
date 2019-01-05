@@ -32,7 +32,14 @@ void addCollider2(py::module& m) {
             )pbdoc")
         .def_property_readonly("surface", &Collider2::surface, R"pbdoc(
             The surface instance.
-            )pbdoc");
+            )pbdoc")
+        .def(
+            "velocityAt",
+            [](const Collider2& instance, py::object obj) {
+                return instance.velocityAt(objectToVector2D(obj));
+            },
+            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
+            py::arg("point"));
 }
 
 void addCollider3(py::module& m) {
@@ -54,5 +61,12 @@ void addCollider3(py::module& m) {
             )pbdoc")
         .def_property_readonly("surface", &Collider3::surface, R"pbdoc(
             The surface instance.
-            )pbdoc");
+            )pbdoc")
+        .def(
+            "velocityAt",
+            [](const Collider3& instance, py::object obj) {
+                return instance.velocityAt(objectToVector3D(obj));
+            },
+            R"pbdoc(Returns the velocity of the collider at given point.)pbdoc",
+            py::arg("point"));
 }

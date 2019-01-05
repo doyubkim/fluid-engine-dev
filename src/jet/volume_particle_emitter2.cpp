@@ -19,13 +19,16 @@ static const size_t kDefaultHashGridResolution = 64;
 
 VolumeParticleEmitter2::VolumeParticleEmitter2(
     const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& maxRegion,
-    double spacing, const Vector2D& initialVel, size_t maxNumberOfParticles,
-    double jitter, bool isOneShot, bool allowOverlapping, uint32_t seed)
+    double spacing, const Vector2D& initialVel, const Vector2D& linearVel,
+    double angularVel, size_t maxNumberOfParticles, double jitter,
+    bool isOneShot, bool allowOverlapping, uint32_t seed)
     : _rng(seed),
       _implicitSurface(implicitSurface),
       _bounds(maxRegion),
       _spacing(spacing),
       _initialVel(initialVel),
+      _linearVel(linearVel),
+      _angularVel(angularVel),
       _maxNumberOfParticles(maxNumberOfParticles),
       _jitter(jitter),
       _isOneShot(isOneShot),
@@ -261,6 +264,18 @@ VolumeParticleEmitter2::Builder::withInitialVelocity(
 }
 
 VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withLinearVelocity(const Vector2D& linearVel) {
+    _linearVel = linearVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withAngularVelocity(double angularVel) {
+    _angularVel = angularVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
 VolumeParticleEmitter2::Builder::withMaxNumberOfParticles(
     size_t maxNumberOfParticles) {
     _maxNumberOfParticles = maxNumberOfParticles;
@@ -293,14 +308,16 @@ VolumeParticleEmitter2::Builder::withRandomSeed(uint32_t seed) {
 
 VolumeParticleEmitter2 VolumeParticleEmitter2::Builder::build() const {
     return VolumeParticleEmitter2(_implicitSurface, _bounds, _spacing,
-                                  _initialVel, _maxNumberOfParticles, _jitter,
-                                  _isOneShot, _allowOverlapping, _seed);
+                                  _initialVel, _linearVel, _angularVel,
+                                  _maxNumberOfParticles, _jitter, _isOneShot,
+                                  _allowOverlapping, _seed);
 }
 
 VolumeParticleEmitter2Ptr VolumeParticleEmitter2::Builder::makeShared() const {
     return std::shared_ptr<VolumeParticleEmitter2>(
         new VolumeParticleEmitter2(_implicitSurface, _bounds, _spacing,
-                                   _initialVel, _maxNumberOfParticles, _jitter,
-                                   _isOneShot, _allowOverlapping),
+                                   _initialVel, _linearVel, _angularVel,
+                                   _maxNumberOfParticles, _jitter, _isOneShot,
+                                   _allowOverlapping),
         [](VolumeParticleEmitter2* obj) { delete obj; });
 }

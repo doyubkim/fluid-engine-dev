@@ -11,6 +11,7 @@
 #include <jet/implicit_surface3.h>
 #include <jet/particle_emitter3.h>
 #include <jet/point_generator3.h>
+
 #include <limits>
 #include <memory>
 #include <random>
@@ -35,6 +36,8 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
     //! \param[in]  maxRegion               The max region.
     //! \param[in]  spacing                 The spacing between particles.
     //! \param[in]  initialVel              The initial velocity.
+    //! \param[in]  linearVel               The linear velocity of the emitter.
+    //! \param[in]  angularVel              The angular velocity of the emitter.
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
     //!                                     emitted.
     //! \param[in]  jitter                  The jitter amount between 0 and 1.
@@ -48,6 +51,8 @@ class VolumeParticleEmitter3 final : public ParticleEmitter3 {
         const BoundingBox3D& maxRegion,
         double spacing,
         const Vector3D& initialVel = Vector3D(),
+        const Vector3D& linearVel = Vector3D(),
+        const Vector3D& angularVel = Vector3D(),
         size_t maxNumberOfParticles = kMaxSize,
         double jitter = 0.0,
         bool isOneShot = true,
@@ -205,6 +210,12 @@ class VolumeParticleEmitter3::Builder final {
     //! Returns builder with initial velocity.
     Builder& withInitialVelocity(const Vector3D& initialVel);
 
+    //! Returns builder with linear velocity.
+    Builder& withLinearVelocity(const Vector3D& linearVel);
+
+    //! Returns builder with angular velocity.
+    Builder& withAngularVelocity(const Vector3D& angularVel);
+
     //! Returns builder with max number of particles.
     Builder& withMaxNumberOfParticles(size_t maxNumberOfParticles);
 
@@ -231,7 +242,9 @@ class VolumeParticleEmitter3::Builder final {
     bool _isBoundSet = false;
     BoundingBox3D _bounds;
     double _spacing = 0.1;
-    Vector3D _initialVel{0, 0, 0};
+    Vector3D _initialVel;
+    Vector3D _linearVel;
+    Vector3D _angularVel;
     size_t _maxNumberOfParticles = kMaxSize;
     double _jitter = 0.0;
     bool _isOneShot = true;

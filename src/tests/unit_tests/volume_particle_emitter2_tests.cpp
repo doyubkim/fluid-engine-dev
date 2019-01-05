@@ -4,9 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "unit_tests_utils.h"
+
 #include <jet/sphere2.h>
 #include <jet/surface_to_implicit2.h>
 #include <jet/volume_particle_emitter2.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -15,16 +18,21 @@ TEST(VolumeParticleEmitter2, Constructors) {
     auto sphere = std::make_shared<SurfaceToImplicit2>(
         std::make_shared<Sphere2>(Vector2D(1.0, 2.0), 3.0));
 
+    BoundingBox2D region({0.0, 0.0}, {3.0, 3.0});
+
     VolumeParticleEmitter2 emitter(
         sphere,
-        BoundingBox2D({0.0, 0.0}, {3.0, 3.0}),
+        region,
         0.1,
         {-1.0, 0.5},
+        {0.0, 0.0},
+        0.0,
         30,
         0.01,
         false,
         true);
 
+    EXPECT_BOUNDING_BOX2_EQ(region, emitter.maxRegion());
     EXPECT_EQ(0.01, emitter.jitter());
     EXPECT_FALSE(emitter.isOneShot());
     EXPECT_TRUE(emitter.allowOverlapping());
@@ -32,6 +40,8 @@ TEST(VolumeParticleEmitter2, Constructors) {
     EXPECT_EQ(0.1, emitter.spacing());
     EXPECT_EQ(-1.0, emitter.initialVelocity().x);
     EXPECT_EQ(0.5, emitter.initialVelocity().y);
+    EXPECT_EQ(Vector2D(), emitter.linearVelocity());
+    EXPECT_EQ(0.0, emitter.angularVelocity());
 }
 
 TEST(VolumeParticleEmitter2, Emit) {
@@ -45,6 +55,8 @@ TEST(VolumeParticleEmitter2, Emit) {
         box,
         0.3,
         {-1.0, 0.5},
+        {3.0, 4.0},
+        5.0,
         30,
         0.0,
         false,
@@ -64,8 +76,9 @@ TEST(VolumeParticleEmitter2, Emit) {
         EXPECT_GE(3.0, (pos[i] - Vector2D(1.0, 2.0)).length());
         EXPECT_TRUE(box.contains(pos[i]));
 
-        EXPECT_EQ(-1.0, vel[i].x);
-        EXPECT_EQ(0.5, vel[i].y);
+        Vector2D r = pos[i];
+        Vector2D w = 5.0 * Vector2D(-r.y, r.x);
+        EXPECT_VECTOR2_NEAR(Vector2D(2.0, 4.5) + w, vel[i], 1e-9);
     }
 
     ++frame;
@@ -92,6 +105,8 @@ TEST(VolumeParticleEmitter2, Builder) {
         .withMaxRegion(BoundingBox2D({0.0, 0.0}, {3.0, 3.0}))
         .withSpacing(0.1)
         .withInitialVelocity({-1.0, 0.5})
+        .withLinearVelocity({3.0, 4.0})
+        .withAngularVelocity(5.0)
         .withMaxNumberOfParticles(30)
         .withJitter(0.01)
         .withIsOneShot(false)
@@ -105,4 +120,6 @@ TEST(VolumeParticleEmitter2, Builder) {
     EXPECT_EQ(0.1, emitter.spacing());
     EXPECT_EQ(-1.0, emitter.initialVelocity().x);
     EXPECT_EQ(0.5, emitter.initialVelocity().y);
+    EXPECT_VECTOR2_EQ(Vector2D(3.0, 4.0), emitter.linearVelocity());
+    EXPECT_EQ(5.0, emitter.angularVelocity());
 }
