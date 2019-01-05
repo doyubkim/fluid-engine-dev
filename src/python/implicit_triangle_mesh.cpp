@@ -29,8 +29,8 @@ void addImplicitTriangleMesh3(pybind11::module& m) {
              R"pbdoc(
              Constructs an ImplicitSurface3 with mesh and other grid parameters.
              )pbdoc",
-             py::arg("mesh"), py::arg("resolutionX"), py::arg("margin"),
-             py::arg("transform") = Transform3(),
+             py::arg("mesh"), py::arg("resolutionX") = 32,
+             py::arg("margin") = 0.2, py::arg("transform") = Transform3(),
              py::arg("isNormalFlipped") = false)
         .def_property_readonly("grid", &ImplicitTriangleMesh3::grid,
                                R"pbdoc(The grid data.)pbdoc");

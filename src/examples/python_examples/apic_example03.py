@@ -26,16 +26,16 @@ def main():
     bunny_filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../resources/bunny.obj')
     bunny_mesh = TriangleMesh3()
     bunny_mesh.readObj(bunny_filename)
-    bunny_sdf = ImplicitTriangleMesh3(mesh=bunny_mesh, resolutionX=64, margin=0)
+    bunny_sdf = ImplicitTriangleMesh3(mesh=bunny_mesh, resolutionX=64, margin=0.2)
     emitter = VolumeParticleEmitter3(implicitSurface=bunny_sdf, spacing=1.0 / (2 * resX), isOneShot=False)
     solver.particleEmitter = emitter
 
     # Convert to surface
     grid_size = 1.0 / resX
-    grid = CellCenteredScalarGrid3((resX, resX, resX), (grid_size, grid_size, grid_size))
+    grid = VertexCenteredScalarGrid3((resX, resX, resX), (grid_size, grid_size, grid_size))
 
     def write_surface(frame_cnt, pos):
-        converter = SphPointsToImplicit3(2.0 * grid_size, 0.5)
+        converter = SphPointsToImplicit3(1.5 * grid_size, 0.5)
         converter.convert(pos.tolist(), grid)
         surface_mesh = marchingCubes(grid, (grid_size, grid_size, grid_size), (0, 0, 0), 0.0, DIRECTION_ALL)
         surface_mesh.writeObj('frame_{:06d}.obj'.format(frame_cnt))
