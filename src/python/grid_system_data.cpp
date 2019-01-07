@@ -24,7 +24,15 @@ void addGridSystemData2(py::module& m) {
         face-centered (MAC) grid by default. It can also have additional scalar or
         vector attributes by adding extra data layer.
         )pbdoc")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def_property_readonly("resolution", &GridSystemData2::resolution,
+                               R"pbdoc(Resolution of the grid.)pbdoc")
+        .def_property_readonly("origin", &GridSystemData2::origin,
+                               R"pbdoc(Origin of the grid.)pbdoc")
+        .def_property_readonly("gridSpacing", &GridSystemData2::gridSpacing,
+                               R"pbdoc(Spacing between grid points.)pbdoc")
+        .def_property_readonly("boundingBox", &GridSystemData2::boundingBox,
+                               R"pbdoc(Bounding box of the entire grid.)pbdoc");
 }
 
 void addGridSystemData3(py::module& m) {
@@ -38,5 +46,13 @@ void addGridSystemData3(py::module& m) {
         face-centered (MAC) grid by default. It can also have additional scalar or
         vector attributes by adding extra data layer.
         )pbdoc")
-        .def(py::init<>());
+        .def(py::init<>())
+        .def_property_readonly("resolution", &GridSystemData3::resolution,
+                               R"pbdoc(Resolution of the grid.)pbdoc")
+        .def_property_readonly("origin", &GridSystemData3::origin,
+                               R"pbdoc(Origin of the grid.)pbdoc")
+        .def_property_readonly("gridSpacing", &GridSystemData3::gridSpacing,
+                               R"pbdoc(Spacing between grid points.)pbdoc")
+        .def_property_readonly("boundingBox", &GridSystemData3::boundingBox,
+                               R"pbdoc(Bounding box of the entire grid.)pbdoc");
 }

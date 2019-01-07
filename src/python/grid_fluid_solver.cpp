@@ -72,6 +72,15 @@ void addGridFluidSolver2(py::module& m) {
               DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_UP,
               and DIRECTION_BACK.
               )pbdoc")
+        .def_property_readonly("gridSystemData",
+                               &GridFluidSolver2::gridSystemData,
+                               R"pbdoc(
+             The grid system data.
+
+             This function returns the grid system data. The grid system data stores
+             the core fluid flow fields such as velocity. By default, the data
+             instance has velocity field only.
+             )pbdoc")
         .def("resizeGrid",
              [](GridFluidSolver2& instance, py::args args, py::kwargs kwargs) {
                  Size2 resolution{1, 1};
@@ -208,6 +217,15 @@ void addGridFluidSolver3(py::module& m) {
               DIRECTION_LEFT, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_UP,
               DIRECTION_BACK, and DIRECTION_FRONT. Default is DIRECTION_ALL.
               )pbdoc")
+        .def_property_readonly("gridSystemData",
+                               &GridFluidSolver3::gridSystemData,
+                               R"pbdoc(
+             The grid system data.
+
+             This function returns the grid system data. The grid system data stores
+             the core fluid flow fields such as velocity. By default, the data
+             instance has velocity field only.
+             )pbdoc")
         .def("resizeGrid",
              [](GridFluidSolver3& instance, py::args args, py::kwargs kwargs) {
                  Size3 resolution{1, 1, 1};

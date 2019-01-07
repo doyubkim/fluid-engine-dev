@@ -14,6 +14,7 @@
 #include "cell_centered_scalar_grid.h"
 #include "cell_centered_vector_grid.h"
 #include "collider.h"
+#include "collider_set.h"
 #include "collocated_vector_grid.h"
 #include "constant_scalar_field.h"
 #include "constant_vector_field.h"
@@ -221,6 +222,8 @@ PYBIND11_MODULE(pyjet, m) {
     // Colliders
     addCollider2(m);
     addCollider3(m);
+    addColliderSet2(m);
+    addColliderSet3(m);
     addRigidBodyCollider2(m);
     addRigidBodyCollider3(m);
 

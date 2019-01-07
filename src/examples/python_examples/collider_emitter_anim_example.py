@@ -31,7 +31,11 @@ def main():
     # Setup emitter
     sphere = Sphere3(center=(0.5, 1.0, 0.5), radius=0.15)
     emitter = VolumeParticleEmitter3(
-        implicitSurface=sphere, spacing=1.0 / (2 * resX), isOneShot=False, initialVelocity=(0, 0, 0))
+        implicitSurface=sphere,
+        maxRegion=solver.gridSystemData.boundingBox,
+        spacing=1.0 / (2 * resX),
+        isOneShot=False,
+        initialVelocity=(0, 0, 0))
     solver.particleEmitter = emitter
 
     # Setup collider
@@ -62,6 +66,10 @@ def main():
         # Stop emitter after frame 100
         if frame.index == 100:
             emitter.isOneShot = True
+        # Animate emitter's position (and thus the velocity which is its derivative)
+        emitter.surface.transform = Transform3(translation=(0.1 * math.sin(5 * frame.timeInSeconds()), 0, 0))
+        emitter.linearVelocity = (0.5 * math.cos(5 * frame.timeInSeconds()), 0, 0)
+
         # Animate collider's position (and thus the velocity which is its derivative)
         collider.surface.transform = Transform3(translation=(0.2 * math.sin(10 * frame.timeInSeconds()), 0, 0))
         collider.linearVelocity = (2.0 * math.cos(10 * frame.timeInSeconds()), 0, 0)
