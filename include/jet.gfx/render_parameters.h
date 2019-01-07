@@ -98,6 +98,9 @@ class RenderParameters final {
     //! Returns metadata of the parameter with \p name.
     Metadata metadata(const std::string& name) const;
 
+    //! Returns size of type in bytes.
+    static size_t typeSizeInBytes(Type type);
+
  private:
     size_t _lastParameterOffset = 0;
     std::unordered_map<std::string, Metadata> _metadata;

@@ -139,6 +139,10 @@ RenderParameters::Metadata RenderParameters::metadata(
     }
 }
 
+size_t RenderParameters::typeSizeInBytes(RenderParameters::Type type) {
+    return getNumberOfElements(type) * 4;
+}
+
 void RenderParameters::add(const std::string &name, const int32_t *defaultValue,
                            Type type) {
     // Can't add with exiting name

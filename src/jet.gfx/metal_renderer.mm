@@ -5,21 +5,18 @@
 // property of any third parties.
 
 #undef JET_USE_GL
-#import <common.h>
+#include <common.h>
 
-#import <metal_preset_shaders.h>
-#import <metal_view.h>
-#import <mtlpp_wrappers.h>
+#include <metal_preset_shaders.h>
+#include <metal_view.h>
+#include <mtlpp_wrappers.h>
 
-#import <jet.gfx/metal_renderer.h>
-#import <jet.gfx/metal_shader.h>
-#import <jet.gfx/metal_vertex_buffer.h>
-#import <jet.gfx/metal_window.h>
+#include <jet.gfx/metal_renderer.h>
+#include <jet.gfx/metal_shader.h>
+#include <jet.gfx/metal_vertex_buffer.h>
+#include <jet.gfx/metal_window.h>
 
 #import <MetalKit/MetalKit.h>
-
-// TODO: Test
-#import <jet.gfx/points_renderable.h>
 
 namespace jet {
 namespace gfx {
@@ -119,25 +116,6 @@ mtlpp::PrimitiveType convertPrimitiveType(PrimitiveType primitiveType) {
     throw std::invalid_argument("Unknown primitive type given");
 }
 
-MetalPrivateRenderPipelineState* createRenderPipelineStateFromShader(
-    MetalPrivateDevice* device, MetalShaderPtr shader) {
-    mtlpp::RenderPipelineDescriptor renderPipelineDesc;
-    renderPipelineDesc.SetLabel(ns::String(shader->name().c_str()));
-    renderPipelineDesc.SetVertexFunction(shader->vertexFunction()->value);
-    renderPipelineDesc.SetFragmentFunction(shader->fragmentFunction()->value);
-    renderPipelineDesc.SetVertexDescriptor(
-        createVertexDescripter(shader->vertexFormat(),
-                               /* bufferIndex*/ 0));
-    renderPipelineDesc.GetColorAttachments()[0].SetPixelFormat(
-        mtlpp::PixelFormat::BGRA8Unorm);
-
-    JET_DEBUG << "Metal render pipeline state created with shader "
-              << shader->name();
-
-    return new MetalPrivateRenderPipelineState(
-        device->value.NewRenderPipelineState(renderPipelineDesc, nullptr));
-}
-
 }  // namespace
 
 MetalRenderer::MetalRenderer(MetalWindow* window) : _window(window) {
@@ -205,19 +183,21 @@ ShaderPtr MetalRenderer::createPresetShader(
         shader = std::make_shared<MetalShader>(
             shaderName, _device.get(), params, VertexFormat::Position3Color4,
             kSimpleColorShader);
+        shader->_vertexUniformSize = sizeof(SimpleColorVertexUniforms);
     } else if (shaderName == "points") {
         params.add("Radius", 1.f);
 
         shader = std::make_shared<MetalShader>(
             shaderName, _device.get(), params, VertexFormat::Position3Color4,
             kPointsShaders);
+        shader->_vertexUniformSize = sizeof(PointsVertexUniforms);
     }
 
     if (shader) {
         auto iter = _renderPipelineStates.find(shaderName);
         if (iter == _renderPipelineStates.end()) {
             auto renderPipelineState =
-                createRenderPipelineStateFromShader(_device.get(), shader);
+                createRenderPipelineStateFromShader(shader);
             _renderPipelineStates[shaderName] =
                 std::unique_ptr<MetalPrivateRenderPipelineState>(
                     renderPipelineState);
@@ -241,24 +221,6 @@ void MetalRenderer::drawIndexed(size_t numberOfIndices) {
     throw NotImplementedException(
         "MetalRenderer::drawIndexed is not implemented, yet");
 }
-
-//void MetalRenderer::render() {
-//    onRenderBegin();
-//
-//    if (_renderPassDescriptor) {
-//        // For each renderable...
-////        bindShader(g_shader);
-////
-////        bindVertexBuffer(g_vertexBuffer);
-////
-////        setPrimitiveType(PrimitiveType::Points);
-////
-////        draw(g_vertexBuffer->numberOfVertices());
-//        g_renderable->render(this);
-//    }
-//
-//    onRenderEnd();
-//}
 
 MetalPrivateDevice* MetalRenderer::device() const { return _device.get(); }
 
@@ -312,6 +274,56 @@ void MetalRenderer::onResize(const Viewport& viewport) {
 
 void MetalRenderer::onSetRenderStates(const RenderStates& states) {
     // TODO
+}
+
+MetalPrivateRenderPipelineState*
+MetalRenderer::createRenderPipelineStateFromShader(
+    const MetalShaderPtr& shader) const {
+    mtlpp::RenderPipelineDescriptor renderPipelineDesc;
+    renderPipelineDesc.SetLabel(ns::String(shader->name().c_str()));
+    renderPipelineDesc.SetVertexFunction(shader->vertexFunction()->value);
+    renderPipelineDesc.SetFragmentFunction(shader->fragmentFunction()->value);
+    renderPipelineDesc.SetVertexDescriptor(
+        createVertexDescripter(shader->vertexFormat(),
+                               /* bufferIndex*/ 0));
+    renderPipelineDesc.GetColorAttachments()[0].SetPixelFormat(
+        mtlpp::PixelFormat::BGRA8Unorm);
+
+    JET_DEBUG << "Metal render pipeline state created with shader "
+              << shader->name();
+
+    ////////////
+    mtlpp::RenderPipelineReflection reflectionObj;
+    mtlpp::PipelineOption options =
+        mtlpp::PipelineOption(int(mtlpp::PipelineOption::BufferTypeInfo) |
+                              int(mtlpp::PipelineOption::ArgumentInfo));
+
+    mtlpp::RenderPipelineState pso = _device->value.NewRenderPipelineState(
+        renderPipelineDesc, options, &reflectionObj, nullptr);
+
+    auto vertexArguments = reflectionObj.GetVertexArguments();
+    for (uint32_t i = 0; i < vertexArguments.GetSize(); ++i) {
+        mtlpp::Argument arg = vertexArguments[i];
+
+        if (arg.GetBufferDataType() == mtlpp::DataType::Struct) {
+            auto members = arg.GetBufferStructType().GetMembers();
+            for (uint32_t j = 0; j < members.GetSize(); ++j) {
+                mtlpp::StructMember uniform = members[j];
+
+                std::string name = uniform.GetName().GetCStr();
+                if (shader->userRenderParameters().has(name)) {
+                    printf("uniform: %s type:%lu, location: %lu\n",
+                           name.c_str(), (unsigned long)uniform.GetDataType(),
+                           (unsigned long)uniform.GetOffset());
+                    shader->_vertexUniformLocations[name] = uniform.GetOffset();
+                }
+            }
+        }
+    }
+    ////////////
+
+    return new MetalPrivateRenderPipelineState(
+        _device->value.NewRenderPipelineState(renderPipelineDesc, nullptr));
 }
 }
 }

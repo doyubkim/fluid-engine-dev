@@ -24,6 +24,9 @@ class MetalPrivateCommandQueue;
 class MetalPrivateRenderCommandEncoder;
 class MetalPrivateRenderPassDescriptor;
 class MetalPrivateRenderPipelineState;
+class MetalShader;
+
+using MetalShaderPtr = std::shared_ptr<MetalShader>;
 
 class MetalRenderer final : public Renderer {
  public:
@@ -122,8 +125,6 @@ class MetalRenderer final : public Renderer {
     //!
     void drawIndexed(size_t numberOfIndices) override;
 
-//    void render();
-
     MetalPrivateDevice* device() const;
 
     MetalPrivateCommandQueue* commandQueue() const;
@@ -161,6 +162,9 @@ class MetalRenderer final : public Renderer {
     mutable std::unordered_map<std::string,
                                std::unique_ptr<MetalPrivateRenderPipelineState>>
         _renderPipelineStates;
+
+    MetalPrivateRenderPipelineState* createRenderPipelineStateFromShader(
+        const MetalShaderPtr& shader) const;
 };
 
 using MetalRendererPtr = std::shared_ptr<MetalRenderer>;

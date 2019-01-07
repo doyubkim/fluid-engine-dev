@@ -19,6 +19,7 @@ namespace gfx {
 class MetalPrivateDevice;
 class MetalPrivateLibrary;
 class MetalPrivateFunction;
+class MetalRenderer;
 
 //! Metal shader.
 class MetalShader final : public Shader {
@@ -59,6 +60,9 @@ class MetalShader final : public Shader {
     MetalPrivateFunction* _vertFunc = nullptr;
     MetalPrivateFunction* _fragFunc = nullptr;
 
+    size_t _vertexUniformSize = 0;
+    std::map<std::string, size_t> _vertexUniformLocations;
+
     void onBind(const Renderer* renderer) override;
 
     void onUnbind(const Renderer* renderer) override;
@@ -68,6 +72,8 @@ class MetalShader final : public Shader {
     void load(const MetalPrivateDevice* device,
               const VertexFormat& vertexFormat,
               const std::string& shaderSource);
+
+    friend class MetalRenderer;
 };
 
 typedef std::shared_ptr<MetalShader> MetalShaderPtr;

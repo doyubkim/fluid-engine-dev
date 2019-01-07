@@ -40,6 +40,9 @@ class MetalWindow final : public Window {
     //! Returns the window size.
     Vector2UZ windowSize() const override;
 
+    //! Returns framebuffer / window size ratio.
+    Vector2F displayScalingFactor() const override;
+
     //! Request to render given number of frames to the renderer.
     void requestRender(unsigned int numFrames) override;
 
@@ -51,9 +54,14 @@ class MetalWindow final : public Window {
  private:
     MetalView* _view = nullptr;
 
+    int _width = 256;
+    int _height = 256;
+
     MetalWindow(const std::string& title, int width, int height);
 
     void onRender();
+
+    bool onWindowResized(int width, int height);
 
     friend class MetalApp;
     friend class MetalWindowEventHandler;
