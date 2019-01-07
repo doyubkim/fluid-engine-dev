@@ -83,6 +83,8 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
 
+    bool isInsideLocal(const Vector2D& otherPoint) const override;
+
     // ImplicitSurface2 implementations
 
     double signedDistanceLocal(const Vector2D& otherPoint) const override;

@@ -75,6 +75,8 @@ class SurfaceSet2 final : public Surface2 {
     SurfaceRayIntersection2 closestIntersectionLocal(
         const Ray2D& ray) const override;
 
+    bool isInsideLocal(const Vector2D& otherPoint) const override;
+
     void invalidateBvh();
 
     void buildBvh() const;
@@ -86,7 +88,8 @@ typedef std::shared_ptr<SurfaceSet2> SurfaceSet2Ptr;
 //!
 //! \brief Front-end to create SurfaceSet2 objects step by step.
 //!
-class SurfaceSet2::Builder final : public SurfaceBuilderBase2<SurfaceSet2> {
+class SurfaceSet2::Builder final
+    : public SurfaceBuilderBase2<SurfaceSet2::Builder> {
  public:
     //! Returns builder with other surfaces.
     Builder& withSurfaces(const std::vector<Surface2Ptr>& others);

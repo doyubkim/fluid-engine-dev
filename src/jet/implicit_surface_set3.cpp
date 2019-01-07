@@ -201,6 +201,16 @@ BoundingBox3D ImplicitSurfaceSet3::boundingBoxLocal() const {
     return _bvh.boundingBox();
 }
 
+bool ImplicitSurfaceSet3::isInsideLocal(const Vector3D& otherPoint) const {
+    for (auto surface : _surfaces) {
+        if (surface->isInside(otherPoint)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 double ImplicitSurfaceSet3::signedDistanceLocal(
     const Vector3D& otherPoint) const {
     double sdf = kMaxD;

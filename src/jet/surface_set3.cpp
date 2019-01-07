@@ -183,6 +183,16 @@ BoundingBox3D SurfaceSet3::boundingBoxLocal() const {
     return _bvh.boundingBox();
 }
 
+bool SurfaceSet3::isInsideLocal(const Vector3D& otherPoint) const {
+    for (auto surface : _surfaces) {
+        if (surface->isInside(otherPoint)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void SurfaceSet3::invalidateBvh() { _bvhInvalidated = true; }
 
 void SurfaceSet3::buildBvh() const {

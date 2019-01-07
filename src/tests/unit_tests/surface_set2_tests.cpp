@@ -423,3 +423,27 @@ TEST(SurfaceSet2, IsValidGeometry) {
 
     EXPECT_FALSE(surfaceSet2->isValidGeometry());
 }
+
+TEST(SurfaceSet2, IsInside) {
+    BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
+    Vector2D offset(1, 2);
+
+    auto plane = Plane2::builder()
+            .withNormal({0, 1})
+            .withPoint({0, 0.25 * domain.height()})
+            .makeShared();
+
+    auto sphere = Sphere2::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet = SurfaceSet2::builder()
+            .withSurfaces({plane, sphere})
+            .withTransform(Transform2(offset, 0.0))
+            .makeShared();
+
+    EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 0.25) + offset));
+    EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 1.0) + offset));
+    EXPECT_FALSE(surfaceSet->isInside(Vector2D(0.5, 1.5) + offset));
+}

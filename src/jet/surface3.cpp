@@ -60,14 +60,20 @@ void Surface3::updateQueryEngine() {
     // Do nothing
 }
 
-bool Surface3::isBounded() const {
-    return true;
-}
+bool Surface3::isBounded() const { return true; }
 
-bool Surface3::isValidGeometry() const {
-    return true;
+bool Surface3::isValidGeometry() const { return true; }
+
+bool Surface3::isInside(const Vector3D& otherPoint) const {
+    return isInsideLocal(transform.toLocal(otherPoint));
 }
 
 double Surface3::closestDistanceLocal(const Vector3D& otherPointLocal) const {
     return otherPointLocal.distanceTo(closestPointLocal(otherPointLocal));
+}
+
+bool Surface3::isInsideLocal(const Vector3D& otherPointLocal) const {
+    Vector3D cpLocal = closestPointLocal(otherPointLocal);
+    Vector3D normalLocal = closestNormalLocal(otherPointLocal);
+    return (otherPointLocal - cpLocal).dot(normalLocal) < 0.0;
 }

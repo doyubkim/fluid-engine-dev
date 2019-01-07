@@ -55,12 +55,12 @@ void Surface2::updateQueryEngine() {
     // Do nothing
 }
 
-bool Surface2::isBounded() const {
-    return true;
-}
+bool Surface2::isBounded() const { return true; }
 
-bool Surface2::isValidGeometry() const {
-    return true;
+bool Surface2::isValidGeometry() const { return true; }
+
+bool Surface2::isInside(const Vector2D& otherPoint) const {
+    return isInsideLocal(transform.toLocal(otherPoint));
 }
 
 bool Surface2::intersectsLocal(const Ray2D& rayLocal) const {
@@ -70,4 +70,10 @@ bool Surface2::intersectsLocal(const Ray2D& rayLocal) const {
 
 double Surface2::closestDistanceLocal(const Vector2D& otherPointLocal) const {
     return otherPointLocal.distanceTo(closestPointLocal(otherPointLocal));
+}
+
+bool Surface2::isInsideLocal(const Vector2D& otherPointLocal) const {
+    Vector2D cpLocal = closestPointLocal(otherPointLocal);
+    Vector2D normalLocal = closestNormalLocal(otherPointLocal);
+    return (otherPointLocal - cpLocal).dot(normalLocal) < 0.0;
 }
