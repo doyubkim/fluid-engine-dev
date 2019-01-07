@@ -17,14 +17,17 @@ using namespace jet;
 static const size_t kDefaultHashGridResolution = 64;
 
 VolumeParticleEmitter3::VolumeParticleEmitter3(
-    const ImplicitSurface3Ptr& implicitSurface, const BoundingBox3D& bounds,
-    double spacing, const Vector3D& initialVel, size_t maxNumberOfParticles,
-    double jitter, bool isOneShot, bool allowOverlapping, uint32_t seed)
+    const ImplicitSurface3Ptr& implicitSurface, const BoundingBox3D& maxRegion,
+    double spacing, const Vector3D& initialVel, const Vector3D& linearVel,
+    const Vector3D& angularVel, size_t maxNumberOfParticles, double jitter,
+    bool isOneShot, bool allowOverlapping, uint32_t seed)
     : _rng(seed),
       _implicitSurface(implicitSurface),
-      _bounds(bounds),
+      _bounds(maxRegion),
       _spacing(spacing),
       _initialVel(initialVel),
+      _linearVel(linearVel),
+      _angularVel(angularVel),
       _maxNumberOfParticles(maxNumberOfParticles),
       _jitter(jitter),
       _isOneShot(isOneShot),
@@ -63,11 +66,19 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     }
 
     _implicitSurface->updateQueryEngine();
+
+    BoundingBox3D region = _bounds;
+    if (_implicitSurface->isBounded()) {
+        BoundingBox3D surfaceBBox = _implicitSurface->boundingBox();
+        region.lowerCorner = max(region.lowerCorner, surfaceBBox.lowerCorner);
+        region.upperCorner = min(region.upperCorner, surfaceBBox.upperCorner);
+    }
+
     // Reserving more space for jittering
     const double j = jitter();
     const double maxJitterDist = 0.5 * j * _spacing;
     if (_allowOverlapping || _isOneShot) {
-        _pointsGen->forEachPoint(_bounds, _spacing, [&](const Vector3D& point) {
+        _pointsGen->forEachPoint(region, _spacing, [&](const Vector3D& point) {
             Vector3D randomDir = uniformSampleSphere(random(), random());
             Vector3D offset = maxJitterDist * randomDir;
             Vector3D candidate = point + offset;
@@ -92,7 +103,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
             neighborSearcher.build(particles->positions());
         }
 
-        _pointsGen->forEachPoint(_bounds, _spacing, [&](const Vector3D& point) {
+        _pointsGen->forEachPoint(region, _spacing, [&](const Vector3D& point) {
             Vector3D randomDir = uniformSampleSphere(random(), random());
             Vector3D offset = maxJitterDist * randomDir;
             Vector3D candidate = point + offset;
@@ -113,12 +124,30 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    newVelocities->set(_initialVel);
+    newVelocities->parallelForEachIndex([&](size_t i) {
+        (*newVelocities)[i] = velocityAt((*newPositions)[i]);
+    });
 }
 
 void VolumeParticleEmitter3::setPointGenerator(
     const PointGenerator3Ptr& newPointsGen) {
     _pointsGen = newPointsGen;
+}
+
+const ImplicitSurface3Ptr& VolumeParticleEmitter3::surface() const {
+    return _implicitSurface;
+}
+
+void VolumeParticleEmitter3::setSurface(const ImplicitSurface3Ptr& newSurface) {
+    _implicitSurface = newSurface;
+}
+
+const BoundingBox3D& VolumeParticleEmitter3::maxRegion() const {
+    return _bounds;
+}
+
+void VolumeParticleEmitter3::setMaxRegion(const BoundingBox3D& newMaxRegion) {
+    _bounds = newMaxRegion;
 }
 
 double VolumeParticleEmitter3::jitter() const { return _jitter; }
@@ -162,9 +191,26 @@ void VolumeParticleEmitter3::setInitialVelocity(const Vector3D& newInitialVel) {
     _initialVel = newInitialVel;
 }
 
+Vector3D VolumeParticleEmitter3::linearVelocity() const { return _linearVel; }
+
+void VolumeParticleEmitter3::setLinearVelocity(const Vector3D& newLinearVel) {
+    _linearVel = newLinearVel;
+}
+
+Vector3D VolumeParticleEmitter3::angularVelocity() const { return _angularVel; }
+
+void VolumeParticleEmitter3::setAngularVelocity(const Vector3D& newAngularVel) {
+    _angularVel = newAngularVel;
+}
+
 double VolumeParticleEmitter3::random() {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(_rng);
+}
+
+Vector3D VolumeParticleEmitter3::velocityAt(const Vector3D& point) const {
+    Vector3D r = point - _implicitSurface->transform.translation();
+    return _linearVel + _angularVel.cross(r) + _initialVel;
 }
 
 VolumeParticleEmitter3::Builder VolumeParticleEmitter3::builder() {
@@ -211,6 +257,19 @@ VolumeParticleEmitter3::Builder::withInitialVelocity(
 }
 
 VolumeParticleEmitter3::Builder&
+VolumeParticleEmitter3::Builder::withLinearVelocity(const Vector3D& linearVel) {
+    _linearVel = linearVel;
+    return *this;
+}
+
+VolumeParticleEmitter3::Builder&
+VolumeParticleEmitter3::Builder::withAngularVelocity(
+    const Vector3D& angularVel) {
+    _angularVel = angularVel;
+    return *this;
+}
+
+VolumeParticleEmitter3::Builder&
 VolumeParticleEmitter3::Builder::withMaxNumberOfParticles(
     size_t maxNumberOfParticles) {
     _maxNumberOfParticles = maxNumberOfParticles;
@@ -243,14 +302,16 @@ VolumeParticleEmitter3::Builder::withRandomSeed(uint32_t seed) {
 
 VolumeParticleEmitter3 VolumeParticleEmitter3::Builder::build() const {
     return VolumeParticleEmitter3(_implicitSurface, _bounds, _spacing,
-                                  _initialVel, _maxNumberOfParticles, _jitter,
-                                  _isOneShot, _allowOverlapping, _seed);
+                                  _initialVel, _linearVel, _angularVel,
+                                  _maxNumberOfParticles, _jitter, _isOneShot,
+                                  _allowOverlapping, _seed);
 }
 
 VolumeParticleEmitter3Ptr VolumeParticleEmitter3::Builder::makeShared() const {
     return std::shared_ptr<VolumeParticleEmitter3>(
         new VolumeParticleEmitter3(_implicitSurface, _bounds, _spacing,
-                                   _initialVel, _maxNumberOfParticles, _jitter,
-                                   _isOneShot, _allowOverlapping),
+                                   _initialVel, _linearVel, _angularVel,
+                                   _maxNumberOfParticles, _jitter, _isOneShot,
+                                   _allowOverlapping),
         [](VolumeParticleEmitter3* obj) { delete obj; });
 }

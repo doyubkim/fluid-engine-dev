@@ -18,14 +18,17 @@ using namespace jet;
 static const size_t kDefaultHashGridResolution = 64;
 
 VolumeParticleEmitter2::VolumeParticleEmitter2(
-    const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& bounds,
-    double spacing, const Vector2D& initialVel, size_t maxNumberOfParticles,
-    double jitter, bool isOneShot, bool allowOverlapping, uint32_t seed)
+    const ImplicitSurface2Ptr& implicitSurface, const BoundingBox2D& maxRegion,
+    double spacing, const Vector2D& initialVel, const Vector2D& linearVel,
+    double angularVel, size_t maxNumberOfParticles, double jitter,
+    bool isOneShot, bool allowOverlapping, uint32_t seed)
     : _rng(seed),
       _implicitSurface(implicitSurface),
-      _bounds(bounds),
+      _bounds(maxRegion),
       _spacing(spacing),
       _initialVel(initialVel),
+      _linearVel(linearVel),
+      _angularVel(angularVel),
       _maxNumberOfParticles(maxNumberOfParticles),
       _jitter(jitter),
       _isOneShot(isOneShot),
@@ -65,12 +68,19 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
 
     _implicitSurface->updateQueryEngine();
 
+    BoundingBox2D region = _bounds;
+    if (_implicitSurface->isBounded()) {
+        BoundingBox2D surfaceBBox = _implicitSurface->boundingBox();
+        region.lowerCorner = max(region.lowerCorner, surfaceBBox.lowerCorner);
+        region.upperCorner = min(region.upperCorner, surfaceBBox.upperCorner);
+    }
+
     // Reserving more space for jittering
     const double j = jitter();
     const double maxJitterDist = 0.5 * j * _spacing;
 
     if (_allowOverlapping || _isOneShot) {
-        _pointsGen->forEachPoint(_bounds, _spacing, [&](const Vector2D& point) {
+        _pointsGen->forEachPoint(region, _spacing, [&](const Vector2D& point) {
             double newAngleInRadian = (random() - 0.5) * kTwoPiD;
             Matrix2x2D rotationMatrix =
                 Matrix2x2D::makeRotationMatrix(newAngleInRadian);
@@ -97,7 +107,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
             neighborSearcher.build(particles->positions());
         }
 
-        _pointsGen->forEachPoint(_bounds, _spacing, [&](const Vector2D& point) {
+        _pointsGen->forEachPoint(region, _spacing, [&](const Vector2D& point) {
             double newAngleInRadian = (random() - 0.5) * kTwoPiD;
             Matrix2x2D rotationMatrix =
                 Matrix2x2D::makeRotationMatrix(newAngleInRadian);
@@ -121,12 +131,30 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    newVelocities->set(_initialVel);
+    newVelocities->parallelForEachIndex([&](size_t i) {
+        (*newVelocities)[i] = velocityAt((*newPositions)[i]);
+    });
 }
 
 void VolumeParticleEmitter2::setPointGenerator(
     const PointGenerator2Ptr& newPointsGen) {
     _pointsGen = newPointsGen;
+}
+
+const ImplicitSurface2Ptr& VolumeParticleEmitter2::surface() const {
+    return _implicitSurface;
+}
+
+void VolumeParticleEmitter2::setSurface(const ImplicitSurface2Ptr& newSurface) {
+    _implicitSurface = newSurface;
+}
+
+const BoundingBox2D& VolumeParticleEmitter2::maxRegion() const {
+    return _bounds;
+}
+
+void VolumeParticleEmitter2::setMaxRegion(const BoundingBox2D& newMaxRegion) {
+    _bounds = newMaxRegion;
 }
 
 double VolumeParticleEmitter2::jitter() const { return _jitter; }
@@ -170,9 +198,26 @@ void VolumeParticleEmitter2::setInitialVelocity(const Vector2D& newInitialVel) {
     _initialVel = newInitialVel;
 }
 
+Vector2D VolumeParticleEmitter2::linearVelocity() const { return _linearVel; }
+
+void VolumeParticleEmitter2::setLinearVelocity(const Vector2D& newLinearVel) {
+    _linearVel = newLinearVel;
+}
+
+double VolumeParticleEmitter2::angularVelocity() const { return _angularVel; }
+
+void VolumeParticleEmitter2::setAngularVelocity(double newAngularVel) {
+    _angularVel = newAngularVel;
+}
+
 double VolumeParticleEmitter2::random() {
     std::uniform_real_distribution<> d(0.0, 1.0);
     return d(_rng);
+}
+
+Vector2D VolumeParticleEmitter2::velocityAt(const Vector2D& point) const {
+    Vector2D r = point - _implicitSurface->transform.translation();
+    return _linearVel + _angularVel * Vector2D(-r.y, r.x) + _initialVel;
 }
 
 VolumeParticleEmitter2::Builder VolumeParticleEmitter2::builder() {
@@ -219,6 +264,18 @@ VolumeParticleEmitter2::Builder::withInitialVelocity(
 }
 
 VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withLinearVelocity(const Vector2D& linearVel) {
+    _linearVel = linearVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
+VolumeParticleEmitter2::Builder::withAngularVelocity(double angularVel) {
+    _angularVel = angularVel;
+    return *this;
+}
+
+VolumeParticleEmitter2::Builder&
 VolumeParticleEmitter2::Builder::withMaxNumberOfParticles(
     size_t maxNumberOfParticles) {
     _maxNumberOfParticles = maxNumberOfParticles;
@@ -251,14 +308,16 @@ VolumeParticleEmitter2::Builder::withRandomSeed(uint32_t seed) {
 
 VolumeParticleEmitter2 VolumeParticleEmitter2::Builder::build() const {
     return VolumeParticleEmitter2(_implicitSurface, _bounds, _spacing,
-                                  _initialVel, _maxNumberOfParticles, _jitter,
-                                  _isOneShot, _allowOverlapping, _seed);
+                                  _initialVel, _linearVel, _angularVel,
+                                  _maxNumberOfParticles, _jitter, _isOneShot,
+                                  _allowOverlapping, _seed);
 }
 
 VolumeParticleEmitter2Ptr VolumeParticleEmitter2::Builder::makeShared() const {
     return std::shared_ptr<VolumeParticleEmitter2>(
         new VolumeParticleEmitter2(_implicitSurface, _bounds, _spacing,
-                                   _initialVel, _maxNumberOfParticles, _jitter,
-                                   _isOneShot, _allowOverlapping),
+                                   _initialVel, _linearVel, _angularVel,
+                                   _maxNumberOfParticles, _jitter, _isOneShot,
+                                   _allowOverlapping),
         [](VolumeParticleEmitter2* obj) { delete obj; });
 }

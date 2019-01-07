@@ -4,9 +4,12 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "unit_tests_utils.h"
+
 #include <jet/sphere3.h>
 #include <jet/surface_to_implicit3.h>
 #include <jet/volume_particle_emitter3.h>
+
 #include <gtest/gtest.h>
 
 using namespace jet;
@@ -15,16 +18,21 @@ TEST(VolumeParticleEmitter3, Constructors) {
     auto sphere = std::make_shared<SurfaceToImplicit3>(
         std::make_shared<Sphere3>(Vector3D(1.0, 2.0, 4.0), 3.0));
 
+    BoundingBox3D region({0.0, 0.0, 0.0}, {3.0, 3.0, 3.0});
+
     VolumeParticleEmitter3 emitter(
         sphere,
-        BoundingBox3D({0.0, 0.0, 0.0}, {3.0, 3.0, 3.0}),
+        region,
         0.1,
         {-1.0, 0.5, 2.5},
+        {0.0, 0.0, 0.0},
+        {0.0, 0.0, 0.0},
         30,
         0.01,
         false,
         true);
 
+    EXPECT_BOUNDING_BOX3_EQ(region, emitter.maxRegion());
     EXPECT_EQ(0.01, emitter.jitter());
     EXPECT_FALSE(emitter.isOneShot());
     EXPECT_TRUE(emitter.allowOverlapping());
@@ -33,6 +41,8 @@ TEST(VolumeParticleEmitter3, Constructors) {
     EXPECT_EQ(-1.0, emitter.initialVelocity().x);
     EXPECT_EQ(0.5, emitter.initialVelocity().y);
     EXPECT_EQ(2.5, emitter.initialVelocity().z);
+    EXPECT_EQ(Vector3D(), emitter.linearVelocity());
+    EXPECT_EQ(Vector3D(), emitter.angularVelocity());
 }
 
 TEST(VolumeParticleEmitter3, Emit) {
@@ -46,6 +56,8 @@ TEST(VolumeParticleEmitter3, Emit) {
         box,
         0.5,
         {-1.0, 0.5, 2.5},
+        {3.0, 4.0, 5.0},
+        {0.0, 0.0, 5.0},
         30,
         0.0,
         false,
@@ -65,9 +77,9 @@ TEST(VolumeParticleEmitter3, Emit) {
         EXPECT_GE(3.0, (pos[i] - Vector3D(1.0, 2.0, 4.0)).length());
         EXPECT_TRUE(box.contains(pos[i]));
 
-        EXPECT_EQ(-1.0, vel[i].x);
-        EXPECT_EQ(0.5, vel[i].y);
-        EXPECT_EQ(2.5, vel[i].z);
+        Vector3D r = pos[i];
+        Vector3D w = 5.0 * Vector3D(-r.y, r.x, 0.0);
+        EXPECT_VECTOR3_NEAR(Vector3D(2.0, 4.5, 7.5) + w, vel[i], 1e-9);
     }
 
     ++frame;
@@ -94,6 +106,8 @@ TEST(VolumeParticleEmitter3, Builder) {
         .withMaxRegion(BoundingBox3D({0.0, 0.0, 0.0}, {3.0, 3.0, 3.0}))
         .withSpacing(0.1)
         .withInitialVelocity({-1.0, 0.5, 2.5})
+        .withLinearVelocity({3.0, 4.0, 5.0})
+        .withAngularVelocity({0.0, 1.0, 2.0})
         .withMaxNumberOfParticles(30)
         .withJitter(0.01)
         .withIsOneShot(false)
@@ -108,17 +122,6 @@ TEST(VolumeParticleEmitter3, Builder) {
     EXPECT_EQ(-1.0, emitter.initialVelocity().x);
     EXPECT_EQ(0.5, emitter.initialVelocity().y);
     EXPECT_EQ(2.5, emitter.initialVelocity().z);
-
-    auto emitter2 = VolumeParticleEmitter3::builder()
-        .withSurface(sphere)
-        .withMaxRegion(BoundingBox3D({0.0, 0.0, 0.0}, {3.0, 3.0, 3.0}))
-        .withSpacing(0.1)
-        .withInitialVelocity({-1.0, 0.5, 2.5})
-        .withMaxNumberOfParticles(30)
-        .withJitter(0.01)
-        .withIsOneShot(false)
-        .withAllowOverlapping(true)
-        .makeShared();
-
-    emitter2 = nullptr;
+    EXPECT_VECTOR3_EQ(Vector3D(3.0, 4.0, 5.0), emitter.linearVelocity());
+    EXPECT_VECTOR3_EQ(Vector3D(0.0, 1.0, 2.0), emitter.angularVelocity());
 }
