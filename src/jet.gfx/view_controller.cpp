@@ -84,11 +84,6 @@ void ViewController::onMouseWheel(const PointerEvent& pointerEvent) {
 void ViewController::setCameraState(const CameraState& newState) {
     if (_camera->state != newState) {
         _camera->state = newState;
-
-        JET_DEBUG << "Camera state changed - "
-                  << "viewport width: " << newState.viewport.width << ", "
-                  << "viewport height: " << newState.viewport.height;
-
         _cameraStateChangedEvent(this);
     }
 }

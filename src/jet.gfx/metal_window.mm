@@ -33,39 +33,67 @@ class MetalWindowEventHandler {
     static bool onEvent(MetalWindow *window, NSEvent *event, NSView *view) {
         ModifierKey mods = getModifier(event.modifierFlags);
 
+        bool handled = false;
+
         if (event.type == NSEventTypeKeyDown) {
             // TODO: Move under MetalWindow
-            bool handled = false;
             NSString *str = event.characters;
             for (int i = 0; i < str.length; i++) {
                 int c = [str characterAtIndex:i];
                 int key = mapCharacterToKey(c);
-                KeyEvent keyEvent(key, mods);
-                window->viewController()->keyDown(keyEvent);
-                handled |= window->onKeyDownEvent()(window, keyEvent);
-            }
-            if (handled) {
-                window->requestRender(1);
+                handled |= window->onKeyDown(KeyEvent(key, mods));
             }
             return handled;
         } else if (event.type == NSEventTypeKeyUp) {
             // TODO: Move under MetalWindow
-            bool handled = false;
             NSString *str = event.characters;
             for (int i = 0; i < str.length; i++) {
                 int c = [str characterAtIndex:i];
                 int key = mapCharacterToKey(c);
-                KeyEvent keyEvent(key, mods);
-                window->viewController()->keyUp(keyEvent);
-                handled |= window->onKeyUpEvent()(window, keyEvent);
+                handled |= window->onKeyUp(KeyEvent(key, mods));
             }
-            if (handled) {
-                window->requestRender(1);
-            }
-            return handled;
+        } else if (event.type == NSEventTypeLeftMouseDown ||
+                   event.type == NSEventTypeRightMouseDown ||
+                   event.type == NSEventTypeOtherMouseDown) {
+            NSPoint pos = event.locationInWindow;
+            MouseButtonType newButtonType = getMouseButton(event.type);
+            window->onMouseDown(newButtonType, mods, (float)pos.x,
+                                (float)pos.y);
+
+        } else if (event.type == NSEventTypeLeftMouseUp ||
+                   event.type == NSEventTypeRightMouseUp ||
+                   event.type == NSEventTypeOtherMouseUp) {
+            NSPoint pos = event.locationInWindow;
+            MouseButtonType newButtonType = getMouseButton(event.type);
+            window->onMouseUp(newButtonType, mods, (float)pos.x, (float)pos.y);
+        } else if (event.type == NSEventTypeLeftMouseDragged ||
+                   event.type == NSEventTypeRightMouseDragged ||
+                   event.type == NSEventTypeOtherMouseDragged) {
+            NSPoint pos = event.locationInWindow;
+            MouseButtonType newButtonType = getMouseButton(event.type);
+            window->onMouseDragged(newButtonType, mods, (float)pos.x,
+                                   (float)pos.y, (float)event.deltaX,
+                                   (float)event.deltaY);
+        } else if (event.type == NSEventTypeMouseMoved) {
+            NSPoint pos = event.locationInWindow;
+            window->onMouseHover(mods, (float)pos.x, (float)pos.y,
+                                 (float)event.deltaX, (float)event.deltaY);
+        } else if (event.type == NSEventTypeMouseEntered) {
+            window->onMouseEntered(true);
+        } else if (event.type == NSEventTypeMouseExited) {
+            window->onMouseEntered(false);
+        } else if (event.type == NSEventTypeScrollWheel) {
+            NSPoint pos = event.locationInWindow;
+            window->onMouseScrollWheel(mods, (float)pos.x, (float)pos.y,
+                                       (float)event.deltaX,
+                                       (float)event.deltaY);
         }
 
-        return false;
+        if (event.type != NSEventTypeMouseMoved || handled) {
+            window->requestRender(1);
+        }
+
+        return handled;
     }
 
     static void onWindowResized(MetalWindow *window, CGFloat w, CGFloat h) {
@@ -95,6 +123,26 @@ class MetalWindowEventHandler {
         }
 
         return modifier;
+    }
+
+    static MouseButtonType getMouseButton(NSEventType eventType) {
+        switch (eventType) {
+            case NSEventTypeLeftMouseDown:
+            case NSEventTypeLeftMouseUp:
+            case NSEventTypeLeftMouseDragged:
+                return MouseButtonType::Left;
+            case NSEventTypeRightMouseDown:
+            case NSEventTypeRightMouseUp:
+            case NSEventTypeRightMouseDragged:
+                return MouseButtonType::Right;
+            case NSEventTypeOtherMouseDown:
+            case NSEventTypeOtherMouseUp:
+            case NSEventTypeOtherMouseDragged:
+                // TODO: Translating to middle button which is not ideal.
+                return MouseButtonType::Middle;
+            default:
+                return MouseButtonType::None;
+        }
     }
 };
 }
@@ -130,8 +178,15 @@ class MetalWindowEventHandler {
     // our window, we'd want to be much more careful than just ingesting the
     // complete event stream, though we do make an effort to be good citizens by
     // passing along events when Dear ImGui doesn't want to capture.
-    NSEventMask eventMask = NSEventMaskKeyDown | NSEventMaskKeyUp |
-                            NSEventMaskFlagsChanged | NSEventTypeScrollWheel;
+    NSEventMask eventMask =
+        NSEventMaskLeftMouseDown | NSEventMaskLeftMouseUp |
+        NSEventMaskRightMouseDown | NSEventMaskRightMouseUp |
+        NSEventMaskMouseMoved | NSEventMaskLeftMouseDragged |
+        NSEventMaskRightMouseDragged | NSEventMaskMouseEntered |
+        NSEventMaskMouseExited | NSEventMaskKeyDown | NSEventMaskKeyUp |
+        NSEventMaskFlagsChanged | NSEventMaskScrollWheel |
+        NSEventMaskOtherMouseDown | NSEventMaskOtherMouseUp |
+        NSEventMaskOtherMouseDragged;
     [NSEvent
         addLocalMonitorForEventsMatchingMask:eventMask
                                      handler:^NSEvent *_Nullable(
@@ -152,9 +207,11 @@ class MetalWindowEventHandler {
 }
 
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size {
-    std::cout << size.width << " x " << size.height << std::endl;
-    jet::gfx::MetalWindowEventHandler::onWindowResized(window, size.width,
-                                                       size.height);
+    // `size` is scaled size
+    // So scale it down to "window" size
+    jet::Vector2F scale = window->displayScalingFactor();
+    jet::gfx::MetalWindowEventHandler::onWindowResized(
+        window, size.width / scale.x, size.height / scale.y);
 }
 
 - (void)drawInMTKView:(nonnull MTKView *)view {
@@ -238,7 +295,7 @@ Vector2UZ MetalWindow::windowSize() const {
 }
 
 Vector2F MetalWindow::displayScalingFactor() const {
-    MTKView *mtkView = (__bridge MTKView*)_view->GetPtr();
+    MTKView *mtkView = (__bridge MTKView *)_view->GetPtr();
     NSSize size = NSSizeFromCGSize(CGSizeMake(_width, _height));
     NSSize backingSize = [mtkView convertSizeToBacking:size];
 
@@ -247,6 +304,7 @@ Vector2F MetalWindow::displayScalingFactor() const {
 }
 
 void MetalWindow::requestRender(unsigned int numFrames) {
+    // TODO: Handle numFrames
     MTKView *mtkView = (MTKView *)_view->GetPtr();
     mtkView.needsDisplay = YES;
 }
@@ -264,12 +322,13 @@ void MetalWindow::onRender() {
 bool MetalWindow::onWindowResized(int width, int height) {
     JET_ASSERT(renderer());
 
-    // Scaling factor already applied
+    Vector2F scaleFactor = displayScalingFactor();
+
     Viewport viewport;
     viewport.x = 0.0;
     viewport.y = 0.0;
-    viewport.width = width;
-    viewport.height = height;
+    viewport.width = scaleFactor.x * width;
+    viewport.height = scaleFactor.y * height;
 
     _width = width;
     _height = height;
@@ -277,6 +336,86 @@ bool MetalWindow::onWindowResized(int width, int height) {
     viewController()->setViewport(viewport);
 
     return onWindowResizedEvent()(this, {width, height});
+}
+
+bool MetalWindow::onKeyDown(const KeyEvent &keyEvent) {
+    viewController()->keyDown(keyEvent);
+    return onKeyDownEvent()(this, keyEvent);
+}
+
+bool MetalWindow::onKeyUp(const KeyEvent &keyEvent) {
+    viewController()->keyUp(keyEvent);
+    return onKeyUpEvent()(this, keyEvent);
+}
+
+bool MetalWindow::onMouseDown(MouseButtonType button, ModifierKey mods, float x,
+                              float y) {
+    Vector2F scale = displayScalingFactor();
+    x *= scale.x;
+    y *= scale.y;
+    PointerEvent pointerEvent(PointerInputType::Mouse, mods, x, y, 0, 0, button,
+                              MouseWheelData());
+    viewController()->pointerPressed(pointerEvent);
+    return onPointerPressedEvent()(this, pointerEvent);
+}
+
+bool MetalWindow::onMouseUp(MouseButtonType button, ModifierKey mods, float x,
+                            float y) {
+    Vector2F scale = displayScalingFactor();
+    x *= scale.x;
+    y *= scale.y;
+    PointerEvent pointerEvent(PointerInputType::Mouse, mods, x, y, 0, 0, button,
+                              MouseWheelData());
+    viewController()->pointerReleased(pointerEvent);
+    return onPointerReleasedEvent()(this, pointerEvent);
+}
+
+bool MetalWindow::onMouseDragged(MouseButtonType button, ModifierKey mods,
+                                 float x, float y, float dx, float dy) {
+    Vector2F scale = displayScalingFactor();
+    x *= scale.x;
+    y *= scale.y;
+    dx *= scale.x;
+    dy *= scale.y;
+    PointerEvent pointerEvent(PointerInputType::Mouse, mods, x, y, dx, dy,
+                              button, MouseWheelData());
+    viewController()->pointerDragged(pointerEvent);
+    return onPointerDraggedEvent()(this, pointerEvent);
+}
+
+bool MetalWindow::onMouseHover(ModifierKey mods, float x, float y, float dx,
+                               float dy) {
+    Vector2F scale = displayScalingFactor();
+    x *= scale.x;
+    y *= scale.y;
+    dx *= scale.x;
+    dy *= scale.y;
+    PointerEvent pointerEvent(PointerInputType::Mouse, mods, x, y, dx, dy,
+                              MouseButtonType::None, MouseWheelData());
+    viewController()->pointerHover(pointerEvent);
+    return onPointerHoverEvent()(this, pointerEvent);
+}
+
+bool MetalWindow::onMouseScrollWheel(ModifierKey mods, float x, float y,
+                                     float dx, float dy) {
+    Vector2F scale = displayScalingFactor();
+    x *= scale.x;
+    y *= scale.y;
+    dx *= scale.x;
+    dy *= scale.y;
+
+    MouseWheelData wheelData;
+    wheelData.deltaX = dx;
+    wheelData.deltaY = dy;
+
+    PointerEvent pointerEvent(PointerInputType::Mouse, mods, x, y, dx, dy,
+                              MouseButtonType::None, wheelData);
+    viewController()->mouseWheel(pointerEvent);
+    return onMouseWheelEvent()(this, pointerEvent);
+}
+
+bool MetalWindow::onMouseEntered(bool entered) {
+    return onPointerEnterEvent()(this, entered);
 }
 }
 }

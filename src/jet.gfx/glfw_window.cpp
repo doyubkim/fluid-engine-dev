@@ -188,7 +188,7 @@ bool GlfwWindow::onPointerButton(int button, int action, int mods) {
     return false;
 }
 
-bool GlfwWindow::onPointerMoved(double x, double y) {
+bool GlfwWindow::onPointerMoved(float x, float y) {
     Vector2F scaleFactor = displayScalingFactor();
     x = scaleFactor.x * x;
     y = scaleFactor.y * y;
@@ -216,7 +216,7 @@ bool GlfwWindow::onPointerMoved(double x, double y) {
     }
 }
 
-bool GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
+bool GlfwWindow::onMouseWheel(float deltaX, float deltaY) {
     MouseWheelData wheelData;
     wheelData.deltaX = deltaX;
     wheelData.deltaY = deltaY;
@@ -232,9 +232,7 @@ bool GlfwWindow::onMouseWheel(double deltaX, double deltaY) {
 }
 
 bool GlfwWindow::onPointerEnter(bool entered) {
-    _hasPointerEntered = entered;
-
-    return onPointerEnterEvent()(this);
+    return onPointerEnterEvent()(this, entered);
 }
 
 }  // namespace gfx

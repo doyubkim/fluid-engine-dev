@@ -163,8 +163,13 @@ class MetalRenderer final : public Renderer {
                                std::unique_ptr<MetalPrivateRenderPipelineState>>
         _renderPipelineStates;
 
+    void onClearRenderables() override;
+
     MetalPrivateRenderPipelineState* createRenderPipelineStateFromShader(
         const MetalShaderPtr& shader) const;
+
+    // Applies given render states to render command encoder.
+    void applyCurrentRenderStatesToDevice();
 };
 
 using MetalRendererPtr = std::shared_ptr<MetalRenderer>;

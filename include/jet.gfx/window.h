@@ -262,7 +262,7 @@ class Window {
     //!
     //! \return Event object.
     //!
-    Event<Window*>& onPointerEnterEvent();
+    Event<Window*, bool>& onPointerEnterEvent();
 
  protected:
     //! Sets the renderer for this window.
@@ -285,7 +285,7 @@ class Window {
     Event<Window*, const PointerEvent&> _onPointerDraggedEvent;
     Event<Window*, const PointerEvent&> _onPointerHoverEvent;
     Event<Window*, const PointerEvent&> _onMouseWheelEvent;
-    Event<Window*> _onPointerEnterEvent;
+    Event<Window*, bool> _onPointerEnterEvent;
 
     EventToken _onCameraStateChangedEventToken = kEmptyEventToken;
 };

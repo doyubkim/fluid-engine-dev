@@ -100,6 +100,34 @@ mtlpp::VertexDescriptor createVertexDescripter(VertexFormat vertexFormat,
     return desc;
 }
 
+mtlpp::BlendFactor convertBlendFactor(RenderStates::BlendFactor blendFactor) {
+    switch (blendFactor) {
+        case RenderStates::BlendFactor::Zero:
+            return mtlpp::BlendFactor::Zero;
+        case RenderStates::BlendFactor::One:
+            return mtlpp::BlendFactor::One;
+        case RenderStates::BlendFactor::SrcAlpha:
+            return mtlpp::BlendFactor::SourceAlpha;
+        case RenderStates::BlendFactor::OneMinusSrcAlpha:
+            return mtlpp::BlendFactor::OneMinusSourceAlpha;
+        case RenderStates::BlendFactor::SrcColor:
+            return mtlpp::BlendFactor::SourceColor;
+        case RenderStates::BlendFactor::OneMinusSrcColor:
+            return mtlpp::BlendFactor::OneMinusSourceColor;
+        case RenderStates::BlendFactor::DestAlpha:
+            return mtlpp::BlendFactor::DestinationAlpha;
+        case RenderStates::BlendFactor::OneMinusDestAlpha:
+            return mtlpp::BlendFactor::OneMinusDestinationAlpha;
+        case RenderStates::BlendFactor::DestColor:
+            return mtlpp::BlendFactor::OneMinusDestinationColor;
+        case RenderStates::BlendFactor::OneMinusDestColor:
+            return mtlpp::BlendFactor::OneMinusDestinationColor;
+        default:
+            JET_ASSERT(false);
+            return mtlpp::BlendFactor::Zero;
+    }
+}
+
 mtlpp::PrimitiveType convertPrimitiveType(PrimitiveType primitiveType) {
     if (primitiveType == PrimitiveType::Points) {
         return mtlpp::PrimitiveType::Point;
@@ -126,6 +154,10 @@ MetalRenderer::MetalRenderer(MetalWindow* window) : _window(window) {
     // Create command queue
     _commandQueue = std::make_unique<MetalPrivateCommandQueue>(
         _device->value.NewCommandQueue());
+
+    // Initialize render state
+    RenderStates defaultRenderStates;
+    setRenderStates(defaultRenderStates);
 }
 
 MetalRenderer::~MetalRenderer() {}
@@ -249,13 +281,26 @@ void MetalRenderer::onRenderBegin() {
         getCurrentRenderPassDescriptor(_window));
     if (_renderPassDescriptor) {
         const auto& bg = backgroundColor();
+        _renderPassDescriptor->value.GetColorAttachments()[0].SetLoadAction(
+            mtlpp::LoadAction::Clear);
+        _renderPassDescriptor->value.GetColorAttachments()[0].SetStoreAction(
+            mtlpp::StoreAction::DontCare);
         _renderPassDescriptor->value.GetColorAttachments()[0].SetClearColor(
             mtlpp::ClearColor(bg.x, bg.y, bg.z, bg.w));
+
+        _renderPassDescriptor->value.GetDepthAttachment().SetLoadAction(
+            mtlpp::LoadAction::Clear);
+        _renderPassDescriptor->value.GetDepthAttachment().SetStoreAction(
+            mtlpp::StoreAction::DontCare);
+        _renderPassDescriptor->value.GetDepthAttachment().SetClearDepth(1.0);
 
         _renderCommandEncoder =
             std::make_unique<MetalPrivateRenderCommandEncoder>(
                 _commandBuffer->value.RenderCommandEncoder(
                     _renderPassDescriptor->value));
+
+        // Set render state
+        applyCurrentRenderStatesToDevice();
     }
 }
 
@@ -269,12 +314,22 @@ void MetalRenderer::onRenderEnd() {
 }
 
 void MetalRenderer::onResize(const Viewport& viewport) {
-    // TODO
+    JET_ASSERT(_renderCommandEncoder);
+
+    mtlpp::Viewport mtlViewport{.OriginX = viewport.x,
+                                .OriginY = viewport.y,
+                                .Width = viewport.width,
+                                .Height = viewport.height,
+                                .ZNear = camera()->state.nearClipPlane,
+                                .ZFar = camera()->state.farClipPlane};
+    _renderCommandEncoder->value.SetViewport(mtlViewport);
 }
 
 void MetalRenderer::onSetRenderStates(const RenderStates& states) {
-    // TODO
+    UNUSED_VARIABLE(states);
 }
+
+void MetalRenderer::onClearRenderables() { _renderPipelineStates.clear(); }
 
 MetalPrivateRenderPipelineState*
 MetalRenderer::createRenderPipelineStateFromShader(
@@ -286,44 +341,101 @@ MetalRenderer::createRenderPipelineStateFromShader(
     renderPipelineDesc.SetVertexDescriptor(
         createVertexDescripter(shader->vertexFormat(),
                                /* bufferIndex*/ 0));
-    renderPipelineDesc.GetColorAttachments()[0].SetPixelFormat(
-        mtlpp::PixelFormat::BGRA8Unorm);
+    auto colorAttachment0 = renderPipelineDesc.GetColorAttachments()[0];
+    colorAttachment0.SetPixelFormat(mtlpp::PixelFormat::BGRA8Unorm);
+    renderPipelineDesc.SetDepthAttachmentPixelFormat(
+        mtlpp::PixelFormat::Depth32Float);
+
+    if (renderStates().isBlendEnabled) {
+        colorAttachment0.SetBlendingEnabled(true);
+        colorAttachment0.SetRgbBlendOperation(mtlpp::BlendOperation::Add);
+        colorAttachment0.SetAlphaBlendOperation(mtlpp::BlendOperation::Add);
+        auto sourceFactor =
+            convertBlendFactor(renderStates().sourceBlendFactor);
+        auto dstFactor =
+            convertBlendFactor(renderStates().destinationBlendFactor);
+        colorAttachment0.SetSourceRgbBlendFactor(sourceFactor);
+        colorAttachment0.SetSourceAlphaBlendFactor(sourceFactor);
+        colorAttachment0.SetDestinationRgbBlendFactor(dstFactor);
+        colorAttachment0.SetDestinationAlphaBlendFactor(dstFactor);
+    } else {
+        colorAttachment0.SetBlendingEnabled(false);
+    }
 
     JET_DEBUG << "Metal render pipeline state created with shader "
               << shader->name();
 
-    ////////////
+    // Retrieve uniform info
     mtlpp::RenderPipelineReflection reflectionObj;
-    mtlpp::PipelineOption options =
+    auto options =
         mtlpp::PipelineOption(int(mtlpp::PipelineOption::BufferTypeInfo) |
                               int(mtlpp::PipelineOption::ArgumentInfo));
 
+    ns::Error error(ns::Handle{.ptr = nullptr});
     mtlpp::RenderPipelineState pso = _device->value.NewRenderPipelineState(
-        renderPipelineDesc, options, &reflectionObj, nullptr);
+        renderPipelineDesc, options, &reflectionObj, &error);
 
-    auto vertexArguments = reflectionObj.GetVertexArguments();
-    for (uint32_t i = 0; i < vertexArguments.GetSize(); ++i) {
-        mtlpp::Argument arg = vertexArguments[i];
+    if (error) {
+        JET_ERROR << error.GetLocalizedDescription().GetCStr();
+    } else {
+        auto vertexArguments = reflectionObj.GetVertexArguments();
+        for (uint32_t i = 0; i < vertexArguments.GetSize(); ++i) {
+            mtlpp::Argument arg = vertexArguments[i];
 
-        if (arg.GetBufferDataType() == mtlpp::DataType::Struct) {
-            auto members = arg.GetBufferStructType().GetMembers();
-            for (uint32_t j = 0; j < members.GetSize(); ++j) {
-                mtlpp::StructMember uniform = members[j];
+            if (arg.GetBufferDataType() == mtlpp::DataType::Struct &&
+                arg.GetBufferStructType()) {
+                auto members = arg.GetBufferStructType().GetMembers();
+                for (uint32_t j = 0; j < members.GetSize(); ++j) {
+                    mtlpp::StructMember uniform = members[j];
 
-                std::string name = uniform.GetName().GetCStr();
-                if (shader->userRenderParameters().has(name)) {
-                    printf("uniform: %s type:%lu, location: %lu\n",
-                           name.c_str(), (unsigned long)uniform.GetDataType(),
-                           (unsigned long)uniform.GetOffset());
-                    shader->_vertexUniformLocations[name] = uniform.GetOffset();
+                    std::string name = uniform.GetName().GetCStr();
+                    if (shader->userRenderParameters().has(name)) {
+                        shader->_vertexUniformLocations[name] =
+                            uniform.GetOffset();
+                    }
                 }
             }
         }
     }
-    ////////////
 
     return new MetalPrivateRenderPipelineState(
         _device->value.NewRenderPipelineState(renderPipelineDesc, nullptr));
+}
+
+void MetalRenderer::applyCurrentRenderStatesToDevice() {
+    JET_ASSERT(_renderCommandEncoder);
+
+    switch (renderStates().cullMode) {
+        case RenderStates::CullMode::None:
+            _renderCommandEncoder->value.SetCullMode(mtlpp::CullMode::None);
+            break;
+        case RenderStates::CullMode::Front:
+            _renderCommandEncoder->value.SetCullMode(mtlpp::CullMode::Front);
+            break;
+        case RenderStates::CullMode::Back:
+            _renderCommandEncoder->value.SetCullMode(mtlpp::CullMode::Back);
+            break;
+    }
+
+    if (renderStates().isFrontFaceClockWise) {
+        _renderCommandEncoder->value.SetFrontFacingWinding(
+            mtlpp::Winding::Clockwise);
+    } else {
+        _renderCommandEncoder->value.SetFrontFacingWinding(
+            mtlpp::Winding::CounterClockwise);
+    }
+
+    mtlpp::DepthStencilDescriptor depthStencilDesc;
+    if (renderStates().isDepthTestEnabled) {
+        depthStencilDesc.SetDepthCompareFunction(mtlpp::CompareFunction::Less);
+        depthStencilDesc.SetDepthWriteEnabled(true);
+    } else {
+        depthStencilDesc.SetDepthWriteEnabled(false);
+    }
+
+    mtlpp::DepthStencilState depthStencilState =
+        _device->value.NewDepthStencilState(depthStencilDesc);
+    _renderCommandEncoder->value.SetDepthStencilState(depthStencilState);
 }
 }
 }

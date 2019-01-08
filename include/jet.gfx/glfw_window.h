@@ -59,11 +59,10 @@ class GlfwWindow final : public Window {
 
     int _width = 256;
     int _height = 256;
-    bool _hasPointerEntered = false;
-    double _pointerPosX = 0.0;
-    double _pointerPosY = 0.0;
-    double _pointerDeltaX = 0.0;
-    double _pointerDeltaY = 0.0;
+    float _pointerPosX = 0.0;
+    float _pointerPosY = 0.0;
+    float _pointerDeltaX = 0.0;
+    float _pointerDeltaY = 0.0;
 
     int _swapInterval = 0;
 
@@ -81,11 +80,11 @@ class GlfwWindow final : public Window {
 
     bool onPointerButton(int button, int action, int mods);
 
-    bool onPointerMoved(double x, double y);
+    bool onPointerMoved(float x, float y);
 
     bool onPointerEnter(bool entered);
 
-    bool onMouseWheel(double deltaX, double deltaY);
+    bool onMouseWheel(float deltaX, float deltaY);
 
     friend class GlfwApp;
 };

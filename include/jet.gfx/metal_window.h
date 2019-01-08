@@ -63,6 +63,25 @@ class MetalWindow final : public Window {
 
     bool onWindowResized(int width, int height);
 
+    bool onKeyDown(const KeyEvent& keyEvent);
+
+    bool onKeyUp(const KeyEvent& keyEvent);
+
+    bool onMouseDown(MouseButtonType button, ModifierKey mods, float x,
+                     float y);
+
+    bool onMouseUp(MouseButtonType button, ModifierKey mods, float x, float y);
+
+    bool onMouseDragged(MouseButtonType button, ModifierKey mods, float x,
+                        float y, float dx, float dy);
+
+    bool onMouseHover(ModifierKey mods, float x, float y, float dx, float dy);
+
+    bool onMouseScrollWheel(ModifierKey mods, float x, float y, float dx,
+                            float dy);
+
+    bool onMouseEntered(bool entered);
+
     friend class MetalApp;
     friend class MetalWindowEventHandler;
 };

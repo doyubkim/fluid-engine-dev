@@ -17,12 +17,12 @@ Renderer::Renderer() { _camera = std::make_shared<PerspCamera>(); }
 Renderer::~Renderer() {}
 
 void Renderer::render() {
+    onRenderBegin();
+
     if (_isFirstFrame || _prevViewport != _camera->state.viewport) {
         onResize(_camera->state.viewport);
         _isFirstFrame = false;
     }
-
-    onRenderBegin();
 
     for (auto &renderable : _renderables) {
         renderable->render(this);
@@ -83,7 +83,14 @@ void Renderer::addRenderable(const RenderablePtr &renderable) {
     _renderables.append(renderable);
 }
 
-void Renderer::clearRenderables() { _renderables.clear(); }
+void Renderer::clearRenderables() {
+    _renderables.clear();
+
+    onClearRenderables();
+}
+
+void Renderer::onClearRenderables() {
+}
 
 }  // namespace gfx
 }  // namespace jet

@@ -92,7 +92,7 @@ Event<Window *, const PointerEvent &> &Window::onMouseWheelEvent() {
     return _onMouseWheelEvent;
 }
 
-Event<Window *> &Window::onPointerEnterEvent() { return _onPointerEnterEvent; }
+Event<Window *, bool> &Window::onPointerEnterEvent() { return _onPointerEnterEvent; }
 
 void Window::setRenderer(const RendererPtr &renderer) { _renderer = renderer; }
 

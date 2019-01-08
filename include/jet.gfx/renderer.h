@@ -192,6 +192,9 @@ class Renderer {
     //! Called when the render states has changed.
     virtual void onSetRenderStates(const RenderStates& states) = 0;
 
+    //! Called when the renderable are cleared.
+    virtual void onClearRenderables();
+
  private:
     bool _isFirstFrame = true;
     Viewport _prevViewport;
