@@ -9,11 +9,17 @@
 namespace jet {
 namespace gfx {
 
-class MetalView : public ns::Object {
-public:
-  MetalView() {}
-  MetalView(const ns::Handle &handle) : ns::Object(handle) {}
+class MetalPrivateWindow : public ns::Object {
+ public:
+    MetalPrivateWindow() {}
+    MetalPrivateWindow(const ns::Handle &handle) : ns::Object(handle) {}
 };
 
-} // namespace gfx
-} // namespace jet
+class MetalPrivateView : public ns::Object {
+ public:
+    MetalPrivateView() {}
+    MetalPrivateView(const ns::Handle &handle) : ns::Object(handle) {}
+};
+
+}  // namespace gfx
+}  // namespace jet

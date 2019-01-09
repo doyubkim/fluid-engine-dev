@@ -38,18 +38,31 @@ void nextTests(Window* win) {
 }
 
 bool onKeyDown(Window* win, const KeyEvent& keyEvent) {
+    int key = keyEvent.key();
+
     // "Enter" key for toggling animation.
     // "Space" key for moving to the next example.
-    if (keyEvent.key() == 13) {
+    if (key == 13) {
         toggleUpdate(win);
         return true;
-    } else if (keyEvent.key() == ' ') {
+    } else if (key == ' ') {
         nextTests(win);
         JET_INFO << "Starting example ID: " << sCurrentTestIdx;
         return true;
+    } else if (key == '>' || key == '.') {
+        JET_INFO << "Advancing frame to "
+                 << sTests[sCurrentTestIdx]->currentFrame().index + 1;
+        sTests[sCurrentTestIdx]->advanceSim();
+    } else if (key == 'r' || key == 'R') {
+        sTests[sCurrentTestIdx]->restartSim();
     }
 
     return false;
+}
+
+bool onUpdate(Window* win) {
+    sTests[sCurrentTestIdx]->advanceSim();
+    return true;
 }
 
 }  // namespace
@@ -58,6 +71,7 @@ void GfxExampleManager::initialize(const jet::gfx::WindowPtr& window) {
     sWindow = window;
 
     sWindow->onKeyDownEvent() += onKeyDown;
+    sWindow->onUpdateEvent() += onUpdate;
 }
 
 void GfxExampleManager::addExample(const GfxExamplePtr& example) {

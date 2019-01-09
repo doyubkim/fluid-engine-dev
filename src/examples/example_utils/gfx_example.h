@@ -30,6 +30,8 @@ class GfxExample {
     //! Advances sim state from worker thread.
     void advanceSim();
 
+    const jet::Frame& currentFrame() const;
+
  protected:
     virtual void onRestartSim();
 

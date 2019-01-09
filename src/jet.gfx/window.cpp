@@ -50,7 +50,10 @@ const RendererPtr &Window::renderer() const { return _renderer; }
 
 bool Window::isUpdateEnabled() const { return _isUpdateEnabled; }
 
-void Window::setIsUpdateEnabled(bool enabled) { _isUpdateEnabled = enabled; }
+void Window::setIsUpdateEnabled(bool enabled) {
+    _isUpdateEnabled = enabled;
+    onUpdateEnabled(enabled);
+}
 
 Event<Window *> &Window::onUpdateEvent() { return _onUpdateEvent; }
 
@@ -92,9 +95,13 @@ Event<Window *, const PointerEvent &> &Window::onMouseWheelEvent() {
     return _onMouseWheelEvent;
 }
 
-Event<Window *, bool> &Window::onPointerEnterEvent() { return _onPointerEnterEvent; }
+Event<Window *, bool> &Window::onPointerEnterEvent() {
+    return _onPointerEnterEvent;
+}
 
 void Window::setRenderer(const RendererPtr &renderer) { _renderer = renderer; }
+
+void Window::onUpdateEnabled(bool enabled) { UNUSED_VARIABLE(enabled); }
 
 }  // namespace gfx
 }  // namespace jet

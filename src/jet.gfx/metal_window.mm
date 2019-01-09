@@ -6,8 +6,6 @@
 //
 // This code uses example code from mtlpp
 // (https://github.com/naleksiev/mtlpp)
-// and imgui
-// (https://github.com/ocornut/imgui)
 
 #undef JET_USE_GL
 #import <common.h>
@@ -26,7 +24,7 @@
 namespace jet {
 namespace gfx {
 
-class MetalWindowEventHandler {
+class MetalCustomViewEventHandler {
  public:
     static void onRender(MetalWindow *window) { window->onRender(); }
 
@@ -35,17 +33,17 @@ class MetalWindowEventHandler {
 
         bool handled = false;
 
+        NSPoint posInWin = event.locationInWindow;
+        NSPoint pos = [view convertPoint:posInWin fromView:nil];
+
         if (event.type == NSEventTypeKeyDown) {
-            // TODO: Move under MetalWindow
             NSString *str = event.characters;
             for (int i = 0; i < str.length; i++) {
                 int c = [str characterAtIndex:i];
                 int key = mapCharacterToKey(c);
                 handled |= window->onKeyDown(KeyEvent(key, mods));
             }
-            return handled;
         } else if (event.type == NSEventTypeKeyUp) {
-            // TODO: Move under MetalWindow
             NSString *str = event.characters;
             for (int i = 0; i < str.length; i++) {
                 int c = [str characterAtIndex:i];
@@ -55,7 +53,6 @@ class MetalWindowEventHandler {
         } else if (event.type == NSEventTypeLeftMouseDown ||
                    event.type == NSEventTypeRightMouseDown ||
                    event.type == NSEventTypeOtherMouseDown) {
-            NSPoint pos = event.locationInWindow;
             MouseButtonType newButtonType = getMouseButton(event.type);
             window->onMouseDown(newButtonType, mods, (float)pos.x,
                                 (float)pos.y);
@@ -63,19 +60,16 @@ class MetalWindowEventHandler {
         } else if (event.type == NSEventTypeLeftMouseUp ||
                    event.type == NSEventTypeRightMouseUp ||
                    event.type == NSEventTypeOtherMouseUp) {
-            NSPoint pos = event.locationInWindow;
             MouseButtonType newButtonType = getMouseButton(event.type);
             window->onMouseUp(newButtonType, mods, (float)pos.x, (float)pos.y);
         } else if (event.type == NSEventTypeLeftMouseDragged ||
                    event.type == NSEventTypeRightMouseDragged ||
                    event.type == NSEventTypeOtherMouseDragged) {
-            NSPoint pos = event.locationInWindow;
             MouseButtonType newButtonType = getMouseButton(event.type);
             window->onMouseDragged(newButtonType, mods, (float)pos.x,
                                    (float)pos.y, (float)event.deltaX,
                                    (float)event.deltaY);
         } else if (event.type == NSEventTypeMouseMoved) {
-            NSPoint pos = event.locationInWindow;
             window->onMouseHover(mods, (float)pos.x, (float)pos.y,
                                  (float)event.deltaX, (float)event.deltaY);
         } else if (event.type == NSEventTypeMouseEntered) {
@@ -83,7 +77,6 @@ class MetalWindowEventHandler {
         } else if (event.type == NSEventTypeMouseExited) {
             window->onMouseEntered(false);
         } else if (event.type == NSEventTypeScrollWheel) {
-            NSPoint pos = event.locationInWindow;
             window->onMouseScrollWheel(mods, (float)pos.x, (float)pos.y,
                                        (float)event.deltaX,
                                        (float)event.deltaY);
@@ -98,6 +91,10 @@ class MetalWindowEventHandler {
 
     static void onWindowResized(MetalWindow *window, CGFloat w, CGFloat h) {
         window->onWindowResized((int)w, (int)h);
+    }
+
+    static void onWindowMoved(MetalWindow *window, CGFloat x, CGFloat y) {
+        window->onWindowMoved(x, y);
     }
 
     static int mapCharacterToKey(int c) {
@@ -148,75 +145,106 @@ class MetalWindowEventHandler {
 }
 }
 
-// MARK: WindowViewController
+// MARK: MetalCustomWindowDelegate
 
-@interface WindowViewController : NSViewController<MTKViewDelegate> {
+@interface MetalCustomWindowDelegate : NSObject<NSWindowDelegate> {
+ @public
+    jet::gfx::MetalWindow *window;
+}
+@end
+
+@implementation MetalCustomWindowDelegate
+- (void)windowDidMove:(NSNotification *)notification {
+    NSWindow *nsWindow = (__bridge NSWindow *)window->window()->GetPtr();
+    jet::gfx::MetalCustomViewEventHandler::onWindowMoved(
+        window, nsWindow.frame.origin.x, nsWindow.frame.origin.y);
+}
+@end
+
+// MARK: MetalCustomView
+
+@interface MetalCustomView : MTKView {
  @public
     jet::gfx::MetalWindow *window;
 }
 
 @end
 
-@implementation WindowViewController
-- (void)setupWithMTKView:(nonnull MTKView *)view {
-    // From ImGui macOS Metal example...
+@implementation MetalCustomView
 
-    // Add a tracking area in order to receive mouse events whenever the mouse
-    // is within the bounds of our view
-    NSTrackingArea *trackingArea = [[NSTrackingArea alloc]
-        initWithRect:NSZeroRect
-             options:NSTrackingMouseMoved | NSTrackingInVisibleRect |
-                     NSTrackingActiveAlways
-               owner:self
-            userInfo:nil];
-    [view addTrackingArea:trackingArea];
-
-    // If we want to receive key events, we either need to be in the responder
-    // chain of the key view, or else we can install a local monitor. The
-    // consequence of this heavy-handed approach is that we receive events for
-    // all controls, not just Dear ImGui widgets. If we had native controls in
-    // our window, we'd want to be much more careful than just ingesting the
-    // complete event stream, though we do make an effort to be good citizens by
-    // passing along events when Dear ImGui doesn't want to capture.
-    NSEventMask eventMask =
-        NSEventMaskLeftMouseDown | NSEventMaskLeftMouseUp |
-        NSEventMaskRightMouseDown | NSEventMaskRightMouseUp |
-        NSEventMaskMouseMoved | NSEventMaskLeftMouseDragged |
-        NSEventMaskRightMouseDragged | NSEventMaskMouseEntered |
-        NSEventMaskMouseExited | NSEventMaskKeyDown | NSEventMaskKeyUp |
-        NSEventMaskFlagsChanged | NSEventMaskScrollWheel |
-        NSEventMaskOtherMouseDown | NSEventMaskOtherMouseUp |
-        NSEventMaskOtherMouseDragged;
-    [NSEvent
-        addLocalMonitorForEventsMatchingMask:eventMask
-                                     handler:^NSEvent *_Nullable(
-                                         NSEvent *event) {
-                                       BOOL handled =
-                                           jet::gfx::MetalWindowEventHandler::
-                                               onEvent(window, event, view);
-                                       // TODO: ImGui_ImplOSX_HandleEvent goes
-                                       // here
-                                       if (event.type == NSEventTypeKeyDown &&
-                                           handled) {
-                                           return nil;
-                                       } else {
-                                           return event;
-                                       }
-
-                                     }];
+- (id)initWithFrame:(NSRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        //
+    }
+    return self;
 }
+
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+- (void)keyDown:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)keyUp:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseDown:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseUp:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseMoved:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseDragged:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseEntered:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)mouseExited:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+- (void)scrollWheel:(NSEvent *)event {
+    jet::gfx::MetalCustomViewEventHandler::onEvent(window, event, self);
+}
+
+@end
+
+// MARK: MetalCustomViewController
+
+@interface MetalCustomViewController : NSViewController<MTKViewDelegate> {
+ @public
+    jet::gfx::MetalWindow *window;
+}
+
+@end
+
+@implementation MetalCustomViewController
 
 - (void)mtkView:(nonnull MTKView *)view drawableSizeWillChange:(CGSize)size {
     // `size` is scaled size
     // So scale it down to "window" size
     jet::Vector2F scale = window->displayScalingFactor();
-    jet::gfx::MetalWindowEventHandler::onWindowResized(
+    jet::gfx::MetalCustomViewEventHandler::onWindowResized(
         window, size.width / scale.x, size.height / scale.y);
 }
 
 - (void)drawInMTKView:(nonnull MTKView *)view {
-    jet::gfx::MetalWindowEventHandler::onRender(window);
+    jet::gfx::MetalCustomViewEventHandler::onRender(window);
 }
+
 @end
 
 // MARK: MetalWindow
@@ -243,25 +271,30 @@ MetalWindow::MetalWindow(const std::string &title, int width, int height) {
                                       backing:NSBackingStoreBuffered
                                         defer:NO];
     window.title = [NSString stringWithUTF8String:title.c_str()];
-    WindowViewController *viewController = [WindowViewController new];
+    MetalCustomViewController *viewController = [MetalCustomViewController new];
     viewController->window = this;
-
-    MTKView *view = [[MTKView alloc] initWithFrame:frame];
+    MetalCustomView *view = [[MetalCustomView alloc] initWithFrame:frame];
+    view->window = this;
     view.device = (__bridge id<MTLDevice>)renderer->device()->value.GetPtr();
     view.delegate = viewController;
     view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+    view.depthStencilPixelFormat = MTLPixelFormatDepth32Float;
 
     // By default, render only when needed
     view.paused = YES;
     view.enableSetNeedsDisplay = YES;
 
-    [viewController setupWithMTKView:view];
-
     [window.contentView addSubview:view];
     [window center];
     [window orderFrontRegardless];
 
-    _view = new MetalView(ns::Handle{(__bridge void *)view});
+    _view = new MetalPrivateView(ns::Handle{(__bridge void *)view});
+    _window = new MetalPrivateWindow(ns::Handle{(__bridge void *)window});
+
+    MetalCustomWindowDelegate *windowDelegate = [MetalCustomWindowDelegate new];
+    windowDelegate->window = this;
+    window.delegate = windowDelegate;
 
     JET_INFO << "Metal window created with " << view.device.name.UTF8String;
 
@@ -276,6 +309,11 @@ MetalWindow::MetalWindow(const std::string &title, int width, int height) {
 }
 
 MetalWindow::~MetalWindow() { delete _view; }
+
+void MetalWindow::onUpdateEnabled(bool enabled) {
+    MTKView *mtkView = (__bridge MTKView *)_view->GetPtr();
+    mtkView.paused = !enabled;
+}
 
 void MetalWindow::setSwapInterval(int interval) {
     // TODO: Implement
@@ -304,19 +342,31 @@ Vector2F MetalWindow::displayScalingFactor() const {
 }
 
 void MetalWindow::requestRender(unsigned int numFrames) {
-    // TODO: Handle numFrames
+    _numRequestedRenderFrames = numFrames;
+
     MTKView *mtkView = (MTKView *)_view->GetPtr();
     mtkView.needsDisplay = YES;
 }
 
-MetalView *MetalWindow::view() const { return _view; }
+MetalPrivateWindow *MetalWindow::window() const { return _window; }
+
+MetalPrivateView *MetalWindow::view() const { return _view; }
 
 void MetalWindow::onRender() {
-    JET_ASSERT(renderer());
+    if (isUpdateEnabled() || _numRequestedRenderFrames > 0) {
+        if (isUpdateEnabled()) {
+            onUpdate();
+        }
 
-    renderer()->render();
+        JET_ASSERT(renderer());
 
-    onGuiEvent()(this);
+        renderer()->render();
+
+        onGuiEvent()(this);
+
+        // Decrease render request count
+        --_numRequestedRenderFrames;
+    }
 }
 
 bool MetalWindow::onWindowResized(int width, int height) {
@@ -336,6 +386,15 @@ bool MetalWindow::onWindowResized(int width, int height) {
     viewController()->setViewport(viewport);
 
     return onWindowResizedEvent()(this, {width, height});
+}
+
+bool MetalWindow::onWindowMoved(int x, int y) {
+    return onWindowMovedEvent()(this, {x, y});
+}
+
+bool MetalWindow::onUpdate() {
+    // Update
+    return onUpdateEvent()(this);
 }
 
 bool MetalWindow::onKeyDown(const KeyEvent &keyEvent) {

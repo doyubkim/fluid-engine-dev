@@ -6,14 +6,17 @@
 
 #include "gfx_example.h"
 
-GfxExample::GfxExample(const jet::Frame& frame) : _frame(frame) {}
+using namespace jet;
+using namespace gfx;
 
-void GfxExample::setup(jet::gfx::Window* window) {
+GfxExample::GfxExample(const Frame& frame) : _frame(frame) {}
+
+void GfxExample::setup(Window* window) {
     _frame.index = 0;
     onSetup(window);
 }
 
-void GfxExample::gui(jet::gfx::Window* window) { onGui(window); }
+void GfxExample::gui(Window* window) { onGui(window); }
 
 void GfxExample::restartSim() {
     _frame.index = 0;
@@ -25,10 +28,12 @@ void GfxExample::advanceSim() {
     ++_frame;
 }
 
+const Frame& GfxExample::currentFrame() const { return _frame; }
+
 void GfxExample::onRestartSim() {}
 
-void GfxExample::onSetup(jet::gfx::Window* window) { (void)window; }
+void GfxExample::onSetup(Window* window) { (void)window; }
 
-void GfxExample::onGui(jet::gfx::Window* window) { (void)window; }
+void GfxExample::onGui(Window* window) { (void)window; }
 
-void GfxExample::onAdvanceSim(const jet::Frame& frame) { (void)frame; }
+void GfxExample::onAdvanceSim(const Frame& frame) { (void)frame; }

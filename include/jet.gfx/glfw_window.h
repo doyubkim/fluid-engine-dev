@@ -59,10 +59,10 @@ class GlfwWindow final : public Window {
 
     int _width = 256;
     int _height = 256;
-    float _pointerPosX = 0.0;
-    float _pointerPosY = 0.0;
-    float _pointerDeltaX = 0.0;
-    float _pointerDeltaY = 0.0;
+    float _pointerPosX = 0.0f;
+    float _pointerPosY = 0.0f;
+    float _pointerDeltaX = 0.0f;
+    float _pointerDeltaY = 0.0f;
 
     int _swapInterval = 0;
 

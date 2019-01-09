@@ -20,8 +20,9 @@
 namespace jet {
 namespace gfx {
 
-class MetalView;
-class MetalWindowEventHandler;
+class MetalPrivateWindow;
+class MetalPrivateView;
+class MetalCustomViewEventHandler;
 
 //!
 //! \brief Helper class for Metal-based window.
@@ -49,19 +50,30 @@ class MetalWindow final : public Window {
     //! Sets swap interval.
     void setSwapInterval(int interval) override;
 
-    MetalView* view() const;
+    MetalPrivateWindow* window() const;
+
+    MetalPrivateView* view() const;
 
  private:
-    MetalView* _view = nullptr;
+    MetalPrivateWindow* _window = nullptr;
+    MetalPrivateView* _view = nullptr;
+
+    unsigned int _numRequestedRenderFrames = 0;
 
     int _width = 256;
     int _height = 256;
 
     MetalWindow(const std::string& title, int width, int height);
 
+    void onUpdateEnabled(bool enabled) override;
+
     void onRender();
 
     bool onWindowResized(int width, int height);
+
+    bool onWindowMoved(int x, int y);
+
+    bool onUpdate();
 
     bool onKeyDown(const KeyEvent& keyEvent);
 
@@ -83,7 +95,7 @@ class MetalWindow final : public Window {
     bool onMouseEntered(bool entered);
 
     friend class MetalApp;
-    friend class MetalWindowEventHandler;
+    friend class MetalCustomViewEventHandler;
 };
 
 //! Shared pointer type for MetalWindow

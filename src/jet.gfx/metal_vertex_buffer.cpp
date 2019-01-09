@@ -24,9 +24,9 @@ MetalVertexBuffer::MetalVertexBuffer(MetalPrivateDevice *device)
 MetalVertexBuffer::~MetalVertexBuffer() { clear(); }
 
 void MetalVertexBuffer::update(const float *data) {
-    size_t vertexSizeInBytes =
-            VertexHelper::getSizeInBytes(vertexFormat());
-    memcpy(_buffer->value.GetContents(), data, vertexSizeInBytes);
+    size_t vertexSizeInBytes = VertexHelper::getSizeInBytes(vertexFormat());
+    memcpy(_buffer->value.GetContents(), data,
+           vertexSizeInBytes * numberOfVertices());
 }
 
 MetalPrivateBuffer *MetalVertexBuffer::buffer() const { return _buffer.get(); }

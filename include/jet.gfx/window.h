@@ -268,6 +268,9 @@ class Window {
     //! Sets the renderer for this window.
     void setRenderer(const RendererPtr& renderer);
 
+    //! Called when update is enabled or not.
+    virtual void onUpdateEnabled(bool enabled);
+
  private:
     bool _isUpdateEnabled = false;
 
