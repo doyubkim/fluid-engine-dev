@@ -5,7 +5,9 @@
 // property of any third parties.
 
 #include <pch.h>
+
 #include <jet/implicit_surface2.h>
+#include <jet/level_set_utils.h>
 
 using namespace jet;
 
@@ -28,4 +30,8 @@ double ImplicitSurface2::signedDistance(const Vector2D& otherPoint) const {
 double ImplicitSurface2::closestDistanceLocal(
     const Vector2D& otherPoint) const {
     return std::fabs(signedDistanceLocal(otherPoint));
+}
+
+bool ImplicitSurface2::isInsideLocal(const Vector2D& otherPoint) const {
+    return isInsideSdf(signedDistanceLocal(otherPoint));
 }

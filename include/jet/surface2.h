@@ -72,6 +72,10 @@ class Surface2 {
     //! Returns true if the surface is a valid geometry.
     virtual bool isValidGeometry() const;
 
+    //! Returns true if \p otherPoint is inside the volume defined by the
+    //! surface.
+    bool isInside(const Vector2D& otherPoint) const;
+
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
     //! surface in local frame.
@@ -95,6 +99,10 @@ class Surface2 {
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
     virtual double closestDistanceLocal(const Vector2D& otherPoint) const;
+
+    //! Returns true if \p otherPoint is inside by given \p depth the volume
+    //! defined by the surface in local frame.
+    virtual bool isInsideLocal(const Vector2D& otherPoint) const;
 };
 
 //! Shared pointer for the Surface2 type.

@@ -96,11 +96,10 @@ void Collider2::getClosestPoint(const Surface2Ptr& surface,
 
 bool Collider2::isPenetrating(const ColliderQueryResult& colliderPoint,
                               const Vector2D& position, double radius) {
-    // If the new candidate position of the particle is on the other side of
-    // the surface OR the new distance to the surface is less than the
-    // particle's radius, this particle is in colliding state.
-    return (position - colliderPoint.point).dot(colliderPoint.normal) < 0.0 ||
-           colliderPoint.distance < radius;
+    // If the new candidate position of the particle is inside
+    // the volume defined by the surface OR the new distance to the surface is
+    // less than the particle's radius, this particle is in colliding state.
+    return _surface->isInside(position) || colliderPoint.distance < radius;
 }
 
 void Collider2::update(double currentTimeInSeconds,

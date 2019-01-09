@@ -75,6 +75,8 @@ class SurfaceSet3 final : public Surface3 {
     SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool isInsideLocal(const Vector3D& otherPoint) const override;
+
     void invalidateBvh();
 
     void buildBvh() const;
@@ -86,7 +88,8 @@ typedef std::shared_ptr<SurfaceSet3> SurfaceSet3Ptr;
 //!
 //! \brief Front-end to create SurfaceSet3 objects step by step.
 //!
-class SurfaceSet3::Builder final : public SurfaceBuilderBase3<SurfaceSet3> {
+class SurfaceSet3::Builder final
+    : public SurfaceBuilderBase3<SurfaceSet3::Builder> {
  public:
     //! Returns builder with other surfaces.
     Builder& withSurfaces(const std::vector<Surface3Ptr>& others);

@@ -201,6 +201,16 @@ BoundingBox2D ImplicitSurfaceSet2::boundingBoxLocal() const {
     return _bvh.boundingBox();
 }
 
+bool ImplicitSurfaceSet2::isInsideLocal(const Vector2D& otherPoint) const {
+    for (auto surface : _surfaces) {
+        if (surface->isInside(otherPoint)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 double ImplicitSurfaceSet2::signedDistanceLocal(
     const Vector2D& otherPoint) const {
     double sdf = kMaxD;

@@ -425,3 +425,27 @@ TEST(SurfaceSet3, IsValidGeometry) {
 
     EXPECT_FALSE(surfaceSet2->isValidGeometry());
 }
+
+TEST(SurfaceSet3, IsInside) {
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+    Vector3D offset(1, 2, 3);
+
+    auto plane = Plane3::builder()
+            .withNormal({0, 1, 0})
+            .withPoint({0, 0.25 * domain.height(), 0})
+            .makeShared();
+
+    auto sphere = Sphere3::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet = SurfaceSet3::builder()
+            .withSurfaces({plane, sphere})
+            .withTransform(Transform3(offset, QuaternionD()))
+            .makeShared();
+
+    EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 0.25, 0.5) + offset));
+    EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 1.0, 0.5) + offset));
+    EXPECT_FALSE(surfaceSet->isInside(Vector3D(0.5, 1.5, 0.5) + offset));
+}
