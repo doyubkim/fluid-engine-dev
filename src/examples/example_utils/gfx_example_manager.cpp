@@ -39,7 +39,6 @@ void nextTests(Window* win) {
 
 bool onKeyDown(Window* win, const KeyEvent& keyEvent) {
     int key = keyEvent.key();
-
     // "Enter" key for toggling animation.
     // "Space" key for moving to the next example.
     if (key == 13) {

@@ -196,6 +196,21 @@ void GlfwApp::onKey(GLFWwindow *glfwWindow, int key, int scancode, int action,
     JET_ASSERT(window != nullptr);
     window->requestRender(1);
 
+    // Translate the key to Straight ASCII
+    if (key >= 'a' && key <= 'z') {
+        key = key - 'a' + 'A';
+    } else if (key == GLFW_KEY_ESCAPE) {
+        key = 32;
+    } else if (key == GLFW_KEY_ENTER) {
+        key = 13;
+    } else if (key == GLFW_KEY_TAB) {
+        key = 9;
+    } else if (key == GLFW_KEY_DELETE) {
+        key = 127;
+    } else if (key < 32 || key > 255) {
+        key = -1;
+    }
+
     bool handled = sOnGlfwKeyEvent(glfwWindow, key, scancode, action, mods);
     if (handled) {
         return;

@@ -25,11 +25,14 @@ void PointsRenderable::update(const ConstArrayView1<Vector3F>& positions,
     std::lock_guard<std::mutex> lock(_dataMutex);
 
     _vertices.resize(positions.length());
-    for (size_t i = 0; i < _vertices.length(); ++i) {
+    for (size_t i = 0; i < positions.length(); ++i) {
         VertexPosition3Color4& vertex = _vertices[i];
         vertex.x = positions[i].x;
         vertex.y = positions[i].y;
         vertex.z = positions[i].z;
+    }
+    for (size_t i = 0; i < colors.length(); ++i) {
+        VertexPosition3Color4& vertex = _vertices[i];
         vertex.r = colors[i].x;
         vertex.g = colors[i].y;
         vertex.b = colors[i].z;

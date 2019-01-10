@@ -44,6 +44,14 @@ class PointsExample final : public GfxExample {
             positions, colors, 10.0f * window->displayScalingFactor().x);
         window->renderer()->addRenderable(pointsRenderable);
         window->renderer()->setBackgroundColor({0.2f, 0.5f, 1.0f, 1.0f});
+
+        Viewport viewport(0, 0, window->framebufferSize().x,
+                          window->framebufferSize().y);
+        CameraState camera{.origin = Vector3F(0, 0, 1),
+                           .lookAt = Vector3F(0, 0, -1),
+                           .viewport = viewport};
+        window->setViewController(std::make_shared<PitchYawViewController>(
+            std::make_shared<PerspCamera>(camera, kHalfPiF), Vector3F()));
     }
 };
 
@@ -58,45 +66,53 @@ class SimpleParticleAnimationExample final : public GfxExample {
     void onSetup(Window* window) override {
         _window = window;
 
-        _solver.setRestitutionCoefficient(1.0);
-
         // Set up sim
         Plane2Ptr plane = std::make_shared<Plane2>(Vector2D(0, 1), Vector2D());
         RigidBodyCollider2Ptr collider =
             std::make_shared<RigidBodyCollider2>(plane);
-        ConstantVectorField2Ptr wind =
-            std::make_shared<ConstantVectorField2>(Vector2D(1, 0));
-
+        collider->setFrictionCoefficient(0.01);
+        _solver.setRestitutionCoefficient(0.5);
         _solver.setCollider(collider);
-        _solver.setWind(wind);
 
         ParticleSystemData2Ptr particles = _solver.particleSystemData();
         PointParticleEmitter2Ptr emitter =
             std::make_shared<PointParticleEmitter2>(Vector2D(0, 0),
-                                                    Vector2D(0, 1), 5.0, 45.0);
+                                                    Vector2D(0, 1), 10.0, 15.0);
         emitter->setMaxNumberOfNewParticlesPerSecond(100);
         emitter->setMaxNumberOfParticles(1000);
         _solver.setEmitter(emitter);
 
         // Set up rendering
+        Array1<Vector3F> positions(1000, Vector3F());
+        Array1<Vector4F> colors(1000, Vector4F());
+        std::mt19937 rng(0);
+        std::uniform_real_distribution<float> dist2(-1.0f, 1.0f);
+        for (size_t i = 0; i < 1000; ++i) {
+            positions[i] = Vector3F(0, -1, 0);  // hide outside the screen :)
+            colors[i] = ColorUtils::makeJet(dist2(rng));
+        }
+
         _renderable = std::make_shared<PointsRenderable>(
-            Array1<Vector3F>(1000, Vector3F()),
-            Array1<Vector4F>(1000, Vector4F()),
-            2.0f * window->displayScalingFactor().x);
+            positions, colors, _radius * window->displayScalingFactor().x);
         window->renderer()->addRenderable(_renderable);
         window->renderer()->setBackgroundColor({0.1f, 0.1f, 0.1f, 1.0f});
+
+        window->setSwapInterval(1);
+        Viewport viewport(0, 0, window->framebufferSize().x,
+                          window->framebufferSize().y);
+        CameraState camera{.origin = Vector3F(0, 0, 1),
+                           .lookAt = Vector3F(0, 0, -1),
+                           .viewport = viewport};
+        window->setViewController(std::make_shared<OrthoViewController>(
+            std::make_shared<OrthoCamera>(camera, -3, 3, 0, 6)));
     }
 
     void onAdvanceSim(const jet::Frame& frame) override {
-        JET_INFO << frame.index;
         _solver.update(frame);
 
         ParticleSystemData2Ptr particles = _solver.particleSystemData();
         auto particlePosView = particles->positions();
         Array1<Vector3F> positions(1000, Vector3F());
-        Array1<Vector4F> colors(1000, Vector4F(1, 1, 1, 1));
-
-        JET_INFO << particles->numberOfParticles();
 
         for (size_t i = 0; i < particles->numberOfParticles(); ++i) {
             Vector3F pt((float)particlePosView[i].x,
@@ -104,17 +120,20 @@ class SimpleParticleAnimationExample final : public GfxExample {
             positions[i] = pt;
         }
 
-        _renderable->update(positions, colors,
-                            2.0f * _window->displayScalingFactor().x);
+        _renderable->update(positions, Array1<Vector4F>(),
+                            _radius * _window->displayScalingFactor().x);
     }
 
  private:
     ParticleSystemSolver2 _solver;
     PointsRenderablePtr _renderable;
     Window* _window;
+
+    float _radius = 4.0;
 };
 
 void makeGfxDemo(const WindowPtr& window) {
+    Logging::mute();
     GfxExampleManager::initialize(window);
     GfxExampleManager::addExample<SimpleExample>();
     GfxExampleManager::addExample<PointsExample>();

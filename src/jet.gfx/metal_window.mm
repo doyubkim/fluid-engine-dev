@@ -6,6 +6,9 @@
 //
 // This code uses example code from mtlpp
 // (https://github.com/naleksiev/mtlpp)
+// This code also uses key handling code from ImGui
+// (https://github.com/ocornut/imgui)
+//
 
 #undef JET_USE_GL
 #import <common.h>
@@ -98,11 +101,19 @@ class MetalCustomViewEventHandler {
     }
 
     static int mapCharacterToKey(int c) {
-        if (c >= 'a' && c <= 'z') return c - 'a' + 'A';
-        if (c == 25)  // SHIFT+TAB -> TAB
+        // Translate the key to Straight ASCII
+        if (c >= 'a' && c <= 'z') {
+            return c - 'a' + 'A';
+        }
+        if (c == 25) {  // SHIFT+TAB -> TAB
             return 9;
-        if (c >= 0 && c < 256) return c;
-        if (c >= 0xF700 && c < 0xF700 + 256) return c - 0xF700 + 256;
+        }
+        if (c >= 0 && c < 256) {
+            return c;
+        }
+        if (c >= 0xF700 && c < 0xF700 + 256) {
+            return c - 0xF700 + 256;
+        }
         return -1;
     }
 
@@ -316,8 +327,10 @@ void MetalWindow::onUpdateEnabled(bool enabled) {
 }
 
 void MetalWindow::setSwapInterval(int interval) {
-    // TODO: Implement
-    UNUSED_VARIABLE(interval);
+    MTKView *mtkView = (__bridge MTKView *)_view->GetPtr();
+    // TODO: This is quite a hacky solution..
+    int fps = 120 >> interval;
+    mtkView.preferredFramesPerSecond = fps;
 }
 
 Vector2UZ MetalWindow::framebufferSize() const {

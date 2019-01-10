@@ -27,6 +27,7 @@
 #include <jet.gfx/metal_vertex_buffer.h>
 #include <jet.gfx/metal_window.h>
 #include <jet.gfx/ortho_camera.h>
+#include <jet.gfx/ortho_view_controller.h>
 #include <jet.gfx/persp_camera.h>
 #include <jet.gfx/pitch_yaw_view_controller.h>
 #include <jet.gfx/points_renderable.h>

@@ -46,8 +46,8 @@ void PitchYawViewController::onPointerHover(const PointerEvent &pointerEvent) {
 
 void PitchYawViewController::onPointerDragged(
     const PointerEvent &pointerEvent) {
-    float deltaX = static_cast<float>(pointerEvent.deltaX());
-    float deltaY = static_cast<float>(pointerEvent.deltaY());
+    float deltaX = pointerEvent.deltaX();
+    float deltaY = pointerEvent.deltaY();
 
     if (pointerEvent.modifierKey() == ModifierKey::Ctrl) {
         _azimuthalAngleInRadians -=
