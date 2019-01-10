@@ -5,6 +5,8 @@
 // property of any third parties.
 
 #include <jet/box2.h>
+#include <jet/plane2.h>
+#include <jet/surface_set2.h>
 #include <jet/surface_to_implicit2.h>
 
 #include <gtest/gtest.h>
@@ -128,4 +130,31 @@ TEST(SurfaceToImplicit2, ClosestNormal) {
     Vector2D s2iNormal = s2i.closestNormal(pt);
     EXPECT_DOUBLE_EQ(boxNormal.x, s2iNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, s2iNormal.y);
+}
+
+TEST(SurfaceToImplicit2, IsBounded) {
+    Plane2Ptr plane =
+        Plane2::builder().withPoint({0, 0}).withNormal({0, 1}).makeShared();
+    SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::builder().withSurface(plane).makeShared();
+    EXPECT_FALSE(s2i->isBounded());
+}
+
+TEST(SurfaceToImplicit2, IsValidGeometry) {
+    SurfaceSet2Ptr sset = SurfaceSet2::builder().makeShared();
+    SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::builder().withSurface(sset).makeShared();
+    EXPECT_FALSE(s2i->isValidGeometry());
+}
+
+TEST(SurfaceToImplicit2, IsInside) {
+    Plane2Ptr plane = Plane2::builder()
+                          .withPoint({0, 0})
+                          .withNormal({0, 1})
+                          .withTranslation({0, -1})
+                          .makeShared();
+    SurfaceToImplicit2Ptr s2i =
+        SurfaceToImplicit2::builder().withSurface(plane).makeShared();
+    EXPECT_FALSE(s2i->isInside({0, -0.5}));
+    EXPECT_TRUE(s2i->isInside({0, -1.5}));
 }
