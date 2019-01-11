@@ -14,6 +14,24 @@ namespace gfx {
 
 class ColorUtils {
  public:
+    static Vector4F makeWhite();
+
+    static Vector4F makeGray();
+
+    static Vector4F makeBlack();
+
+    static Vector4F makeRed();
+
+    static Vector4F makeGreen();
+
+    static Vector4F makeBlue();
+
+    static Vector4F makeCyan();
+
+    static Vector4F makeMagenta();
+
+    static Vector4F makeYellow();
+
     //!
     //! Makes color with jet colormap.
     //!

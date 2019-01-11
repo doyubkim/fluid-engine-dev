@@ -24,6 +24,9 @@ class PointsRenderable final : public Renderable {
                      const ConstArrayView1<Vector4F>& colors, float radius);
 
     void update(const ConstArrayView1<Vector3F>& positions,
+                const ConstArrayView1<Vector4F>& colors);
+
+    void update(const ConstArrayView1<Vector3F>& positions,
                 const ConstArrayView1<Vector4F>& colors, float radius);
 
  private:

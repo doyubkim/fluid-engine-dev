@@ -33,7 +33,11 @@ class GfxExample {
     const jet::Frame& currentFrame() const;
 
  protected:
-    virtual void onRestartSim();
+    virtual void onResetView(jet::gfx::Window* window);
+
+    virtual void onResetSim();
+
+    virtual void onUpdateRenderables();
 
     virtual void onSetup(jet::gfx::Window* window);
 

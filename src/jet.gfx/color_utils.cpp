@@ -11,6 +11,8 @@
 namespace jet {
 namespace gfx {
 
+namespace {
+
 inline float interpolate(float val, float y0, float x0, float y1, float x1) {
     return (val - x0) * (y1 - y0) / (x1 - x0) + y0;
 };
@@ -34,6 +36,26 @@ inline float jetRed(float value) { return jetBase(value - 0.5f); }
 inline float jetGreen(float value) { return jetBase(value); }
 
 inline float jetBlue(float value) { return jetBase(value + 0.5f); }
+
+}  // namespace
+
+Vector4F ColorUtils::makeWhite() { return Vector4F(1, 1, 1, 1); }
+
+Vector4F ColorUtils::makeGray() { return Vector4F(0.5f, 0.5f, 0.5f, 1); }
+
+Vector4F ColorUtils::makeBlack() { return Vector4F(0, 0, 0, 1); }
+
+Vector4F ColorUtils::makeRed() { return Vector4F(1, 0, 0, 1); }
+
+Vector4F ColorUtils::makeGreen() { return Vector4F(0, 1, 0, 1); }
+
+Vector4F ColorUtils::makeBlue() { return Vector4F(0, 0, 1, 1); }
+
+Vector4F ColorUtils::makeCyan() { return Vector4F(0, 1, 1, 1); }
+
+Vector4F ColorUtils::makeMagenta() { return Vector4F(1, 0, 1, 1); }
+
+Vector4F ColorUtils::makeYellow() { return Vector4F(1, 1, 0, 1); }
 
 Vector4F ColorUtils::makeJet(float value) {
     // Adopted from

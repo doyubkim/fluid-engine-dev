@@ -8,6 +8,7 @@
 #define INCLUDE_JET_GFX_RENDERER_H_
 
 #include <jet.gfx/camera.h>
+#include <jet.gfx/color_utils.h>
 #include <jet.gfx/index_buffer.h>
 #include <jet.gfx/render_states.h>
 #include <jet.gfx/renderable.h>
@@ -200,7 +201,7 @@ class Renderer {
     Viewport _prevViewport;
     CameraPtr _camera;
     RenderStates _renderStates;
-    Vector4F _backgroundColor;
+    Vector4F _backgroundColor = ColorUtils::makeBlack();
     Array1<RenderablePtr> _renderables;
 };
 

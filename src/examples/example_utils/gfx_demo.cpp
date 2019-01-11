@@ -44,14 +44,6 @@ class PointsExample final : public GfxExample {
             positions, colors, 10.0f * window->displayScalingFactor().x);
         window->renderer()->addRenderable(pointsRenderable);
         window->renderer()->setBackgroundColor({0.2f, 0.5f, 1.0f, 1.0f});
-
-        Viewport viewport(0, 0, window->framebufferSize().x,
-                          window->framebufferSize().y);
-        CameraState camera{.origin = Vector3F(0, 0, 1),
-                           .lookAt = Vector3F(0, 0, -1),
-                           .viewport = viewport};
-        window->setViewController(std::make_shared<PitchYawViewController>(
-            std::make_shared<PerspCamera>(camera, kHalfPiF), Vector3F()));
     }
 };
 
@@ -64,13 +56,48 @@ class SimpleParticleAnimationExample final : public GfxExample {
     }
 
     void onSetup(Window* window) override {
-        _window = window;
-
         // Set up sim
+        onResetSim();
+
+        // Set up rendering
+        _renderable = std::make_shared<PointsRenderable>(
+            Array1<Vector3F>(), Array1<Vector4F>(),
+            4.0f * window->displayScalingFactor().x);
+        window->renderer()->addRenderable(_renderable);
+        window->renderer()->setBackgroundColor({0.1f, 0.1f, 0.1f, 1.0f});
+        window->setSwapInterval(1);
+    }
+
+    void onAdvanceSim(const jet::Frame& frame) override {
+        _solver.update(frame);
+    }
+
+ private:
+    ParticleSystemSolver2 _solver;
+    Array1<Vector3F> _positions;
+    Array1<Vector4F> _colors;
+    PointsRenderablePtr _renderable;
+    std::mt19937 _rng{0};
+
+    void onResetView(Window* window) override {
+        Viewport viewport(0, 0, window->framebufferSize().x,
+                          window->framebufferSize().y);
+        CameraState camera{.origin = Vector3F(0, 3, 1),
+                           .lookAt = Vector3F(0, 0, -1),
+                           .viewport = viewport};
+        window->setViewController(std::make_shared<OrthoViewController>(
+            std::make_shared<OrthoCamera>(camera, -3, 3, -3, 3)));
+    }
+
+    void onResetSim() override {
+        _rng.seed(0);
+
         Plane2Ptr plane = std::make_shared<Plane2>(Vector2D(0, 1), Vector2D());
         RigidBodyCollider2Ptr collider =
             std::make_shared<RigidBodyCollider2>(plane);
         collider->setFrictionCoefficient(0.01);
+
+        _solver = ParticleSystemSolver2();
         _solver.setRestitutionCoefficient(0.5);
         _solver.setCollider(collider);
 
@@ -81,55 +108,134 @@ class SimpleParticleAnimationExample final : public GfxExample {
         emitter->setMaxNumberOfNewParticlesPerSecond(100);
         emitter->setMaxNumberOfParticles(1000);
         _solver.setEmitter(emitter);
+    }
 
-        // Set up rendering
-        Array1<Vector3F> positions(1000, Vector3F());
-        Array1<Vector4F> colors(1000, Vector4F());
+    void onUpdateRenderables() override {
+        auto particles = _solver.particleSystemData();
+        auto pos2D = particles->positions();
+
+        size_t oldNumParticles = _positions.length();
+        size_t newNumParticles = particles->numberOfParticles();
+        _positions.resize(newNumParticles);
+        _colors.resize(newNumParticles);
+
+        for (size_t i = 0; i < newNumParticles; ++i) {
+            Vector3F pt((float)pos2D[i].x, (float)pos2D[i].y, 0);
+            _positions[i] = pt;
+        }
+
+        std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+        for (size_t i = oldNumParticles; i < newNumParticles; ++i) {
+            _colors[i] = ColorUtils::makeJet(dist(_rng));
+        }
+
+        _renderable->update(_positions, _colors);
+    }
+};
+
+class PciSph2Example final : public GfxExample {
+ public:
+    PciSph2Example() : GfxExample(Frame(0, 0.005)) {}
+
+    std::string name() const override { return "2-D PCISPH Example"; }
+
+    void onSetup(Window* window) override {
+        onResetSim();
+
+        auto particles = _solver.sphSystemData();
+        auto pos2D = particles->positions();
+        _positions.resize(particles->numberOfParticles(), Vector3F());
+        _colors.resize(particles->numberOfParticles(), Vector4F());
         std::mt19937 rng(0);
         std::uniform_real_distribution<float> dist2(-1.0f, 1.0f);
-        for (size_t i = 0; i < 1000; ++i) {
-            positions[i] = Vector3F(0, -1, 0);  // hide outside the screen :)
-            colors[i] = ColorUtils::makeJet(dist2(rng));
+        for (size_t i = 0; i < particles->numberOfParticles(); ++i) {
+            _positions[i] = Vector3F((float)pos2D[i].x, (float)pos2D[i].y, 0);
+            _colors[i] = ColorUtils::makeJet(dist2(rng));
         }
 
         _renderable = std::make_shared<PointsRenderable>(
-            positions, colors, _radius * window->displayScalingFactor().x);
+            _positions, _colors, 4.0f * window->displayScalingFactor().x);
         window->renderer()->addRenderable(_renderable);
         window->renderer()->setBackgroundColor({0.1f, 0.1f, 0.1f, 1.0f});
-
         window->setSwapInterval(1);
-        Viewport viewport(0, 0, window->framebufferSize().x,
-                          window->framebufferSize().y);
-        CameraState camera{.origin = Vector3F(0, 0, 1),
-                           .lookAt = Vector3F(0, 0, -1),
-                           .viewport = viewport};
-        window->setViewController(std::make_shared<OrthoViewController>(
-            std::make_shared<OrthoCamera>(camera, -3, 3, 0, 6)));
     }
 
     void onAdvanceSim(const jet::Frame& frame) override {
         _solver.update(frame);
-
-        ParticleSystemData2Ptr particles = _solver.particleSystemData();
-        auto particlePosView = particles->positions();
-        Array1<Vector3F> positions(1000, Vector3F());
-
-        for (size_t i = 0; i < particles->numberOfParticles(); ++i) {
-            Vector3F pt((float)particlePosView[i].x,
-                        (float)particlePosView[i].y, 0);
-            positions[i] = pt;
-        }
-
-        _renderable->update(positions, Array1<Vector4F>(),
-                            _radius * _window->displayScalingFactor().x);
     }
 
  private:
-    ParticleSystemSolver2 _solver;
+    PciSphSolver2 _solver;
+    Array1<Vector3F> _positions;
+    Array1<Vector4F> _colors;
     PointsRenderablePtr _renderable;
-    Window* _window;
 
-    float _radius = 4.0;
+    void onResetView(Window* window) override {
+        Viewport viewport(0, 0, window->framebufferSize().x,
+                          window->framebufferSize().y);
+        CameraState camera{.origin = Vector3F(0, 1, 1),
+                           .lookAt = Vector3F(0, 0, -1),
+                           .viewport = viewport};
+        window->setViewController(std::make_shared<OrthoViewController>(
+            std::make_shared<OrthoCamera>(camera, 0, 1, -1, 1)));
+    }
+
+    void onResetSim() override {
+        const double targetSpacing = 0.025;
+
+        BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
+
+        // Initialize solvers
+        _solver = PciSphSolver2();
+        _solver.setViscosityCoefficient(0.01);
+        _solver.setPseudoViscosityCoefficient(10);
+        _solver.setIsUsingFixedSubTimeSteps(true);
+        _solver.setNumberOfFixedSubTimeSteps(1);
+        _solver.setMaxNumberOfIterations(20);
+
+        SphSystemData2Ptr particles = _solver.sphSystemData();
+        particles->setTargetDensity(1000.0);
+        particles->setTargetSpacing(targetSpacing);
+
+        // Initialize source
+        ImplicitSurfaceSet2Ptr surfaceSet =
+            std::make_shared<ImplicitSurfaceSet2>();
+        surfaceSet->addExplicitSurface(std::make_shared<Plane2>(
+            Vector2D(0, 1), Vector2D(0, 0.25 * domain.height())));
+        surfaceSet->addExplicitSurface(std::make_shared<Sphere2>(
+            domain.midPoint(), 0.15 * domain.width()));
+
+        BoundingBox2D sourceBound(domain);
+        sourceBound.expand(-targetSpacing);
+
+        auto emitter = std::make_shared<VolumeParticleEmitter2>(
+            surfaceSet, sourceBound, targetSpacing, Vector2D());
+        _solver.setEmitter(emitter);
+
+        // Initialize boundary
+        Box2Ptr box = std::make_shared<Box2>(domain);
+        box->isNormalFlipped = true;
+        RigidBodyCollider2Ptr collider =
+            std::make_shared<RigidBodyCollider2>(box);
+
+        // Setup solver
+        _solver.setCollider(collider);
+
+        // Update once to initialize
+        _solver.update(currentFrame());
+    }
+
+    void onUpdateRenderables() override {
+        auto particles = _solver.sphSystemData();
+        auto pos2D = particles->positions();
+
+        for (size_t i = 0; i < particles->numberOfParticles(); ++i) {
+            Vector3F pt((float)pos2D[i].x, (float)pos2D[i].y, 0);
+            _positions[i] = pt;
+        }
+
+        _renderable->update(_positions, _colors);
+    }
 };
 
 void makeGfxDemo(const WindowPtr& window) {
@@ -138,4 +244,5 @@ void makeGfxDemo(const WindowPtr& window) {
     GfxExampleManager::addExample<SimpleExample>();
     GfxExampleManager::addExample<PointsExample>();
     GfxExampleManager::addExample<SimpleParticleAnimationExample>();
+    GfxExampleManager::addExample<PciSph2Example>();
 }

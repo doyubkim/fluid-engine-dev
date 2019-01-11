@@ -19,6 +19,11 @@ PointsRenderable::PointsRenderable(const ConstArrayView1<Vector3F>& positions,
 }
 
 void PointsRenderable::update(const ConstArrayView1<Vector3F>& positions,
+                              const ConstArrayView1<Vector4F>& colors) {
+    update(positions, colors, _radius);
+}
+
+void PointsRenderable::update(const ConstArrayView1<Vector3F>& positions,
                               const ConstArrayView1<Vector4F>& colors,
                               float radius) {
     // This function can be called from non-render thread.
@@ -46,6 +51,11 @@ void PointsRenderable::update(const ConstArrayView1<Vector3F>& positions,
 void PointsRenderable::onInitializeGpuResources(Renderer* renderer) {
     JET_ASSERT(renderer != nullptr);
 
+    if (_vertices.isEmpty()) {
+        _vertexBuffer = nullptr;
+        return;
+    }
+
     // This function is called from render thread.
     std::lock_guard<std::mutex> lock(_dataMutex);
 
@@ -69,12 +79,14 @@ void PointsRenderable::onInitializeGpuResources(Renderer* renderer) {
 }
 
 void PointsRenderable::onRender(Renderer* renderer) {
-    renderer->bindShader(_shader);
-    renderer->bindVertexBuffer(_vertexBuffer);
-    renderer->setPrimitiveType(PrimitiveType::Points);
-    renderer->draw(_vertexBuffer->numberOfVertices());
-    renderer->unbindVertexBuffer(_vertexBuffer);
-    renderer->unbindShader(_shader);
+    if (_vertexBuffer) {
+        renderer->bindShader(_shader);
+        renderer->bindVertexBuffer(_vertexBuffer);
+        renderer->setPrimitiveType(PrimitiveType::Points);
+        renderer->draw(_vertexBuffer->numberOfVertices());
+        renderer->unbindVertexBuffer(_vertexBuffer);
+        renderer->unbindShader(_shader);
+    }
 }
 
 }  // namespace gfx
