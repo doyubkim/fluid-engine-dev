@@ -5,6 +5,8 @@
 // property of any third parties.
 
 #include <jet/box3.h>
+#include <jet/plane3.h>
+#include <jet/surface_set3.h>
 #include <jet/surface_to_implicit3.h>
 
 #include <gtest/gtest.h>
@@ -132,4 +134,33 @@ TEST(SurfaceToImplicit3, ClosestNormal) {
     EXPECT_DOUBLE_EQ(boxNormal.x, s2iNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, s2iNormal.y);
     EXPECT_DOUBLE_EQ(boxNormal.z, s2iNormal.z);
+}
+
+TEST(SurfaceToImplicit3, IsBounded) {
+    Plane3Ptr plane = Plane3::builder()
+                          .withPoint({0, 0, 0})
+                          .withNormal({0, 1, 0})
+                          .makeShared();
+    SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::builder().withSurface(plane).makeShared();
+    EXPECT_FALSE(s2i->isBounded());
+}
+
+TEST(SurfaceToImplicit3, IsValidGeometry) {
+    SurfaceSet3Ptr sset = SurfaceSet3::builder().makeShared();
+    SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::builder().withSurface(sset).makeShared();
+    EXPECT_FALSE(s2i->isValidGeometry());
+}
+
+TEST(SurfaceToImplicit3, IsInside) {
+    Plane3Ptr plane = Plane3::builder()
+                          .withPoint({0, 0, 0})
+                          .withNormal({0, 1, 0})
+                          .withTranslation({0, -1, 0})
+                          .makeShared();
+    SurfaceToImplicit3Ptr s2i =
+        SurfaceToImplicit3::builder().withSurface(plane).makeShared();
+    EXPECT_FALSE(s2i->isInside({0, -0.5, 0}));
+    EXPECT_TRUE(s2i->isInside({0, -1.5, 0}));
 }
