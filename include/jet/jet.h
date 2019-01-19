@@ -150,13 +150,13 @@
 #include <jet/nested_initializer_list.h>
 #include <jet/octree.h>
 #include <jet/parallel.h>
-#include <jet/particle_emitter2.h>
-#include <jet/particle_emitter3.h>
+#include <jet/particle_emitter.h>
 #include <jet/particle_emitter_set2.h>
 #include <jet/particle_emitter_set3.h>
 #include <jet/particle_system_data.h>
 #include <jet/particle_system_solver2.h>
 #include <jet/particle_system_solver3.h>
+#include <jet/particle_system_solver.h>
 #include <jet/pbf_solver2.h>
 #include <jet/pci_sph_solver2.h>
 #include <jet/pci_sph_solver3.h>

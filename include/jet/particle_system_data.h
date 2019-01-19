@@ -265,11 +265,15 @@ using ParticleSystemData2 = ParticleSystemData<2>;
 //! 3-D ParticleSystemData type.
 using ParticleSystemData3 = ParticleSystemData<3>;
 
+//! N-D shared pointer type of ParticleSystemData.
+template <size_t N>
+using ParticleSystemDataPtr = std::shared_ptr<ParticleSystemData<N>>;
+
 //! Shared pointer type of ParticleSystemData2.
-using ParticleSystemData2Ptr = std::shared_ptr<ParticleSystemData2>;
+using ParticleSystemData2Ptr = ParticleSystemDataPtr<2>;
 
 //! Shared pointer type of ParticleSystemData3.
-using ParticleSystemData3Ptr = std::shared_ptr<ParticleSystemData3>;
+using ParticleSystemData3Ptr = ParticleSystemDataPtr<3>;
 
 }  // namespace jet
 

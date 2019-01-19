@@ -31,6 +31,17 @@ ConstantVectorField<N>::sampler() const {
 }
 
 template <size_t N>
+double ConstantVectorField<N>::divergence(const VectorType &) const {
+    return 0.0;
+}
+
+template <size_t N>
+typename GetCurl<N>::type ConstantVectorField<N>::curl(
+    const VectorType &x) const {
+    return CurlResultType{};
+}
+
+template <size_t N>
 typename ConstantVectorField<N>::Builder ConstantVectorField<N>::builder() {
     return Builder();
 }

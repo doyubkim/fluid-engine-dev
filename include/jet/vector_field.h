@@ -32,6 +32,9 @@ struct GetCurl<3> {
 template <size_t N>
 class VectorField : public Field<N> {
  public:
+    using VectorType = Vector<double, N>;
+    using CurlResultType = typename GetCurl<N>::type;
+
     //! Default constructor.
     VectorField();
 
@@ -39,17 +42,16 @@ class VectorField : public Field<N> {
     virtual ~VectorField();
 
     //! Returns sampled value at given position \p x.
-    virtual Vector<double, N> sample(const Vector<double, N>& x) const = 0;
+    virtual VectorType sample(const VectorType& x) const = 0;
 
     //! Returns divergence at given position \p x.
-    virtual double divergence(const Vector<double, N>& x) const;
+    virtual double divergence(const VectorType& x) const = 0;
 
     //! Returns curl at given position \p x.
-    virtual typename GetCurl<N>::type curl(const Vector<double, N>& x) const;
+    virtual CurlResultType curl(const VectorType& x) const = 0;
 
     //! Returns sampler function object.
-    virtual std::function<Vector<double, N>(const Vector<double, N>&)> sampler()
-        const;
+    virtual std::function<VectorType(const VectorType&)> sampler() const;
 };
 
 //! 2-D VectorField type.
@@ -57,6 +59,10 @@ using VectorField2 = VectorField<2>;
 
 //! 3-D VectorField type.
 using VectorField3 = VectorField<3>;
+
+//! N-D shared pointer for the VectorField type.
+template <size_t N>
+using VectorFieldPtr = std::shared_ptr<VectorField<N>>;
 
 //! Shared pointer for the VectorField2 type.
 using VectorField2Ptr = std::shared_ptr<VectorField2>;

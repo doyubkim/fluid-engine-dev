@@ -118,11 +118,15 @@ using Collider2 = Collider<2>;
 //! 3-D collider type.
 using Collider3 = Collider<3>;
 
+//! N-D shared pointer type for Collider.
+template <size_t N>
+using ColliderPtr = std::shared_ptr<Collider<N>>;
+
 //! Shared pointer type for the Collider2.
-using Collider2Ptr = std::shared_ptr<Collider2>;
+using Collider2Ptr = ColliderPtr<2>;
 
 //! Shared pointer type for the Collider3.
-using Collider3Ptr = std::shared_ptr<Collider3>;
+using Collider3Ptr = ColliderPtr<3>;
 
 }  // namespace jet
 

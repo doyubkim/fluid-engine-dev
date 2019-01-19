@@ -44,6 +44,10 @@ using ScalarField2 = ScalarField<2>;
 //! 3-D ScalarField type.
 using ScalarField3 = ScalarField<3>;
 
+//! N-D shared pointer for the ScalarField type.
+template <size_t N>
+using ScalarFieldPtr = std::shared_ptr<ScalarField<N>>;
+
 //! Shared pointer for the ScalarField2 type.
 using ScalarField2Ptr = std::shared_ptr<ScalarField2>;
 

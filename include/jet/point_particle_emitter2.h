@@ -7,7 +7,7 @@
 #ifndef INCLUDE_JET_POINT_PARTICLE_EMITTER2_H_
 #define INCLUDE_JET_POINT_PARTICLE_EMITTER2_H_
 
-#include <jet/particle_emitter2.h>
+#include <jet/particle_emitter.h>
 #include <limits>
 #include <random>
 

@@ -8,7 +8,7 @@
 #define INCLUDE_JET_PIC_SOLVER3_H_
 
 #include <jet/grid_fluid_solver3.h>
-#include <jet/particle_emitter3.h>
+#include <jet/particle_emitter.h>
 #include <jet/particle_system_data.h>
 
 namespace jet {

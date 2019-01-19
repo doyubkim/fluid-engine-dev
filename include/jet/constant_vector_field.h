@@ -15,6 +15,9 @@ namespace jet {
 template <size_t N>
 class ConstantVectorField final : public VectorField<N> {
  public:
+    using VectorType = Vector<double, N>;
+    using CurlResultType = typename GetCurl<N>::type;
+
     class Builder;
 
     //! Constructs a constant vector field with given \p value.
@@ -22,6 +25,12 @@ class ConstantVectorField final : public VectorField<N> {
 
     //! Returns the sampled value at given position \p x.
     Vector<double, N> sample(const Vector<double, N>& x) const override;
+
+    //! Returns divergence at given position \p x.
+    double divergence(const VectorType& x) const override;
+
+    //! Returns curl at given position \p x.
+    CurlResultType curl(const VectorType& x) const override;
 
     //! Returns the sampler function.
     std::function<Vector<double, N>(const Vector<double, N>&)> sampler()
