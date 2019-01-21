@@ -49,6 +49,19 @@ void ImplicitSurfaceSet<N>::updateQueryEngine() {
 }
 
 template <size_t N>
+bool ImplicitSurfaceSet<N>::isBounded() const {
+    // All surfaces should be bounded.
+    for (auto surface : _surfaces) {
+        if (!surface->isBounded()) {
+            return false;
+        }
+    }
+
+    // Empty set is not bounded.
+    return !_surfaces.isEmpty();
+}
+
+template <size_t N>
 bool ImplicitSurfaceSet<N>::isValidGeometry() const {
     // All surfaces should be valid.
     for (auto surface : _surfaces) {

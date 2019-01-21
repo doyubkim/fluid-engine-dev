@@ -21,6 +21,16 @@ SurfaceToImplicit<N>::SurfaceToImplicit(const SurfaceToImplicit &other)
     : ImplicitSurface<N>(other), _surface(other._surface) {}
 
 template <size_t N>
+bool SurfaceToImplicit<N>::isBounded() const {
+    return _surface->isBounded();
+}
+
+template <size_t N>
+bool SurfaceToImplicit<N>::isValidGeometry() const {
+    return _surface->isValidGeometry();
+}
+
+template <size_t N>
 std::shared_ptr<Surface<N>> SurfaceToImplicit<N>::surface() const {
     return _surface;
 }
@@ -78,7 +88,8 @@ double SurfaceToImplicit<N>::signedDistanceLocal(
 }
 
 template <size_t N>
-typename SurfaceToImplicit<N>::Builder &SurfaceToImplicit<N>::Builder::withSurface(
+typename SurfaceToImplicit<N>::Builder &
+SurfaceToImplicit<N>::Builder::withSurface(
     const std::shared_ptr<Surface<N>> &surface) {
     _surface = surface;
     return *this;
@@ -90,8 +101,8 @@ SurfaceToImplicit<N> SurfaceToImplicit<N>::Builder::build() const {
 }
 
 template <size_t N>
-std::shared_ptr<SurfaceToImplicit<N>> SurfaceToImplicit<N>::Builder::makeShared()
-    const {
+std::shared_ptr<SurfaceToImplicit<N>>
+SurfaceToImplicit<N>::Builder::makeShared() const {
     return std::shared_ptr<SurfaceToImplicit>(
         new SurfaceToImplicit(_surface, _transform, _isNormalFlipped),
         [](SurfaceToImplicit *obj) { delete obj; });

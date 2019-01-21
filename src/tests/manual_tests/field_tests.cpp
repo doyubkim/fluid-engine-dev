@@ -108,6 +108,14 @@ class MyCustomVectorField3_2 final : public VectorField3 {
     Vector3D sample(const Vector3D& x) const override {
         return Vector3D(-x.y, x.x, 0.0);
     }
+
+    double divergence(const VectorType& x) const override {
+        return 0.0;
+    }
+
+    Vector3D curl(const VectorType& x) const override {
+        return Vector3D(0, 0, 2);
+    }
 };
 
 JET_TESTS(VectorField3);

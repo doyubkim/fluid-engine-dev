@@ -86,7 +86,8 @@ bool Surface<N>::isValidGeometry() const {
 
 template <size_t N>
 bool Surface<N>::isInside(const Vector<double, N> &otherPoint) const {
-    return isInsideLocal(transform.toLocal(otherPoint));
+    bool resultLocal = isInsideLocal(transform.toLocal(otherPoint));
+    return isNormalFlipped == !resultLocal;
 }
 
 template <size_t N>
