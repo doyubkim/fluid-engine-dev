@@ -37,6 +37,17 @@ TEST(SurfaceSet2, Constructors) {
                       false);
     EXPECT_EQ(Vector2D(1, 2), sset3.transform.translation());
     EXPECT_EQ(0.5, sset3.transform.orientation());
+
+    SurfaceSet2 sset4(sset3);
+    EXPECT_EQ(3u, sset4.numberOfSurfaces());
+    EXPECT_EQ(sph1->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.surfaceAt(0))->radius);
+    EXPECT_EQ(sph2->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.surfaceAt(1))->radius);
+    EXPECT_EQ(sph3->radius,
+              std::dynamic_pointer_cast<Sphere2>(sset4.surfaceAt(2))->radius);
+    EXPECT_EQ(Vector2D(1, 2), sset4.transform.translation());
+    EXPECT_EQ(0.5, sset4.transform.orientation());
 }
 
 TEST(SurfaceSet2, AddSurface) {
@@ -377,7 +388,7 @@ TEST(SurfaceSet2, MixedBoundTypes) {
 
     auto plane = Plane2::builder()
             .withNormal({0, 1})
-            .withPoint({0, 0.25 * domain.height()})
+            .withPoint({0.0, 0.25 * domain.height()})
             .makeShared();
 
     auto sphere = Sphere2::builder()
@@ -388,6 +399,8 @@ TEST(SurfaceSet2, MixedBoundTypes) {
     auto surfaceSet = SurfaceSet2::builder()
             .withSurfaces({plane, sphere})
             .makeShared();
+
+    EXPECT_FALSE(surfaceSet->isBounded());
 
     auto cp = surfaceSet->closestPoint(Vector2D(0.5, 0.4));
     Vector2D answer(0.5, 0.5);

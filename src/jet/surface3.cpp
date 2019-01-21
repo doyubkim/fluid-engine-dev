@@ -65,7 +65,7 @@ bool Surface3::isBounded() const { return true; }
 bool Surface3::isValidGeometry() const { return true; }
 
 bool Surface3::isInside(const Vector3D& otherPoint) const {
-    return isInsideLocal(transform.toLocal(otherPoint));
+    return isNormalFlipped == !isInsideLocal(transform.toLocal(otherPoint));
 }
 
 double Surface3::closestDistanceLocal(const Vector3D& otherPointLocal) const {

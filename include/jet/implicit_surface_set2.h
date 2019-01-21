@@ -44,6 +44,9 @@ class ImplicitSurfaceSet2 final : public ImplicitSurface2 {
     //! Updates internal spatial query engine.
     void updateQueryEngine() override;
 
+    //! Returns true if bounding box can be defined.
+    bool isBounded() const override;
+
     //! Returns true if the surface is a valid geometry.
     bool isValidGeometry() const override;
 

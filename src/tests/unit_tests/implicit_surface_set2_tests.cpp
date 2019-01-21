@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "unit_tests_utils.h"
+
 #include <jet/box2.h>
 #include <jet/implicit_surface_set2.h>
 #include <jet/plane2.h>
@@ -25,6 +27,9 @@ TEST(ImplicitSurfaceSet2, Constructor) {
     ImplicitSurfaceSet2 sset2(sset);
     EXPECT_EQ(1u, sset2.numberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
+
+    ImplicitSurfaceSet2 sset3({box});
+    EXPECT_EQ(1u, sset3.numberOfSurfaces());
 }
 
 TEST(ImplicitSurfaceSet2, NumberOfSurfaces) {
@@ -200,6 +205,31 @@ TEST(ImplicitSurfaceSet2, ClosestNormal) {
     Vector2D setNormal = sset->closestNormal(pt);
     EXPECT_DOUBLE_EQ(boxNormal.x, setNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, setNormal.y);
+}
+
+TEST(ImplicitSurfaceSet2, MixedBoundTypes) {
+    BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
+
+    auto plane = Plane2::builder()
+            .withNormal({0, 1})
+            .withPoint({0.0, 0.25 * domain.height()})
+            .makeShared();
+
+    auto sphere = Sphere2::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet = ImplicitSurfaceSet2::builder()
+            .withExplicitSurfaces({plane, sphere})
+            .makeShared();
+
+    EXPECT_FALSE(surfaceSet->isBounded());
+
+    auto cp = surfaceSet->closestPoint(Vector2D(0.5, 0.4));
+    Vector2D answer(0.5, 0.5);
+
+    EXPECT_VECTOR2_NEAR(answer, cp, 1e-9);
 }
 
 TEST(ImplicitSurfaceSet2, IsValidGeometry) {

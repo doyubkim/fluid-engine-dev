@@ -60,7 +60,7 @@ bool Surface2::isBounded() const { return true; }
 bool Surface2::isValidGeometry() const { return true; }
 
 bool Surface2::isInside(const Vector2D& otherPoint) const {
-    return isInsideLocal(transform.toLocal(otherPoint));
+    return isNormalFlipped == !isInsideLocal(transform.toLocal(otherPoint));
 }
 
 bool Surface2::intersectsLocal(const Ray2D& rayLocal) const {

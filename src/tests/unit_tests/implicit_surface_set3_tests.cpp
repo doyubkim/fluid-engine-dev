@@ -4,6 +4,8 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
+#include "unit_tests_utils.h"
+
 #include <jet/box3.h>
 #include <jet/implicit_surface_set3.h>
 #include <jet/plane3.h>
@@ -25,6 +27,9 @@ TEST(ImplicitSurfaceSet3, Constructor) {
     ImplicitSurfaceSet3 sset2(sset);
     EXPECT_EQ(1u, sset2.numberOfSurfaces());
     EXPECT_TRUE(sset2.isNormalFlipped);
+
+    ImplicitSurfaceSet3 sset3({box});
+    EXPECT_EQ(1u, sset3.numberOfSurfaces());
 }
 
 TEST(ImplicitSurfaceSet3, NumberOfSurfaces) {
@@ -204,6 +209,31 @@ TEST(ImplicitSurfaceSet3, ClosestNormal) {
     EXPECT_DOUBLE_EQ(boxNormal.x, setNormal.x);
     EXPECT_DOUBLE_EQ(boxNormal.y, setNormal.y);
     EXPECT_DOUBLE_EQ(boxNormal.z, setNormal.z);
+}
+
+TEST(ImplicitSurfaceSet3, MixedBoundTypes) {
+    BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
+
+    auto plane = Plane3::builder()
+            .withNormal({0, 1, 0})
+            .withPoint({0, 0.25 * domain.height(), 0})
+            .makeShared();
+
+    auto sphere = Sphere3::builder()
+            .withCenter(domain.midPoint())
+            .withRadius(0.15 * domain.width())
+            .makeShared();
+
+    auto surfaceSet = ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces({plane, sphere})
+            .makeShared();
+
+    EXPECT_FALSE(surfaceSet->isBounded());
+
+    auto cp = surfaceSet->closestPoint(Vector3D(0.5, 0.4, 0.5));
+    Vector3D answer(0.5, 0.5, 0.5);
+
+    EXPECT_VECTOR3_NEAR(answer, cp, 1e-9);
 }
 
 TEST(ImplicitSurfaceSet3, IsValidGeometry) {
