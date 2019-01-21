@@ -81,7 +81,7 @@ class Surface {
 
     //! Returns true if \p otherPoint is inside the volume defined by the
     //! surface.
-    bool isInside(const Vector2D& otherPoint) const;
+    bool isInside(const Vector<double, N>& otherPoint) const;
 
  protected:
     //! Returns the closest point from the given point \p otherPoint to the
@@ -107,11 +107,11 @@ class Surface {
 
     //! Returns the closest distance from the given point \p otherPoint to the
     //! point on the surface in local frame.
-    virtual double closestDistanceLocal(const Vector2D& otherPoint) const;
+    virtual double closestDistanceLocal(const Vector<double, N>& otherPoint) const;
 
     //! Returns true if \p otherPoint is inside by given \p depth the volume
     //! defined by the surface in local frame.
-    virtual bool isInsideLocal(const Vector2D& otherPoint) const;
+    virtual bool isInsideLocal(const Vector<double, N>& otherPoint) const;
 };
 
 //! 2-D Surface type.

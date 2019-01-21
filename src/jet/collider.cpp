@@ -108,8 +108,9 @@ void Collider<N>::getClosestPoint(const std::shared_ptr<Surface<N>> &surface,
     result->velocity = velocityAt(queryPoint);
 }
 
-bool Collider3::isPenetrating(const ColliderQueryResult& colliderPoint,
-                              const Vector3D& position, double radius) {
+template <size_t N>
+bool Collider<N>::isPenetrating(const ColliderQueryResult &colliderPoint,
+                                const Vector<double, N> &position, double radius) {
     // If the new candidate position of the particle is inside
     // the volume defined by the surface OR the new distance to the surface is
     // less than the particle's radius, this particle is in colliding state.

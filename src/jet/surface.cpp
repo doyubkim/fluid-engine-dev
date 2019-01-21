@@ -74,11 +74,18 @@ void Surface<N>::updateQueryEngine() {
     // Do nothing
 }
 
-bool Surface3::isBounded() const { return true; }
+template <size_t N>
+bool Surface<N>::isBounded() const {
+    return true;
+}
 
-bool Surface3::isValidGeometry() const { return true; }
+template <size_t N>
+bool Surface<N>::isValidGeometry() const {
+    return true;
+}
 
-bool Surface3::isInside(const Vector3D& otherPoint) const {
+template <size_t N>
+bool Surface<N>::isInside(const Vector<double, N> &otherPoint) const {
     return isInsideLocal(transform.toLocal(otherPoint));
 }
 
@@ -88,8 +95,15 @@ double Surface<N>::closestDistanceLocal(
     return otherPointLocal.distanceTo(closestPointLocal(otherPointLocal));
 }
 
-bool Surface3::isInsideLocal(const Vector3D& otherPointLocal) const {
-    Vector3D cpLocal = closestPointLocal(otherPointLocal);
-    Vector3D normalLocal = closestNormalLocal(otherPointLocal);
+template <size_t N>
+bool Surface<N>::isInsideLocal(const Vector<double, N> &otherPointLocal) const {
+    Vector<double, N> cpLocal = closestPointLocal(otherPointLocal);
+    Vector<double, N> normalLocal = closestNormalLocal(otherPointLocal);
     return (otherPointLocal - cpLocal).dot(normalLocal) < 0.0;
 }
+
+template class Surface<2>;
+
+template class Surface<3>;
+
+}  // namespace jet

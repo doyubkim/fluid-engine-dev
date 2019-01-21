@@ -125,7 +125,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     }
 
     newVelocities->resize(newPositions->size());
-    newVelocities->parallelForEachIndex([&](size_t i) {
+    parallelFor(kZeroSize, newVelocities->length(), [&](size_t i) {
         (*newVelocities)[i] = velocityAt((*newPositions)[i]);
     });
 }
