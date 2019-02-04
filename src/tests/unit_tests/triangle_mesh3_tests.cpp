@@ -189,6 +189,59 @@ TEST(TriangleMesh3, BoundingBox) {
                             mesh.boundingBox());
 }
 
+TEST(TriangleMesh3, WindingNumbers) {
+    // Unit cube
+    TriangleMesh3::PointArray points = {Vector3D(0, 0, 0), Vector3D(0, 0, 1),
+                                        Vector3D(0, 1, 0), Vector3D(0, 1, 1),
+                                        Vector3D(1, 0, 0), Vector3D(1, 0, 1),
+                                        Vector3D(1, 1, 0), Vector3D(1, 1, 1)};
+
+    TriangleMesh3::IndexArray tris = {
+        Vector3UZ(0, 6, 4), Vector3UZ(0, 2, 6), Vector3UZ(0, 3, 2),
+        Vector3UZ(0, 1, 3), Vector3UZ(2, 7, 6), Vector3UZ(2, 3, 7),
+        Vector3UZ(4, 6, 7), Vector3UZ(4, 7, 5), Vector3UZ(0, 4, 5),
+        Vector3UZ(0, 5, 1), Vector3UZ(1, 5, 7), Vector3UZ(1, 7, 3)};
+
+    TriangleMesh3 mesh = TriangleMesh3::builder()
+                             .withPoints(points)
+                             .withPointIndices(tris)
+                             .build();
+
+    Array1<Vector3D> queryPoints = {Vector3D(0.5, 0.5, 0.5), Vector3D(2, 2, 2)};
+    Array1<double> windingNumbers(queryPoints.size());
+
+    mesh.getWindingNumbers(queryPoints, windingNumbers);
+    EXPECT_NEAR(1.0, windingNumbers[0], 1e-12);
+    EXPECT_NEAR(0.0, windingNumbers[1], 1e-12);
+}
+
+TEST(TriangleMesh3, FastWindingNumbers) {
+    // Unit cube
+    TriangleMesh3::PointArray points = {Vector3D(0, 0, 0), Vector3D(0, 0, 1),
+                                        Vector3D(0, 1, 0), Vector3D(0, 1, 1),
+                                        Vector3D(1, 0, 0), Vector3D(1, 0, 1),
+                                        Vector3D(1, 1, 0), Vector3D(1, 1, 1)};
+
+    TriangleMesh3::IndexArray tris = {
+        Vector3UZ(0, 6, 4), Vector3UZ(0, 2, 6), Vector3UZ(0, 3, 2),
+        Vector3UZ(0, 1, 3), Vector3UZ(2, 7, 6), Vector3UZ(2, 3, 7),
+        Vector3UZ(4, 6, 7), Vector3UZ(4, 7, 5), Vector3UZ(0, 4, 5),
+        Vector3UZ(0, 5, 1), Vector3UZ(1, 5, 7), Vector3UZ(1, 7, 3)};
+
+    TriangleMesh3 mesh = TriangleMesh3::builder()
+                             .withPoints(points)
+                             .withPointIndices(tris)
+                             .build();
+
+    Array1<Vector3D> queryPoints = {Vector3D(0.5, 0.5, 0.5), Vector3D(2, 2, 2), Vector3D(5, 5, 5)};
+    Array1<double> windingNumbers(queryPoints.size());
+
+    mesh.getFastWindingNumbers(queryPoints, 2.0, windingNumbers);
+    EXPECT_NEAR(1.0, windingNumbers[0], 1e-12);
+    EXPECT_NEAR(0.0, windingNumbers[1], 1e-12);
+    EXPECT_NEAR(0.0, windingNumbers[2], 1e-12);
+}
+
 TEST(TriangleMesh3, Builder) {
     TriangleMesh3::PointArray points = {Vector3D(1, 2, 3), Vector3D(4, 5, 6),
                                         Vector3D(7, 8, 9),
@@ -200,11 +253,14 @@ TEST(TriangleMesh3, Builder) {
 
     TriangleMesh3::UvArray uvs = {Vector2D(13, 14), Vector2D(15, 16)};
 
-    TriangleMesh3::IndexArray pointIndices = {Vector3UZ(0, 1, 2), Vector3UZ(0, 1, 3)};
+    TriangleMesh3::IndexArray pointIndices = {Vector3UZ(0, 1, 2),
+                                              Vector3UZ(0, 1, 3)};
 
-    TriangleMesh3::IndexArray normalIndices = {Vector3UZ(1, 2, 3), Vector3UZ(2, 1, 0)};
+    TriangleMesh3::IndexArray normalIndices = {Vector3UZ(1, 2, 3),
+                                               Vector3UZ(2, 1, 0)};
 
-    TriangleMesh3::IndexArray uvIndices = {Vector3UZ(1, 0, 2), Vector3UZ(3, 1, 0)};
+    TriangleMesh3::IndexArray uvIndices = {Vector3UZ(1, 0, 2),
+                                           Vector3UZ(3, 1, 0)};
 
     TriangleMesh3 mesh = TriangleMesh3::builder()
                              .withPoints(points)

@@ -439,7 +439,7 @@ TEST(SurfaceSet2, IsInside) {
             .makeShared();
 
     auto surfaceSet = SurfaceSet2::builder()
-            .withSurfaces({plane, sphere})
+            .withSurfaces(Array1<Surface2Ptr>({plane, sphere}))
             .withTransform(Transform2(offset, 0.0))
             .makeShared();
 

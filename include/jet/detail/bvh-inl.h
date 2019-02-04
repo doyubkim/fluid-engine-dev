@@ -445,6 +445,44 @@ inline ClosestIntersectionQueryResult<T, N> Bvh<T, N>::closestIntersection(
 }
 
 template <typename T, size_t N>
+void Bvh<T, N>::preOrderTraversal(
+    const TraveralVisitorFunc& visitorFunc) const {
+    if (_nodes.isEmpty()) {
+        return;
+    }
+
+    const Node* node = _nodes.data();
+
+    preOrderTraversal(node, visitorFunc);
+}
+
+template <typename T, size_t N>
+void Bvh<T, N>::postOrderTraversal(
+    const TraveralVisitorFunc& visitorFunc) const {
+    if (_nodes.isEmpty()) {
+        return;
+    }
+
+    const Node* node = _nodes.data();
+
+    postOrderTraversal(node, visitorFunc);
+}
+
+template <typename T, size_t N>
+template <typename ReduceData>
+void Bvh<T, N>::postOrderTraversal(
+    const TraveralVisitorReduceDataFunc<ReduceData>& visitorFunc,
+    const TraveralLeafReduceDataFunc<ReduceData>& leafFunc,
+    const ReduceData& initData) const {
+    if (_nodes.isEmpty()) {
+        return;
+    }
+
+    const Node* node = _nodes.data();
+    postOrderTraversal(node, visitorFunc, leafFunc, initData);
+}
+
+template <typename T, size_t N>
 const BoundingBox<double, N>& Bvh<T, N>::boundingBox() const {
     return _bound;
 }
@@ -477,6 +515,48 @@ size_t Bvh<T, N>::numberOfItems() const {
 template <typename T, size_t N>
 const T& Bvh<T, N>::item(size_t i) const {
     return _items[i];
+}
+
+template <typename T, size_t N>
+size_t Bvh<T, N>::numberOfNodes() const {
+    return _nodes.length();
+}
+
+template <typename T, size_t N>
+std::pair<size_t, size_t> Bvh<T, N>::children(size_t i) const {
+    if (isLeaf(i)) {
+        return std::make_pair(kMaxSize, kMaxSize);
+    } else {
+        return std::make_pair(i + 1, _nodes[i].child);
+    }
+}
+
+template <typename T, size_t N>
+bool Bvh<T, N>::isLeaf(size_t i) const {
+    return _nodes[i].isLeaf();
+}
+
+template <typename T, size_t N>
+const BoundingBox<double, N>& Bvh<T, N>::nodeBound(size_t i) const {
+    return _nodes[i].bound;
+}
+
+template <typename T, size_t N>
+typename Bvh<T, N>::iterator Bvh<T, N>::itemOfNode(size_t i) {
+    if (isLeaf(i)) {
+        return _nodes[i].item + begin();
+    } else {
+        return end();
+    }
+}
+
+template <typename T, size_t N>
+typename Bvh<T, N>::const_iterator Bvh<T, N>::itemOfNode(size_t i) const {
+    if (isLeaf(i)) {
+        return _nodes[i].item + begin();
+    } else {
+        return end();
+    }
 }
 
 template <typename T, size_t N>
@@ -534,6 +614,65 @@ size_t Bvh<T, N>::qsplit(size_t* itemIndices, size_t numItems, double pivot,
         ret = numItems >> 1;
     }
     return ret;
+}
+
+template <typename T, size_t N>
+void Bvh<T, N>::preOrderTraversal(
+    const Node* node, const TraveralVisitorFunc& visitorFunc) const {
+    size_t nodeIndex = node - _nodes.data();
+
+    visitorFunc(nodeIndex);
+
+    if (!node->isLeaf()) {
+        const Node* child1 = node + 1;
+        const Node* child2 = (Node*)&_nodes[node->child];
+
+        preOrderTraversal(child1, visitorFunc);
+        preOrderTraversal(child2, visitorFunc);
+    }
+}
+
+template <typename T, size_t N>
+void Bvh<T, N>::postOrderTraversal(
+    const Node* node, const TraveralVisitorFunc& visitorFunc) const {
+    size_t nodeIndex = node - _nodes.data();
+
+    if (!node->isLeaf()) {
+        const Node* child1 = node + 1;
+        const Node* child2 = (Node*)&_nodes[node->child];
+
+        postOrderTraversal(child1, visitorFunc);
+        postOrderTraversal(child2, visitorFunc);
+    }
+
+    visitorFunc(nodeIndex);
+}
+
+template <typename T, size_t N>
+template <typename ReduceData>
+ReduceData Bvh<T, N>::postOrderTraversal(
+    const Node* node,
+    const TraveralVisitorReduceDataFunc<ReduceData>& visitorFunc,
+    const TraveralLeafReduceDataFunc<ReduceData>& leafFunc,
+    const ReduceData& initReduceData) const {
+    ReduceData data = initReduceData;
+
+    size_t nodeIndex = node - _nodes.data();
+
+    if (node->isLeaf()) {
+        data = leafFunc(nodeIndex);
+    } else {
+        const Node* child1 = node + 1;
+        const Node* child2 = (Node*)&_nodes[node->child];
+
+        data = data + postOrderTraversal(child1, visitorFunc, leafFunc,
+                                         initReduceData);
+        data = data + postOrderTraversal(child2, visitorFunc, leafFunc,
+                                         initReduceData);
+    }
+    visitorFunc(nodeIndex, data);
+
+    return data;
 }
 
 }  // namespace jet

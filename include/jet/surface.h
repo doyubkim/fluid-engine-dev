@@ -112,6 +112,12 @@ class Surface {
     //! Returns true if \p otherPoint is inside by given \p depth the volume
     //! defined by the surface in local frame.
     virtual bool isInsideLocal(const Vector<double, N>& otherPoint) const;
+
+    //! Copies surface properties from \p other surface.
+    void setSurface(const Surface& other);
+
+    //! Swaps surface properties from \p other surface.
+    void swapSurface(Surface& other);
 };
 
 //! 2-D Surface type.

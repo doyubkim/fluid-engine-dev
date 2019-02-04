@@ -4,10 +4,10 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/box3.h>
-#include <jet/plane3.h>
-#include <jet/surface_set3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/box.h>
+#include <jet/plane.h>
+#include <jet/surface_set.h>
+#include <jet/surface_to_implicit.h>
 
 #include <gtest/gtest.h>
 

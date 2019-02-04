@@ -4,11 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/box3.h>
-#include <jet/implicit_surface_set3.h>
-#include <jet/plane3.h>
-#include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/box.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 
 #include <gtest/gtest.h>
 
@@ -236,10 +236,11 @@ TEST(ImplicitSurfaceSet3, IsInside) {
                       .withRadius(0.15 * domain.width())
                       .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet3::builder()
-                          .withExplicitSurfaces({plane, sphere})
-                          .withTransform(Transform3(offset, QuaternionD()))
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces(Array1<Surface3Ptr>({plane, sphere}))
+            .withTransform(Transform3(offset, QuaternionD()))
+            .makeShared();
 
     EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 0.25, 0.5) + offset));
     EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 1.0, 0.5) + offset));

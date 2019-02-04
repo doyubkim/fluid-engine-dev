@@ -103,7 +103,7 @@ typedef std::shared_ptr<SurfaceSet3> SurfaceSet3Ptr;
 //!
 template <size_t N>
 class SurfaceSet<N>::Builder final
-    : public SurfaceBuilderBase<N, SurfaceSet<N>> {
+    : public SurfaceBuilderBase<N, SurfaceSet<N>::Builder> {
  public:
     //! Returns builder with other surfaces.
     Builder& withSurfaces(const ConstArrayView1<std::shared_ptr<Surface<N>>>& others);
@@ -115,7 +115,7 @@ class SurfaceSet<N>::Builder final
     std::shared_ptr<SurfaceSet<N>> makeShared() const;
 
  private:
-    using Base = SurfaceBuilderBase<N, SurfaceSet<N>>;
+    using Base = SurfaceBuilderBase<N, SurfaceSet<N>::Builder>;
     using Base::_isNormalFlipped;
     using Base::_transform;
 

@@ -6,8 +6,8 @@
 
 #include "unit_tests_utils.h"
 
-#include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter2.h>
 
 #include <gtest/gtest.h>
@@ -78,7 +78,7 @@ TEST(VolumeParticleEmitter2, Emit) {
 
         Vector2D r = pos[i];
         Vector2D w = 5.0 * Vector2D(-r.y, r.x);
-        EXPECT_VECTOR2_NEAR(Vector2D(2.0, 4.5) + w, vel[i], 1e-9);
+        EXPECT_VECTOR2_NEAR((Vector2D(2.0, 4.5) + w).eval(), vel[i], 1e-9);
     }
 
     ++frame;

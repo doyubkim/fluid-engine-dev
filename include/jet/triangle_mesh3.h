@@ -50,6 +50,9 @@ class TriangleMesh3 final : public Surface3 {
     //! Copy constructor.
     TriangleMesh3(const TriangleMesh3& other);
 
+    //! Move constructor.
+    TriangleMesh3(TriangleMesh3&& other);
+
     //! Updates internal spatial query engine.
     void updateQueryEngine() override;
 
@@ -186,8 +189,20 @@ class TriangleMesh3 final : public Surface3 {
     //! Reads the mesh in obj format from the file.
     bool readObj(const std::string& filename);
 
+    double windingNumber(const Vector3D& queryPoint, size_t triIndex) const;
+
+    void getWindingNumbers(const ConstArrayView1<Vector3D>& queryPoints,
+                           ArrayView1<double> windingNumbers) const;
+
+    void getFastWindingNumbers(const ConstArrayView1<Vector3D>& queryPoints,
+                               double accuracy,
+                               ArrayView1<double> windingNumbers) const;
+
     //! Copies \p other mesh.
     TriangleMesh3& operator=(const TriangleMesh3& other);
+
+    //! Moves \p other mesh.
+    TriangleMesh3& operator=(TriangleMesh3&& other);
 
     //! Returns builder fox TriangleMesh3.
     static Builder builder();
@@ -217,9 +232,18 @@ class TriangleMesh3 final : public Surface3 {
     mutable Bvh3<size_t> _bvh;
     mutable bool _bvhInvalidated = true;
 
+    mutable Array1<Vector3D> _wnAreaWeightedNormalSums;
+    mutable Array1<Vector3D> _wnAreaWeightedAvgPositions;
+    mutable bool _wnInvalidated = true;
+
     void invalidateBvh();
 
     void buildBvh() const;
+
+    void buildWindingNumbers() const;
+
+    double fastWindingNumber(const Vector3D& q, size_t rootNodeIndex,
+                             double accuracy) const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.

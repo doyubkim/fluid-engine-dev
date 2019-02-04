@@ -103,6 +103,18 @@ bool Surface<N>::isInsideLocal(const Vector<double, N> &otherPointLocal) const {
     return (otherPointLocal - cpLocal).dot(normalLocal) < 0.0;
 }
 
+template <size_t N>
+void Surface<N>::setSurface(const Surface &other) {
+    isNormalFlipped = other.isNormalFlipped;
+    transform = other.transform;
+}
+
+template <size_t N>
+void Surface<N>::swapSurface(Surface &other) {
+    std::swap(isNormalFlipped, other.isNormalFlipped);
+    std::swap(transform, other.transform);
+}
+
 template class Surface<2>;
 
 template class Surface<3>;

@@ -6,8 +6,8 @@
 
 #include "unit_tests_utils.h"
 
-#include <jet/sphere3.h>
-#include <jet/surface_to_implicit3.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 #include <jet/volume_particle_emitter3.h>
 
 #include <gtest/gtest.h>
@@ -79,7 +79,7 @@ TEST(VolumeParticleEmitter3, Emit) {
 
         Vector3D r = pos[i];
         Vector3D w = 5.0 * Vector3D(-r.y, r.x, 0.0);
-        EXPECT_VECTOR3_NEAR(Vector3D(2.0, 4.5, 7.5) + w, vel[i], 1e-9);
+        EXPECT_VECTOR3_NEAR((Vector3D(2.0, 4.5, 7.5) + w).eval(), vel[i], 1e-9);
     }
 
     ++frame;

@@ -7,8 +7,9 @@
 #ifndef SRC_TESTS_UNIT_TESTS_UNIT_TESTS_UTILS_H_
 #define SRC_TESTS_UNIT_TESTS_UNIT_TESTS_UTILS_H_
 
+#include <jet/matrix.h>
+
 #include <gtest/gtest.h>
-#include <jet/vector3.h>
 
 #define EXPECT_VECTOR2_EQ(expected, actual)     \
     EXPECT_DOUBLE_EQ((expected).x, (actual).x); \

@@ -26,9 +26,18 @@ template <typename T, size_t N>
 class Bvh final : public IntersectionQueryEngine<T, N>,
                   public NearestNeighborQueryEngine<T, N> {
  public:
-    typedef Array1<T> ContainerType;
-    typedef typename ContainerType::iterator iterator;
-    typedef typename ContainerType::const_iterator const_iterator;
+    using ContainerType = Array1<T>;
+    using iterator = typename ContainerType::iterator;
+    using const_iterator = typename ContainerType::const_iterator;
+
+    using TraveralVisitorFunc = std::function<void(size_t)>;
+
+    template <typename Data>
+    using TraveralVisitorReduceDataFunc =
+        std::function<void(size_t, const Data&)>;
+
+    template <typename Data>
+    using TraveralLeafReduceDataFunc = std::function<Data(size_t)>;
 
     //! Default constructor.
     Bvh();
@@ -73,6 +82,16 @@ class Bvh final : public IntersectionQueryEngine<T, N>,
         const Ray<double, N>& ray,
         const GetRayIntersectionFunc<T, N>& testFunc) const override;
 
+    void preOrderTraversal(const TraveralVisitorFunc& visitorFunc) const;
+
+    void postOrderTraversal(const TraveralVisitorFunc& visitorFunc) const;
+
+    template <typename ReduceData>
+    void postOrderTraversal(
+        const TraveralVisitorReduceDataFunc<ReduceData>& visitorFunc,
+        const TraveralLeafReduceDataFunc<ReduceData>& leafFunc,
+        const ReduceData& initData = ReduceData{}) const;
+
     //! Returns bounding box of every items.
     const BoundingBox<double, N>& boundingBox() const;
 
@@ -93,6 +112,24 @@ class Bvh final : public IntersectionQueryEngine<T, N>,
 
     //! Returns the item at \p i.
     const T& item(size_t i) const;
+
+    //! Returns the number of nodes.
+    size_t numberOfNodes() const;
+
+    //! Returns the children indices of \p i-th node.
+    std::pair<size_t, size_t> children(size_t i) const;
+
+    //! Returns true if \p i-th node is a leaf node.
+    bool isLeaf(size_t i) const;
+
+    //! Returns bounding box of \p i-th node.
+    const BoundingBox<double, N>& nodeBound(size_t i) const;
+
+    //! Returns item of \p i-th node.
+    iterator itemOfNode(size_t i);
+
+    //! Returns item of \p i-th node.
+    const_iterator itemOfNode(size_t i) const;
 
  private:
     struct Node {
@@ -120,6 +157,19 @@ class Bvh final : public IntersectionQueryEngine<T, N>,
 
     size_t qsplit(size_t* itemIndices, size_t numItems, double pivot,
                   uint8_t axis);
+
+    void preOrderTraversal(const Node* node,
+                           const TraveralVisitorFunc& visitorFunc) const;
+
+    void postOrderTraversal(const Node* node,
+                            const TraveralVisitorFunc& visitorFunc) const;
+
+    template <typename ReduceData>
+    ReduceData postOrderTraversal(
+        const Node* node,
+        const TraveralVisitorReduceDataFunc<ReduceData>& visitorFunc,
+        const TraveralLeafReduceDataFunc<ReduceData>& leafFunc,
+        const ReduceData& initData) const;
 };
 
 //! 2-D BVH type.

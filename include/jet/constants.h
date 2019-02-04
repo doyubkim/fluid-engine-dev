@@ -289,6 +289,32 @@ constexpr double twoPi<double>() {
     return kTwoPiD;
 }
 
+// MARK: 4*Pi
+
+//! Float-type 4*pi.
+constexpr float kFourPiF = static_cast<float>(4.0 * kPiD);
+
+//! Double-type 4*pi.
+constexpr double kFourPiD = 4.0 * kPiD;
+
+//! 4*pi for type T.
+template <typename T>
+constexpr T fourPi() {
+    return static_cast<T>(kFourPiD);
+}
+
+//! 4*pi for float.
+template <>
+constexpr float fourPi<float>() {
+    return kFourPiF;
+}
+
+//! 4*pi for double.
+template <>
+constexpr double fourPi<double>() {
+    return kFourPiD;
+}
+
 // MARK: 1/Pi
 
 //! Float-type 1/pi.
@@ -339,6 +365,32 @@ constexpr float invTwoPi<float>() {
 template <>
 constexpr double invTwoPi<double>() {
     return kInvTwoPiD;
+}
+
+// MARK: 1/4*Pi
+
+//! Float-type 1/4*pi.
+constexpr float kInvFourPiF = static_cast<float>(0.25 / kPiD);
+
+//! Double-type 1/4*pi.
+constexpr double kInvFourPiD = 0.25 / kPiD;
+
+//! 1/4*pi for type T.
+template <typename T>
+constexpr T invFourPi() {
+    return static_cast<T>(kInvFourPiD);
+}
+
+//! 1/4*pi for float.
+template <>
+constexpr float invFourPi<float>() {
+    return kInvFourPiF;
+}
+
+//! 1/4*pi for double.
+template <>
+constexpr double invFourPi<double>() {
+    return kInvFourPiD;
 }
 
 // MARK: Physics

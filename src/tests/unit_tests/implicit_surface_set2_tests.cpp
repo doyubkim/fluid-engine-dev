@@ -4,11 +4,11 @@
 // personal capacity and am not conveying any rights to any intellectual
 // property of any third parties.
 
-#include <jet/box2.h>
-#include <jet/implicit_surface_set2.h>
-#include <jet/plane2.h>
-#include <jet/sphere2.h>
-#include <jet/surface_to_implicit2.h>
+#include <jet/box.h>
+#include <jet/implicit_surface_set.h>
+#include <jet/plane.h>
+#include <jet/sphere.h>
+#include <jet/surface_to_implicit.h>
 
 #include <gtest/gtest.h>
 
@@ -232,10 +232,11 @@ TEST(ImplicitSurfaceSet2, IsInside) {
                       .withRadius(0.15 * domain.width())
                       .makeShared();
 
-    auto surfaceSet = ImplicitSurfaceSet2::builder()
-                          .withExplicitSurfaces({plane, sphere})
-                          .withTransform(Transform2(offset, 0.0))
-                          .makeShared();
+    auto surfaceSet =
+        ImplicitSurfaceSet2::builder()
+            .withExplicitSurfaces(Array1<Surface2Ptr>({plane, sphere}))
+            .withTransform(Transform2(offset, 0.0))
+            .makeShared();
 
     EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 0.25) + offset));
     EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 1.0) + offset));

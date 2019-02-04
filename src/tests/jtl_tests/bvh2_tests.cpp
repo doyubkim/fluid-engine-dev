@@ -24,7 +24,8 @@ TEST(Bvh2, Nearest) {
 
     size_t numSamples = getNumberOfSamplePoints2();
     Array1<Vector2D> points(numSamples);
-    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples,
+              points.begin());
 
     Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
@@ -63,7 +64,8 @@ TEST(Bvh2, BBoxIntersects) {
 
     size_t numSamples = getNumberOfSamplePoints2();
     Array1<Vector2D> points(numSamples);
-    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples,
+              points.begin());
 
     Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
@@ -185,7 +187,8 @@ TEST(Bvh2, ForEachOverlappingItems) {
 
     size_t numSamples = getNumberOfSamplePoints2();
     Array1<Vector2D> points(numSamples);
-    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples, points.begin());
+    std::copy(getSamplePoints2(), getSamplePoints2() + numSamples,
+              points.begin());
 
     Array1<BoundingBox2D> bounds(points.size());
     size_t i = 0;
@@ -211,4 +214,65 @@ TEST(Bvh2, ForEachOverlappingItems) {
     });
 
     EXPECT_EQ(numOverlaps, measured);
+}
+
+TEST(Bvh2, PreOrderTraversal) {
+    Array1<Vector2D> points = {Vector2D(-2, -1), Vector2D(2, -1),
+                               Vector2D(-2, 1), Vector2D(2, 1)};
+    Array1<BoundingBox2D> bounds(points.size());
+    size_t i = 0;
+    std::generate(bounds.begin(), bounds.end(), [&]() {
+        auto c = points[i++];
+        BoundingBox2D box(c, c);
+        box.expand(0.1);
+        return box;
+    });
+    Array1<size_t> indices(points.size());
+    std::iota(indices.begin(), indices.end(), 0);
+
+    Bvh2<size_t> bvh;
+    bvh.build(indices, bounds);
+
+    Array1<size_t> expectedIndices = {0, 1, 2, 3, 4, 5, 6};
+    i = 0;
+    bvh.preOrderTraversal([&](size_t nodeIndex) {
+        EXPECT_EQ(expectedIndices[i], nodeIndex);
+        ++i;
+    });
+}
+
+TEST(Bvh2, PostOrderTraversal) {
+    Array1<Vector2D> points = {Vector2D(-2, -1), Vector2D(2, -1),
+                               Vector2D(-2, 1), Vector2D(2, 1)};
+    Array1<BoundingBox2D> bounds(points.size());
+    size_t i = 0;
+    std::generate(bounds.begin(), bounds.end(), [&]() {
+        auto c = points[i++];
+        BoundingBox2D box(c, c);
+        box.expand(0.1);
+        return box;
+    });
+    Array1<size_t> indices(points.size());
+    std::iota(indices.begin(), indices.end(), 0);
+
+    Bvh2<size_t> bvh;
+    bvh.build(indices, bounds);
+
+    Array1<size_t> expectedIndices = {2, 3, 1, 5, 6, 4, 0};
+    i = 0;
+    bvh.postOrderTraversal([&](size_t nodeIndex) {
+        EXPECT_EQ(expectedIndices[i], nodeIndex);
+        ++i;
+    });
+
+    Array1<size_t> expectedData = {4, 9, 13, 25, 36, 61, 74};
+    i = 0;
+    bvh.postOrderTraversal<size_t>([&](size_t nodeIndex, const size_t& data) {
+        EXPECT_EQ(expectedIndices[i], nodeIndex);
+        EXPECT_EQ(expectedData[i], data);
+        ++i;
+    }, [&](size_t nodeIndex) -> size_t {
+        // In this example, node index ^ 2 is the data.
+        return nodeIndex * nodeIndex;
+    }, kZeroSize);
 }
