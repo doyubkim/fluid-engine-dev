@@ -6,6 +6,7 @@
 
 #include <manual_tests.h>
 
+#include <jet/cell_centered_scalar_grid.h>
 #include <jet/triangle_mesh3.h>
 
 using namespace jet;
@@ -107,5 +108,105 @@ JET_BEGIN_TEST_F(TriangleMesh3, BasicIO) {
         triMesh.readObj(&file);
         file.close();
     }
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(TriangleMesh3, WindingNumbers) {
+    TriangleMesh3 triMesh;
+
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
+    ASSERT_TRUE(file);
+
+    triMesh.readObj(&file);
+    auto bbox = triMesh.boundingBox();
+    bbox.expand(0.2);
+
+    const size_t resX = 10;
+    const Vector3D h = bbox.size() / double(resX);
+    CellCenteredScalarGrid3 grid({resX, resX, resX}, h, bbox.lowerCorner);
+    const auto pos = grid.dataPosition();
+    const auto size = grid.dataSize();
+    const auto n = product(size, kOneSize);
+
+    Array1<Vector3D> queryPoints(n);
+    size_t cnt = 0;
+    for (size_t k = 0; k < size.z; ++k) {
+        for (size_t j = 0; j < size.y; ++j) {
+            for (size_t i = 0; i < size.x; ++i) {
+                queryPoints[cnt++] = pos(i, j, k);
+            }
+        }
+    }
+
+    Array1<double> windingNumbers(n);
+    triMesh.getWindingNumbers(queryPoints, windingNumbers);
+
+    cnt = 0;
+    for (size_t k = 0; k < size.z; ++k) {
+        for (size_t j = 0; j < size.y; ++j) {
+            for (size_t i = 0; i < size.x; ++i) {
+                grid(i, j, k) = windingNumbers[cnt++];
+            }
+        }
+    }
+
+    Array2<double> temp(size.x, size.y);
+    for (size_t j = 0; j < size.y; ++j) {
+        for (size_t i = 0; i < size.x; ++i) {
+            temp(i, j) = grid(i, j, size.z / 2);
+        }
+    }
+
+    saveData(temp.view(), "wn_#grid2.npy");
+}
+JET_END_TEST_F
+
+JET_BEGIN_TEST_F(TriangleMesh3, FastWindingNumbers) {
+    TriangleMesh3 triMesh;
+
+    std::ifstream file(RESOURCES_DIR "/bunny.obj");
+    ASSERT_TRUE(file);
+
+    triMesh.readObj(&file);
+    auto bbox = triMesh.boundingBox();
+    bbox.expand(0.2);
+
+    const size_t resX = 200;
+    const Vector3D h = bbox.size() / double(resX);
+    CellCenteredScalarGrid3 grid({resX, resX, resX}, h, bbox.lowerCorner);
+    const auto pos = grid.dataPosition();
+    const auto size = grid.dataSize();
+    const auto n = product(size, kOneSize);
+
+    Array1<Vector3D> queryPoints(n);
+    size_t cnt = 0;
+    for (size_t k = 0; k < size.z; ++k) {
+        for (size_t j = 0; j < size.y; ++j) {
+            for (size_t i = 0; i < size.x; ++i) {
+                queryPoints[cnt++] = pos(i, j, k);
+            }
+        }
+    }
+
+    Array1<double> windingNumbers(n);
+    triMesh.getFastWindingNumbers(queryPoints, 2.0, windingNumbers);
+
+    cnt = 0;
+    for (size_t k = 0; k < size.z; ++k) {
+        for (size_t j = 0; j < size.y; ++j) {
+            for (size_t i = 0; i < size.x; ++i) {
+                grid(i, j, k) = windingNumbers[cnt++];
+            }
+        }
+    }
+
+    Array2<double> temp(size.x, size.y);
+    for (size_t j = 0; j < size.y; ++j) {
+        for (size_t i = 0; i < size.x; ++i) {
+            temp(i, j) = grid(i, j, size.z / 2);
+        }
+    }
+
+    saveData(temp.view(), "wn_#grid2.npy");
 }
 JET_END_TEST_F
