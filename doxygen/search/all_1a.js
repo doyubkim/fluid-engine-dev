@@ -12,10 +12,8 @@ var searchData=
   ['zero_3c_20vector4f_20_3e',['zero&lt; Vector4F &gt;',['../namespacejet.html#aaa73b0ab76b72b8b95b7c46f9e8f489d',1,'jet']]],
   ['zhu_5fbridson_5fpoints_5fto_5fimplicit2_2eh',['zhu_bridson_points_to_implicit2.h',['../zhu__bridson__points__to__implicit2_8h.html',1,'']]],
   ['zhu_5fbridson_5fpoints_5fto_5fimplicit3_2eh',['zhu_bridson_points_to_implicit3.h',['../zhu__bridson__points__to__implicit3_8h.html',1,'']]],
-  ['zhubridsonpointstoimplicit2',['ZhuBridsonPointsToImplicit2',['../classjet_1_1_zhu_bridson_points_to_implicit2.html',1,'jet']]],
-  ['zhubridsonpointstoimplicit2',['ZhuBridsonPointsToImplicit2',['../classjet_1_1_zhu_bridson_points_to_implicit2.html#ae8bfda10c51b58597980ebc8109549d0',1,'jet::ZhuBridsonPointsToImplicit2']]],
+  ['zhubridsonpointstoimplicit2',['ZhuBridsonPointsToImplicit2',['../classjet_1_1_zhu_bridson_points_to_implicit2.html',1,'jet::ZhuBridsonPointsToImplicit2'],['../classjet_1_1_zhu_bridson_points_to_implicit2.html#ae8bfda10c51b58597980ebc8109549d0',1,'jet::ZhuBridsonPointsToImplicit2::ZhuBridsonPointsToImplicit2()']]],
   ['zhubridsonpointstoimplicit2ptr',['ZhuBridsonPointsToImplicit2Ptr',['../namespacejet.html#a6807c0f1807d5ffd2afaeadb3c6a1cec',1,'jet']]],
-  ['zhubridsonpointstoimplicit3',['ZhuBridsonPointsToImplicit3',['../classjet_1_1_zhu_bridson_points_to_implicit3.html',1,'jet']]],
-  ['zhubridsonpointstoimplicit3',['ZhuBridsonPointsToImplicit3',['../classjet_1_1_zhu_bridson_points_to_implicit3.html#a68a27ed8df646c625fd281b423daf1a2',1,'jet::ZhuBridsonPointsToImplicit3']]],
+  ['zhubridsonpointstoimplicit3',['ZhuBridsonPointsToImplicit3',['../classjet_1_1_zhu_bridson_points_to_implicit3.html',1,'jet::ZhuBridsonPointsToImplicit3'],['../classjet_1_1_zhu_bridson_points_to_implicit3.html#a68a27ed8df646c625fd281b423daf1a2',1,'jet::ZhuBridsonPointsToImplicit3::ZhuBridsonPointsToImplicit3()']]],
   ['zhubridsonpointstoimplicit3ptr',['ZhuBridsonPointsToImplicit3Ptr',['../namespacejet.html#a22e61c88df0f07cce716777de26f3f6b',1,'jet']]]
 ];
