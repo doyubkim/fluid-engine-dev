@@ -1,6 +1,6 @@
 # Original code from https://github.com/pybind/cmake_example/blob/master/setup.py
 #
-# Copyright (c) 2018 Doyub Kim
+# Copyright (c) 2019 Doyub Kim
 #
 # I am making my contributions/submissions to this project solely in my personal
 # capacity and am not conveying any rights to any intellectual property of any
@@ -80,7 +80,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyjet',
-    version='1.3.2',
+    version='1.3.3',
     author='Doyub Kim',
     author_email='doyubkim@gmail.com',
     description='Fluid simulation engine for computer graphics applications',
