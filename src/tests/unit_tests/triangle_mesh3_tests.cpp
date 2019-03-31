@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -176,6 +176,23 @@ TEST(TriangleMesh3, ClosestIntersection) {
         EXPECT_VECTOR3_EQ(expected.point, actual.point);
         EXPECT_VECTOR3_EQ(expected.normal, actual.normal);
         EXPECT_EQ(expected.isIntersecting, actual.isIntersecting);
+    }
+}
+
+TEST(TriangleMesh3, IsInside) {
+    std::string objStr = getCubeTriMesh3x3x3Obj();
+    std::istringstream objStream(objStr);
+
+    TriangleMesh3 mesh;
+    mesh.readObj(&objStream);
+
+    size_t numSamples = getNumberOfSamplePoints3();
+
+    for (size_t i = 0; i < numSamples; ++i) {
+        Vector3D p = getSamplePoints3()[i];
+        auto actual = mesh.isInside(p);
+        auto expected = mesh.boundingBox().contains(p);
+        EXPECT_EQ(expected, actual);
     }
 }
 

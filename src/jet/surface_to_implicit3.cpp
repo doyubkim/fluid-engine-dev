@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -13,12 +13,7 @@ using namespace jet;
 SurfaceToImplicit3::SurfaceToImplicit3(const Surface3Ptr& surface,
                                        const Transform3& transform,
                                        bool isNormalFlipped)
-    : ImplicitSurface3(transform, isNormalFlipped), _surface(surface) {
-    if (std::dynamic_pointer_cast<TriangleMesh3>(surface) != nullptr) {
-        JET_WARN << "Using TriangleMesh3 with SurfaceToImplicit3 can cause "
-                 << "undefined behavior. Use ImplicitTriangleMesh3 instead.";
-    }
-}
+    : ImplicitSurface3(transform, isNormalFlipped), _surface(surface) {}
 
 SurfaceToImplicit3::SurfaceToImplicit3(const SurfaceToImplicit3& other)
     : ImplicitSurface3(other), _surface(other._surface) {}

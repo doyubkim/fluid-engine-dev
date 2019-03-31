@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -160,8 +160,9 @@ inline NearestNeighborQueryResult3<T> Bvh3<T>::nearest(
 }
 
 template <typename T>
-inline bool Bvh3<T>::intersects(const BoundingBox3D& box,
-                                const BoxIntersectionTestFunc3<T>& testFunc) const {
+inline bool Bvh3<T>::intersects(
+    const BoundingBox3D& box,
+    const BoxIntersectionTestFunc3<T>& testFunc) const {
     if (!_bound.overlaps(box)) {
         return false;
     }
@@ -211,8 +212,8 @@ inline bool Bvh3<T>::intersects(const BoundingBox3D& box,
 }
 
 template <typename T>
-inline bool Bvh3<T>::intersects(const Ray3D& ray,
-                                const RayIntersectionTestFunc3<T>& testFunc) const {
+inline bool Bvh3<T>::intersects(
+    const Ray3D& ray, const RayIntersectionTestFunc3<T>& testFunc) const {
     if (!_bound.intersects(ray)) {
         return false;
     }
@@ -472,6 +473,48 @@ size_t Bvh3<T>::numberOfItems() const {
 template <typename T>
 const T& Bvh3<T>::item(size_t i) const {
     return _items[i];
+}
+
+template <typename T>
+size_t Bvh3<T>::numberOfNodes() const {
+    return _nodes.size();
+}
+
+template <typename T>
+std::pair<size_t, size_t> Bvh3<T>::children(size_t i) const {
+    if (isLeaf(i)) {
+        return std::make_pair(kMaxSize, kMaxSize);
+    } else {
+        return std::make_pair(i + 1, _nodes[i].child);
+    }
+}
+
+template <typename T>
+bool Bvh3<T>::isLeaf(size_t i) const {
+    return _nodes[i].isLeaf();
+}
+
+template <typename T>
+const BoundingBox3D& Bvh3<T>::nodeBound(size_t i) const {
+    return _nodes[i].bound;
+}
+
+template <typename T>
+typename Bvh3<T>::Iterator Bvh3<T>::itemOfNode(size_t i) {
+    if (isLeaf(i)) {
+        return _nodes[i].item + begin();
+    } else {
+        return end();
+    }
+}
+
+template <typename T>
+typename Bvh3<T>::ConstIterator Bvh3<T>::itemOfNode(size_t i) const {
+    if (isLeaf(i)) {
+        return _nodes[i].item + begin();
+    } else {
+        return end();
+    }
 }
 
 template <typename T>
