@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -9,9 +9,30 @@
 #include <jet/surface_set2.h>
 #include <jet/surface_to_implicit2.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace jet;
+
+namespace {
+
+class MockSurface2 final : public Surface2 {
+ public:
+    MockSurface2() = default;
+
+    ~MockSurface2() = default;
+
+    MOCK_METHOD0(updateQueryEngine, void());
+
+ protected:
+    MOCK_CONST_METHOD1(closestPointLocal, Vector2D(const Vector2D&));
+    MOCK_CONST_METHOD0(boundingBoxLocal, BoundingBox2D());
+    MOCK_CONST_METHOD1(closestIntersectionLocal,
+                       SurfaceRayIntersection2(const Ray2D&));
+    MOCK_CONST_METHOD1(closestNormalLocal, Vector2D(const Vector2D&));
+};
+
+}  // namespace
 
 TEST(SurfaceToImplicit2, Constructor) {
     auto box = std::make_shared<Box2>(BoundingBox2D({0, 0}, {1, 2}));
@@ -23,6 +44,15 @@ TEST(SurfaceToImplicit2, Constructor) {
     SurfaceToImplicit2 s2i2(s2i);
     EXPECT_EQ(box, s2i2.surface());
     EXPECT_TRUE(s2i2.isNormalFlipped);
+}
+
+TEST(SurfaceToImplicit2, UpdateQueryEngine) {
+    auto mockSurface2 = std::make_shared<MockSurface2>();
+    SurfaceToImplicit2 s2i(mockSurface2);
+
+    EXPECT_CALL(*mockSurface2, updateQueryEngine()).Times(1);
+
+    s2i.updateQueryEngine();
 }
 
 TEST(SurfaceToImplicit2, ClosestPoint) {

@@ -142,6 +142,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---
 
+Jet uses portion of Christopher Batty's example code from http://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/ and https://github.com/christopherbatty/FluidRigidCoupling2D
+
+---
+
 Jet uses FlatBuffers for serialization
 
 

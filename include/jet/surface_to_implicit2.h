@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -33,6 +33,9 @@ class SurfaceToImplicit2 final : public ImplicitSurface2 {
 
     //! Copy constructor.
     SurfaceToImplicit2(const SurfaceToImplicit2& other);
+
+    //! Updates internal spatial query engine.
+    void updateQueryEngine() override;
 
     //! Returns true if bounding box can be defined.
     bool isBounded() const override;
