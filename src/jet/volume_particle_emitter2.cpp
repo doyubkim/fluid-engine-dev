@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -107,6 +107,7 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
             neighborSearcher.build(particles->positions());
         }
 
+        size_t numNewParticles = 0;
         _pointsGen->forEachPoint(region, _spacing, [&](const Vector2D& point) {
             double newAngleInRadian = (random() - 0.5) * kTwoPiD;
             Matrix2x2D rotationMatrix =
@@ -114,13 +115,14 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
             Vector2D randomDir = rotationMatrix * Vector2D();
             Vector2D offset = maxJitterDist * randomDir;
             Vector2D candidate = point + offset;
-            if (_implicitSurface->signedDistance(candidate) <= 0.0 &&
+            if (_implicitSurface->isInside(candidate) &&
                 (!_allowOverlapping &&
                  !neighborSearcher.hasNearbyPoint(candidate, _spacing))) {
                 if (_numberOfEmittedParticles < _maxNumberOfParticles) {
                     newPositions->append(candidate);
                     neighborSearcher.add(candidate);
                     ++_numberOfEmittedParticles;
+                    ++numNewParticles;
                 } else {
                     return false;
                 }
@@ -128,6 +130,9 @@ void VolumeParticleEmitter2::emit(const ParticleSystemData2Ptr& particles,
 
             return true;
         });
+
+        JET_INFO << "Number of newly generated particles: " << numNewParticles;
+        JET_INFO << "Number of total generated particles: " << _numberOfEmittedParticles;
     }
 
     newVelocities->resize(newPositions->size());

@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -37,3 +37,11 @@ BENCHMARK_DEFINE_F(TriangleMesh3, ClosestPoint)(benchmark::State& state) {
 }
 
 BENCHMARK_REGISTER_F(TriangleMesh3, ClosestPoint);
+
+BENCHMARK_DEFINE_F(TriangleMesh3, IsInside)(benchmark::State& state) {
+    while (state.KeepRunning()) {
+        benchmark::DoNotOptimize(triMesh.isInside(makeVec()));
+    }
+}
+
+BENCHMARK_REGISTER_F(TriangleMesh3, IsInside);

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 Doyub Kim
+# Copyright (c) 2019 Doyub Kim
 #
 # I am making my contributions/submissions to this project solely in my personal
 # capacity and am not conveying any rights to any intellectual property of any
@@ -15,6 +15,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # Declare project
 project(jet)
 
+# Useful paths
+set(EXTERNAL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
+
 # Set output directories
 set(DEFAULT_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -25,7 +28,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 include_directories(include)
 include_directories(external)
 include_directories(external/pybind11/include)
-include_directories(external/googletest/googletest/include)
 include_directories(external/Clara/include)
 include_directories(external/tinyobj)
 include_directories(src/examples)
@@ -72,7 +74,7 @@ add_custom_target(unzip_py ALL
 
 # Project modules
 set(BUILD_GTEST ON CACHE BOOL "" FORCE)
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 add_subdirectory(external/googletest EXCLUDE_FROM_ALL)
 if ((CMAKE_VERSION VERSION_EQUAL 3.3) OR (CMAKE_VERSION VERSION_GREATER 3.3))
