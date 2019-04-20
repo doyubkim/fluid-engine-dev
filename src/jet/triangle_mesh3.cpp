@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -17,6 +17,49 @@
 
 using namespace jet;
 
+namespace {
+
+constexpr double kDefaultFastWindingNumberAccuracy = 2.0;
+
+struct WindingNumberGatherData {
+    double areaSums = 0;
+    Vector3D areaWeightedNormalSums;
+    Vector3D areaWeightedPositionSums;
+
+    WindingNumberGatherData operator+(
+        const WindingNumberGatherData& other) const {
+        WindingNumberGatherData sum;
+        sum.areaSums = areaSums + other.areaSums;
+        sum.areaWeightedNormalSums =
+            areaWeightedNormalSums + other.areaWeightedNormalSums;
+        sum.areaWeightedPositionSums =
+            areaWeightedPositionSums + other.areaWeightedPositionSums;
+
+        return sum;
+    }
+};
+
+template <typename GatherFunc, typename LeafGatherFunc>
+WindingNumberGatherData postOrderTraversal(
+    const Bvh3<size_t>& bvh, size_t nodeIndex, const GatherFunc& visitorFunc,
+    const LeafGatherFunc& leafFunc,
+    const WindingNumberGatherData& initGatherData) {
+    WindingNumberGatherData data = initGatherData;
+
+    if (bvh.isLeaf(nodeIndex)) {
+        data = leafFunc(nodeIndex);
+    } else {
+        const auto children = bvh.children(nodeIndex);
+        data = data + postOrderTraversal(bvh, children.first, visitorFunc,
+                                         leafFunc, initGatherData);
+        data = data + postOrderTraversal(bvh, children.second, visitorFunc,
+                                         leafFunc, initGatherData);
+    }
+    visitorFunc(nodeIndex, data);
+
+    return data;
+}
+
 inline std::ostream& operator<<(std::ostream& strm, const Vector2D& v) {
     strm << v.x << ' ' << v.y;
     return strm;
@@ -26,6 +69,8 @@ inline std::ostream& operator<<(std::ostream& strm, const Vector3D& v) {
     strm << v.x << ' ' << v.y << ' ' << v.z;
     return strm;
 }
+
+}  // namespace
 
 TriangleMesh3::TriangleMesh3(const Transform3& transform_,
                              bool isNormalFlipped_)
@@ -50,7 +95,15 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
     set(other);
 }
 
-void TriangleMesh3::updateQueryEngine() { buildBvh(); }
+void TriangleMesh3::updateQueryEngine() {
+    buildBvh();
+    buildWindingNumbers();
+}
+
+void TriangleMesh3::updateQueryEngine() const {
+    buildBvh();
+    buildWindingNumbers();
+}
 
 Vector3D TriangleMesh3::closestPointLocal(const Vector3D& otherPoint) const {
     buildBvh();
@@ -98,6 +151,11 @@ SurfaceRayIntersection3 TriangleMesh3::closestIntersectionLocal(
     return result;
 }
 
+bool TriangleMesh3::isInsideLocal(const Vector3D& otherPoint) const {
+    return fastWindingNumber(otherPoint, kDefaultFastWindingNumberAccuracy) >
+           0.5;
+}
+
 BoundingBox3D TriangleMesh3::boundingBoxLocal() const {
     buildBvh();
 
@@ -135,7 +193,7 @@ void TriangleMesh3::clear() {
     _normalIndices.clear();
     _uvIndices.clear();
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::set(const TriangleMesh3& other) {
@@ -146,7 +204,7 @@ void TriangleMesh3::set(const TriangleMesh3& other) {
     _normalIndices.set(other._normalIndices);
     _uvIndices.set(other._uvIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::swap(TriangleMesh3& other) {
@@ -179,7 +237,7 @@ double TriangleMesh3::volume() const {
 const Vector3D& TriangleMesh3::point(size_t i) const { return _points[i]; }
 
 Vector3D& TriangleMesh3::point(size_t i) {
-    invalidateBvh();
+    invalidateCache();
     return _points[i];
 }
 
@@ -249,19 +307,19 @@ void TriangleMesh3::addUv(const Vector2D& t) { _uvs.append(t); }
 
 void TriangleMesh3::addPointTriangle(const Point3UI& newPointIndices) {
     _pointIndices.append(newPointIndices);
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addNormalTriangle(const Point3UI& newNormalIndices) {
     _normalIndices.append(newNormalIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addUvTriangle(const Point3UI& newUvIndices) {
     _uvIndices.append(newUvIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
@@ -269,7 +327,7 @@ void TriangleMesh3::addPointNormalTriangle(const Point3UI& newPointIndices,
     _pointIndices.append(newPointIndices);
     _normalIndices.append(newNormalIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
@@ -279,7 +337,7 @@ void TriangleMesh3::addPointUvNormalTriangle(const Point3UI& newPointIndices,
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
@@ -287,7 +345,7 @@ void TriangleMesh3::addPointUvTriangle(const Point3UI& newPointIndices,
     _pointIndices.append(newPointIndices);
     _uvIndices.append(newUvIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::addTriangle(const Triangle3& tri) {
@@ -309,7 +367,7 @@ void TriangleMesh3::addTriangle(const Triangle3& tri) {
     _normalIndices.append(newNormalIndices);
     _uvIndices.append(newUvIndices);
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::setFaceNormal() {
@@ -400,13 +458,13 @@ void TriangleMesh3::setAngleWeightedVertexNormal() {
 void TriangleMesh3::scale(double factor) {
     parallelFor(kZeroSize, numberOfPoints(),
                 [this, factor](size_t i) { _points[i] *= factor; });
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::translate(const Vector3D& t) {
     parallelFor(kZeroSize, numberOfPoints(),
                 [this, t](size_t i) { _points[i] += t; });
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::rotate(const Quaternion<double>& q) {
@@ -416,7 +474,7 @@ void TriangleMesh3::rotate(const Quaternion<double>& q) {
     parallelFor(kZeroSize, numberOfNormals(),
                 [this, q](size_t i) { _normals[i] = q * _normals[i]; });
 
-    invalidateBvh();
+    invalidateCache();
 }
 
 void TriangleMesh3::writeObj(std::ostream* strm) const {
@@ -488,7 +546,7 @@ bool TriangleMesh3::readObj(std::istream* strm) {
         return false;
     }
 
-    invalidateBvh();
+    invalidateCache();
 
     // Read vertices
     for (size_t idx = 0; idx < attrib.vertices.size() / 3; ++idx) {
@@ -574,7 +632,10 @@ TriangleMesh3& TriangleMesh3::operator=(const TriangleMesh3& other) {
 
 TriangleMesh3::Builder TriangleMesh3::builder() { return Builder(); }
 
-void TriangleMesh3::invalidateBvh() { _bvhInvalidated = true; }
+void TriangleMesh3::invalidateCache() {
+    _bvhInvalidated = true;
+    _wnInvalidated = true;
+}
 
 void TriangleMesh3::buildBvh() const {
     if (_bvhInvalidated) {
@@ -587,6 +648,112 @@ void TriangleMesh3::buildBvh() const {
         }
         _bvh.build(ids, bounds);
         _bvhInvalidated = false;
+    }
+}
+
+void TriangleMesh3::buildWindingNumbers() const {
+    // Barill et al., Fast Winding Numbers for Soups and Clouds, ACM SIGGRAPH
+    // 2018
+    if (_wnInvalidated) {
+        buildBvh();
+
+        size_t nNodes = _bvh.numberOfNodes();
+        _wnAreaWeightedNormalSums.resize(nNodes);
+        _wnAreaWeightedAvgPositions.resize(nNodes);
+
+        const auto visitorFunc = [&](size_t nodeIndex,
+                                     const WindingNumberGatherData& data) {
+            _wnAreaWeightedNormalSums[nodeIndex] = data.areaWeightedNormalSums;
+            _wnAreaWeightedAvgPositions[nodeIndex] =
+                data.areaWeightedPositionSums / data.areaSums;
+
+        };
+        const auto leafFunc = [&](size_t nodeIndex) -> WindingNumberGatherData {
+            WindingNumberGatherData result;
+
+            auto iter = _bvh.itemOfNode(nodeIndex);
+            JET_ASSERT(iter != _bvh.end());
+
+            Triangle3 tri = triangle(*iter);
+            double area = tri.area();
+            result.areaSums = area;
+            result.areaWeightedNormalSums = area * tri.faceNormal();
+            result.areaWeightedPositionSums =
+                area * (tri.points[0] + tri.points[1] + tri.points[2]) / 3.0;
+
+            return result;
+        };
+
+        postOrderTraversal(_bvh, 0, visitorFunc, leafFunc,
+                           WindingNumberGatherData());
+
+        _wnInvalidated = false;
+    }
+}
+
+double TriangleMesh3::windingNumber(const Vector3D& queryPoint,
+                                    size_t triIndex) const {
+    // Jacobson et al., Robust Inside-Outside Segmentation using Generalized
+    // Winding Numbers, ACM SIGGRAPH 2013.
+    const Vector3D& vi = _points[_pointIndices[triIndex][0]];
+    const Vector3D& vj = _points[_pointIndices[triIndex][1]];
+    const Vector3D& vk = _points[_pointIndices[triIndex][2]];
+    const Vector3D va = vi - queryPoint;
+    const Vector3D vb = vj - queryPoint;
+    const Vector3D vc = vk - queryPoint;
+    const double a = va.length();
+    const double b = vb.length();
+    const double c = vc.length();
+
+    const Matrix3x3D mat(va.x, vb.x, vc.x, va.y, vb.y, vc.y, va.z, vb.z, vc.z);
+    const double det = mat.determinant();
+    const double denom =
+        a * b * c + va.dot(vb) * c + vb.dot(vc) * a + vc.dot(va) * b;
+
+    const double solidAngle = 2.0 * std::atan2(det, denom);
+
+    return solidAngle;
+}
+
+double TriangleMesh3::fastWindingNumber(const Vector3D& queryPoint,
+                                        double accuracy) const {
+    buildWindingNumbers();
+
+    return fastWindingNumber(queryPoint, 0, accuracy);
+}
+
+double TriangleMesh3::fastWindingNumber(const Vector3D& q, size_t rootNodeIndex,
+                                        double accuracy) const {
+    // Barill et al., Fast Winding Numbers for Soups and Clouds, ACM SIGGRAPH
+    // 2018.
+    const Vector3D& treeP = _wnAreaWeightedAvgPositions[rootNodeIndex];
+    const double qToP2 = q.distanceSquaredTo(treeP);
+
+    const Vector3D& treeN = _wnAreaWeightedNormalSums[rootNodeIndex];
+    const BoundingBox3D& treeBound = _bvh.nodeBound(rootNodeIndex);
+    const Vector3D treeRVec =
+        jet::max(treeP - treeBound.lowerCorner, treeBound.upperCorner - treeP);
+    const double treeR = treeRVec.length();
+
+    if (qToP2 > square(accuracy * treeR)) {
+        // Case: q is sufficiently far from all elements in tree
+        // TODO: This is zero-th order approximation. Higher-order approximation
+        // from Section 3.2.1 could be implemented for better accuracy in the
+        // future.
+        return (treeP - q).dot(treeN) / (kFourPiD * cubic(std::sqrt(qToP2)));
+    } else {
+        if (_bvh.isLeaf(rootNodeIndex)) {
+            // Case: q is nearby; use direct sum for tree’s elements
+            auto iter = _bvh.itemOfNode(rootNodeIndex);
+            return windingNumber(q, *iter) * kInvFourPiD;
+        } else {
+            // Case: Recursive call
+            const auto children = _bvh.children(rootNodeIndex);
+            double wn = 0.0;
+            wn += fastWindingNumber(q, children.first, accuracy);
+            wn += fastWindingNumber(q, children.second, accuracy);
+            return wn;
+        }
     }
 }
 

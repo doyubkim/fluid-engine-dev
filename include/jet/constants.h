@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -73,7 +73,6 @@ constexpr float kEpsilonF = std::numeric_limits<float>::epsilon();
 //! Double-type epsilon.
 constexpr double kEpsilonD = std::numeric_limits<double>::epsilon();
 
-
 // MARK: Max
 
 //! Max size_t.
@@ -87,7 +86,6 @@ constexpr float kMaxF = std::numeric_limits<float>::max();
 
 //! Max double.
 constexpr double kMaxD = std::numeric_limits<double>::max();
-
 
 // MARK: Pi
 
@@ -115,7 +113,6 @@ constexpr double pi<double>() {
     return kPiD;
 }
 
-
 // MARK: Pi/2
 
 //! Float-type pi/2.
@@ -141,7 +138,6 @@ template <>
 constexpr double halfPi<double>() {
     return kHalfPiD;
 }
-
 
 // MARK: Pi/4
 
@@ -195,6 +191,32 @@ constexpr double twoPi<double>() {
     return kTwoPiD;
 }
 
+// MARK: 4*Pi
+
+//! Float-type 4*pi.
+constexpr float kFourPiF = static_cast<float>(4.0 * kPiD);
+
+//! Double-type 4*pi.
+constexpr double kFourPiD = 4.0 * kPiD;
+
+//! 4*pi for type T.
+template <typename T>
+constexpr T fourPi() {
+    return static_cast<T>(kFourPiD);
+}
+
+//! 4*pi for float.
+template <>
+constexpr float fourPi<float>() {
+    return kFourPiF;
+}
+
+//! 4*pi for double.
+template <>
+constexpr double fourPi<double>() {
+    return kFourPiD;
+}
+
 // MARK: 1/Pi
 
 //! Float-type 1/pi.
@@ -220,7 +242,6 @@ template <>
 constexpr double invPi<double>() {
     return kInvPiD;
 }
-
 
 // MARK: 1/2*Pi
 
@@ -248,6 +269,31 @@ constexpr double invTwoPi<double>() {
     return kInvTwoPiD;
 }
 
+// MARK: 1/4*Pi
+
+//! Float-type 1/4*pi.
+constexpr float kInvFourPiF = static_cast<float>(0.25 / kPiD);
+
+//! Double-type 1/4*pi.
+constexpr double kInvFourPiD = 0.25 / kPiD;
+
+//! 1/4*pi for type T.
+template <typename T>
+constexpr T invFourPi() {
+    return static_cast<T>(kInvFourPiD);
+}
+
+//! 1/4*pi for float.
+template <>
+constexpr float invFourPi<float>() {
+    return kInvFourPiF;
+}
+
+//! 1/4*pi for double.
+template <>
+constexpr double invFourPi<double>() {
+    return kInvFourPiD;
+}
 
 // MARK: Physics
 
@@ -259,7 +305,6 @@ constexpr double kWaterDensity = 1000.0;
 
 //! Speed of sound in water at 20 degrees celcius.
 constexpr double kSpeedOfSoundInWater = 1482.0;
-
 
 // MARK: Common enums
 
@@ -285,10 +330,9 @@ constexpr int kDirectionBack = 1 << 4;
 constexpr int kDirectionFront = 1 << 5;
 
 //! All direction.
-constexpr int kDirectionAll
-    = kDirectionLeft | kDirectionRight
-    | kDirectionDown | kDirectionUp
-    | kDirectionBack | kDirectionFront;
+constexpr int kDirectionAll = kDirectionLeft | kDirectionRight |
+                              kDirectionDown | kDirectionUp | kDirectionBack |
+                              kDirectionFront;
 
 }  // namespace jet
 

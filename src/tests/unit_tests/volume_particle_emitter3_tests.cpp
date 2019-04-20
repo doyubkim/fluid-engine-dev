@@ -86,7 +86,7 @@ TEST(VolumeParticleEmitter3, Emit) {
     emitter.setMaxNumberOfParticles(80);
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
-    EXPECT_EQ(69u, particles->numberOfParticles());
+    EXPECT_EQ(79u, particles->numberOfParticles());
 
     pos = particles->positions();
     for (size_t i = 0; i < particles->numberOfParticles(); ++i) {
@@ -95,7 +95,7 @@ TEST(VolumeParticleEmitter3, Emit) {
 
     ++frame;
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
-    EXPECT_LT(69u, particles->numberOfParticles());
+    EXPECT_LT(79u, particles->numberOfParticles());
 }
 
 TEST(VolumeParticleEmitter3, Builder) {

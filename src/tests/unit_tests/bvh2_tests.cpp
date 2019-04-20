@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -13,6 +13,40 @@ using namespace jet;
 TEST(Bvh2, Constructors) {
     Bvh2<Vector2D> bvh;
     EXPECT_EQ(bvh.begin(), bvh.end());
+}
+
+TEST(Bvh2, BasicGetters) {
+    Bvh2<Vector2D> bvh;
+
+    std::vector<Vector2D> points{Vector2D(0, 0), Vector2D(1, 1)};
+    std::vector<BoundingBox2D> bounds(points.size());
+    size_t i = 0;
+    BoundingBox2D rootBounds;
+    std::generate(bounds.begin(), bounds.end(), [&]() {
+        auto c = points[i++];
+        BoundingBox2D box(c, c);
+        box.expand(0.1);
+        rootBounds.merge(box);
+        return box;
+    });
+
+    bvh.build(points, bounds);
+
+    EXPECT_EQ(2u, bvh.numberOfItems());
+    EXPECT_VECTOR2_EQ(points[0], bvh.item(0));
+    EXPECT_VECTOR2_EQ(points[1], bvh.item(1));
+    EXPECT_EQ(3u, bvh.numberOfNodes());
+    EXPECT_EQ(1u, bvh.children(0).first);
+    EXPECT_EQ(2u, bvh.children(0).second);
+    EXPECT_FALSE(bvh.isLeaf(0));
+    EXPECT_TRUE(bvh.isLeaf(1));
+    EXPECT_TRUE(bvh.isLeaf(2));
+    EXPECT_BOUNDING_BOX2_EQ(rootBounds, bvh.nodeBound(0));
+    EXPECT_BOUNDING_BOX2_EQ(bounds[0], bvh.nodeBound(1));
+    EXPECT_BOUNDING_BOX2_EQ(bounds[1], bvh.nodeBound(2));
+    EXPECT_EQ(bvh.end(), bvh.itemOfNode(0));
+    EXPECT_EQ(bvh.begin(), bvh.itemOfNode(1));
+    EXPECT_EQ(bvh.begin() + 1, bvh.itemOfNode(2));
 }
 
 TEST(Bvh2, Nearest) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -26,9 +26,9 @@ template <typename T>
 class Bvh3 final : public IntersectionQueryEngine3<T>,
                    public NearestNeighborQueryEngine3<T> {
  public:
-    typedef std::vector<T> ContainerType;
-    typedef typename ContainerType::iterator Iterator;
-    typedef typename ContainerType::const_iterator ConstIterator;
+    using ContainerType = std::vector<T>;
+    using Iterator = typename ContainerType::iterator;
+    using ConstIterator = typename ContainerType::const_iterator;
 
     //! Default constructor.
     Bvh3();
@@ -89,6 +89,24 @@ class Bvh3 final : public IntersectionQueryEngine3<T>,
 
     //! Returns the item at \p i.
     const T& item(size_t i) const;
+
+    //! Returns the number of nodes.
+    size_t numberOfNodes() const;
+
+    //! Returns the children indices of \p i-th node.
+    std::pair<size_t, size_t> children(size_t i) const;
+
+    //! Returns true if \p i-th node is a leaf node.
+    bool isLeaf(size_t i) const;
+
+    //! Returns bounding box of \p i-th node.
+    const BoundingBox3D& nodeBound(size_t i) const;
+
+    //! Returns item of \p i-th node.
+    Iterator itemOfNode(size_t i);
+
+    //! Returns item of \p i-th node.
+    ConstIterator itemOfNode(size_t i) const;
 
  private:
     struct Node {

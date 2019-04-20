@@ -24,7 +24,8 @@ ImplicitSurface2::~ImplicitSurface2() {
 }
 
 double ImplicitSurface2::signedDistance(const Vector2D& otherPoint) const {
-    return signedDistanceLocal(transform.toLocal(otherPoint));
+    double sd = signedDistanceLocal(transform.toLocal(otherPoint));
+    return (isNormalFlipped) ? -sd : sd;
 }
 
 double ImplicitSurface2::closestDistanceLocal(

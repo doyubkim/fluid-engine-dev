@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -53,6 +53,9 @@ class TriangleMesh3 final : public Surface3 {
 
     //! Updates internal spatial query engine.
     void updateQueryEngine() override;
+
+    //! Updates internal spatial query engine.
+    void updateQueryEngine() const;
 
     //! Clears all content.
     void clear();
@@ -207,6 +210,8 @@ class TriangleMesh3 final : public Surface3 {
     SurfaceRayIntersection3 closestIntersectionLocal(
         const Ray3D& ray) const override;
 
+    bool isInsideLocal(const Vector3D& otherPoint) const override;
+
  private:
     PointArray _points;
     NormalArray _normals;
@@ -218,9 +223,22 @@ class TriangleMesh3 final : public Surface3 {
     mutable Bvh3<size_t> _bvh;
     mutable bool _bvhInvalidated = true;
 
-    void invalidateBvh();
+    mutable Array1<Vector3D> _wnAreaWeightedNormalSums;
+    mutable Array1<Vector3D> _wnAreaWeightedAvgPositions;
+    mutable bool _wnInvalidated = true;
+
+    void invalidateCache();
 
     void buildBvh() const;
+
+    void buildWindingNumbers() const;
+
+    double windingNumber(const Vector3D& queryPoint, size_t triIndex) const;
+
+    double fastWindingNumber(const Vector3D& queryPoint, double accuracy) const;
+
+    double fastWindingNumber(const Vector3D& queryPoint, size_t rootNodeIndex,
+                             double accuracy) const;
 };
 
 //! Shared pointer for the TriangleMesh3 type.

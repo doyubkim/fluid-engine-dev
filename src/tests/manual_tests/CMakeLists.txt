@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 Doyub Kim
+# Copyright (c) 2019 Doyub Kim
 #
 # I am making my contributions/submissions to this project solely in my personal
 # capacity and am not conveying any rights to any intellectual property of any
@@ -10,7 +10,10 @@
 set(target manual_tests)
 
 # Includes
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${EXTERNAL_DIR}/googletest/googlemock/include
+    ${EXTERNAL_DIR}/googletest/googletest/include)
 
 # Sources
 file(GLOB sources
