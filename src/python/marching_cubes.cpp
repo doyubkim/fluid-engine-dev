@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -16,11 +16,13 @@ using namespace jet;
 void addMarchingCubes(pybind11::module& m) {
     m.def("marchingCubes",
           [](ScalarGrid3Ptr grid, py::object gridSize, py::object origin,
-             double isoValue, int bndFlag) -> TriangleMesh3Ptr {
+             double isoValue, int bndClose,
+             int bndConnectivity) -> TriangleMesh3Ptr {
               auto mesh = TriangleMesh3::builder().makeShared();
-              marchingCubes(
-                  grid->constDataAccessor(), objectToVector3D(gridSize),
-                  objectToVector3D(origin), mesh.get(), isoValue, bndFlag);
+              marchingCubes(grid->constDataAccessor(),
+                            objectToVector3D(gridSize),
+                            objectToVector3D(origin), mesh.get(), isoValue,
+                            bndClose, bndConnectivity);
               return mesh;
           },
           R"pbdoc(

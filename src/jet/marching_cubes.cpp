@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -19,6 +19,7 @@
 //
 
 #include <pch.h>
+
 #include <marching_cubes_table.h>
 #include <marching_squares_table.h>
 
@@ -34,14 +35,12 @@ namespace jet {
 
 typedef size_t MarchingCubeVertexHashKey;
 typedef size_t MarchingCubeVertexId;
-typedef std::unordered_map<
-    MarchingCubeVertexHashKey,
-    MarchingCubeVertexId> MarchingCubeVertexMap;
+typedef std::unordered_map<MarchingCubeVertexHashKey, MarchingCubeVertexId>
+    MarchingCubeVertexMap;
 
-inline bool queryVertexId(
-    const MarchingCubeVertexMap& vertexMap,
-    MarchingCubeVertexHashKey vKey,
-    MarchingCubeVertexId* vId) {
+inline bool queryVertexId(const MarchingCubeVertexMap& vertexMap,
+                          MarchingCubeVertexHashKey vKey,
+                          MarchingCubeVertexId* vId) {
     auto vItr = vertexMap.find(vKey);
     if (vItr != vertexMap.end()) {
         *vId = vItr->second;
@@ -51,12 +50,8 @@ inline bool queryVertexId(
     }
 }
 
-inline Vector3D grad(
-    const ConstArrayAccessor3<double>& grid,
-    ssize_t i,
-    ssize_t j,
-    ssize_t k,
-    const Vector3D& invGridSize) {
+inline Vector3D grad(const ConstArrayAccessor3<double>& grid, ssize_t i,
+                     ssize_t j, ssize_t k, const Vector3D& invGridSize) {
     Vector3D ret;
     ssize_t ip = i + 1;
     ssize_t im = i - 1;
@@ -104,23 +99,17 @@ inline Vector3D safeNormalize(const Vector3D& n) {
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t globalEdgeId(
-    size_t i,
-    size_t j,
-    size_t k,
-    const Size3& dim,
-    size_t localEdgeId) {
-
+inline size_t globalEdgeId(size_t i, size_t j, size_t k, const Size3& dim,
+                           size_t localEdgeId) {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
     static const int edgeOffset3D[12][3] = {
-        {1, 0, 0}, {2, 0, 1}, {1, 0, 2}, {0, 0, 1},
-        {1, 2, 0}, {2, 2, 1}, {1, 2, 2}, {0, 2, 1},
-        {0, 1, 0}, {2, 1, 0}, {2, 1, 2}, {0, 1, 2}
-    };
+        {1, 0, 0}, {2, 0, 1}, {1, 0, 2}, {0, 0, 1}, {1, 2, 0}, {2, 2, 1},
+        {1, 2, 2}, {0, 2, 1}, {0, 1, 0}, {2, 1, 0}, {2, 1, 2}, {0, 1, 2}};
 
-    return ((2 * k + edgeOffset3D[localEdgeId][2]) * 2 * dim.y
-        + (2 * j + edgeOffset3D[localEdgeId][1])) * 2 * dim.x
-        + (2 * i + edgeOffset3D[localEdgeId][0]);
+    return ((2 * k + edgeOffset3D[localEdgeId][2]) * 2 * dim.y +
+            (2 * j + edgeOffset3D[localEdgeId][1])) *
+               2 * dim.x +
+           (2 * i + edgeOffset3D[localEdgeId][0]);
 }
 
 // To compute unique edge ID, map vertices+edges into
@@ -130,33 +119,25 @@ inline size_t globalEdgeId(
 // |----*----|    -->    |-----|-----|
 // i        i+1         2i   2i+1  2i+2
 //
-inline size_t globalVertexId(
-    size_t i,
-    size_t j,
-    size_t k,
-    const Size3& dim,
-    size_t localVertexId) {
-
+inline size_t globalVertexId(size_t i, size_t j, size_t k, const Size3& dim,
+                             size_t localVertexId) {
     // See edgeConnection in marching_cubes_table.h for the edge ordering.
-    static const int vertexOffset3D[8][3] = {
-        {0, 0, 0}, {2, 0, 0}, {2, 0, 2}, {0, 0, 2},
-        {0, 2, 0}, {2, 2, 0}, {2, 2, 2}, {0, 2, 2}
-    };
+    static const int vertexOffset3D[8][3] = {{0, 0, 0}, {2, 0, 0}, {2, 0, 2},
+                                             {0, 0, 2}, {0, 2, 0}, {2, 2, 0},
+                                             {2, 2, 2}, {0, 2, 2}};
 
-    return ((2 * k + vertexOffset3D[localVertexId][2]) * 2 * dim.y
-        + (2 * j + vertexOffset3D[localVertexId][1])) * 2 * dim.x
-        + (2 * i + vertexOffset3D[localVertexId][0]);
+    return ((2 * k + vertexOffset3D[localVertexId][2]) * 2 * dim.y +
+            (2 * j + vertexOffset3D[localVertexId][1])) *
+               2 * dim.x +
+           (2 * i + vertexOffset3D[localVertexId][0]);
 }
 
-static void singleSquare(
-    const std::array<double, 4>& data,
-    const std::array<size_t, 8>& vertAndEdgeIds,
-    const Vector3D& normal,
-    const std::array<Vector3D, 4>& corners,
-    MarchingCubeVertexMap* vertexMap,
-    TriangleMesh3* mesh,
-    double isoValue) {
-
+static void singleSquare(const std::array<double, 4>& data,
+                         const std::array<size_t, 8>& vertAndEdgeIds,
+                         const Vector3D& normal,
+                         const std::array<Vector3D, 4>& corners,
+                         MarchingCubeVertexMap* vertexMap, TriangleMesh3* mesh,
+                         double isoValue) {
     int itrVertex, itrEdge, itrTri;
     int idxFlags = 0, idxEdgeFlags = 0;
     int idxVertexOfTheEdge[2];
@@ -213,7 +194,7 @@ static void singleSquare(
                 alpha = 0.999999f;
             }
 
-            pos = ((1.f-alpha)*pos0+alpha*pos1);
+            pos = ((1.f - alpha) * pos0 + alpha * pos1);
 
             // What is the position of this vertex of the edge?
             e[itrEdge] = pos;
@@ -230,7 +211,7 @@ static void singleSquare(
         Point3UI face;
 
         for (int j = 0; j < 3; ++j) {
-            int idxVertex = triangleConnectionTable2D[idxFlags][3 * itrTri+j];
+            int idxVertex = triangleConnectionTable2D[idxFlags][3 * itrTri + j];
 
             MarchingCubeVertexHashKey vKey = vertAndEdgeIds[idxVertex];
             MarchingCubeVertexId vId;
@@ -243,7 +224,7 @@ static void singleSquare(
                 if (idxVertex < 4) {
                     mesh->addPoint(corners[idxVertex]);
                 } else {
-                    mesh->addPoint(e[idxVertex-4]);
+                    mesh->addPoint(e[idxVertex - 4]);
                 }
                 mesh->addUv(Vector2D());  // empty texture coord...
                 vertexMap->insert(std::make_pair(vKey, face[j]));
@@ -254,14 +235,12 @@ static void singleSquare(
     }
 }
 
-static void singleCube(
-    const std::array<double, 8>& data,
-    const std::array<size_t, 12>& edgeIds,
-    const std::array<Vector3D, 8>& normals,
-    const BoundingBox3D& bound,
-    MarchingCubeVertexMap* vertexMap,
-    TriangleMesh3* mesh,
-    double isoValue) {
+static void singleCube(const std::array<double, 8>& data,
+                       const std::array<size_t, 12>& edgeIds,
+                       const std::array<Vector3D, 8>& normals,
+                       const BoundingBox3D& bound,
+                       MarchingCubeVertexMap* vertexMap, TriangleMesh3* mesh,
+                       double isoValue) {
     int itrVertex, itrEdge, itrTri;
     int idxFlagSize = 0, idxEdgeFlags = 0;
     int idxVertexOfTheEdge[2];
@@ -338,19 +317,17 @@ static void singleCube(
 
         for (int j = 0; j < 3; j++) {
             int k = 3 * itrTri + j;
-            MarchingCubeVertexHashKey vKey
-                = edgeIds[triangleConnectionTable3D[idxFlagSize][k]];
+            MarchingCubeVertexHashKey vKey =
+                edgeIds[triangleConnectionTable3D[idxFlagSize][k]];
             MarchingCubeVertexId vId;
             if (queryVertexId(*vertexMap, vKey, &vId)) {
                 face[j] = vId;
             } else {
                 // If vertex does not exist from the map
                 face[j] = mesh->numberOfPoints();
-                mesh->addNormal(
-                    safeNormalize(
-                        n[triangleConnectionTable3D[idxFlagSize][k]]));
-                mesh->addPoint(
-                    e[triangleConnectionTable3D[idxFlagSize][k]]);
+                mesh->addNormal(safeNormalize(
+                    n[triangleConnectionTable3D[idxFlagSize][k]]));
+                mesh->addPoint(e[triangleConnectionTable3D[idxFlagSize][k]]);
                 mesh->addUv(Vector2D());
                 vertexMap->insert(std::make_pair(vKey, face[j]));
             }
@@ -359,13 +336,10 @@ static void singleCube(
     }
 }
 
-void marchingCubes(
-    const ConstArrayAccessor3<double>& grid,
-    const Vector3D& gridSize,
-    const Vector3D& origin,
-    TriangleMesh3* mesh,
-    double isoValue,
-    int bndFlag) {
+void marchingCubes(const ConstArrayAccessor3<double>& grid,
+                   const Vector3D& gridSize, const Vector3D& origin,
+                   TriangleMesh3* mesh, double isoValue, int bndClose,
+                   int bndConnectivity) {
     MarchingCubeVertexMap vertexMap;
 
     const Size3 dim = grid.size();
@@ -384,7 +358,7 @@ void marchingCubes(
             for (ssize_t i = 0; i < dimx - 1; ++i) {
                 std::array<double, 8> data;
                 std::array<size_t, 12> edgeIds;
-                std::array<Vector3D, 8>  normals;
+                std::array<Vector3D, 8> normals;
                 BoundingBox3D bound;
 
                 data[0] = grid(i, j, k);
@@ -412,24 +386,19 @@ void marchingCubes(
                 bound.lowerCorner = pos(i, j, k);
                 bound.upperCorner = pos(i + 1, j + 1, k + 1);
 
-                singleCube(
-                    data,
-                    edgeIds,
-                    normals,
-                    bound,
-                    &vertexMap,
-                    mesh,
-                    isoValue);
+                singleCube(data, edgeIds, normals, bound, &vertexMap, mesh,
+                           isoValue);
             }  // i
-        }  // j
-    }  // k
+        }      // j
+    }          // k
 
     // Construct boundaries parallel to x-y plane
-    vertexMap.clear();
-    if (bndFlag
-        & (kDirectionBack | kDirectionFront)) {
-        for (ssize_t j = 0; j < dimy-1; ++j) {
-            for (ssize_t i = 0; i < dimx-1; ++i) {
+    if (bndClose & (kDirectionBack | kDirectionFront)) {
+        MarchingCubeVertexMap vertexMapBack;
+        MarchingCubeVertexMap vertexMapFront;
+
+        for (ssize_t j = 0; j < dimy - 1; ++j) {
+            for (ssize_t i = 0; i < dimx - 1; ++i) {
                 ssize_t k = 0;
 
                 std::array<double, 4> data;
@@ -443,7 +412,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k);
 
-                if (bndFlag & kDirectionBack) {
+                if (bndClose & kDirectionBack) {
                     normal = Vector3D(0, 0, -1);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 1);
@@ -460,14 +429,11 @@ void marchingCubes(
                     corners[2] = pos(i, j + 1, k);
                     corners[3] = pos(i + 1, j + 1, k);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionBack)
+                                     ? &vertexMap
+                                     : &vertexMapBack,
+                                 mesh, isoValue);
                 }
 
                 k = dimz - 2;
@@ -476,7 +442,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k + 1);
 
-                if (bndFlag & kDirectionFront) {
+                if (bndClose & kDirectionFront) {
                     normal = Vector3D(0, 0, 1);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 3);
@@ -493,25 +459,23 @@ void marchingCubes(
                     corners[2] = pos(i + 1, j + 1, k + 1);
                     corners[3] = pos(i, j + 1, k + 1);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionFront)
+                                     ? &vertexMap
+                                     : &vertexMapFront,
+                                 mesh, isoValue);
                 }
             }  // i
-        }  // j
+        }      // j
     }
 
     // Construct boundaries parallel to y-z plane
-    vertexMap.clear();
-    if (bndFlag
-        & (kDirectionLeft | kDirectionRight)) {
-        for (ssize_t k = 0; k < dimz-1; ++k) {
-            for (ssize_t j = 0; j < dimy-1; ++j) {
+    if (bndClose & (kDirectionLeft | kDirectionRight)) {
+        MarchingCubeVertexMap vertexMapLeft;
+        MarchingCubeVertexMap vertexMapRight;
+
+        for (ssize_t k = 0; k < dimz - 1; ++k) {
+            for (ssize_t j = 0; j < dimy - 1; ++j) {
                 ssize_t i = 0;
 
                 std::array<double, 4> data;
@@ -525,7 +489,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i, j + 1, k);
 
-                if (bndFlag & kDirectionLeft) {
+                if (bndClose & kDirectionLeft) {
                     normal = Vector3D(-1, 0, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 0);
@@ -542,14 +506,11 @@ void marchingCubes(
                     corners[2] = pos(i, j + 1, k + 1);
                     corners[3] = pos(i, j + 1, k);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionLeft)
+                                     ? &vertexMap
+                                     : &vertexMapLeft,
+                                 mesh, isoValue);
                 }
 
                 i = dimx - 2;
@@ -558,7 +519,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j + 1, k);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & kDirectionRight) {
+                if (bndClose & kDirectionRight) {
                     normal = Vector3D(1, 0, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 2);
@@ -566,7 +527,7 @@ void marchingCubes(
                     vertexAndEdgeIds[2] = globalVertexId(i, j, k, dim, 5);
                     vertexAndEdgeIds[3] = globalVertexId(i, j, k, dim, 6);
                     vertexAndEdgeIds[4] = globalEdgeId(i, j, k, dim, 1);
-                    vertexAndEdgeIds[5] = globalEdgeId(i, j, k, dim, 7);
+                    vertexAndEdgeIds[5] = globalEdgeId(i, j, k, dim, 9);
                     vertexAndEdgeIds[6] = globalEdgeId(i, j, k, dim, 5);
                     vertexAndEdgeIds[7] = globalEdgeId(i, j, k, dim, 10);
 
@@ -575,25 +536,23 @@ void marchingCubes(
                     corners[2] = pos(i + 1, j + 1, k);
                     corners[3] = pos(i + 1, j + 1, k + 1);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionRight)
+                                     ? &vertexMap
+                                     : &vertexMapRight,
+                                 mesh, isoValue);
                 }
             }  // j
-        }  // k
+        }      // k
     }
 
     // Construct boundaries parallel to x-z plane
-    vertexMap.clear();
-    if (bndFlag
-        & (kDirectionDown | kDirectionUp)) {
-        for (ssize_t k = 0; k < dimz-1; ++k) {
-            for (ssize_t i = 0; i < dimx-1; ++i) {
+    if (bndClose & (kDirectionDown | kDirectionUp)) {
+        MarchingCubeVertexMap vertexMapDown;
+        MarchingCubeVertexMap vertexMapUp;
+
+        for (ssize_t k = 0; k < dimz - 1; ++k) {
+            for (ssize_t i = 0; i < dimx - 1; ++i) {
                 ssize_t j = 0;
 
                 std::array<double, 4> data;
@@ -607,7 +566,7 @@ void marchingCubes(
                 data[2] = grid(i + 1, j, k + 1);
                 data[3] = grid(i, j, k + 1);
 
-                if (bndFlag & kDirectionDown) {
+                if (bndClose & kDirectionDown) {
                     normal = Vector3D(0, -1, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 0);
@@ -624,14 +583,11 @@ void marchingCubes(
                     corners[2] = pos(i + 1, j, k + 1);
                     corners[3] = pos(i, j, k + 1);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionDown)
+                                     ? &vertexMap
+                                     : &vertexMapDown,
+                                 mesh, isoValue);
                 }
 
                 j = dimy - 2;
@@ -640,7 +596,7 @@ void marchingCubes(
                 data[2] = grid(i, j + 1, k + 1);
                 data[3] = grid(i + 1, j + 1, k + 1);
 
-                if (bndFlag & kDirectionUp) {
+                if (bndClose & kDirectionUp) {
                     normal = Vector3D(0, 1, 0);
 
                     vertexAndEdgeIds[0] = globalVertexId(i, j, k, dim, 5);
@@ -657,17 +613,14 @@ void marchingCubes(
                     corners[2] = pos(i, j + 1, k + 1);
                     corners[3] = pos(i + 1, j + 1, k + 1);
 
-                    singleSquare(
-                        data,
-                        vertexAndEdgeIds,
-                        normal,
-                        corners,
-                        &vertexMap,
-                        mesh,
-                        isoValue);
+                    singleSquare(data, vertexAndEdgeIds, normal, corners,
+                                 (bndConnectivity & kDirectionUp)
+                                     ? &vertexMap
+                                     : &vertexMapUp,
+                                 mesh, isoValue);
                 }
             }  // i
-        }  // k
+        }      // k
     }
 }
 
