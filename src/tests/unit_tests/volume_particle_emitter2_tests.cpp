@@ -42,6 +42,7 @@ TEST(VolumeParticleEmitter2, Constructors) {
     EXPECT_EQ(0.5, emitter.initialVelocity().y);
     EXPECT_EQ(Vector2D(), emitter.linearVelocity());
     EXPECT_EQ(0.0, emitter.angularVelocity());
+    EXPECT_TRUE(emitter.isEnabled());
 }
 
 TEST(VolumeParticleEmitter2, Emit) {
@@ -81,8 +82,15 @@ TEST(VolumeParticleEmitter2, Emit) {
         EXPECT_VECTOR2_NEAR(Vector2D(2.0, 4.5) + w, vel[i], 1e-9);
     }
 
+    emitter.setIsEnabled(false);
     ++frame;
     emitter.setMaxNumberOfParticles(60);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
+
+    EXPECT_EQ(30u, particles->numberOfParticles());
+    emitter.setIsEnabled(true);
+
+    ++frame;
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(51u, particles->numberOfParticles());

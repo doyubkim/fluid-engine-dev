@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -61,6 +61,10 @@ void VolumeGridEmitter2::onUpdate(double currentTimeInSeconds,
                                   double timeIntervalInSeconds) {
     UNUSED_VARIABLE(currentTimeInSeconds);
     UNUSED_VARIABLE(timeIntervalInSeconds);
+
+    if (!isEnabled()) {
+        return;
+    }
 
     if (_hasEmitted && _isOneShot) {
         return;

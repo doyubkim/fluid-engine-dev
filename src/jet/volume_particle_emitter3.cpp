@@ -46,6 +46,10 @@ void VolumeParticleEmitter3::onUpdate(double currentTimeInSeconds,
         return;
     }
 
+    if (!isEnabled()) {
+        return;
+    }
+
     if (_numberOfEmittedParticles > 0 && _isOneShot) {
         return;
     }

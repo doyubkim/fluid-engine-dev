@@ -43,6 +43,7 @@ TEST(VolumeParticleEmitter3, Constructors) {
     EXPECT_EQ(2.5, emitter.initialVelocity().z);
     EXPECT_EQ(Vector3D(), emitter.linearVelocity());
     EXPECT_EQ(Vector3D(), emitter.angularVelocity());
+    EXPECT_TRUE(emitter.isEnabled());
 }
 
 TEST(VolumeParticleEmitter3, Emit) {
@@ -82,8 +83,15 @@ TEST(VolumeParticleEmitter3, Emit) {
         EXPECT_VECTOR3_NEAR(Vector3D(2.0, 4.5, 7.5) + w, vel[i], 1e-9);
     }
 
+    emitter.setIsEnabled(false);
     ++frame;
     emitter.setMaxNumberOfParticles(80);
+    emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
+
+    EXPECT_EQ(30u, particles->numberOfParticles());
+    emitter.setIsEnabled(true);
+
+    ++frame;
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
     EXPECT_EQ(79u, particles->numberOfParticles());

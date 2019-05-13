@@ -1,5 +1,5 @@
 """
-Copyright (c) 2018 Doyub Kim
+Copyright (c) 2019 Doyub Kim
 
 I am making my contributions/submissions to this project solely in my personal
 capacity and am not conveying any rights to any intellectual property of any
@@ -36,6 +36,7 @@ def test_volume_particle_emitter2():
     assert emitter.jitter == 0.01
     assert emitter.isOneShot == False
     assert emitter.allowOverlapping == True
+    assert emitter.isEnabled == True
 
     emitter2 = pyjet.VolumeParticleEmitter2(
         implicitSurface=sphere,
@@ -61,6 +62,7 @@ def test_volume_particle_emitter2():
     assert emitter2.jitter == 0.01
     assert emitter2.isOneShot == False
     assert emitter2.allowOverlapping == True
+    assert emitter2.isEnabled == True
 
 
 def test_volume_particle_emitter3():
@@ -89,6 +91,7 @@ def test_volume_particle_emitter3():
     assert emitter.jitter == 0.01
     assert emitter.isOneShot == False
     assert emitter.allowOverlapping == True
+    assert emitter.isEnabled == True
 
     emitter2 = pyjet.VolumeParticleEmitter3(
         implicitSurface=sphere,
@@ -114,3 +117,4 @@ def test_volume_particle_emitter3():
     assert emitter2.jitter == 0.01
     assert emitter2.isOneShot == False
     assert emitter2.allowOverlapping == True
+    assert emitter2.isEnabled == True

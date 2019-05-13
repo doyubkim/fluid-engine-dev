@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -39,6 +39,12 @@ class GridEmitter3 {
     //! time-step.
     void update(double currentTimeInSeconds, double timeIntervalInSeconds);
 
+    //! Returns true if the emitter is enabled.
+    bool isEnabled() const;
+
+    //! Sets true/false to enable/disable the emitter.
+    void setIsEnabled(bool enabled);
+
     //!
     //! \brief      Sets the callback function to be called when
     //!             GridEmitter3::update function is invoked.
@@ -56,6 +62,7 @@ class GridEmitter3 {
                           double timeIntervalInSeconds) = 0;
 
  private:
+    bool _isEnabled = true;
     OnBeginUpdateCallback _onBeginUpdateCallback;
 };
 
