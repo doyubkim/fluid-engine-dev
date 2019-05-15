@@ -89,9 +89,9 @@ void addParticleSystemSolver2(py::module& m) {
 }
 
 void addParticleSystemSolver3(py::module& m) {
-    py::class_<ParticleSystemSolver3, ParticleSystemSolver3Ptr>(
-        m, "ParticleSystemSolver3",
-        R"pbdoc(
+    py::class_<ParticleSystemSolver3, ParticleSystemSolver3Ptr,
+               PhysicsAnimation>(m, "ParticleSystemSolver3",
+                                 R"pbdoc(
         Basic 3-D particle system solver.
 
         This class implements basic particle system solver. It includes gravity,

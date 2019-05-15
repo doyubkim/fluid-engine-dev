@@ -66,11 +66,11 @@ void VolumeGridEmitter2::onUpdate(double currentTimeInSeconds,
         return;
     }
 
-    if (_hasEmitted && _isOneShot) {
-        return;
-    }
-
     emit();
+
+    if (_isOneShot) {
+        setIsEnabled(false);
+    }
 
     _hasEmitted = true;
 }

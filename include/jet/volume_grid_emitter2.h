@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -31,7 +31,12 @@ class VolumeGridEmitter2 final : public GridEmitter2 {
     typedef std::function<Vector2D(double, const Vector2D&, const Vector2D&)>
         VectorMapper;
 
-    //! Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \brief      Constructs an emitter with a source and is-one-shot flag.
+    //!
+    //! \param[in]  sourceRegion    Emitting region given by the SDF.
+    //! \param[in]  isOneShot       True if emitter gets disabled after one shot.
+    //!
     explicit VolumeGridEmitter2(
         const ImplicitSurface2Ptr& sourceRegion,
         bool isOneShot = true);
