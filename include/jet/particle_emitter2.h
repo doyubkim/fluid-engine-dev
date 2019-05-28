@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2010 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -42,6 +42,12 @@ class ParticleEmitter2 {
     //! Sets the target particle system to emit.
     void setTarget(const ParticleSystemData2Ptr& particles);
 
+    //! Returns true if the emitter is enabled.
+    bool isEnabled() const;
+
+    //! Sets true/false to enable/disable the emitter.
+    void setIsEnabled(bool enabled);
+
     //!
     //! \brief      Sets the callback function to be called when
     //!             ParticleEmitter2::update function is invoked.
@@ -64,6 +70,7 @@ class ParticleEmitter2 {
         double timeIntervalInSeconds) = 0;
 
  private:
+    bool _isEnabled = true;
     ParticleSystemData2Ptr _particles;
     OnBeginUpdateCallback _onBeginUpdateCallback;
 };

@@ -46,7 +46,7 @@ void VolumeParticleEmitter3::onUpdate(double currentTimeInSeconds,
         return;
     }
 
-    if (_numberOfEmittedParticles > 0 && _isOneShot) {
+    if (!isEnabled()) {
         return;
     }
 
@@ -56,6 +56,10 @@ void VolumeParticleEmitter3::onUpdate(double currentTimeInSeconds,
     emit(particles, &newPositions, &newVelocities);
 
     particles->addParticles(newPositions, newVelocities);
+
+    if (_isOneShot) {
+        setIsEnabled(false);
+    }
 }
 
 void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
@@ -77,6 +81,8 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
     // Reserving more space for jittering
     const double j = jitter();
     const double maxJitterDist = 0.5 * j * _spacing;
+    size_t numNewParticles = 0;
+
     if (_allowOverlapping || _isOneShot) {
         _pointsGen->forEachPoint(region, _spacing, [&](const Vector3D& point) {
             Vector3D randomDir = uniformSampleSphere(random(), random());
@@ -86,6 +92,7 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
                 if (_numberOfEmittedParticles < _maxNumberOfParticles) {
                     newPositions->append(candidate);
                     ++_numberOfEmittedParticles;
+                    ++numNewParticles;
                 } else {
                     return false;
                 }
@@ -103,7 +110,6 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
             neighborSearcher.build(particles->positions());
         }
 
-        size_t numNewParticles = 0;
         _pointsGen->forEachPoint(region, _spacing, [&](const Vector3D& point) {
             Vector3D randomDir = uniformSampleSphere(random(), random());
             Vector3D offset = maxJitterDist * randomDir;
@@ -123,10 +129,11 @@ void VolumeParticleEmitter3::emit(const ParticleSystemData3Ptr& particles,
 
             return true;
         });
-
-        JET_INFO << "Number of newly generated particles: " << numNewParticles;
-        JET_INFO << "Number of total generated particles: " << _numberOfEmittedParticles;
     }
+
+    JET_INFO << "Number of newly generated particles: " << numNewParticles;
+    JET_INFO << "Number of total generated particles: "
+             << _numberOfEmittedParticles;
 
     newVelocities->resize(newPositions->size());
     newVelocities->parallelForEachIndex([&](size_t i) {

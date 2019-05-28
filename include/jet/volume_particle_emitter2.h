@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -28,7 +28,6 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
  public:
     class Builder;
 
-    //!
     //! Constructs an emitter that spawns particles from given implicit surface
     //! which defines the volumetric geometry. Provided bounding box limits
     //! the particle generation region.
@@ -42,8 +41,7 @@ class VolumeParticleEmitter2 final : public ParticleEmitter2 {
     //! \param[in]  maxNumberOfParticles    The max number of particles to be
     //!                                     emitted.
     //! \param[in]  jitter                  The jitter amount between 0 and 1.
-    //! \param[in]  isOneShot               Set true if particles are emitted
-    //!                                     just once.
+    //! \param[in]  isOneShot               True if emitter gets disabled after one shot.
     //! \param[in]  allowOverlapping        True if particles can be overlapped.
     //! \param[in]  seed                    The random seed.
     //!

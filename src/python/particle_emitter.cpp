@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2019 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -27,6 +27,10 @@ void addParticleEmitter2(py::module& m) {
                       &ParticleEmitter2::setTarget, R"pbdoc(
             The target particle system to emit.
             )pbdoc")
+        .def_property(
+            "isEnabled", &ParticleEmitter2::isEnabled,
+            &ParticleEmitter2::setIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def("setOnBeginUpdateCallback",
              &ParticleEmitter2::setOnBeginUpdateCallback,
              R"pbdoc(
@@ -52,6 +56,10 @@ void addParticleEmitter3(py::module& m) {
                       &ParticleEmitter3::setTarget, R"pbdoc(
             The target particle system to emit.
             )pbdoc")
+        .def_property(
+            "isEnabled", &ParticleEmitter3::isEnabled,
+            &ParticleEmitter3::setIsEnabled,
+            R"pbdoc(True/false if the emitter is enabled/disabled.)pbdoc")
         .def("setOnBeginUpdateCallback",
              &ParticleEmitter3::setOnBeginUpdateCallback,
              R"pbdoc(
