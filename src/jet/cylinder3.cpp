@@ -108,7 +108,7 @@ bool Cylinder3::intersectsLocal(const Ray3D& ray) const {
 
     Vector3D pointOnCylinder = ray.pointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+    if (pointOnCylinder.y >= center.y - 0.5 * height &&
         pointOnCylinder.y <= center.y + 0.5 * height) {
         return true;
     }
@@ -187,7 +187,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
 
     Vector3D pointOnCylinder = ray.pointAt(tCylinder);
 
-    if (pointOnCylinder.y >= center.y - 0.5 * height ||
+    if (pointOnCylinder.y >= center.y - 0.5 * height &&
         pointOnCylinder.y <= center.y + 0.5 * height) {
         intersection.isIntersecting = true;
         intersection.distance = tCylinder;
