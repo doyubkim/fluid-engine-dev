@@ -64,7 +64,7 @@ inline double SphStdKernel3::secondDerivative(double distance) const {
         return 0.0;
     } else {
         double x = distance * distance / h2;
-        return 945.0 / (32.0 * kPiD * h5) * (1 - x) * (3 * x - 1);
+        return 945.0 / (32.0 * kPiD * h5) * (1 - x) * (5 * x - 1);
     }
 }
 
