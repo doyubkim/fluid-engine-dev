@@ -106,6 +106,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7187875e331b9ac83943272d2d9f423"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_to_implicit2.html#ab7187875e331b9ac83943272d2d9f423">SurfaceToImplicit2</a> (const <a class="el" href="classjet_1_1_surface_to_implicit2.html">SurfaceToImplicit2</a> &amp;other)</td></tr>
 <tr class="memdesc:ab7187875e331b9ac83943272d2d9f423"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <a href="#ab7187875e331b9ac83943272d2d9f423">More...</a><br /></td></tr>
 <tr class="separator:ab7187875e331b9ac83943272d2d9f423"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3ce63f6bcc2acbd6dadbe1aeab0ddbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_to_implicit2.html#ad3ce63f6bcc2acbd6dadbe1aeab0ddbf">updateQueryEngine</a> () override</td></tr>
+<tr class="memdesc:ad3ce63f6bcc2acbd6dadbe1aeab0ddbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates internal spatial query engine.  <a href="#ad3ce63f6bcc2acbd6dadbe1aeab0ddbf">More...</a><br /></td></tr>
+<tr class="separator:ad3ce63f6bcc2acbd6dadbe1aeab0ddbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d792390b402c6c49aad3c439616d53b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface_to_implicit2.html#a3d792390b402c6c49aad3c439616d53b">isBounded</a> () const override</td></tr>
 <tr class="memdesc:a3d792390b402c6c49aad3c439616d53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if bounding box can be defined.  <a href="#a3d792390b402c6c49aad3c439616d53b">More...</a><br /></td></tr>
 <tr class="separator:a3d792390b402c6c49aad3c439616d53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,9 +156,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af0cbcfa7e03a56fad9f9acf32fdcffb7 inherit pub_methods_classjet_1_1_surface2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad73c968e3362accf42ab20c0619e1a17 inherit pub_methods_classjet_1_1_surface2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface2.html#ad73c968e3362accf42ab20c0619e1a17">closestNormal</a> (const <a class="el" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a> &amp;otherPoint) const</td></tr>
 <tr class="separator:ad73c968e3362accf42ab20c0619e1a17 inherit pub_methods_classjet_1_1_surface2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a9fff6f9c9983ac388ee0eb15649487 inherit pub_methods_classjet_1_1_surface2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface2.html#a0a9fff6f9c9983ac388ee0eb15649487">updateQueryEngine</a> ()</td></tr>
-<tr class="memdesc:a0a9fff6f9c9983ac388ee0eb15649487 inherit pub_methods_classjet_1_1_surface2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates internal spatial query engine.  <a href="classjet_1_1_surface2.html#a0a9fff6f9c9983ac388ee0eb15649487">More...</a><br /></td></tr>
-<tr class="separator:a0a9fff6f9c9983ac388ee0eb15649487 inherit pub_methods_classjet_1_1_surface2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8e66f9c5749c73a11a16c62bf3bda8e inherit pub_methods_classjet_1_1_surface2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface2.html#af8e66f9c5749c73a11a16c62bf3bda8e">isInside</a> (const <a class="el" href="namespacejet.html#a872977988b723f7db2b6660527da4c0a">Vector2D</a> &amp;otherPoint) const</td></tr>
 <tr class="separator:af8e66f9c5749c73a11a16c62bf3bda8e inherit pub_methods_classjet_1_1_surface2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -591,6 +591,35 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the raw surface instance. </p>
+
+</div>
+</div>
+<a id="ad3ce63f6bcc2acbd6dadbe1aeab0ddbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3ce63f6bcc2acbd6dadbe1aeab0ddbf">&#9670;&nbsp;</a></span>updateQueryEngine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jet::SurfaceToImplicit2::updateQueryEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Updates internal spatial query engine. </p>
+
+<p>Reimplemented from <a class="el" href="classjet_1_1_surface2.html#a0a9fff6f9c9983ac388ee0eb15649487">jet::Surface2</a>.</p>
 
 </div>
 </div>

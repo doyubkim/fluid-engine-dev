@@ -1984,7 +1984,7 @@ table {
 
     
   
-    <div class="desc"><p>marchingCubes(arg0: pyjet.ScalarGrid3, arg1: object, arg2: object, arg3: float, arg4: int) -&gt; pyjet.TriangleMesh3</p>
+    <div class="desc"><p>marchingCubes(arg0: pyjet.ScalarGrid3, arg1: object, arg2: object, arg3: float, arg4: int, arg5: int) -&gt; pyjet.TriangleMesh3</p>
 <p>Computes marching cubes and extract triangle mesh from grid.</p></div>
   <div class="source_cont">
 </div>
@@ -7041,6 +7041,18 @@ field.</p></div>
           <li>pybind11_builtins.pybind11_object</li>
           <li>builtins.object</li>
           </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="pyjet.GridEmitter2.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
       </div>
       </div>
       
@@ -7060,6 +7072,18 @@ field.</p></div>
           <li>pybind11_builtins.pybind11_object</li>
           <li>builtins.object</li>
           </ul>
+          <h3>Instance variables</h3>
+            <div class="item">
+            <p id="pyjet.GridEmitter3.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
       </div>
       </div>
       
@@ -9804,6 +9828,17 @@ It is just a shortcut to the most commonly accessed data chunk.</p></div>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
+            <p id="pyjet.ParticleEmitter2.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
             <p id="pyjet.ParticleEmitter2.target" class="name">var <span class="ident">target</span></p>
             
 
@@ -9834,6 +9869,17 @@ It is just a shortcut to the most commonly accessed data chunk.</p></div>
           <li>builtins.object</li>
           </ul>
           <h3>Instance variables</h3>
+            <div class="item">
+            <p id="pyjet.ParticleEmitter3.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
             <div class="item">
             <p id="pyjet.ParticleEmitter3.target" class="name">var <span class="ident">target</span></p>
             
@@ -9867,16 +9913,27 @@ It is just a shortcut to the most commonly accessed data chunk.</p></div>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
-            <p id="pyjet.ParticleEmitterSet2.target" class="name">var <span class="ident">target</span></p>
+            <p id="pyjet.ParticleEmitterSet2.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
             
     <p class="inheritance">
      <strong>Inheritance:</strong>
-       <code><a href="#pyjet.ParticleEmitter2">ParticleEmitter2</a></code>.<code><a href="#pyjet.ParticleEmitter2.target">target</a></code>
+       <code><a href="#pyjet.ParticleEmitter2">ParticleEmitter2</a></code>.<code><a href="#pyjet.ParticleEmitter2.isEnabled">isEnabled</a></code>
     </p>
 
             
   
-    <div class="desc inherited"><p>The target particle system to emit.</p></div>
+    <div class="desc inherited"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleEmitterSet2.target" class="name">var <span class="ident">target</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The target particle system to emit.</p></div>
   <div class="source_cont">
 </div>
 
@@ -9903,16 +9960,27 @@ It is just a shortcut to the most commonly accessed data chunk.</p></div>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
-            <p id="pyjet.ParticleEmitterSet3.target" class="name">var <span class="ident">target</span></p>
+            <p id="pyjet.ParticleEmitterSet3.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
             
     <p class="inheritance">
      <strong>Inheritance:</strong>
-       <code><a href="#pyjet.ParticleEmitter3">ParticleEmitter3</a></code>.<code><a href="#pyjet.ParticleEmitter3.target">target</a></code>
+       <code><a href="#pyjet.ParticleEmitter3">ParticleEmitter3</a></code>.<code><a href="#pyjet.ParticleEmitter3.isEnabled">isEnabled</a></code>
     </p>
 
             
   
-    <div class="desc inherited"><p>The target particle system to emit.</p></div>
+    <div class="desc inherited"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleEmitterSet3.target" class="name">var <span class="ident">target</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The target particle system to emit.</p></div>
   <div class="source_cont">
 </div>
 
@@ -10325,6 +10393,8 @@ particle-to-particle intersection.</p></div>
           <h3>Ancestors (in MRO)</h3>
           <ul class="class_list">
           <li><a href="#pyjet.ParticleSystemSolver3">ParticleSystemSolver3</a></li>
+          <li><a href="#pyjet.PhysicsAnimation">PhysicsAnimation</a></li>
+          <li><a href="#pyjet.Animation">Animation</a></li>
           <li>pybind11_builtins.pybind11_object</li>
           <li>builtins.object</li>
           </ul>
@@ -10336,6 +10406,26 @@ particle-to-particle intersection.</p></div>
             
   
     <div class="desc"><p>The collider.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemSolver3.currentFrame" class="name">var <span class="ident">currentFrame</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemSolver3.currentTimeInSeconds" class="name">var <span class="ident">currentTimeInSeconds</span></p>
+            
+
+            
+  
   <div class="source_cont">
 </div>
 
@@ -10371,6 +10461,26 @@ should be a positive number and 0 means no drag force.</p></div>
             
   
     <div class="desc"><p>The gravity.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemSolver3.isUsingFixedSubTimeSteps" class="name">var <span class="ident">isUsingFixedSubTimeSteps</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.ParticleSystemSolver3.numberOfFixedSubTimeSteps" class="name">var <span class="ident">numberOfFixedSubTimeSteps</span></p>
+            
+
+            
+  
   <div class="source_cont">
 </div>
 
@@ -10720,6 +10830,8 @@ pressure solver is based on Solenthaler and Pajarola's 2009 SIGGRAPH paper.
           <li><a href="#pyjet.PciSphSolver3">PciSphSolver3</a></li>
           <li><a href="#pyjet.SphSolver3">SphSolver3</a></li>
           <li><a href="#pyjet.ParticleSystemSolver3">ParticleSystemSolver3</a></li>
+          <li><a href="#pyjet.PhysicsAnimation">PhysicsAnimation</a></li>
+          <li><a href="#pyjet.Animation">Animation</a></li>
           <li>pybind11_builtins.pybind11_object</li>
           <li>builtins.object</li>
           </ul>
@@ -10740,16 +10852,40 @@ pressure solver is based on Solenthaler and Pajarola's 2009 SIGGRAPH paper.
 
             </div>
             <div class="item">
-            <p id="pyjet.PciSphSolver3.dragCoefficient" class="name">var <span class="ident">dragCoefficient</span></p>
+            <p id="pyjet.PciSphSolver3.currentFrame" class="name">var <span class="ident">currentFrame</span></p>
             
     <p class="inheritance">
      <strong>Inheritance:</strong>
-       <code><a href="#pyjet.ParticleSystemSolver3">ParticleSystemSolver3</a></code>.<code><a href="#pyjet.ParticleSystemSolver3.dragCoefficient">dragCoefficient</a></code>
+       <code><a href="#pyjet.ParticleSystemSolver3">ParticleSystemSolver3</a></code>.<code><a href="#pyjet.ParticleSystemSolver3.currentFrame">currentFrame</a></code>
     </p>
 
             
   
-    <div class="desc inherited"><p>The drag coefficient.</p>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.PciSphSolver3.currentTimeInSeconds" class="name">var <span class="ident">currentTimeInSeconds</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PhysicsAnimation">PhysicsAnimation</a></code>.<code><a href="#pyjet.PhysicsAnimation.currentTimeInSeconds">currentTimeInSeconds</a></code>
+    </p>
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.PciSphSolver3.dragCoefficient" class="name">var <span class="ident">dragCoefficient</span></p>
+            
+
+            
+  
+    <div class="desc"><p>The drag coefficient.</p>
 <p>The drag coefficient controls the amount of air-drag. The coefficient
 should be a positive number and 0 means no drag force.</p></div>
   <div class="source_cont">
@@ -10793,6 +10929,16 @@ Default is 7.</p></div>
 
             </div>
             <div class="item">
+            <p id="pyjet.PciSphSolver3.isUsingFixedSubTimeSteps" class="name">var <span class="ident">isUsingFixedSubTimeSteps</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
             <p id="pyjet.PciSphSolver3.maxDensityErrorRatio" class="name">var <span class="ident">maxDensityErrorRatio</span></p>
             
 
@@ -10828,6 +10974,16 @@ iteration. Default is 0.01 (1%). The input value should be positive.</p></div>
 between 0 and 1, the solver will scale the effect of negative pressure
 which can prevent the clumping of the particles near the surface. Input
 value outside 0 and 1 will be clamped within the range. Default is 0.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.PciSphSolver3.numberOfFixedSubTimeSteps" class="name">var <span class="ident">numberOfFixedSubTimeSteps</span></p>
+            
+
+            
+  
   <div class="source_cont">
 </div>
 
@@ -13065,6 +13221,8 @@ equation-of-state (EOS).
           <ul class="class_list">
           <li><a href="#pyjet.SphSolver3">SphSolver3</a></li>
           <li><a href="#pyjet.ParticleSystemSolver3">ParticleSystemSolver3</a></li>
+          <li><a href="#pyjet.PhysicsAnimation">PhysicsAnimation</a></li>
+          <li><a href="#pyjet.Animation">Animation</a></li>
           <li>pybind11_builtins.pybind11_object</li>
           <li>builtins.object</li>
           </ul>
@@ -13080,6 +13238,30 @@ equation-of-state (EOS).
             
   
     <div class="desc inherited"><p>The collider.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSolver3.currentFrame" class="name">var <span class="ident">currentFrame</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.PhysicsAnimation">PhysicsAnimation</a></code>.<code><a href="#pyjet.PhysicsAnimation.currentFrame">currentFrame</a></code>
+    </p>
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSolver3.currentTimeInSeconds" class="name">var <span class="ident">currentTimeInSeconds</span></p>
+            
+
+            
+  
   <div class="source_cont">
 </div>
 
@@ -13134,6 +13316,16 @@ Default is 7.</p></div>
 
             </div>
             <div class="item">
+            <p id="pyjet.SphSolver3.isUsingFixedSubTimeSteps" class="name">var <span class="ident">isUsingFixedSubTimeSteps</span></p>
+            
+
+            
+  
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
             <p id="pyjet.SphSolver3.negativePressureScale" class="name">var <span class="ident">negativePressureScale</span></p>
             
 
@@ -13144,6 +13336,16 @@ Default is 7.</p></div>
 between 0 and 1, the solver will scale the effect of negative pressure
 which can prevent the clumping of the particles near the surface. Input
 value outside 0 and 1 will be clamped within the range. Default is 0.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.SphSolver3.numberOfFixedSubTimeSteps" class="name">var <span class="ident">numberOfFixedSubTimeSteps</span></p>
+            
+
+            
+  
   <div class="source_cont">
 </div>
 
@@ -15206,6 +15408,21 @@ the lower corner point of the bounding box.</p></div>
           </ul>
           <h3>Instance variables</h3>
             <div class="item">
+            <p id="pyjet.VolumeGridEmitter2.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.GridEmitter2">GridEmitter2</a></code>.<code><a href="#pyjet.GridEmitter2.isEnabled">isEnabled</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
             <p id="pyjet.VolumeGridEmitter2.isOneShot" class="name">var <span class="ident">isOneShot</span></p>
             
 
@@ -15248,6 +15465,21 @@ the lower corner point of the bounding box.</p></div>
           <li>builtins.object</li>
           </ul>
           <h3>Instance variables</h3>
+            <div class="item">
+            <p id="pyjet.VolumeGridEmitter3.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+    <p class="inheritance">
+     <strong>Inheritance:</strong>
+       <code><a href="#pyjet.GridEmitter3">GridEmitter3</a></code>.<code><a href="#pyjet.GridEmitter3.isEnabled">isEnabled</a></code>
+    </p>
+
+            
+  
+    <div class="desc inherited"><p>True/false if the emitter is enabled/disabled.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
             <div class="item">
             <p id="pyjet.VolumeGridEmitter3.isOneShot" class="name">var <span class="ident">isOneShot</span></p>
             
@@ -15320,6 +15552,17 @@ the lower corner point of the bounding box.</p></div>
             
   
     <div class="desc"><p>The initial velocity of the particles.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.VolumeParticleEmitter2.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
   <div class="source_cont">
 </div>
 
@@ -15462,6 +15705,17 @@ the lower corner point of the bounding box.</p></div>
             
   
     <div class="desc"><p>The initial velocity of the particles.</p></div>
+  <div class="source_cont">
+</div>
+
+            </div>
+            <div class="item">
+            <p id="pyjet.VolumeParticleEmitter3.isEnabled" class="name">var <span class="ident">isEnabled</span></p>
+            
+
+            
+  
+    <div class="desc"><p>True/false if the emitter is enabled/disabled.</p></div>
   <div class="source_cont">
 </div>
 

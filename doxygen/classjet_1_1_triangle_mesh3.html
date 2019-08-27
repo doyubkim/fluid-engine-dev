@@ -127,6 +127,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa3d4132369ca774268583177180ad401"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_triangle_mesh3.html#aa3d4132369ca774268583177180ad401">updateQueryEngine</a> () override</td></tr>
 <tr class="memdesc:aa3d4132369ca774268583177180ad401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates internal spatial query engine.  <a href="#aa3d4132369ca774268583177180ad401">More...</a><br /></td></tr>
 <tr class="separator:aa3d4132369ca774268583177180ad401"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0698a19555b818442c03c98571ea5f22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_triangle_mesh3.html#a0698a19555b818442c03c98571ea5f22">updateQueryEngine</a> () const</td></tr>
+<tr class="memdesc:a0698a19555b818442c03c98571ea5f22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates internal spatial query engine.  <a href="#a0698a19555b818442c03c98571ea5f22">More...</a><br /></td></tr>
+<tr class="separator:a0698a19555b818442c03c98571ea5f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d90c5b676f9efc8ccd3115bf50f39c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_triangle_mesh3.html#a6d90c5b676f9efc8ccd3115bf50f39c1">clear</a> ()</td></tr>
 <tr class="memdesc:a6d90c5b676f9efc8ccd3115bf50f39c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all content.  <a href="#a6d90c5b676f9efc8ccd3115bf50f39c1">More...</a><br /></td></tr>
 <tr class="separator:a6d90c5b676f9efc8ccd3115bf50f39c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -315,9 +318,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a0b4eaf7bae5d535dc1e1b09f2906903d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjet_1_1_surface_ray_intersection3.html">SurfaceRayIntersection3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_triangle_mesh3.html#a0b4eaf7bae5d535dc1e1b09f2906903d">closestIntersectionLocal</a> (const <a class="el" href="namespacejet.html#a947c0507f951a0c9199431d54b61cb45">Ray3D</a> &amp;ray) const override</td></tr>
 <tr class="memdesc:a0b4eaf7bae5d535dc1e1b09f2906903d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest intersection point for given <code>ray</code> in local frame.  <a href="#a0b4eaf7bae5d535dc1e1b09f2906903d">More...</a><br /></td></tr>
 <tr class="separator:a0b4eaf7bae5d535dc1e1b09f2906903d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classjet_1_1_surface3"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classjet_1_1_surface3')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classjet_1_1_surface3.html">jet::Surface3</a></td></tr>
-<tr class="memitem:a77f3628a546aea12a486aa7e118dfa9d inherit pro_methods_classjet_1_1_surface3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_surface3.html#a77f3628a546aea12a486aa7e118dfa9d">isInsideLocal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const</td></tr>
-<tr class="separator:a77f3628a546aea12a486aa7e118dfa9d inherit pro_methods_classjet_1_1_surface3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616e2afcab3e3c38bb44b84c15e1a1e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_triangle_mesh3.html#a616e2afcab3e3c38bb44b84c15e1a1e8">isInsideLocal</a> (const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;otherPoint) const override</td></tr>
+<tr class="separator:a616e2afcab3e3c38bb44b84c15e1a1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -1049,6 +1051,35 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a616e2afcab3e3c38bb44b84c15e1a1e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a616e2afcab3e3c38bb44b84c15e1a1e8">&#9670;&nbsp;</a></span>isInsideLocal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jet::TriangleMesh3::isInsideLocal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespacejet.html#aa4cb0bdd01214ca37f678bb827cc6574">Vector3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>otherPoint</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Returns true if <code>otherPoint</code> is inside by given <code>depth</code> the volume defined by the surface in local frame. </p>
+
+<p>Reimplemented from <a class="el" href="classjet_1_1_surface3.html#a77f3628a546aea12a486aa7e118dfa9d">jet::Surface3</a>.</p>
+
+</div>
+</div>
 <a id="a1a34b84a6b1b1a89010fd05296b16f83"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a34b84a6b1b1a89010fd05296b16f83">&#9670;&nbsp;</a></span>normal() <span class="overload">[1/2]</span></h2>
 
@@ -1504,7 +1535,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="aa3d4132369ca774268583177180ad401"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3d4132369ca774268583177180ad401">&#9670;&nbsp;</a></span>updateQueryEngine()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d4132369ca774268583177180ad401">&#9670;&nbsp;</a></span>updateQueryEngine() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1529,6 +1560,25 @@ Additional Inherited Members</h2></td></tr>
 <p>Updates internal spatial query engine. </p>
 
 <p>Reimplemented from <a class="el" href="classjet_1_1_surface3.html#ab12df6a66d78111d3907164a5aea6924">jet::Surface3</a>.</p>
+
+</div>
+</div>
+<a id="a0698a19555b818442c03c98571ea5f22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0698a19555b818442c03c98571ea5f22">&#9670;&nbsp;</a></span>updateQueryEngine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jet::TriangleMesh3::updateQueryEngine </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates internal spatial query engine. </p>
 
 </div>
 </div>

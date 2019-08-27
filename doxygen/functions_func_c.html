@@ -105,6 +105,10 @@ $(function() {
 : <a class="el" href="classjet_1_1_octree.html#a36b7847429bedb4ef79ac19fc4329f31">jet::Octree&lt; T &gt;</a>
 , <a class="el" href="classjet_1_1_quadtree.html#a3c2bb9ede8800a1c5c3db2e5eaef91b8">jet::Quadtree&lt; T &gt;</a>
 </li>
+<li>children()
+: <a class="el" href="classjet_1_1_bvh2.html#a86592042875bb778d3ee7e1aa5bf305b">jet::Bvh2&lt; T &gt;</a>
+, <a class="el" href="classjet_1_1_bvh3.html#aaa083576b775c5a776eed5ec77acb0e9">jet::Bvh3&lt; T &gt;</a>
+</li>
 <li>clamp()
 : <a class="el" href="classjet_1_1_bounding_box_3_01_t_00_012_01_4.html#a895ac074a72b7583be1b47ce20bd09c1">jet::BoundingBox&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_bounding_box_3_01_t_00_013_01_4.html#a094c084e477e2c2e795e911fdf595006">jet::BoundingBox&lt; T, 3 &gt;</a>
@@ -305,10 +309,10 @@ $(function() {
 : <a class="el" href="classjet_1_1_matrix_csr.html#a748e4940492956b3a018b2ca2b1b24f0">jet::MatrixCsr&lt; T &gt;</a>
 </li>
 <li>columnIndicesEnd()
-: <a class="el" href="classjet_1_1_matrix_csr.html#af66abf4225ea24f85be5faa1fa5864e0">jet::MatrixCsr&lt; T &gt;</a>
+: <a class="el" href="classjet_1_1_matrix_csr.html#a3ef9bc1e18777b53414ca593464d1642">jet::MatrixCsr&lt; T &gt;</a>
 </li>
 <li>compress()
-: <a class="el" href="classjet_1_1_matrix_csr.html#a5c32004768deca1088ef13cde2456be8">jet::MatrixCsr&lt; T &gt;</a>
+: <a class="el" href="classjet_1_1_matrix_csr.html#a97af9f0445b1f2415c85e30823171acb">jet::MatrixCsr&lt; T &gt;</a>
 </li>
 <li>computeAdvection()
 : <a class="el" href="classjet_1_1_grid_fluid_solver2.html#a30d8b47cb0d038d33b8d1b49b2a283e6">jet::GridFluidSolver2</a>
@@ -366,7 +370,7 @@ $(function() {
 : <a class="el" href="classjet_1_1_constant_vector_field3.html#a6d8edd31d05af4a02d700021b07f1e2a">jet::ConstantVectorField3</a>
 </li>
 <li>ConstArrayAccessor()
-: <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html#a8cd9184e97831100fbb53c22261deddc">jet::ConstArrayAccessor&lt; T, 1 &gt;</a>
+: <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_011_01_4.html#aa8cc66bb3c83aeae2d8abab7dbb699ae">jet::ConstArrayAccessor&lt; T, 1 &gt;</a>
 , <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_012_01_4.html#a18c1ba3229ffce51702c51e84d32f75e">jet::ConstArrayAccessor&lt; T, 2 &gt;</a>
 , <a class="el" href="classjet_1_1_const_array_accessor_3_01_t_00_013_01_4.html#a500490eb148943cb58cbd82611d82981">jet::ConstArrayAccessor&lt; T, 3 &gt;</a>
 </li>
@@ -414,9 +418,9 @@ $(function() {
 , <a class="el" href="classjet_1_1_vector_3_01_t_00_013_01_4.html#a34320ca01f160b34cfcff245fd0bab1c">jet::Vector&lt; T, 3 &gt;</a>
 </li>
 <li>CubicArraySampler()
-: <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_011_01_4.html#aac712dcb31932add96916c7241fa0f44">jet::CubicArraySampler&lt; T, R, 1 &gt;</a>
-, <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_012_01_4.html#a2a4265d4ff48081e6d0d9401f831dd9d">jet::CubicArraySampler&lt; T, R, 2 &gt;</a>
-, <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_013_01_4.html#aba5085e9a2aea6c4cd22183498658f20">jet::CubicArraySampler&lt; T, R, 3 &gt;</a>
+: <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_011_01_4.html#ab3cf0b237f8f52b95f6021cb2060bd98">jet::CubicArraySampler&lt; T, R, 1 &gt;</a>
+, <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_012_01_4.html#adde5573e8f17f316a30e43650f2e3401">jet::CubicArraySampler&lt; T, R, 2 &gt;</a>
+, <a class="el" href="classjet_1_1_cubic_array_sampler_3_01_t_00_01_r_00_013_01_4.html#a3cc3262a0be00abe7bcf926b0ad11dc9">jet::CubicArraySampler&lt; T, R, 3 &gt;</a>
 </li>
 <li>CubicSemiLagrangian2()
 : <a class="el" href="classjet_1_1_cubic_semi_lagrangian2.html#a6ddb5af2cfbf081659c6424c66c9670c">jet::CubicSemiLagrangian2</a>
@@ -455,19 +459,19 @@ $(function() {
 : <a class="el" href="classjet_1_1_custom_implicit_surface3.html#a19d41c5290e2be9ff47199351f97c0a2">jet::CustomImplicitSurface3</a>
 </li>
 <li>CustomScalarField2()
-: <a class="el" href="classjet_1_1_custom_scalar_field2.html#a80734bdcc433bac8bcd8cbabfa029aac">jet::CustomScalarField2</a>
+: <a class="el" href="classjet_1_1_custom_scalar_field2.html#a7cb7c8184a34d926f85ee7769919ba84">jet::CustomScalarField2</a>
 </li>
 <li>CustomScalarField3()
 : <a class="el" href="classjet_1_1_custom_scalar_field3.html#adf430dd014d1c8b63a07330215bf2f7d">jet::CustomScalarField3</a>
 </li>
 <li>CustomVectorField2()
-: <a class="el" href="classjet_1_1_custom_vector_field2.html#abfa955a2f98148f187834534db66898b">jet::CustomVectorField2</a>
+: <a class="el" href="classjet_1_1_custom_vector_field2.html#adb17abc714c84ef73eff1a097b46fba4">jet::CustomVectorField2</a>
 </li>
 <li>CustomVectorField3()
-: <a class="el" href="classjet_1_1_custom_vector_field3.html#a6f467a9a57054c23c032d8cbcbace6ad">jet::CustomVectorField3</a>
+: <a class="el" href="classjet_1_1_custom_vector_field3.html#a1f3e112e697c271e66469b1baea2a606">jet::CustomVectorField3</a>
 </li>
 <li>Cylinder3()
-: <a class="el" href="classjet_1_1_cylinder3.html#a5380b997b8184b8ee964cd2b94abbbe3">jet::Cylinder3</a>
+: <a class="el" href="classjet_1_1_cylinder3.html#aa8a402a7658207a2f5f3c0fbe5d47175">jet::Cylinder3</a>
 </li>
 </ul>
 </div><!-- contents -->

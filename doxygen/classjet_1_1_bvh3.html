@@ -93,12 +93,12 @@ Inheritance diagram for jet::Bvh3&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a16179869bf483285eb2cb926143768f6"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a16179869bf483285eb2cb926143768f6">ContainerType</a></td></tr>
-<tr class="separator:a16179869bf483285eb2cb926143768f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d293efe30c1a719768e8981961732e9"><td class="memItemLeft" align="right" valign="top">typedef ContainerType::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a></td></tr>
-<tr class="separator:a4d293efe30c1a719768e8981961732e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62b83ce3778b968e3208d092ef84611c"><td class="memItemLeft" align="right" valign="top">typedef ContainerType::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a></td></tr>
-<tr class="separator:a62b83ce3778b968e3208d092ef84611c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1d710fddb01de597bf890c9c3f9aa26"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#ae1d710fddb01de597bf890c9c3f9aa26">ContainerType</a> = std::vector&lt; T &gt;</td></tr>
+<tr class="separator:ae1d710fddb01de597bf890c9c3f9aa26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51bbcc421e7fd72bdb515d4bdc95709c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a> = typename ContainerType::iterator</td></tr>
+<tr class="separator:a51bbcc421e7fd72bdb515d4bdc95709c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81789218fa7c65c564b78de5ff2866ea"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a> = typename ContainerType::const_iterator</td></tr>
+<tr class="separator:a81789218fa7c65c564b78de5ff2866ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,16 +131,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a232a2d4e1744bf4684fb7467deed1dc9"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a232a2d4e1744bf4684fb7467deed1dc9">boundingBox</a> () const</td></tr>
 <tr class="memdesc:a232a2d4e1744bf4684fb7467deed1dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns bounding box of every items.  <a href="#a232a2d4e1744bf4684fb7467deed1dc9">More...</a><br /></td></tr>
 <tr class="separator:a232a2d4e1744bf4684fb7467deed1dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a857ae2f1022ccdffe53a23a80c7868e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a857ae2f1022ccdffe53a23a80c7868e5">begin</a> ()</td></tr>
+<tr class="memitem:a857ae2f1022ccdffe53a23a80c7868e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a857ae2f1022ccdffe53a23a80c7868e5">begin</a> ()</td></tr>
 <tr class="memdesc:a857ae2f1022ccdffe53a23a80c7868e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the begin iterator of the item.  <a href="#a857ae2f1022ccdffe53a23a80c7868e5">More...</a><br /></td></tr>
 <tr class="separator:a857ae2f1022ccdffe53a23a80c7868e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91a51bb2dfc384f05cf6148aa7218426"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a91a51bb2dfc384f05cf6148aa7218426">end</a> ()</td></tr>
+<tr class="memitem:a91a51bb2dfc384f05cf6148aa7218426"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a91a51bb2dfc384f05cf6148aa7218426">end</a> ()</td></tr>
 <tr class="memdesc:a91a51bb2dfc384f05cf6148aa7218426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the end iterator of the item.  <a href="#a91a51bb2dfc384f05cf6148aa7218426">More...</a><br /></td></tr>
 <tr class="separator:a91a51bb2dfc384f05cf6148aa7218426"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cee4d5c48c2b4ab2edafdcc8f1c7543"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a8cee4d5c48c2b4ab2edafdcc8f1c7543">begin</a> () const</td></tr>
+<tr class="memitem:a8cee4d5c48c2b4ab2edafdcc8f1c7543"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a8cee4d5c48c2b4ab2edafdcc8f1c7543">begin</a> () const</td></tr>
 <tr class="memdesc:a8cee4d5c48c2b4ab2edafdcc8f1c7543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the immutable begin iterator of the item.  <a href="#a8cee4d5c48c2b4ab2edafdcc8f1c7543">More...</a><br /></td></tr>
 <tr class="separator:a8cee4d5c48c2b4ab2edafdcc8f1c7543"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58a3f25899ccb51ccd629a1f70b0a931"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a58a3f25899ccb51ccd629a1f70b0a931">end</a> () const</td></tr>
+<tr class="memitem:a58a3f25899ccb51ccd629a1f70b0a931"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a58a3f25899ccb51ccd629a1f70b0a931">end</a> () const</td></tr>
 <tr class="memdesc:a58a3f25899ccb51ccd629a1f70b0a931"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the immutable end iterator of the item.  <a href="#a58a3f25899ccb51ccd629a1f70b0a931">More...</a><br /></td></tr>
 <tr class="separator:a58a3f25899ccb51ccd629a1f70b0a931"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92d039172fcab6b91422abb0101fb172"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a92d039172fcab6b91422abb0101fb172">numberOfItems</a> () const</td></tr>
@@ -149,6 +149,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9d20b4ef7bbc7df158b90c931a621eda"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a9d20b4ef7bbc7df158b90c931a621eda">item</a> (size_t i) const</td></tr>
 <tr class="memdesc:a9d20b4ef7bbc7df158b90c931a621eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the item at <code>i</code>.  <a href="#a9d20b4ef7bbc7df158b90c931a621eda">More...</a><br /></td></tr>
 <tr class="separator:a9d20b4ef7bbc7df158b90c931a621eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58ad28e9b913c4fb6156df3023320c73"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a58ad28e9b913c4fb6156df3023320c73">numberOfNodes</a> () const</td></tr>
+<tr class="memdesc:a58ad28e9b913c4fb6156df3023320c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of nodes.  <a href="#a58ad28e9b913c4fb6156df3023320c73">More...</a><br /></td></tr>
+<tr class="separator:a58ad28e9b913c4fb6156df3023320c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa083576b775c5a776eed5ec77acb0e9"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#aaa083576b775c5a776eed5ec77acb0e9">children</a> (size_t i) const</td></tr>
+<tr class="memdesc:aaa083576b775c5a776eed5ec77acb0e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the children indices of <code>i-th</code> node.  <a href="#aaa083576b775c5a776eed5ec77acb0e9">More...</a><br /></td></tr>
+<tr class="separator:aaa083576b775c5a776eed5ec77acb0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec864ad0cf2feec2541a086b5a220c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a9ec864ad0cf2feec2541a086b5a220c4">isLeaf</a> (size_t i) const</td></tr>
+<tr class="memdesc:a9ec864ad0cf2feec2541a086b5a220c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <code>i-th</code> node is a leaf node.  <a href="#a9ec864ad0cf2feec2541a086b5a220c4">More...</a><br /></td></tr>
+<tr class="separator:a9ec864ad0cf2feec2541a086b5a220c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89bd22bf3dc2f369681694ee3ed2c846"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a89bd22bf3dc2f369681694ee3ed2c846">nodeBound</a> (size_t i) const</td></tr>
+<tr class="memdesc:a89bd22bf3dc2f369681694ee3ed2c846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns bounding box of <code>i-th</code> node.  <a href="#a89bd22bf3dc2f369681694ee3ed2c846">More...</a><br /></td></tr>
+<tr class="separator:a89bd22bf3dc2f369681694ee3ed2c846"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1387ceb7034f3dc70d0269173fe734a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a1387ceb7034f3dc70d0269173fe734a4">itemOfNode</a> (size_t i)</td></tr>
+<tr class="memdesc:a1387ceb7034f3dc70d0269173fe734a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns item of <code>i-th</code> node.  <a href="#a1387ceb7034f3dc70d0269173fe734a4">More...</a><br /></td></tr>
+<tr class="separator:a1387ceb7034f3dc70d0269173fe734a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b84b673feeff9eccb5698a1c301ed34"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_bvh3.html#a7b84b673feeff9eccb5698a1c301ed34">itemOfNode</a> (size_t i) const</td></tr>
+<tr class="memdesc:a7b84b673feeff9eccb5698a1c301ed34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns item of <code>i-th</code> node.  <a href="#a7b84b673feeff9eccb5698a1c301ed34">More...</a><br /></td></tr>
+<tr class="separator:a7b84b673feeff9eccb5698a1c301ed34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -157,8 +175,8 @@ class jet::Bvh3&lt; T &gt;</h3>
 <p>Bounding Volume Hierarchy (BVH) in 3D. </p>
 <p>This class implements the classic bounding volume hierarchy structure in 3D. It implements <a class="el" href="classjet_1_1_intersection_query_engine3.html" title="Abstract base class for 3-D intersection test query engine.">IntersectionQueryEngine3</a> in order to support box/ray intersection tests. Also, <a class="el" href="classjet_1_1_nearest_neighbor_query_engine3.html" title="Abstract base class for 3-D nearest neigbor query engine.">NearestNeighborQueryEngine3</a> is implemented to provide nearest neighbor query. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a62b83ce3778b968e3208d092ef84611c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62b83ce3778b968e3208d092ef84611c">&#9670;&nbsp;</a></span>ConstIterator</h2>
+<a id="a81789218fa7c65c564b78de5ff2866ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81789218fa7c65c564b78de5ff2866ea">&#9670;&nbsp;</a></span>ConstIterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,15 +184,15 @@ class jet::Bvh3&lt; T &gt;</h3>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef ContainerType::const_iterator <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a></td>
+          <td class="memname">using <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a> =  typename ContainerType::const_iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a16179869bf483285eb2cb926143768f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16179869bf483285eb2cb926143768f6">&#9670;&nbsp;</a></span>ContainerType</h2>
+<a id="ae1d710fddb01de597bf890c9c3f9aa26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1d710fddb01de597bf890c9c3f9aa26">&#9670;&nbsp;</a></span>ContainerType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,15 +200,15 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;T&gt; <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#a16179869bf483285eb2cb926143768f6">ContainerType</a></td>
+          <td class="memname">using <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#ae1d710fddb01de597bf890c9c3f9aa26">ContainerType</a> =  std::vector&lt;T&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4d293efe30c1a719768e8981961732e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d293efe30c1a719768e8981961732e9">&#9670;&nbsp;</a></span>Iterator</h2>
+<a id="a51bbcc421e7fd72bdb515d4bdc95709c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51bbcc421e7fd72bdb515d4bdc95709c">&#9670;&nbsp;</a></span>Iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +216,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">typedef ContainerType::iterator <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a></td>
+          <td class="memname">using <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::<a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a> =  typename ContainerType::iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -237,7 +255,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::begin </td>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -258,7 +276,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::begin </td>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -320,6 +338,28 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Builds bounding volume hierarchy. </p>
+
+</div>
+</div>
+<a id="aaa083576b775c5a776eed5ec77acb0e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa083576b775c5a776eed5ec77acb0e9">&#9670;&nbsp;</a></span>children()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt;size_t, size_t&gt; <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::children </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the children indices of <code>i-th</code> node. </p>
 
 </div>
 </div>
@@ -395,7 +435,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a4d293efe30c1a719768e8981961732e9">Iterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::end </td>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -416,7 +456,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a62b83ce3778b968e3208d092ef84611c">ConstIterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::end </td>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -608,6 +648,28 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="a9ec864ad0cf2feec2541a086b5a220c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ec864ad0cf2feec2541a086b5a220c4">&#9670;&nbsp;</a></span>isLeaf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::isLeaf </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if <code>i-th</code> node is a leaf node. </p>
+
+</div>
+</div>
 <a id="a9d20b4ef7bbc7df158b90c931a621eda"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9d20b4ef7bbc7df158b90c931a621eda">&#9670;&nbsp;</a></span>item()</h2>
 
@@ -627,6 +689,50 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the item at <code>i</code>. </p>
+
+</div>
+</div>
+<a id="a1387ceb7034f3dc70d0269173fe734a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1387ceb7034f3dc70d0269173fe734a4">&#9670;&nbsp;</a></span>itemOfNode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a51bbcc421e7fd72bdb515d4bdc95709c">Iterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::itemOfNode </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns item of <code>i-th</code> node. </p>
+
+</div>
+</div>
+<a id="a7b84b673feeff9eccb5698a1c301ed34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b84b673feeff9eccb5698a1c301ed34">&#9670;&nbsp;</a></span>itemOfNode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classjet_1_1_bvh3.html#a81789218fa7c65c564b78de5ff2866ea">ConstIterator</a> <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::itemOfNode </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns item of <code>i-th</code> node. </p>
 
 </div>
 </div>
@@ -671,6 +777,28 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="a89bd22bf3dc2f369681694ee3ed2c846"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89bd22bf3dc2f369681694ee3ed2c846">&#9670;&nbsp;</a></span>nodeBound()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="namespacejet.html#ac0bbbebc469afcf1115598bc36bd7a64">BoundingBox3D</a>&amp; <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::nodeBound </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns bounding box of <code>i-th</code> node. </p>
+
+</div>
+</div>
 <a id="a92d039172fcab6b91422abb0101fb172"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a92d039172fcab6b91422abb0101fb172">&#9670;&nbsp;</a></span>numberOfItems()</h2>
 
@@ -689,6 +817,27 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the number of items. </p>
+
+</div>
+</div>
+<a id="a58ad28e9b913c4fb6156df3023320c73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ad28e9b913c4fb6156df3023320c73">&#9670;&nbsp;</a></span>numberOfNodes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classjet_1_1_bvh3.html">jet::Bvh3</a>&lt; T &gt;::numberOfNodes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the number of nodes. </p>
 
 </div>
 </div>

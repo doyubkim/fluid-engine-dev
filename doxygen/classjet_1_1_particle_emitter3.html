@@ -114,6 +114,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a97991367305ab285e3993b94b009fbb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_particle_emitter3.html#a97991367305ab285e3993b94b009fbb4">setTarget</a> (const <a class="el" href="namespacejet.html#a7f43ca538aedb315f3bab6ffd8fce164">ParticleSystemData3Ptr</a> &amp;particles)</td></tr>
 <tr class="memdesc:a97991367305ab285e3993b94b009fbb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the target particle system to emit.  <a href="#a97991367305ab285e3993b94b009fbb4">More...</a><br /></td></tr>
 <tr class="separator:a97991367305ab285e3993b94b009fbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7173a40a7084bd7bc8f0195b2d03e792"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_particle_emitter3.html#a7173a40a7084bd7bc8f0195b2d03e792">isEnabled</a> () const</td></tr>
+<tr class="memdesc:a7173a40a7084bd7bc8f0195b2d03e792"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the emitter is enabled.  <a href="#a7173a40a7084bd7bc8f0195b2d03e792">More...</a><br /></td></tr>
+<tr class="separator:a7173a40a7084bd7bc8f0195b2d03e792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6cf6c89676e46635fbf512b0f7e9d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_particle_emitter3.html#a7d6cf6c89676e46635fbf512b0f7e9d6">setIsEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:a7d6cf6c89676e46635fbf512b0f7e9d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets true/false to enable/disable the emitter.  <a href="#a7d6cf6c89676e46635fbf512b0f7e9d6">More...</a><br /></td></tr>
+<tr class="separator:a7d6cf6c89676e46635fbf512b0f7e9d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acecb1c9bb3287876a3b5fecff74e4666"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjet_1_1_particle_emitter3.html#acecb1c9bb3287876a3b5fecff74e4666">setOnBeginUpdateCallback</a> (const <a class="el" href="classjet_1_1_particle_emitter3.html#ac89f9159149955c0637c1cc5dbbeea89">OnBeginUpdateCallback</a> &amp;callback)</td></tr>
 <tr class="memdesc:acecb1c9bb3287876a3b5fecff74e4666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the callback function to be called when <a class="el" href="classjet_1_1_particle_emitter3.html#a55d1b8dd116ea6e9d39519fd6a70b99f">ParticleEmitter3::update</a> function is invoked.  <a href="#acecb1c9bb3287876a3b5fecff74e4666">More...</a><br /></td></tr>
 <tr class="separator:acecb1c9bb3287876a3b5fecff74e4666"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,6 +201,25 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7173a40a7084bd7bc8f0195b2d03e792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7173a40a7084bd7bc8f0195b2d03e792">&#9670;&nbsp;</a></span>isEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jet::ParticleEmitter3::isEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if the emitter is enabled. </p>
+
+</div>
+</div>
 <a id="a852459b263eab6b209d06103c7e50e0e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a852459b263eab6b209d06103c7e50e0e">&#9670;&nbsp;</a></span>onSetTarget()</h2>
 
@@ -258,6 +283,26 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Called when <a class="el" href="classjet_1_1_particle_emitter3.html#a55d1b8dd116ea6e9d39519fd6a70b99f">ParticleEmitter3::update</a> is executed. </p>
+
+</div>
+</div>
+<a id="a7d6cf6c89676e46635fbf512b0f7e9d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d6cf6c89676e46635fbf512b0f7e9d6">&#9670;&nbsp;</a></span>setIsEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jet::ParticleEmitter3::setIsEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets true/false to enable/disable the emitter. </p>
 
 </div>
 </div>
