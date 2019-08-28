@@ -186,8 +186,7 @@ void SphSolver2::computePressure() {
     // See Equation 9 from
     // http://cg.informatik.uni-freiburg.de/publications/2007_SCA_SPH.pdf
     const double targetDensity = particles->targetDensity();
-    const double eosScale
-        = targetDensity * square(_speedOfSound) / _eosExponent;
+    const double eosScale = targetDensity * square(_speedOfSound);
 
     parallelFor(
         kZeroSize,
