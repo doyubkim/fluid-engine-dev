@@ -52,7 +52,7 @@ inline double computePressureFromEos(
     double negativePressureScale) {
     // Equation of state
     // (http://www.ifi.uzh.ch/vmml/publications/pcisph/pcisph.pdf)
-    double p = eosScale / eosExponent
+    double p = eosScale
         * (std::pow((density / targetDensity), eosExponent) - 1.0);
 
     // Negative pressure scaling
