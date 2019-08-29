@@ -36,7 +36,28 @@ TEST(SphStdKernel3, FirstDerivative) {
     double value2 = kernel.firstDerivative(10.0);
     EXPECT_DOUBLE_EQ(0.0, value0);
     EXPECT_DOUBLE_EQ(0.0, value2);
-    EXPECT_LT(value1, value0);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    double fdm = (kernel(5.0 + e) - kernel(5.0 - e)) / (2.0 * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
+}
+
+TEST(SphStdKernel3, SecondDerivative) {
+    SphStdKernel3 kernel(10.0);
+
+    double value0 = kernel.secondDerivative(0.0);
+    double value1 = kernel.secondDerivative(5.0);
+    double value2 = kernel.secondDerivative(10.0);
+
+    const double h5 = pow(10.0, 5.0);
+    EXPECT_DOUBLE_EQ(-945.0 / (32.0 * kPiD * h5), value0);
+    EXPECT_DOUBLE_EQ(0.0, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    double fdm = (kernel(5.0 + e) - 2.0 * kernel(5.0) + kernel(5.0 - e)) / (e * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
 
 TEST(SphStdKernel3, Gradient) {
@@ -83,6 +104,11 @@ TEST(SphSpikyKernel3, FirstDerivative) {
     double value2 = kernel.firstDerivative(10.0);
     EXPECT_LT(value0, value1);
     EXPECT_LT(value1, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    double fdm = (kernel(5.0 + e) - kernel(5.0 - e)) / (2.0 * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
 
 TEST(SphSpikyKernel3, Gradient) {
@@ -108,6 +134,13 @@ TEST(SphSpikyKernel3, SecondDerivative) {
     double value0 = kernel.secondDerivative(0.0);
     double value1 = kernel.secondDerivative(5.0);
     double value2 = kernel.secondDerivative(10.0);
-    EXPECT_LT(value1, value0);
-    EXPECT_LT(value2, value1);
+
+    const double h5 = pow(10.0, 5.0);
+    EXPECT_DOUBLE_EQ(90.0 / (kPiD * h5), value0);
+    EXPECT_DOUBLE_EQ(0.0, value2);
+
+    // Compare with finite difference
+    const double e = 0.001;
+    double fdm = (kernel(5.0 + e) - 2.0 * kernel(5.0) + kernel(5.0 - e)) / (e * e);
+    EXPECT_NEAR(fdm, value1, 1e-10);
 }
