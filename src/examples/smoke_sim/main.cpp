@@ -434,7 +434,7 @@ int main(int argc, char* argv[]) {
         clara::Opt(outputDir, "outputDir")["-o"]["--output"](
             "output directory name (default is " APP_NAME "_output)") |
         clara::Opt(format, "format")["-m"]["--format"](
-            "particle output format (xyz or pos. default is xyz)");
+            "particle output format (tag or vol. default is tag)");
 
     auto result = parser.parse(clara::Args(argc, argv));
     if (!result) {
