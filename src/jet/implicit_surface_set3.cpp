@@ -240,13 +240,15 @@ void ImplicitSurfaceSet3::invalidateBvh() { _bvhInvalidated = true; }
 
 void ImplicitSurfaceSet3::buildBvh() const {
     if (_bvhInvalidated) {
+        std::vector<ImplicitSurface3Ptr> surfs;
         std::vector<BoundingBox3D> bounds;
         for (size_t i = 0; i < _surfaces.size(); ++i) {
             if (_surfaces[i]->isBounded()) {
+                surfs.push_back(_surfaces[i]);
                 bounds.push_back(_surfaces[i]->boundingBox());
             }
         }
-        _bvh.build(_surfaces, bounds);
+        _bvh.build(surfs, bounds);
         _bvhInvalidated = false;
     }
 }
