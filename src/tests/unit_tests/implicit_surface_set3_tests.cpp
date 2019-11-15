@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -215,18 +215,18 @@ TEST(ImplicitSurfaceSet3, MixedBoundTypes) {
     BoundingBox3D domain(Vector3D(), Vector3D(1, 2, 1));
 
     auto plane = Plane3::builder()
-            .withNormal({0, 1, 0})
-            .withPoint({0, 0.25 * domain.height(), 0})
-            .makeShared();
+                     .withNormal({0, 1, 0})
+                     .withPoint({0, 0.25 * domain.height(), 0})
+                     .makeShared();
 
     auto sphere = Sphere3::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
     auto surfaceSet = ImplicitSurfaceSet3::builder()
-            .withExplicitSurfaces({plane, sphere})
-            .makeShared();
+                          .withExplicitSurfaces({plane, sphere})
+                          .makeShared();
 
     EXPECT_FALSE(surfaceSet->isBounded());
 
@@ -274,4 +274,33 @@ TEST(ImplicitSurfaceSet3, IsInside) {
     EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 0.25, 0.5) + offset));
     EXPECT_TRUE(surfaceSet->isInside(Vector3D(0.5, 1.0, 0.5) + offset));
     EXPECT_FALSE(surfaceSet->isInside(Vector3D(0.5, 1.5, 0.5) + offset));
+}
+
+TEST(ImplicitSurfaceSet3, UpdateQueryEngine) {
+    auto sphere = Sphere3::builder()
+                      .withCenter({-1.0, 1.0, 2.0})
+                      .withRadius(0.5)
+                      .makeShared();
+
+    auto surfaceSet =
+        ImplicitSurfaceSet3::builder()
+            .withExplicitSurfaces({sphere})
+            .withTransform(Transform3({1.0, 2.0, -1.0}, QuaternionD()))
+            .makeShared();
+
+    auto bbox1 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox3D({-0.5, 2.5, 0.5}, {0.5, 3.5, 1.5}),
+                            bbox1);
+
+    surfaceSet->transform = Transform3({3.0, -4.0, 7.0}, QuaternionD());
+    surfaceSet->updateQueryEngine();
+    auto bbox2 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox3D({1.5, -3.5, 4.5}, {2.5, -2.5, 5.5}),
+                            bbox2);
+
+    sphere->transform = Transform3({-6.0, 9.0, 2.0}, QuaternionD());
+    surfaceSet->updateQueryEngine();
+    auto bbox3 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox3D({-4.5, 5.5, 10.5}, {-3.5, 6.5, 11.5}),
+                            bbox3);
 }
