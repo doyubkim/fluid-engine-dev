@@ -39,7 +39,10 @@ ImplicitSurfaceSet2::ImplicitSurfaceSet2(const ImplicitSurfaceSet2& other)
       _surfaces(other._surfaces),
       _unboundedSurfaces(other._unboundedSurfaces) {}
 
-void ImplicitSurfaceSet2::updateQueryEngine() { buildBvh(); }
+void ImplicitSurfaceSet2::updateQueryEngine() {
+    invalidateBvh();
+    buildBvh();
+}
 
 bool ImplicitSurfaceSet2::isBounded() const {
     // All surfaces should be bounded.

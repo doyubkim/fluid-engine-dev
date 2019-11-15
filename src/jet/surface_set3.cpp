@@ -30,7 +30,10 @@ SurfaceSet3::SurfaceSet3(const SurfaceSet3& other)
     invalidateBvh();
 }
 
-void SurfaceSet3::updateQueryEngine() { buildBvh(); }
+void SurfaceSet3::updateQueryEngine() {
+    invalidateBvh();
+    buildBvh();
+}
 
 bool SurfaceSet3::isBounded() const {
     // All surfaces should be bounded.

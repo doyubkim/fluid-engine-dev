@@ -96,6 +96,7 @@ TriangleMesh3::TriangleMesh3(const TriangleMesh3& other) : Surface3(other) {
 }
 
 void TriangleMesh3::updateQueryEngine() {
+    invalidateCache();
     buildBvh();
     buildWindingNumbers();
 }
