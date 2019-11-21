@@ -86,6 +86,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         # /wd4201     # -> disable warning: nonstandard extension used: nameless struct/union (caused by GLM)
         # /wd4127     # -> disable warning: conditional expression is constant (caused by Qt)
         /wd4717 # -> disable warning:  recursive on all control paths, function will cause runtime stack overflow (wrong warning)
+        /wd4819 # -> disable warning:  The file contains a character that cannot be represented in the current code page (949) (wrong warning)
 
         #$<$<CONFIG:Debug>:
         #/RTCc         # -> value is assigned to a smaller data type and results in a data loss
