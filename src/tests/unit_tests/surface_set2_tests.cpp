@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -387,18 +387,17 @@ TEST(SurfaceSet2, MixedBoundTypes) {
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
 
     auto plane = Plane2::builder()
-            .withNormal({0, 1})
-            .withPoint({0.0, 0.25 * domain.height()})
-            .makeShared();
+                     .withNormal({0, 1})
+                     .withPoint({0.0, 0.25 * domain.height()})
+                     .makeShared();
 
     auto sphere = Sphere2::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
-    auto surfaceSet = SurfaceSet2::builder()
-            .withSurfaces({plane, sphere})
-            .makeShared();
+    auto surfaceSet =
+        SurfaceSet2::builder().withSurfaces({plane, sphere}).makeShared();
 
     EXPECT_FALSE(surfaceSet->isBounded());
 
@@ -409,26 +408,24 @@ TEST(SurfaceSet2, MixedBoundTypes) {
 }
 
 TEST(SurfaceSet2, IsValidGeometry) {
-    auto surfaceSet = SurfaceSet2::builder()
-            .makeShared();
+    auto surfaceSet = SurfaceSet2::builder().makeShared();
 
     EXPECT_FALSE(surfaceSet->isValidGeometry());
 
     BoundingBox2D domain(Vector2D(), Vector2D(1, 2));
 
     auto plane = Plane2::builder()
-            .withNormal({0, 1})
-            .withPoint({0, 0.25 * domain.height()})
-            .makeShared();
+                     .withNormal({0, 1})
+                     .withPoint({0, 0.25 * domain.height()})
+                     .makeShared();
 
     auto sphere = Sphere2::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
-    auto surfaceSet2 = SurfaceSet2::builder()
-            .withSurfaces({plane, sphere})
-            .makeShared();
+    auto surfaceSet2 =
+        SurfaceSet2::builder().withSurfaces({plane, sphere}).makeShared();
 
     EXPECT_TRUE(surfaceSet2->isValidGeometry());
 
@@ -442,21 +439,44 @@ TEST(SurfaceSet2, IsInside) {
     Vector2D offset(1, 2);
 
     auto plane = Plane2::builder()
-            .withNormal({0, 1})
-            .withPoint({0, 0.25 * domain.height()})
-            .makeShared();
+                     .withNormal({0, 1})
+                     .withPoint({0, 0.25 * domain.height()})
+                     .makeShared();
 
     auto sphere = Sphere2::builder()
-            .withCenter(domain.midPoint())
-            .withRadius(0.15 * domain.width())
-            .makeShared();
+                      .withCenter(domain.midPoint())
+                      .withRadius(0.15 * domain.width())
+                      .makeShared();
 
     auto surfaceSet = SurfaceSet2::builder()
-            .withSurfaces({plane, sphere})
-            .withTransform(Transform2(offset, 0.0))
-            .makeShared();
+                          .withSurfaces({plane, sphere})
+                          .withTransform(Transform2(offset, 0.0))
+                          .makeShared();
 
     EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 0.25) + offset));
     EXPECT_TRUE(surfaceSet->isInside(Vector2D(0.5, 1.0) + offset));
     EXPECT_FALSE(surfaceSet->isInside(Vector2D(0.5, 1.5) + offset));
+}
+
+TEST(SurfaceSet2, UpdateQueryEngine) {
+    auto sphere =
+        Sphere2::builder().withCenter({-1.0, 1.0}).withRadius(0.5).makeShared();
+
+    auto surfaceSet = SurfaceSet2::builder()
+                          .withSurfaces({sphere})
+                          .withTransform(Transform2({1.0, 2.0}, 0.0))
+                          .makeShared();
+
+    auto bbox1 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({-0.5, 2.5}, {0.5, 3.5}), bbox1);
+
+    surfaceSet->transform = Transform2({3.0, -4.0}, 0.0);
+    surfaceSet->updateQueryEngine();
+    auto bbox2 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({1.5, -3.5}, {2.5, -2.5}), bbox2);
+
+    sphere->transform = Transform2({-6.0, 9.0}, 0.0);
+    surfaceSet->updateQueryEngine();
+    auto bbox3 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox2D({-4.5, 5.5}, {-3.5, 6.5}), bbox3);
 }

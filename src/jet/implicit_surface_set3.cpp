@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -39,7 +39,10 @@ ImplicitSurfaceSet3::ImplicitSurfaceSet3(const ImplicitSurfaceSet3& other)
       _surfaces(other._surfaces),
       _unboundedSurfaces(other._unboundedSurfaces) {}
 
-void ImplicitSurfaceSet3::updateQueryEngine() { buildBvh(); }
+void ImplicitSurfaceSet3::updateQueryEngine() {
+    invalidateBvh();
+    buildBvh();
+}
 
 bool ImplicitSurfaceSet3::isBounded() const {
     // All surfaces should be bounded.

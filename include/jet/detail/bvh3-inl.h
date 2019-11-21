@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Doyub Kim
+// Copyright (c) Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -56,6 +56,7 @@ void Bvh3<T>::build(const std::vector<T>& items,
     }
 
     _nodes.clear();
+    _bound = BoundingBox3D();
 
     for (size_t i = 0; i < _items.size(); ++i) {
         _bound.merge(_itemBounds[i]);
