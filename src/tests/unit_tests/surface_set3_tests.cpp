@@ -487,4 +487,12 @@ TEST(SurfaceSet3, UpdateQueryEngine) {
     auto bbox3 = surfaceSet->boundingBox();
     EXPECT_BOUNDING_BOX2_EQ(BoundingBox3D({-4.5, 5.5, 10.5}, {-3.5, 6.5, 11.5}),
                             bbox3);
+
+    // Plane is unbounded. Total bbox should ignore it.
+    auto plane = Plane3::builder().withNormal({1.0, 0.0, 0.0}).makeShared();
+    surfaceSet->addSurface(plane);
+    surfaceSet->updateQueryEngine();
+    auto bbox4 = surfaceSet->boundingBox();
+    EXPECT_BOUNDING_BOX2_EQ(BoundingBox3D({-4.5, 5.5, 10.5}, {-3.5, 6.5, 11.5}),
+                            bbox4);
 }
