@@ -122,7 +122,7 @@ Here are some of the example simulations generated using Jet framework. Correspo
 
 ## Developers
 
-This repository is created and maintained by Doyub Kim (@doyubkim). Chris Ohk (@utilForever) is a co-developer of the framework since v1.3. [Many other contributors](https://github.com/doyubkim/fluid-engine-dev/graphs/contributors) also helped improving the codebase including Jefferson Amstutz (@jeffamstutz) who helped integrating Inten TBB and OpenMP backends.
+This repository is created and maintained by Doyub Kim (@doyubkim). Chris Ohk (@utilForever) is a co-developer of the framework since v1.3. [Many other contributors](https://github.com/doyubkim/fluid-engine-dev/graphs/contributors) also helped improving the codebase including Jefferson Amstutz (@jeffamstutz) who helped integrating Intel TBB and OpenMP backends.
 
 ## License
 
