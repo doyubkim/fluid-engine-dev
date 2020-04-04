@@ -65,9 +65,21 @@ matrix:
       compiler: clang
       script:
         - sh scripts/travis_build.sh
-    - name: Test OS X 10.12 + Xcode 9 + clang
+    - name: Test OS X 10.12 + Xcode 9.2 + clang
       os: osx
-      osx_image: xcode9
+      osx_image: xcode9.2
+      compiler: clang
+      script:
+        - sh scripts/travis_build.sh
+    - name: Test OS X 10.13 + Xcode 10.1 + clang
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+      script:
+        - sh scripts/travis_build.sh
+    - name: Test OS X 10.14 + Xcode 11.3 + clang
+      os: osx
+      osx_image: xcode11.3
       compiler: clang
       script:
         - sh scripts/travis_build.sh
