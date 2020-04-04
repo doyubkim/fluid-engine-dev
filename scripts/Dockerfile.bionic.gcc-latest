@@ -2,7 +2,8 @@ FROM ubuntu:18.04
 MAINTAINER Doyub Kim <doyubkim@gmail.com>
 
 RUN apt-get update -yq && \
-    apt-get install -yq build-essential python3-dev python3-pip python3-venv cmake gcc-8 g++-8
+    apt-get install -yq build-essential python3-dev python3-pip python3-venv cmake gcc-8 g++-8 && \
+    ln -s /usr/bin/python3 /usr/bin/python
 
 ADD . /app
 
