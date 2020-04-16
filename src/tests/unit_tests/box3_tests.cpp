@@ -6,7 +6,7 @@
 
 #include <jet/box3.h>
 
-#include <gtest/gtest.h>
+#include "unit_tests_utils.h"
 
 using namespace jet;
 
@@ -123,22 +123,25 @@ TEST(Box3, Intersects) {
 }
 
 TEST(Box3, ClosestIntersection) {
-    Box3 box(Vector3D(-1, 2, 3), Vector3D(5, 3, 7));
+    Box3 box(Vector3D(-1, 2, 3), Vector3D(5, 3, 7),
+             Transform3(Vector3D(1, -3, 2), QuaternionD()));
 
     SurfaceRayIntersection3 result0 = box.closestIntersection(
-        Ray3D(Vector3D(1, 4, 5), Vector3D(-1, -1, -1).normalized()));
+        Ray3D(Vector3D(2, 1, 7), Vector3D(-1, -1, -1).normalized()));
     EXPECT_TRUE(result0.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(3), result0.distance);
-    EXPECT_EQ(Vector3D(0, 3, 4), result0.point);
+    EXPECT_VECTOR3_EQ(Vector3D(1, 0, 6), result0.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, 1, 0), result0.normal);
 
     SurfaceRayIntersection3 result1 = box.closestIntersection(
-        Ray3D(Vector3D(1, 2.5, 6), Vector3D(-1, -1, 1).normalized()));
+        Ray3D(Vector3D(2, -0.5, 8), Vector3D(-1, -1, 1).normalized()));
     EXPECT_TRUE(result1.isIntersecting);
     EXPECT_DOUBLE_EQ(std::sqrt(0.75), result1.distance);
-    EXPECT_EQ(Vector3D(0.5, 2, 6.5), result1.point);
+    EXPECT_VECTOR3_EQ(Vector3D(1.5, -1, 8.5), result1.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, -1, 0), result1.normal);
 
     SurfaceRayIntersection3 result2 = box.closestIntersection(
-        Ray3D(Vector3D(1, 1, 2), Vector3D(-1, -1, -1).normalized()));
+        Ray3D(Vector3D(2, -2, 4), Vector3D(-1, -1, -1).normalized()));
     EXPECT_FALSE(result2.isIntersecting);
 }
 

@@ -146,7 +146,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
     double B = d.dot(o);
     double C = o.lengthSquared() - square(radius);
 
-    BoundingBox3D bbox = boundingBox();
+    BoundingBox3D bbox = boundingBoxLocal();
     Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
     Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
 

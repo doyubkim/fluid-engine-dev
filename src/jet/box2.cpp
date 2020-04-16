@@ -107,7 +107,7 @@ SurfaceRayIntersection2 Box2::closestIntersectionLocal(const Ray2D& ray) const {
     if (intersection.isIntersecting) {
         intersection.distance = bbRayIntersection.tNear;
         intersection.point = ray.pointAt(bbRayIntersection.tNear);
-        intersection.normal = Box2::closestNormal(intersection.point);
+        intersection.normal = closestNormalLocal(intersection.point);
     }
     return intersection;
 }
