@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2020 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -146,7 +146,7 @@ SurfaceRayIntersection3 Cylinder3::closestIntersectionLocal(
     double B = d.dot(o);
     double C = o.lengthSquared() - square(radius);
 
-    BoundingBox3D bbox = boundingBox();
+    BoundingBox3D bbox = boundingBoxLocal();
     Plane3 upperPlane(Vector3D(0, 1, 0), bbox.upperCorner);
     Plane3 lowerPlane(Vector3D(0, -1, 0), bbox.lowerCorner);
 

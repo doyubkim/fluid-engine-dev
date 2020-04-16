@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2020 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -6,7 +6,7 @@
 
 #include <jet/cylinder3.h>
 
-#include <gtest/gtest.h>
+#include "unit_tests_utils.h"
 
 using namespace jet;
 
@@ -93,16 +93,20 @@ TEST(Cylinder3, Intersects) {
     // 1. Trivial case
     EXPECT_TRUE(cyl.intersects(Ray3D({7, 2, 3}, {-1, 0, 0})));
 
-    // 2. Within the infinite cylinder, above the cylinder, hitting the upper cap
+    // 2. Within the infinite cylinder, above the cylinder, hitting the upper
+    // cap
     EXPECT_TRUE(cyl.intersects(Ray3D({1, 6, 2}, {0, -1, 0})));
 
-    // 2-1. Within the infinite cylinder, below the cylinder, hitting the lower cap
+    // 2-1. Within the infinite cylinder, below the cylinder, hitting the lower
+    // cap
     EXPECT_TRUE(cyl.intersects(Ray3D({1, -2, 2}, {0, 1, 0})));
 
-    // 2-2. Within the infinite cylinder, above the cylinder, missing the cylinder
+    // 2-2. Within the infinite cylinder, above the cylinder, missing the
+    // cylinder
     EXPECT_FALSE(cyl.intersects(Ray3D({1, 6, 2}, {1, 0, 0})));
 
-    // 2-3. Within the infinite cylinder, below the cylinder, missing the cylinder
+    // 2-3. Within the infinite cylinder, below the cylinder, missing the
+    // cylinder
     EXPECT_FALSE(cyl.intersects(Ray3D({1, -2, 2}, {1, 0, 0})));
 
     // 3. Within the cylinder, hitting the upper cap
@@ -114,67 +118,88 @@ TEST(Cylinder3, Intersects) {
     // 4. Within the cylinder, hitting the infinite cylinder
     EXPECT_TRUE(cyl.intersects(Ray3D({1, 2, 3}, {1, 0, 0})));
 
-    // 5. Outside the infinite cylinder, hitting the infinite cylinder, but missing the cylinder (passing above)
+    // 5. Outside the infinite cylinder, hitting the infinite cylinder, but
+    // missing the cylinder (passing above)
     EXPECT_FALSE(cyl.intersects(Ray3D({7, 12, 3}, {-1, 0, 0})));
 
-    // 6. Outside the infinite cylinder, hitting the infinite cylinder, but missing the cylinder (passing below)
+    // 6. Outside the infinite cylinder, hitting the infinite cylinder, but
+    // missing the cylinder (passing below)
     EXPECT_FALSE(cyl.intersects(Ray3D({7, -10, 3}, {-1, 0, 0})));
 
     // 7. Missing the infinite cylinder
     EXPECT_FALSE(cyl.intersects(Ray3D({6, -5, 3}, {0, 0, 1})));
 }
 
-TEST(Cylinder3, closestIntersection) {
-    Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0);
+TEST(Cylinder3, ClosestIntersection) {
+    Cylinder3 cyl(Vector3D(1, 2, 3), 4.0, 6.0,
+                  Transform3(Vector3D(1, -2, 3), QuaternionD()));
 
     // 1. Trivial case
-    auto result1 = cyl.closestIntersection(Ray3D({7, 2, 3}, {-1, 0, 0}));
+    auto result1 = cyl.closestIntersection(Ray3D({8, 0, 6}, {-1, 0, 0}));
     EXPECT_TRUE(result1.isIntersecting);
     EXPECT_DOUBLE_EQ(2.0, result1.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(6, 0, 6), result1.point);
+    EXPECT_VECTOR3_EQ(Vector3D(1, 0, 0), result1.normal);
 
-    // 2. Within the infinite cylinder, above the cylinder, hitting the upper cap
-    auto result2 = cyl.closestIntersection(Ray3D({1, 6, 2}, {0, -1, 0}));
+    // 2. Within the infinite cylinder, above the cylinder, hitting the upper
+    // cap
+    auto result2 = cyl.closestIntersection(Ray3D({2, 4, 5}, {0, -1, 0}));
     EXPECT_TRUE(result2.isIntersecting);
     EXPECT_DOUBLE_EQ(1.0, result2.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(2, 3, 5), result2.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, 1, 0), result2.normal);
 
-    // 2-1. Within the infinite cylinder, below the cylinder, hitting the lower cap
-    auto result2_1 = cyl.closestIntersection(Ray3D({1, -2, 2}, {0, 1, 0}));
+    // 2-1. Within the infinite cylinder, below the cylinder, hitting the lower
+    // cap
+    auto result2_1 = cyl.closestIntersection(Ray3D({2, -4, 5}, {0, 1, 0}));
     EXPECT_TRUE(result2_1.isIntersecting);
     EXPECT_DOUBLE_EQ(1.0, result2_1.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(2, -3, 5), result2_1.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, -1, 0), result2_1.normal);
 
-    // 2-2. Within the infinite cylinder, above the cylinder, missing the cylinder
-    auto result2_2 = cyl.closestIntersection(Ray3D({1, 6, 2}, {1, 0, 0}));
+    // 2-2. Within the infinite cylinder, above the cylinder, missing the
+    // cylinder
+    auto result2_2 = cyl.closestIntersection(Ray3D({2, 4, 5}, {1, 0, 0}));
     EXPECT_FALSE(result2_2.isIntersecting);
 
-    // 2-3. Within the infinite cylinder, below the cylinder, missing the cylinder
-    auto result2_3 = cyl.closestIntersection(Ray3D({1, -2, 2}, {1, 0, 0}));
+    // 2-3. Within the infinite cylinder, below the cylinder, missing the
+    // cylinder
+    auto result2_3 = cyl.closestIntersection(Ray3D({2, -4, 5}, {1, 0, 0}));
     EXPECT_FALSE(result2_3.isIntersecting);
 
     // 3. Within the cylinder, hitting the upper cap
-    auto result3 = cyl.closestIntersection(Ray3D({1, 2, 3}, {0, 1, 0}));
+    auto result3 = cyl.closestIntersection(Ray3D({2, 0, 6}, {0, 1, 0}));
     EXPECT_TRUE(result3.isIntersecting);
     EXPECT_DOUBLE_EQ(3.0, result3.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(2, 3, 6), result3.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, 1, 0), result3.normal);
 
     // 3-1. Within the cylinder, hitting the lower cap
-    auto result3_1 = cyl.closestIntersection(Ray3D({1, 2, 3}, {0, -1, 0}));
+    auto result3_1 = cyl.closestIntersection(Ray3D({2, 0, 6}, {0, -1, 0}));
     EXPECT_TRUE(result3_1.isIntersecting);
     EXPECT_DOUBLE_EQ(3.0, result3_1.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(2, -3, 6), result3_1.point);
+    EXPECT_VECTOR3_EQ(Vector3D(0, -1, 0), result3_1.normal);
 
     // 4. Within the cylinder, hitting the infinite cylinder
-    auto result4 = cyl.closestIntersection(Ray3D({1, 2, 3}, {1, 0, 0}));
+    auto result4 = cyl.closestIntersection(Ray3D({2, 0, 6}, {1, 0, 0}));
     EXPECT_TRUE(result4.isIntersecting);
     EXPECT_DOUBLE_EQ(4.0, result4.distance);
+    EXPECT_VECTOR3_EQ(Vector3D(6, 0, 6), result4.point);
+    EXPECT_VECTOR3_EQ(Vector3D(1, 0, 0), result4.normal);
 
-    // 5. Outside the infinite cylinder, hitting the infinite cylinder, but missing the cylinder (passing above)
-    auto result5 = cyl.closestIntersection(Ray3D({7, 12, 3}, {-1, 0, 0}));
+    // 5. Outside the infinite cylinder, hitting the infinite cylinder, but
+    // missing the cylinder (passing above)
+    auto result5 = cyl.closestIntersection(Ray3D({8, 10, 6}, {-1, 0, 0}));
     EXPECT_FALSE(result5.isIntersecting);
 
-    // 6. Outside the infinite cylinder, hitting the infinite cylinder, but missing the cylinder (passing below)
-    auto result6 = cyl.closestIntersection(Ray3D({7, -10, 3}, {-1, 0, 0}));
+    // 6. Outside the infinite cylinder, hitting the infinite cylinder, but
+    // missing the cylinder (passing below)
+    auto result6 = cyl.closestIntersection(Ray3D({8, -12, 6}, {-1, 0, 0}));
     EXPECT_FALSE(result6.isIntersecting);
 
     // 7. Missing the infinite cylinder
-    auto result4_ = cyl.closestIntersection(Ray3D({6, -5, 3}, {0, 0, 1}));
+    auto result4_ = cyl.closestIntersection(Ray3D({7, -7, 6}, {0, 0, 1}));
     EXPECT_FALSE(result4_.isIntersecting);
 }
 

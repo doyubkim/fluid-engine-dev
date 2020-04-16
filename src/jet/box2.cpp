@@ -1,4 +1,4 @@
-// Copyright (c) 2018 Doyub Kim
+// Copyright (c) 2020 Doyub Kim
 //
 // I am making my contributions/submissions to this project solely in my
 // personal capacity and am not conveying any rights to any intellectual
@@ -107,7 +107,7 @@ SurfaceRayIntersection2 Box2::closestIntersectionLocal(const Ray2D& ray) const {
     if (intersection.isIntersecting) {
         intersection.distance = bbRayIntersection.tNear;
         intersection.point = ray.pointAt(bbRayIntersection.tNear);
-        intersection.normal = Box2::closestNormal(intersection.point);
+        intersection.normal = closestNormalLocal(intersection.point);
     }
     return intersection;
 }
