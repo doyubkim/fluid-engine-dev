@@ -164,7 +164,7 @@ void GridForwardEulerDiffusionSolver3::solve(
 
     buildMarkers(source.wSize(), wPos, boundarySdf, fluidSdf);
 
-    source.parallelForEachUIndex(
+    source.parallelForEachWIndex(
         [&](size_t i, size_t j, size_t k) {
             if (!isInsideSdf(boundarySdf.sample(wPos(i, j, k)))) {
                 w(i, j, k)
