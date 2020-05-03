@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 ADD . /app
 
 WORKDIR /app/build
-RUN cmake .. -DCMAKE_C_COMPILER=gcc-8 -DCMAKE_CXX_COMPILER=g++-9 && \
+RUN cmake .. -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9 && \
     make -j`nproc` && \
     make install && \
     bin/unit_tests
