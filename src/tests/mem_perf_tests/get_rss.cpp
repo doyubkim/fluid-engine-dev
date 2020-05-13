@@ -40,12 +40,11 @@
  */
 size_t getPeakRSS( )
 {
-#if defined(_WIN32)
+#if defined(_MSC_VER)
     /* Windows -------------------------------------------------- */
     PROCESS_MEMORY_COUNTERS info;
     GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
     return (size_t)info.PeakWorkingSetSize;
-
 #elif (defined(_AIX) || defined(__TOS__AIX__)) || (defined(__sun__) || defined(__sun) || defined(sun) && (defined(__SVR4) || defined(__svr4__)))
     /* AIX and Solaris ------------------------------------------ */
     struct psinfo psinfo;
@@ -60,8 +59,8 @@ size_t getPeakRSS( )
     close( fd );
     return (size_t)(psinfo.pr_rssize * 1024L);
 
-#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__))
-    /* BSD, Linux, and OSX -------------------------------------- */
+#elif defined(__unix__) || defined(__unix) || defined(unix) || (defined(__APPLE__) && defined(__MACH__)) || (defined(_WIN32) && defined(__GCC__))
+    /* BSD, Linux, OSX, and MinGW ------------------------------- */
     struct rusage rusage;
     getrusage( RUSAGE_SELF, &rusage );
 #if defined(__APPLE__) && defined(__MACH__)
@@ -86,7 +85,7 @@ size_t getPeakRSS( )
  */
 size_t getCurrentRSS( )
 {
-#if defined(_WIN32)
+#if defined(_MSC_VER)
     /* Windows -------------------------------------------------- */
     PROCESS_MEMORY_COUNTERS info;
     GetProcessMemoryInfo( GetCurrentProcess( ), &info, sizeof(info) );
@@ -101,8 +100,8 @@ size_t getCurrentRSS( )
         return (size_t)0L;      /* Can't access? */
     return (size_t)info.resident_size;
 
-#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__)
-    /* Linux ---------------------------------------------------- */
+#elif defined(__linux__) || defined(__linux) || defined(linux) || defined(__gnu_linux__) || (defined(_WIN32) && defined(__GCC__))
+    /* Linux and MinGW ------------------------------------------ */
     long rss = 0L;
     FILE* fp = NULL;
     if ( (fp = fopen( "/proc/self/statm", "r" )) == NULL )

@@ -106,7 +106,12 @@ std::string Logging::getHeader(LoggingLevel level) {
 #ifdef JET_WINDOWS
     tm time;
     localtime_s(&time, &now);
+#ifdef _MSC_VER
     strftime(timeStr, sizeof(timeStr), "%F %T", &time);
+#else
+    // Such as MinGW - https://sourceforge.net/p/mingw-w64/bugs/793/
+    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &time);
+#endif
 #else
     strftime(timeStr, sizeof(timeStr), "%F %T", std::localtime(&now));
 #endif

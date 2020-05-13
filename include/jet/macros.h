@@ -40,7 +40,7 @@
     if (expression) { throw std::invalid_argument(message); }
 #endif
 
-#ifdef JET_WINDOWS
+#if defined(JET_WINDOWS) && defined(_MSC_VER)
 #include <BaseTsd.h>
 typedef SSIZE_T ssize_t;
 #endif

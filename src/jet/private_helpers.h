@@ -25,14 +25,19 @@
 #ifdef JET_WINDOWS
 
 #define WIN32_LEAN_AND_MEAN  // Exclude rarely-used stuff from Windows headers
-#define NOMINMAX
+#ifndef WIN32_LEAN_AND_MEAN
+#   define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#   define NOMINMAX
+#endif
 #include <Windows.h>
 #include <exception>
 #include <string>
 
 inline void throwIfFailed(HRESULT hr) {
     if (FAILED(hr)) {
-        throw std::exception(std::to_string(hr).c_str());
+        throw std::runtime_error(std::to_string(hr).c_str());
     }
 }
 
