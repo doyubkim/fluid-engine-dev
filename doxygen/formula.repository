@@ -1,7 +1,7 @@
-\form#0:$\frac{\partial f}{\partial t} = \mu\nabla^2 f$
-\form#1:$\mu$
-\form#2:$f$
-\form#3:$\mu < \frac{h}{8\Delta t} $
-\form#4:$h$
-\form#5:$\Delta t$
-\form#6:$\mu < \frac{h}{12\Delta t} $
+\_form#0=0x18:$\frac{\partial f}{\partial t} = \mu\nabla^2 f$
+\_form#1=0x9:$\mu$
+\_form#2=0x13:$f$
+\_form#3=0x18:$\mu < \frac{h}{8\Delta t} $
+\_form#4=0x10:$h$
+\_form#5=0x10:$\Delta t$
+\_form#6=0x18:$\mu < \frac{h}{12\Delta t} $
