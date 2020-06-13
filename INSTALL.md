@@ -204,7 +204,7 @@ docker build -t doyubkim/fluid-engine-dev .
 
 ### Coding Style
 
-Jet uses clang-format. Checkout [`.clang-format`](https://github.com/doyubkim/fluid-engine-dev/blob/master/.clang-format) file for the style guideline.
+Jet uses clang-format. Checkout [`.clang-format`](https://github.com/doyubkim/fluid-engine-dev/blob/main/.clang-format) file for the style guideline.
 
 ### Continuous Integration
 
