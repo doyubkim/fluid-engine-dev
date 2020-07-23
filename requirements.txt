@@ -1,4 +1,5 @@
 numpy<1.17; python_version<'3.5'
-numpy>=1.17; python_version>='3.5'
+numpy==1.17; python_version=='3.5'
+numpy>1.17; python_version>'3.5'
 pytest
 wheel
