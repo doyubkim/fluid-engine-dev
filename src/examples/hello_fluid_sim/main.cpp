@@ -18,8 +18,8 @@ using namespace chrono;
 const size_t kBufferSize = 80;
 
 // http://paulbourke.net/dataformats/asciiart/
-const char* kGrayScaleTable = " .:-=+*#%@";
-const size_t kGrayScaleTableSize = sizeof(kGrayScaleTable)/sizeof(char);
+const std::string kGrayScaleTable = " .:-=+*#%@";
+const size_t kGrayScaleTableSize = kGrayScaleTable.length();
 
 void updateWave(const double timeInterval, double* x, double* speed) {
     (*x) += timeInterval * (*speed);
