@@ -41,10 +41,12 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_link_libraries(${target}
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
-        jet)
+        jet
+        pystring)
 else()
     target_link_libraries(${target}
         PRIVATE
         ${DEFAULT_LINKER_OPTIONS}
-        jet)
+        jet
+        pystring)
 endif()
