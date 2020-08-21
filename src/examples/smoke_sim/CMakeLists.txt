@@ -41,17 +41,8 @@ target_compile_definitions(${target}
 )
 
 # Link libraries
-if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_link_libraries(${target}
-        PRIVATE
-        ${DEFAULT_LINKER_OPTIONS}
-        jet
-        pystring)
-else()
-    target_link_libraries(${target}
-        PRIVATE
-        ${DEFAULT_LINKER_OPTIONS}
-        jet
-        pystring)
-endif()
-
+target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LINKER_OPTIONS}
+    jet
+    pystring)
