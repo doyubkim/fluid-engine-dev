@@ -8,6 +8,7 @@
 #include <pystring/pystring.h>
 
 #include <example_utils/clara_utils.h>
+#include <example_utils/io_utils.h>
 #include <clara.hpp>
 
 #include <algorithm>
@@ -65,7 +66,7 @@ int main(int argc, char* argv[]) {
     auto parser =
         clara::Help(showHelp) |
         clara::Opt(inputFilename, "inputFilename")["-i"]["--input"](
-            "input particle position file name") |
+            "input particle pos/xyz file name") |
         clara::Opt(outputFilename,
                    "outputFilename")["-o"]["--output"]("output xml file name");
 
@@ -87,14 +88,7 @@ int main(int argc, char* argv[]) {
 
     // Read particle positions
     Array1<Vector3D> positions;
-    std::ifstream positionFile(inputFilename.c_str(), std::ifstream::binary);
-    if (positionFile) {
-        std::vector<uint8_t> buffer(
-            (std::istreambuf_iterator<char>(positionFile)),
-            (std::istreambuf_iterator<char>()));
-        deserialize(buffer, &positions);
-        positionFile.close();
-    } else {
+    if (!readPositions(inputFilename, positions)) {
         printf("Cannot read file %s.\n", inputFilename.c_str());
         exit(EXIT_FAILURE);
     }
