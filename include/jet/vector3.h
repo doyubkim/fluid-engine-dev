@@ -97,6 +97,7 @@ class Vector<T, 3> final {
 
     //! Computes this * (v.x, v.y, v.z).
     Vector mul(const Vector& v) const;
+
     //! Computes this / (v, v, v).
     Vector div(T v) const;
 
@@ -106,7 +107,7 @@ class Vector<T, 3> final {
     //! Computes dot product.
     T dot(const Vector& v) const;
 
-    //! Comptues cross product.
+    //! Computes cross product.
     Vector cross(const Vector& v) const;
 
     // MARK: Binary operations: new instance = v (+) this
