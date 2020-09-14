@@ -97,7 +97,7 @@ class Vector<T, 2> final {
     //! Computes dot product.
     T dot(const Vector& v) const;
 
-    //! Comptues cross product.
+    //! Computes cross product.
     T cross(const Vector& v) const;
 
     // MARK: Binary operations: new instance = v (+) this

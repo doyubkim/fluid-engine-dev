@@ -101,6 +101,7 @@ class Vector<T, 4> final {
 
     //! Computes this * (v.x, v.y, v.z, v.w).
     Vector mul(const Vector& v) const;
+
     //! Computes this / (v, v, v, v).
     Vector div(T v) const;
 
