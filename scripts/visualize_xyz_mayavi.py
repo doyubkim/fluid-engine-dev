@@ -9,7 +9,7 @@ import glob
 from mayavi import mlab
 
 mlab.options.offscreen = True
-BS = 3.0
+CUBE_MAX = 3.0 # maximum size of each side of the cube
 outpath = sys.argv[2]
 if (os.path.exists(outpath) == False):
     os.mkdir(outpath)
@@ -27,20 +27,19 @@ for i,f in enumerate(files):
     color=(0.2, 0.4, 0.5)
     mlab.points3d(df[:,0], df[:,2], df[:,1], r, color=color, colormap = 'gnuplot', scale_factor=1, figure=fig)
 
-    mlab.plot3d([0.0,0.0],[0.0, 0.0],[0.0, BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([0.0,BS],[0.0, 0.0],[0.0, 0.0], color=(1,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([0.0,0.0],[0.0, BS/2],[0.0, 0.0], color=(0,1,0), tube_radius=None, figure=fig)
-    mlab.plot3d([0.0,0.0],[0.0, BS/2],[BS, BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([0.0,BS],[0.0,0.0],[BS,BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,BS],[0.0,BS/2],[BS,BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,0],[BS/2,BS/2],[BS,BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([0,0],[BS/2,BS/2],[BS,0], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,BS],[0.0,0.0],[0.0,BS], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,BS],[0.0,BS/2],[0.0,0.0], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,0.0],[BS/2,BS/2],[0.0,0.0], color=(0,0,0), tube_radius=None, figure=fig)
-    mlab.plot3d([BS,BS],[BS/2,BS/2],[0.0,BS], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0.0,0.0],[0.0, 0.0],[0.0, CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0.0,CUBE_MAX],[0.0, 0.0],[0.0, 0.0], color=(1,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0.0,0.0],[0.0, CUBE_MAX/2],[0.0, 0.0], color=(0,1,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0.0,0.0],[0.0, CUBE_MAX/2],[CUBE_MAX, CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0.0,CUBE_MAX],[0.0,0.0],[CUBE_MAX,CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,CUBE_MAX],[0.0,CUBE_MAX/2],[CUBE_MAX,CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,0],[CUBE_MAX/2,CUBE_MAX/2],[CUBE_MAX,CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([0,0],[CUBE_MAX/2,CUBE_MAX/2],[CUBE_MAX,0], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,CUBE_MAX],[0.0,0.0],[0.0,CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,CUBE_MAX],[0.0,CUBE_MAX/2],[0.0,0.0], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,0.0],[CUBE_MAX/2,CUBE_MAX/2],[0.0,0.0], color=(0,0,0), tube_radius=None, figure=fig)
+    mlab.plot3d([CUBE_MAX,CUBE_MAX],[CUBE_MAX/2,CUBE_MAX/2],[0.0,CUBE_MAX], color=(0,0,0), tube_radius=None, figure=fig)
 
     mlab.view(azimuth=50, elevation=80, focalpoint=[1, 0.2, 1.1], distance=8.0, figure=fig)
     mlab.savefig(filename=outpath + '/out-%02d.png' % i)
     mlab.clf()
-    exit()
