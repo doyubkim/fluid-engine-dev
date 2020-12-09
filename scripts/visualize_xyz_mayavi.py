@@ -1,13 +1,18 @@
-# the png files can be combined with ImageMagick,
-# convert -delay 30 /tmp/simsph/*.png $HOME/Downloads/simsph.gif
-import pandas as pd, os, sys
-import numpy as np, glob
+# Usage: python visualize_xyz_mayavi.py [INPUT DIR] [TMP OUTPUT DIR]
+# Required package: mayavi, install with pip install mayavi
+# the png files can be combined with ImageMagick, such as
+# convert -delay 30 /tmp/simsph/*.png /tmp/simsph.gif
+import os
+import sys
+import numpy as np
+import glob
 from mayavi import mlab
 
 mlab.options.offscreen = True
 BS = 3.0
-if (os.path.exists("/tmp/simsph") == False):
-    os.mkdir("/tmp/simsph")
+outpath = sys.argv[2]
+if (os.path.exists(outpath) == False):
+    os.mkdir(outpath)
 
 path = sys.argv[1]
 files = sorted(glob.glob(path + "/*"))
@@ -15,8 +20,7 @@ files = sorted(glob.glob(path + "/*"))
 fig = mlab.figure(figure=None, fgcolor=(0., 0., 0.), bgcolor=(1, 1, 1), engine=None)
 for i,f in enumerate(files):
     print (f)
-    df = pd.read_csv(f,sep=' ',header=None)
-    df = np.array(df)
+    df = np.loadtxt(f)    
 
     r = np.ones(len(df))*0.03
 
@@ -37,5 +41,6 @@ for i,f in enumerate(files):
     mlab.plot3d([BS,BS],[BS/2,BS/2],[0.0,BS], color=(0,0,0), tube_radius=None, figure=fig)
 
     mlab.view(azimuth=50, elevation=80, focalpoint=[1, 0.2, 1.1], distance=8.0, figure=fig)
-    mlab.savefig(filename='/tmp/simsph/out-%02d.png' % i)
+    mlab.savefig(filename=outpath + '/out-%02d.png' % i)
     mlab.clf()
+    exit()
