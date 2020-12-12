@@ -201,6 +201,21 @@ You can also build the image from the source as well. From the root directory of
 docker build -t doyubkim/fluid-engine-dev .
 ```
 
+> Warning: When you run Python examples using Intel TBB from Windows, you might encounter the following error:
+```
+import pyjet
+ImportError: DLL load failed while importing pyjet:
+The specified module could not be found. 
+```
+
+> It is a new Windows safety feature that changes how DLLs are loaded in Python 3.8+. To resolve this issue, I needed to tell Python how to find the library again like this:
+```
+import os
+os.add_dll_directory(r'C:/Intel/tbb/bin/intel64/vc14') << (The path that Intel TBB is located)
+import pyjet
+```
+
+> Open example file and add the code above to the first line. Now, you won't have any problems running it.
 
 ### Coding Style
 
