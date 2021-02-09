@@ -55,7 +55,7 @@ jobs:
     - name: Build
       run: cd build && make
     - name: Run Unit Test
-      run: /Users/runner/work/jet/jet/build/bin/unit_tests
+      run: /Users/runner/work/fluid-engine-dev/fluid-engine-dev/build/bin/unit_tests
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
