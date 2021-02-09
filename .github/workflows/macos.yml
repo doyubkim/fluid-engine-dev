@@ -64,4 +64,4 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install .
-        python -m pytest tests/python_tests/
+        python -m pytest src/tests/python_tests/
