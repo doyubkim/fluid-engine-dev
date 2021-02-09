@@ -12,8 +12,8 @@ jobs:
       matrix:
         include:
           # Windows Server 2016 + Visual Studio 2017
-          - name: "Windows Server 2016 + Visual Studio 2017"
-            os: windows-2016
+          #- name: "Windows Server 2016 + Visual Studio 2017"
+          #  os: windows-2016
           # Windows Server 2019 + Visual Studio 2019
           - name: "Windows Server 2019 + Visual Studio 2019"
             os: windows-2019

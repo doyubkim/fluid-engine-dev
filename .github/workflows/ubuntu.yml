@@ -12,10 +12,10 @@ jobs:
       matrix:
         include:
           # Ubuntu 16.04 + gcc-7
-          - name: "Ubuntu 16.04 + gcc-7"
-            os: ubuntu-16.04
-            compiler: gcc
-            version: "7"
+          #- name: "Ubuntu 16.04 + gcc-7"
+          #  os: ubuntu-16.04
+          #  compiler: gcc
+          #  version: "7"
           # Ubuntu 18.04 + gcc-8
           - name: "Ubuntu 18.04 + gcc-8"
             os: ubuntu-18.04
@@ -27,10 +27,10 @@ jobs:
             compiler: gcc
             version: "9"
           # Ubuntu 16.04 + clang-8
-          - name: "Ubuntu 16.04 + clang-8"
-            os: ubuntu-16.04
-            compiler: clang
-            version: "8"
+          #- name: "Ubuntu 16.04 + clang-8"
+          #  os: ubuntu-16.04
+          #  compiler: clang
+          #  version: "8"
           # Ubuntu 18.04 + clang-9
           - name: "Ubuntu 18.04 + clang-9"
             os: ubuntu-18.04
