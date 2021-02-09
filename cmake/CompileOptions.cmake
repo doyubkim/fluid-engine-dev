@@ -107,6 +107,7 @@ endif ()
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set(DEFAULT_COMPILE_OPTIONS ${DEFAULT_COMPILE_OPTIONS}
         -Wall
+        -Wno-range-loop-analysis # -> disable warning: loop variable 'grid' is always a copy because the range of type '...' does not return a reference (caused by flatbuffers) 
         ${WARN_AS_ERROR_FLAGS}
 
         # Required for CMake < 3.1; should be removed if minimum required CMake version is raised.
