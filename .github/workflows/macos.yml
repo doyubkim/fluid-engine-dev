@@ -16,19 +16,9 @@ jobs:
             os: macos-10.15
             compiler: xcode
             version: "12.4"
-          # macOS 11.0 + Xcode 12.4
-          - name: "macOS 11.0 + Xcode 12.4"
-            os: macos-11.0
-            compiler: xcode
-            version: "12.4"
           # macOS 10.15 + gcc-10
           - name: "macOS 10.15 + gcc-10"
             os: macos-10.15
-            compiler: gcc
-            version: "10"
-          # macOS 11.0 + gcc-10
-          - name: "macOS 11.0 + gcc-10"
-            os: macos-11.0
             compiler: gcc
             version: "10"
 
