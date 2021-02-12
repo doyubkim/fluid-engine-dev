@@ -11,26 +11,26 @@ jobs:
     strategy:
       matrix:
         include:
-          # macOS 10.15 + Xcode 11.7
-          - name: "macOS 10.15 + Xcode 11.7"
+          # macOS 10.15 + Xcode 12.4
+          - name: "macOS 10.15 + Xcode 12.4"
             os: macos-10.15
             compiler: xcode
-            version: "11.7"
-          # macOS 10.15 + Xcode 12.2
-          - name: "macOS 10.15 + Xcode 12.2"
-            os: macos-10.15
+            version: "12.4"
+          # macOS 11.0 + Xcode 12.4
+          - name: "macOS 11.0 + Xcode 12.4"
+            os: macos-11.0
             compiler: xcode
-            version: "12.2"
-          # macOS 10.15 + gcc-8
-          - name: "macOS 10.15 + gcc-8"
+            version: "12.4"
+          # macOS 10.15 + gcc-10
+          - name: "macOS 10.15 + gcc-10"
             os: macos-10.15
             compiler: gcc
-            version: "8"
-          # macOS 10.15 + gcc-9
-          - name: "macOS 10.15 + gcc-9"
-            os: macos-10.15
+            version: "10"
+          # macOS 11.0 + gcc-10
+          - name: "macOS 11.0 + gcc-10"
+            os: macos-11.0
             compiler: gcc
-            version: "9"
+            version: "10"
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
