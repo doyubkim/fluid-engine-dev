@@ -11,36 +11,22 @@ jobs:
     strategy:
       matrix:
         include:
-          # Ubuntu 16.04 + gcc-7
-          #- name: "Ubuntu 16.04 + gcc-7"
-          #  os: ubuntu-16.04
-          #  compiler: gcc
-          #  version: "7"
-          # Ubuntu 18.04 + gcc-8
-          - name: "Ubuntu 18.04 + gcc-8"
+          # Ubuntu 18.04 + gcc
+          - name: "Ubuntu 18.04 + gcc"
             os: ubuntu-18.04
             compiler: gcc
-            version: "8"
-          # Ubuntu 20.04 + gcc-9
-          - name: "Ubuntu 20.04 + gcc-9"
+          # Ubuntu 20.04 + gcc
+          - name: "Ubuntu 20.04 + gcc"
             os: ubuntu-20.04
             compiler: gcc
-            version: "9"
-          # Ubuntu 16.04 + clang-8
-          #- name: "Ubuntu 16.04 + clang-8"
-          #  os: ubuntu-16.04
-          #  compiler: clang
-          #  version: "8"
-          # Ubuntu 18.04 + clang-9
-          - name: "Ubuntu 18.04 + clang-9"
+          # Ubuntu 18.04 + clang
+          - name: "Ubuntu 18.04 + clang"
             os: ubuntu-18.04
             compiler: clang
-            version: "9"
-          # Ubuntu 20.04 + clang-10
-          - name: "Ubuntu 20.04 + clang-10"
+          # Ubuntu 20.04 + clang
+          - name: "Ubuntu 20.04 + clang"
             os: ubuntu-20.04
             compiler: clang
-            version: "10"
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -54,11 +40,11 @@ jobs:
     - name: Configure Compiler
       run: |
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
-          echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
         else
-          echo "CC=clang-${{ matrix.version }}" >> $GITHUB_ENV
-          echo "CXX=clang++-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
         fi
     - name: Configure Build
       run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
