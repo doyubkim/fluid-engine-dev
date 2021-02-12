@@ -26,18 +26,26 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.msystem }}
-        install: make
+        install: msys2-devel base-devel binutils
     - run: |
         pacman --noconfirm -S gcc
         pacman --noconfirm -S cmake
-      if: ${{ matrix.compiler == 'gcc' }}
+        pacman --noconfirm -S mingw-w64-x86_64-toolchain
+      if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'gcc') }}
+    - run: |
+        pacman --noconfirm -S gcc
+        pacman --noconfirm -S cmake
+        pacman --noconfirm -S mingw-w64-i686-toolchain
+      if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'gcc') }}
     - run: |
         pacman --noconfirm -S mingw-w64-x86_64-clang
         pacman --noconfirm -S mingw-w64-x86_64-cmake
+        pacman --noconfirm -S mingw-w64-x86_64-toolchain
       if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'clang') }}
     - run: |
         pacman --noconfirm -S mingw-w64-i686-clang
         pacman --noconfirm -S mingw-w64-i686-cmake
+        pacman --noconfirm -S mingw-w64-i686-toolchain
       if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'clang') }}
     - name: Configure Compiler
       run: |
