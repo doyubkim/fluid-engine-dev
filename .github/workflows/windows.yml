@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-macos:
+  build-windows:
     strategy:
       matrix:
         include:
