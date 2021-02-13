@@ -28,13 +28,13 @@ jobs:
         msystem: ${{ matrix.msystem }}
         install: msys2-devel base-devel binutils
     - run: |
-        pacman --noconfirm -S gcc
-        pacman --noconfirm -S cmake
+        pacman --noconfirm -S mingw-w64-x86_64-gcc
+        pacman --noconfirm -S mingw-w64-x86_64-cmake
         pacman --noconfirm -S mingw-w64-x86_64-toolchain
       if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'gcc') }}
     - run: |
-        pacman --noconfirm -S gcc
-        pacman --noconfirm -S cmake
+        pacman --noconfirm -S mingw-w64-x86_64-gcc
+        pacman --noconfirm -S mingw-w64-i686-cmake
         pacman --noconfirm -S mingw-w64-i686-toolchain
       if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'gcc') }}
     - run: |
@@ -58,12 +58,7 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
         fi
     - name: Configure Build
-      run: |
-        if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
-        else
-          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
-        fi
+      run: mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     - name: Build
       run: cd build && make
     - name: Run Unit Test
