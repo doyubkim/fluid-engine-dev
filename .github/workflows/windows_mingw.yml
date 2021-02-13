@@ -58,7 +58,12 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
         fi
     - name: Configure Build
-      run: mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+        else
+          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+        fi
     - name: Build
       run: cd build && make
     - name: Run Unit Test
