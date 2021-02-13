@@ -47,6 +47,7 @@ jobs:
         pacman --noconfirm -S mingw-w64-i686-cmake
         pacman --noconfirm -S mingw-w64-i686-toolchain
       if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'clang') }}
+    - run: ${{ matrix.compiler }} --version
     - name: Configure Compiler
       run: |
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
