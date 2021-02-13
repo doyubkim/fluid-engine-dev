@@ -58,7 +58,7 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
         fi
     - name: Configure Build
-      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+      run: mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     - name: Build
       run: cd build && make
     - name: Run Unit Test
