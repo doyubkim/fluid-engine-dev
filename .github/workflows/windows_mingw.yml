@@ -33,7 +33,7 @@ jobs:
         pacman --noconfirm -S mingw-w64-x86_64-toolchain
       if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'gcc') }}
     - run: |
-        pacman --noconfirm -S mingw-w64-x86_64-gcc
+        pacman --noconfirm -S mingw-w64-i686-gcc
         pacman --noconfirm -S mingw-w64-i686-cmake
         pacman --noconfirm -S mingw-w64-i686-toolchain
       if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'gcc') }}
