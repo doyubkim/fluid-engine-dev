@@ -62,4 +62,4 @@ jobs:
     - name: Build
       run: cd build && make
     - name: Run Unit Test
-      run: /a/fluid-engine-dev/fluid-engine-dev/build/bin/Release/unit_tests.exe
+      run: cd build && cd bin && ./unit_tests.exe
