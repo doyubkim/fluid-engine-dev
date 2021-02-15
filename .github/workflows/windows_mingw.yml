@@ -27,26 +27,29 @@ jobs:
       with:
         msystem: ${{ matrix.msystem }}
         install: msys2-devel base-devel binutils
-    - run: |
-        pacman --noconfirm -S mingw-w64-x86_64-gcc
-        pacman --noconfirm -S mingw-w64-x86_64-cmake
-        pacman --noconfirm -S mingw-w64-x86_64-toolchain
-      if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'gcc') }}
-    - run: |
-        pacman --noconfirm -S mingw-w64-i686-gcc
-        pacman --noconfirm -S mingw-w64-i686-cmake
-        pacman --noconfirm -S mingw-w64-i686-toolchain
-      if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'gcc') }}
-    - run: |
-        pacman --noconfirm -S mingw-w64-x86_64-clang
-        pacman --noconfirm -S mingw-w64-x86_64-cmake
-        pacman --noconfirm -S mingw-w64-x86_64-toolchain
-      if: ${{ (matrix.msystem == 'MINGW64') && (matrix.compiler == 'clang') }}
-    - run: |
-        pacman --noconfirm -S mingw-w64-i686-clang
-        pacman --noconfirm -S mingw-w64-i686-cmake
-        pacman --noconfirm -S mingw-w64-i686-toolchain
-      if: ${{ (matrix.msystem == 'MINGW32') && (matrix.compiler == 'clang') }}
+    - name: Install Packages
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
+            pacman --noconfirm -S mingw-w64-i686-gcc
+            pacman --noconfirm -S mingw-w64-i686-cmake
+            pacman --noconfirm -S mingw-w64-i686-toolchain
+          else
+            pacman --noconfirm -S mingw-w64-x86_64-gcc
+            pacman --noconfirm -S mingw-w64-x86_64-cmake
+            pacman --noconfirm -S mingw-w64-x86_64-toolchain
+          fi
+        else
+          if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
+            pacman --noconfirm -S mingw-w64-i686-clang
+            pacman --noconfirm -S mingw-w64-i686-cmake
+            pacman --noconfirm -S mingw-w64-i686-toolchain
+          else
+            pacman --noconfirm -S mingw-w64-x86_64-clang
+            pacman --noconfirm -S mingw-w64-x86_64-cmake
+            pacman --noconfirm -S mingw-w64-x86_64-toolchain
+          fi
+        fi
     - run: ${{ matrix.compiler }} --version
     - name: Configure Compiler
       run: |
@@ -58,11 +61,12 @@ jobs:
           echo "CXX=clang++" >> $GITHUB_ENV
         fi
     - name: Configure Build
-      run: mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto" -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
-      if: ${{ matrix.compiler == 'gcc' }}
-    - name: Configure Build
-      run: mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
-      if: ${{ matrix.compiler == 'clang' }}
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto" -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
+        else
+          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
+        fi
     - name: Build
       run: cd build && make
     - name: Run Unit Test
