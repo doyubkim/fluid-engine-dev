@@ -31,23 +31,23 @@ jobs:
       run: |
         if [ "${{ matrix.compiler }}" = "gcc" ]; then
           if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
-            pacman --noconfirm -S mingw-w64-i686-gcc
-            pacman --noconfirm -S mingw-w64-i686-cmake
-            pacman --noconfirm -S mingw-w64-i686-toolchain
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-gcc
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-toolchain
           else
-            pacman --noconfirm -S mingw-w64-x86_64-gcc
-            pacman --noconfirm -S mingw-w64-x86_64-cmake
-            pacman --noconfirm -S mingw-w64-x86_64-toolchain
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-gcc
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-toolchain
           fi
         else
           if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
-            pacman --noconfirm -S mingw-w64-i686-clang
-            pacman --noconfirm -S mingw-w64-i686-cmake
-            pacman --noconfirm -S mingw-w64-i686-toolchain
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-clang
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-toolchain
           else
-            pacman --noconfirm -S mingw-w64-x86_64-clang
-            pacman --noconfirm -S mingw-w64-x86_64-cmake
-            pacman --noconfirm -S mingw-w64-x86_64-toolchain
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-clang
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-toolchain
           fi
         fi
     - run: ${{ matrix.compiler }} --version
