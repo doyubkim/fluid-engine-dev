@@ -32,7 +32,7 @@ jobs:
     - name: Build
       run: cd build && MSBuild.exe jet.sln /p:Configuration=Release
     - name: Run Unit Test
-      run: /a/fluid-engine-dev/fluid-engine-dev/build/bin/Release/unit_tests.exe
+      run: cd build && cd bin && cd Release && ./unit_tests.exe
     - name: Run Python Test
       run: |
         pip install -r requirements.txt

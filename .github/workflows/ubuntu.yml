@@ -51,7 +51,7 @@ jobs:
     - name: Build
       run: cd build && make
     - name: Run Unit Test
-      run: /home/runner/work/fluid-engine-dev/fluid-engine-dev/build/bin/unit_tests
+      run: cd build && cd bin && ./unit_tests
     - name: Run Python Test
       run: |
         pip3 install -r requirements.txt
