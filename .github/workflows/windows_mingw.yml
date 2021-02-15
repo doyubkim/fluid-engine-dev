@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         compiler: [gcc, clang]
-        msystem: [MINGW32, MINGW64]
+        msystem: [MINGW64]
     defaults:
       run:
         shell: msys2 {0}
