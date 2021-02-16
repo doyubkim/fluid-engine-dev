@@ -3,6 +3,9 @@
 #
 # You may wish to alter this file to override the set of languages analyzed,
 # or to provide custom queries or build logic.
+#
+# References: https://github.com/github/codeql-action
+#
 name: "CodeQL"
 
 on:
