@@ -1,0 +1,40 @@
+name: Windows
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    strategy:
+      matrix:
+        include:
+          # Windows Server 2016 + Visual Studio 2017
+          #- name: "Windows Server 2016 + Visual Studio 2017"
+          #  os: windows-2016
+          # Windows Server 2019 + Visual Studio 2019
+          - name: "Windows Server 2019 + Visual Studio 2019"
+            os: windows-2019
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Configure Build
+      run: mkdir build && cd build && cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Build
+      run: cd build && MSBuild.exe jet.sln /p:Configuration=Release
+    - name: Run Unit Test
+      run: cd build && cd bin && cd Release && ./unit_tests.exe
+    - name: Run Python Test
+      run: |
+        pip install -r requirements.txt
+        pip install .
+        python -m pytest src/tests/python_tests/

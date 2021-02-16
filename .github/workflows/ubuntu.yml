@@ -1,0 +1,59 @@
+name: Ubuntu
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ubuntu:
+    strategy:
+      matrix:
+        include:
+          # Ubuntu 18.04 + gcc
+          - name: "Ubuntu 18.04 + gcc"
+            os: ubuntu-18.04
+            compiler: gcc
+          # Ubuntu 20.04 + gcc
+          - name: "Ubuntu 20.04 + gcc"
+            os: ubuntu-20.04
+            compiler: gcc
+          # Ubuntu 18.04 + clang
+          - name: "Ubuntu 18.04 + clang"
+            os: ubuntu-18.04
+            compiler: clang
+          # Ubuntu 20.04 + clang
+          - name: "Ubuntu 20.04 + clang"
+            os: ubuntu-20.04
+            compiler: clang
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Install packages
+      run: sudo apt-get install -yq python3-setuptools
+    - name: Configure Compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
+        else
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+    - name: Configure Build
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && make
+    - name: Run Unit Test
+      run: cd build && cd bin && ./unit_tests
+    - name: Run Python Test
+      run: |
+        pip3 install -r requirements.txt
+        pip3 install .
+        python3 -m pytest src/tests/python_tests/

@@ -1,0 +1,45 @@
+name: Ubuntu - Codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ubuntu:
+    strategy:
+      matrix:
+        include:
+          # Ubuntu 20.04 + gcc-9
+          - name: "Ubuntu 20.04 + gcc-9"
+            os: ubuntu-20.04
+            compiler: gcc
+            version: "9"
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Install packages
+      run: sudo apt-get install -yq lcov
+    - name: Configure Compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
+        else
+          echo "CC=clang-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CXX=clang++-${{ matrix.version }}" >> $GITHUB_ENV
+        fi
+    - name: Configure Build
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON ..
+    - name: Build
+      run: cd build && make
+    - name: Run Unit Test
+      run: cd build && cd bin && ./unit_tests
+    - name: Upload coverage to Codecov
+      run: bash <(curl -s https://codecov.io/bash)

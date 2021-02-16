@@ -1,0 +1,57 @@
+name: macOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-macos:
+    strategy:
+      matrix:
+        include:
+          # macOS 10.15 + Xcode 12.4
+          - name: "macOS 10.15 + Xcode 12.4"
+            os: macos-10.15
+            compiler: xcode
+            version: "11.2.1"
+          # macOS 10.15 + gcc-10
+          - name: "macOS 10.15 + gcc-10"
+            os: macos-10.15
+            compiler: gcc
+            version: "10"
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Configure Compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "CC=gcc-${{ matrix.version }}" >> $GITHUB_ENV
+          echo "CXX=g++-${{ matrix.version }}" >> $GITHUB_ENV
+        else
+          ls -ls /Applications/
+          sudo xcode-select -switch /Applications/Xcode_${{ matrix.version }}.app
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+    - name: Configure Build
+      run: mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+    - name: Build
+      run: cd build && make
+    - name: Run Unit Test
+      run: cd build && cd bin && ./unit_tests
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Run Python Test
+      run: |
+        pip install -r requirements.txt
+        pip install .
+        python -m pytest src/tests/python_tests/

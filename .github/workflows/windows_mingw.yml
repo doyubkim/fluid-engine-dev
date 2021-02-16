@@ -1,0 +1,73 @@
+name: Windows-MinGW
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+        msystem: [MINGW64]
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msystem }}
+        install: msys2-devel base-devel binutils
+    - name: Install Packages
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-gcc
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-toolchain
+          else
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-gcc
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-toolchain
+          fi
+        else
+          if [ "${{ matrix.msystem }}" = "MINGW32" ]; then
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-clang
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-i686-toolchain
+          else
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-clang
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-cmake
+            pacman --noconfirm --disable-download-timeout -S mingw-w64-x86_64-toolchain
+          fi
+        fi
+    - run: ${{ matrix.compiler }} --version
+    - name: Configure Compiler
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
+        else
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+    - name: Configure Build
+      run: |
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-flto" -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
+        else
+          mkdir build && cd build && cmake -G "MSYS Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS="-Wl,--allow-multiple-definition" ..
+        fi
+    - name: Build
+      run: cd build && make
+    - name: Run Unit Test
+      run: cd build && cd bin && ./unit_tests.exe
