@@ -37,7 +37,14 @@ def main():
     def write_surface(frame_cnt, pos):
         converter = SphPointsToImplicit3(1.5 * grid_size, 0.5)
         converter.convert(pos.tolist(), grid)
-        surface_mesh = marchingCubes(grid, (grid_size, grid_size, grid_size), (0, 0, 0), 0.0, DIRECTION_ALL)
+        surface_mesh = marchingCubes(
+            grid,
+            (grid_size, grid_size, grid_size),
+            (0, 0, 0),
+            0.0,
+            DIRECTION_ALL,
+            DIRECTION_ALL
+        )
         surface_mesh.writeObj('frame_{:06d}.obj'.format(frame_cnt))
 
     # Make first frame
