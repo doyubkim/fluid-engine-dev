@@ -104,7 +104,7 @@ void GridSmokeSolver3::computeDiffusion(double timeIntervalInSeconds) {
         }
 
         if (_temperatureDiffusionCoefficient > kEpsilonD) {
-            auto temp = smokeDensity();
+            auto temp = temperature();
             auto temp0 = std::dynamic_pointer_cast<CellCenteredScalarGrid3>(
                 temp->clone());
 
