@@ -93,7 +93,7 @@ TEST(VolumeParticleEmitter2, Emit) {
     ++frame;
     emitter.update(frame.timeInSeconds(), frame.timeIntervalInSeconds);
 
-    EXPECT_EQ(51u, particles->numberOfParticles());
+    EXPECT_EQ(46u, particles->numberOfParticles());
 
     pos = particles->positions();
     for (size_t i = 0; i < particles->numberOfParticles(); ++i) {

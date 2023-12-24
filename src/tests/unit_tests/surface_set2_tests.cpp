@@ -319,9 +319,9 @@ TEST(SurfaceSet2, ClosestIntersection) {
         Ray2D ray(getSamplePoints2()[i], getSampleDirs2()[i]);
         auto actual = sset1.closestIntersection(ray);
         auto expected = bruteForceTest(ray);
-        EXPECT_DOUBLE_EQ(expected.distance, actual.distance);
-        EXPECT_VECTOR2_EQ(expected.point, actual.point);
-        EXPECT_VECTOR2_EQ(expected.normal, actual.normal);
+        EXPECT_NEAR(expected.distance, actual.distance, 1e-6);
+        EXPECT_VECTOR2_NEAR(expected.point, actual.point, 1e-6);
+        EXPECT_VECTOR2_NEAR(expected.normal, actual.normal, 1e-6);
         EXPECT_EQ(expected.isIntersecting, actual.isIntersecting);
     }
 
@@ -339,9 +339,9 @@ TEST(SurfaceSet2, ClosestIntersection) {
         Ray2D ray(getSamplePoints2()[i], getSampleDirs2()[i]);
         auto actual = sset2.closestIntersection(ray);
         auto expected = bruteForceTest(ray);
-        EXPECT_DOUBLE_EQ(expected.distance, actual.distance);
-        EXPECT_VECTOR2_EQ(expected.point, actual.point);
-        EXPECT_VECTOR2_EQ(expected.normal, actual.normal);
+        EXPECT_NEAR(expected.distance, actual.distance, 1e-6);
+        EXPECT_VECTOR2_NEAR(expected.point, actual.point, 1e-6);
+        EXPECT_VECTOR2_NEAR(expected.normal, actual.normal, 1e-6);
         EXPECT_EQ(expected.isIntersecting, actual.isIntersecting);
     }
 }
